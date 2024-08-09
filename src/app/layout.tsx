@@ -9,6 +9,9 @@ import { Providers } from "@/modules/core/components/providers";
 import { auth } from "@@/auth";
 
 export const metadata: Metadata = {
+  metadataBase: process.env.VERCEL_URL
+    ? new URL(`https://${process.env.VERCEL_URL}`)
+    : undefined,
   title: {
     template: `%s - ${siteConfig.name}`,
     default: siteConfig.name,
@@ -76,7 +79,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  metadataBase: new URL("https://essentia-web.vercel.app"),
 };
 
 export const viewport: Viewport = {
