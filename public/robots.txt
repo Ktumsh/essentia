@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /signup/
+Allow: /
+
+Host: essentia-web.vercel.app
+
+Sitemap: https://essentia-web.vercel.app/sitemap.xml

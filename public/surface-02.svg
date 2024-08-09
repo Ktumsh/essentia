@@ -1,0 +1,19 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 800 800">
+  <defs>
+    <radialGradient id="surface-02" r="100%" cx="60%" cy="0%">
+      <stop offset="0%" stop-color="#FFB167" stop-opacity="0"></stop>
+      <stop offset="100%" stop-color="#FFB167" stop-opacity="0.22"></stop>
+    </radialGradient>
+    <radialGradient id="surface-light-02" r="65%" cx="65%" cy="10%">
+      <stop offset="0%" stop-color="#FFB167" stop-opacity="0.75"></stop>
+      <stop offset="100%" stop-color="#ff6557" stop-opacity="0"></stop>
+    </radialGradient>
+  </defs>
+  <g>
+    <circle r="398" cx="400" cy="400" fill="#ff7357"></circle>
+    <circle r="398" cx="400" cy="400" fill="url(#surface-02)"></circle>
+    <circle r="398" cx="400" cy="400" fill="url(#surface-light-02)"></circle>
+  </g>
+</svg>

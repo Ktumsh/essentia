@@ -1,0 +1,51 @@
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+import Facebook from "next-auth/providers/facebook";
+import Twitter from "next-auth/providers/twitter";
+import { authConfig } from "./auth.config";
+import { z } from "zod";
+import { getStringFromBuffer } from "@/utils/common";
+import { getUser } from "@/app/login/actions";
+
+export const { auth, handlers, signIn, signOut } = NextAuth({
+  ...authConfig,
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const parsedCredentials = z
+          .object({
+            email: z.string().email(),
+            password: z.string().min(6),
+          })
+          .safeParse(credentials);
+
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data;
+          const user = await getUser(email);
+
+          if (!user) return null;
+
+          const encoder = new TextEncoder();
+          const saltedPassword = encoder.encode(password + user.salt);
+          const hashedPasswordBuffer = await crypto.subtle.digest(
+            "SHA-256",
+            saltedPassword
+          );
+          const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
+
+          if (hashedPassword === user.password) {
+            return user;
+          } else {
+            return null;
+          }
+        }
+
+        return null;
+      },
+    }),
+    Google,
+    Facebook,
+    Twitter,
+  ],
+});
