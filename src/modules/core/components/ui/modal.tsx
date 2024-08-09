@@ -5,7 +5,7 @@ import {
   Card,
   CardHeader,
   CardFooter,
-  Image,
+  Image as UIImage,
   Tooltip,
   ScrollShadow,
   Modal,
@@ -21,6 +21,7 @@ import { formatTitle } from "@/utils/format";
 import { useModalHash } from "@/modules/resources/hooks/use-modal-hash";
 import { EyeIcon } from "@/modules/icons/status";
 import { HeartIcon } from "@/modules/icons/miscellaneus";
+import Image from "next/image";
 
 interface Props {
   tooltip: string;
@@ -91,7 +92,11 @@ export const ModalComponent: FC<Props> = ({
           <CardHeader className="absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
             <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
           </CardHeader>
-          <Image
+          <UIImage
+            as={Image}
+            width={305}
+            height={206}
+            quality={90}
             removeWrapper
             alt={modalTitle}
             className="z-0 w-full h-52 object-cover rounded-xl shadow-lg shadow-black/20 group-hover:scale-95"

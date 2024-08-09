@@ -1,7 +1,8 @@
 "use client";
 
+import { ClearIcon, SearchIcon } from "@/modules/icons/action";
+import { Chevron } from "@/modules/icons/navigation";
 import { useState, useEffect, useRef } from "react";
-import { Chevron, ClearIcon, SearchIcon } from "./icons/icons";
 
 const SearchComponent: React.FC = () => {
   const [searchText, setSearchText] = useState("");

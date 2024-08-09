@@ -1,18 +1,15 @@
 "use client";
 
-import SearchHighlight from "@/components/search-highlight";
 import {
   Button,
   Chip,
-  Image,
+  Image as UIImage,
   Modal,
   ModalContent,
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { PlayIcon2, StarIcon } from "./icons/icons";
 import { FC, useState } from "react";
-import { cn, normalizeTitle } from "@/lib/utils";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
 import { motion } from "framer-motion";
@@ -21,6 +18,12 @@ import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "./lite-youtube.css";
 
 import { tooltipStyles } from "@/styles/tooltip-styles";
+import { formatTitle } from "@/utils/format";
+import { cn } from "@/utils/common";
+import { StarIcon } from "@/modules/icons/common";
+import { PlayIcon2 } from "@/modules/icons/action";
+import SearchHighlight from "./search-highlight";
+import Image from "next/image";
 
 interface Props {
   title: string;
@@ -46,7 +49,7 @@ const ResourceWrapper: FC<Props> = ({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeVideo, setActiveVideo] = useState<Props | null>(null);
 
-  const formatedTitle = normalizeTitle(title);
+  const formatedTitle = formatTitle(title);
 
   const handleOpenModal = (video: Props) => {
     setActiveVideo(video);
@@ -113,13 +116,18 @@ const ResourceWrapper: FC<Props> = ({
                       </q>
                     </div>
                   </div>
-                  <Image
+                  <UIImage
+                    priority
+                    as={Image}
+                    width={982}
+                    height={655}
+                    quality={90}
+                    src={imageFull}
+                    alt={title}
                     classNames={{
                       wrapper: "!max-w-full h-full sm:h-auto",
                       img: "relative size-full rounded-none brightness-95 object-cover object-center z-0",
                     }}
-                    src={imageFull}
-                    alt={title}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-base-full-dark-50 to-black/0 to-40%"></div>
                 </div>
