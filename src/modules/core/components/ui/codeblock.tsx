@@ -4,9 +4,10 @@ import { FC, memo } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-import { useCopyToClipboard } from "@/lib/hooks/use-copy-to-clipboard";
 import { Button } from "@nextui-org/react";
-import { IconCheck, IconCopy, IconDownload } from "../icons/icons";
+import { useCopyToClipboard } from "../../hooks/use-copy-to-clipboard";
+import { CopyIcon, DownloadIcon } from "@/modules/icons/action";
+import { CheckIcon } from "@/modules/icons/common";
 
 interface Props {
   language: string;
@@ -98,7 +99,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
             className="hover:bg-zinc-800 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
             onClick={downloadAsFile}
           >
-            <IconDownload />
+            <DownloadIcon />
             <span className="sr-only">Download</span>
           </Button>
           <Button
@@ -106,7 +107,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
             className="text-xs hover:bg-zinc-800 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
             onClick={onCopy}
           >
-            {isCopied ? <IconCheck /> : <IconCopy />}
+            {isCopied ? <CheckIcon /> : <CopyIcon />}
             <span className="sr-only">Copy code</span>
           </Button>
         </div>

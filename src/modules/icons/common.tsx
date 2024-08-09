@@ -1,4 +1,4 @@
-import { IconSvgProps } from '@@/types/common'
+import { IconSvgProps } from "@/types/common";
 
 const CheckIcon = (props: IconSvgProps) => {
   return (
@@ -14,8 +14,8 @@ const CheckIcon = (props: IconSvgProps) => {
         d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z"
       />
     </svg>
-  )
-}
+  );
+};
 
 const CloseIcon = (props: IconSvgProps) => {
   return (
@@ -31,8 +31,8 @@ const CloseIcon = (props: IconSvgProps) => {
         d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"
       />
     </svg>
-  )
-}
+  );
+};
 
 const SpinnerIcon = (props: IconSvgProps) => {
   return (
@@ -44,8 +44,8 @@ const SpinnerIcon = (props: IconSvgProps) => {
     >
       <path d="M232 128a104 104 0 0 1-208 0c0-41 23.81-78.36 60.66-95.27a8 8 0 0 1 6.68 14.54C60.15 61.59 40 93.27 40 128a88 88 0 0 0 176 0c0-34.73-20.15-66.41-51.34-80.73a8 8 0 0 1 6.68-14.54C208.19 49.64 232 87 232 128Z" />
     </svg>
-  )
-}
+  );
+};
 
 const LoaderIcon = (props: IconSvgProps) => {
   return (
@@ -83,8 +83,8 @@ const LoaderIcon = (props: IconSvgProps) => {
         />
       </circle>
     </svg>
-  )
-}
+  );
+};
 
 const StarIcon = (props: IconSvgProps) => {
   return (
@@ -99,8 +99,8 @@ const StarIcon = (props: IconSvgProps) => {
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z"></path>
     </svg>
-  )
-}
+  );
+};
 
 const SunIcon = (props: IconSvgProps) => {
   return (
@@ -116,8 +116,8 @@ const SunIcon = (props: IconSvgProps) => {
         <path d="M12 22.96a.969.969 0 01-1-.96v-.08a1 1 0 012 0 1.038 1.038 0 01-1 1.04zm7.14-2.82a1.024 1.024 0 01-.71-.29l-.13-.13a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.984.984 0 01-.7.29zm-14.28 0a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a1 1 0 01-.7.29zM22 13h-.08a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zM2.08 13H2a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zm16.93-7.01a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a.984.984 0 01-.7.29zm-14.02 0a1.024 1.024 0 01-.71-.29l-.13-.14a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.97.97 0 01-.7.3zM12 3.04a.969.969 0 01-1-.96V2a1 1 0 012 0 1.038 1.038 0 01-1 1.04z" />
       </g>
     </svg>
-  )
-}
+  );
+};
 
 const MoonIcon = (props: IconSvgProps) => {
   return (
@@ -133,8 +133,8 @@ const MoonIcon = (props: IconSvgProps) => {
         fill="currentColor"
       />
     </svg>
-  )
-}
+  );
+};
 
 const HashFillIcon = (props: IconSvgProps) => {
   return (
@@ -155,8 +155,8 @@ const HashFillIcon = (props: IconSvgProps) => {
         fill="currentColor"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const HashIcon = (props: IconSvgProps) => {
   return (
@@ -197,8 +197,8 @@ const HashIcon = (props: IconSvgProps) => {
         strokeWidth="1.5"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const DotsIcon = (props: IconSvgProps) => {
   return (
@@ -217,8 +217,8 @@ const DotsIcon = (props: IconSvgProps) => {
         clipRule="evenodd"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 export {
   CheckIcon,
@@ -230,5 +230,5 @@ export {
   MoonIcon,
   HashIcon,
   HashFillIcon,
-  DotsIcon
-}
+  DotsIcon,
+};
