@@ -1,4 +1,4 @@
-import { IconSvgProps } from '@@/types/common'
+import { IconSvgProps } from "@/types/common";
 
 const ArrowUpIcon = (props: IconSvgProps) => {
   return (
@@ -14,8 +14,8 @@ const ArrowUpIcon = (props: IconSvgProps) => {
         d="m11 7.825l-4.9 4.9q-.3.3-.7.288t-.7-.313q-.275-.3-.288-.7t.288-.7l6.6-6.6q.15-.15.325-.212T12 4.425t.375.063t.325.212l6.6 6.6q.275.275.275.688t-.275.712q-.3.3-.712.3t-.713-.3L13 7.825V19q0 .425-.288.713T12 20t-.712-.288T11 19z"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const ArrowRightIcon = (props: IconSvgProps) => {
   return (
@@ -35,8 +35,8 @@ const ArrowRightIcon = (props: IconSvgProps) => {
         d="M1 5h12m0 0L9 1m4 4L9 9"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const ArrowRightV2Icon = (props: IconSvgProps) => {
   return (
@@ -55,8 +55,8 @@ const ArrowRightV2Icon = (props: IconSvgProps) => {
         clipRule="evenodd"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const CarouselArrowIcon = (props: IconSvgProps) => {
   return (
@@ -74,8 +74,8 @@ const CarouselArrowIcon = (props: IconSvgProps) => {
         d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const BackIcon = (props: IconSvgProps) => {
   return (
@@ -91,8 +91,8 @@ const BackIcon = (props: IconSvgProps) => {
         d="m7.825 13l4.9 4.9q.3.3.288.7t-.313.7q-.3.275-.7.288t-.7-.288l-6.6-6.6q-.15-.15-.213-.325T4.426 12t.063-.375t.212-.325l6.6-6.6q.275-.275.688-.275t.712.275q.3.3.3.713t-.3.712L7.825 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"
       />
     </svg>
-  )
-}
+  );
+};
 
 const GoBackIcon = (props: IconSvgProps) => {
   return (
@@ -112,8 +112,8 @@ const GoBackIcon = (props: IconSvgProps) => {
         d="M11 18h3.75a5.25 5.25 0 1 0 0-10.5H5M7.5 4L4 7.5L7.5 11"
       />
     </svg>
-  )
-}
+  );
+};
 
 const Chevron = (props: IconSvgProps) => {
   return (
@@ -129,8 +129,8 @@ const Chevron = (props: IconSvgProps) => {
         d="m14 18l-6-6l6-6l1.4 1.4l-4.6 4.6l4.6 4.6z"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const SidebarIcon = (props: IconSvgProps) => {
   return (
@@ -146,8 +146,8 @@ const SidebarIcon = (props: IconSvgProps) => {
         <path d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16M40 56h40v144H40Zm176 144H96V56h120z" />
       </g>
     </svg>
-  )
-}
+  );
+};
 
 const SidebarFillIcon = (props: IconSvgProps) => {
   return (
@@ -163,8 +163,8 @@ const SidebarFillIcon = (props: IconSvgProps) => {
         d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 160H88V56h128z"
       />
     </svg>
-  )
-}
+  );
+};
 
 export {
   ArrowUpIcon,
@@ -175,5 +175,5 @@ export {
   GoBackIcon,
   Chevron,
   SidebarIcon,
-  SidebarFillIcon
-}
+  SidebarFillIcon,
+};

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { HEALTH_FACTS } from "@/consts/health-facts";
 import { HealthFact } from "@/types/common";
 import { Image as UIImage } from "@nextui-org/react";
-import Image from "next/image";
 
 const getRandomFacts = (num: number): HealthFact[] => {
   const shuffled = HEALTH_FACTS.sort(() => 0.5 - Math.random());

@@ -1,4 +1,4 @@
-import { IconSvgProps } from '@@/types/common'
+import { IconSvgProps } from "@/types/common";
 
 const EyeIcon = ({ id, ...props }: IconSvgProps) => {
   return (
@@ -15,8 +15,8 @@ const EyeIcon = ({ id, ...props }: IconSvgProps) => {
         d="M3.26 11.602C3.942 8.327 6.793 6 10 6s6.057 2.327 6.74 5.602a.5.5 0 0 0 .98-.204C16.943 7.673 13.693 5 10 5s-6.943 2.673-7.72 6.398a.5.5 0 0 0 .98.204M9.99 8a3.5 3.5 0 1 1 0 7a3.5 3.5 0 0 1 0-7"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const EyeOffIcon = ({ id, ...props }: IconSvgProps) => {
   return (
@@ -33,8 +33,8 @@ const EyeOffIcon = ({ id, ...props }: IconSvgProps) => {
         d="M2.854 2.146a.5.5 0 1 0-.708.708l3.5 3.498a8.1 8.1 0 0 0-3.366 5.046a.5.5 0 1 0 .979.204a7.1 7.1 0 0 1 3.108-4.528L7.95 8.656a3.5 3.5 0 1 0 4.884 4.884l4.313 4.314a.5.5 0 0 0 .708-.708zm7.27 5.857l3.363 3.363a3.5 3.5 0 0 0-3.363-3.363M7.53 5.41l.803.803A6.6 6.6 0 0 1 10 6c3.206 0 6.057 2.327 6.74 5.602a.5.5 0 1 0 .98-.204C16.943 7.673 13.693 5 10 5c-.855 0-1.687.143-2.469.41"
       ></path>
     </svg>
-  )
-}
+  );
+};
 
 const ClockIcon = (props: IconSvgProps) => {
   return (
@@ -54,8 +54,8 @@ const ClockIcon = (props: IconSvgProps) => {
       <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
       <path d="M12 7v5l3 3"></path>
     </svg>
-  )
-}
+  );
+};
 
 const CalendarIcon = (props: IconSvgProps) => {
   return (
@@ -78,8 +78,8 @@ const CalendarIcon = (props: IconSvgProps) => {
         fillRule="evenodd"
       />
     </svg>
-  )
-}
+  );
+};
 
 const CenterLocationIcon = (props: IconSvgProps) => {
   return (
@@ -95,8 +95,8 @@ const CenterLocationIcon = (props: IconSvgProps) => {
         d="M11 21.95v-1q-3.125-.35-5.363-2.587T3.05 13h-1q-.425 0-.712-.288T1.05 12t.288-.712T2.05 11h1q.35-3.125 2.588-5.363T11 3.05v-1q0-.425.288-.712T12 1.05t.713.288t.287.712v1q3.125.35 5.363 2.588T20.95 11h1q.425 0 .713.288t.287.712t-.287.713t-.713.287h-1q-.35 3.125-2.587 5.363T13 20.95v1q0 .425-.288.713T12 22.95t-.712-.287T11 21.95M12 19q2.9 0 4.95-2.05T19 12t-2.05-4.95T12 5T7.05 7.05T5 12t2.05 4.95T12 19m0-3q-1.65 0-2.825-1.175T8 12t1.175-2.825T12 8t2.825 1.175T16 12t-1.175 2.825T12 16"
       />
     </svg>
-  )
-}
+  );
+};
 
 const LocationIcon = (props: IconSvgProps) => {
   return (
@@ -112,8 +112,8 @@ const LocationIcon = (props: IconSvgProps) => {
         d="M12 12q.825 0 1.413-.587T14 10t-.587-1.412T12 8t-1.412.588T10 10t.588 1.413T12 12m0 7.35q3.05-2.8 4.525-5.087T18 10.2q0-2.725-1.737-4.462T12 4T7.738 5.738T6 10.2q0 1.775 1.475 4.063T12 19.35M12 22q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2t5.588 2.225T20 10.2q0 2.5-1.987 5.438T12 22m0-12"
       />
     </svg>
-  )
-}
+  );
+};
 
 const SystemIcon = (props: IconSvgProps) => {
   return (
@@ -129,8 +129,8 @@ const SystemIcon = (props: IconSvgProps) => {
         d="M8 21v-2h2v-2H4q-.825 0-1.412-.587T2 15V5q0-.825.588-1.412T4 3h16q.825 0 1.413.588T22 5v10q0 .825-.587 1.413T20 17h-6v2h2v2zm-4-6h16V5H4zm0 0V5z"
       />
     </svg>
-  )
-}
+  );
+};
 
 const PhoneIcon = (props: IconSvgProps) => {
   return (
@@ -146,8 +146,8 @@ const PhoneIcon = (props: IconSvgProps) => {
         d="M20 12q-.4 0-.712-.288T18.925 11q-.325-2.325-1.963-3.963T13 5.076q-.425-.05-.712-.35T12 4t.3-.712t.7-.238q3.15.35 5.375 2.575T20.95 11q.05.4-.238.7T20 12m-4.175 0q-.325 0-.575-.225t-.375-.6q-.2-.725-.763-1.287t-1.287-.763q-.375-.125-.6-.375T12 8.15q0-.5.35-.812t.775-.213q1.4.325 2.413 1.338t1.337 2.412q.1.425-.225.775t-.825.35m4.125 9q-3.125 0-6.175-1.362t-5.55-3.863t-3.862-5.55T3 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.238t.325.562l.65 3.5q.05.4-.025.675T9.4 8.45L6.975 10.9q.5.925 1.187 1.787t1.513 1.663q.775.775 1.625 1.438T13.1 17l2.35-2.35q.225-.225.588-.337t.712-.063l3.45.7q.35.1.575.363T21 15.9v4.05q0 .45-.3.75t-.75.3"
       />
     </svg>
-  )
-}
+  );
+};
 
 export {
   EyeIcon,
@@ -157,5 +157,5 @@ export {
   CenterLocationIcon,
   LocationIcon,
   SystemIcon,
-  PhoneIcon
-}
+  PhoneIcon,
+};

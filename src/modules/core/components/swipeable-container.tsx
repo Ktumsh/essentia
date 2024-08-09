@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/common";
 import { ReactNode } from "react";
 import { useSwipeable } from "react-swipeable";
 

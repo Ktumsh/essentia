@@ -1,8 +1,7 @@
 import { siteConfig } from "@/config/site";
-
+import Logo from "../footer/logo";
 import Copyright from "../footer/copyright";
 import LinkList from "../footer/link-list";
-import Logo from "../footer/logo";
 import SocialLinks from "../footer/social-links";
 
 const Footer = () => {
