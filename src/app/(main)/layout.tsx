@@ -25,7 +25,6 @@ export default async function MainLayout({
       <LayoutWrapper session={session}>{children}</LayoutWrapper>
       {/* Bottom Mobile Navbar */}
       <BottomNav />
-      <ButtonUp />
     </>
   );
 }
