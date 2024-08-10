@@ -5,6 +5,7 @@ import AsideMenu from "./aside-menu";
 import AsideTabs from "./aside.tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/common";
+import ButtonUp from "./ui/button-up";
 
 const LayoutWrapper = ({
   children,
@@ -67,6 +68,7 @@ const LayoutWrapper = ({
           {essentiaAI ? null : <AsideTabs />}
         </div>
       </div>
+      {essentiaAI ? null : <ButtonUp />}
     </>
   );
 };

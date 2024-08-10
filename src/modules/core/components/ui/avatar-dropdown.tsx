@@ -100,7 +100,7 @@ export default function AvatarDropdown({ session }: any) {
             textValue="Logout"
             color="danger"
             startContent={<LogoutIcon className="size-4" />}
-            onClick={() => signOut()}
+            onClick={() => signOut({ callbackUrl: "/login" })}
           >
             Cerrar sesión
           </DropdownItem>

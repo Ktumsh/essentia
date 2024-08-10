@@ -1,6 +1,5 @@
 import LayoutWrapper from "@/modules/core/components/layout-wrapper";
 import BottomNav from "@/modules/core/components/ui/bottom-navbar";
-import ButtonUp from "@/modules/core/components/ui/button-up";
 import Header from "@/modules/core/components/ui/header";
 import MobileHeader from "@/modules/core/components/ui/mobile-header";
 
