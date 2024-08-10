@@ -46,11 +46,11 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   useEffect(() => {
     setNewChatId(id);
-  }, [setNewChatId, id]);
+  });
 
   useEffect(() => {
     missingKeys.map((key) => {
-      toast.error(`Missing ${key} environment variable!`);
+      toast.error(`Falta la variable de entorno ${key}!`);
     });
   }, [missingKeys]);
 
@@ -62,7 +62,10 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
       ref={scrollRef}
     >
-      <div className={cn("pb-32 sm:py-24 pt-4", className)} ref={messagesRef}>
+      <div
+        className={cn("pb-[200px] pt-4 md:pt-10", className)}
+        ref={messagesRef}
+      >
         {messages.length ? <ChatList messages={messages} /> : <EmptyScreen />}
         <div className="w-full h-px" ref={visibilityRef} />
       </div>

@@ -5,14 +5,7 @@ import { News } from "@/types/common";
 import { useState, useEffect } from "react";
 import NewsGridItem from "./news-grid-item";
 import { SpinnerIcon } from "@/modules/icons/common";
-
-const shuffleArray = (array: News[]): News[] => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
+import { shuffleArray } from "@/utils/common";
 
 const NewsGrid: React.FC = () => {
   const [newsData, setNewsData] = useState<News[]>([]);

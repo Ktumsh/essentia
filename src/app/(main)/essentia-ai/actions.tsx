@@ -60,7 +60,7 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
 
   if (!session) {
     return {
-      error: "Unauthorized",
+      error: "No autorizado",
     };
   }
 
@@ -69,7 +69,7 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
 
   if (uid !== session?.user?.id) {
     return {
-      error: "Unauthorized",
+      error: "No autorizado",
     };
   }
 
@@ -85,7 +85,7 @@ export async function clearChats() {
 
   if (!session?.user?.id) {
     return {
-      error: "Unauthorized",
+      error: "No autorizado",
     };
   }
 
@@ -114,7 +114,7 @@ export async function shareChat(id: string) {
   const session = await auth();
   if (!session?.user?.id) {
     return {
-      error: "Unauthorized",
+      error: "No autorizado",
     };
   }
 
@@ -122,13 +122,13 @@ export async function shareChat(id: string) {
 
   if (!chat || chat.userId !== session.user.id) {
     return {
-      error: "Something went wrong",
+      error: "Algo salió mal",
     };
   }
 
   const payload = {
     ...chat,
-    sharePath: `/essentia-ai/share/${chat.id}`,
+    sharePath: `/share/${chat.id}`,
   };
 
   await kv.hmset(`chat:${chat.id}`, payload);

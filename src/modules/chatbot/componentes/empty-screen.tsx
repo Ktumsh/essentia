@@ -2,7 +2,7 @@ import { StarIcon } from "@/modules/icons/common";
 
 const EmptyScreen = () => {
   return (
-    <div className="pb-[200px] pt-4 md:pt-10">
+    <>
       <div className="mx-auto max-w-2xl px-4">
         <div className="bg-white dark:bg-base-full-dark flex flex-col gap-2 rounded-lg border border-gray-200 dark:border-base-dark p-8">
           <div className="flex items-center gap-2">
@@ -18,8 +18,7 @@ const EmptyScreen = () => {
           </p>
         </div>
       </div>
-      <div className="h-px w-full"></div>
-    </div>
+    </>
   );
 };
 

@@ -10,6 +10,7 @@ import { type AI } from "../chat/actions";
 import { UserMessage } from "../stocks/message";
 import { NewIcon } from "@/modules/icons/action";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
+import Link from "next/link";
 
 interface PromptFormProps {
   input: string;
@@ -52,40 +53,48 @@ const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
           },
         ]);
 
-        // Submit and get response message
         const responseMessage = await submitUserMessage(value);
         setMessages((currentMessages) => [...currentMessages, responseMessage]);
       }}
     >
       <div className="relative flex flex-col grow max-h-60 w-full px-10 bg-white dark:bg-base-dark-50 sm:border border-gray-200 dark:border-base-dark sm:rounded-md overflow-hidden">
-        <Button
-          isIconOnly
-          size="sm"
-          radius="full"
-          className="absolute left-0 top-[13px] sm:right-1 flex items-center justify-center !size-9 mx-2 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
-          onPress={() => {
-            router.push("/essentia-ai");
+        <Tooltip
+          content="Nuevo chat"
+          delay={800}
+          closeDelay={0}
+          classNames={{
+            content: tooltipStyles.content,
           }}
         >
-          <NewIcon />
-        </Button>
+          <Button
+            as={Link}
+            href="/essentia-ai"
+            isIconOnly
+            size="sm"
+            radius="full"
+            variant="light"
+            className="absolute left-0 top-[13px] !size-9 mx-2 text-base-color dark:text-base-color-dark border border-gray-200 dark:border-base-full-dark"
+          >
+            <NewIcon className="size-4" />
+          </Button>
+        </Tooltip>
         <Textarea
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          autoFocus
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"
           rows={1}
           name="message"
           value={input}
+          autoFocus
           placeholder="Escribe tu mensaje."
           onChange={(e) => setInput(e.target.value)}
           className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm text-base-color dark:text-base-color-dark"
         />
         <Tooltip
-          content="Mandar mensaje"
+          content="Enviar mensaje"
           delay={800}
           closeDelay={0}
           classNames={{
@@ -98,10 +107,10 @@ const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
             size="sm"
             radius="full"
             color="danger"
-            className="absolute right-0 top-[13px] sm:right-1 flex items-center justify-center !size-9 mx-2 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
+            className="absolute right-0 top-[13px] !size-9 mx-2 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
             disabled={input === ""}
           >
-            <ArrowUpIcon />
+            <ArrowUpIcon className="size-4" />
           </Button>
         </Tooltip>
       </div>
