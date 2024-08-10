@@ -2,25 +2,30 @@
 
 import { z } from "zod";
 import { kv } from "@vercel/kv";
-import { ErrorMessages } from "@/modules/auth/lib/error-message";
 import { getStringFromBuffer } from "@/utils/common";
-import { getUser } from "../login/actions";
+import { getUser, getUserByUsername } from "../login/actions";
 import { ResultCode } from "@/utils/code";
 import { signIn } from "@@/auth";
 import { AuthError } from "next-auth";
 
 const registerSchema = z.object({
-  email: z.string().email(ErrorMessages.REQUIRED_EMAIL),
+  email: z.string().email(ResultCode.REQUIRED_EMAIL),
   password: z
     .string()
-    .min(8, ErrorMessages.REQUIRED_PASSWORD)
-    .regex(/[A-Z]/, ErrorMessages.INVALID_PASSWORD)
-    .regex(/[a-z]/, ErrorMessages.INVALID_PASSWORD)
-    .regex(/[0-9]/, ErrorMessages.INVALID_PASSWORD)
-    .regex(/[^A-Za-z0-9]/, ErrorMessages.INVALID_PASSWORD),
-  username: z.string().min(3, ErrorMessages.REQUIRED_USERNAME),
-  name: z.string().min(1, ErrorMessages.REQUIRED_NAME),
-  lastname: z.string().min(1, ErrorMessages.REQUIRED_LASTNAME),
+    .min(8, ResultCode.INVALID_LENGTH_PASSWORD)
+    .regex(/[A-Z]/, ResultCode.INVALID_STRING_PASSWORD)
+    .regex(/[a-z]/, ResultCode.INVALID_STRING_PASSWORD)
+    .regex(/[0-9]/, ResultCode.INVALID_STRING_PASSWORD)
+    .regex(/[^A-Za-z0-9]/, ResultCode.INVALID_STRING_PASSWORD),
+  username: z
+    .string()
+    .min(3, ResultCode.INVALID_LENGTH_USERNAME)
+    .max(20, ResultCode.INVALID_LENGTH_USERNAME)
+    .regex(/^[a-zA-Z0-9_]+$/, ResultCode.INVALID_STRING_USERNAME)
+    .regex(/^[a-zA-Z0-9]/, ResultCode.INVALID_START_USERNAME)
+    .regex(/[a-zA-Z0-9]$/, ResultCode.INVALID_END_USERNAME),
+  name: z.string().min(1, ResultCode.REQUIRED_NAME),
+  lastname: z.string().min(1, ResultCode.REQUIRED_LASTNAME),
   birthdate: z.string().refine(
     (date) => {
       const birthDate = new Date(date);
@@ -40,7 +45,7 @@ const registerSchema = z.object({
       return false;
     },
     {
-      message: ErrorMessages.INVALID_BIRTHDATE,
+      message: ResultCode.INVALID_BIRTHDATE,
     }
   ),
 });
@@ -64,13 +69,18 @@ export async function createUser({
   lastname,
   birthdate,
 }: CreateUserProps) {
-  const existingUser = await getUser(email);
+  const existingUserByEmail = await getUser(email);
+  const existingUserByUsername = await getUserByUsername(username);
 
-  if (existingUser) {
+  if (existingUserByEmail) {
     return {
       type: "error",
-      resultCode: ResultCode.UserAlreadyExists,
-      errors: { email: "Este correo ya está registrado." },
+      resultCode: ResultCode.EMAIL_EXISTS,
+    };
+  } else if (existingUserByUsername) {
+    return {
+      type: "error",
+      resultCode: ResultCode.USERNAME_EXISTS,
     };
   } else {
     const user = {
@@ -85,10 +95,11 @@ export async function createUser({
     };
 
     await kv.hmset(`user:${email}`, user);
+    await kv.set(`user:username:${username}`, email);
 
     return {
       type: "success",
-      resultCode: ResultCode.UserCreated,
+      resultCode: ResultCode.USER_CREATED,
     };
   }
 }
@@ -109,9 +120,18 @@ export async function signup(
   );
 
   if (parsedCredentials.success) {
-    const password = parsedCredentials.data.password;
-    const salt = crypto.randomUUID();
+    const { email, password, username, name, lastname, birthdate } =
+      parsedCredentials.data;
 
+    const existingUserByUsername = await getUserByUsername(username);
+    if (existingUserByUsername) {
+      return {
+        type: "error",
+        resultCode: ResultCode.USERNAME_EXISTS,
+      };
+    }
+
+    const salt = crypto.randomUUID();
     const encoder = new TextEncoder();
     const saltedPassword = encoder.encode(password + salt);
     const hashedPasswordBuffer = await crypto.subtle.digest(
@@ -121,9 +141,6 @@ export async function signup(
     const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
 
     try {
-      const { email, username, name, lastname, birthdate } =
-        parsedCredentials.data;
-
       const result = await createUser({
         email,
         hashedPassword,
@@ -134,7 +151,7 @@ export async function signup(
         birthdate,
       });
 
-      if (result.resultCode === ResultCode.UserCreated) {
+      if (result.resultCode === ResultCode.USER_CREATED) {
         await signIn("credentials", {
           email,
           password,
@@ -149,36 +166,33 @@ export async function signup(
           case "CredentialsSignin":
             return {
               type: "error",
-              resultCode: ResultCode.InvalidCredentials,
-              errors: { general: "Error de autenticación." },
+              resultCode: ResultCode.INVALID_CREDENTIALS,
             };
           default:
             return {
               type: "error",
-              resultCode: ResultCode.UnknownError,
-              errors: { general: "Error desconocido." },
+              resultCode: ResultCode.UNKNOWN_ERROR,
             };
         }
       } else {
         return {
           type: "error",
-          resultCode: ResultCode.UnknownError,
-          errors: { general: "Error desconocido." },
+          resultCode: ResultCode.UNKNOWN_ERROR,
         };
       }
     }
   } else {
-    // Convierte los errores de string[] a string
-    const flattenedErrors: Record<string, string> = Object.fromEntries(
-      Object.entries(parsedCredentials.error.flatten().fieldErrors).map(
-        ([key, value]) => [key, value?.join(", ") || ""]
-      )
-    );
+    const fieldErrors: Record<string, string> = {};
 
+    parsedCredentials.error.errors.forEach((issue) => {
+      if (issue.path.length > 0) {
+        fieldErrors[issue.path[0]] = issue.message;
+      }
+    });
     return {
       type: "error",
-      resultCode: ResultCode.InvalidCredentials,
-      errors: flattenedErrors,
+      resultCode: ResultCode.ALL_FIELDS_REQUIRED,
+      errors: fieldErrors,
     };
   }
 }

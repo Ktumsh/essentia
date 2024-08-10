@@ -7,6 +7,9 @@ import Link from "next/link";
 import MenuButton from "./menu-button";
 import MobileMenu from "./mobile-menu";
 import { useSwipeable } from "react-swipeable";
+import { usePathname } from "next/navigation";
+import SidebarMobile from "@/modules/chatbot/componentes/sidebar-mobile";
+import ChatHistory from "@/modules/chatbot/componentes/chat-history";
 
 interface MobileHeaderProps {
   session: any;
@@ -14,6 +17,9 @@ interface MobileHeaderProps {
 
 const MobileHeader = ({ session }: MobileHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const essentiaAi = pathname.startsWith("/essentia-ai");
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen((prev) => {
@@ -71,6 +77,13 @@ const MobileHeader = ({ session }: MobileHeaderProps) => {
           wrapper: "h-14",
         }}
       >
+        {essentiaAi && (
+          <>
+            <SidebarMobile>
+              <ChatHistory userId={session?.user.id} />
+            </SidebarMobile>
+          </>
+        )}
         <Link
           className="relative size-8 active:scale-95 transition-transform rounded-full"
           href="/"

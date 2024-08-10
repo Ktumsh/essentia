@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import { Providers } from "@/modules/core/components/providers";
 
 import { auth } from "@@/auth";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -68,14 +69,7 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: [
-      {
-        url: new URL(
-          "/e-logomark-on-dark.webp",
-          "https://essentia-web.vercel.app"
-        ),
-      },
-    ],
+    icon: "/e-logomark-on-dark.webp",
   },
 };
 
@@ -104,6 +98,13 @@ export default async function RootLayout({
           spaceMono.variable
         } ${dmSans.variable} font-dmsans`}
       >
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            className:
+              "bg-white dark:bg-base-full-dark border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
+          }}
+        />
         <Providers
           forcedTheme={!session ? "light" : undefined}
           disableTransitionOnChange

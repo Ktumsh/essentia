@@ -12,6 +12,12 @@ export async function getUser(email: string) {
   return user;
 }
 
+export async function getUserByUsername(username: string) {
+  const user = await kv.get<User>(`user:username:${username}`);
+  console.log(user);
+  return user;
+}
+
 interface Result {
   type: string;
   resultCode: ResultCode;
@@ -42,18 +48,18 @@ export async function authenticate(
       if (result?.error) {
         return {
           type: "error",
-          resultCode: ResultCode.InvalidCredentials,
+          resultCode: ResultCode.INVALID_CREDENTIALS,
         };
       }
 
       return {
         type: "success",
-        resultCode: ResultCode.UserLoggedIn,
+        resultCode: ResultCode.USER_LOGGED_IN,
       };
     } else {
       return {
         type: "error",
-        resultCode: ResultCode.InvalidCredentials,
+        resultCode: ResultCode.INVALID_CREDENTIALS,
       };
     }
   } catch (error) {
@@ -62,18 +68,18 @@ export async function authenticate(
         case "CredentialsSignin":
           return {
             type: "error",
-            resultCode: ResultCode.InvalidCredentials,
+            resultCode: ResultCode.INVALID_CREDENTIALS,
           };
         default:
           return {
             type: "error",
-            resultCode: ResultCode.UnknownError,
+            resultCode: ResultCode.UNKNOWN_ERROR,
           };
       }
     } else {
       return {
         type: "error",
-        resultCode: ResultCode.UnknownError,
+        resultCode: ResultCode.UNKNOWN_ERROR,
       };
     }
   }

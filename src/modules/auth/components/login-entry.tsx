@@ -1,30 +1,27 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { validateEmail } from "../lib/form";
-import { ErrorMessages } from "../lib/error-message";
-import { getMessageFromCode } from "@/utils/code";
+import { getMessageFromCode, ResultCode } from "@/utils/code";
 import { toast } from "sonner";
 import { useFormState } from "react-dom";
 import { authenticate } from "@/app/login/actions";
 import SignInWith from "./signin-with";
+import { SpinnerIcon } from "@/modules/icons/common";
 
 const LoginEntry = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({
-    email: "",
-    password: "",
-  });
   const router = useRouter();
   const [result, dispatch] = useFormState(authenticate, undefined);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
@@ -38,31 +35,27 @@ const LoginEntry = () => {
     e.preventDefault();
 
     const errors = {
-      email: !validateEmail(email) ? ErrorMessages.REQUIRED_EMAIL : "",
-      password: password.trim() === "" ? ErrorMessages.REQUIRED_PASSWORD : "",
+      email: !validateEmail(email) ? ResultCode.REQUIRED_EMAIL : "",
+      password: password.trim() === "" ? ResultCode.REQUIRED_PASSWORD : "",
     };
 
     if (Object.values(errors).some((error) => error)) {
-      setFieldErrors(errors);
+      toast.error(errors.email || errors.password);
       return;
     }
-
-    setFieldErrors({ email: "", password: "" });
 
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-
-    dispatch(formData);
+    startTransition(() => {
+      dispatch(formData);
+    });
   };
 
   useEffect(() => {
     if (result) {
       if (result.type === "error") {
-        setFieldErrors((prevErrors) => ({
-          ...prevErrors,
-          email: ErrorMessages.INVALID_CREDENTIALS,
-        }));
+        toast.error(getMessageFromCode(result.resultCode));
       } else {
         if (isSelected) {
           localStorage.setItem("rememberedEmail", email);
@@ -77,12 +70,6 @@ const LoginEntry = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const handleChange =
-    (setter: (value: string) => void, field: string) => (value: string) => {
-      setter(value);
-      setFieldErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
-    };
-
   return (
     <div className="flex flex-col relative justify-center items-center p-8 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white text-left sm:shadow-md shadow-black/20 font-normal text-base-color-m overflow-hidden">
       <form
@@ -96,10 +83,7 @@ const LoginEntry = () => {
           value={email}
           label="Correo electrónico"
           placeholder="Ingresa tu correo electrónico"
-          errorMessage={fieldErrors.email}
-          isInvalid={!!fieldErrors.email}
-          color={fieldErrors.email ? "danger" : "default"}
-          onValueChange={handleChange(setEmail, "email")}
+          onValueChange={setEmail}
           endContent={<MailIcon className="size-6" />}
           classNames={{
             input: "placeholder:text-base-color-d",
@@ -112,10 +96,7 @@ const LoginEntry = () => {
           value={password}
           label="Contraseña"
           placeholder="Ingresa tu contraseña"
-          errorMessage={fieldErrors.password}
-          isInvalid={!!fieldErrors.password}
-          color={fieldErrors.password ? "danger" : "default"}
-          onValueChange={handleChange(setPassword, "password")}
+          onValueChange={setPassword}
           endContent={
             <button
               type="button"
@@ -159,8 +140,12 @@ const LoginEntry = () => {
           radius="full"
           fullWidth
           className="bg-light-gradient text-base text-white"
+          aria-disabled={isPending}
+          startContent={
+            isPending ? <SpinnerIcon className="size-4 animate-spin" /> : null
+          }
         >
-          Iniciar sesión
+          {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
         </Button>
       </form>
       <div className="flex flex-row items-center justify-center w-full px-3 my-4">
