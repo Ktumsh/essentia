@@ -42,7 +42,7 @@ export function UserMessage({
             showFallback
             src="https://images.unsplash.com/broken"
             size="sm"
-            icon={<AvatarIcon />}
+            icon={<AvatarIcon className="size-4" />}
             classNames={{
               icon: "text-base-color-m dark:text-base-color-dark-m",
               base: "bg-gray-300 dark:bg-gray-800 rounded-none",
@@ -51,7 +51,7 @@ export function UserMessage({
           />
         )}
       </div>
-      <div className="flex-1 ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden text-end text-base-color-h dark:text-base-color-dark">
+      <div className="flex-1 ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden sm:text-end text-base-color-h dark:text-base-color-dark">
         {children}
       </div>
     </div>

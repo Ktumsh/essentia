@@ -126,7 +126,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
                       onOpen();
                       router.refresh();
                       router.push("/essentia-ai");
-                      toast.success("Chat deleted");
+                      toast.success("Chat eliminado");
                     });
                   }}
                 >

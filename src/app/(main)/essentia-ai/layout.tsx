@@ -7,7 +7,7 @@ interface ChatLayoutProps {
 
 export default async function ChatLayout({ children }: ChatLayoutProps) {
   return (
-    <div className="flex size-full lg:h-[calc(100dvh-80px)] mt-20 sm:mt-0 text-white overflow-hidden">
+    <div className="flex w-full lg:h-[calc(100dvh-56px)] h-[calc(100dvh-112px)] mt-14 text-white overflow-hidden">
       <ChatSidebar />
       {children}
     </div>

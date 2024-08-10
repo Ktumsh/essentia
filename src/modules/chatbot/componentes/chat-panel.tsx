@@ -1,4 +1,6 @@
-import { FC } from "react";
+"use client";
+
+import { FC, useEffect, useState } from "react";
 
 import type { AI } from "../chat/actions";
 
@@ -14,7 +16,13 @@ import FooterText from "./footer-text";
 import ButtonToBottom from "@/modules/core/components/ui/button-to-bottom";
 import { UserMessage } from "../stocks/message";
 import { ShareIcon } from "@/modules/icons/action";
-import { cn } from "@/utils/common";
+import { cn, shuffleArray } from "@/utils/common";
+import {
+  AcademicIcon,
+  BrainIcon,
+  ItineraryIcon,
+  LightbulbIcon,
+} from "@/modules/icons/miscellaneus";
 
 export interface ChatPanelProps {
   id?: string;
@@ -38,28 +46,43 @@ const ChatPanel: FC<ChatPanelProps> = ({
   const { submitUserMessage } = useActions();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const exampleMessages = [
+  const initialMessages = [
     {
       heading: "Consejos para",
       subheading: "mejorar el bienestar emocional",
       message: `¿Cómo mejorar mi bienestar emocional?`,
+      icon: BrainIcon,
+      iconColor: "text-fuchsia-500",
     },
     {
-      heading: "Ejercicios para",
-      subheading: "mejorar el bienestar fisico",
-      message: "¿Qué ejercicios debo hacer diariamente?",
+      heading: "Rutinas diarias para",
+      subheading: "fortalecer el bienestar físico",
+      message:
+        "¿Qué ejercicios son recomendables para mantener una buena salud física?",
+      icon: ItineraryIcon,
+      iconColor: "text-lime-500",
     },
     {
-      heading: "Consejos para",
-      subheading: "una dieta saludable",
-      message: `¿Qué consejos me darías para una dieta saludable?`,
+      heading: "Aprende sobre",
+      subheading: "educación sexual segura",
+      message: `¿Qué recursos confiables existen para aprender sobre salud y educación sexual?`,
+      icon: AcademicIcon,
+      iconColor: "text-sky-300",
     },
     {
-      heading: "Cómo mejorar",
-      subheading: `la calidad sueño?`,
-      message: `¿Cómo puedo mejorar la calidad del sueño?`,
+      heading: "Mejora tu",
+      subheading: `calidad de sueño`,
+      message: `¿Qué técnicas efectivas puedo usar para mejorar mi calidad de sueño?`,
+      icon: LightbulbIcon,
+      iconColor: "text-yellow-500",
     },
   ];
+
+  const [exampleMessages, setExampleMessages] = useState(initialMessages);
+
+  useEffect(() => {
+    setExampleMessages((prevMessages) => shuffleArray([...prevMessages]));
+  }, []);
 
   return (
     <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding]">
@@ -70,8 +93,13 @@ const ChatPanel: FC<ChatPanelProps> = ({
             exampleMessages.map((example, index) => (
               <Button
                 key={index}
+                radius="sm"
+                startContent={
+                  <example.icon className={cn("size-4", example.iconColor)} />
+                }
                 className={cn(
-                  "flex-col h-auto gap-0 p-4 items-start text-start cursor-pointer rounded-lg bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark"
+                  "flex-col h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
+                  index < 2 && "hidden md:block"
                 )}
                 onClick={async () => {
                   setMessages((currentMessages) => [

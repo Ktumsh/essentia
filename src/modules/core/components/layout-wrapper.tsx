@@ -20,6 +20,7 @@ const LayoutWrapper = ({
   const additionals = pathname === "/adicionales";
   const profile = pathname === `/profile/${encodedUsername}`; */
   const essentiaAI = pathname.startsWith("/essentia-ai");
+  const share = pathname.startsWith("/share");
   const resources = [
     "/salud-y-bienestar",
     "/ejercicios-y-fitness",
@@ -48,7 +49,7 @@ const LayoutWrapper = ({
             "after:absolute after:top-[10%] after:left-[20%] after:z-10 after:h-[580px] after:w-full sm:after:w-[540px] after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:blur-[80px] after:content-[''] after:rounded-full after:opacity-50",
             "after:dark:top-1/4 after:dark:left-2/3 after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-base-full-dark after:dark:via-[#ff7373] after:dark:opacity-50 after:dark:blur-3xl after:dark:rounded-none",
             isResource && "after:dark:opacity-0 before:dark:opacity-0",
-            essentiaAI && "after:opacity-0"
+            essentiaAI && share && "after:opacity-0"
           )}
         >
           <div></div>
@@ -56,7 +57,7 @@ const LayoutWrapper = ({
       </motion.div>
       <div className="relative size-full overflow-clip">
         <div className="flex min-h-dvh size-full">
-          {essentiaAI ? null : <AsideMenu />}
+          {essentiaAI || share ? null : <AsideMenu />}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -65,10 +66,10 @@ const LayoutWrapper = ({
           >
             {children}
           </motion.div>
-          {essentiaAI ? null : <AsideTabs />}
+          {essentiaAI || share ? null : <AsideTabs />}
         </div>
       </div>
-      {essentiaAI ? null : <ButtonUp />}
+      {essentiaAI || share ? null : <ButtonUp />}
     </>
   );
 };
