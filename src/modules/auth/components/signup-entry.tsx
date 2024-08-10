@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import SignInWith from "./signin-with";
 import { signup } from "@/app/signup/actions";
@@ -20,10 +20,11 @@ import { tooltipStyles } from "@/styles/tooltip-styles";
 import { MailIcon, QuestionIcon, UserIcon } from "@/modules/icons/miscellaneus";
 import { ArrowRightV2Icon } from "@/modules/icons/navigation";
 import { CalendarIcon, EyeIcon, EyeOffIcon } from "@/modules/icons/status";
-import { getMessageFromCode } from "@/utils/code";
+import { getMessageFromCode, ResultCode } from "@/utils/code";
 import { toast } from "sonner";
 import { validateEmail } from "../lib/form";
-import { ErrorMessages } from "../lib/error-message";
+import { SpinnerIcon } from "@/modules/icons/common";
+import { getUser } from "@/app/login/actions";
 
 const SignUpEntry = () => {
   const [step, setStep] = useState(1);
@@ -43,32 +44,50 @@ const SignUpEntry = () => {
     birthdate: "",
   });
   const router = useRouter();
-  const [result, setResult] = useState<any>(null);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("username", username);
-    formData.append("name", name);
-    formData.append("lastname", lastname);
-    formData.append("birthdate", birthdate?.toString() || "");
+    if (!email || !password || !username || !name || !lastname || !birthdate) {
+      toast.error(getMessageFromCode(ResultCode.ALL_FIELDS_REQUIRED));
+      return;
+    }
 
-    const result = await signup(undefined, formData);
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("username", username);
+      formData.append("name", name);
+      formData.append("lastname", lastname);
+      formData.append("birthdate", birthdate?.toString() || "");
 
-    if (result) {
-      if (result.type === "error") {
-        toast.error(getMessageFromCode(result.resultCode));
-        setFieldErrors((prevErrors) => ({
-          ...prevErrors,
-          ...result.errors,
-        }));
-      } else {
-        toast.success(getMessageFromCode(result.resultCode));
-        router.refresh();
-      }
+      startTransition(async () => {
+        const result = await signup(undefined, formData);
+        if (result) {
+          if (result.type === "error" && result.errors) {
+            const errors = result.errors as Record<string, string> | undefined;
+
+            setFieldErrors((prevErrors) => ({
+              ...prevErrors,
+              email: errors?.email || "",
+              password: errors?.password || "",
+              username: errors?.username || "",
+              name: errors?.name || "",
+              lastname: errors?.lastname || "",
+              birthdate: errors?.birthdate || "",
+            }));
+          } else if (result.type === "error") {
+            toast.error(getMessageFromCode(result.resultCode));
+          } else {
+            toast.success(getMessageFromCode(result.resultCode));
+            router.refresh();
+          }
+        }
+      });
+    } catch (error) {
+      toast.error(ResultCode.ACCOUNT_CREATED_ERROR);
     }
   };
 
@@ -76,39 +95,25 @@ const SignUpEntry = () => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      setFieldErrors((prevErrors) => ({
-        ...prevErrors,
-        email: ErrorMessages.REQUIRED_EMAIL,
-      }));
+      toast.error(ResultCode.REQUIRED_EMAIL);
       return;
     }
 
     setFieldErrors((prevErrors) => ({ ...prevErrors, email: "" }));
-
-    try {
-      const response = await fetch(`/api/check-email?email=${email}`);
-      const data = await response.json();
-
-      if (data.exists) {
-        setFieldErrors((prevErrors) => ({
-          ...prevErrors,
-          email: ErrorMessages.EMAIL_EXISTS,
-        }));
-      } else {
-        setStep(2);
+    startTransition(async () => {
+      try {
+        const existingUserByEmail = await getUser(email);
+        if (existingUserByEmail) {
+          toast.error(ResultCode.EMAIL_EXISTS);
+          return;
+        } else {
+          setStep(2);
+        }
+      } catch (error) {
+        toast.error(ResultCode.EMAIL_VERIFICATION_ERROR);
       }
-    } catch (error) {
-      toast.error("Error verificando el correo electrónico.");
-    }
+    });
   };
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const handleChange =
-    (setter: (value: string) => void, field: string) => (value: string) => {
-      setter(value);
-      setFieldErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
-    };
 
   return (
     <div className="flex relative justify-center items-center p-8 mb-9 size-full sm:w-[500px] rounded-xl bg-transparent sm:bg-white text-left sm:shadow-md shadow-black/20 font-normal text-base-color-m overflow-hidden">
@@ -127,9 +132,10 @@ const SignUpEntry = () => {
               placeholder="Ingresa tu correo electrónico"
               errorMessage={fieldErrors.email}
               isInvalid={!!fieldErrors.email}
-              color={fieldErrors.email ? "danger" : "default"}
-              onValueChange={handleChange(setEmail, "email")}
-              endContent={<MailIcon className="size-6" />}
+              onValueChange={(value) => {
+                setEmail(value);
+                setFieldErrors((prev) => ({ ...prev, email: "" }));
+              }}
               classNames={{
                 input: "placeholder:text-base-color-d",
               }}
@@ -139,6 +145,11 @@ const SignUpEntry = () => {
               radius="full"
               fullWidth
               className="bg-light-gradient text-base text-white mt-4"
+              startContent={
+                isPending ? (
+                  <SpinnerIcon className="size-4 animate-spin" />
+                ) : null
+              }
             >
               Continuar
             </Button>
@@ -199,7 +210,10 @@ const SignUpEntry = () => {
                   errorMessage={fieldErrors.name}
                   isInvalid={!!fieldErrors.name}
                   color={fieldErrors.name ? "danger" : "default"}
-                  onValueChange={handleChange(setName, "name")}
+                  onValueChange={(value) => {
+                    setName(value);
+                    setFieldErrors((prev) => ({ ...prev, name: "" }));
+                  }}
                   classNames={{
                     input: "placeholder:text-base-color-d",
                   }}
@@ -215,7 +229,10 @@ const SignUpEntry = () => {
                   errorMessage={fieldErrors.lastname}
                   isInvalid={!!fieldErrors.lastname}
                   color={fieldErrors.lastname ? "danger" : "default"}
-                  onValueChange={handleChange(setLastname, "lastname")}
+                  onValueChange={(value) => {
+                    setLastname(value);
+                    setFieldErrors((prev) => ({ ...prev, lastname: "" }));
+                  }}
                   classNames={{
                     input: "placeholder:text-base-color-d",
                   }}
@@ -228,16 +245,15 @@ const SignUpEntry = () => {
                 type="text"
                 label="Nombre de usuario"
                 placeholder="Ingresa tu nombre de usuario"
-                description="Tu nombre de usuario es el que aparecerá a la vista de todos en tu perfil."
                 value={username}
                 errorMessage={fieldErrors.username}
                 isInvalid={!!fieldErrors.username}
-                color={fieldErrors.username ? "danger" : "default"}
-                onValueChange={handleChange(setUsername, "username")}
-                endContent={<UserIcon className="size-6" />}
+                onValueChange={(value) => {
+                  setUsername(value);
+                  setFieldErrors((prev) => ({ ...prev, username: "" }));
+                }}
                 classNames={{
                   input: "placeholder:text-base-color-d",
-                  description: "text-base-color-dark sm:text-base-color-m",
                 }}
               />
               <div className="relative">
@@ -260,6 +276,7 @@ const SignUpEntry = () => {
                         }}
                       >
                         <button
+                          aria-label="Ayuda"
                           type="button"
                           className="flex items-center justify-center size-3 bg-bittersweet-300 rounded-full"
                         >
@@ -315,12 +332,14 @@ const SignUpEntry = () => {
                 placeholder="Ingresa tu contraseña"
                 errorMessage={fieldErrors.password}
                 isInvalid={!!fieldErrors.password}
-                color={fieldErrors.password ? "danger" : "default"}
-                onValueChange={handleChange(setPassword, "password")}
+                onValueChange={(value) => {
+                  setPassword(value);
+                  setFieldErrors((prev) => ({ ...prev, password: "" }));
+                }}
                 endContent={
                   <button
                     type="button"
-                    onClick={toggleVisibility}
+                    onClick={() => setIsVisible(!isVisible)}
                     aria-label="Alternar visibilidad de la contraseña"
                   >
                     {isVisible ? (
@@ -360,6 +379,11 @@ const SignUpEntry = () => {
               radius="full"
               fullWidth
               className="bg-light-gradient text-base text-white"
+              startContent={
+                isPending ? (
+                  <SpinnerIcon className="size-4 animate-spin" />
+                ) : null
+              }
             >
               Crear cuenta
             </Button>

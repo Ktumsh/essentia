@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { nextui } from "@nextui-org/theme";
 import typography from "@tailwindcss/typography";
+import animate from "tailwindcss-animate";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import type { Config } from "tailwindcss";
 
@@ -193,6 +194,7 @@ const config: Config = {
     "!mt-2",
   ],
   plugins: [
+    animate,
     typography,
     nextui({
       themes: {
