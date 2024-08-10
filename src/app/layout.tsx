@@ -7,12 +7,9 @@ import { siteConfig } from "@/config/site";
 import { Providers } from "@/modules/core/components/providers";
 
 import { auth } from "@@/auth";
-import Head from "next/head";
 
 export const metadata: Metadata = {
-  metadataBase: process.env.VERCEL_URL
-    ? new URL(`https://${process.env.VERCEL_URL}`)
-    : undefined,
+  metadataBase: new URL("https://essentia-web.vercel.app"),
   title: {
     template: `%s - ${siteConfig.name}`,
     default: siteConfig.name,
@@ -96,15 +93,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  const canonicalUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "https://essentia-web.vercel.app";
 
   return (
     <html suppressHydrationWarning lang="es">
-      <Head>
-        <link rel="canonical" href={canonicalUrl} />
-      </Head>
+      <head />
       <body
         className={`bg-zinc-50 ${
           session ? "dark:bg-base-full-dark" : ""

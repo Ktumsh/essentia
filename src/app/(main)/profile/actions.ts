@@ -1,7 +1,7 @@
 "use server";
 
+import { auth } from "@@/auth";
 import { kv } from "@vercel/kv";
-import { getSession } from "next-auth/react";
 
 export async function updateProfile({
   username,
@@ -10,12 +10,12 @@ export async function updateProfile({
   username: string;
   birthdate: string;
 }) {
-  const session = await getSession();
+  const session = await auth();
   if (!session) {
     throw new Error("Not authenticated");
   }
 
-  const userEmail = session.user.email;
+  const userEmail = session?.user?.email;
   await kv.hmset(`user:${userEmail}`, { username, birthdate });
 
   return { message: "Profile updated successfully" };
