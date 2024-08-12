@@ -6,7 +6,6 @@ import { siteConfig } from "@/config/site";
 
 import { Providers } from "@/modules/core/components/providers";
 
-/* import { auth } from "@@/auth"; */
 import { Toaster } from "sonner";
 import { cn } from "@/utils/common";
 
@@ -87,8 +86,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  /* const session = await auth(); */
-
   return (
     <html suppressHydrationWarning lang="es">
       <head />
@@ -109,10 +106,7 @@ export default async function RootLayout({
               "bg-white dark:bg-base-full-dark border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
           }}
         />
-        <Providers
-          /* forcedTheme={!session ? "light" : undefined} */
-          disableTransitionOnChange
-        >
+        <Providers disableTransitionOnChange>
           <div className="min-h-dvh size-full relative">{children}</div>
         </Providers>
       </body>

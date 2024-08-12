@@ -11,6 +11,42 @@ export const useStreamableText = (
   );
 
   useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      if (typeof content === "object") {
+        let accumulatedValue = "";
+        for await (const delta of readStreamableValue(content)) {
+          if (typeof delta === "string") {
+            accumulatedValue += delta;
+            if (isMounted) {
+              setRawContent(accumulatedValue);
+            }
+          }
+        }
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [content]);
+
+  return rawContent;
+};
+
+/* "use client";
+
+import { StreamableValue, readStreamableValue } from "ai/rsc";
+import { useEffect, useState } from "react";
+
+export const useStreamableText = (
+  content: string | StreamableValue<string>
+) => {
+  const [rawContent, setRawContent] = useState(
+    typeof content === "string" ? content : ""
+  );
+
+  useEffect(() => {
     (async () => {
       if (typeof content === "object") {
         let value = "";
@@ -24,4 +60,4 @@ export const useStreamableText = (
   }, [content]);
 
   return rawContent;
-};
+}; */

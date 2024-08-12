@@ -71,8 +71,8 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
           isActive && "bg-gray-100 dark:bg-base-dark"
         )}
       >
-        <div className="w-full relative flex-1 max-h-5 text-start overflow-hidden break-all select-none">
-          <span className="flex">
+        <div className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all">
+          <span className="whitespace-nowrap">
             {shouldAnimate ? (
               chat.title.split("").map((character, index) => (
                 <motion.span
@@ -105,13 +105,7 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
                 </motion.span>
               ))
             ) : (
-              <TooltipCTN
-                content={chat.title}
-                placement="right"
-                baseClass="max-w-48"
-              >
-                <div className="truncate">{chat.title}</div>
-              </TooltipCTN>
+              <span>{chat.title}</span>
             )}
           </span>
         </div>
