@@ -57,7 +57,7 @@ const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
         setMessages((currentMessages) => [...currentMessages, responseMessage]);
       }}
     >
-      <div className="relative flex flex-col grow max-h-60 w-full px-10 bg-white dark:bg-base-dark-50 sm:border border-gray-200 dark:border-base-dark sm:rounded-md overflow-hidden">
+      <div className="relative flex flex-col grow max-h-60 w-full px-8 sm:px-12 bg-white dark:bg-transparent sm:dark:bg-base-dark-50 sm:border border-gray-200 dark:border-base-dark sm:rounded-md overflow-hidden">
         <Tooltip
           content="Nuevo chat"
           delay={800}
@@ -73,7 +73,7 @@ const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
             size="sm"
             radius="full"
             variant="light"
-            className="absolute left-0 top-[13px] !size-9 mx-2 text-base-color dark:text-base-color-dark border border-gray-200 dark:border-base-full-dark"
+            className="absolute left-0 sm:left-4 top-[13px] !size-9 text-base-color dark:text-base-color-dark border border-gray-200 dark:border-base-dark sm:dark:border-base-full-dark dark:data-[hover=true]:bg-base-dark sm:dark:data-[hover=true]:bg-base-full-dark"
           >
             <NewIcon className="size-4" />
           </Button>
@@ -107,7 +107,7 @@ const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
             size="sm"
             radius="full"
             color="danger"
-            className="absolute right-0 top-[13px] !size-9 mx-2 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
+            className="absolute right-0 sm:right-4 top-[13px] !size-9 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
             disabled={input === ""}
           >
             <ArrowUpIcon className="size-4" />

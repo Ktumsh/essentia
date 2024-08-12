@@ -10,6 +10,7 @@ import { useSwipeable } from "react-swipeable";
 import { usePathname } from "next/navigation";
 import SidebarMobile from "@/modules/chatbot/componentes/sidebar-mobile";
 import ChatHistory from "@/modules/chatbot/componentes/chat-history";
+import { Sheet, SheetContent, SheetTrigger } from "./sheet";
 
 interface MobileHeaderProps {
   session: any;
@@ -104,14 +105,23 @@ const MobileHeader = ({ session }: MobileHeaderProps) => {
             alt="Logo de Essentia"
           />
         </Link>
-        <MenuButton
-          sessionImage={session?.user?.image}
-          isOpen={isMenuOpen}
-          toggleMenu={toggleMenu}
-        />
+        <Sheet>
+          <SheetTrigger>
+            <MenuButton
+              sessionImage={session?.user?.image}
+              isOpen={isMenuOpen}
+            />
+          </SheetTrigger>
+          <SheetContent
+            side="right"
+            hideCloseButton
+            className="inset-y-0 flex h-auto w-[300px] flex-col p-0"
+          >
+            <MobileMenu session={session} />
+          </SheetContent>
+        </Sheet>
       </Navbar>
-      <MobileMenu isMenuOpen={isMenuOpen} session={session} />
-      <div
+      {/*       <div
         data-overlay-container={isMenuOpen}
         aria-hidden={true}
         onClick={() => toggleMenu()}
@@ -120,7 +130,7 @@ const MobileHeader = ({ session }: MobileHeaderProps) => {
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
-      ></div>
+      ></div> */}
     </>
   );
 };

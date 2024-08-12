@@ -27,11 +27,10 @@ import { CommunityIcon } from "@/modules/icons/interface";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 
 interface Props {
-  isMenuOpen: boolean;
   session: Session | null;
 }
 
-const MobileMenu = ({ isMenuOpen, session }: Props) => {
+const MobileMenu = ({ session }: Props) => {
   const [currentPath, setCurrentPath] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,17 +57,9 @@ const MobileMenu = ({ isMenuOpen, session }: Props) => {
       <div
         id={MOBILE_MENU_CONTENT_ID}
         role="menu"
-        className={`fixed inset-y-0 right-0 z-[70] flex w-screen max-w-[310px] h-full flex-col items-center bg-white dark:bg-base-full-dark lg:hidden px-8 transition-transform duration-400 overflow-y-hidden ${
-          isMenuOpen
-            ? "translate-x-0 pointer-events-auto"
-            : "translate-x-full pointer-events-none"
-        }`}
+        className="flex w-screen max-w-[300px] h-full flex-col items-center bg-white dark:bg-base-full-dark lg:hidden px-8 overflow-y-hidden"
       >
-        <nav
-          className={`size-full transition-opacity ${
-            isMenuOpen ? "opacity-100" : "opacity-0"
-          }`}
-        >
+        <nav className="size-full">
           <div className="flex flex-col justify-between size-full max-h-dvh">
             <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
               <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
@@ -96,6 +87,8 @@ const MobileMenu = ({ isMenuOpen, session }: Props) => {
                       icon={<AvatarIcon />}
                       classNames={{
                         icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
+                        base: "bg-gray-300 dark:bg-gray-600",
+                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
                       }}
                     />
                   )}
