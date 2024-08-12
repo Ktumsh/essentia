@@ -1,13 +1,16 @@
 "use client";
 
-import { FC, memo } from "react";
+import { FC, memo, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-import { Button } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { useCopyToClipboard } from "../../hooks/use-copy-to-clipboard";
-import { CopyIcon, DownloadIcon } from "@/modules/icons/action";
+import { CopyIcon } from "@/modules/icons/action";
 import { CheckIcon } from "@/modules/icons/common";
+import { DownloadIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
+import FileNameModal from "./file-name-modal";
 
 interface Props {
   language: string;
@@ -45,7 +48,7 @@ export const programmingLanguages: languageMap = {
 };
 
 export const generateRandomString = (length: number, lowercase = false) => {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXY3456789"; // excluding similar looking characters like Z, 2, I, 1, O, 0
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXY3456789";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -54,88 +57,108 @@ export const generateRandomString = (length: number, lowercase = false) => {
 };
 
 const CodeBlock: FC<Props> = memo(({ language, value }) => {
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const [fileName, setFileName] = useState<string | undefined>();
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
 
+  const fileExtension = programmingLanguages[language] || ".file";
+  const suggestedFileName = `archivo-${generateRandomString(
+    3,
+    true
+  )}${fileExtension}`;
+
   const downloadAsFile = () => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    const fileExtension = programmingLanguages[language] || ".file";
-    const suggestedFileName = `file-${generateRandomString(
-      3,
-      true
-    )}${fileExtension}`;
-    const fileName = window.prompt("Enter file name" || "", suggestedFileName);
+    setFileName(suggestedFileName);
+    onOpen();
+  };
 
-    if (!fileName) {
-      // User pressed cancel on prompt.
-      return;
-    }
-
+  const handleModalSubmit = () => {
+    const baseName = fileName?.replace(/\.[^/.]+$/, "");
+    const finalFileName = `${baseName}${fileExtension}`;
     const blob = new Blob([value], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.download = fileName;
+    link.download = finalFileName;
     link.href = url;
     link.style.display = "none";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    onClose();
   };
 
   const onCopy = () => {
     if (isCopied) return;
     copyToClipboard(value);
+    toast.success("Código copiado");
   };
 
   return (
-    <div className="relative w-full font-sans codeblock bg-zinc-950">
-      <div className="flex items-center justify-between w-full px-6 py-2 pr-4 bg-zinc-800 text-zinc-100">
-        <span className="text-xs lowercase">{language}</span>
-        <div className="flex items-center space-x-1">
-          <Button
-            variant="ghost"
-            className="hover:bg-zinc-800 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
-            onClick={downloadAsFile}
-          >
-            <DownloadIcon />
-            <span className="sr-only">Download</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="text-xs hover:bg-zinc-800 focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
-            onClick={onCopy}
-          >
-            {isCopied ? <CheckIcon /> : <CopyIcon />}
-            <span className="sr-only">Copy code</span>
-          </Button>
+    <>
+      <div className="relative w-full font-sans codeblock bg-gray-950 border border-gray-50 border-white/10 rounded-lg">
+        <div className="flex items-center justify-between w-full px-6 py-2 pr-4 text-base-color-dark-h border-b border-white/10">
+          <span className="text-xs lowercase">{language}</span>
+          <div className="flex items-center space-x-1">
+            <Button
+              size="sm"
+              isIconOnly
+              variant="light"
+              className="text-xs text-base-color-dark-h data-[hover=true]:bg-white/5"
+              onPress={downloadAsFile}
+            >
+              <DownloadIcon className="size-4" />
+              <span className="sr-only">Descargar</span>
+            </Button>
+            <Button
+              size="sm"
+              isIconOnly
+              variant="light"
+              className="text-xs text-base-color-dark-m data-[hover=true]:bg-white/5"
+              onPress={onCopy}
+            >
+              {isCopied ? (
+                <CheckIcon className="size-4" />
+              ) : (
+                <CopyIcon className="size-4" />
+              )}
+              <span className="sr-only">Copiar código</span>
+            </Button>
+          </div>
         </div>
+        <SyntaxHighlighter
+          language={language}
+          style={coldarkDark}
+          PreTag="div"
+          showLineNumbers
+          customStyle={{
+            margin: 0,
+            width: "100%",
+            background: "transparent",
+            padding: "1.5rem 1rem",
+          }}
+          lineNumberStyle={{
+            userSelect: "none",
+          }}
+          codeTagProps={{
+            style: {
+              fontSize: "0.9rem",
+              fontFamily: "var(--font-mono)",
+            },
+          }}
+        >
+          {value}
+        </SyntaxHighlighter>
       </div>
-      <SyntaxHighlighter
-        language={language}
-        style={coldarkDark}
-        PreTag="div"
-        showLineNumbers
-        customStyle={{
-          margin: 0,
-          width: "100%",
-          background: "transparent",
-          padding: "1.5rem 1rem",
-        }}
-        lineNumberStyle={{
-          userSelect: "none",
-        }}
-        codeTagProps={{
-          style: {
-            fontSize: "0.9rem",
-            fontFamily: "var(--font-mono)",
-          },
-        }}
-      >
-        {value}
-      </SyntaxHighlighter>
-    </div>
+      <FileNameModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpenChange={onOpenChange}
+        fileName={fileName}
+        setFileName={setFileName}
+        onSubmit={handleModalSubmit}
+      />
+    </>
   );
 });
 CodeBlock.displayName = "CodeBlock";
