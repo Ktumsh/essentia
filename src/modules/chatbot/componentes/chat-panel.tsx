@@ -99,7 +99,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 }
                 className={cn(
                   "flex-col h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
-                  index < 2 && "hidden md:block"
+                  index < 2 && "hidden sm:block"
                 )}
                 onClick={async () => {
                   setMessages((currentMessages) => [
@@ -166,9 +166,9 @@ const ChatPanel: FC<ChatPanelProps> = ({
             </div>
           </div>
         ) : null}
-        <div className="space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4 border-gray-200 dark:border-base-dark">
+        <div className="space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
           <PromptForm input={input} setInput={setInput} />
-          <FooterText className="hidden sm:block" />
+          <FooterText className="hidden md:block" />
         </div>
       </div>
     </div>

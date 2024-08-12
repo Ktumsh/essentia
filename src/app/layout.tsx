@@ -6,8 +6,9 @@ import { siteConfig } from "@/config/site";
 
 import { Providers } from "@/modules/core/components/providers";
 
-import { auth } from "@@/auth";
+/* import { auth } from "@@/auth"; */
 import { Toaster } from "sonner";
+import { cn } from "@/utils/common";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -86,17 +87,20 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+  /* const session = await auth(); */
 
   return (
     <html suppressHydrationWarning lang="es">
       <head />
       <body
-        className={`bg-zinc-50 ${
-          session ? "dark:bg-base-full-dark" : ""
-        } isolate antialiased ${fontMotiva.variable} ${spaceGrotesk.variable} ${
-          spaceMono.variable
-        } ${dmSans.variable} font-dmsans`}
+        className={cn(
+          "bg-zinc-50 dark:bg-base-full-dark isolate antialiased",
+          fontMotiva.variable,
+          spaceGrotesk.variable,
+          spaceMono.variable,
+          dmSans.variable,
+          "font-dmsans"
+        )}
       >
         <Toaster
           position="top-center"
@@ -106,7 +110,7 @@ export default async function RootLayout({
           }}
         />
         <Providers
-          forcedTheme={!session ? "light" : undefined}
+          /* forcedTheme={!session ? "light" : undefined} */
           disableTransitionOnChange
         >
           <div className="min-h-dvh size-full relative">{children}</div>

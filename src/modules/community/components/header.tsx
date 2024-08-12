@@ -1,5 +1,6 @@
 "use client";
 
+import { FC } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import ProfileDropdown from "./profile-dropdown";
@@ -17,7 +18,13 @@ import {
   SupportIcon,
 } from "@/modules/icons/interface";
 import { GoBackIcon } from "@/modules/icons/navigation";
-const CommunityHeader = ({ session }: { session: any }) => {
+import { Session } from "@/types/session";
+
+interface ComunityHeaderProps {
+  session: Session;
+}
+
+const CommunityHeader: FC<ComunityHeaderProps> = ({ session }) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -168,11 +175,7 @@ const CommunityHeader = ({ session }: { session: any }) => {
                 </span>
               </Button>
             </Link>
-            <ProfileDropdown
-              name={`${name} ${lastname}`}
-              username={hasUsernameOrEmail}
-              avatar={profileAvatar}
-            />
+            <ProfileDropdown session={session} />
           </div>
         </div>
       </div>

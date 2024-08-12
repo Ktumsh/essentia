@@ -59,52 +59,88 @@ export default function AvatarDropdown({ session }: any) {
             )}
           </button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Acciones del perfil" variant="flat">
-          <DropdownItem
-            key="profile"
-            textValue="Perfil"
-            href={`/profile/${username}`}
-            className="h-14 gap-2 rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-          >
-            <p className="font-medium dark:text-base-color-dark">
-              {`${normalizeName} ${lastname}`}
-            </p>
-            <p className="text-xs">{hasUsernameOrEmail}</p>
-          </DropdownItem>
-          <DropdownItem
-            className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-            key="configurations"
-            textValue="Configuración"
-          >
-            Configuración
-          </DropdownItem>
-          <DropdownItem
-            className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-            key="help_and_feedback"
-            textValue="Help and Feedback"
-          >
-            Centro de Ayuda
-          </DropdownItem>
-          <DropdownItem
-            isReadOnly
-            endContent={<ThemeToggle />}
-            className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
-            textValue="Tema"
-          >
-            Tema
-          </DropdownItem>
-          <DropdownItem
-            id="avatar_logout"
-            className="rounded-xl  text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
-            key="logout"
-            textValue="Logout"
-            color="danger"
-            startContent={<LogoutIcon className="size-4" />}
-            onClick={() => signOut({ callbackUrl: "/login" })}
-          >
-            Cerrar sesión
-          </DropdownItem>
-        </DropdownMenu>
+
+        {session ? (
+          <DropdownMenu aria-label="Acciones del perfil" variant="flat">
+            <DropdownItem
+              key="profile"
+              textValue="Perfil"
+              href={`/profile/${username}`}
+              className="h-14 gap-2 rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+            >
+              <p className="font-medium dark:text-base-color-dark">
+                {`${normalizeName} ${lastname}`}
+              </p>
+              <p className="text-xs">{hasUsernameOrEmail}</p>
+            </DropdownItem>
+            <DropdownItem
+              className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              key="configurations"
+              textValue="Configuración"
+            >
+              Configuración
+            </DropdownItem>
+            <DropdownItem
+              className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              key="help_and_feedback"
+              textValue="Help and Feedback"
+            >
+              Centro de Ayuda
+            </DropdownItem>
+            <DropdownItem
+              isReadOnly
+              endContent={<ThemeToggle />}
+              className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              textValue="Tema"
+            >
+              Tema
+            </DropdownItem>
+            <DropdownItem
+              id="avatar_logout"
+              className="rounded-xl  text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
+              key="logout"
+              textValue="Logout"
+              color="danger"
+              startContent={<LogoutIcon className="size-4" />}
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              Cerrar sesión
+            </DropdownItem>
+          </DropdownMenu>
+        ) : (
+          <DropdownMenu aria-label="Acciones del perfil" variant="flat">
+            <DropdownItem
+              key="login"
+              textValue="Iniciar sesión"
+              href="/login"
+              className="rounded-xl [&>*]:font-medium text-center bg-light-gradient-v2 dark:bg-gradient-to-r from-base-dark to-[#ff7373] data-[hover=true]:opacity-hover text-white data-[hover=true]:text-white !duration-150"
+            >
+              Iniciar sesión
+            </DropdownItem>
+            <DropdownItem
+              className="rounded-xl dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              key="configurations"
+              textValue="Configuración"
+            >
+              Configuración
+            </DropdownItem>
+            <DropdownItem
+              className="rounded-xl dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              key="help_and_feedback"
+              textValue="Help and Feedback"
+            >
+              Centro de Ayuda
+            </DropdownItem>
+            <DropdownItem
+              isReadOnly
+              endContent={<ThemeToggle />}
+              className="rounded-xl dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              textValue="Tema"
+            >
+              Tema
+            </DropdownItem>
+          </DropdownMenu>
+        )}
       </Dropdown>
     </div>
   );

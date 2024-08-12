@@ -13,6 +13,7 @@ import { Tooltip } from "@nextui-org/react";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { ChatIcon, UsersIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
+import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
 
 interface SidebarItemProps {
   index: number;
@@ -51,9 +52,15 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
     >
       <div className="absolute left-2 top-1 flex size-6 items-center justify-center">
         {chat.sharePath ? (
-          <UsersIcon className="size-4 mr-2 mt-1 text-base-color-m dark:text-base-color-dark-m" />
+          <TooltipCTN content="Este es un chat compartido">
+            <span>
+              <UsersIcon className="size-4 mr-2 mt-1 text-base-color-m dark:text-base-color-dark-m" />
+            </span>
+          </TooltipCTN>
         ) : (
-          <ChatIcon className="size-4 mr-2 mt-2 text-base-color-d dark:text-base-color-dark-d" />
+          <span>
+            <ChatIcon className="size-4 mr-2 mt-2 text-base-color-d dark:text-base-color-dark-d" />
+          </span>
         )}
       </div>
 
@@ -64,8 +71,8 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
           isActive && "bg-gray-100 dark:bg-base-dark"
         )}
       >
-        <div className="w-full relative flex-1 max-h-5 text-start text-ellipsis overflow-hidden break-all select-none">
-          <span className="whitespace-nowrap">
+        <div className="w-full relative flex-1 max-h-5 text-start overflow-hidden break-all select-none">
+          <span className="flex">
             {shouldAnimate ? (
               chat.title.split("").map((character, index) => (
                 <motion.span
@@ -98,9 +105,14 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
                 </motion.span>
               ))
             ) : (
-              <span>{chat.title}</span>
+              <TooltipCTN
+                content={chat.title}
+                placement="right"
+                baseClass="max-w-48"
+              >
+                <div className="truncate">{chat.title}</div>
+              </TooltipCTN>
             )}
-            <span>{chat.title}</span>
           </span>
         </div>
       </Link>
