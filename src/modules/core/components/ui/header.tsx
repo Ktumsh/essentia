@@ -50,7 +50,7 @@ const Header = ({ session }: any) => {
         <div className="z-40 fixed top-0 left-0">
           <div className="flex items-center justify-center w-full px-4 h-14 gap-5">
             <div className="flex items-center gap-2 w-fit">
-              {essentiaAi && <SidebarToggle />}
+              {essentiaAi && session?.user && <SidebarToggle />}
               <Link
                 className="relative hidden sm:block size-10 active:scale-95 transition-transform rounded-full"
                 href="/"

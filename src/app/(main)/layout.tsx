@@ -2,6 +2,7 @@ import LayoutWrapper from "@/modules/core/components/layout-wrapper";
 import BottomNav from "@/modules/core/components/ui/bottom-navbar";
 import Header from "@/modules/core/components/ui/header";
 import MobileHeader from "@/modules/core/components/ui/mobile-header";
+import WelcomeModal from "@/modules/core/components/ui/welcome-modal";
 
 import { auth } from "@@/auth";
 import { redirect } from "next/navigation";
@@ -12,9 +13,9 @@ export default async function MainLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session) {
+  /*   if (!session) {
     return redirect("/bienvenida");
-  }
+  } */
   return (
     <>
       {/* Header */}
@@ -24,6 +25,7 @@ export default async function MainLayout({
       <LayoutWrapper session={session}>{children}</LayoutWrapper>
       {/* Bottom Mobile Navbar */}
       <BottomNav />
+      {!session && <WelcomeModal />}
     </>
   );
 }

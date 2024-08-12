@@ -12,6 +12,7 @@ import Link from "next/link";
 import Footer from "./footer";
 
 import { $$ } from "@/utils/dom-selector";
+import { ArrowAnimateIcon } from "@/modules/icons/navigation";
 
 const Landing = () => {
   useEffect(() => {
@@ -59,7 +60,7 @@ const Landing = () => {
     };
   }, []);
   return (
-    <article className="size-full break-words font-normal text-base-color z-40 overflow-clip">
+    <article className="size-full bg-gray-50 break-words font-normal text-base-color z-40 overflow-clip">
       <div className="relative flex px-5 pt-24 sm:pt-52 max-w-screen-xl mx-auto">
         <HomeLine />
         <div className="flex flex-col pl-6 sm:pl-0">
@@ -83,26 +84,7 @@ const Landing = () => {
               className="btn_mktg relative inline-block py-4 px-6 text-[17px] leading-4 align-middle text-center whitespace-nowrap rounded-xl font-extrabold text-cerise-red-600 hover:text-cerise-red-800 shadow-[0_0_0_1px_rgb(201,53,96)] hover:shadow-[0_0_0_2px_rgb(142,35,73)] transition-shadow duration-200"
             >
               Únete a Essentia
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="inline-block arrow-symbol-mktg"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-              >
-                <path
-                  fill="currentColor"
-                  d="M7.28033 3.21967C6.98744 2.92678 6.51256 2.92678 6.21967 3.21967C5.92678 3.51256 5.92678 3.98744 6.21967 4.28033L7.28033 3.21967ZM11 8L11.5303 8.53033C11.8232 8.23744 11.8232 7.76256 11.5303 7.46967L11 8ZM6.21967 11.7197C5.92678 12.0126 5.92678 12.4874 6.21967 12.7803C6.51256 13.0732 6.98744 13.0732 7.28033 12.7803L6.21967 11.7197ZM6.21967 4.28033L10.4697 8.53033L11.5303 7.46967L7.28033 3.21967L6.21967 4.28033ZM10.4697 7.46967L6.21967 11.7197L7.28033 12.7803L11.5303 8.53033L10.4697 7.46967Z"
-                ></path>
-                <path
-                  className="octicon-chevrow-stem"
-                  stroke="currentColor"
-                  d="M1.75 8H11"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                ></path>
-              </svg>
+              <ArrowAnimateIcon className="size-4 inline-block arrow-symbol-mktg" />
             </Link>
           </div>
           <div className="h-48"></div>

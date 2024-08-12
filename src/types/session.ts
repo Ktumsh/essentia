@@ -6,6 +6,7 @@ export interface Session {
     name?: string;
     lastname?: string;
     birthdate?: string;
+    image?: string;
   };
 }
 

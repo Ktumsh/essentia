@@ -51,9 +51,7 @@ const LayoutWrapper = ({
             isResource && "after:dark:opacity-0 before:dark:opacity-0",
             essentiaAI && "after:opacity-0"
           )}
-        >
-          <div></div>
-        </div>
+        ></div>
       </motion.div>
       <div className="relative size-full overflow-clip">
         <div className="flex min-h-dvh size-full">
