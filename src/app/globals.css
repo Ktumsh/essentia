@@ -129,6 +129,7 @@
 @supports selector(::-webkit-scrollbar) {
   ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
     border-radius: 10px;
   }
 
@@ -747,4 +748,12 @@ html.dark {
   animation-fill-mode: both;
   animation-timeline: --reveal;
   animation-range: entry 5% cover 30%;
+}
+
+.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply !rounded-lg;
+}
+
+.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply !text-white;
 }
