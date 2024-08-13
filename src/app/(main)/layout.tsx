@@ -3,19 +3,16 @@ import BottomNav from "@/modules/core/components/ui/bottom-navbar";
 import Header from "@/modules/core/components/ui/header";
 import MobileHeader from "@/modules/core/components/ui/mobile-header";
 import WelcomeModal from "@/modules/core/components/ui/welcome-modal";
+import { Session } from "@/types/session";
 
 import { auth } from "@@/auth";
-import { redirect } from "next/navigation";
 
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  /*   if (!session) {
-    return redirect("/bienvenida");
-  } */
+  const session = (await auth()) as Session;
   return (
     <>
       {/* Header */}

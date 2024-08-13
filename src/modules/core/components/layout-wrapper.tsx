@@ -6,12 +6,13 @@ import AsideTabs from "./aside.tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/common";
 import ButtonUp from "./ui/button-up";
+import { Session } from "@/types/session";
 
 const LayoutWrapper = ({
   children,
 }: {
   children: React.ReactNode;
-  session: any;
+  session?: Session;
 }) => {
   const pathname = usePathname();
   /*   const normalizeName = getFirstNameAndLastName(session?.user?.name);
