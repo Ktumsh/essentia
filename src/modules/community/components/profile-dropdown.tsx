@@ -1,5 +1,7 @@
 import { signOut } from "next-auth/react";
 
+import { FC } from "react";
+
 import {
   Button,
   Dropdown,
@@ -12,13 +14,14 @@ import { DotsIcon } from "@/modules/icons/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { ThemeToggle } from "@/modules/core/components/theme-toggle";
 import { LogoutIcon } from "@/modules/icons/action";
-import { Session } from "@/types/session";
+import { UserProfileData } from "@/types/session";
 
-interface Props {
-  session: Session;
+interface ProfileDropdownProps {
+  profileData: UserProfileData | null;
 }
 
-export default function ProfileDropdown({ session }: Props) {
+const ProfileDropdown: FC<ProfileDropdownProps> = ({ profileData }) => {
+  const { first_name, last_name, username, image } = profileData || {};
   return (
     <div className="flex items-center gap-4">
       <Dropdown
@@ -42,8 +45,8 @@ export default function ProfileDropdown({ session }: Props) {
             className="min-w-fit lg:min-w-24 w-full h-16 justify-between text-left text-lg p-3 mb-2 font-medium"
           >
             <User
-              name={session?.user.name || "Usuario"}
-              description={session?.user.username}
+              name={`${first_name || "Usuario"} ${last_name || ""}`}
+              description={username}
               classNames={{
                 wrapper: "hidden lg:inline-flex",
                 name: "text-base-color-h dark:text-base-color-dark font-bold",
@@ -53,7 +56,7 @@ export default function ProfileDropdown({ session }: Props) {
                 classNames: {
                   base: "bg-gray-300 dark:bg-gray-600",
                 },
-                src: session?.user.image,
+                src: image as string | undefined,
                 icon: (
                   <AvatarIcon className="text-base-color-m dark:text-base-color-dark-m size-4/5" />
                 ),
@@ -61,7 +64,7 @@ export default function ProfileDropdown({ session }: Props) {
             />
           </Button>
         </DropdownTrigger>
-        {session?.user ? (
+        {profileData ? (
           <DropdownMenu aria-label="Acciones del perfil" variant="flat">
             <DropdownItem
               key="profile"
@@ -142,4 +145,6 @@ export default function ProfileDropdown({ session }: Props) {
       </Dropdown>
     </div>
   );
-}
+};
+
+export default ProfileDropdown;

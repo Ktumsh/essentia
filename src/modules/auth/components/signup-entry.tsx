@@ -24,7 +24,7 @@ import { getMessageFromCode, ResultCode } from "@/utils/code";
 import { toast } from "sonner";
 import { validateEmail } from "../lib/form";
 import { SpinnerIcon } from "@/modules/icons/common";
-import { getUser } from "@/app/login/actions";
+import { getUserByEmail } from "@/db/actions";
 
 const SignUpEntry = () => {
   const [step, setStep] = useState(1);
@@ -102,7 +102,7 @@ const SignUpEntry = () => {
     setFieldErrors((prevErrors) => ({ ...prevErrors, email: "" }));
     startTransition(async () => {
       try {
-        const existingUserByEmail = await getUser(email);
+        const existingUserByEmail = await getUserByEmail(email);
         if (existingUserByEmail) {
           toast.error(ResultCode.EMAIL_EXISTS);
           return;

@@ -6,7 +6,7 @@ import Twitter from "next-auth/providers/twitter";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
 import { getStringFromBuffer } from "@/utils/common";
-import { getUser } from "@/app/login/actions";
+import { getUserByEmail } from "@/db/actions";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -22,7 +22,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
-          const user = await getUser(email);
+          const user = await getUserByEmail(email);
 
           if (!user) return null;
 
@@ -34,7 +34,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           );
           const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
 
-          if (hashedPassword === user.password) {
+          if (hashedPassword === user.password_hash) {
             return user;
           } else {
             return null;

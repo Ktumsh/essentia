@@ -4,6 +4,7 @@ import {
   Avatar,
   Button,
   DateInput,
+  DateValue,
   Input,
   Modal,
   ModalBody,
@@ -18,14 +19,18 @@ import {
 import Image from "next/image";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { tooltipStyles } from "@/styles/tooltip-styles";
-import { usernameOrEmail } from "@/utils/common";
 import { CalendarIcon, LocationIcon } from "@/modules/icons/status";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { AddPhotoIcon } from "@/modules/icons/action";
+import { UserProfileData } from "@/types/session";
+import { useSession } from "next-auth/react";
 
-const getProfileImageUrl = (url: string, provider: string) => {
+const getProfileImageUrl = (
+  url: string | null | undefined,
+  provider: string
+) => {
   if (!url) {
     return "";
   }
@@ -42,8 +47,18 @@ const getProfileImageUrl = (url: string, provider: string) => {
   return url;
 };
 
-const ProfileInfo = ({ session }: any) => {
+interface ProfileInfoProps {
+  profileData: UserProfileData | null;
+}
+
+const ProfileInfo: FC<ProfileInfoProps> = ({ profileData }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const { data: session } = useSession() as any;
+
+  const { first_name, last_name, username, image, birthdate } =
+    profileData || {};
+
   const fileInputRefs = {
     banner: useRef<HTMLInputElement>(null),
     photo: useRef<HTMLInputElement>(null),
@@ -56,15 +71,7 @@ const ProfileInfo = ({ session }: any) => {
     }
   };
 
-  const profileImageUrl = getProfileImageUrl(
-    session?.user?.image,
-    session?.provider
-  );
-
-  const name = session?.user?.name || "";
-  const lastname = session?.user?.lastname || "";
-
-  const hasUsernameOrEmail = usernameOrEmail(session);
+  const profileImageUrl = getProfileImageUrl(image, session?.provider);
 
   return (
     <>
@@ -136,9 +143,9 @@ const ProfileInfo = ({ session }: any) => {
         <div className="flex flex-wrap mb-3 mt-1">
           <div className="flex flex-col mr-2">
             <div className="flex flex-col shrink">
-              <span className="text-xl font-bold">{`${name} ${lastname}`}</span>
+              <span className="text-xl font-bold">{`${first_name} ${last_name}`}</span>
               <span className="text-[15px] text-base-color-m dark:text-base-color-dark-m">
-                {hasUsernameOrEmail}
+                {username}
               </span>
             </div>
           </div>
@@ -320,7 +327,7 @@ const ProfileInfo = ({ session }: any) => {
                   name="name"
                   spellCheck={true}
                   label="Nombre"
-                  defaultValue={session?.user?.name}
+                  defaultValue={first_name}
                   variant="bordered"
                   color="danger"
                   classNames={{
@@ -339,7 +346,7 @@ const ProfileInfo = ({ session }: any) => {
                   name="username"
                   spellCheck={true}
                   label="Nombre de usuario"
-                  defaultValue={session?.user?.username}
+                  defaultValue={username}
                   variant="bordered"
                   color="danger"
                   classNames={{
@@ -389,6 +396,7 @@ const ProfileInfo = ({ session }: any) => {
                   description={"Este es mi cumpleaños."}
                   errorMessage="Por favor, ingresa una fecha válida."
                   label={"Fecha de nacimiento"}
+                  defaultValue={birthdate as DateValue | null | undefined}
                   color="danger"
                   variant="bordered"
                   startContent={<CalendarIcon />}

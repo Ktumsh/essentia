@@ -1,5 +1,7 @@
 "use client";
 
+import { FC } from "react";
+
 import Link from "next/link";
 
 import ProfileInfo from "./profile-info";
@@ -9,8 +11,13 @@ import { Avatar, AvatarGroup, Image as UIImage } from "@nextui-org/react";
 import Image from "next/image";
 
 import ProgressInfo from "./progress-info";
+import { UserProfileData } from "@/types/session";
 
-const Dashboard = ({ session }: any) => {
+interface DashboardProps {
+  profileData: UserProfileData | null;
+}
+
+const Dashboard: FC<DashboardProps> = ({ profileData }) => {
   return (
     <>
       <section className="flex flex-col items-stretch shrink w-full mb-2">
@@ -44,7 +51,7 @@ const Dashboard = ({ session }: any) => {
               </div>
             </div>
           </Link>
-          <ProfileInfo session={session} />
+          <ProfileInfo profileData={profileData} />
         </div>
       </section>
       <section className="flex items-stretch grow shrink size-full mb-5 gap-2">

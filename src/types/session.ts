@@ -1,3 +1,5 @@
+import { DateValue } from "@nextui-org/react";
+
 export interface Session {
   user: {
     id: string;
@@ -21,4 +23,28 @@ export interface User extends Record<string, any> {
   username: string;
   password: string;
   salt: string;
+}
+
+export interface UserProfile {
+  first_name: string;
+  last_name: string;
+  birthdate: Date;
+  profile_image: string | null;
+  bio: string | null;
+  location: string | null;
+  banner_image: string | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface UserProfileData {
+  id: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+  image: string | null;
+  birthdate: Date | DateValue | null;
+  bio: string | null;
+  location: string | null;
+  banner_image: string | null;
 }

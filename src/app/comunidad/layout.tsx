@@ -2,6 +2,7 @@ import Aside from "@/modules/community/components/aside";
 import CommunityHeader from "@/modules/community/components/header";
 import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
+import { getUserProfileData } from "@/utils/profile";
 import { auth } from "@@/auth";
 import { Metadata } from "next";
 
@@ -17,6 +18,7 @@ export default async function CommunityLayout({
   children: React.ReactNode;
 }) {
   const session = (await auth()) as Session;
+  const profileData = session ? await getUserProfileData(session) : null;
   return (
     <>
       <div
@@ -29,7 +31,7 @@ export default async function CommunityLayout({
         )}
       ></div>
       <div className="flex justify-center max-h-dvh w-full">
-        <CommunityHeader session={session} />
+        <CommunityHeader profileData={profileData} />
         <main className="relative flex grow shrink items-start w-full max-w-[1310px] min-h-dvh overflow-y-auto">
           <div className="relative flex grow shrink items-stretch justify-between w-full max-w-[1050px]">
             <div className="flex items-stretch justify-center lg:justify-between min-h-full">

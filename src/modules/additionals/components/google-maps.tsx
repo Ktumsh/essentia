@@ -4,8 +4,7 @@ import "./map.css";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import CenterSwitch from "./center-switch";
-import { Button, LinkIcon, Tooltip } from "@nextui-org/react";
-import { tooltipStyles } from "@/styles/tooltip-styles";
+import { Button } from "@nextui-org/react";
 import ReactDOMServer from "react-dom/server";
 import InfoWindowContent from "./info-window-content";
 import { CenterLocationIcon } from "@/modules/icons/status";
@@ -14,6 +13,7 @@ import {
   ZoomInIcon,
   ZoomOutIcon,
 } from "@/modules/icons/action";
+import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
 
 export default function GoogleMaps() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -137,6 +137,7 @@ export default function GoogleMaps() {
           const mapOptions: google.maps.MapOptions = {
             zoom: 17,
             mapId: "13605448a0dcb21f",
+            minZoom: 3,
             mapTypeControl: false,
             zoomControl: false,
             streetViewControl: false,
@@ -338,15 +339,7 @@ export default function GoogleMaps() {
           className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
         />
       </div>
-      <Tooltip
-        content="Pantalla completa"
-        placement="left"
-        delay={800}
-        closeDelay={0}
-        classNames={{
-          content: tooltipStyles.content,
-        }}
-      >
+      <TooltipCTN content="Pantalla completa" placement="left">
         <Button
           isIconOnly
           className="absolute top-20 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
@@ -354,16 +347,8 @@ export default function GoogleMaps() {
         >
           <FullscreenIcon className="size-6" />
         </Button>
-      </Tooltip>
-      <Tooltip
-        content="Centrar ubicación"
-        placement="left"
-        delay={800}
-        closeDelay={0}
-        classNames={{
-          content: tooltipStyles.content,
-        }}
-      >
+      </TooltipCTN>
+      <TooltipCTN content="Centrar ubicación" placement="left">
         <Button
           size="sm"
           radius="full"
@@ -373,17 +358,9 @@ export default function GoogleMaps() {
         >
           <CenterLocationIcon className="size-5" />
         </Button>
-      </Tooltip>
+      </TooltipCTN>
       <div className="absolute bottom-56 right-2 flex flex-col space-y-2 z-50">
-        <Tooltip
-          content="Aumentar"
-          placement="left"
-          delay={800}
-          closeDelay={0}
-          classNames={{
-            content: tooltipStyles.content,
-          }}
-        >
+        <TooltipCTN content="Aumentar" placement="left">
           <Button
             size="sm"
             radius="full"
@@ -393,16 +370,8 @@ export default function GoogleMaps() {
           >
             <ZoomInIcon className="size-5" />
           </Button>
-        </Tooltip>
-        <Tooltip
-          content="Alejar"
-          placement="left"
-          delay={800}
-          closeDelay={0}
-          classNames={{
-            content: tooltipStyles.content,
-          }}
-        >
+        </TooltipCTN>
+        <TooltipCTN content="Alejar" placement="left">
           <Button
             size="sm"
             radius="full"
@@ -412,7 +381,7 @@ export default function GoogleMaps() {
           >
             <ZoomOutIcon className="size-5" />
           </Button>
-        </Tooltip>
+        </TooltipCTN>
       </div>
     </div>
   );
