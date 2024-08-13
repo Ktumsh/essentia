@@ -1,5 +1,7 @@
 "use client";
 
+import { FC } from "react";
+
 import AvatarDropdown from "./avatar-dropdown";
 
 import NavbarLinks from "./navbarLinks";
@@ -20,8 +22,13 @@ import { formatPathName } from "@/utils/format";
 
 import { CommunityIcon } from "@/modules/icons/interface";
 import SidebarToggle from "@/modules/chatbot/componentes/sidebar-toggle";
+import { Session } from "@/types/session";
 
-const Header = ({ session }: any) => {
+interface HeaderProps {
+  session?: Session;
+}
+
+const Header: FC<HeaderProps> = ({ session }) => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
