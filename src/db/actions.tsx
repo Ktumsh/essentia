@@ -1,13 +1,15 @@
 "use server";
 
-import { sql } from "@vercel/postgres";
 import { User, UserProfile } from "@/types/session";
-import dotenv from "dotenv";
-dotenv.config();
+import { createPool } from "@vercel/postgres";
+
+const pool = createPool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 //Get user by email
 export async function getUserByEmail(email: string): Promise<User | null> {
-  const result = await sql<User>`
+  const result = await pool.sql<User>`
     SELECT * FROM users WHERE email = ${email} LIMIT 1;
   `;
   return result.rows[0] || null;
@@ -17,7 +19,7 @@ export async function getUserByEmail(email: string): Promise<User | null> {
 export async function getUserByUsername(
   username: string
 ): Promise<User | null> {
-  const result = await sql<User>`
+  const result = await pool.sql<User>`
     SELECT * FROM users WHERE username = ${username} LIMIT 1;
   `;
   return result.rows[0] || null;
@@ -25,7 +27,7 @@ export async function getUserByUsername(
 
 //Get profile by user id
 export async function getProfile(userId: string): Promise<UserProfile | null> {
-  const result = await sql<UserProfile>`
+  const result = await pool.sql<UserProfile>`
     SELECT * FROM user_profiles WHERE user_id = ${userId} LIMIT 1;
   `;
   return result.rows[0] || null;
