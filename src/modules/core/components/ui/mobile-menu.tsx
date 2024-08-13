@@ -12,9 +12,8 @@ import {
 } from "@nextui-org/react";
 import { ThemeToggle } from "../theme-toggle";
 import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
-import { Session } from "next-auth";
 import { siteConfig } from "@/config/site";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { cn, getFirstNameAndLastName, usernameOrEmail } from "@/utils/common";
 import {
@@ -25,25 +24,16 @@ import {
 import { Chevron } from "@/modules/icons/navigation";
 import { CommunityIcon } from "@/modules/icons/interface";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
+import { UserProfileData } from "@/types/session";
 
-interface Props {
-  session: Session | null;
+interface MobileMenuProps {
+  profileData: UserProfileData | null;
 }
 
-const MobileMenu = ({ session }: Props) => {
+const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
   const [currentPath, setCurrentPath] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
-  const normalizeName =
-    getFirstNameAndLastName(session?.user?.name) || "Usuario";
-
-  const name = normalizeName;
-
-  const lastname = session?.user?.lastname || "";
-
-  const username = session?.user?.username || normalizeName;
-
-  const hasUsernameOrEmail = usernameOrEmail(session);
+  const { first_name, last_name, username, image } = profileData || {};
 
   const resourceLinks = siteConfig.asideMenuLinks;
 
@@ -64,7 +54,7 @@ const MobileMenu = ({ session }: Props) => {
             <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
               <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
                 <div className="inline-flex flex-col items-start justify-center gap-2">
-                  {session?.user?.image ? (
+                  {image ? (
                     <Link
                       href={`/profile/${username}`}
                       aria-label="Perfil de usuario"
@@ -73,7 +63,7 @@ const MobileMenu = ({ session }: Props) => {
                         className="size-8 rounded-full"
                         width={96}
                         height={96}
-                        src={session?.user?.image}
+                        src={image}
                         alt="Avatar del usuario"
                       />
                     </Link>
@@ -97,10 +87,10 @@ const MobileMenu = ({ session }: Props) => {
                     href={`/profile/${username}`}
                   >
                     <span className="font-medium text-inherit transition-none capitalize">
-                      {`${name} ${lastname}`}
+                      {`${first_name} ${last_name}`}
                     </span>
                     <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
-                      {hasUsernameOrEmail}
+                      {username}
                     </span>
                   </Link>
                 </div>
@@ -213,7 +203,7 @@ const MobileMenu = ({ session }: Props) => {
                         </div>
                         <ThemeToggle className="!size-8" />
                       </div>
-                      {session ? (
+                      {profileData ? (
                         <button
                           id="logout"
                           className="relative flex items-center w-full py-5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"

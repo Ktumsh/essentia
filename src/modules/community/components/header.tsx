@@ -6,7 +6,6 @@ import { Button } from "@nextui-org/react";
 import ProfileDropdown from "./profile-dropdown";
 import Image from "next/image";
 import Link from "next/link";
-import { usernameOrEmail } from "@/utils/common";
 import {
   HomeFillIcon,
   HomeIcon,
@@ -18,38 +17,15 @@ import {
   SupportIcon,
 } from "@/modules/icons/interface";
 import { GoBackIcon } from "@/modules/icons/navigation";
-import { Session } from "@/types/session";
+import { UserProfileData } from "@/types/session";
 
 interface ComunityHeaderProps {
-  session: Session;
+  profileData: UserProfileData | null;
 }
 
-const CommunityHeader: FC<ComunityHeaderProps> = ({ session }) => {
+const CommunityHeader: FC<ComunityHeaderProps> = ({ profileData }) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const getFirstNameAndLastName = (fullName: string | undefined | null) => {
-    if (!fullName) return "Usuario";
-    const nameParts = fullName.toLowerCase().split(" ");
-    if (nameParts.length < 3) return capitalize(fullName);
-    return `${capitalize(nameParts[0])} ${capitalize(
-      nameParts[nameParts.length - 2]
-    )}`;
-  };
-
-  const capitalize = (word: string) => {
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  };
-
-  const normalizeName = getFirstNameAndLastName(session?.user?.name);
-
-  const name = normalizeName;
-
-  const lastname = session?.user?.lastname || "";
-
-  const hasUsernameOrEmail = usernameOrEmail(session);
-
-  const profileAvatar = session?.user?.image;
 
   const headerLinks = [
     {
@@ -175,7 +151,7 @@ const CommunityHeader: FC<ComunityHeaderProps> = ({ session }) => {
                 </span>
               </Button>
             </Link>
-            <ProfileDropdown session={session} />
+            <ProfileDropdown profileData={profileData} />
           </div>
         </div>
       </div>

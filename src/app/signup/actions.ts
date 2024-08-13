@@ -1,12 +1,12 @@
 "use server";
 
 import { z } from "zod";
-import { kv } from "@vercel/kv";
-import { getStringFromBuffer } from "@/utils/common";
-import { getUser, getUserByUsername } from "../login/actions";
+import { sql } from "@vercel/postgres";
 import { ResultCode } from "@/utils/code";
 import { signIn } from "@@/auth";
 import { AuthError } from "next-auth";
+import { getStringFromBuffer } from "@/utils/common";
+import { getUserByEmail, getUserByUsername } from "@/db/actions";
 
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),
@@ -69,7 +69,7 @@ export async function createUser({
   lastname,
   birthdate,
 }: CreateUserProps) {
-  const existingUserByEmail = await getUser(email);
+  const existingUserByEmail = await getUserByEmail(email);
   const existingUserByUsername = await getUserByUsername(username);
 
   if (existingUserByEmail) {
@@ -83,24 +83,29 @@ export async function createUser({
       resultCode: ResultCode.USERNAME_EXISTS,
     };
   } else {
-    const user = {
-      id: crypto.randomUUID(),
-      email,
-      password: hashedPassword,
-      salt,
-      username,
-      name,
-      lastname,
-      birthdate,
-    };
+    try {
+      const userId = crypto.randomUUID();
+      await sql`
+        INSERT INTO users (id, email, password_hash, salt, username)
+        VALUES (${userId}, ${email}, ${hashedPassword}, ${salt}, ${username});
+      `;
 
-    await kv.hmset(`user:${email}`, user);
-    await kv.set(`user:username:${username}`, email);
+      await sql`
+        INSERT INTO user_profiles (user_id, first_name, last_name, birthdate)
+        VALUES (${userId}, ${name}, ${lastname}, ${birthdate});
+      `;
 
-    return {
-      type: "success",
-      resultCode: ResultCode.USER_CREATED,
-    };
+      return {
+        type: "success",
+        resultCode: ResultCode.USER_CREATED,
+      };
+    } catch (error) {
+      console.error("Error inserting user into database:", error);
+      return {
+        type: "error",
+        resultCode: ResultCode.UNKNOWN_ERROR,
+      };
+    }
   }
 }
 
@@ -158,6 +163,8 @@ export async function signup(
           redirect: false,
         });
       }
+
+      console.log("Auth result:", result);
 
       return result;
     } catch (error) {

@@ -1,21 +1,21 @@
 "use client";
 
-import { Avatar, AvatarIcon, Button } from "@nextui-org/react";
+import { UserProfileData } from "@/types/session";
+import { Avatar, AvatarIcon } from "@nextui-org/react";
 import Image from "next/image";
 
 interface Props {
-  sessionImage?: string;
-  isOpen: boolean;
+  profileData: UserProfileData | null;
 }
 
-const MenuButton: React.FC<Props> = (props) => {
+const MenuButton: React.FC<Props> = ({ profileData }) => {
   return (
     <>
-      {props.sessionImage ? (
+      {profileData?.image ? (
         <Image
           width={32}
           height={32}
-          src={props.sessionImage}
+          src={profileData.image}
           alt="Avatar del usuario"
         />
       ) : (

@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import {
   Avatar,
   Dropdown,
@@ -13,15 +15,16 @@ import Image from "next/image";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { LogoutIcon } from "@/modules/icons/action";
 
-import { getFirstNameAndLastName, usernameOrEmail } from "@/utils/common";
-
 import { signOut } from "next-auth/react";
+import { UserProfileData } from "@/types/session";
 
-export default function AvatarDropdown({ session }: any) {
-  const lastname = session?.user?.lastname || "";
-  const normalizeName = getFirstNameAndLastName(session?.user?.name);
-  const username = session?.user?.username || normalizeName;
-  const hasUsernameOrEmail = usernameOrEmail(session);
+interface AvatarDropdownProps {
+  profileData: UserProfileData | null;
+}
+
+const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
+  const { first_name, last_name, username, image } = profileData || {};
+
   return (
     <div className="flex items-center gap-4">
       <Dropdown
@@ -37,11 +40,11 @@ export default function AvatarDropdown({ session }: any) {
             className="size-8 focus:outline-none ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[rgb(6,_27,_55)] ring-gray-200 dark:ring-midnight-900/30 rounded-full overflow-hidden"
             aria-label="Perfil de usuario"
           >
-            {session?.user?.image ? (
+            {image ? (
               <Image
                 width={96}
                 height={96}
-                src={session?.user?.image}
+                src={image}
                 alt="Avatar del usuario"
               />
             ) : (
@@ -60,7 +63,7 @@ export default function AvatarDropdown({ session }: any) {
           </button>
         </DropdownTrigger>
 
-        {session ? (
+        {profileData ? (
           <DropdownMenu aria-label="Acciones del perfil" variant="flat">
             <DropdownItem
               key="profile"
@@ -69,9 +72,9 @@ export default function AvatarDropdown({ session }: any) {
               className="h-14 gap-2 rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
             >
               <p className="font-medium dark:text-base-color-dark">
-                {`${normalizeName} ${lastname}`}
+                {`${first_name} ${last_name}`}
               </p>
-              <p className="text-xs">{hasUsernameOrEmail}</p>
+              <p className="text-xs">{username}</p>
             </DropdownItem>
             <DropdownItem
               className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
@@ -144,4 +147,6 @@ export default function AvatarDropdown({ session }: any) {
       </Dropdown>
     </div>
   );
-}
+};
+
+export default AvatarDropdown;

@@ -3,20 +3,7 @@
 import { signIn } from "@@/auth";
 import { AuthError } from "next-auth";
 import { z } from "zod";
-import { kv } from "@vercel/kv";
-import { User } from "@/types/session";
 import { ResultCode } from "@/utils/code";
-
-export async function getUser(email: string) {
-  const user = await kv.hgetall<User>(`user:${email}`);
-  return user;
-}
-
-export async function getUserByUsername(username: string) {
-  const user = await kv.get<User>(`user:username:${username}`);
-  console.log(user);
-  return user;
-}
 
 interface Result {
   type: string;

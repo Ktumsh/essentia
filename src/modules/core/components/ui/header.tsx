@@ -1,7 +1,5 @@
 "use client";
 
-import { FC } from "react";
-
 import AvatarDropdown from "./avatar-dropdown";
 
 import NavbarLinks from "./navbarLinks";
@@ -22,13 +20,9 @@ import { formatPathName } from "@/utils/format";
 
 import { CommunityIcon } from "@/modules/icons/interface";
 import SidebarToggle from "@/modules/chatbot/componentes/sidebar-toggle";
-import { Session } from "@/types/session";
+import { UserProfileData } from "@/types/session";
 
-interface HeaderProps {
-  session?: Session;
-}
-
-const Header: FC<HeaderProps> = ({ session }) => {
+const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
@@ -57,7 +51,7 @@ const Header: FC<HeaderProps> = ({ session }) => {
         <div className="z-40 fixed top-0 left-0">
           <div className="flex items-center justify-center w-full px-4 h-14 gap-5">
             <div className="flex items-center gap-2 w-fit">
-              {essentiaAi && session?.user && <SidebarToggle />}
+              {essentiaAi && profileData && <SidebarToggle />}
               <Link
                 className="relative hidden sm:block size-10 active:scale-95 transition-transform rounded-full"
                 href="/"
@@ -105,7 +99,7 @@ const Header: FC<HeaderProps> = ({ session }) => {
               className="h-14 border-r border-gray-200 dark:border-base-full-dark"
             ></div>
             <div className="flex items-center justify-center h-full px-6">
-              <AvatarDropdown session={session} />
+              <AvatarDropdown profileData={profileData} />
             </div>
           </div>
         </div>

@@ -1,73 +1,25 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { FC } from "react";
 import { Navbar } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import MenuButton from "./menu-button";
 import MobileMenu from "./mobile-menu";
-import { useSwipeable } from "react-swipeable";
 import { usePathname } from "next/navigation";
 import SidebarMobile from "@/modules/chatbot/componentes/sidebar-mobile";
 import ChatHistory from "@/modules/chatbot/componentes/chat-history";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
+import { UserProfileData } from "@/types/session";
 
 interface MobileHeaderProps {
-  session: any;
+  profileData: UserProfileData | null;
 }
 
-const MobileHeader = ({ session }: MobileHeaderProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
   const pathname = usePathname();
 
   const essentiaAi = pathname.startsWith("/essentia-ai");
-
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen((prev) => {
-      const newState = !prev;
-      document.body.classList.toggle("overflow-hidden", newState);
-      return newState;
-    });
-  }, []);
-
-  const handleSwipedLeft = useCallback(() => {
-    if (!isMenuOpen) {
-      setIsMenuOpen(true);
-      document.body.classList.add("overflow-hidden");
-    }
-  }, [isMenuOpen]);
-
-  const handleSwipedRight = useCallback(() => {
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-      document.body.classList.remove("overflow-hidden");
-    }
-  }, [isMenuOpen]);
-
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleSwipedLeft,
-    onSwipedRight: handleSwipedRight,
-    preventScrollOnSwipe: true,
-    trackMouse: true,
-  });
-
-  useEffect(() => {
-    const bodyElement = document.body;
-
-    const handleSwipe = (event: Event) => {
-      if (event instanceof TouchEvent || event instanceof MouseEvent) {
-        swipeHandlers.ref(bodyElement);
-      }
-    };
-
-    bodyElement.addEventListener("touchstart", handleSwipe);
-    bodyElement.addEventListener("mousedown", handleSwipe);
-
-    return () => {
-      bodyElement.removeEventListener("touchstart", handleSwipe);
-      bodyElement.removeEventListener("mousedown", handleSwipe);
-    };
-  }, [swipeHandlers]);
 
   return (
     <>
@@ -81,7 +33,7 @@ const MobileHeader = ({ session }: MobileHeaderProps) => {
         {essentiaAi && (
           <>
             <SidebarMobile>
-              <ChatHistory userId={session?.user.id} />
+              <ChatHistory userId={profileData?.id} />
             </SidebarMobile>
           </>
         )}
@@ -107,17 +59,14 @@ const MobileHeader = ({ session }: MobileHeaderProps) => {
         </Link>
         <Sheet>
           <SheetTrigger>
-            <MenuButton
-              sessionImage={session?.user?.image}
-              isOpen={isMenuOpen}
-            />
+            <MenuButton profileData={profileData} />
           </SheetTrigger>
           <SheetContent
             side="right"
             hideCloseButton
             className="inset-y-0 flex h-auto w-[300px] flex-col p-0"
           >
-            <MobileMenu session={session} />
+            <MobileMenu profileData={profileData} />
           </SheetContent>
         </Sheet>
       </Navbar>

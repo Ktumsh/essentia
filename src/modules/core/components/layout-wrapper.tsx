@@ -1,19 +1,20 @@
 "use client";
 
+import { FC } from "react";
 import { usePathname } from "next/navigation";
 import AsideMenu from "./aside-menu";
 import AsideTabs from "./aside.tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/common";
 import ButtonUp from "./ui/button-up";
-import { Session } from "@/types/session";
+import { UserProfileData } from "@/types/session";
 
-const LayoutWrapper = ({
-  children,
-}: {
+interface LayoutWrapperProps {
   children: React.ReactNode;
-  session?: Session;
-}) => {
+  profileData?: UserProfileData | null;
+}
+
+const LayoutWrapper: FC<LayoutWrapperProps> = ({ children, profileData }) => {
   const pathname = usePathname();
   /*   const normalizeName = getFirstNameAndLastName(session?.user?.name);
   const username = session?.user?.username || normalizeName;

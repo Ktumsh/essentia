@@ -6,7 +6,7 @@ import TooltipCTN from "./tooltip-ctn";
 const Footer = () => {
   return (
     <div className="p-4 hidden lg:block">
-      <TooltipCTN content="Reportar un problema">
+      <TooltipCTN content="Reportar un error">
         <Button
           as={Link}
           href="https://github.com/Ktumsh/essentia/issues/new"
