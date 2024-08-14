@@ -22,7 +22,7 @@ export async function generateMetadata({
 
   const chat = await getChat(params.id, session.user.id);
   return {
-    title: chat?.title.toString().slice(0, 50) ?? "Chat",
+    title: chat?.title.slice(0, 50) ?? "Chat",
   };
 }
 
@@ -34,14 +34,14 @@ export default async function ChatPage({ params }: ChatPageProps) {
     redirect(`/login?next=/chat/${params.id}`);
   }
 
-  const userId = session.user.id as string;
+  const userId = session.user.id;
   const chat = await getChat(params.id, userId);
 
   if (!chat) {
     redirect("/essentia-ai");
   }
 
-  if (chat?.userId !== session?.user?.id) {
+  if (chat?.user_id !== userId) {
     notFound();
   }
 
