@@ -51,7 +51,7 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
       }}
     >
       <div className="absolute left-2 top-1 flex size-6 items-center justify-center">
-        {chat.sharePath ? (
+        {chat.share_path ? (
           <TooltipCTN content="Este es un chat compartido">
             <span>
               <UsersIcon className="size-4 mr-2 mt-1 text-base-color-m dark:text-base-color-dark-m" />

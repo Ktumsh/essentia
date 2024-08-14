@@ -1,33 +1,49 @@
 "use server";
 
 import { Chat } from "@/types/chat";
-import { kv } from "@vercel/kv";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@@/auth";
+import { sql } from "@vercel/postgres";
 
 export async function saveChat(chat: Chat) {
-  const session = await auth();
+  const { id, title, createdAt, userId, path, messages, sharePath } = chat;
 
-  if (session && session.user) {
-    const pipeline = kv.pipeline();
-    pipeline.hmset(`chat:${chat.id}`, chat);
-    pipeline.zadd(`user:chat:${chat.userId}`, {
-      score: Date.now(),
-      member: `chat:${chat.id}`,
-    });
-    await pipeline.exec();
-  } else {
-    return;
-  }
+  const query = `
+    INSERT INTO chats (id, title, created_at, user_id, path, messages, share_path)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    ON CONFLICT (id) DO UPDATE 
+    SET title = EXCLUDED.title, created_at = EXCLUDED.created_at, user_id = EXCLUDED.user_id, path = EXCLUDED.path, messages = EXCLUDED.messages, share_path = EXCLUDED.share_path;
+  `;
+
+  const values = [
+    id,
+    title,
+    createdAt,
+    userId,
+    path,
+    JSON.stringify(messages),
+    sharePath || null,
+  ];
+
+  await sql.query(query, values);
 }
 
 export async function getChat(id: string, userId: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`);
+  const query = `
+    SELECT * FROM chats WHERE id = $1;
+  `;
+  const values = [id];
+  await sql.query(query, values);
+  const res = await sql.query(query, values);
 
-  if (!chat || (userId && chat.userId !== userId)) {
+  const chat = res.rows[0];
+
+  if (!chat || (userId && chat.user_id !== userId)) {
     return null;
   }
+
+  chat.messages = JSON.parse(chat.messages);
 
   return chat;
 }
@@ -38,18 +54,16 @@ export async function getChats(userId?: string | null) {
   }
 
   try {
-    const pipeline = kv.pipeline();
-    const chats: string[] = await kv.zrange(`user:chat:${userId}`, 0, -1, {
-      rev: true,
+    const query = `
+      SELECT * FROM chats WHERE user_id = $1 ORDER BY created_at DESC;
+    `;
+    const values = [userId];
+    const res = await sql.query(query, values);
+
+    return res.rows.map((chat) => {
+      chat.messages = JSON.parse(chat.messages);
+      return chat;
     });
-
-    for (const chat of chats) {
-      pipeline.hgetall(chat);
-    }
-
-    const results = await pipeline.exec();
-
-    return results as Chat[];
   } catch (error) {
     return [];
   }
@@ -64,8 +78,13 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
     };
   }
 
-  //Convert uid to string for consistent comparison with session.user.id
-  const uid = String(await kv.hget(`chat:${id}`, "userId"));
+  const uidQuery = `
+    SELECT user_id FROM chats WHERE id = $1;
+  `;
+  const uidValues = [id];
+  const uidRes = await sql.query(uidQuery, uidValues);
+
+  const uid = uidRes.rows[0]?.user_id;
 
   if (uid !== session?.user?.id) {
     return {
@@ -73,8 +92,11 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
     };
   }
 
-  await kv.del(`chat:${id}`);
-  await kv.zrem(`user:chat:${session.user.id}`, `chat:${id}`);
+  const deleteQuery = `
+    DELETE FROM chats WHERE id = $1;
+  `;
+  const deleteValues = [id];
+  await sql.query(deleteQuery, deleteValues);
 
   revalidatePath("/");
   return revalidatePath(path);
@@ -89,22 +111,11 @@ export async function clearChats() {
     };
   }
 
-  const chats: string[] = await kv.zrange(
-    `user:chat:${session.user.id}`,
-    0,
-    -1
-  );
-  if (!chats.length) {
-    return redirect("/essentia-ai");
-  }
-  const pipeline = kv.pipeline();
-
-  for (const chat of chats) {
-    pipeline.del(chat);
-    pipeline.zrem(`user:chat:${session.user.id}`, chat);
-  }
-
-  await pipeline.exec();
+  const deleteQuery = `
+    DELETE FROM chats WHERE user_id = $1;
+  `;
+  const deleteValues = [session.user.id];
+  await sql.query(deleteQuery, deleteValues);
 
   revalidatePath("/essentia-ai");
   return redirect("/essentia-ai");
@@ -118,30 +129,38 @@ export async function shareChat(id: string) {
     };
   }
 
-  const chat = await kv.hgetall<Chat>(`chat:${id}`);
+  const query = `
+    UPDATE chats 
+    SET share_path = $1 
+    WHERE id = $2 AND user_id = $3
+    RETURNING *;
+  `;
+  const values = [`/share/${id}`, id, session.user.id];
+  const res = await sql.query(query, values);
 
-  if (!chat || chat.userId !== session.user.id) {
+  if (res.rowCount === 0) {
     return {
       error: "Algo salió mal",
     };
   }
 
-  const payload = {
-    ...chat,
-    sharePath: `/share/${chat.id}`,
-  };
-
-  await kv.hmset(`chat:${chat.id}`, payload);
-
-  return payload;
+  return res.rows[0];
 }
 
 export async function getSharedChat(id: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`);
+  const query = `
+    SELECT * FROM chats WHERE id = $1 AND share_path IS NOT NULL;
+  `;
+  const values = [id];
+  const res = await sql.query(query, values);
 
-  if (!chat || !chat.sharePath) {
+  if (res.rowCount === 0) {
     return null;
   }
+
+  const chat = res.rows[0];
+
+  chat.messages = JSON.parse(chat.messages);
 
   return chat;
 }

@@ -35,12 +35,12 @@ const ChatShareDialog: FC<ChatShareDialogProps> = ({
 
   const copyShareLink = useCallback(
     async (chat: Chat) => {
-      if (!chat.sharePath) {
+      if (!chat.share_path) {
         return toast.error("No se pudo copiar el enlace para compartir");
       }
 
       const url = new URL(window.location.href);
-      url.pathname = chat.sharePath;
+      url.pathname = chat.share_path;
       copyToClipboard(url.toString());
       onCopy();
       toast.success("Enlace copiado");

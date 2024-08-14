@@ -33,7 +33,7 @@ export async function generateMetadata({
 export default async function SharePage({ params }: SharePageProps) {
   const chat = await getSharedChat(params.id);
 
-  if (!chat || !chat?.sharePath) {
+  if (!chat || !chat?.share_path) {
     notFound();
   }
 
@@ -49,7 +49,7 @@ export default async function SharePage({ params }: SharePageProps) {
                 {chat.title}
               </h1>
               <div className="text-sm text-base-color-d dark:text-base-color-dark-d">
-                {formatDate(chat.createdAt)} · {chat.messages.length} mensajes
+                {formatDate(chat.created_at)} · {chat.messages.length} mensajes
               </div>
             </div>
           </div>
