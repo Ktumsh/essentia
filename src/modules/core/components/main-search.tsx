@@ -182,6 +182,7 @@ const MainSearch: FC = () => {
   const renderItem = useCallback(
     (item: SearchResult, index: number, isRecent = false) => {
       const isLvl1 = item.type === "lvl1";
+      const isLvl2 = item.type === "lvl2";
       const mainIcon = isRecent ? (
         <SearchIcon
           className={cn(
@@ -191,7 +192,7 @@ const MainSearch: FC = () => {
             "group-data-[active=true]:text-white"
           )}
         />
-      ) : isLvl1 && item.icon ? (
+      ) : (isLvl1 && item.icon) || (isLvl2 && item.icon) ? (
         <item.icon
           className={cn(
             searchStyles.iconColor,

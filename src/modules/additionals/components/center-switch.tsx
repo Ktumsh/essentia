@@ -27,7 +27,7 @@ export default function CenterSwitch({
       }
       placement="top-start"
     >
-      <div className="flex flex-col gap-2 bg-base">
+      <div className="flex flex-col gap-2 bg-base md:min-w-48">
         <Switch
           size="lg"
           isSelected={isSelected}
@@ -38,7 +38,7 @@ export default function CenterSwitch({
             label:
               "text-xs sm:text-base text-base-color dark:text-base-color-dark",
             wrapper:
-              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-base-full-dark dark:bg-base-full-dark shadow-small mr-0 sm:mr-2",
+              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-base-dark dark:bg-base-dark shadow-small mr-0 sm:mr-2",
             thumb: "bg-bittersweet-400 dark:bg-cerise-red-600",
             thumbIcon: "text-white",
           }}

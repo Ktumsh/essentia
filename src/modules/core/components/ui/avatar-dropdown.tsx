@@ -64,7 +64,11 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
         </DropdownTrigger>
 
         {profileData ? (
-          <DropdownMenu aria-label="Acciones del perfil" variant="flat">
+          <DropdownMenu
+            closeOnSelect={false}
+            aria-label="Acciones del perfil"
+            variant="flat"
+          >
             <DropdownItem
               key="profile"
               textValue="Perfil"
