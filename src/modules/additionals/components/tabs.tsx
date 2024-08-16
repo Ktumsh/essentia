@@ -1,54 +1,120 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 import { Tabs, Tab } from "@nextui-org/react";
-
-import Guides from "./guides";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
 import Centers from "./centers";
-import Phones from "./phones";
+import Guides from "./guides";
+import Links from "./links";
+import Recommendations from "./recommendations";
+import Emergencies from "./emergencies";
+import {
+  EmergenciesIcon,
+  GuidesIcon,
+  HealthCentersIcon,
+  LinksIcon,
+  RecommendationsIcon,
+} from "@/modules/icons/miscellaneus";
 
 export default function AdditionalsTabs() {
-  const [selected, setSelected] = useState<any>("guias");
+  const pathname = usePathname();
+  const tabListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const savedTab = localStorage.getItem("selectedTab");
-    if (savedTab) {
-      setSelected(savedTab);
+    if (tabListRef.current) {
+      const activeTab = tabListRef.current.querySelector(
+        `[data-key="${pathname}"]`
+      );
+      if (activeTab) {
+        activeTab.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     }
-  }, []);
-
-  const handleSelectionChange = (key: any) => {
-    setSelected(key);
-    localStorage.setItem("selectedTab", key);
-  };
+  }, [pathname]);
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex size-full flex-col">
       <Tabs
         aria-label="Options"
-        selectedKey={selected}
-        onSelectionChange={handleSelectionChange}
+        selectedKey={pathname}
+        variant="underlined"
+        fullWidth
         classNames={{
+          base: "absolute top-14 left-0 md:static z-10 md:z-0",
           tabList:
-            "relative w-full bg-white/50 dark:bg-base-full-dark-50 border border-gray-100/50 dark:border-base-full-dark-50 backdrop-blur backdrop-saturate-150 shadow-md lg:rounded-xl",
-          tab: "max-w-fit",
-          cursor: "bg-white dark:bg-cerise-red-600/50 shadow-small rounded-lg",
+            "p-0 mx-4 md:mx-0 gap-6 rounded-none border-b border-gray-50 dark:border-white/10",
+          cursor: "w-full bg-bittersweet-400 dark:bg-cerise-red-600",
+          tab: "max-w-fit px-0 h-12",
           tabContent:
-            "text-base-color-h dark:text-base-color-dark-h group-data-[selected=true]:text-base-color dark:group-data-[selected=true]:text-base-color-dark",
-          panel: "px-0 py-5",
+            "text-base-color-h dark:text-base-color-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
+          panel: "px-0 py-0 md:py-5 h-full",
         }}
+        ref={tabListRef}
       >
-        <Tab key="guias" title="Guías">
+        <Tab
+          key="/adicionales/guias"
+          title={
+            <div className="flex items-center space-x-2">
+              <GuidesIcon className="size-5" />
+              <span>Guías</span>
+            </div>
+          }
+          as={Link}
+          href="/adicionales/guias"
+        >
           <Guides />
         </Tab>
-        <Tab key="enlaces" title="Enlaces"></Tab>
-        <Tab key="recomendaciones" title="Recomendaciones"></Tab>
-        <Tab key="centros-salud" title="Centros de salud">
+        <Tab
+          key="/adicionales/enlaces"
+          title={
+            <div className="flex items-center space-x-2">
+              <LinksIcon className="size-5" />
+              <span>Enlaces</span>
+            </div>
+          }
+          as={Link}
+          href="/adicionales/enlaces"
+        >
+          <Links />
+        </Tab>
+        <Tab
+          key="/adicionales/recomendaciones"
+          title={
+            <div className="flex items-center space-x-2">
+              <RecommendationsIcon className="size-5" />
+              <span>Recomendaciones</span>
+            </div>
+          }
+          as={Link}
+          href="/adicionales/recomendaciones"
+        >
+          <Recommendations />
+        </Tab>
+        <Tab
+          key="/adicionales/centros-de-salud"
+          title={
+            <div className="flex items-center space-x-2">
+              <HealthCentersIcon className="size-5" />
+              <span>Centros de salud</span>
+            </div>
+          }
+          as={Link}
+          href="/adicionales/centros-de-salud"
+        >
           <Centers />
         </Tab>
-        <Tab key="fonos" title="Fonos de emergencia">
-          <Phones />
+        <Tab
+          key="/adicionales/emergencias"
+          title={
+            <div className="flex items-center space-x-2">
+              <EmergenciesIcon className="size-5" />
+              <span>Emergencias</span>
+            </div>
+          }
+          as={Link}
+          href="/adicionales/emergencias"
+        >
+          <Emergencies />
         </Tab>
       </Tabs>
     </div>

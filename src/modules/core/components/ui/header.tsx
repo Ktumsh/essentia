@@ -31,7 +31,10 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
 
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
-    active: normalizedPath === page.href,
+    active:
+      normalizedPath === page.href ||
+      (page.href === "/adicionales" &&
+        normalizedPath.startsWith("/adicionales")),
   }));
 
   return (

@@ -315,10 +315,10 @@ export default function GoogleMaps() {
   };
 
   return (
-    <div className="relative h-full z-10">
-      <div className="py-5 flex items-center">
-        <div className="flex items-center w-full gap-5">
-          <h2 className="text-base sm:text-2xl font-bold text-base-color-h dark:text-base-color-dark">
+    <div className="md:relative h-full z-10">
+      <div className="absolute top-0 left-0 md:static px-3 mb-2 flex items-center z-10 md:z-0">
+        <div className="flex items-center justify-between w-full gap-5">
+          <h2 className="text-base sm:text-xl font-semibold text-base-color-dark">
             Consulta centros de salud o farmacias cercanas
           </h2>
           <CenterSwitch
@@ -330,19 +330,19 @@ export default function GoogleMaps() {
       </div>
       <div
         ref={mapRef}
-        className="peer fullscreen w-full h-96 sm:h-[600px] rounded-xl overflow-hidden shadow-medium !focus:outline-0 [&_*]:!border-none"
+        className="peer fixed inset-0 md:static size-full md:rounded-3xl overflow-hidden shadow-medium !focus:outline-0 [&_*]:!border-none [&_>_div]:!bg-transparent"
       >
         <input
           ref={searchRef}
           type="text"
           placeholder="Buscar por nombre o ubicación"
-          className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
+          className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-14 md:mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
         />
       </div>
       <TooltipCTN content="Pantalla completa" placement="left">
         <Button
           isIconOnly
-          className="absolute top-20 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+          className="hidden md:inline-flex absolute top-20 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
           onPress={handleFullscreen}
         >
           <FullscreenIcon className="size-6" />
@@ -353,13 +353,13 @@ export default function GoogleMaps() {
           size="sm"
           radius="full"
           isIconOnly
-          className="!size-9 absolute top-1/2 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+          className="!size-9 absolute bottom-56 md:top-1/2 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
           onPress={centerLocation}
         >
           <CenterLocationIcon className="size-5" />
         </Button>
       </TooltipCTN>
-      <div className="absolute bottom-56 right-2 flex flex-col space-y-2 z-50">
+      <div className="absolute bottom-28 md:bottom-56 right-2 flex flex-col space-y-2 z-50">
         <TooltipCTN content="Aumentar" placement="left">
           <Button
             size="sm"

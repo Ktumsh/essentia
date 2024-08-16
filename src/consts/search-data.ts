@@ -16,9 +16,17 @@ import {
   WellbeingIcon,
   SexualityIcon,
   ForAllAgesIcon,
+  AdditionalIcon,
 } from "@/modules/icons/interface";
 
 import { formatTitle } from "@/utils/format";
+import {
+  EmergenciesIcon,
+  GuidesIcon,
+  HealthCentersIcon,
+  LinksIcon,
+  RecommendationsIcon,
+} from "@/modules/icons/miscellaneus";
 
 export interface SearchResult {
   content: string;
@@ -227,6 +235,125 @@ const forAllAgesSearchData: SearchResult[] = [
   },
 ];
 
+const additionalsSearchData: SearchResult[] = [
+  {
+    content: "Recursos Adicionales",
+    objectID: nanoid(),
+    type: "lvl1",
+    url: "/adicionales",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: null,
+      lvl3: null,
+    },
+    icon: AdditionalIcon,
+  },
+  {
+    content: "Guías",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/guias",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Guias",
+      lvl3: null,
+    },
+    icon: GuidesIcon,
+  },
+  {
+    content: "Enlaces",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/enlaces",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Enlaces",
+      lvl3: null,
+    },
+    icon: LinksIcon,
+  },
+  {
+    content: "Recomendaciones",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/recomendaciones",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Recomendaciones",
+      lvl3: null,
+    },
+    icon: RecommendationsIcon,
+  },
+  {
+    content: "Centros de Salud",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/centros-de-salud",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Centros de Salud",
+      lvl3: null,
+    },
+    icon: HealthCentersIcon,
+  },
+  {
+    content: "Emergencias",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/emergencias",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Emergencias",
+      lvl3: null,
+    },
+    icon: EmergenciesIcon,
+  },
+  {
+    content: "Teléfonos de Emergencia",
+    objectID: nanoid(),
+    type: "lvl3",
+    url: "/adicionales/emergencias#telefonos-de-emergencia",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Emergencias",
+      lvl3: "Teléfonos de Emergencia",
+    },
+  },
+  {
+    content: "Primeros Auxilios",
+    objectID: nanoid(),
+    type: "lvl3",
+    url: "/adicionales/emergencias#primeros-auxilios",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Emergencias",
+      lvl3: "Primeros Auxilios",
+    },
+  },
+  {
+    content: "Emergencias de salud sexual",
+    objectID: nanoid(),
+    type: "lvl3",
+    url: "/adicionales/emergencias#emergencias-de-salud-sexual",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Emergencias",
+      lvl3: "Emergencias de salud sexual",
+    },
+  },
+  {
+    content: "Medicamentos para un botiquín de primeros auxilios",
+    objectID: nanoid(),
+    type: "lvl3",
+    url: "/adicionales/emergencias#medicamentos-para-un-botiquin-de-primeros-auxilios",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Emergencias",
+      lvl3: "Medicamentos para un Botiquín de Primeros Auxilios",
+    },
+  },
+];
+
 // Datos de video modales
 const videoHealthSearchData: SearchResult[] = healthVideos.map((video) => ({
   content: video.title,
@@ -238,7 +365,6 @@ const videoHealthSearchData: SearchResult[] = healthVideos.map((video) => ({
     lvl2: "Videos Recomendados",
     lvl3: video.title,
   },
-  icon: HealthIcon,
 }));
 
 // Datos de modal
@@ -252,7 +378,6 @@ const healthModalSearchData: SearchResult[] = HEALTH_MODAL_DATA.map((data) => ({
     lvl2: "Artículos Interesantes",
     lvl3: data.modalTitle,
   },
-  icon: HealthIcon,
 }));
 
 const fitnessModalSearchData: SearchResult[] = FITNESS_MODAL_DATA.map(
@@ -266,7 +391,6 @@ const fitnessModalSearchData: SearchResult[] = FITNESS_MODAL_DATA.map(
       lvl2: "Rutinas de Ejercicios",
       lvl3: data.modalTitle,
     },
-    icon: ExcerciseIcon,
   })
 );
 
@@ -281,7 +405,6 @@ const nutritionModalSearchData: SearchResult[] = NUTRITION_MODAL_DATA.map(
       lvl2: "Recetas Saludables",
       lvl3: data.modalTitle,
     },
-    icon: NutritionIcon,
   })
 );
 
@@ -297,4 +420,5 @@ export const searchData: SearchResult[] = [
   ...fitnessModalSearchData,
   ...nutritionModalSearchData,
   ...videoHealthSearchData,
+  ...additionalsSearchData,
 ];

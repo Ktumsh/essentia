@@ -17,7 +17,10 @@ const BottomNav = () => {
 
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
-    active: normalizedPath === page.href,
+    active:
+      normalizedPath === page.href ||
+      (page.href === "/adicionales" &&
+        normalizedPath.startsWith("/adicionales")),
   }));
 
   const navItems = [

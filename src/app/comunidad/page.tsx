@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-const ComunidadRedirect = () => {
+const CommunityPage = () => {
   redirect("/comunidad/blog");
 };
 
-export default ComunidadRedirect;
+export default CommunityPage;

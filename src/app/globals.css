@@ -36,15 +36,16 @@
 
   --light-radial-gradient: radial-gradient(
     circle,
-    rgb(248, 182, 204) 9%,
-    rgb(192, 198, 230) 29%,
-    transparent 71%
+    rgb(242, 112, 156),
+    transparent,
+    transparent
   );
 
   --dark-radial-gradient: radial-gradient(
     circle,
-    rgb(255, 115, 115) 0%,
-    transparent 71%
+    rgb(255, 115, 115),
+    transparent,
+    transparent
   );
 
   --dark-radial-gradient-2: radial-gradient(
@@ -128,51 +129,27 @@
 
 @supports selector(::-webkit-scrollbar) {
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
+    @apply size-1.5;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgb(250 128 114 / 70%);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    @apply bg-bittersweet-400/70;
   }
 
   ::-webkit-scrollbar-thumb:active {
-    background: rgb(250 128 114);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    @apply bg-bittersweet-400;
   }
 
   html.dark ::-webkit-scrollbar {
-    width: 10px;
-    border-radius: 10px;
-    background-color: #030e1e;
+    @apply size-1.5 bg-base-full-dark;
   }
 
   html.dark ::-webkit-scrollbar-thumb {
-    background: rgb(201 53 96 / 70%);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    @apply bg-cerise-red-900/70;
   }
 
   html.dark ::-webkit-scrollbar-thumb:active {
-    background: rgb(201, 53, 96);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    @apply bg-cerise-red-900;
   }
 
   @supports not selector(::-webkit-scrollbar) {
@@ -756,4 +733,41 @@ html.dark {
 
 .prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   @apply !text-white;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(var(--clr), transparent, transparent);
+  width: 300px;
+  height: 300px;
+  opacity: 0;
+  transition: opacity 0.5s, top 0s, left 0s;
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+html.dark {
+  .card::before {
+    background: radial-gradient(var(--clr-dark), transparent, transparent);
+  }
+
+  .card::after {
+    background: var(--background-dark-f-80);
+  }
+}
+
+.card:hover::before {
+  opacity: 1;
 }
