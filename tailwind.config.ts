@@ -137,6 +137,7 @@ const config: Config = {
         motivasans: ["var(--font-motiva-sans)", ...fontFamily.sans],
         spacemono: ["var(--font-space-mono)", ...fontFamily.mono],
         dmsans: ["var(--font-dm-sans)", ...fontFamily.sans],
+        sans: ["var(--font-geist-sans)"],
       },
       backgroundImage: {
         noise: "url(/extras/noise.webp)",
@@ -155,6 +156,9 @@ const config: Config = {
         "resource-4": "var(--bg-resource-4)",
         "resource-5": "var(--bg-resource-5)",
         "resource-6": "var(--bg-resource-6)",
+      },
+      transitionDuration: {
+        "2000": "2000ms",
       },
       animation: {
         "shine-infinite": "shine 2s ease-in-out infinite",

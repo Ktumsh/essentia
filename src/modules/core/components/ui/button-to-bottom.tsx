@@ -21,7 +21,7 @@ const ButtonToBottom: FC<ButtonToBottomProps> = ({
       aria-label="Volver al inicio de la página"
       disableRipple
       className={cn(
-        "flex items-center justify-center !size-9 min-w-0 px-0 absolute -top-10 sm:top-0 right-4 sm:right-8 rounded-md shadow-md hover:shadow-lg text-base-color dark:text-base-color-dark data-[hover=true]:text-bittersweet-400 bg-white dark:bg-base-dark dark:data-[hover=true]:bg-base-full-dark border border-gray-200 dark:border-white/10 data-[hover=true]:border-bittersweet-400 data-[hover=true]:scale-105 data-[hover=true]:!opacity-100 motion-safe:transition transition cursor-pointer",
+        "flex items-center justify-center !size-9 min-w-0 px-0 absolute -top-10 sm:top-0 right-4 sm:right-8 rounded-md shadow-md hover:shadow-lg text-base-color dark:text-base-color-dark data-[hover=true]:text-bittersweet-400 bg-white dark:bg-base-dark dark:data-[hover=true]:bg-base-full-dark border border-gray-200 dark:border-white/10 data-[hover=true]:border-bittersweet-400 data-[hover=true]:scale-105 data-[hover=true]:!opacity-100 pointer-events-auto",
         isAtBottom ? "opacity-0" : "opacity-100"
       )}
       onPress={() => scrollToBottom()}

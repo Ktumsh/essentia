@@ -7,7 +7,7 @@ import { tooltipStyles } from "@/styles/tooltip-styles";
 import { useRouter } from "next/navigation";
 import { useEnterSubmit } from "../hooks/use-enter-submit";
 import { type AI } from "../chat/actions";
-import { UserMessage } from "../stocks/message";
+import { UserMessage } from "./stocks/message";
 import { NewIcon } from "@/modules/icons/action";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
 import Link from "next/link";

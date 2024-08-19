@@ -12,20 +12,20 @@ const FooterText = ({ className }: { className?: string }) => {
     >
       Impulsado por el modelo {""}
       <Link
-        href="https://cohere.com/command"
+        href="https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"
         target="_blank"
         className="inline-flex flex-1 justify-center gap-1 leading-4 hover:underline"
       >
-        <span>command-r-plus</span>
+        <span>GPT-4o-mini</span>
         <LinkIcon />
       </Link>
       de {""}
       <Link
-        href="https://cohere.com/"
+        href="https://openai.com/"
         target="_blank"
         className="inline-flex flex-1 justify-center gap-1 leading-4 hover:underline"
       >
-        <span>Cohere</span>
+        <span>OpenAI</span>
         <LinkIcon />
       </Link>
       .
