@@ -222,12 +222,24 @@ const AssesHealthRiskStock = ({
         <div className="flex justify-between gap-2">
           <div className="flex flex-col mt-7 space-y-2">
             {[
-              { id: 1, label: "Diabetes" },
-              { id: 2, label: "Enfermedad Cardíaca" },
-              { id: 3, label: "Enfermedad Pulmonar" },
-              { id: 4, label: "Enfermedad Renal" },
-              { id: 5, label: "Hipertensión" },
-            ].map(({ id, label }) => (
+              { id: 1, label: "Diabetes", dot: "bg-[hsl(var(--chart-1))]" },
+              {
+                id: 2,
+                label: "Enfermedad Cardíaca",
+                dot: "bg-[hsl(var(--chart-2))]",
+              },
+              {
+                id: 3,
+                label: "Enfermedad Pulmonar",
+                dot: "bg-[hsl(var(--chart-3))]",
+              },
+              {
+                id: 4,
+                label: "Enfermedad Renal",
+                dot: "bg-[hsl(var(--chart-4))]",
+              },
+              { id: 5, label: "Hipertensión", dot: "bg-[hsl(var(--chart-5))]" },
+            ].map(({ id, label, dot }) => (
               <Chip
                 key={id}
                 variant="dot"
@@ -235,7 +247,7 @@ const AssesHealthRiskStock = ({
                   base: "max-w-none border-none p-0",
                   content:
                     "flex justify-between text-sm text-base-color-h dark:text-base-color-dark font-semibold",
-                  dot: `bg-[hsl(var(--chart-${id}))]`,
+                  dot: dot,
                 }}
               >
                 <span>{label}</span>
