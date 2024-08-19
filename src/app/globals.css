@@ -34,6 +34,12 @@
   --background-dark-f-20: rgb(3 14 30 / 20%);
   --background-dark-f-10: rgb(3 14 30 / 10%);
 
+  --chart-1: 173 58% 39%;
+  --chart-2: 12 76% 61%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+
   --light-radial-gradient: radial-gradient(
     circle,
     rgb(242, 112, 156),
@@ -127,6 +133,14 @@
     inset 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
+.dark {
+  --chart-1: 220 70% 50%;
+  --chart-2: 340 75% 55%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 160 60% 45%;
+}
+
 @supports selector(::-webkit-scrollbar) {
   ::-webkit-scrollbar {
     @apply size-1.5;
@@ -140,15 +154,15 @@
     @apply bg-bittersweet-400;
   }
 
-  html.dark ::-webkit-scrollbar {
+  .dark ::-webkit-scrollbar {
     @apply size-1.5 bg-base-full-dark;
   }
 
-  html.dark ::-webkit-scrollbar-thumb {
+  .dark ::-webkit-scrollbar-thumb {
     @apply bg-cerise-red-900/70;
   }
 
-  html.dark ::-webkit-scrollbar-thumb:active {
+  .dark ::-webkit-scrollbar-thumb:active {
     @apply bg-cerise-red-900;
   }
 

@@ -34,7 +34,8 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
     active:
       normalizedPath === page.href ||
       (page.href === "/adicionales" &&
-        normalizedPath.startsWith("/adicionales")),
+        normalizedPath.startsWith("/adicionales")) ||
+      (page.href === "/essentia-ai" && essentiaAi),
   }));
 
   return (

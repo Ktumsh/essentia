@@ -8,7 +8,7 @@ import remarkMath from "remark-math";
 import { Avatar } from "@nextui-org/react";
 import { cn } from "@/utils/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
-import { useStreamableText } from "../hooks/use-streamable-text";
+import { useStreamableText } from "../../hooks/use-streamable-text";
 import { MemoizedReactMarkdown } from "@/modules/core/components/markdown";
 import { spinner } from "./spinner";
 import { useSession } from "next-auth/react";
@@ -51,7 +51,7 @@ export function UserMessage({
           />
         )}
       </div>
-      <div className="flex-1 ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden sm:text-end text-base-color-h dark:text-base-color-dark">
+      <div className="ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden text-base-color-h dark:text-base-color-dark">
         {children}
       </div>
     </div>
@@ -130,6 +130,33 @@ export function BotMessage({
           {text}
         </MemoizedReactMarkdown>
       </div>
+    </div>
+  );
+}
+
+export function BotCard({
+  children,
+  showAvatar = true,
+}: {
+  children: React.ReactNode;
+  showAvatar?: boolean;
+}) {
+  return (
+    <div className="group relative flex items-start md:-ml-12">
+      <div
+        className={cn(
+          "flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
+          !showAvatar && "invisible"
+        )}
+      >
+        <Image
+          width="15"
+          height="15"
+          src="/e-logomark-on-dark.webp"
+          alt="Essentia AI"
+        />
+      </div>
+      <div className="ml-4 flex-1 pl-2">{children}</div>
     </div>
   );
 }

@@ -166,7 +166,7 @@ export async function getSharedChat(id: string) {
 }
 
 export async function getMissingKeys() {
-  const keysRequired = ["COHERE_API_KEY"];
+  const keysRequired = ["OPENAI_API_KEY"];
   return keysRequired
     .map((key) => (process.env[key] ? "" : key))
     .filter((key) => key !== "");

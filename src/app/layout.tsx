@@ -2,6 +2,7 @@ import "./globals.css";
 import { Metadata, Viewport } from "next";
 
 import { fontMotiva, spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
+import { GeistSans } from "geist/font/sans";
 import { siteConfig } from "@/config/site";
 
 import { Providers } from "@/modules/core/components/providers";
@@ -96,6 +97,7 @@ export default async function RootLayout({
           spaceGrotesk.variable,
           spaceMono.variable,
           dmSans.variable,
+          GeistSans.variable,
           "font-dmsans"
         )}
       >

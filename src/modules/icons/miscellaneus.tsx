@@ -423,6 +423,226 @@ const EmergenciesIcon = (props: IconSvgProps) => {
   );
 };
 
+const QuantityIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M6.975 22q-.775 0-1.337-.5T5 20.225L3.275 4.475q-.125-1 .55-1.737T5.5 2h13q1 0 1.675.738t.55 1.737L19 20.225q-.075.775-.638 1.275t-1.337.5zm-.4-6H17.45l1.3-12H5.25z"
+      />
+    </svg>
+  );
+};
+
+const CaloriesIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <g fill="currentColor" fillRule="evenodd" clipRule="evenodd">
+        <path d="M10.367 4.061C9.667 4.567 5 8.158 5 14a7 7 0 0 0 6.92 7a4 4 0 0 1-3.874-4.616c.336-2.254 2.41-4.167 3.412-4.974a.856.856 0 0 1 1.084 0c1.003.807 3.076 2.72 3.412 4.974l.004.034Q16 16.703 16 17a4 4 0 0 1-3.92 4A7 7 0 0 0 19 14.057V14c-.027-4.241-2.896-6.555-3.419-6.942a.14.14 0 0 0-.163 0c-.21.155-.794.618-1.421 1.39a.156.156 0 0 1-.26-.032c-1.18-2.495-2.813-4.009-3.198-4.345a.135.135 0 0 0-.172-.01" />
+        <path
+          fillOpacity=".25"
+          d="M8.046 16.384c.336-2.253 2.41-4.167 3.412-4.974a.856.856 0 0 1 1.084 0c1.003.807 3.076 2.72 3.412 4.974l.004.034Q16 16.703 16 17a4 4 0 1 1-7.954-.616"
+        />
+      </g>
+    </svg>
+  );
+};
+
+const MealIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M7.505 13.288c.018.015 2.885-2.849 2.885-2.881S5.343 5.333 4.081 4.1c-.462-.45-.862-.82-.885-.82a.7.7 0 0 0-.214.18a3.6 3.6 0 0 0-.752 1.3c-.059.169-.1.308-.1.308a1 1 0 0 1-.026.148A4.2 4.2 0 0 0 2.07 6.9c.213 1.016.527 1.46 2.313 3.264c.59.598 3.017 3.021 3.122 3.124m6.895-1.629a.5.5 0 0 1 .2.128a2.094 2.094 0 0 0 3-.136c.391-.338.589-.531 2.5-2.435L22 7.32l-.477-.482c-.26-.267-.48-.48-.486-.474s-.758.752-1.67 1.661l-1.659 1.656l-.474-.468a9 9 0 0 1-.476-.489c0-.009.743-.767 1.655-1.679l1.653-1.659l-.466-.477a10 10 0 0 0-.486-.476c-.009 0-.764.746-1.676 1.655l-1.664 1.659l-.485-.48l-.486-.48l1.658-1.658a116 116 0 0 0 1.659-1.677c0-.009-.575-.6-.865-.879l-.1-.095l-.965.983c-1.961 2.005-2.832 2.909-3.326 3.46c-.095.106-.184.2-.193.207a4 4 0 0 0-.183.21a1.81 1.81 0 0 0-.228 1.777a4 4 0 0 0 .4.738c.012.009.074.074.14.142l.118.124l-4.969 4.973l-4.97 4.97l.723.729l.72.731l3.554-3.554l3.551-3.551l3.531 3.53a554 554 0 0 0 3.56 3.54c.015.006 1.4-1.36 1.421-1.416c.006-.015-1.581-1.62-3.527-3.566l-3.537-3.539l.548-.542c.741-.735.777-.765.877-.765"
+      />
+    </svg>
+  );
+};
+
+const ListIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.5"
+      >
+        <path strokeLinejoin="round" d="M2 5.5L3.214 7L7.5 3" />
+        <path strokeLinejoin="round" d="M2 12.5L3.214 14L7.5 10" opacity=".5" />
+        <path strokeLinejoin="round" d="M2 19.5L3.214 21L7.5 17" />
+        <path d="M22 19H12" />
+        <path d="M22 12H12" opacity=".5" />
+        <path d="M22 5H12" />
+      </g>
+    </svg>
+  );
+};
+
+const FruitIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M12 21q-2.925 0-4.962-2.037T5 14q0-2.35 1.388-4.212t3.637-2.513q-.5-.125-.975-.363T8.2 6.3q-.825-.825-1.062-1.962t-.113-2.313Q8.2 1.9 9.338 2.138T11.3 3.2q.575.575.838 1.3t.337 1.525q.325-.775.788-1.463T14.3 3.3q.275-.275.7-.275t.7.275t.275.7t-.275.7q-.55.55-.975 1.213T14.1 7.325q2.2.7 3.55 2.538T19 14q0 2.925-2.037 4.963T12 21m0-2q2.075 0 3.538-1.463T17 14t-1.463-3.537T12 9t-3.537 1.463T7 14t1.463 3.538T12 19m0-5"
+      />
+    </svg>
+  );
+};
+
+const HeartbeatIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M3 12h4.5L9 6l4 12l2-9l1.5 3H21"
+      />
+    </svg>
+  );
+};
+
+const LowLevelIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 32 32"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M30 30h-8V4h8zm-6-2h4V6h-4zm-4 2h-8V12h8zm-6-2h4V14h-4zm-4 2H2V18h8z"
+      />
+    </svg>
+  );
+};
+
+const MediumLevelIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 32 32"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M30 30h-8V4h8zm-6-2h4V6h-4zm-4 2h-8V12h8zm-10 0H2V18h8z"
+      />
+    </svg>
+  );
+};
+
+const HighLevelIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 32 32"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M30 30h-8V4h8zm-10 0h-8V12h8zm-10 0H2V18h8z"
+      />
+    </svg>
+  );
+};
+
+const EquipmentIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 11 11"
+      {...props}
+    >
+      <path
+        d="M7 6H4V5h3zM2 3v1H1v1a.5.5 0 0 0 0 1v1h1v1h1.5V3zm8 2V4H9V3H7.5v5H9V7h1V6a.5.5 0 0 0 0-1z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};
+
+const RestIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M9.825 20.7q-2.575-.725-4.2-2.837T4 13q0-1.425.475-2.713t1.35-2.362q.275-.3.675-.313t.725.313q.275.275.288.675t-.263.75q-.6.775-.925 1.7T6 13q0 2.025 1.188 3.613t3.062 2.162q.325.1.538.375t.212.6q0 .5-.35.788t-.825.162m4.35 0q-.475.125-.825-.175t-.35-.8q0-.3.213-.575t.537-.375q1.875-.6 3.063-2.175T18 13q0-2.5-1.75-4.25T12 7h-.075l.4.4q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-2.1-2.1q-.15-.15-.212-.325T8.55 6t.063-.375t.212-.325l2.1-2.1q.275-.275.7-.275t.7.275t.275.7t-.275.7l-.4.4H12q3.35 0 5.675 2.325T20 13q0 2.725-1.625 4.85t-4.2 2.85"
+      />
+    </svg>
+  );
+};
+
+const ProgressionIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M3.4 18L2 16.6l7.4-7.45l4 4L18.6 8H16V6h6v6h-2V9.4L13.4 16l-4-4z"
+      />
+    </svg>
+  );
+};
+
 export {
   AvatarIcon,
   AdjustmentsIcon,
@@ -448,4 +668,16 @@ export {
   RecommendationsIcon,
   HealthCentersIcon,
   EmergenciesIcon,
+  QuantityIcon,
+  CaloriesIcon,
+  MealIcon,
+  ListIcon,
+  FruitIcon,
+  HeartbeatIcon,
+  LowLevelIcon,
+  MediumLevelIcon,
+  HighLevelIcon,
+  EquipmentIcon,
+  RestIcon,
+  ProgressionIcon,
 };

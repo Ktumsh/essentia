@@ -14,12 +14,15 @@ import { shareChat } from "@/app/(main)/essentia-ai/actions";
 import PromptForm from "./prompt-form";
 import FooterText from "./footer-text";
 import ButtonToBottom from "@/modules/core/components/ui/button-to-bottom";
-import { UserMessage } from "../stocks/message";
+import { UserMessage } from "./stocks/message";
 import { ShareIcon } from "@/modules/icons/action";
 import { cn, shuffleArray } from "@/utils/common";
 import {
   AcademicIcon,
   BrainIcon,
+  CaloriesIcon,
+  FruitIcon,
+  HeartbeatIcon,
   ItineraryIcon,
   LightbulbIcon,
 } from "@/modules/icons/miscellaneus";
@@ -50,7 +53,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
     {
       heading: "Consejos para",
       subheading: "mejorar el bienestar emocional",
-      message: `¿Cómo mejorar mi bienestar emocional?`,
+      message: `Recomiéndame actividades para mi bienestar emocional`,
       icon: BrainIcon,
       iconColor: "text-fuchsia-500",
     },
@@ -58,7 +61,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
       heading: "Rutinas diarias para",
       subheading: "fortalecer el bienestar físico",
       message:
-        "¿Qué ejercicios son recomendables para mantener una buena salud física?",
+        "Crea una rutina diaria de ejercicios de acuerdo a mis necesidades",
       icon: ItineraryIcon,
       iconColor: "text-lime-500",
     },
@@ -76,6 +79,20 @@ const ChatPanel: FC<ChatPanelProps> = ({
       icon: LightbulbIcon,
       iconColor: "text-yellow-500",
     },
+    {
+      heading: "Crea un plan",
+      subheading: "nutricional personalizado",
+      message: `Crea un plan nutricional de acuerdo a mis necesidades`,
+      icon: FruitIcon,
+      iconColor: "text-red-500",
+    },
+    {
+      heading: "Evalua tus",
+      subheading: "riesgos de salud",
+      message: `Evalua mis riesgos de salud y recomiéndame actividades para prevenirlos`,
+      icon: HeartbeatIcon,
+      iconColor: "text-blue-500",
+    },
   ];
 
   const [exampleMessages, setExampleMessages] = useState(initialMessages);
@@ -85,12 +102,12 @@ const ChatPanel: FC<ChatPanelProps> = ({
   }, []);
 
   return (
-    <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding]">
+    <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding] z-10 pointer-events-none">
       <ButtonToBottom isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
-      <div className="mx-auto max-w-2xl sm:px-4">
+      <div className="mx-auto max-w-2xl sm:px-4 pointer-events-auto">
         <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
-            exampleMessages.map((example, index) => (
+            exampleMessages.slice(0, 4).map((example, index) => (
               <Button
                 key={index}
                 radius="sm"
@@ -166,7 +183,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
             </div>
           </div>
         ) : null}
-        <div className="space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
+        <div className="md:-ml-1 space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
           <PromptForm input={input} setInput={setInput} />
           <FooterText className="hidden md:block" />
         </div>
