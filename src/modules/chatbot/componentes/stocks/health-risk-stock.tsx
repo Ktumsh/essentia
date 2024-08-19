@@ -2,7 +2,6 @@
 
 import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
 import {
-  CaloriesIcon,
   HeartbeatIcon,
   HighLevelIcon,
   LowLevelIcon,
