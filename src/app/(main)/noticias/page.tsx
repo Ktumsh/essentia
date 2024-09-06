@@ -1,14 +1,25 @@
-import { Metadata } from "next";
+/* import { Metadata } from "next";
 import { AdjustmentsIcon } from "@/modules/icons/miscellaneus";
 import NewsTabs from "@/modules/news/components/tabs";
-import NewsGrid from "@/modules/news/components/news-grid";
+import NewsGrid from "@/modules/news/components/news-grid"; */
+import { redirect } from "next/navigation";
+import { auth } from "@@/auth";
+import { Session } from "@/types/session";
 
-export const metadata: Metadata = {
+/* export const metadata: Metadata = {
   title: "Noticias",
-};
+}; */
 
-const NewsPage = () => {
-  return (
+const NewsPage = async () => {
+  const session = (await auth()) as Session;
+
+  if (session) {
+    redirect("/");
+  } else {
+    redirect("/login");
+  }
+  // Comentado porque ya no se añadirá un apartado de noticias hasta nuevo aviso.
+  /* return (
     <>
       <div className="relative flex items-center justify-center w-full h-80 my-5 mt-14">
         <div className="absolute inset-0 bg-cover bg-no-repeat bg-center size-full bg-[url(/newsbg.jpg)]"></div>
@@ -34,7 +45,7 @@ const NewsPage = () => {
         <NewsGrid />
       </main>
     </>
-  );
+  ); */
 };
 
 export default NewsPage;

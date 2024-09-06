@@ -31,11 +31,9 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
         }}
       >
         {essentiaAi && (
-          <>
-            <SidebarMobile>
-              <ChatHistory userId={profileData?.id} />
-            </SidebarMobile>
-          </>
+          <SidebarMobile>
+            <ChatHistory userId={profileData?.id} />
+          </SidebarMobile>
         )}
         <Link
           className="relative size-8 active:scale-95 transition-transform rounded-full"

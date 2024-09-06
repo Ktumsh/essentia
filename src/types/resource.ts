@@ -4,7 +4,6 @@ export interface MaincapResources {
   id: number;
   title: string;
   description: string;
-  textBtn: string;
   url: string;
   img: string;
 }
@@ -12,6 +11,7 @@ export interface MaincapResources {
 export interface Resources {
   id: number;
   title: string;
+  subtitle: string;
   intro: string;
   quote: string;
   videoTitle: string;

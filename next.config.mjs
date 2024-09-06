@@ -88,15 +88,6 @@ const nextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: "/profile",
-        destination: "/profile/redirect",
-        permanent: false,
-      },
-    ];
-  },
 };
 
 export default nextConfig;

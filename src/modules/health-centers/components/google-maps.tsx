@@ -316,10 +316,10 @@ export default function GoogleMaps() {
 
   return (
     <div className="md:relative h-full z-10">
-      <div className="absolute top-0 left-0 md:static px-3 mb-2 flex items-center z-10 md:z-0">
-        <div className="flex items-center justify-between w-full gap-5">
-          <h2 className="text-base sm:text-xl font-semibold text-base-color-dark">
-            Consulta centros de salud o farmacias cercanas
+      <div className="absolute top-0 left-0 md:static px-3 mb-2 mt-2 md:mt-0 flex items-center w-full z-10 md:z-0">
+        <div className="flex items-center justify-between w-full">
+          <h2 className="self-start text-sm sm:text-xl font-semibold text-base-color-h dark:text-base-color-dark">
+            Centros de salud o farmacias cercanas
           </h2>
           <CenterSwitch
             isSelected={isSelected}
@@ -330,19 +330,19 @@ export default function GoogleMaps() {
       </div>
       <div
         ref={mapRef}
-        className="peer fixed inset-0 md:static size-full md:rounded-3xl overflow-hidden shadow-medium !focus:outline-0 [&_*]:!border-none [&_>_div]:!bg-transparent"
+        className="peer fixed inset-0 size-full md:rounded-3xl overflow-hidden shadow-medium !focus:outline-0 [&_*]:!border-none [&_>_div]:!bg-transparent"
       >
         <input
           ref={searchRef}
           type="text"
           placeholder="Buscar por nombre o ubicación"
-          className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-14 md:mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
+          className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-10 md:mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
         />
       </div>
       <TooltipCTN content="Pantalla completa" placement="left">
         <Button
           isIconOnly
-          className="hidden md:inline-flex absolute top-20 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+          className="hidden md:inline-flex absolute top-12 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
           onPress={handleFullscreen}
         >
           <FullscreenIcon className="size-6" />

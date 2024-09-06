@@ -14,6 +14,10 @@ import {
   AIFillIcon,
   AIIcon,
 } from "@/modules/icons/interface";
+import {
+  HealthCentersFillIcon,
+  HealthCentersIcon,
+} from "@/modules/icons/miscellaneus";
 
 import { SiteConfig } from "@/types/common";
 
@@ -34,16 +38,16 @@ export const siteConfig: SiteConfig = {
       fillIcon: HomeFillIcon,
     },
     {
-      name: "Noticias",
-      href: "/noticias",
-      icon: NewsIcon,
-      fillIcon: NewsFillIcon,
-    },
-    {
       name: "Essentia AI",
       href: "/essentia-ai",
       icon: AIIcon,
       fillIcon: AIFillIcon,
+    },
+    {
+      name: "Centros de salud",
+      href: "/centros-de-salud",
+      icon: HealthCentersIcon,
+      fillIcon: HealthCentersFillIcon,
     },
     {
       name: "Recursos adicionales",

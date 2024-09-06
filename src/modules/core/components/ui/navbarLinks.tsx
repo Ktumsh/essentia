@@ -40,9 +40,10 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
                 id={`navbar_link_${key + 1}`}
                 variant="light"
                 color="danger"
+                radius="sm"
                 href={href}
                 className={cn(
-                  "!h-full after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
+                  "!h-full after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
                   active
                     ? "current-page rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
                     : "not-current",

@@ -8,6 +8,9 @@ import { AuthError } from "next-auth";
 import { getStringFromBuffer } from "@/utils/common";
 import { getUserByEmail, getUserByUsername } from "@/db/actions";
 
+import { createAvatar } from "@dicebear/core";
+import { icons } from "@dicebear/collection";
+
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),
   password: z
@@ -85,14 +88,22 @@ export async function createUser({
   } else {
     try {
       const userId = crypto.randomUUID();
+
+      const avatar = createAvatar(icons, {
+        seed: username,
+        backgroundType: ["gradientLinear", "solid"],
+      });
+
+      const avatarSvg = avatar.toDataUri();
+
       await sql`
         INSERT INTO users (id, email, password_hash, salt, username)
         VALUES (${userId}, ${email}, ${hashedPassword}, ${salt}, ${username});
       `;
 
       await sql`
-        INSERT INTO user_profiles (user_id, first_name, last_name, birthdate)
-        VALUES (${userId}, ${name}, ${lastname}, ${birthdate});
+        INSERT INTO user_profiles (user_id, first_name, last_name, birthdate, profile_image)
+        VALUES (${userId}, ${name}, ${lastname}, ${birthdate}, ${avatarSvg});
       `;
 
       return {

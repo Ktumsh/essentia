@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { HEALTH_FACTS } from "@/consts/health-facts";
+import { FC, useEffect } from "react";
 import { HealthFact } from "@/types/common";
 import { Image as UIImage } from "@nextui-org/react";
+import { getRandomFacts } from "../../lib/utils";
 
-const getRandomFacts = (num: number): HealthFact[] => {
-  const shuffled = HEALTH_FACTS.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, num);
-};
+interface HealthFactsCardProps {
+  facts: HealthFact[];
+  setFacts: (facts: HealthFact[]) => void;
+}
 
-const HealthFactsCard: React.FC = () => {
-  const [facts, setFacts] = useState<HealthFact[]>([]);
-
+const HealthFactsCard: FC<HealthFactsCardProps> = ({ facts, setFacts }) => {
   useEffect(() => {
     setFacts(getRandomFacts(2));
-  }, []);
+  }, [setFacts]);
 
   return (
     <>

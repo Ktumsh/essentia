@@ -33,7 +33,7 @@ interface MobileMenuProps {
 const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
   const [currentPath, setCurrentPath] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const { first_name, last_name, username, image } = profileData || {};
+  const { first_name, last_name, username, profile_image } = profileData || {};
 
   const resourceLinks = siteConfig.asideMenuLinks;
 
@@ -54,7 +54,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
             <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
               <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
                 <div className="inline-flex flex-col items-start justify-center gap-2">
-                  {image ? (
+                  {profile_image ? (
                     <Link
                       href={`/profile/${username}`}
                       aria-label="Perfil de usuario"
@@ -63,7 +63,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         className="size-8 rounded-full"
                         width={96}
                         height={96}
-                        src={image}
+                        src={profile_image}
                         alt="Avatar del usuario"
                       />
                     </Link>
