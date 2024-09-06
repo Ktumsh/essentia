@@ -4,7 +4,6 @@ import { Tabs, Tab } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import Centers from "./centers";
 import Guides from "./guides";
 import Links from "./links";
 import Recommendations from "./recommendations";
@@ -12,7 +11,6 @@ import Emergencies from "./emergencies";
 import {
   EmergenciesIcon,
   GuidesIcon,
-  HealthCentersIcon,
   LinksIcon,
   RecommendationsIcon,
 } from "@/modules/icons/miscellaneus";
@@ -90,7 +88,7 @@ export default function AdditionalsTabs() {
         >
           <Recommendations />
         </Tab>
-        <Tab
+        {/* <Tab
           key="/adicionales/centros-de-salud"
           title={
             <div className="flex items-center space-x-2">
@@ -102,7 +100,7 @@ export default function AdditionalsTabs() {
           href="/adicionales/centros-de-salud"
         >
           <Centers />
-        </Tab>
+        </Tab> */}
         <Tab
           key="/adicionales/emergencias"
           title={

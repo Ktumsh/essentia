@@ -6,6 +6,7 @@ import { ArrowRightV2Icon } from "../../icons/navigation";
 type Props = {
   class?: string;
   title: string;
+  subtitle: string;
   img?: string;
   alt?: string;
   href?: string;
@@ -15,6 +16,7 @@ type Props = {
 const ResourcesItem = ({
   class: classNameName,
   title,
+  subtitle,
   img,
   alt,
   href,
@@ -31,11 +33,11 @@ const ResourcesItem = ({
     hover:shadow-lg
     border border-gray-200 dark:border-none
     rounded-xl transition-all md:hover:z-50
-    motion-reduce:transition-none h-48 sm:h-[241px] duration-500`}
+    motion-reduce:transition-none h-48 sm:h-64 duration-500`}
     >
       <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-1 px-5 pt-3 z-10">
         <span className="text-tiny text-white/60 uppercase font-bold lg:group-hover:opacity-0 transition-opacity">
-          Recurso
+          {subtitle}
         </span>
         <h4 className="text-white font-medium text-2xl sm:text-xl 2xl:text-2xl lg:group-hover:opacity-0 transition-opacity">
           {title}
@@ -51,7 +53,7 @@ const ResourcesItem = ({
         className="relative size-full object-cover rounded-xl brightness-95 z-0 lg:group-hover:brightness-75 blur-0 !transition-all dark:lg:group-hover:blur-lg"
       />
       <div className="absolute inset-0 rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
-      <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-white/30 dark:bg-base-full-dark-40 border-t-1 border-gray-100/50 dark:border-base-full-dark-50 backdrop-blur backdrop-saturate-150 lg:group-hover:pt-[195px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
+      <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-white/30 dark:bg-base-full-dark-40 border-t-1 border-gray-100/50 dark:border-base-full-dark-50 backdrop-blur backdrop-saturate-150 lg:group-hover:pt-[211px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
         {children}
         <Link
           href={href || "#"}

@@ -43,14 +43,13 @@ const Carousel = () => {
       onMouseEnter={stopAutoChange}
       onMouseLeave={startAutoChange}
     >
-      <div className="relative h-56 overflow-hidden lg:rounded-xl shadow-md border border-gray-200 dark:border-none md:h-72">
+      <div className="relative h-56 overflow-hidden lg:rounded-xl shadow-md border border-gray-200 dark:border-none md:h-56">
         {itemList.map((item, index) => (
           <RecomCarouselItem
             key={index}
             id={`carousel-item-${index + 1}`}
             title={item.title}
             description={item.description}
-            textBtn={item.textBtn}
             url={item.url}
             image={item.img}
             isActive={index === currentIndex}
@@ -74,21 +73,21 @@ const Carousel = () => {
           />
         ))}
       </div>
-      <div className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-2 sm:px-4">
+      <div className="absolute top-0 left-0 z-30 flex items-end justify-center h-full p-2 sm:p-4">
         <Button
           variant="flat"
           radius="full"
-          className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] size-12 rounded-lg bg-transparent hover:bg-black/10 active:bg-black/30"
+          className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-lg bg-black/10 active:bg-black/30"
           onClick={prevSlide}
         >
           <CarouselArrowIcon className="size-6 text-white" />
         </Button>
       </div>
-      <div className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-2 sm:px-4">
+      <div className="absolute top-0 right-0 z-30 flex items-end justify-center h-full p-4 sm:p-4">
         <Button
           variant="flat"
           radius="full"
-          className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] size-12 rounded-lg bg-transparent hover:bg-black/10 active:bg-black/30"
+          className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-lg bg-black/10 active:bg-black/30"
           onClick={nextSlide}
         >
           <CarouselArrowIcon className="size-6 text-white rotate-180" />

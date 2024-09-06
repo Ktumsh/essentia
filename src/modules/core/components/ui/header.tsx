@@ -86,9 +86,10 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
             <MainSearch />
           </div>
         </div>
-        <div className="z-40 fixed top-0 right-0">
+        <div className="z-40 h-14 fixed top-0 right-0">
           <div className="flex justify-center items-center size-full text-sm font-normal text-gray-500 dark:text-base-color-dark-h ">
-            <Button
+            {/* Comentado porque de momento se ha decidido sacar el apartado de comunidad */}
+            {/* <Button
               as={Link}
               href="/comunidad"
               fullWidth
@@ -101,7 +102,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
             <div
               role="separator"
               className="h-14 border-r border-gray-200 dark:border-base-full-dark"
-            ></div>
+            ></div> */}
             <div className="flex items-center justify-center h-full px-6">
               <AvatarDropdown profileData={profileData} />
             </div>

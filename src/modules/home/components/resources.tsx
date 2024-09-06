@@ -2,13 +2,16 @@ import { RESOURCES } from "@/consts/resources";
 import ResourcesItem from "./resources-item";
 
 const Resources = () => {
-  const itemId = RESOURCES.map(({ title, quote, image, resource, span }) => ({
-    title,
-    quote,
-    image,
-    href: `/${resource}`,
-    span,
-  }));
+  const itemId = RESOURCES.map(
+    ({ title, subtitle, quote, image, resource, span }) => ({
+      title,
+      subtitle,
+      quote,
+      image,
+      href: `/${resource}`,
+      span,
+    })
+  );
   return (
     <div className="flex size-full">
       <div className="w-full gap-2 grid grid-cols-12 grid-rows-2">
@@ -17,6 +20,7 @@ const Resources = () => {
             key={index}
             class={`col-span-12 sm:col-span-6 ${item.span}`}
             title={item.title}
+            subtitle={item.subtitle}
             img={item.image}
             alt={`Enlace al recurso de ${item.title}`}
             href={item.href}

@@ -398,6 +398,27 @@ const HealthCentersIcon = (props: IconSvgProps) => {
       viewBox="0 0 24 24"
       {...props}
     >
+      <g fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect width="18.5" height="18.5" x="2.75" y="2.75" rx="6" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M2.75 12.5H7l3-5l4 9l3-5h4.25"
+        />
+      </g>
+    </svg>
+  );
+};
+
+const HealthCentersFillIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M15.25 2h-6.5A6.76 6.76 0 0 0 2 8.75v6.5A6.75 6.75 0 0 0 8.75 22h6.5A6.75 6.75 0 0 0 22 15.25v-6.5A6.76 6.76 0 0 0 15.25 2m5.25 10.5h-2.94l-2.7 4.52a1 1 0 0 1-.86.48h-.06a1 1 0 0 1-.86-.59L9.87 9.67l-2 3.35a1 1 0 0 1-.86.48h-3.5v-2h2.93l2.71-4.51a1 1 0 0 1 1.77.11l3.22 7.24l2-3.35a1 1 0 0 1 .86-.49h3.5z"
@@ -667,6 +688,7 @@ export {
   LinksIcon,
   RecommendationsIcon,
   HealthCentersIcon,
+  HealthCentersFillIcon,
   EmergenciesIcon,
   QuantityIcon,
   CaloriesIcon,

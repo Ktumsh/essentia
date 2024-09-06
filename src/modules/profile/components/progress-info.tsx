@@ -9,8 +9,7 @@ import {
 
 const ProgressInfo = () => {
   return (
-    <div className="relative flex flex-col text-base-color dark:text-base-color-dark bg-white/50 dark:bg-base-full-dark-50 border border-white dark:border-base-full-dark backdrop-blur backdrop-saturate-150 rounded-xl shadow-md">
-      <div className="bg-noise bg-repeat bg-[length:100px] pointer-events-none absolute inset-0 opacity-5 rounded-xl z-0"></div>
+    <div className="relative flex flex-col text-base-color dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg shadow-md">
       <div className="flex flex-col gap-2 px-8 py-5">
         <div className="text-center text-sm font-bold">
           <h3>Completa tu perfil</h3>

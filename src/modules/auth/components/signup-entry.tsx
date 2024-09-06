@@ -19,7 +19,7 @@ import Link from "next/link";
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { MailIcon, QuestionIcon, UserIcon } from "@/modules/icons/miscellaneus";
 import { ArrowRightV2Icon } from "@/modules/icons/navigation";
-import { CalendarIcon, EyeIcon, EyeOffIcon } from "@/modules/icons/status";
+import { CalendarFillIcon, EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 import { toast } from "sonner";
 import { validateEmail } from "../lib/form";
@@ -145,6 +145,7 @@ const SignUpEntry = () => {
               radius="full"
               fullWidth
               className="bg-light-gradient text-base text-white mt-4"
+              isDisabled={isPending}
               startContent={
                 isPending ? (
                   <SpinnerIcon className="size-4 animate-spin" />
@@ -153,14 +154,14 @@ const SignUpEntry = () => {
             >
               Continuar
             </Button>
-            <div className="flex items-center justify-center w-full px-3 my-4">
+            {/* <div className="flex items-center justify-center w-full px-3 my-4">
               <Divider className="flex-1 bg-gray-200" />
               <span className="text-xs text-center mx-2 text-nowrap text-white sm:text-inherit">
                 o
               </span>
               <Divider className="flex-1 bg-gray-200" />
             </div>
-            <SignInWith />
+            <SignInWith /> */}
             <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-gray-200 sm:text-inherit">
               <p>
                 ¿Ya tienes una cuenta?{" "}
@@ -311,7 +312,7 @@ const SignUpEntry = () => {
                       birthdate: "",
                     }));
                   }}
-                  endContent={<CalendarIcon className="size-6" />}
+                  endContent={<CalendarFillIcon className="size-6" />}
                   errorMessage={fieldErrors.birthdate}
                   isInvalid={!!fieldErrors.birthdate}
                   color={fieldErrors.birthdate ? "danger" : "default"}
@@ -379,6 +380,7 @@ const SignUpEntry = () => {
               radius="full"
               fullWidth
               className="bg-light-gradient text-base text-white"
+              isDisabled={isPending}
               startContent={
                 isPending ? (
                   <SpinnerIcon className="size-4 animate-spin" />

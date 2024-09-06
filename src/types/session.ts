@@ -1,4 +1,4 @@
-import { DateValue } from "@nextui-org/react";
+import { DateValue } from "@internationalized/date";
 
 export interface Session {
   user: {
@@ -28,7 +28,7 @@ export interface User extends Record<string, any> {
 export interface UserProfile {
   first_name: string;
   last_name: string;
-  birthdate: Date;
+  birthdate: DateValue | string | undefined;
   profile_image: string | null;
   bio: string | null;
   location: string | null;
@@ -42,9 +42,10 @@ export interface UserProfileData {
   first_name: string;
   last_name: string;
   username: string;
-  image: string | null;
-  birthdate: Date | DateValue | null;
+  profile_image: string | null;
+  birthdate: DateValue | string | undefined;
   bio: string | null;
   location: string | null;
   banner_image: string | null;
+  created_at: Date;
 }
