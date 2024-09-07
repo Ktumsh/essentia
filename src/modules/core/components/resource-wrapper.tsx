@@ -15,14 +15,13 @@ import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import { motion } from "framer-motion";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import "./lite-youtube.css";
+import "@/styles/lite-youtube.css";
 
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { formatTitle } from "@/utils/format";
 import { cn } from "@/utils/common";
 import { StarIcon } from "@/modules/icons/common";
 import { PlayIcon2 } from "@/modules/icons/action";
-import SearchHighlight from "./search-highlight";
 import Image from "next/image";
 
 interface Props {
@@ -165,7 +164,6 @@ const ResourceWrapper: FC<Props> = ({
                 id="content"
                 className="relative text-base-color dark:text-base-color-dark"
               >
-                <SearchHighlight />
                 <ContentComponent />
               </div>
             </div>
