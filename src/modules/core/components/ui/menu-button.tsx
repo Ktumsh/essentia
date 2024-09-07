@@ -11,11 +11,11 @@ interface Props {
 const MenuButton: React.FC<Props> = ({ profileData }) => {
   return (
     <>
-      {profileData?.image ? (
+      {profileData?.profile_image ? (
         <Image
           width={32}
           height={32}
-          src={profileData.image}
+          src={profileData.profile_image}
           alt="Avatar del usuario"
         />
       ) : (

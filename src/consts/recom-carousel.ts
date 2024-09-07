@@ -5,8 +5,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     id: 1,
     title: "Prueba nuestra asistencia automatizada",
     description:
-      "Si necesitas ayuda de una manera amigable, utiliza nuestra IA para resolver tus dudas.",
-    textBtn: "Probar",
+      "Si necesitas una ayuda más cercana, utiliza nuestra IA para resolver tus dudas.",
     url: "/essentia-ai",
     img: "/capsules/capsule-01.png",
   },
@@ -15,7 +14,6 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     title: "¿Quieres saber más sobre la importancia de cuidar tu mente?",
     description:
       "Descubre guías y actividades para equilibrar tu bienestar. ¡Empieza a sentirte mejor hoy!",
-    textBtn: "Descubrir",
     url: "/bienestar-emocional",
     img: "/capsules/capsule-02.webp",
   },
@@ -24,17 +22,15 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     title: "¿Buscas un centro de salud cercano?",
     description:
       "Encuentra fácilmente centros de salud cerca de ti con nuestra herramienta. ¡Es rápido y sencillo!",
-    textBtn: "Buscar ahora",
     url: "/adicionales",
     img: "/capsules/capsule-03.png",
   },
   {
     id: 4,
-    title: "Conéctate con nuestra comunidad",
+    title: "Explora nuestros recursos adicionales",
     description:
-      "Únete a nuestras conversaciones y descubre los recursos que compartimos. En Essentia, siempre hay algo nuevo por aprender y compartir. Ven y forma parte de un espacio acogedor y de apoyo.",
-    textBtn: "Explorar comunidad",
-    url: "/comunidad",
+      "Encuentra guías y consejos y descubre más sobre temas de salud y bienestar.",
+    url: "/adicionales",
     img: "/capsules/capsule-04.webp",
   },
 ];

@@ -1,182 +1,194 @@
-"use client";
-
+import { FC, useCallback, useEffect, memo, useTransition } from "react";
 import {
-  Avatar,
-  Button,
-  DateInput,
-  DateValue,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Button,
   Textarea,
-  Tooltip,
-  Image as UIImage,
-  useDisclosure,
+  DateInput,
 } from "@nextui-org/react";
-import Image from "next/image";
-
 import Link from "next/link";
-import { FC, useRef } from "react";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { CalendarIcon, LocationIcon } from "@/modules/icons/status";
-import { AvatarIcon } from "@/modules/icons/miscellaneus";
-import { AddPhotoIcon } from "@/modules/icons/action";
+import {
+  CalendarFillIcon,
+  CalendarIcon,
+  LocationIcon,
+} from "@/modules/icons/status";
+
 import { UserProfileData } from "@/types/session";
-import { useSession } from "next-auth/react";
-
-const getProfileImageUrl = (
-  url: string | null | undefined,
-  provider: string
-) => {
-  if (!url) {
-    return "";
-  }
-
-  if (provider === "credentials") {
-    return url;
-  } else if (url.includes("googleusercontent")) {
-    return url.replace("=s96-c", "=s200-c");
-  } else if (url.includes("facebook")) {
-    return `${url}?width=200&height=200`;
-  } else if (url.includes("twimg")) {
-    return url.replace("_normal", "_200x200");
-  }
-  return url;
-};
+import { updateUserProfile } from "@/app/(main)/profile/actions";
+import { toast } from "sonner";
+import { useDisclosure } from "@nextui-org/react";
+import Image from "next/image";
+import FormInput from "./form-input";
+import { useProfileForm } from "../hooks/use-profile-form";
+import ProfileImageUploader from "./profile-image-uploader";
+import { SpinnerIcon } from "@/modules/icons/common";
+import { formatCreatedAt, uploadFile } from "../lib/utils";
 
 interface ProfileInfoProps {
   profileData: UserProfileData | null;
+  onProfileUpdate: (newBanner: string | null) => void;
 }
 
-const ProfileInfo: FC<ProfileInfoProps> = ({ profileData }) => {
+const ProfileInfo: FC<ProfileInfoProps> = ({
+  profileData,
+  onProfileUpdate,
+}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isPending, startTransition] = useTransition();
+  const {
+    formData,
+    handleInputChange,
+    handleDateChange,
+    handleFileChange,
+    handleFilePreview,
+    setEditFormData,
+    resetForm,
+    previewProfileImage,
+    previewBannerImage,
+  } = useProfileForm(profileData);
 
-  const { data: session } = useSession() as any;
+  const createdAt = profileData && formatCreatedAt(profileData.created_at);
 
-  const { first_name, last_name, username, image, birthdate } =
-    profileData || {};
-
-  const fileInputRefs = {
-    banner: useRef<HTMLInputElement>(null),
-    photo: useRef<HTMLInputElement>(null),
-  };
-
-  const selectFile = (inputKey: keyof typeof fileInputRefs) => {
-    const inputRef = fileInputRefs[inputKey];
-    if (inputRef.current) {
-      inputRef.current.click();
+  useEffect(() => {
+    if (isOpen) {
+      resetForm();
     }
-  };
+  }, [isOpen, resetForm]);
 
-  const profileImageUrl = getProfileImageUrl(image, session?.provider);
+  const onSubmit = useCallback(() => {
+    startTransition(async () => {
+      try {
+        if (!formData.user_id) {
+          throw new Error("El ID del usuario no está definido.");
+        }
+        const data: Partial<UserProfileData> = {
+          id: formData.user_id,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          username: formData.username,
+          birthdate: formData.birthdate
+            ? formData.birthdate.toString()
+            : undefined,
+          bio: formData.bio,
+          location: formData.location,
+        };
+
+        let profileImageUrl = formData.profile_image;
+        let bannerImageUrl = formData.banner_image;
+
+        if (formData.profile_image_file) {
+          profileImageUrl = await uploadFile(
+            formData.profile_image_file,
+            "profile",
+            formData.user_id
+          );
+        }
+
+        if (formData.banner_image_file) {
+          bannerImageUrl = await uploadFile(
+            formData.banner_image_file,
+            "banner",
+            formData.user_id
+          );
+          onProfileUpdate(bannerImageUrl);
+        }
+
+        data.profile_image = profileImageUrl;
+        data.banner_image = bannerImageUrl;
+
+        const updatedProfile = await updateUserProfile(data);
+        if (updatedProfile.error) {
+          throw new Error(updatedProfile.error);
+        }
+
+        toast.success("Tu perfil ha sido actualizado.");
+        onOpenChange();
+      } catch (error) {
+        console.error("Error al actualizar el perfil", error);
+        toast.error("Error al actualizar el perfil.");
+      }
+    });
+  }, [formData, onProfileUpdate, onOpenChange]);
 
   return (
     <>
-      <div className="relative flex flex-col px-8 py-3 z-10">
-        {/*Foto de perfil y botón editar*/}
-        <div className="relative flex flex-wrap justify-between mb-5">
-          <div className="relative size-1/5 md:size-[15%] min-w-12 mt-[-15%] mb-3">
-            <div className="w-full pb-[100%]"></div>
-            <div className="absolute top-[5%] sm:top-[15%] md:top-[40%] left-0 size-full">
-              <div className="size-[calc(100%+4px)] absolute top-[-2px] left-[-2px] rounded-full">
-                <Link
-                  href=""
-                  className="group flex size-full transition-colors"
-                >
-                  <div className="size-[calc(100%-4px)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
-                    <div className="size-full bg-white dark:bg-base-full-dark"></div>
-                  </div>
-                  <div className="size-[calc(100%-12px)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden group-hover:brightness-90 transition">
-                    <div className="absolute inset-0 overflow-hidden">
-                      {profileImageUrl ? (
-                        <>
-                          <div
-                            className="absolute inset-0 bg-center bg-no-repeat bg-cover size-full"
-                            style={{
-                              backgroundImage: `url(${profileImageUrl})`,
-                            }}
-                          ></div>
-                          <UIImage
-                            as={Image}
-                            width={183}
-                            height={183}
-                            src={profileImageUrl}
-                            alt="Abrir foto"
-                            classNames={{
-                              wrapper: "w-full h-full",
-                              img: "absolute inset-0 size-full object-cover -z-10",
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <Avatar
-                          showFallback
-                          src="https://images.unsplash.com/broken"
-                          icon={<AvatarIcon className="size-16" />}
-                          classNames={{
-                            icon: "text-base-color-m dark:text-base-color-dark-m size-4/5",
-                            base: "bg-gray-300 dark:bg-gray-600 absolute inset-0 bg-center bg-no-repeat bg-cover w-full h-full",
-                            name: "font-medium text-base-color-h dark:text-base-color-dark-h",
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              </div>
+      <div className="px-8 py-3 space-y-6">
+        {/* Foto de perfil y botón editar */}
+        <div className="relative">
+          <div className="absolute -top-10 md:-top-14 left-6">
+            <div className="z-0 size-full bg-gray-200 dark:bg-base-dark border-5 border-white dark:border-base-full-dark rounded-full overflow-hidden">
+              <Link
+                href={`/profile/${formData.username}/photo`}
+                className="relative flex shrink-0 overflow-hidden rounded-full w-32 h-32"
+              >
+                <Image
+                  width={120}
+                  height={120}
+                  priority
+                  src={formData.profile_image || ""}
+                  alt="Abrir foto"
+                  className="aspect-square h-full w-full"
+                />
+              </Link>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            color="default"
-            radius="full"
-            onPress={onOpen}
-            className="border-white dark:border-base-full-dark hover:!bg-white dark:hover:!bg-base-full-dark text-base-color dark:text-base-color-dark font-bold"
-          >
-            Editar perfil
-          </Button>
-        </div>
-        {/*Información del perfil*/}
-        <div className="flex flex-wrap mb-3 mt-1">
-          <div className="flex flex-col mr-2">
-            <div className="flex flex-col shrink">
-              <span className="text-xl font-bold">{`${first_name} ${last_name}`}</span>
-              <span className="text-[15px] text-base-color-m dark:text-base-color-dark-m">
-                {username}
+          <div className="ml-44 flex justify-between items-start">
+            <div>
+              <h2 className="text-xl font-bold text-base-color dark:text-base-color-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
+              <span className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                @{formData.username}
               </span>
             </div>
+            <Button
+              variant="ghost"
+              color="default"
+              radius="full"
+              onPress={onOpen}
+              className="border-gray-200 dark:border-base-dark hover:!bg-gray-200 dark:hover:!bg-base-dark text-base-color dark:text-base-color-dark font-bold"
+            >
+              Editar perfil
+            </Button>
           </div>
         </div>
-        <div className="mb-3">
-          <div className="flex items-stretch text-sm text-base-color-h dark:text-base-color-dark-h">
-            <span>
-              briografia dslakdjnlawijdclaijdlacs dlkcajlkcsjdalijwliajlasnm
-            </span>
+        {/* Información del perfil */}
+        <div className="py-6 space-y-6">
+          <div>
+            <h3 className="mb-2 font-semibold text-lg text-base-color dark:text-base-color-dark">
+              Acerca de mí
+            </h3>
+            <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+              {formData.bio}
+            </p>
           </div>
-        </div>
-        <div className="flex w-full mb-3 text-base-color-h dark:text-base-color-dark-h">
-          <span className="flex items-center justify-center gap-1">
-            <LocationIcon className="size-5 text-base-color-m dark:text-base-color-dark-m" />
-            <span className="inline">De Santiago de Chile</span>
-          </span>
+          <div className="grid gap-4 text-base-color-m dark:text-base-color-dark-m">
+            <div className="flex items-center space-x-2 text-sm">
+              <LocationIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+              <span>{formData.location}</span>
+            </div>
+            <div className="flex items-center space-x-2 text-sm">
+              <CalendarIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+              <span>Te uniste en {createdAt}</span>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Modal de edición */}
       <Modal
         placement="center"
         scrollBehavior="inside"
         size="xl"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        radius="lg"
+        radius="sm"
         classNames={{
-          backdrop: "z-[101]",
+          backdrop: "z-[101] bg-black/80",
           wrapper: "z-[102]",
-          base: "overflow-hidden bg-white dark:bg-base-dark",
-          body: "gap-0 px-0 py-0 pb-16 bg-gray-50 dark:bg-base-full-dark custom-scroll",
-          header: "flex flex-col gap-1",
+          base: "bg-white dark:bg-base-full-dark",
+          body: "gap-0 px-0 py-0 pb-16 custom-scroll v2",
           closeButton:
             "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
@@ -186,186 +198,54 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData }) => {
             <>
               <ModalHeader>Editar perfil</ModalHeader>
               <ModalBody>
-                {/*Banner*/}
-                <div className="relative flex min-h-56 overflow-hidden">
-                  <div className="flex flex-col border-2 border-transparent">
-                    <div className="flex grow">
-                      <div className="flex relative overflow-hidden">
-                        <div className="flex pb-[33.333%] w-full"></div>
-                        <div className="absolute inset-0 size-full"></div>
-                      </div>
-                      <div className="absolute inset-0 size-full bg-black/30"></div>
-                      <div className="flex items-center justify-center absolute inset-0 size-full opacity-75">
-                        <div className="relative flex items-center justify-center">
-                          <Tooltip
-                            offset={2}
-                            placement="bottom"
-                            content="Agregar foto"
-                            delay={800}
-                            closeDelay={0}
-                            classNames={{
-                              content: tooltipStyles.content,
-                            }}
-                          >
-                            <Button
-                              aria-label="Agregar foto de banner"
-                              isIconOnly
-                              radius="full"
-                              className="bg-black/60 backdrop-blur-sm size-11"
-                              onPress={() => selectFile("banner")}
-                            >
-                              <AddPhotoIcon className="size-5 text-white" />
-                            </Button>
-                          </Tooltip>
-                          <input
-                            ref={fileInputRefs.banner}
-                            accept="image/jpeg,image/png,image/webp"
-                            type="file"
-                            className="absolute size-[0.1px] opacity-0 pointer-events-auto bg-transparent"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/*Foto de perfil*/}
-                <div className="relative ml-4 -mt-12 min-h-32 w-1/4 max-w-32 bg-white dark:bg-base-full-dark border-2 border-white dark:border-base-full-dark rounded-full overflow-hidden">
-                  <div className="flex flex-col border-2 border-transparent">
-                    <div className="relative flex grow">
-                      <div className="size-full overflow-hidden">
-                        <div className="w-full pb-[100%]"></div>
-                        <div className="absolute top-0 left-0 size-full">
-                          <div className="size-[calc(100%+4px)] absolute top-[-2px] left-[-2px] rounded-full">
-                            <div
-                              aria-hidden="true"
-                              role="presentation"
-                              className="flex size-full bg-transparent"
-                            >
-                              <div className="size-[calc(100%-4px)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
-                                <div className="size-full bg-white dark:bg-base-dark"></div>
-                              </div>
-                              <div className="size-[calc(100%-4px)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
-                                <div className="absolute inset-0 overflow-hidden">
-                                  {profileImageUrl ? (
-                                    <>
-                                      <div
-                                        className="absolute inset-0 bg-center bg-no-repeat bg-cover size-full"
-                                        style={{
-                                          backgroundImage: `url(${profileImageUrl})`,
-                                        }}
-                                      ></div>
-                                      <UIImage
-                                        as={Image}
-                                        width={183}
-                                        height={183}
-                                        src={profileImageUrl}
-                                        alt="Abrir foto"
-                                        classNames={{
-                                          wrapper: "w-full h-full",
-                                          img: "absolute inset-0 size-full object-cover -z-10",
-                                        }}
-                                      />
-                                    </>
-                                  ) : (
-                                    <Avatar
-                                      showFallback
-                                      src="https://images.unsplash.com/broken"
-                                      icon={<AvatarIcon className="size-14" />}
-                                      classNames={{
-                                        icon: "text-base-color-m dark:text-base-color-dark-m size-4/5",
-                                        base: "bg-gray-300 dark:bg-gray-600 absolute inset-0 bg-center bg-no-repeat bg-cover w-full h-full",
-                                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
-                                      }}
-                                    />
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="absolute top-0 size-full rounded-full bg-black/30"></div>
-                      <div className="flex items-center justify-center absolute top-0 size-full opacity-75">
-                        <div className="relative flex items-center justify-center">
-                          <Tooltip
-                            offset={2}
-                            placement="bottom"
-                            content="Agregar foto"
-                            delay={800}
-                            closeDelay={0}
-                            classNames={{
-                              content: tooltipStyles.content,
-                            }}
-                          >
-                            <Button
-                              isIconOnly
-                              radius="full"
-                              className="bg-black/60 backdrop-blur-sm size-11"
-                              onPress={() => selectFile("photo")}
-                            >
-                              <AddPhotoIcon className="size-5 text-white" />
-                            </Button>
-                          </Tooltip>
-                          <input
-                            ref={fileInputRefs.photo}
-                            accept="image/jpeg,image/png,image/webp"
-                            type="file"
-                            className="absolute size-[0.1px] opacity-0 pointer-events-auto bg-transparent"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/*Editar información*/}
-                <Input
-                  type="text"
-                  autoCapitalize="sentences"
-                  autoComplete="off"
-                  autoCorrect="on"
-                  maxLength={50}
-                  name="name"
-                  spellCheck={true}
-                  label="Nombre"
-                  defaultValue={first_name}
-                  variant="bordered"
-                  color="danger"
-                  classNames={{
-                    base: "px-4 py-3",
-                    input: "text-base-color dark:text-base-color-dark",
-                    inputWrapper:
-                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                <ProfileImageUploader
+                  type="banner"
+                  imageUrl={previewBannerImage}
+                  onFileChange={(e) => {
+                    handleFileChange(e, "banner");
+                    if (e.target.files?.[0]) {
+                      handleFilePreview(e.target.files[0], "banner");
+                    }
                   }}
                 />
-                <Input
-                  type="text"
-                  autoCapitalize="sentences"
-                  autoComplete="off"
-                  autoCorrect="on"
-                  maxLength={50}
-                  name="username"
-                  spellCheck={true}
-                  label="Nombre de usuario"
-                  defaultValue={username}
-                  variant="bordered"
-                  color="danger"
-                  classNames={{
-                    base: "px-4 py-3",
-                    input: "text-base-color dark:text-base-color-dark",
-                    inputWrapper:
-                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                <ProfileImageUploader
+                  type="profile"
+                  imageUrl={previewProfileImage}
+                  onFileChange={(e) => {
+                    handleFileChange(e, "profile");
+                    if (e.target.files?.[0]) {
+                      handleFilePreview(e.target.files[0], "profile");
+                    }
                   }}
+                />
+                <FormInput
+                  name="first_name"
+                  label="Nombre"
+                  value={formData.first_name}
+                  onChange={handleInputChange}
+                />
+                <FormInput
+                  name="last_name"
+                  label="Apellido"
+                  value={formData.last_name}
+                  onChange={handleInputChange}
+                />
+                <FormInput
+                  name="username"
+                  label="Nombre de usuario"
+                  value={formData.username}
+                  onChange={handleInputChange}
                 />
                 <Textarea
-                  autoCapitalize="sentences"
-                  autoComplete="on"
-                  autoCorrect="off"
-                  maxLength={160}
-                  name="description"
-                  spellCheck={true}
+                  name="bio"
                   label="Biografía"
+                  maxLength={160}
+                  value={formData.bio ?? ""}
+                  onChange={handleInputChange}
+                  description="Máximo 160 caracteres"
                   variant="bordered"
                   color="danger"
+                  radius="sm"
                   classNames={{
                     base: "px-4 py-3",
                     input: "text-base-color dark:text-base-color-dark",
@@ -373,33 +253,24 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData }) => {
                       "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
                   }}
                 />
-                <Input
-                  type="text"
-                  autoCapitalize="sentences"
-                  autoComplete="on"
-                  autoCorrect="on"
-                  maxLength={30}
+                <FormInput
                   name="location"
-                  spellCheck={true}
                   label="Ubicación"
-                  variant="bordered"
-                  color="danger"
-                  classNames={{
-                    base: "px-4 py-3",
-                    input: "text-base-color dark:text-base-color-dark",
-                    inputWrapper:
-                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
-                  }}
+                  maxLength={30}
+                  value={formData.location ?? ""}
+                  onChange={handleInputChange}
+                  description="Máximo 30 caracteres"
                 />
                 <DateInput
                   id="birthdate"
-                  description={"Este es mi cumpleaños."}
-                  errorMessage="Por favor, ingresa una fecha válida."
+                  description={"Este es mi cumpleaños"}
+                  errorMessage="Por favor, ingresa una fecha válida"
                   label={"Fecha de nacimiento"}
-                  defaultValue={birthdate as DateValue | null | undefined}
+                  value={formData.birthdate}
+                  onChange={handleDateChange}
                   color="danger"
                   variant="bordered"
-                  startContent={<CalendarIcon />}
+                  startContent={<CalendarFillIcon className="size-4" />}
                   classNames={{
                     base: "px-4 py-3",
                     label:
@@ -414,8 +285,30 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData }) => {
                 />
               </ModalBody>
               <ModalFooter>
-                <Button variant="shadow" color="danger" onPress={onClose}>
-                  Guardar
+                <Button
+                  onPress={() => {
+                    setEditFormData(profileData);
+                    resetForm();
+                    onClose();
+                  }}
+                  variant="bordered"
+                  className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={onSubmit}
+                  className="rounded-md"
+                  isDisabled={isPending}
+                  aria-disabled={isPending}
+                  startContent={
+                    isPending ? (
+                      <SpinnerIcon className="size-4 animate-spin" />
+                    ) : null
+                  }
+                >
+                  {isPending ? "Guardando..." : "Guardar"}
                 </Button>
               </ModalFooter>
             </>
@@ -426,4 +319,4 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData }) => {
   );
 };
 
-export default ProfileInfo;
+export default memo(ProfileInfo);

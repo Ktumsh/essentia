@@ -55,7 +55,9 @@ const LoginEntry = () => {
   useEffect(() => {
     if (result) {
       if (result.type === "error") {
-        toast.error(getMessageFromCode(result.resultCode));
+        startTransition(() => {
+          toast.error(getMessageFromCode(result.resultCode));
+        });
       } else {
         if (isSelected) {
           localStorage.setItem("rememberedEmail", email);
@@ -66,7 +68,7 @@ const LoginEntry = () => {
         router.refresh();
       }
     }
-  }, [result, router]);
+  }, [result, router, email, isSelected]);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -140,6 +142,7 @@ const LoginEntry = () => {
           radius="full"
           fullWidth
           className="bg-light-gradient text-base text-white"
+          isDisabled={isPending}
           aria-disabled={isPending}
           startContent={
             isPending ? <SpinnerIcon className="size-4 animate-spin" /> : null
@@ -148,14 +151,14 @@ const LoginEntry = () => {
           {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
         </Button>
       </form>
-      <div className="flex flex-row items-center justify-center w-full px-3 my-4">
+      {/* <div className="flex flex-row items-center justify-center w-full px-3 my-4">
         <hr className="flex-1 h-px border-gray-200" />
         <span className="text-xs text-center mx-2 text-nowrap text-white sm:text-inherit">
           o
         </span>
         <hr className="flex-1 h-px border-gray-200" />
       </div>
-      <SignInWith />
+      <SignInWith /> */}
       <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-gray-200 sm:text-base-color-h">
         <p>
           ¿No tienes una cuenta?{" "}

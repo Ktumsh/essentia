@@ -21,7 +21,7 @@ interface ProfileDropdownProps {
 }
 
 const ProfileDropdown: FC<ProfileDropdownProps> = ({ profileData }) => {
-  const { first_name, last_name, username, image } = profileData || {};
+  const { first_name, last_name, username, profile_image } = profileData || {};
   return (
     <div className="flex items-center gap-4">
       <Dropdown
@@ -56,7 +56,7 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ profileData }) => {
                 classNames: {
                   base: "bg-gray-300 dark:bg-gray-600",
                 },
-                src: image as string | undefined,
+                src: profile_image as string | undefined,
                 icon: (
                   <AvatarIcon className="text-base-color-m dark:text-base-color-dark-m size-4/5" />
                 ),

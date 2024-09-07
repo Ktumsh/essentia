@@ -6,6 +6,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  DropdownSection,
 } from "@nextui-org/react";
 
 import { ThemeToggle } from "../theme-toggle";
@@ -23,15 +24,13 @@ interface AvatarDropdownProps {
 }
 
 const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
-  const { first_name, last_name, username, image } = profileData || {};
-
   return (
     <div className="flex items-center gap-4">
       <Dropdown
         shouldBlockScroll={false}
         classNames={{
           content:
-            "p-1 bg-gradient-to-br from-white to-gray-100 dark:from-base-dark dark:to-base-full-dark border border-gray-200 dark:border-base-dark rounded-xl",
+            "p-1 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg",
         }}
         placement="bottom-end"
       >
@@ -40,11 +39,11 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             className="size-8 focus:outline-none ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[rgb(6,_27,_55)] ring-gray-200 dark:ring-midnight-900/30 rounded-full overflow-hidden"
             aria-label="Perfil de usuario"
           >
-            {image ? (
+            {profileData?.profile_image ? (
               <Image
                 width={96}
                 height={96}
-                src={image}
+                src={profileData?.profile_image}
                 alt="Avatar del usuario"
               />
             ) : (
@@ -69,42 +68,54 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             aria-label="Acciones del perfil"
             variant="flat"
           >
-            <DropdownItem
-              key="profile"
-              textValue="Perfil"
-              href={`/profile/${username}`}
-              className="h-14 gap-2 rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+            <DropdownSection
+              aria-label="Preferences"
+              showDivider
+              classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
             >
-              <p className="font-medium dark:text-base-color-dark">
-                {`${first_name} ${last_name}`}
-              </p>
-              <p className="text-xs">{username}</p>
-            </DropdownItem>
-            <DropdownItem
-              className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-              key="configurations"
-              textValue="Configuración"
+              <DropdownItem
+                key="profile"
+                textValue="Perfil"
+                href={`/profile/${profileData?.username}`}
+                className="h-14 gap-2 rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              >
+                <p className="font-medium dark:text-base-color-dark">
+                  {`${profileData?.first_name} ${profileData?.last_name}`}
+                </p>
+                <p className="text-xs">@{profileData?.username}</p>
+              </DropdownItem>
+            </DropdownSection>
+            <DropdownSection
+              aria-label="Preferences"
+              showDivider
+              classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
             >
-              Configuración
-            </DropdownItem>
-            <DropdownItem
-              className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-              key="help_and_feedback"
-              textValue="Help and Feedback"
-            >
-              Centro de Ayuda
-            </DropdownItem>
-            <DropdownItem
-              isReadOnly
-              endContent={<ThemeToggle />}
-              className="rounded-xl data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
-              textValue="Tema"
-            >
-              Tema
-            </DropdownItem>
+              <DropdownItem
+                className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+                key="configurations"
+                textValue="Configuración"
+              >
+                Configuración
+              </DropdownItem>
+              <DropdownItem
+                className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+                key="help_and_feedback"
+                textValue="Help and Feedback"
+              >
+                Centro de Ayuda
+              </DropdownItem>
+              <DropdownItem
+                isReadOnly
+                endContent={<ThemeToggle />}
+                className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+                textValue="Tema"
+              >
+                Tema
+              </DropdownItem>
+            </DropdownSection>
             <DropdownItem
               id="avatar_logout"
-              className="rounded-xl  text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
+              className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
               key="logout"
               textValue="Logout"
               color="danger"
@@ -120,19 +131,19 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               key="login"
               textValue="Iniciar sesión"
               href="/login"
-              className="rounded-xl [&>*]:font-medium text-center bg-light-gradient-v2 dark:bg-gradient-to-r from-base-dark to-[#ff7373] data-[hover=true]:opacity-hover text-white data-[hover=true]:text-white !duration-150"
+              className="rounded-md [&>*]:font-medium text-center bg-light-gradient-v2 dark:bg-gradient-to-r from-base-dark to-[#ff7373] data-[hover=true]:opacity-hover text-white data-[hover=true]:text-white !duration-150"
             >
               Iniciar sesión
             </DropdownItem>
             <DropdownItem
-              className="rounded-xl dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              className="rounded-md dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
               key="configurations"
               textValue="Configuración"
             >
               Configuración
             </DropdownItem>
             <DropdownItem
-              className="rounded-xl dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+              className="rounded-md dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
               key="help_and_feedback"
               textValue="Help and Feedback"
             >
@@ -141,7 +152,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             <DropdownItem
               isReadOnly
               endContent={<ThemeToggle />}
-              className="rounded-xl dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className="rounded-md dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
               textValue="Tema"
             >
               Tema
