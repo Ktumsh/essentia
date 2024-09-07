@@ -39,7 +39,7 @@ const BottomNav = () => {
   return (
     <Navbar
       classNames={{
-        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-base-dark z-50",
+        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-base-full-dark z-50",
         wrapper: "h-14 justify-center gap-0 px-0",
       }}
     >

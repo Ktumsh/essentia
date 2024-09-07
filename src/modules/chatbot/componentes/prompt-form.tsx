@@ -4,21 +4,21 @@ import { FC, useEffect, useRef } from "react";
 import { useActions, useUIState } from "ai/rsc";
 import { nanoid } from "nanoid";
 import { tooltipStyles } from "@/styles/tooltip-styles";
-import { useRouter } from "next/navigation";
 import { useEnterSubmit } from "../hooks/use-enter-submit";
 import { type AI } from "../chat/actions";
 import { UserMessage } from "./stocks/message";
 import { NewIcon } from "@/modules/icons/action";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
 import Link from "next/link";
+import { UserProfileData } from "@/types/session";
 
 interface PromptFormProps {
   input: string;
   setInput: (value: string) => void;
+  profileData: UserProfileData | null;
 }
 
-const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
-  const router = useRouter();
+const PromptForm: FC<PromptFormProps> = ({ input, setInput, profileData }) => {
   const { formRef, onKeyDown } = useEnterSubmit();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { submitUserMessage } = useActions();
@@ -49,7 +49,9 @@ const PromptForm: FC<PromptFormProps> = ({ input, setInput }) => {
           ...currentMessages,
           {
             id: nanoid(),
-            display: <UserMessage>{value}</UserMessage>,
+            display: (
+              <UserMessage profileData={profileData}>{value}</UserMessage>
+            ),
           },
         ]);
 

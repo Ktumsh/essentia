@@ -8,8 +8,6 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 import { type Chat } from "@/types/chat";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { Tooltip } from "@nextui-org/react";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { ChatIcon, UsersIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";

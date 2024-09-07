@@ -26,6 +26,7 @@ import {
   ItineraryIcon,
   LightbulbIcon,
 } from "@/modules/icons/miscellaneus";
+import { UserProfileData } from "@/types/session";
 
 export interface ChatPanelProps {
   id?: string;
@@ -34,6 +35,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void;
   isAtBottom: boolean;
   scrollToBottom: () => void;
+  profileData: UserProfileData | null;
 }
 
 const ChatPanel: FC<ChatPanelProps> = ({
@@ -43,6 +45,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
   setInput,
   isAtBottom,
   scrollToBottom,
+  profileData,
 }) => {
   const [aiState] = useAIState();
   const [messages, setMessages] = useUIState<typeof AI>();
@@ -123,7 +126,11 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     ...currentMessages,
                     {
                       id: nanoid(),
-                      display: <UserMessage>{example.message}</UserMessage>,
+                      display: (
+                        <UserMessage profileData={profileData}>
+                          {example.message}
+                        </UserMessage>
+                      ),
                     },
                   ]);
 
@@ -184,7 +191,11 @@ const ChatPanel: FC<ChatPanelProps> = ({
           </div>
         ) : null}
         <div className="md:-ml-1 space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
-          <PromptForm input={input} setInput={setInput} />
+          <PromptForm
+            profileData={profileData}
+            input={input}
+            setInput={setInput}
+          />
           <FooterText className="hidden md:block" />
         </div>
       </div>

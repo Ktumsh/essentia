@@ -15,7 +15,7 @@ import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
 import { siteConfig } from "@/config/site";
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import { cn, getFirstNameAndLastName, usernameOrEmail } from "@/utils/common";
+import { cn } from "@/utils/common";
 import {
   AvatarIcon,
   SettingsIcon,
@@ -53,46 +53,61 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
           <div className="flex flex-col justify-between size-full max-h-dvh">
             <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
               <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
-                <div className="inline-flex flex-col items-start justify-center gap-2">
-                  {profile_image ? (
-                    <Link
-                      href={`/profile/${username}`}
-                      aria-label="Perfil de usuario"
-                    >
-                      <Image
-                        className="size-8 rounded-full"
-                        width={96}
-                        height={96}
-                        src={profile_image}
-                        alt="Avatar del usuario"
-                      />
-                    </Link>
+                <div className="inline-flex items-start gap-2 w-full">
+                  {profileData ? (
+                    <>
+                      {profile_image ? (
+                        <Link
+                          href={`/profile/${username}`}
+                          aria-label="Perfil de usuario"
+                          className="size-12 bg-white dark:bg-base-full-dark border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden"
+                        >
+                          <Image
+                            className="object-cover object-center rounded-full"
+                            width={44}
+                            height={44}
+                            src={profile_image}
+                            alt="Avatar del usuario"
+                          />
+                        </Link>
+                      ) : (
+                        <Avatar
+                          as={Link}
+                          href={`/profile/${username}`}
+                          showFallback
+                          src="https://images.unsplash.com/broken"
+                          size="sm"
+                          icon={<AvatarIcon />}
+                          classNames={{
+                            icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
+                            base: "bg-gray-300 dark:bg-gray-600",
+                            name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                          }}
+                        />
+                      )}
+                      <Link
+                        className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-base-dark transition-colors duration-100"
+                        href={`/profile/${username}`}
+                      >
+                        <span className="font-medium text-inherit transition-none capitalize">
+                          {`${first_name} ${last_name}`}
+                        </span>
+                        <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
+                          {username}
+                        </span>
+                      </Link>
+                    </>
                   ) : (
-                    <Avatar
+                    <Button
                       as={Link}
-                      href={`/profile/${username}`}
-                      showFallback
-                      src="https://images.unsplash.com/broken"
+                      href="/login"
                       size="sm"
-                      icon={<AvatarIcon />}
-                      classNames={{
-                        icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
-                        base: "bg-gray-300 dark:bg-gray-600",
-                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
-                      }}
-                    />
+                      fullWidth
+                      className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:text-white !duration-150"
+                    >
+                      Iniciar sesión
+                    </Button>
                   )}
-                  <Link
-                    className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-base-dark transition-colors duration-100"
-                    href={`/profile/${username}`}
-                  >
-                    <span className="font-medium text-inherit transition-none capitalize">
-                      {`${first_name} ${last_name}`}
-                    </span>
-                    <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
-                      {username}
-                    </span>
-                  </Link>
                 </div>
               </div>
               <div className="relative size-full overflow-y-scroll scrollbar-hide">
@@ -194,7 +209,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         href=""
                       >
                         <HelpIcon className="mr-3 size-[14px]" />
-                        Centro de Ayuda
+                        Centro de ayuda
                       </Link>
                       <div className="w-full flex items-center justify-between py-3">
                         <div className="flex flex-row items-center">

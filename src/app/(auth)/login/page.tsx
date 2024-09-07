@@ -1,5 +1,4 @@
-import LoginForm from "@/modules/auth/components/login-form";
-import SignFooter from "@/modules/auth/components/sign-footer";
+import LoginWrapper from "@/modules/auth/components/login-wrapper";
 import { Session } from "@/types/session";
 import { auth } from "@@/auth";
 import { Metadata } from "next";
@@ -15,10 +14,5 @@ export default async function LoginPage() {
   if (session) {
     redirect("/");
   }
-  return (
-    <main className="relative w-full">
-      <LoginForm />
-      <SignFooter />
-    </main>
-  );
+  return <LoginWrapper />;
 }

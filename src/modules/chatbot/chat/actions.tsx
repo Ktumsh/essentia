@@ -29,18 +29,11 @@ import ExerciseRoutineSkeleton from "../componentes/stocks/excercise-routine-ske
 import HealthRiskSkeleton from "../componentes/stocks/health-risk-skeleton";
 import MoodTrackingSkeleton from "../componentes/stocks/mood-tracking-skeleton";
 import { sleep } from "@/utils/common";
+import { Session, UserProfileData } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 
 async function submitUserMessage(content: string) {
   "use server";
-
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    throw new Error(
-      "No se pudo obtener el ID del usuario. El usuario no está autenticado."
-    );
-  }
 
   const aiState = getMutableAIState<typeof AI>();
 
@@ -568,13 +561,14 @@ export const AI = createAI<AIState, UIState>({
   onGetUIState: async () => {
     "use server";
 
-    const session = await auth();
+    const session = (await auth()) as Session;
+    const profileData = session ? await getUserProfileData(session) : null;
 
     if (session && session.user) {
       const aiState = getAIState() as Chat;
 
       if (aiState) {
-        const uiState = getUIStateFromAIState(aiState);
+        const uiState = getUIStateFromAIState(aiState, profileData);
         return uiState;
       }
     } else {
@@ -612,7 +606,10 @@ export const AI = createAI<AIState, UIState>({
   },
 });
 
-export const getUIStateFromAIState = (aiState: Chat) => {
+export const getUIStateFromAIState = (
+  aiState: Chat,
+  profileData: UserProfileData | null
+) => {
   return aiState.messages
     .filter((message) => message.role !== "system")
     .map((message, index) => ({
@@ -643,7 +640,9 @@ export const getUIStateFromAIState = (aiState: Chat) => {
             ) : null;
           })
         ) : message.role === "user" ? (
-          <UserMessage>{message.content as string}</UserMessage>
+          <UserMessage profileData={profileData}>
+            {message.content as string}
+          </UserMessage>
         ) : message.role === "assistant" &&
           typeof message.content === "string" ? (
           <BotMessage content={message.content} />

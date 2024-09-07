@@ -1,7 +1,5 @@
 "use client";
 
-import { LinkIcon } from "@/modules/icons/action";
-import { SettingsIcon } from "@/modules/icons/miscellaneus";
 import {
   Button,
   Divider,
@@ -12,7 +10,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -31,87 +29,77 @@ const WelcomeModal = () => {
   return (
     <>
       <Modal
-        size="lg"
+        size="xs"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         backdrop="blur"
+        hideCloseButton
         classNames={{
-          backdrop: "z-[101] bg-black/80",
+          backdrop: "z-[101] bg-white/50 dark:bg-black/80",
           wrapper: "z-[102]",
-          base: "bg-light-gradient-v2 dark:bg-dark-gradient overflow-hidden",
+          base: "bg-white dark:bg-base-full-dark overflow-hidden rounded-3xl border border-gray-200 dark:border-base-dark",
           header:
             "flex-col text-center justify-center text-base-color dark:text-white",
           body: "text-base-color dark:text-gray-100 text-center",
-          footer: "justify-center",
           closeButton:
             "text-base-color dark:text-white/80 hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
       >
         <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>
-                <h1>¡Bienvenido a Essentia!</h1>
-                <Divider className="mt-3" />
-              </ModalHeader>
-              <ModalBody>
-                <p>Estamos aún en desarrollo 😊...</p>
-                <p>¡Esperamos darte la mejor experiencia!</p>
-                <p className="text-sm">
-                  Por lo que te recomendamos que{" "}
-                  <Link href="/login" className="font-bold dark:text-white">
-                    inicies tu sesión
-                  </Link>{" "}
-                  o{" "}
-                  <Link href="/signup" className="font-bold dark:text-white">
-                    crees una cuenta
-                  </Link>
-                  . Si detectas algún error, por favor crea una{" "}
-                  <Link
-                    href="https://github.com/Ktumsh/essentia/issues/new"
-                    target="_blank"
-                    className="inline-flex flex-1 justify-center gap-1 leading-4 hover:underline"
-                  >
-                    <span>&quot;Issue&quot;</span>
-                    <LinkIcon />
-                  </Link>{" "}
-                  en nuestro{" "}
-                  <Link
-                    href="https://github.com/Ktumsh/essentia/issues/new"
-                    target="_blank"
-                    className="inline-flex flex-1 justify-center gap-1 leading-4 hover:underline"
-                  >
-                    <span>Github</span>
-                    <LinkIcon />
-                  </Link>{" "}
-                  y la revisaremos. ¡Te agradecemos la visita!
-                </p>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  onPress={onClose}
-                  className="text-white bg-black/5 dark:bg-white/5 data-[hover=true]:bg-black/10 dark:data-[hover=true]:bg-white/10"
-                >
-                  Quizás más tarde
-                </Button>
-                <Button
-                  as={Link}
-                  href="/login"
-                  color="danger"
-                  onPress={onClose}
-                  endContent={
-                    <ArrowRightIcon className="size-4 motion-safe:group-data-[hover=true]:animate-[spinner-spin_0.8s_ease]" />
-                  }
-                  className="bg-light-gradient dark:bg-gradient-to-r from-cerise-red-600 to-cerise-red-800"
-                >
-                  Iniciar sesión
-                </Button>
-              </ModalFooter>
-              <span className="grid place-content-center absolute inset-0 size-full z-[-1] opacity-10">
-                <SettingsIcon className="size-[500px] text-base-color-d dark:text-base-color-dark-d motion-safe:animate-[spin_15s_linear_infinite]" />
-              </span>
-            </>
-          )}
+          <>
+            <ModalHeader>
+              <div className="absolute -top-[826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-base-dark border-4 border-bittersweet-400 dark:border-cerise-red-600  rounded-full -z-10"></div>
+              <h1 className="text-base-color dark:text-base-color-dark font-motivasans text-2xl font-bold">
+                ¡Bienvenid@!
+              </h1>
+            </ModalHeader>
+            <ModalBody className="pt-8 text-base-color dark:text-base-color-dark">
+              <div className="flex items-center justify-center">
+                <Image
+                  src="/logo-essentia.webp"
+                  alt="Welcome"
+                  width={40}
+                  height={60}
+                  className="w-10"
+                />
+              </div>
+              <h2 className="font-bold">¿Es tu primera vez?</h2>
+              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                <span className="text-base-color dark:text-base-color-dark">
+                  Essentia
+                </span>{" "}
+                es tu plataforma esencial de salud y bienestar 🌿
+              </p>
+              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                Nos alegra que nos acompañes. Aún estamos en desarrollo, así que
+                tu ayuda probando la web será muy valiosa para mejorarla.
+                ¡Gracias por tu apoyo!
+              </p>
+            </ModalBody>
+            <ModalFooter className="flex-col">
+              <Button
+                as={Link}
+                href="/signup"
+                fullWidth
+                size="sm"
+                radius="full"
+                className="text-sm bg-gray-200 dark:bg-white/10"
+              >
+                Inicia sesión
+              </Button>
+              <Button
+                as={Link}
+                href="/login"
+                color="danger"
+                fullWidth
+                size="sm"
+                radius="full"
+                className="text-sm bg-light-gradient dark:bg-gradient-to-r from-cerise-red-600 to-cerise-red-800"
+              >
+                Crea una cuenta
+              </Button>
+            </ModalFooter>
+          </>
         </ModalContent>
       </Modal>
     </>

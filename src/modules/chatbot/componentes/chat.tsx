@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import ChatList from "./chat-list";
 import EmptyScreen from "./empty-screen";
 import ChatPanel from "./chat-panel";
-import { Session } from "@/types/session";
+import { Session, UserProfileData } from "@/types/session";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { useScrollAnchor } from "../hooks/use-scroll-anchor";
 import { cn } from "@/utils/common";
@@ -18,9 +18,16 @@ export interface ChatProps extends ComponentProps<"div"> {
   id?: string;
   session?: Session | undefined;
   missingKeys: string[];
+  profileData: UserProfileData | null;
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({
+  id,
+  className,
+  session,
+  missingKeys,
+  profileData,
+}: ChatProps) {
   const router = useRouter();
   const path = usePathname();
   const [input, setInput] = useState("");
@@ -79,6 +86,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
+        profileData={profileData}
       />
     </div>
   );

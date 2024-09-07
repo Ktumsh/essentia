@@ -9,7 +9,13 @@ import MobileMenu from "./mobile-menu";
 import { usePathname } from "next/navigation";
 import SidebarMobile from "@/modules/chatbot/componentes/sidebar-mobile";
 import ChatHistory from "@/modules/chatbot/componentes/chat-history";
-import { Sheet, SheetContent, SheetTrigger } from "./sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "./sheet";
 import { UserProfileData } from "@/types/session";
 
 interface MobileHeaderProps {
@@ -26,11 +32,11 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
       <Navbar
         shouldHideOnScroll
         classNames={{
-          base: "fixed md:hidden bg-white dark:bg-base-dark shadow-md overflow-hidden",
+          base: "fixed md:hidden bg-white dark:bg-base-full-dark shadow-md overflow-hidden",
           wrapper: "h-14",
         }}
       >
-        {essentiaAi && (
+        {essentiaAi && profileData && (
           <SidebarMobile>
             <ChatHistory userId={profileData?.id} />
           </SidebarMobile>
@@ -41,17 +47,11 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
           aria-label="Página de inicio"
         >
           <Image
-            className="size-8 dark:hidden origin-center transition-all ease-in-out"
-            width={32}
-            height={32}
-            src="/e-logomark-on-light.webp"
-            alt="Logo de Essentia"
-          />
-          <Image
-            className="size-8 hidden dark:block origin-center transition-all ease-in-out"
-            width={32}
-            height={32}
-            src="/e-logomark-on-dark.webp"
+            className="h-8 w-auto aspect-auto transition-all ease-in-out"
+            width={27}
+            height={40}
+            quality={100}
+            src="/logo-essentia.webp"
             alt="Logo de Essentia"
           />
         </Link>
@@ -60,24 +60,23 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
             <MenuButton profileData={profileData} />
           </SheetTrigger>
           <SheetContent
+            aria-labelledby="dialog-description"
             side="right"
             hideCloseButton
             className="inset-y-0 flex h-auto w-[300px] flex-col p-0"
           >
+            <span className="sr-only">
+              <SheetTitle>Menú</SheetTitle>
+            </span>
+            <span id="dialog-description" className="sr-only">
+              <SheetDescription>
+                Este es el menú móvil donde puedes navegar por las opciones.
+              </SheetDescription>
+            </span>
             <MobileMenu profileData={profileData} />
           </SheetContent>
         </Sheet>
       </Navbar>
-      {/*       <div
-        data-overlay-container={isMenuOpen}
-        aria-hidden={true}
-        onClick={() => toggleMenu()}
-        className={`fixed inset-0 size-full min-h-dvh bg-black/80 transition-opacity lg:hidden z-[60] ${
-          isMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      ></div> */}
     </>
   );
 };

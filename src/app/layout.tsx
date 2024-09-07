@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: "/e-logomark-on-dark.webp",
+    icon: "/logo-essentia.webp",
   },
 };
 
@@ -92,7 +92,7 @@ export default async function RootLayout({
       <head />
       <body
         className={cn(
-          "bg-zinc-50 dark:bg-base-full-dark isolate antialiased",
+          "bg-gray-50 dark:bg-base-full-dark isolate antialiased",
           fontMotiva.variable,
           spaceGrotesk.variable,
           spaceMono.variable,

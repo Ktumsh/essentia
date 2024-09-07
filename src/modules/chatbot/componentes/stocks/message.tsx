@@ -11,17 +11,18 @@ import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { useStreamableText } from "../../hooks/use-streamable-text";
 import { MemoizedReactMarkdown } from "@/modules/core/components/markdown";
 import { spinner } from "./spinner";
-import { useSession } from "next-auth/react";
 import { CodeBlock } from "@/modules/core/components/ui/codeblock";
+import { UserProfileData } from "@/types/session";
 
 export function UserMessage({
   children,
   className,
+  profileData,
 }: {
   children: ReactNode;
   className?: string;
+  profileData: UserProfileData | null;
 }) {
-  const { data: session } = useSession();
   return (
     <div
       className={cn(
@@ -29,13 +30,14 @@ export function UserMessage({
         className
       )}
     >
-      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
-        {session?.user?.image ? (
+      <div className="flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+        {profileData && profileData?.profile_image ? (
           <Image
-            width="15"
-            height="15"
-            src={session.user.image}
-            alt={`Imagen de usuario de: ${session.user.name}`}
+            width={25}
+            height={25}
+            src={profileData.profile_image}
+            alt={`Avatar de: ${profileData.username}`}
+            className="object-cover object-center"
           />
         ) : (
           <Avatar
@@ -69,12 +71,13 @@ export function BotMessage({
 
   return (
     <div className={cn("group relative flex items-start md:-ml-12", className)}>
-      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
-          width="15"
-          height="15"
-          src="/e-logomark-on-dark.webp"
+          width={12}
+          height={18}
+          src="/logo-essentia.webp"
           alt="Essentia AI"
+          className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
       <div className="flex-1 ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden text-base-color-h dark:text-base-color-dark">
@@ -145,15 +148,16 @@ export function BotCard({
     <div className="group relative flex items-start md:-ml-12">
       <div
         className={cn(
-          "flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
+          "flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
           !showAvatar && "invisible"
         )}
       >
         <Image
-          width="15"
-          height="15"
-          src="/e-logomark-on-dark.webp"
+          width={12}
+          height={18}
+          src="/logo-essentia.webp"
           alt="Essentia AI"
+          className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
       <div className="ml-4 flex-1 pl-2">{children}</div>
@@ -164,12 +168,13 @@ export function BotCard({
 export function SpinnerMessage() {
   return (
     <div className="group relative flex items-start md:-ml-12">
-      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
-          width="15"
-          height="15"
-          src="/e-logomark-on-dark.webp"
+          width={12}
+          height={18}
+          src="/logo-essentia.webp"
           alt="Essentia AI"
+          className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
       <div className="ml-4 h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden px-1">

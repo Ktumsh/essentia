@@ -4,6 +4,8 @@ import { getChat, getMissingKeys } from "../../actions";
 import { auth } from "@@/auth";
 import { AI } from "@/modules/chatbot/chat/actions";
 import { Chat } from "@/modules/chatbot/componentes/chat";
+import { Session } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 
 export interface ChatPageProps {
   params: {
@@ -14,7 +16,7 @@ export interface ChatPageProps {
 export async function generateMetadata({
   params,
 }: ChatPageProps): Promise<Metadata> {
-  const session = await auth();
+  const session = (await auth()) as Session;
 
   if (!session?.user) {
     return {};
@@ -27,8 +29,9 @@ export async function generateMetadata({
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-  const session = await auth();
+  const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
+  const profileData = session ? await getUserProfileData(session) : null;
 
   if (!session?.user) {
     redirect(`/login?next=/chat/${params.id}`);
@@ -52,6 +55,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         session={session as any}
         initialMessages={chat.messages}
         missingKeys={missingKeys}
+        profileData={profileData}
       />
     </AI>
   );

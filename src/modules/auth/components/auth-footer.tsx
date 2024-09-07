@@ -1,11 +1,11 @@
 import { InstagramIcon, TwitterIcon, GithubIcon } from "@/modules/icons/media";
 import Link from "next/link";
 
-const SignFooter = () => {
+const AuthFooter = () => {
   return (
     <div className="hidden sm:block absolute self-stretch w-full bottom-0 px-5 z-0">
       <div className="max-w-[1250px] mx-auto">
-        <footer className="relative text-base-color-dark font-normal">
+        <footer className="relative text-base-color font-normal">
           <div className="flex flex-col sm:flex-row justify-between items-center py-6 gap-4 select-none">
             <div className="flex items-center justify-start sm:w-[33%] text-sm gap-4">
               <div>
@@ -69,4 +69,4 @@ const SignFooter = () => {
   );
 };
 
-export default SignFooter;
+export default AuthFooter;

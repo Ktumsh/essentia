@@ -7,14 +7,12 @@ import AsideTabs from "./aside.tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/common";
 import ButtonUp from "./ui/button-up";
-import { UserProfileData } from "@/types/session";
 
 interface LayoutWrapperProps {
   children: React.ReactNode;
-  profileData?: UserProfileData | null;
 }
 
-const LayoutWrapper: FC<LayoutWrapperProps> = ({ children, profileData }) => {
+const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   const pathname = usePathname();
   /*   const normalizeName = getFirstNameAndLastName(session?.user?.name);
   const username = session?.user?.username || normalizeName;

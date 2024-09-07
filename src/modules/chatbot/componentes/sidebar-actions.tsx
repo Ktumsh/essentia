@@ -1,3 +1,5 @@
+"use client";
+
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import {
   Button,

@@ -10,6 +10,9 @@ import {
 import { formatDate } from "@/utils/format";
 import ChatList from "@/modules/chatbot/componentes/chat-list";
 import FooterText from "@/modules/chatbot/componentes/footer-text";
+import { auth } from "@@/auth";
+import { Session } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 
 export const runtime = "edge";
 export const preferredRegion = "home";
@@ -33,11 +36,15 @@ export async function generateMetadata({
 export default async function SharePage({ params }: SharePageProps) {
   const chat = await getSharedChat(params.id);
 
+  const session = (await auth()) as Session;
+
+  const profileData = session ? await getUserProfileData(session) : null;
+
   if (!chat || !chat?.share_path) {
     notFound();
   }
 
-  const uiState: UIState = getUIStateFromAIState(chat);
+  const uiState: UIState = getUIStateFromAIState(chat, profileData);
 
   return (
     <>

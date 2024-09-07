@@ -15,13 +15,14 @@ export default async function MainLayout({
 }) {
   const session = (await auth()) as Session;
   const profileData = session ? await getUserProfileData(session) : null;
+
   return (
     <>
       {/* Header */}
       <Header profileData={profileData} />
       {/* Mobile Header */}
       <MobileHeader profileData={profileData} />
-      <LayoutWrapper profileData={profileData}>{children}</LayoutWrapper>
+      <LayoutWrapper>{children}</LayoutWrapper>
       {/* Bottom Mobile Navbar */}
       <BottomNav />
       {!session && <WelcomeModal />}

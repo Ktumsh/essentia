@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import SignFooter from "@/modules/auth/components/sign-footer";
-import SignUpForm from "@/modules/auth/components/signup-form";
+import SignupWrapper from "@/modules/auth/components/signup-wrapper";
 import { auth } from "@@/auth";
 import { Session } from "@/types/session";
 import { redirect } from "next/navigation";
@@ -15,10 +14,5 @@ export default async function LoginPage() {
   if (session) {
     redirect("/");
   }
-  return (
-    <main className="relative w-full">
-      <SignUpForm />
-      <SignFooter />
-    </main>
-  );
+  return <SignupWrapper />;
 }

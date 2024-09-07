@@ -5,17 +5,25 @@ import { AI } from "@/modules/chatbot/chat/actions";
 import { nanoid } from "@/utils/common";
 import { auth } from "@@/auth";
 import { Chat } from "@/modules/chatbot/componentes/chat";
+import { Session } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 export const metadata: Metadata = {
   title: "Essentia AI",
 };
 
 const AIPage = async () => {
   const id = nanoid();
-  const session = await auth();
+  const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
+  const profileData = session ? await getUserProfileData(session) : null;
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} session={session as any} missingKeys={missingKeys} />
+      <Chat
+        id={id}
+        session={session}
+        missingKeys={missingKeys}
+        profileData={profileData}
+      />
     </AI>
   );
 };
