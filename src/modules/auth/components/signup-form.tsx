@@ -125,7 +125,7 @@ const SignupForm = () => {
       layout
       style={{ height: "auto" }}
       transition={{ ease: "easeInOut", duration: 0.5 }}
-      className="flex relative justify-center items-center p-8 mb-9 sm:w-[500px] rounded-xl bg-transparent sm:bg-white text-left sm:shadow-lg font-normal text-base-color-m overflow-hidden"
+      className="flex relative justify-center items-center p-8 mb-9 sm:w-[500px] rounded-xl g-transparent sm:bg-white sm:dark:bg-base-full-dark sm:dark:border dark:border-base-dark text-left sm:shadow-lg font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden"
     >
       <AnimatePresence mode="popLayout">
         {step === 1 ? (
@@ -140,7 +140,7 @@ const SignupForm = () => {
             className="flex flex-col items-start justify-center w-full select-none"
             onSubmit={handleEmailSubmit}
           >
-            <div className="w-full text-sm text-base-color-h mb-5">
+            <div className="w-full text-sm text-base-color-h dark:text-base-color-dark-h mb-5">
               <p>Continúa con tu correo para comenzar a crear tu cuenta.</p>
             </div>
             <Input
@@ -157,14 +157,17 @@ const SignupForm = () => {
                 setFieldErrors((prev) => ({ ...prev, email: "" }));
               }}
               classNames={{
-                input: "placeholder:text-base-color-d",
+                inputWrapper:
+                  "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                input:
+                  "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
               }}
             />
             <Button
               type="submit"
               radius="full"
               fullWidth
-              className="bg-light-gradient text-base text-white mt-4"
+              className="bg-light-gradient dark:bg-dark-gradient-v2 text-base text-white mt-4"
               isDisabled={isPending}
               startContent={
                 isPending ? (
@@ -212,11 +215,11 @@ const SignupForm = () => {
                 <Button
                   isIconOnly
                   onPress={() => setStep(1)}
-                  className="bg-transparent sm:bg-gray-100"
+                  className="bg-transparent sm:bg-gray-100 sm:dark:bg-base-dark"
                 >
-                  <ArrowRightV2Icon className="size-6 rotate-180 text-base-color-h" />
+                  <ArrowRightV2Icon className="size-6 rotate-180 text-base-color-h dark:text-base-color-dark-h" />
                 </Button>
-                <div className="w-full text-sm text-base-color-h">
+                <div className="w-full text-sm text-base-color-h dark:text-base-color-dark-h">
                   <p>
                     Parece que no tienes una cuenta. Vamos a crear una nueva
                     cuenta para{" "}
@@ -243,7 +246,10 @@ const SignupForm = () => {
                     setFieldErrors((prev) => ({ ...prev, name: "" }));
                   }}
                   classNames={{
-                    input: "placeholder:text-base-color-d",
+                    inputWrapper:
+                      "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                    input:
+                      "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                   }}
                 />
                 <Input
@@ -262,7 +268,10 @@ const SignupForm = () => {
                     setFieldErrors((prev) => ({ ...prev, lastname: "" }));
                   }}
                   classNames={{
-                    input: "placeholder:text-base-color-d",
+                    inputWrapper:
+                      "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                    input:
+                      "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                   }}
                 />
               </div>
@@ -281,7 +290,10 @@ const SignupForm = () => {
                   setFieldErrors((prev) => ({ ...prev, username: "" }));
                 }}
                 classNames={{
-                  input: "placeholder:text-base-color-d",
+                  inputWrapper:
+                    "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                  input:
+                    "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                 }}
               />
               <div className="relative">
@@ -306,7 +318,7 @@ const SignupForm = () => {
                         <button
                           aria-label="Ayuda"
                           type="button"
-                          className="flex items-center justify-center size-3 bg-bittersweet-300 rounded-full"
+                          className="flex items-center justify-center size-3 bg-bittersweet-300 dark:bg-cerise-red-600 rounded-full"
                         >
                           <QuestionIcon className="size-2 text-white" />
                         </button>
@@ -345,7 +357,9 @@ const SignupForm = () => {
                   color={fieldErrors.birthdate ? "danger" : "default"}
                   classNames={{
                     label: "ml-5",
-                    description: "text-base-color-m",
+                    description:
+                      "text-base-color-m dark:text-base-color-dark-m",
+                    inputWrapper: "dark:!bg-white/5 dark:hover:!bg-white/10",
                     innerWrapper: "text-base-color-m",
                   }}
                 />
@@ -378,10 +392,13 @@ const SignupForm = () => {
                   </button>
                 }
                 classNames={{
-                  input: "placeholder:text-base-color-d",
+                  inputWrapper:
+                    "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                  input:
+                    "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                 }}
               />
-              <div className="flex mb-6 relative w-full text-[13px] leading-snug select-text text-base-color-h">
+              <div className="flex mb-6 relative w-full text-[13px] leading-snug select-text text-base-color-h dark:text-base-color-dark-h">
                 <p>
                   Al registrarte, estás aceptando los{" "}
                   <Link
@@ -406,7 +423,7 @@ const SignupForm = () => {
               type="submit"
               radius="full"
               fullWidth
-              className="bg-light-gradient text-base text-white"
+              className="bg-light-gradient dark:bg-dark-gradient-v2 text-base text-white"
               isDisabled={isPending}
               startContent={
                 isPending ? (
@@ -416,7 +433,7 @@ const SignupForm = () => {
             >
               Crear cuenta
             </Button>
-            <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-base-color-h">
+            <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-base-color-h dark:text-base-color-dark-h">
               <p>
                 ¿Ya tienes una cuenta?{" "}
                 <Link

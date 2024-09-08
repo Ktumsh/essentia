@@ -1,4 +1,4 @@
-import { Separator } from "@/modules/core/components/ui/separator";
+import { Separator } from "@/modules/core/components/ui/utils/separator";
 import { UIState } from "../chat/actions";
 import { Session } from "@/types/session";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";

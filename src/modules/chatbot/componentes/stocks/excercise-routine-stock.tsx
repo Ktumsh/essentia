@@ -1,6 +1,6 @@
 "use client";
 
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { ClockIcon } from "@/modules/icons/status";
 
 import Image from "next/image";

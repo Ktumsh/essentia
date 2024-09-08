@@ -1,6 +1,6 @@
 "use client";
 import { RESOURCES } from "@/consts/resources";
-import ResourceWrapper from "@/modules/core/components/resource-wrapper";
+import ResourceWrapper from "@/modules/core/components/wrappers/resource-wrapper";
 
 type Props = {
   params: { resource: string };

@@ -18,7 +18,7 @@ const Resources = () => {
         {itemId.map((item, index) => (
           <ResourcesItem
             key={index}
-            class={`col-span-12 sm:col-span-6 ${item.span}`}
+            wrapperClass={`col-span-12 sm:col-span-6 ${item.span}`}
             title={item.title}
             subtitle={item.subtitle}
             img={item.image}

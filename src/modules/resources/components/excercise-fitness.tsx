@@ -5,7 +5,7 @@ import RESOURCES_VIDEOS from "@/consts/resources-videos";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
-import { ModalComponent } from "@/modules/core/components/ui/modal";
+import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitness-modal";
 
 const videos =
   RESOURCES_VIDEOS.find((section) => section.section === "ExerciseFitness")

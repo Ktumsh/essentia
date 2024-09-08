@@ -11,7 +11,7 @@ import { type Chat } from "@/types/chat";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { ChatIcon, UsersIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 interface SidebarItemProps {
   index: number;

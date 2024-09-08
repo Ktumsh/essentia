@@ -7,7 +7,7 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { StarIcon } from "@/modules/icons/common";
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import { GUIDES } from "@/consts/guides";
 import { useGlowingEffect } from "../hooks/use-glowing-effect";

@@ -4,7 +4,7 @@ import { useCallback, useRef } from "react";
 
 import { DownloadIcon } from "@radix-ui/react-icons";
 import { toPng } from "html-to-image";
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import Image from "next/image";
 import { HeartIcon, ListIcon } from "@/modules/icons/miscellaneus";
 import {

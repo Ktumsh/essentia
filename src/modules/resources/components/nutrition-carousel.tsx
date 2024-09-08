@@ -7,7 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/modules/core/components/ui/carousel";
+} from "@/modules/core/components/ui/carousels/nutrition-carousel";
 import { ModalData } from "@/types/common";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 

@@ -1,4 +1,4 @@
-import Carousel from "./carousel/carousel";
+import Carousel from "@/modules/core/components/ui/carousels/home-carousel/carousel";
 import Resources from "./resources";
 
 const Home = () => {

@@ -1,11 +1,11 @@
-import "./globals.css";
+import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 
 import { fontMotiva, spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { GeistSans } from "geist/font/sans";
 import { siteConfig } from "@/config/site";
 
-import { Providers } from "@/modules/core/components/providers";
+import { Providers } from "@/modules/core/components/wrappers/providers";
 
 import { Toaster } from "sonner";
 import { cn } from "@/utils/common";

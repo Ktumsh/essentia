@@ -47,6 +47,7 @@
     "next-themes": "^0.3.0",
     "openai": "^4.58.1",
     "react": "^18.3.1",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.3.1",
     "react-lite-youtube-embed": "^2.4.0",
     "react-markdown": "9.0.1",

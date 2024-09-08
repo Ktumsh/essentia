@@ -13,7 +13,7 @@ import {
   ZoomInIcon,
   ZoomOutIcon,
 } from "@/modules/icons/action";
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 export default function GoogleMaps() {
   const mapRef = useRef<HTMLDivElement>(null);

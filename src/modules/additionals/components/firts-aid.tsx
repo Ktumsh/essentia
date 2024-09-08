@@ -7,7 +7,7 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { generateChipColors } from "../lib/utils";
 import { FAQ_FIRST_AID } from "@/consts/faq-firts-aid";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
 

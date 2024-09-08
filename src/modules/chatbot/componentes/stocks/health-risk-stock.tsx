@@ -1,6 +1,6 @@
 "use client";
 
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import {
   HeartbeatIcon,
   HighLevelIcon,

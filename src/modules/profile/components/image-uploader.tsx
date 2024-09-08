@@ -1,7 +1,7 @@
 import { FC, useRef, ChangeEvent } from "react";
 import { Button } from "@nextui-org/react";
 import { AddPhotoIcon } from "@/modules/icons/action";
-import TooltipCTN from "@/modules/core/components/ui/tooltip-ctn";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 interface ImageUploaderProps {
   onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;

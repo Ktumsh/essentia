@@ -9,7 +9,7 @@ import { Video } from "@/types/resource";
 import Link from "next/link";
 import VideoCard from "./video-card";
 import { HashIcon } from "@/modules/icons/common";
-import { ModalComponent } from "@/modules/core/components/ui/modal";
+import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitness-modal";
 
 const videos: Video[] =
   RESOURCES_VIDEOS.find((section) => section.section === "HealthWellness")

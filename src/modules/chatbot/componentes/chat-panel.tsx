@@ -13,7 +13,7 @@ import ChatShareModal from "./chat-share-modal";
 import { shareChat } from "@/app/(main)/essentia-ai/actions";
 import PromptForm from "./prompt-form";
 import FooterText from "./footer-text";
-import ButtonToBottom from "@/modules/core/components/ui/button-to-bottom";
+import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { UserMessage } from "./stocks/message";
 import { ShareIcon } from "@/modules/icons/action";
 import { cn, shuffleArray } from "@/utils/common";

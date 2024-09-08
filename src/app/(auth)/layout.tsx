@@ -3,22 +3,26 @@
 import AuthFooter from "@/modules/auth/components/auth-footer";
 import AuthHeader from "@/modules/auth/components/auth-header";
 import { cn } from "@/utils/common";
-import { motion, MotionConfig } from "framer-motion";
+import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  const logout = pathname.startsWith("/logout");
   return (
     <>
-      <main className="relative w-full">
+      <main className="relative w-full overflow-hidden">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ease: "easeInOut", duration: 0.5 }}
           aria-hidden="true"
-          className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+          className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
         >
           <div
             className={cn(
@@ -30,9 +34,9 @@ export default function AuthLayout({
             )}
           ></div>
         </motion.div>
-        <AuthHeader />
+        {!logout && <AuthHeader />}
         {children}
-        <AuthFooter />
+        {!logout && <AuthFooter />}
       </main>
     </>
   );

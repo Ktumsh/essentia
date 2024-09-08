@@ -1,4 +1,4 @@
-import ButtonUp from "@/modules/core/components/ui/button-up";
+import ButtonUp from "@/modules/core/components/ui/buttons/button-up";
 import Landing from "@/modules/landing/components/landing";
 import LandingHeader from "@/modules/landing/components/landing-header";
 import { auth } from "@@/auth";
@@ -38,17 +38,18 @@ export const metadata: Metadata = {
 };
 
 const WelcomePage = async () => {
-  const session = await auth();
+  /*   const session = await auth();
   if (session) {
     return redirect("/");
-  }
-  return (
-    <>
+  } */
+  return redirect("/");
+  {
+    /* <>
       <LandingHeader />
       <Landing />
       <ButtonUp />
-    </>
-  );
+    </> */
+  }
 };
 
 export default WelcomePage;

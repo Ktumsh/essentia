@@ -1,8 +1,8 @@
-import LayoutWrapper from "@/modules/core/components/layout-wrapper";
-import BottomNav from "@/modules/core/components/ui/bottom-navbar";
-import Header from "@/modules/core/components/ui/header";
-import MobileHeader from "@/modules/core/components/ui/mobile-header";
-import WelcomeModal from "@/modules/core/components/ui/welcome-modal";
+import LayoutWrapper from "@/modules/core/components/wrappers/layout-wrapper";
+import BottomNav from "@/modules/core/components/ui/layout/bottom-navbar";
+import Header from "@/modules/core/components/ui/layout/header";
+import MobileHeader from "@/modules/core/components/ui/layout/mobile-header";
+import WelcomeModal from "@/modules/core/components/ui/modals/welcome-modal";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 

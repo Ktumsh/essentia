@@ -9,9 +9,9 @@ import { Avatar } from "@nextui-org/react";
 import { cn } from "@/utils/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { useStreamableText } from "../../hooks/use-streamable-text";
-import { MemoizedReactMarkdown } from "@/modules/core/components/markdown";
+import { MemoizedReactMarkdown } from "@/modules/core/components/ui/renderers/markdown";
 import { spinner } from "./spinner";
-import { CodeBlock } from "@/modules/core/components/ui/codeblock";
+import { CodeBlock } from "@/modules/core/components/ui/renderers/codeblock";
 import { UserProfileData } from "@/types/session";
 
 export function UserMessage({
