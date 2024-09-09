@@ -1,4 +1,11 @@
-import { FC, useCallback, useEffect, memo, useTransition } from "react";
+import {
+  FC,
+  useCallback,
+  useEffect,
+  memo,
+  useTransition,
+  useState,
+} from "react";
 import {
   Modal,
   ModalBody,
@@ -56,7 +63,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
     if (isOpen) {
       resetForm();
     }
-  }, [isOpen, resetForm]);
+  }, [isOpen, resetForm, formData]);
 
   const onSubmit = useCallback(() => {
     startTransition(async () => {
@@ -107,22 +114,29 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
         toast.success("Tu perfil ha sido actualizado.");
         onOpenChange();
       } catch (error) {
+        startTransition(() => {});
         console.error("Error al actualizar el perfil", error);
         toast.error("Error al actualizar el perfil.");
       }
     });
   }, [formData, onProfileUpdate, onOpenChange]);
 
+  const onCancel = useCallback(() => {
+    // Restauramos el estado original si el usuario cancela
+    setEditFormData(profileData); // Restauramos el formData original
+    resetForm(); // Reseteamos el formulario
+    onOpenChange(); // Cerramos el modal
+  }, [resetForm, onOpenChange, setEditFormData, profileData]);
   return (
     <>
-      <div className="px-8 py-3 space-y-6">
+      <div className="px-4 md:px-8 py-3 space-y-3 md:space-y-6">
         {/* Foto de perfil y botón editar */}
         <div className="relative">
-          <div className="absolute -top-10 md:-top-14 left-6">
+          <div className="absolute -top-9 md:-top-14 left-0 md:left-6">
             <div className="z-0 size-full bg-gray-200 dark:bg-base-dark border-5 border-white dark:border-base-full-dark rounded-full overflow-hidden">
               <Link
                 href={`/profile/${formData.username}/photo`}
-                className="relative flex shrink-0 overflow-hidden rounded-full w-32 h-32"
+                className="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-32"
               >
                 <Image
                   width={120}
@@ -135,10 +149,10 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
               </Link>
             </div>
           </div>
-          <div className="ml-44 flex justify-between items-start">
-            <div>
-              <h2 className="text-xl font-bold text-base-color dark:text-base-color-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
-              <span className="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <div className="ml-24 md:ml-44 flex justify-between items-start">
+            <div className="inline-flex flex-col">
+              <h2 className="md:text-xl font-bold text-base-color dark:text-base-color-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
+              <span className="text-xs md:text-sm text-base-color-m dark:text-base-color-dark-m">
                 @{formData.username}
               </span>
             </div>
@@ -156,7 +170,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
         {/* Información del perfil */}
         <div className="py-6 space-y-6">
           <div>
-            <h3 className="mb-2 font-semibold text-lg text-base-color dark:text-base-color-dark">
+            <h3 className="mb-2 font-semibold md:text-lg text-base-color dark:text-base-color-dark">
               Acerca de mí
             </h3>
             <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
@@ -286,11 +300,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onPress={() => {
-                    setEditFormData(profileData);
-                    resetForm();
-                    onClose();
-                  }}
+                  onPress={onCancel}
                   variant="bordered"
                   className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
                 >

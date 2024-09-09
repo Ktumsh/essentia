@@ -23,7 +23,7 @@ export default async function BannerPage() {
             alt="Foto de perfil"
             classNames={{
               wrapper:
-                "flex items-center justify-center !max-w-full max-h-[624px] !size-full",
+                "flex items-center justify-center !max-w-full max-h-[624px] md:size-full",
               img: "!size-full object-cover object-center",
             }}
           />

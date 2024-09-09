@@ -1,13 +1,13 @@
 "use client";
 
-import { FC, Key, useRef, useState } from "react";
+import { FC, Key, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import ProfileInfo from "./profile-info";
 import {
   Avatar,
   AvatarGroup,
   Button,
-  Image as UIImage,
+  Image as ImageUI,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -21,6 +21,8 @@ import { UserProfileData } from "@/types/session";
 import { AddPhotoIcon, DeleteIcon, UploadIcon } from "@/modules/icons/action";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
+import { calculateProfileProgress, deleteFile, uploadFile } from "../lib/utils";
+import { SpinnerIcon } from "@/modules/icons/common";
 
 interface ProfilePanelProps {
   profileData: UserProfileData;
@@ -35,6 +37,8 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
   );
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+  const [isPending, startTransition] = useTransition();
 
   const onProfileUpdate = (newBanner: string | null) => {
     setPreviewBanner(newBanner);
@@ -55,56 +59,53 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
   const handleSave = async () => {
     if (fileInputRef.current?.files && fileInputRef.current.files[0]) {
       const file = fileInputRef.current.files[0];
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("userId", id);
-      formData.append("imageType", "banner");
 
-      try {
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
+      startTransition(async () => {
+        try {
+          const bannerImage = await uploadFile(
+            file,
+            "banner",
+            id,
+            true,
+            "Foto de portada actualizada exitosamente",
+            "Hubo un error al subir tu foto de portada"
+          );
 
-        const result = await response.json();
-
-        if (result.success) {
-          toast.success("Foto de portada actualizada exitosamente");
-          setPreviewBanner(result.banner_image);
+          setPreviewBanner(bannerImage);
           setShowSaveModal(false);
-        } else {
+        } catch (error) {
+          startTransition(() => {});
           toast.error("Hubo un error al subir tu foto de portada");
         }
-      } catch (error) {
-        toast.error("Hubo un error al subir tu foto de portada");
-      }
+      });
     }
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await fetch("/api/upload", {
-        method: "DELETE",
-        body: JSON.stringify({ userId: id }),
-      });
+    startTransition(async () => {
+      try {
+        await deleteFile(
+          id,
+          true,
+          "Foto de portada eliminada",
+          "Hubo un error al eliminar tu foto de portada"
+        );
 
-      const result = await response.json();
-
-      if (result.success) {
-        toast.success("Foto de portada eliminada");
         setPreviewBanner(null);
         setShowDeleteModal(false);
-      } else {
+      } catch (error) {
+        startTransition(() => {});
         toast.error("Hubo un error al eliminar tu foto de portada");
       }
-    } catch (error) {
-      toast.error("Hubo un error al eliminar tu foto de portada");
-    }
+    });
   };
 
   const handleCancel = () => {
     setPreviewBanner(banner_image);
     setShowSaveModal(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleMenuAction = (key: Key) => {
@@ -121,6 +122,8 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
     }
   };
 
+  const progress = calculateProfileProgress(profileData);
+
   return (
     <>
       <section className="flex flex-col items-stretch shrink w-full mb-2">
@@ -129,20 +132,20 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
             {previewBanner ? (
               <Link
                 href={`/profile/${profileData.username}/banner`}
-                className="relative flex h-72 bg-black/30 transition-colors z-0"
+                className="relative flex h-44 md:h-72 bg-black/30 transition-colors z-0 overflow-hidden"
               >
-                <UIImage
+                <ImageUI
                   removeWrapper
                   as={Image}
                   width={984}
                   height={288}
                   quality={100}
+                  priority
                   alt="Banner de perfil"
                   radius="none"
                   src={previewBanner}
-                  draggable={true}
                   classNames={{
-                    img: "absolute inset-0 object-cover object-center size-full",
+                    img: "object-cover object-center !w-full !h-auto",
                   }}
                 />
               </Link>
@@ -173,27 +176,43 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
                     </Button>
                   </DropdownTrigger>
 
-                  <DropdownMenu
-                    aria-label="Opciones de banner"
-                    variant="flat"
-                    onAction={handleMenuAction}
-                  >
-                    <DropdownItem
-                      key="upload"
-                      startContent={<UploadIcon className="size-4" />}
-                      className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+                  {previewBanner ? (
+                    <DropdownMenu
+                      aria-label="Opciones de banner"
+                      variant="flat"
+                      onAction={handleMenuAction}
                     >
-                      Subir foto de portada
-                    </DropdownItem>
-                    <DropdownItem
-                      key="delete"
-                      color="danger"
-                      startContent={<DeleteIcon className="size-4" />}
-                      className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
+                      <DropdownItem
+                        key="upload"
+                        startContent={<UploadIcon className="size-4" />}
+                        className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+                      >
+                        Subir foto de portada
+                      </DropdownItem>
+                      <DropdownItem
+                        key="delete"
+                        color="danger"
+                        startContent={<DeleteIcon className="size-4" />}
+                        className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
+                      >
+                        Eliminar
+                      </DropdownItem>
+                    </DropdownMenu>
+                  ) : (
+                    <DropdownMenu
+                      aria-label="Opciones de banner"
+                      variant="flat"
+                      onAction={handleMenuAction}
                     >
-                      Eliminar
-                    </DropdownItem>
-                  </DropdownMenu>
+                      <DropdownItem
+                        key="upload"
+                        startContent={<UploadIcon className="size-4" />}
+                        className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
+                      >
+                        Subir foto de portada
+                      </DropdownItem>
+                    </DropdownMenu>
+                  )}
                 </Dropdown>
 
                 <input
@@ -214,7 +233,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
       </section>
       <section className="flex items-stretch grow shrink size-full mb-5 gap-2">
         <div className="relative flex flex-col w-full bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg shadow-md"></div>
-        <ProgressInfo />
+        <ProgressInfo progress={progress} profileData={profileData} />
       </section>
 
       {/* Modal para confirmación de guardado */}
@@ -255,8 +274,15 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
                 onPress={handleSave}
                 color="danger"
                 className="rounded-md"
+                isDisabled={isPending}
+                aria-disabled={isPending}
+                startContent={
+                  isPending ? (
+                    <SpinnerIcon className="size-4 animate-spin" />
+                  ) : null
+                }
               >
-                Guardar cambios
+                {isPending ? "Guardando..." : "Guardar cambios"}
               </Button>
             </div>
           </div>
@@ -301,8 +327,15 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
               color="danger"
               onPress={handleDelete}
               className="rounded-md"
+              isDisabled={isPending}
+              aria-disabled={isPending}
+              startContent={
+                isPending ? (
+                  <SpinnerIcon className="size-4 animate-spin" />
+                ) : null
+              }
             >
-              Eliminar
+              {isPending ? "Eliminando..." : "Eliminar"}
             </Button>
           </div>
         </ModalContent>

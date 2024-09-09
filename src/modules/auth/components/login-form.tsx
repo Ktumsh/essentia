@@ -54,9 +54,8 @@ const LoginForm = () => {
   useEffect(() => {
     if (result) {
       if (result.type === "error") {
-        startTransition(() => {
-          toast.error(getMessageFromCode(result.resultCode));
-        });
+        startTransition(() => {});
+        toast.error(getMessageFromCode(result.resultCode));
       } else {
         if (isSelected) {
           localStorage.setItem("rememberedEmail", email);

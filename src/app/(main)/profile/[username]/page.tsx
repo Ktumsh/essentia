@@ -20,7 +20,7 @@ const ProfilePage = async () => {
   const profileData = await getUserProfileData(session);
   return (
     <>
-      <main className="flex flex-col min-h-dvh w-full md:min-w-[768px] max-w-5xl px-5 pt-14 shrink items-stretch grow">
+      <main className="flex flex-col min-h-dvh w-full md:min-w-[768px] max-w-5xl md:px-5 pb-14 md:pb-0 pt-14 shrink items-stretch grow">
         <ProfilePanel profileData={profileData} />
       </main>
     </>

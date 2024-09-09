@@ -23,7 +23,7 @@ export default async function PhotoPage() {
               alt={"Foto de perfil de " + profileData.username}
               classNames={{
                 wrapper: "flex items-center justify-center",
-                img: "!size-72 md:!size-80 object-cover object-center",
+                img: "!size-48 md:!size-80 object-cover object-center",
               }}
             />
           </div>

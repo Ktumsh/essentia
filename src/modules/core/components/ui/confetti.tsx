@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 
 interface ConfettiComponentProps {
-  clicks: number;
+  clicks?: number;
   windowSize: { width: number; height: number };
 }
 
@@ -11,11 +11,28 @@ const ConfettiComponent = ({ clicks, windowSize }: ConfettiComponentProps) => {
   const [confettiOpacity, setConfettiOpacity] = useState(1);
 
   useEffect(() => {
-    if (clicks === 100) {
+    if (clicks !== undefined) {
+      if (clicks === 100) {
+        setShowConfetti(true);
+        setConfettiOpacity(1);
+
+        setTimeout(() => {
+          const fadeOutInterval = setInterval(() => {
+            setConfettiOpacity((prevOpacity) => {
+              if (prevOpacity <= 0.05) {
+                clearInterval(fadeOutInterval);
+                setShowConfetti(false);
+                return 0;
+              }
+              return prevOpacity - 0.05;
+            });
+          }, 100);
+        }, 3000);
+      }
+    } else {
       setShowConfetti(true);
       setConfettiOpacity(1);
 
-      // Desaparecer confeti gradualmente
       setTimeout(() => {
         const fadeOutInterval = setInterval(() => {
           setConfettiOpacity((prevOpacity) => {
