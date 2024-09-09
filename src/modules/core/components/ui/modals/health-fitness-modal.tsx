@@ -24,7 +24,6 @@ import { HeartIcon } from "@/modules/icons/miscellaneus";
 import Image from "next/image";
 
 interface Props {
-  tooltip: string;
   modalSize?: string;
   modalTitle: string;
   modalImage: string;
@@ -33,8 +32,7 @@ interface Props {
 }
 
 export const ModalComponent: FC<Props> = ({
-  tooltip,
-  modalSize = "2xl",
+  modalSize = "3xl",
   modalTitle,
   modalImage,
   modalBody,
@@ -69,46 +67,39 @@ export const ModalComponent: FC<Props> = ({
 
   return (
     <>
-      <Tooltip
-        content={tooltip}
-        closeDelay={0}
-        placement="top-end"
-        classNames={{
-          content: tooltipStyles.content,
+      <Card
+        id={formatedTitle}
+        data-id={formatedTitle}
+        data-name={modalTitle}
+        shadow="sm"
+        radius="sm"
+        isPressable
+        onPress={() => {
+          onOpen();
+          history.replaceState(null, "", `#${formatedTitle}`);
         }}
+        className="group h-64 text-base-color-h dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-gray-100 dark:border-base-dark shadow-md !transition overflow-clip"
       >
-        <Card
-          id={formatedTitle}
-          data-id={formatedTitle}
-          data-name={modalTitle}
-          shadow="sm"
-          isPressable
-          onPress={() => {
-            onOpen();
-            history.replaceState(null, "", `#${formatedTitle}`);
-          }}
-          className="group h-64 rounded-xl text-base-color-h dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-gray-100 dark:border-base-dark shadow-md !transition overflow-clip on-scroll"
-        >
-          <CardHeader className="absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
-            <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
-          </CardHeader>
-          <UIImage
-            as={Image}
-            width={305}
-            height={206}
-            quality={90}
-            removeWrapper
-            alt={modalTitle}
-            className="z-0 w-full h-52 object-cover rounded-xl shadow-lg shadow-black/20 group-hover:scale-95"
-            src={modalImage}
-          />
-          <CardFooter className="text-small justify-center bg-transparent">
-            <q className="text-base font-bold text-start group-hover:text-black dark:group-hover:text-white transition-colors">
-              {modalTitle}
-            </q>
-          </CardFooter>
-        </Card>
-      </Tooltip>
+        <CardHeader className="absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
+          <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
+        </CardHeader>
+        <UIImage
+          as={Image}
+          width={305}
+          height={206}
+          quality={90}
+          removeWrapper
+          alt={modalTitle}
+          radius="sm"
+          className="z-0 w-full h-52 object-cover shadow-lg shadow-black/20 group-hover:scale-95"
+          src={modalImage}
+        />
+        <CardFooter className="text-small bg-transparent">
+          <p className="font-semibold text-start group-hover:text-black dark:group-hover:text-white transition-colors">
+            {modalTitle}
+          </p>
+        </CardFooter>
+      </Card>
       <Modal
         placement="center"
         scrollBehavior="inside"
@@ -116,12 +107,12 @@ export const ModalComponent: FC<Props> = ({
         backdrop="blur"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        radius="lg"
+        radius="sm"
         classNames={{
-          backdrop: "z-[101]",
+          backdrop: "z-[101] bg-white/50 dark:bg-black/80",
           wrapper: "overflow-hidden z-[102]",
           body: "py-6",
-          base: "bg-white dark:bg-base-dark max-h-[calc(100%_-_10rem)] lg:max-h-[calc(100%_-_7.5rem)]",
+          base: "bg-white dark:bg-base-full-dark max-h-[calc(100%_-_10rem)] lg:max-h-[calc(100%_-_7.5rem)]",
           header: "border-b-1 border-gray-200 dark:border-base-color-m",
           footer: "border-t-1 border-gray-200 dark:border-base-color-m",
           closeButton:
@@ -134,7 +125,7 @@ export const ModalComponent: FC<Props> = ({
               <ModalHeader className="flex flex-col gap-1 text-base-color dark:text-base-color-dark font-grotesk font-bold text-xl">
                 <q>{modalTitle}</q>
               </ModalHeader>
-              <ScrollShadow className="custom-scroll" size={80}>
+              <ScrollShadow className="custom-scroll v2" size={80}>
                 <ModalBody className="text-base-color-h dark:text-base-color-dark-h">
                   <div dangerouslySetInnerHTML={{ __html: modalBody }} />
                   <div ref={componentRef}></div>
@@ -142,7 +133,7 @@ export const ModalComponent: FC<Props> = ({
               </ScrollShadow>
               <ModalFooter className="text-base-color dark:text-base-color-dark">
                 <Button
-                  radius="lg"
+                  radius="sm"
                   color="default"
                   variant="light"
                   onPress={onClose}
@@ -152,7 +143,7 @@ export const ModalComponent: FC<Props> = ({
                 </Button>
                 <Button
                   isIconOnly
-                  radius="lg"
+                  radius="sm"
                   aria-label="Like"
                   color="danger"
                   onPress={onClose}

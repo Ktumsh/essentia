@@ -3,7 +3,7 @@
 import {
   Button,
   Chip,
-  Image as UIImage,
+  Image as ImageUI,
   Modal,
   ModalContent,
   Tooltip,
@@ -79,7 +79,7 @@ const ResourceWrapper: FC<Props> = ({
                 id={`introduccion-a-${formatedTitle}`}
                 data-id={`introduccion-a-${formatedTitle}`}
                 data-name={`Introducción a ${title}`}
-                className="relative flex mb-5 border border-gray-100 dark:border-base-dark shadow-md lg:rounded-xl overflow-hidden"
+                className="relative flex mb-5 border border-gray-100 dark:border-base-dark shadow-md lg:rounded-3xl overflow-hidden"
               >
                 <div className="absolute p-5 top-0 right-0 z-20">
                   <Tooltip
@@ -115,7 +115,7 @@ const ResourceWrapper: FC<Props> = ({
                       </q>
                     </div>
                   </div>
-                  <UIImage
+                  <ImageUI
                     priority
                     as={Image}
                     width={982}
@@ -180,7 +180,7 @@ const ResourceWrapper: FC<Props> = ({
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         classNames={{
-          backdrop: "z-[101]",
+          backdrop: "z-[101] bg-white/50 dark:bg-black/80",
           wrapper: "z-[102]",
           closeButton:
             "z-10 hover:bg-black/5 active:bg-black/10 text-white transition-colors duration-150",

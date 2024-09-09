@@ -7,7 +7,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalImage: "/modal/salud-article-01.webp",
     modalBody: `
       <section>
-        <div class="h-32 rounded-medium mb-5 shadow-lg shadow-black/30 overflow-hidden">
+        <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
           <img class="w-full h-full object-cover object-top" src="/modal/salud-article-01.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">
@@ -44,7 +44,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalImage: "/modal/salud-article-02.webp",
     modalBody: `
       <section>
-        <div class="h-32 rounded-medium mb-5 shadow-lg shadow-black/30 overflow-hidden">
+        <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
           <img class="w-full h-full object-cover object-top" src="/modal/salud-article-02.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">
@@ -88,7 +88,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalImage: "/modal/salud-article-03.webp",
     modalBody: `
       <section>
-        <div class="h-32 rounded-medium mb-5 shadow-lg shadow-black/30 overflow-hidden">
+        <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
           <img class="w-full h-full object-cover object-[50%_20%]" src="/modal/salud-article-03.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">
@@ -125,7 +125,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalImage: "/modal/salud-article-04.webp",
     modalBody: `
       <section>
-        <div class="h-32 rounded-medium mb-5 shadow-lg shadow-black/30 overflow-hidden">
+        <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
           <img class="w-full h-full object-cover object-bottom" src="/modal/salud-article-04.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">
@@ -171,7 +171,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalImage: "/modal/salud-article-05.webp",
     modalBody: `
       <section>
-        <div class="h-32 rounded-medium mb-5 shadow-lg shadow-black/30 overflow-hidden">
+        <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
           <img class="w-full h-full object-cover object-center" src="/modal/salud-article-05.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">
@@ -225,7 +225,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalImage: "/modal/salud-article-06.webp",
     modalBody: `
       <section>
-        <div class="h-32 rounded-medium mb-5 shadow-lg shadow-black/30 overflow-hidden">
+        <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
           <img class="w-full h-full object-cover object-[50%_20%]" src="/modal/salud-article-06.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">

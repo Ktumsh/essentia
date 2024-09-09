@@ -4,10 +4,17 @@ import { FC, useEffect } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import { Video } from "@/types/resource";
-import { Card, CardBody, Image, Modal, ModalContent } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  Image as ImageUI,
+  Modal,
+  ModalContent,
+} from "@nextui-org/react";
 import { formatTitle } from "@/utils/format";
 import { useModalHash } from "../hooks/use-modal-hash";
 import { PlayIcon } from "@/modules/icons/action";
+import Image from "next/image";
 
 const getYouTubeThumbnail = (videoId: string) => {
   return `https://i.ytimg.com/vi_webp/${videoId}/maxresdefault.webp`;
@@ -41,8 +48,9 @@ const VideoCard: FC<VideoCardProps> = ({
         id={formatedTitle}
         data-id={formatedTitle}
         data-name={video.title}
+        radius="sm"
         classNames={{
-          base: "col-span-12 md:col-span-6 border border-gray-100 dark:border-base-dark bg-white dark:bg-base-full-dark on-scroll shadow-md",
+          base: "col-span-12 md:col-span-6 border border-gray-100 dark:border-base-dark bg-white dark:bg-base-full-dark shadow-md",
           body: "p-0",
         }}
         shadow="sm"
@@ -52,13 +60,16 @@ const VideoCard: FC<VideoCardProps> = ({
             <div className="relative col-span-5 size-full">
               <Card
                 isPressable
-                radius="md"
+                radius="sm"
                 onPress={onOpen}
                 classNames={{
                   base: "h-full",
                 }}
               >
-                <Image
+                <ImageUI
+                  as={Image}
+                  width={200}
+                  height={113}
                   src={getYouTubeThumbnail(video.link)}
                   alt={video.title}
                   classNames={{

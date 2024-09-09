@@ -44,11 +44,10 @@ const HealthWellness = () => {
             </Button>
           </h3>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {HEALTH_MODAL_DATA.map((modal, index) => (
             <ModalComponent
               key={index}
-              tooltip="Ver artículo"
               modalTitle={modal.modalTitle}
               modalImage={modal.modalImage}
               modalBody={modal.modalBody}
@@ -91,59 +90,6 @@ const HealthWellness = () => {
               setActiveVideo={setActiveVideo}
             />
           ))}
-        </div>
-      </section>
-
-      <section className="px-5 md:px-0 py-6">
-        <div className="w-full px-3 mb-6">
-          <Button
-            as={Link}
-            id="podcasts-recomendados"
-            data-id="podcasts-recomendados"
-            data-name="Podcasts Recomendados"
-            href="#podcasts-recomendados"
-            disableRipple
-            radius="none"
-            variant="flat"
-            endContent={
-              <HashIcon className="size-5 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
-            }
-            className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
-          >
-            <span className="px-2 mr-1 bg-orient-700 dark:bg-cerise-red-400 text-white dark:text-black">
-              Podcasts
-            </span>
-            Recomendados
-          </Button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <iframe
-            className="shadow-md bg-transparent"
-            style={{ borderRadius: 16 }}
-            src="https://open.spotify.com/embed/show/0aNjR24pN6QYOvGjqEZHRh?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="shadow-md bg-transparent"
-            style={{ borderRadius: 16 }}
-            src="https://open.spotify.com/embed/show/2nAf8IDQG1sPEwAKdG2DyM?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="shadow-md bg-transparent"
-            style={{ borderRadius: 16 }}
-            src="https://open.spotify.com/embed/show/5YdWqfLVaREPm8rgwA2lkE?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
         </div>
       </section>
     </>

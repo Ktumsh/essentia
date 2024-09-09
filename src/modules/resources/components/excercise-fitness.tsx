@@ -42,7 +42,6 @@ const ExcerciseFitness = () => {
           {FITNESS_MODAL_DATA.map((modal, index) => (
             <ModalComponent
               key={index}
-              tooltip="Ver rutina"
               modalSize="5xl"
               modalTitle={modal.modalTitle}
               modalImage={modal.modalImage}
@@ -71,82 +70,6 @@ const ExcerciseFitness = () => {
           </div>
         ))}
       </div>
-
-      <section className="py-6">
-        <div className="w-full px-3 mb-8">
-          <h3 className="drop-shadow-md text-base-color dark:text-white">
-            <Button
-              as={Link}
-              id="musica-para-tu-entrenamiento"
-              data-id="musica-para-tu-entrenamiento"
-              data-name="Música para tu Entrenamiento"
-              href="#musica-para-tu-entrenamiento"
-              disableRipple
-              radius="none"
-              variant="flat"
-              endContent={
-                <HashIcon className="size-5 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
-              }
-              className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
-            >
-              <span className="px-2 mr-1 bg-orient-700 dark:bg-cerise-red-400 text-white dark:text-black">
-                Música
-              </span>
-              para tu Entrenamiento 😎
-            </Button>
-          </h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <iframe
-            className="rounded-3xl shadow-medium border-2 border-white/30 box-content"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0SZWVrotKn1?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="rounded-3xl shadow-medium border-2 border-white/30 box-content"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="rounded-3xl shadow-medium border-2 border-white/30 box-content"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DXdDh4h59PJIQ?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="rounded-3xl shadow-medium border-2 border-white/30 box-content"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4osfY3zybD2?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="rounded-3xl shadow-medium border-2 border-white/30 box-content"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX45grRWk2ghU?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-          <iframe
-            className="rounded-3xl shadow-medium border-2 border-white/30 box-content"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX32NsLKyzScr?utm_source=generator"
-            width="100%"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
-        </div>
-      </section>
     </>
   );
 };
