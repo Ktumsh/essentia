@@ -79,7 +79,7 @@ const WelcomeModal = () => {
             <ModalFooter className="flex-col">
               <Button
                 as={Link}
-                href="/signup"
+                href="/login"
                 fullWidth
                 size="sm"
                 radius="full"
@@ -89,7 +89,7 @@ const WelcomeModal = () => {
               </Button>
               <Button
                 as={Link}
-                href="/login"
+                href="/signup"
                 color="danger"
                 fullWidth
                 size="sm"

@@ -20,7 +20,7 @@ export const searchStyles = {
     "text-base-color-m",
     "dark:text-base-color-dark-m",
   ],
-  input: ["placeholder:text-lg"],
+  input: ["placeholder:text-lg", "!pr-8"],
   modalHeader: ["flex", "items-center", "w-full", "pl-2", "pr-4"],
   modalContent: ["px-4", "my-2", "pb-8", "overflow-y-auto", "scrollbar-hide"],
   noResults: [

@@ -48,7 +48,7 @@ import { cn } from "@/utils/common";
 
 import { searchStyles } from "@/styles/search-styles";
 
-import { HashFillIcon } from "@/modules/icons/common";
+import { CloseIcon, HashFillIcon } from "@/modules/icons/common";
 
 import { Chevron } from "@/modules/icons/navigation";
 
@@ -56,8 +56,11 @@ import { tooltipStyles } from "@/styles/tooltip-styles";
 
 const MainSearch: FC = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
   const id = useId();
+
   const router = useRouter();
+
   const pathname = usePathname();
 
   const { width } = useWindowSize();
@@ -69,7 +72,9 @@ const MainSearch: FC = () => {
   );
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [activeItem, setActiveItem] = useState(0);
+
   const debouncedSearchTerm = useDebounce(searchTerm, 150);
+
   const eventRef = useRef<"mouse" | "keyboard">();
   const listRef = useRef<HTMLDivElement>(null);
   const menuNodes = useRef(new Map<number, HTMLButtonElement>()).current;
@@ -308,12 +313,13 @@ const MainSearch: FC = () => {
       </Button>
 
       <Modal
-        placement="center"
+        placement={width && width > 768 ? "center" : "top"}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         hideCloseButton
         scrollBehavior="inside"
         size="xl"
+        radius="sm"
         classNames={{
           backdrop: "z-[101] bg-black/80",
           wrapper: "z-[102]",
@@ -342,7 +348,10 @@ const MainSearch: FC = () => {
                   onKeyDown={onInputKeyDown}
                   onValueChange={handleSearchChange}
                   startContent={<SearchIcon className="size-7 mr-1" />}
+                  endContent={<CloseIcon className="size-3.5" />}
                   classNames={{
+                    clearButton:
+                      "border border-gray-200 dark:border-base-dark hover:bg-gray-100 dark:hover:bg-base-dark-50 transition-colors duration-150",
                     inputWrapper: cn(
                       searchStyles.inputWrapper,
                       "data-[hover=true]:bg-transparent",
@@ -356,7 +365,7 @@ const MainSearch: FC = () => {
                 <Kbd
                   classNames={{
                     abbr: "hidden",
-                    base: "hidden lg:block py-1 px-2 font-medium text-[0.7rem] leading-snug bg-gray-200 dark:bg-base-dark text-base-color dark:text-base-color-dark",
+                    base: "hidden lg:block py-1 px-2 ml-2 font-medium text-[0.7rem] leading-snug bg-gray-200 dark:bg-base-dark text-base-color dark:text-base-color-dark",
                   }}
                 >
                   ESC
