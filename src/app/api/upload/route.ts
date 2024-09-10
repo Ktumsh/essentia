@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
 import crypto from "crypto";
-import {
-  deleteUserBanner,
-  updateUserBanner,
-  updateUserProfileImage,
-} from "@/app/(main)/profile/actions";
+import { updateUserBanner, updateUserPhoto } from "@/db/actions";
 
 const UPLOAD_DIR = path.resolve(process.cwd(), "public/uploads");
 
@@ -60,7 +56,7 @@ export const POST = async (req: NextRequest) => {
       if (imageType === "banner") {
         updateResult = await updateUserBanner(userId, fileUrl);
       } else if (imageType === "profile") {
-        updateResult = await updateUserProfileImage(userId, fileUrl);
+        updateResult = await updateUserPhoto(userId, fileUrl);
       } else {
         return NextResponse.json({
           success: false,
@@ -90,39 +86,6 @@ export const POST = async (req: NextRequest) => {
     }
   } catch (error) {
     console.error("Error al subir el archivo:", error);
-    return NextResponse.json({
-      success: false,
-      error: "Error interno del servidor",
-    });
-  }
-};
-
-export const DELETE = async (req: NextRequest) => {
-  try {
-    const { userId } = await req.json();
-
-    if (!userId) {
-      return NextResponse.json({
-        success: false,
-        error: "ID de usuario es requerido",
-      });
-    }
-
-    const deleteResult = await deleteUserBanner(userId);
-
-    if (deleteResult.error) {
-      return NextResponse.json({
-        success: false,
-        error: deleteResult.error,
-      });
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: "Banner eliminado correctamente.",
-    });
-  } catch (error) {
-    console.error("Error al eliminar el banner:", error);
     return NextResponse.json({
       success: false,
       error: "Error interno del servidor",

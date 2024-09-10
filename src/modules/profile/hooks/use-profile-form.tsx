@@ -10,9 +10,22 @@ interface State {
     last_name: string;
     username: string;
     birthdate: DateValue | null;
-    profile_image: string | null;
     bio: string | null;
     location: string | null;
+    profile_image: string | null;
+    banner_image: string | null;
+    profile_image_file: File | null;
+    banner_image_file: File | null;
+  };
+  tempFormData: {
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    username: string;
+    birthdate: DateValue | null;
+    bio: string | null;
+    location: string | null;
+    profile_image: string | null;
     banner_image: string | null;
     profile_image_file: File | null;
     banner_image_file: File | null;
@@ -20,7 +33,9 @@ interface State {
 }
 
 type Action =
-  | { type: "SET_FIELD"; field: keyof State["formData"]; value: any }
+  | { type: "SET_FIELD"; field: keyof State["tempFormData"]; value: any }
+  | { type: "SAVE_FORM" }
+  | { type: "RESET_FORM" }
   | {
       type: "SET_IMAGE";
       imageType: "profile" | "banner";
@@ -33,19 +48,29 @@ function reducer(state: State, action: Action): State {
     case "SET_FIELD":
       return {
         ...state,
-        formData: {
-          ...state.formData,
+        tempFormData: {
+          ...state.tempFormData,
           [action.field]: action.value,
         },
       };
     case "SET_IMAGE":
       return {
         ...state,
-        formData: {
-          ...state.formData,
+        tempFormData: {
+          ...state.tempFormData,
           [`${action.imageType}_image_file`]: action.file,
           [`${action.imageType}_image`]: action.image,
         },
+      };
+    case "SAVE_FORM":
+      return {
+        ...state,
+        formData: { ...state.tempFormData },
+      };
+    case "RESET_FORM":
+      return {
+        ...state,
+        tempFormData: { ...state.formData },
       };
     default:
       return state;
@@ -64,9 +89,22 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
       last_name: initialData?.last_name || "",
       username: initialData?.username || "",
       birthdate: formattedDate,
-      profile_image: initialData?.profile_image || null,
       bio: initialData?.bio || "",
       location: initialData?.location || "",
+      profile_image: initialData?.profile_image || null,
+      banner_image: initialData?.banner_image || null,
+      profile_image_file: null,
+      banner_image_file: null,
+    },
+    tempFormData: {
+      user_id: initialData?.id || "",
+      first_name: initialData?.first_name || "",
+      last_name: initialData?.last_name || "",
+      username: initialData?.username || "",
+      birthdate: formattedDate,
+      bio: initialData?.bio || "",
+      location: initialData?.location || "",
+      profile_image: initialData?.profile_image || null,
       banner_image: initialData?.banner_image || null,
       profile_image_file: null,
       banner_image_file: null,
@@ -82,7 +120,7 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
   );
 
   const setFieldValue = useCallback(
-    (field: keyof State["formData"], value: any) => {
+    (field: keyof State["tempFormData"], value: any) => {
       dispatch({ type: "SET_FIELD", field, value });
     },
     []
@@ -107,7 +145,7 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      setFieldValue(name as keyof State["formData"], value);
+      setFieldValue(name as keyof State["tempFormData"], value);
     },
     [setFieldValue]
   );
@@ -144,22 +182,35 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
     []
   );
 
-  const resetForm = useCallback(() => {
+  const resetPreviewsImages = useCallback(() => {
     if (initialData) {
       setPreviewProfileImage(initialData.profile_image ?? "");
       setPreviewBannerImage(initialData.banner_image ?? "");
     }
   }, [initialData]);
 
+  const saveFormData = useCallback(() => {
+    dispatch({ type: "SAVE_FORM" });
+  }, []);
+
+  const resetTempData = useCallback(() => {
+    dispatch({ type: "RESET_FORM" });
+  }, []);
+
   return {
     formData: state.formData,
+    tempFormData: state.tempFormData,
     handleInputChange,
     handleDateChange,
     handleFileChange,
     handleFilePreview,
-    resetForm,
+    resetPreviewsImages,
+    setPreviewProfileImage,
+    setPreviewBannerImage,
     previewProfileImage,
     previewBannerImage,
+    saveFormData,
+    resetTempData,
     setEditFormData: (newData: UserProfileData | null) => {
       dispatch({
         type: "SET_FIELD",
