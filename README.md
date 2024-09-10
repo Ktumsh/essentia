@@ -23,7 +23,6 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
   - [📋 Prerequisitos](#-prerequisitos)
   - [🚀 Instalación](#-instalación)
 - [🗂️ Estructura del Proyecto](#-contribuir-al-proyecto)
-- [🤝 Contribuir al Proyecto](#-contribuir-al-proyecto)
 - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [📄 Licencia](#-licencia)
 - [📧 Contacto](#-contacto)
@@ -144,14 +143,14 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 
 ## 🛠️ Tecnologías Utilizadas
 
-- [![Next.js][nextjs-badge]][nextjs-url] - Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 14).
-- [![Typescript][typescript-badge]][typescript-url] - JavaScript con sintaxis para tipos.
-- [![Tailwind CSS][tailwind-badge]][tailwind-url] - Un marco de utilidad CSS para crear rápidamente diseños personalizados.
+- [![Next.js][nextjs-badge]][nextjs-url] Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 14).
+- [![Typescript][typescript-badge]][typescript-url] JavaScript con sintaxis para tipos.
+- [![Tailwind CSS][tailwind-badge]][tailwind-url] Un marco de utilidad CSS para crear rápidamente diseños personalizados.
 
 
 ## 📄 Licencia
 
-Este proyecto está licenciado bajo la **[Licencia MIT](https://opensource.org/licenses/MIT)**. Consulta el archivo [LICENSE](LICENSE.md) para más detalles.
+Este proyecto está licenciado bajo la **[Licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/)**. Consulta el archivo [LICENSE](LICENSE.md) para más detalles.
 
 
 ## 📧 Contacto
