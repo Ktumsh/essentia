@@ -14,9 +14,6 @@ import { auth } from "@@/auth";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
-export const runtime = "edge";
-export const preferredRegion = "home";
-
 interface SharePageProps {
   params: {
     id: string;
