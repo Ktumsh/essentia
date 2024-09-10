@@ -1,81 +1,86 @@
 "use client";
 
-import { FC, Key, useRef, useState, useTransition } from "react";
+import { FC, RefObject, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import ProfileInfo from "./profile-info";
 import {
-  Avatar,
-  AvatarGroup,
   Button,
   Image as ImageUI,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
   Modal,
   ModalContent,
+  Avatar,
 } from "@nextui-org/react";
 import Image from "next/image";
-import ProgressInfo from "./progress-info";
 import { UserProfileData } from "@/types/session";
-import { AddPhotoIcon, DeleteIcon, UploadIcon } from "@/modules/icons/action";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
-import { calculateProfileProgress, deleteFile, uploadFile } from "../lib/utils";
 import { SpinnerIcon } from "@/modules/icons/common";
+import { useProfileForm } from "../hooks/use-profile-form";
+import { deleteFile } from "@/app/(main)/profile/actions";
+import { AvatarIcon } from "@/modules/icons/miscellaneus";
+import { uploadFile } from "../lib/utils";
+import ProfileImageDropdown from "./profile-image-dropdown";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
 
 interface ProfilePanelProps {
   profileData: UserProfileData;
 }
 
 const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
-  const { banner_image, id } = profileData;
+  const { username, id } = profileData;
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [previewBanner, setPreviewBanner] = useState<string | null>(
-    banner_image
-  );
+  const fileProfilePhotoRef = useRef<HTMLInputElement>(null);
+  const fileBannerPhotoRef = useRef<HTMLInputElement>(null);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<"banner" | "profile">("banner");
 
   const [isPending, startTransition] = useTransition();
 
-  const onProfileUpdate = (newBanner: string | null) => {
-    setPreviewBanner(newBanner);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPreviewBanner(reader.result as string);
-        setShowSaveModal(true);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const {
+    handleFileChange,
+    handleFilePreview,
+    previewProfileImage,
+    previewBannerImage,
+    resetPreviewsImages,
+    setPreviewProfileImage,
+    setPreviewBannerImage,
+  } = useProfileForm(profileData);
 
   const handleSave = async () => {
-    if (fileInputRef.current?.files && fileInputRef.current.files[0]) {
-      const file = fileInputRef.current.files[0];
+    const fileInput =
+      modalType === "banner" ? fileBannerPhotoRef : fileProfilePhotoRef;
+    if (fileInput.current?.files && fileInput.current.files[0]) {
+      const file = fileInput.current.files[0];
 
       startTransition(async () => {
         try {
-          const bannerImage = await uploadFile(
+          await uploadFile(
             file,
-            "banner",
+            modalType,
             id,
             true,
-            "Foto de portada actualizada exitosamente",
-            "Hubo un error al subir tu foto de portada"
+            `${
+              modalType === "banner" ? "Foto de portada" : "Foto de perfil"
+            } actualizada`,
+            `Hubo un error al subir tu ${
+              modalType === "banner" ? "foto de portada" : "foto de perfil"
+            }`
           );
 
-          setPreviewBanner(bannerImage);
+          if (modalType === "banner") {
+            handleFilePreview(file, "banner");
+          } else {
+            handleFilePreview(file, "profile");
+          }
+
           setShowSaveModal(false);
         } catch (error) {
-          startTransition(() => {});
-          toast.error("Hubo un error al subir tu foto de portada");
+          toast.error(
+            `Hubo un error al subir tu ${
+              modalType === "banner" ? "foto de portada" : "foto de perfil"
+            }`
+          );
         }
       });
     }
@@ -84,35 +89,65 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
   const handleDelete = async () => {
     startTransition(async () => {
       try {
-        await deleteFile(
-          id,
-          true,
-          "Foto de portada eliminada",
-          "Hubo un error al eliminar tu foto de portada"
-        );
+        const result = await deleteFile(id, modalType);
 
-        setPreviewBanner(null);
-        setShowDeleteModal(false);
+        if (result?.success) {
+          toast.success(
+            `${
+              modalType === "banner" ? "Foto de portada" : "Foto de perfil"
+            } eliminada`
+          );
+
+          if (modalType === "profile") {
+            setPreviewProfileImage(null);
+            if (fileProfilePhotoRef.current) {
+              fileProfilePhotoRef.current.value = "";
+            }
+          } else {
+            setPreviewBannerImage(null);
+            if (fileBannerPhotoRef.current) {
+              fileBannerPhotoRef.current.value = "";
+            }
+          }
+
+          setShowDeleteModal(false);
+        } else {
+          toast.error(
+            `Hubo un error al eliminar tu ${
+              modalType === "banner" ? "foto de portada" : "foto de perfil"
+            }`
+          );
+        }
       } catch (error) {
-        startTransition(() => {});
-        toast.error("Hubo un error al eliminar tu foto de portada");
+        toast.error(
+          `Hubo un error al eliminar tu ${
+            modalType === "banner" ? "foto de portada" : "foto de perfil"
+          }`
+        );
       }
     });
   };
-
   const handleCancel = () => {
-    setPreviewBanner(banner_image);
+    resetPreviewsImages();
     setShowSaveModal(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    setShowDeleteModal(false);
+    const fileInput =
+      modalType === "banner" ? fileBannerPhotoRef : fileProfilePhotoRef;
+    if (fileInput.current) {
+      fileInput.current.value = "";
     }
   };
 
-  const handleMenuAction = (key: Key) => {
-    const action = key.toString();
-    switch (action) {
+  const handleMenuAction = (
+    inputRef: RefObject<HTMLInputElement>,
+    key: string,
+    type: "banner" | "profile"
+  ) => {
+    setModalType(type);
+
+    switch (key) {
       case "upload":
-        fileInputRef.current?.click();
+        inputRef.current?.click();
         break;
       case "delete":
         setShowDeleteModal(true);
@@ -122,28 +157,26 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
     }
   };
 
-  const progress = calculateProfileProgress(profileData);
-
   return (
     <>
-      <section className="flex flex-col items-stretch shrink w-full mb-2">
-        <div className="relative flex flex-col size-full bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark rounded-b-lg shadow-md">
-          <div className="relative">
-            {previewBanner ? (
+      <section className="flex flex-col items-stretch shrink w-full">
+        <div className="relative flex flex-col min-h-[calc(100dvh-112px)] md:min-h-[calc(100dvh-56px)] bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark">
+          <div className="group relative">
+            {previewBannerImage ? (
               <Link
                 href={`/profile/${profileData.username}/banner`}
-                className="relative flex h-44 md:h-72 bg-black/30 transition-colors z-0 overflow-hidden"
+                className="relative flex h-44 md:h-60 bg-black/30 transition-colors z-0 overflow-hidden"
               >
                 <ImageUI
                   removeWrapper
                   as={Image}
                   width={984}
-                  height={288}
+                  height={240}
                   quality={100}
                   priority
                   alt="Banner de perfil"
                   radius="none"
-                  src={previewBanner}
+                  src={previewBannerImage}
                   classNames={{
                     img: "object-cover object-center !w-full !h-auto",
                   }}
@@ -152,95 +185,85 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
             ) : (
               <div
                 aria-hidden="true"
-                className="relative flex h-72 bg-black/30 transition-colors"
+                className="relative flex h-44 md:h-60 bg-black/30 transition-colors"
               ></div>
             )}
 
-            <div className="flex items-center justify-center absolute right-0 bottom-0 m-5 opacity-75">
+            <div className="flex items-center justify-center absolute right-0 bottom-0 m-5 opacity-75 md:opacity-0 group-hover:opacity-75 transition-opacity">
               <div className="relative flex items-center justify-center">
-                <Dropdown
-                  shouldBlockScroll={false}
-                  classNames={{
-                    content:
-                      "p-1 bg-gradient-to-br from-white to-gray-100 dark:from-base-dark dark:to-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg",
+                <ProfileImageDropdown
+                  type="banner"
+                  fileInputRef={fileBannerPhotoRef}
+                  handleMenuAction={handleMenuAction}
+                  handleFileChange={(e) => {
+                    handleFileChange(e, "banner");
+                    if (e.target.files?.[0]) {
+                      handleFilePreview(e.target.files[0], "banner");
+                      setShowSaveModal(true);
+                    }
                   }}
-                >
-                  <DropdownTrigger>
-                    <Button
-                      aria-label="Agregar foto de banner"
-                      radius="full"
-                      isIconOnly
-                      className="bg-white/30 dark:bg-black/60 backdrop-blur-sm size-11"
-                    >
-                      <AddPhotoIcon className="size-5 text-gray-50" />
-                    </Button>
-                  </DropdownTrigger>
-
-                  {previewBanner ? (
-                    <DropdownMenu
-                      aria-label="Opciones de banner"
-                      variant="flat"
-                      onAction={handleMenuAction}
-                    >
-                      <DropdownItem
-                        key="upload"
-                        startContent={<UploadIcon className="size-4" />}
-                        className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-                      >
-                        Subir foto de portada
-                      </DropdownItem>
-                      <DropdownItem
-                        key="delete"
-                        color="danger"
-                        startContent={<DeleteIcon className="size-4" />}
-                        className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600 !duration-150"
-                      >
-                        Eliminar
-                      </DropdownItem>
-                    </DropdownMenu>
-                  ) : (
-                    <DropdownMenu
-                      aria-label="Opciones de banner"
-                      variant="flat"
-                      onAction={handleMenuAction}
-                    >
-                      <DropdownItem
-                        key="upload"
-                        startContent={<UploadIcon className="size-4" />}
-                        className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
-                      >
-                        Subir foto de portada
-                      </DropdownItem>
-                    </DropdownMenu>
-                  )}
-                </Dropdown>
-
-                <input
-                  ref={fileInputRef}
-                  accept="image/jpeg,image/png,image/webp"
-                  type="file"
-                  onChange={handleFileChange}
-                  className="absolute size-[0.1px] opacity-0 pointer-events-auto bg-transparent"
                 />
               </div>
             </div>
           </div>
-          <ProfileInfo
-            profileData={profileData}
-            onProfileUpdate={onProfileUpdate}
-          />
+          <ProfileInfo profileData={profileData}>
+            {/* Avatar */}
+            <div className="group absolute -top-9 md:-top-14 left-0 md:left-6">
+              <div className="z-0 size-full bg-gray-200 dark:bg-base-dark border-5 border-white dark:border-base-full-dark rounded-full overflow-hidden">
+                {previewProfileImage ? (
+                  <Link
+                    href={`/profile/${username}/photo`}
+                    className="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-32"
+                  >
+                    <Image
+                      width={120}
+                      height={120}
+                      priority
+                      src={previewProfileImage || ""}
+                      alt="Abrir foto"
+                      className="aspect-square size-full"
+                    />
+                  </Link>
+                ) : (
+                  <div className="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-32">
+                    <Avatar
+                      showFallback
+                      src="https://images.unsplash.com/broken"
+                      icon={<AvatarIcon className="size-3/5" />}
+                      classNames={{
+                        icon: "text-base-color-m dark:text-base-color-dark-m",
+                        base: "bg-gray-300 dark:bg-gray-600 !size-full",
+                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                      }}
+                    />
+                  </div>
+                )}
+                <div className="flex items-center justify-center absolute inset-[5px] rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-75 md:group-hover:bg-black/50 transition pointer-events-none">
+                  <div className="relative flex items-center justify-center">
+                    <ProfileImageDropdown
+                      type="profile"
+                      fileInputRef={fileProfilePhotoRef}
+                      handleMenuAction={handleMenuAction}
+                      handleFileChange={(e) => {
+                        handleFileChange(e, "profile");
+                        if (e.target.files?.[0]) {
+                          handleFilePreview(e.target.files[0], "profile");
+                          setShowSaveModal(true);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ProfileInfo>
         </div>
       </section>
-      <section className="flex items-stretch grow shrink size-full mb-5 gap-2">
-        <div className="relative flex flex-col w-full bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg shadow-md"></div>
-        <ProgressInfo progress={progress} profileData={profileData} />
-      </section>
 
-      {/* Modal para confirmación de guardado */}
+      {/* Modales para confirmación de guardado y eliminación */}
       <Modal
         isOpen={showSaveModal}
         onOpenChange={handleCancel}
-        placement="top"
         hideCloseButton
         scrollBehavior="inside"
         radius="sm"
@@ -249,24 +272,26 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
         classNames={{
           backdrop: "z-[101] bg-black/80",
           wrapper: "z-[102]",
-          base: "absolute top-0 bg-white/30 dark:bg-base-full-dark-30 backdrop-blur backdrop-saturate-150 border border-white dark:border-base-full-dark",
+          base: "absolute bottom-0 md:bottom-auto md:top-0 bg-white dark:bg-base-full-dark md:bg-white/30 md:dark:bg-base-full-dark-30 backdrop-blur backdrop-saturate-150 border border-white dark:border-base-full-dark",
           closeButton:
             "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
       >
         <ModalContent className="p-4 gap-4">
           <div className="flex items-center justify-between w-full">
-            <div className="inline-flex items-center text-white">
+            <div className="inline-flex items-center text-base-color dark:text-base-color-dark md:text-white dark:text-white">
               <QuestionMarkCircledIcon className="size-4 mr-3" />
-              <p className="text-sm ">
-                ¿Deseas guardar la nueva foto de portada?
+              <p className="text-sm">
+                {`¿Deseas guardar la nueva foto de ${
+                  modalType === "banner" ? "portada" : "perfil"
+                }?`}
               </p>
             </div>
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
               <Button
                 onPress={handleCancel}
                 variant="bordered"
-                className="text-white rounded-md border border-white dark:border-base-full-dark "
+                className="text-base-color dark:text-base-color-dark md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-base-dark md:dark:border-base-full-dark "
               >
                 Cancelar
               </Button>
@@ -289,7 +314,6 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
         </ModalContent>
       </Modal>
 
-      {/* Modal para confirmación de eliminación */}
       <Modal
         isOpen={showDeleteModal}
         onOpenChange={setShowDeleteModal}
@@ -309,13 +333,15 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
         <ModalContent className="p-6 gap-4">
           <div className="flex flex-col space-y-2 text-center sm:text-left">
             <h2 className="text-lg text-base-color dark:text-base-color-dark">
-              ¿Deseas eliminar tu foto de portada?
+              {`¿Deseas eliminar tu foto de ${
+                modalType === "banner" ? "portada" : "perfil"
+              }?`}
             </h2>
             <p className="text-sm text-base-color-m dark:text-base-color-dark-h">
               No te preocupes, siempre puedes volver a subir una nueva foto.
             </p>
           </div>
-          <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
             <Button
               onPress={() => setShowDeleteModal(false)}
               variant="bordered"
