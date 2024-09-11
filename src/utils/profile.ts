@@ -1,22 +1,26 @@
-import { getUserProfileByEmail } from "@/db/actions";
+import { getUserProfileByEmail, getUserProfileByUsername } from "@/db/actions";
 import { Session, UserProfileData } from "@/types/session";
 
 export async function getUserProfileData(
-  session?: Session
+  session?: Session,
+  username?: string
 ): Promise<UserProfileData> {
-  if (!session?.user?.email) {
-    throw new Error("Sesión no válida o datos de usuario incompletos");
+  let userProfile;
+
+  if (username) {
+    userProfile = await getUserProfileByUsername(username);
+  } else if (session?.user?.email) {
+    userProfile = await getUserProfileByEmail(session.user.email);
+  } else {
+    throw new Error("Sesión no válida o username no proporcionado.");
   }
 
-  const userProfile = await getUserProfileByEmail(session.user.email);
   if (!userProfile) {
     throw new Error("Perfil no encontrado para el usuario.");
   }
 
   const userProfileData = userProfile.profile;
   const id = userProfile.user.id;
-  const username = userProfile.user.username;
-
   const first_name = userProfileData.first_name || "Usuario";
   const last_name = userProfileData.last_name || "";
   const profile_image = userProfileData.profile_image || null;
@@ -30,7 +34,7 @@ export async function getUserProfileData(
     id,
     first_name,
     last_name,
-    username,
+    username: userProfile.user.username,
     profile_image,
     birthdate,
     bio,
