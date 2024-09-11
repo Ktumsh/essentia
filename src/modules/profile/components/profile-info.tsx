@@ -35,9 +35,14 @@ import { updateUserProfile } from "@/db/actions";
 interface ProfileInfoProps {
   profileData: UserProfileData | null;
   children: ReactNode;
+  isOwnProfile: boolean;
 }
 
-const ProfileInfo: FC<ProfileInfoProps> = ({ profileData, children }) => {
+const ProfileInfo: FC<ProfileInfoProps> = ({
+  profileData,
+  children,
+  isOwnProfile,
+}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isPending, startTransition] = useTransition();
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({
@@ -110,22 +115,24 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData, children }) => {
                 @{formData.username}
               </span>
             </div>
-            <Button
-              variant="ghost"
-              color="default"
-              radius="sm"
-              onPress={onOpen}
-              className="border-gray-200 dark:border-base-dark hover:!bg-gray-200 dark:hover:!bg-base-dark text-base-color dark:text-base-color-dark font-bold"
-            >
-              Editar perfil
-            </Button>
+            {isOwnProfile && (
+              <Button
+                variant="ghost"
+                color="default"
+                radius="sm"
+                onPress={onOpen}
+                className="border-gray-200 dark:border-base-dark hover:!bg-gray-200 dark:hover:!bg-base-dark text-base-color dark:text-base-color-dark font-bold"
+              >
+                Editar perfil
+              </Button>
+            )}
           </div>
         </div>
         {/* Información del perfil */}
         <div className="py-6 space-y-6">
           <div>
             <h3 className="mb-2 font-semibold md:text-lg text-base-color dark:text-base-color-dark">
-              Acerca de mí
+              {isOwnProfile ? "Acerca de" : "Biografía"}
             </h3>
             <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
               {formData.bio}
@@ -138,130 +145,135 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData, children }) => {
             </div>
             <div className="flex items-center space-x-2 text-sm">
               <CalendarIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
-              <span>Te uniste en {createdAt}</span>
+              <span>
+                {isOwnProfile ? "Te uniste en" : "Se unió en"} {createdAt}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Modal de edición */}
-      <Modal
-        placement="center"
-        scrollBehavior="inside"
-        size="xl"
-        isOpen={isOpen}
-        onOpenChange={onCancel}
-        radius="sm"
-        classNames={{
-          backdrop: "z-[101] bg-black/80",
-          wrapper: "z-[102]",
-          base: "bg-white dark:bg-base-full-dark",
-          body: "gap-0 px-0 py-0 pb-16 custom-scroll v2",
-          closeButton:
-            "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-        }}
-      >
-        <ModalContent>
-          <>
-            <ModalHeader>Editar perfil</ModalHeader>
-            <ModalBody>
-              <FormInput
-                name="first_name"
-                label="Nombre"
-                value={tempFormData.first_name}
-                onChange={handleInputChange}
-                errorMessage={errors.first_name}
-                isInvalid={!!errors.first_name}
-              />
-              <FormInput
-                name="last_name"
-                label="Apellido"
-                value={tempFormData.last_name}
-                onChange={handleInputChange}
-                errorMessage={errors.last_name}
-                isInvalid={!!errors.last_name}
-              />
-              <FormInput
-                name="username"
-                label="Nombre de usuario"
-                value={tempFormData.username}
-                onChange={handleInputChange}
-                errorMessage={errors.username}
-                isInvalid={!!errors.username}
-              />
-              <Textarea
-                name="bio"
-                label="Biografía"
-                maxLength={160}
-                value={tempFormData.bio ?? ""}
-                onChange={handleInputChange}
-                description="Máximo 160 caracteres"
-                variant="bordered"
-                color="danger"
-                radius="sm"
-                classNames={{
-                  base: "px-4 py-3",
-                  input: "text-base-color dark:text-base-color-dark",
-                  inputWrapper:
-                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
-                }}
-              />
-              <FormInput
-                name="location"
-                label="Ubicación"
-                maxLength={30}
-                value={tempFormData.location ?? ""}
-                onChange={handleInputChange}
-                description="Máximo 30 caracteres"
-              />
-              <DateInput
-                id="birthdate"
-                description={"Este es mi cumpleaños"}
-                errorMessage="Por favor, ingresa una fecha válida"
-                label={"Fecha de nacimiento"}
-                value={tempFormData.birthdate}
-                onChange={handleDateChange}
-                color="danger"
-                variant="bordered"
-                startContent={<CalendarFillIcon className="size-4" />}
-                classNames={{
-                  base: "px-4 py-3",
-                  label:
-                    "text-xs text-bittersweet-400 dark:text-cerise-red-600",
-                  segment:
-                    "data-[editable=true]:text-base-color dark:data-[editable=true]:text-base-color-dark data-[editable=true]:data-[placeholder=true]:text-base-color-m dark:data-[editable=true]:data-[placeholder=true]:text-base-color-dark-m",
-                  inputWrapper:
-                    "border-gray-200 dark:border-base-dark hover:border-gray-200 dark:hover:border-base-dark",
-                  innerWrapper: "text-base-color-m dark:text-base-color-dark-m",
-                }}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                onPress={onCancel}
-                variant="bordered"
-                className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
-              >
-                Cancelar
-              </Button>
-              <Button
-                color="danger"
-                onPress={onSubmit}
-                className="rounded-md"
-                isDisabled={isPending}
-                aria-disabled={isPending}
-                startContent={
-                  isPending ? (
-                    <SpinnerIcon className="size-4 animate-spin" />
-                  ) : null
-                }
-              >
-                {isPending ? "Guardando..." : "Guardar"}
-              </Button>
-            </ModalFooter>
-          </>
-        </ModalContent>
-      </Modal>
+      {isOwnProfile && (
+        <Modal
+          placement="center"
+          scrollBehavior="inside"
+          size="xl"
+          isOpen={isOpen}
+          onOpenChange={onCancel}
+          radius="sm"
+          classNames={{
+            backdrop: "z-[101] bg-black/80",
+            wrapper: "z-[102]",
+            base: "bg-white dark:bg-base-full-dark",
+            body: "gap-0 px-0 py-0 pb-16 custom-scroll v2",
+            closeButton:
+              "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
+          }}
+        >
+          <ModalContent>
+            <>
+              <ModalHeader>Editar perfil</ModalHeader>
+              <ModalBody>
+                <FormInput
+                  name="first_name"
+                  label="Nombre"
+                  value={tempFormData.first_name}
+                  onChange={handleInputChange}
+                  errorMessage={errors.first_name}
+                  isInvalid={!!errors.first_name}
+                />
+                <FormInput
+                  name="last_name"
+                  label="Apellido"
+                  value={tempFormData.last_name}
+                  onChange={handleInputChange}
+                  errorMessage={errors.last_name}
+                  isInvalid={!!errors.last_name}
+                />
+                <FormInput
+                  name="username"
+                  label="Nombre de usuario"
+                  value={tempFormData.username}
+                  onChange={handleInputChange}
+                  errorMessage={errors.username}
+                  isInvalid={!!errors.username}
+                />
+                <Textarea
+                  name="bio"
+                  label="Biografía"
+                  maxLength={160}
+                  value={tempFormData.bio ?? ""}
+                  onChange={handleInputChange}
+                  description="Máximo 160 caracteres"
+                  variant="bordered"
+                  color="danger"
+                  radius="sm"
+                  classNames={{
+                    base: "px-4 py-3",
+                    input: "text-base-color dark:text-base-color-dark",
+                    inputWrapper:
+                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                  }}
+                />
+                <FormInput
+                  name="location"
+                  label="Ubicación"
+                  maxLength={30}
+                  value={tempFormData.location ?? ""}
+                  onChange={handleInputChange}
+                  description="Máximo 30 caracteres"
+                />
+                <DateInput
+                  id="birthdate"
+                  description={"Este es mi cumpleaños"}
+                  errorMessage="Por favor, ingresa una fecha válida"
+                  label={"Fecha de nacimiento"}
+                  value={tempFormData.birthdate}
+                  onChange={handleDateChange}
+                  color="danger"
+                  variant="bordered"
+                  startContent={<CalendarFillIcon className="size-4" />}
+                  classNames={{
+                    base: "px-4 py-3",
+                    label:
+                      "text-xs text-bittersweet-400 dark:text-cerise-red-600",
+                    segment:
+                      "data-[editable=true]:text-base-color dark:data-[editable=true]:text-base-color-dark data-[editable=true]:data-[placeholder=true]:text-base-color-m dark:data-[editable=true]:data-[placeholder=true]:text-base-color-dark-m",
+                    inputWrapper:
+                      "border-gray-200 dark:border-base-dark hover:border-gray-200 dark:hover:border-base-dark",
+                    innerWrapper:
+                      "text-base-color-m dark:text-base-color-dark-m",
+                  }}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  onPress={onCancel}
+                  variant="bordered"
+                  className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={onSubmit}
+                  className="rounded-md"
+                  isDisabled={isPending}
+                  aria-disabled={isPending}
+                  startContent={
+                    isPending ? (
+                      <SpinnerIcon className="size-4 animate-spin" />
+                    ) : null
+                  }
+                >
+                  {isPending ? "Guardando..." : "Guardar"}
+                </Button>
+              </ModalFooter>
+            </>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };

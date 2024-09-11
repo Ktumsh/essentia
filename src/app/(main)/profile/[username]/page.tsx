@@ -15,13 +15,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const ProfilePage = async () => {
-  const session = (await auth()) as Session;
-  const profileData = await getUserProfileData(session);
+const ProfilePage = async ({ params }: Props) => {
+  const { username } = params;
+
+  const session = (await auth()) as Session | null;
+
+  let profileData;
+  let isOwnProfile = false;
+
+  if (session) {
+    const authenticatedUserProfile = await getUserProfileData(session);
+
+    if (authenticatedUserProfile.username === username) {
+      profileData = authenticatedUserProfile;
+      isOwnProfile = true;
+    } else {
+      profileData = await getUserProfileData(undefined, username);
+    }
+  } else {
+    profileData = await getUserProfileData(undefined, username);
+  }
+
   return (
     <>
       <main className="flex flex-col min-h-dvh w-full md:min-w-[768px] max-w-5xl md:px-5 pb-14 md:pb-0 pt-14 shrink items-stretch grow">
-        <ProfilePanel profileData={profileData} />
+        <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />
       </main>
     </>
   );

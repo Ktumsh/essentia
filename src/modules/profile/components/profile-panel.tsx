@@ -20,13 +20,13 @@ import { deleteFile } from "@/app/(main)/profile/actions";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { uploadFile } from "../lib/utils";
 import ProfileImageDropdown from "./profile-image-dropdown";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 
 interface ProfilePanelProps {
   profileData: UserProfileData;
+  isOwnProfile: boolean;
 }
 
-const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
+const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
   const { username, id } = profileData;
 
   const fileProfilePhotoRef = useRef<HTMLInputElement>(null);
@@ -189,24 +189,26 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
               ></div>
             )}
 
-            <div className="flex items-center justify-center absolute right-0 bottom-0 m-5 opacity-75 md:opacity-0 group-hover:opacity-75 transition-opacity">
-              <div className="relative flex items-center justify-center">
-                <ProfileImageDropdown
-                  type="banner"
-                  fileInputRef={fileBannerPhotoRef}
-                  handleMenuAction={handleMenuAction}
-                  handleFileChange={(e) => {
-                    handleFileChange(e, "banner");
-                    if (e.target.files?.[0]) {
-                      handleFilePreview(e.target.files[0], "banner");
-                      setShowSaveModal(true);
-                    }
-                  }}
-                />
+            {isOwnProfile && (
+              <div className="flex items-center justify-center absolute right-0 bottom-0 m-5 opacity-75 md:opacity-0 group-hover:opacity-75 transition-opacity">
+                <div className="relative flex items-center justify-center">
+                  <ProfileImageDropdown
+                    type="banner"
+                    fileInputRef={fileBannerPhotoRef}
+                    handleMenuAction={handleMenuAction}
+                    handleFileChange={(e) => {
+                      handleFileChange(e, "banner");
+                      if (e.target.files?.[0]) {
+                        handleFilePreview(e.target.files[0], "banner");
+                        setShowSaveModal(true);
+                      }
+                    }}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
-          <ProfileInfo profileData={profileData}>
+          <ProfileInfo profileData={profileData} isOwnProfile={isOwnProfile}>
             {/* Avatar */}
             <div className="group absolute -top-9 md:-top-14 left-0 md:left-6">
               <div className="z-0 size-full bg-gray-200 dark:bg-base-dark border-5 border-white dark:border-base-full-dark rounded-full overflow-hidden">
@@ -238,22 +240,24 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
                     />
                   </div>
                 )}
-                <div className="flex items-center justify-center absolute inset-[5px] rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-75 md:group-hover:bg-black/50 transition pointer-events-none">
-                  <div className="relative flex items-center justify-center">
-                    <ProfileImageDropdown
-                      type="profile"
-                      fileInputRef={fileProfilePhotoRef}
-                      handleMenuAction={handleMenuAction}
-                      handleFileChange={(e) => {
-                        handleFileChange(e, "profile");
-                        if (e.target.files?.[0]) {
-                          handleFilePreview(e.target.files[0], "profile");
-                          setShowSaveModal(true);
-                        }
-                      }}
-                    />
+                {isOwnProfile && (
+                  <div className="flex items-center justify-center absolute inset-[5px] rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-75 md:group-hover:bg-black/50 transition pointer-events-none">
+                    <div className="relative flex items-center justify-center">
+                      <ProfileImageDropdown
+                        type="profile"
+                        fileInputRef={fileProfilePhotoRef}
+                        handleMenuAction={handleMenuAction}
+                        handleFileChange={(e) => {
+                          handleFileChange(e, "profile");
+                          if (e.target.files?.[0]) {
+                            handleFilePreview(e.target.files[0], "profile");
+                            setShowSaveModal(true);
+                          }
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </ProfileInfo>
@@ -261,111 +265,115 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData }) => {
       </section>
 
       {/* Modales para confirmación de guardado y eliminación */}
-      <Modal
-        isOpen={showSaveModal}
-        onOpenChange={handleCancel}
-        hideCloseButton
-        scrollBehavior="inside"
-        radius="sm"
-        size="4xl"
-        backdrop="transparent"
-        classNames={{
-          backdrop: "z-[101] bg-black/80",
-          wrapper: "z-[102]",
-          base: "absolute bottom-0 md:bottom-auto md:top-0 bg-white dark:bg-base-full-dark md:bg-white/30 md:dark:bg-base-full-dark-30 backdrop-blur backdrop-saturate-150 border border-white dark:border-base-full-dark",
-          closeButton:
-            "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-        }}
-      >
-        <ModalContent className="p-4 gap-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="inline-flex items-center text-base-color dark:text-base-color-dark md:text-white dark:text-white">
-              <QuestionMarkCircledIcon className="size-4 mr-3" />
-              <p className="text-sm">
-                {`¿Deseas guardar la nueva foto de ${
-                  modalType === "banner" ? "portada" : "perfil"
-                }?`}
-              </p>
-            </div>
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
-              <Button
-                onPress={handleCancel}
-                variant="bordered"
-                className="text-base-color dark:text-base-color-dark md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-base-dark md:dark:border-base-full-dark "
-              >
-                Cancelar
-              </Button>
-              <Button
-                onPress={handleSave}
-                color="danger"
-                className="rounded-md"
-                isDisabled={isPending}
-                aria-disabled={isPending}
-                startContent={
-                  isPending ? (
-                    <SpinnerIcon className="size-4 animate-spin" />
-                  ) : null
-                }
-              >
-                {isPending ? "Guardando..." : "Guardar cambios"}
-              </Button>
-            </div>
-          </div>
-        </ModalContent>
-      </Modal>
+      {isOwnProfile && (
+        <>
+          <Modal
+            isOpen={showSaveModal}
+            onOpenChange={handleCancel}
+            hideCloseButton
+            scrollBehavior="inside"
+            radius="sm"
+            size="4xl"
+            backdrop="transparent"
+            classNames={{
+              backdrop: "z-[101] bg-black/80",
+              wrapper: "z-[102]",
+              base: "absolute bottom-0 md:bottom-auto md:top-0 bg-white dark:bg-base-full-dark md:bg-white/30 md:dark:bg-base-full-dark-30 backdrop-blur backdrop-saturate-150 border border-white dark:border-base-full-dark",
+              closeButton:
+                "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
+            }}
+          >
+            <ModalContent className="p-4 gap-4">
+              <div className="flex items-center justify-between w-full">
+                <div className="inline-flex items-center text-base-color dark:text-base-color-dark md:text-white dark:text-white">
+                  <QuestionMarkCircledIcon className="size-4 mr-3" />
+                  <p className="text-sm">
+                    {`¿Deseas guardar la nueva foto de ${
+                      modalType === "banner" ? "portada" : "perfil"
+                    }?`}
+                  </p>
+                </div>
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
+                  <Button
+                    onPress={handleCancel}
+                    variant="bordered"
+                    className="text-base-color dark:text-base-color-dark md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-base-dark md:dark:border-base-full-dark "
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    onPress={handleSave}
+                    color="danger"
+                    className="rounded-md"
+                    isDisabled={isPending}
+                    aria-disabled={isPending}
+                    startContent={
+                      isPending ? (
+                        <SpinnerIcon className="size-4 animate-spin" />
+                      ) : null
+                    }
+                  >
+                    {isPending ? "Guardando..." : "Guardar cambios"}
+                  </Button>
+                </div>
+              </div>
+            </ModalContent>
+          </Modal>
 
-      <Modal
-        isOpen={showDeleteModal}
-        onOpenChange={setShowDeleteModal}
-        placement="center"
-        hideCloseButton
-        scrollBehavior="inside"
-        radius="sm"
-        size="sm"
-        classNames={{
-          backdrop: "z-[101] bg-black/80",
-          wrapper: "z-[102]",
-          base: "bg-white dark:bg-base-full-dark",
-          closeButton:
-            "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-        }}
-      >
-        <ModalContent className="p-6 gap-4">
-          <div className="flex flex-col space-y-2 text-center sm:text-left">
-            <h2 className="text-lg text-base-color dark:text-base-color-dark">
-              {`¿Deseas eliminar tu foto de ${
-                modalType === "banner" ? "portada" : "perfil"
-              }?`}
-            </h2>
-            <p className="text-sm text-base-color-m dark:text-base-color-dark-h">
-              No te preocupes, siempre puedes volver a subir una nueva foto.
-            </p>
-          </div>
-          <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
-            <Button
-              onPress={() => setShowDeleteModal(false)}
-              variant="bordered"
-              className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
-            >
-              Cancelar
-            </Button>
-            <Button
-              color="danger"
-              onPress={handleDelete}
-              className="rounded-md"
-              isDisabled={isPending}
-              aria-disabled={isPending}
-              startContent={
-                isPending ? (
-                  <SpinnerIcon className="size-4 animate-spin" />
-                ) : null
-              }
-            >
-              {isPending ? "Eliminando..." : "Eliminar"}
-            </Button>
-          </div>
-        </ModalContent>
-      </Modal>
+          <Modal
+            isOpen={showDeleteModal}
+            onOpenChange={setShowDeleteModal}
+            placement="center"
+            hideCloseButton
+            scrollBehavior="inside"
+            radius="sm"
+            size="sm"
+            classNames={{
+              backdrop: "z-[101] bg-black/80",
+              wrapper: "z-[102]",
+              base: "bg-white dark:bg-base-full-dark",
+              closeButton:
+                "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
+            }}
+          >
+            <ModalContent className="p-6 gap-4">
+              <div className="flex flex-col space-y-2 text-center sm:text-left">
+                <h2 className="text-lg text-base-color dark:text-base-color-dark">
+                  {`¿Deseas eliminar tu foto de ${
+                    modalType === "banner" ? "portada" : "perfil"
+                  }?`}
+                </h2>
+                <p className="text-sm text-base-color-m dark:text-base-color-dark-h">
+                  No te preocupes, siempre puedes volver a subir una nueva foto.
+                </p>
+              </div>
+              <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
+                <Button
+                  onPress={() => setShowDeleteModal(false)}
+                  variant="bordered"
+                  className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={handleDelete}
+                  className="rounded-md"
+                  isDisabled={isPending}
+                  aria-disabled={isPending}
+                  startContent={
+                    isPending ? (
+                      <SpinnerIcon className="size-4 animate-spin" />
+                    ) : null
+                  }
+                >
+                  {isPending ? "Eliminando..." : "Eliminar"}
+                </Button>
+              </div>
+            </ModalContent>
+          </Modal>
+        </>
+      )}
     </>
   );
 };
