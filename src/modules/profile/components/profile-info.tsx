@@ -90,7 +90,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({ profileData, children }) => {
         toast.error("Error al actualizar el perfil.");
       }
     });
-  }, [tempFormData, validateProfileForm, saveFormData, onOpenChange]);
+  }, [tempFormData, saveFormData, onOpenChange]);
 
   const onCancel = useCallback(() => {
     resetTempData();

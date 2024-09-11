@@ -41,16 +41,17 @@ const ClearHistory: FC<ClearHistoryProps> = ({
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
+        radius="sm"
         classNames={{
           backdrop: "z-[101] bg-black/80",
-          wrapper: "z-[102]",
+          wrapper: "z-[102] pointer-events-auto",
           base: "bg-white dark:bg-base-full-dark",
           closeButton:
             "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
       >
         <ModalContent>
-          {(onClose: () => void) => (
+          {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 ¿Estás absolutamente seguro?

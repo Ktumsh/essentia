@@ -108,7 +108,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
     <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding] z-10 pointer-events-none">
       <ButtonToBottom isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
       <div className="mx-auto max-w-2xl sm:px-4 pointer-events-auto">
-        <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
+        <div className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide">
           {messages.length === 0 &&
             exampleMessages.slice(0, 4).map((example, index) => (
               <Button
@@ -118,8 +118,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                   <example.icon className={cn("size-4", example.iconColor)} />
                 }
                 className={cn(
-                  "flex-col h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
-                  index < 2 && "hidden sm:block"
+                  "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark"
                 )}
                 onClick={async () => {
                   setMessages((currentMessages) => [
