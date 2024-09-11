@@ -15,6 +15,8 @@ import {
   Button,
   Textarea,
   DateInput,
+  Chip,
+  Divider,
 } from "@nextui-org/react";
 import {
   CalendarFillIcon,
@@ -28,9 +30,18 @@ import { toast } from "sonner";
 import { useDisclosure } from "@nextui-org/react";
 import FormInput from "./form-input";
 import { useProfileForm } from "../hooks/use-profile-form";
-import { SpinnerIcon } from "@/modules/icons/common";
+import {
+  CheckCircledIcon,
+  CheckIcon,
+  CloseCircledIcon,
+  SpinnerIcon,
+} from "@/modules/icons/common";
 import { formatCreatedAt, validateProfileForm } from "../lib/utils";
 import { updateUserProfile } from "@/db/actions";
+import { CircleIcon } from "@radix-ui/react-icons";
+import { cn } from "@/utils/common";
+import CompleteProfile from "./complete-profile";
+import AchievementsPanel from "./achievements-panel";
 
 interface ProfileInfoProps {
   profileData: UserProfileData | null;
@@ -104,7 +115,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
 
   return (
     <>
-      <div className="px-4 md:px-8 py-3 space-y-3 md:space-y-6">
+      <div className="px-4 md:px-8 pb-8 pt-3 space-y-3 md:space-y-6">
         {/* Foto de perfil y botón editar */}
         <div className="relative">
           {children}
@@ -129,20 +140,25 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           </div>
         </div>
         {/* Información del perfil */}
-        <div className="py-6 space-y-6">
-          <div>
-            <h3 className="mb-2 font-semibold md:text-lg text-base-color dark:text-base-color-dark">
-              {isOwnProfile ? "Acerca de" : "Biografía"}
-            </h3>
-            <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
-              {formData.bio}
-            </p>
-          </div>
-          <div className="grid gap-4 text-base-color-m dark:text-base-color-dark-m">
-            <div className="flex items-center space-x-2 text-sm">
-              <LocationIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
-              <span>{formData.location}</span>
+        <div className="pt-6 space-y-6">
+          {formData.bio && (
+            <div>
+              <h3 className="mb-2 font-semibold md:text-lg text-base-color dark:text-base-color-dark">
+                {isOwnProfile ? "Acerca de mi" : "Biografía"}
+              </h3>
+              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                {formData.bio}
+              </p>
             </div>
+          )}
+
+          <div className="grid gap-4 text-base-color-m dark:text-base-color-dark-m">
+            {formData.location && (
+              <div className="flex items-center space-x-2 text-sm">
+                <LocationIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+                <span>{formData.location}</span>
+              </div>
+            )}
             <div className="flex items-center space-x-2 text-sm">
               <CalendarIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
               <span>
@@ -151,6 +167,17 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Completar perfil */}
+        {isOwnProfile &&
+          (!formData.bio ||
+            !formData.location ||
+            !formData.profile_image ||
+            !formData.banner_image) && <CompleteProfile formData={formData} />}
+
+        {/* Panel de logros en Essentia */}
+
+        <AchievementsPanel isOwnProfile={isOwnProfile} />
       </div>
 
       {/* Modal de edición */}
