@@ -30,10 +30,10 @@ export function UserMessage({
         className
       )}
     >
-      <div className="flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         {profileData && profileData?.profile_image ? (
           <Image
-            width={25}
+            width={23}
             height={25}
             src={profileData.profile_image}
             alt={`Avatar de: ${profileData.username}`}
@@ -71,7 +71,7 @@ export function BotMessage({
 
   return (
     <div className={cn("group relative flex items-start md:-ml-12", className)}>
-      <div className="flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
           width={12}
           height={18}
@@ -148,7 +148,7 @@ export function BotCard({
     <div className="group relative flex items-start md:-ml-12">
       <div
         className={cn(
-          "flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
+          "flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
           !showAvatar && "invisible"
         )}
       >
@@ -168,7 +168,7 @@ export function BotCard({
 export function SpinnerMessage() {
   return (
     <div className="group relative flex items-start md:-ml-12">
-      <div className="flex size-[25px] select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
           width={12}
           height={18}
