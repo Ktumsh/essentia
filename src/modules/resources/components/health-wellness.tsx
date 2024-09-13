@@ -81,7 +81,7 @@ const HealthWellness = () => {
             </Button>
           </h3>
         </div>
-        <div className="grid grid-cols-12 gap-5">
+        <div className="grid grid-cols-12 gap-4">
           {videos.map((video, index) => (
             <VideoCard
               key={index}

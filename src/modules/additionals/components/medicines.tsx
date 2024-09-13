@@ -2,10 +2,8 @@ import { HashIcon } from "@/modules/icons/common";
 import { Button, Card, CardBody, Chip, Divider } from "@nextui-org/react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { useGlowingEffect } from "../hooks/use-glowing-effect";
 
 const Medicines = () => {
-  const { handleMouseMove, setRef } = useGlowingEffect();
   return (
     <section className="flex flex-col mt-5 text-base-color-h dark:text-base-color-dark">
       <div className="self-start px-3 mb-2">
@@ -33,17 +31,7 @@ const Medicines = () => {
         </Button>
       </div>
       <div className="flex w-full px-3 md:px-0">
-        <Card
-          ref={(el) => setRef(el)}
-          onMouseMove={(e) => handleMouseMove(e)}
-          className="card mt-2 bg-white dark:bg-base-full-dark dark:border dark:border-base-dark text-base-color-h dark:text-base-color-dark"
-          style={
-            {
-              "--clr": "#f2709c",
-              "--clr-dark": "#ff7373",
-            } as React.CSSProperties
-          }
-        >
+        <Card className="shadow-md mt-2 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark">
           <CardBody className="flex-row gap-5 overflow-x-auto scrollbar-hide z-10">
             <ul className="space-y-2 min-w-[90%] md:min-w-0">
               <li>

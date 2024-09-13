@@ -15,7 +15,7 @@ import {
 } from "@/modules/icons/action";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
-export default function GoogleMaps() {
+const GoogleMaps = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const mapInstance = useRef<google.maps.Map | null>(null);
@@ -317,8 +317,8 @@ export default function GoogleMaps() {
   return (
     <div className="md:relative h-full z-10">
       <div className="absolute top-0 left-0 md:static px-3 mb-2 mt-2 md:mt-0 flex items-center w-full z-10 md:z-0">
-        <div className="flex items-center justify-between w-full">
-          <h2 className="self-start text-sm sm:text-xl font-semibold text-base-color-h dark:text-base-color-dark">
+        <div className="flex items-end justify-end md:justify-between w-full">
+          <h2 className="hidden md:block text-sm uppercase font-bold px-5 lg:px-0 ml-3 text-base-color-h dark:text-base-color-dark">
             Centros de salud o farmacias cercanas
           </h2>
           <CenterSwitch
@@ -336,7 +336,7 @@ export default function GoogleMaps() {
           ref={searchRef}
           type="text"
           placeholder="Buscar por nombre o ubicación"
-          className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-10 md:mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
+          className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 focus:ring-base-dark-50 border-0 shadow-small transition"
         />
       </div>
       <TooltipCTN content="Pantalla completa" placement="left">
@@ -385,4 +385,6 @@ export default function GoogleMaps() {
       </div>
     </div>
   );
-}
+};
+
+export default GoogleMaps;

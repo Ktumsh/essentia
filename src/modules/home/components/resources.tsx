@@ -14,7 +14,7 @@ const Resources = () => {
   );
   return (
     <div className="flex size-full">
-      <div className="w-full gap-2 grid grid-cols-12 grid-rows-2">
+      <div className="w-full gap-4 md:gap-2 grid grid-cols-12 grid-rows-2">
         {itemId.map((item, index) => (
           <ResourcesItem
             key={index}
@@ -22,7 +22,6 @@ const Resources = () => {
             title={item.title}
             subtitle={item.subtitle}
             img={item.image}
-            alt={`Enlace al recurso de ${item.title}`}
             href={item.href}
           >
             <q className="absolute top-5 left-5 max-w-[calc(100%-40px)] text-base sm:text-sm xl:text-base text-base-color dark:text-white font-normal dark:font-extralight opacity-0 lg:group-hover:opacity-100 invisible lg:group-hover:visible transition-opacity delay-200 duration-500">

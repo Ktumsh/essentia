@@ -5,8 +5,6 @@ import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
 
 const SexualityEmergencyCard = () => {
-  const { handleMouseMove, setRef } = useGlowingEffect();
-
   const info = [
     {
       title: "Emergencias de Salud Sexual",
@@ -181,15 +179,7 @@ const SexualityEmergencyCard = () => {
         {info.map((cardInfo, index) => (
           <Card
             key={index}
-            ref={(el) => setRef(el)}
-            onMouseMove={(e) => handleMouseMove(e)}
-            className="card bg-white dark:bg-base-full-dark dark:border dark:border-base-dark text-base-color-h dark:text-base-color-dark"
-            style={
-              {
-                "--clr": "#da4167",
-                "--clr-dark": "#a92751",
-              } as React.CSSProperties
-            }
+            className="shadow-md bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark"
           >
             <CardBody className="z-10">
               <div className="inline-flex items-center justify-between w-full">

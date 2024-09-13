@@ -8,11 +8,7 @@ interface Props {
   onSwitchChange: (value: boolean) => void;
 }
 
-export default function CenterSwitch({
-  isSelected,
-  setIsSelected,
-  onSwitchChange,
-}: Props) {
+const CenterSwitch = ({ isSelected, setIsSelected, onSwitchChange }: Props) => {
   const handleSwitchChange = (selected: boolean) => {
     setIsSelected(selected);
     onSwitchChange(selected);
@@ -36,9 +32,9 @@ export default function CenterSwitch({
           className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0"
           classNames={{
             label:
-              "text-xs sm:text-base text-base-color dark:text-base-color-dark",
+              "text-xs sm:text-base text-white md:text-base-color-h md:dark:text-base-color-dark",
             wrapper:
-              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-base-dark dark:bg-base-dark shadow-small mr-0 sm:mr-2",
+              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-base-full-dark dark:bg-base-full-dark border border-gray-200 dark:border-base-dark shadow-small mr-0 sm:mr-2",
             thumb: "bg-bittersweet-400 dark:bg-cerise-red-600",
             thumbIcon: "text-white",
           }}
@@ -53,4 +49,6 @@ export default function CenterSwitch({
       </div>
     </TooltipCTN>
   );
-}
+};
+
+export default CenterSwitch;

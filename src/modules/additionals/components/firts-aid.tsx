@@ -1,10 +1,8 @@
 import { Fragment, useState } from "react";
-import { useGlowingEffect } from "../hooks/use-glowing-effect";
 import { Button, Card, CardBody, Chip, Divider } from "@nextui-org/react";
 import { cn } from "@/utils/common";
 import { motion } from "framer-motion";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { generateChipColors } from "../lib/utils";
 import { FAQ_FIRST_AID } from "@/consts/faq-firts-aid";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
@@ -12,30 +10,7 @@ import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
 
 const FirstAid = () => {
-  const { handleMouseMove, setRef } = useGlowingEffect();
-
   const info = FAQ_FIRST_AID;
-
-  const colors = [
-    { clr: "#facc15", clrDark: "#ca8a04" },
-    { clr: "#06b6d4", clrDark: "#06b6d4" },
-    { clr: "#34d399", clrDark: "#059669" },
-    { clr: "#ec4899", clrDark: "#ec4899" },
-    { clr: "#fcd34d", clrDark: "#fcd34d" },
-    { clr: "#3b82f6", clrDark: "#3b82f6" },
-  ];
-
-  const chipColors = {
-    firstCard: generateChipColors(
-      "from-yellow-400 to-orange-500 dark:from-yellow-600 dark:to-orange-700",
-      6
-    ),
-    secondCard: generateChipColors("from-cyan-500 to-emerald-500", 4),
-    thirdCard: generateChipColors("from-green-500 to-teal-500", 6),
-    fourthCard: generateChipColors("from-purple-500 to-rose-500", 6),
-    fifthCard: generateChipColors("from-amber-300 to-yellow-600", 6),
-    sixthCard: generateChipColors("from-blue-500 to-sky-500", 6),
-  };
 
   const [openCard, setOpenCard] = useState<number | null>(0);
 
@@ -87,16 +62,8 @@ const FirstAid = () => {
             disableRipple
             fullWidth
             key={index}
-            ref={(el) => setRef(el, index)}
-            onMouseMove={(e) => handleMouseMove(e, index)}
             onPress={() => toggleShow(index)}
-            className="card min-h-[54px] bg-white dark:bg-base-full-dark dark:border dark:border-base-dark text-base-color-h dark:text-base-color-dark overflow-hidden data-[pressed=true]:scale-100"
-            style={
-              {
-                "--clr": colors[index % colors.length].clr,
-                "--clr-dark": colors[index % colors.length].clrDark,
-              } as React.CSSProperties
-            }
+            className="shadow-md min-h-[54px] bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark overflow-hidden data-[pressed=true]:scale-100"
           >
             <CardBody className="z-10 overflow-hidden">
               <div className="inline-flex items-center justify-between w-full">
@@ -153,31 +120,7 @@ const FirstAid = () => {
                           variant="shadow"
                           color="danger"
                           classNames={{
-                            base: [
-                              index === 0
-                                ? chipColors.firstCard[stepIndex]
-                                : index === 1
-                                ? chipColors.secondCard[stepIndex]
-                                : index === 2
-                                ? chipColors.thirdCard[stepIndex]
-                                : index === 3
-                                ? chipColors.fourthCard[stepIndex]
-                                : index === 4
-                                ? chipColors.fifthCard[stepIndex]
-                                : chipColors.sixthCard[stepIndex],
-                              index === 0
-                                ? "shadow-yellow-600/40"
-                                : index === 1
-                                ? "shadow-cyan-500/40"
-                                : index === 2
-                                ? "shadow-green-500/40"
-                                : index === 3
-                                ? "shadow-pink-500/40"
-                                : index === 4
-                                ? "shadow-amber-300/40"
-                                : "shadow-blue-500/40",
-                              "!size-6 min-w-0 max-w-full justify-center mr-2 bg-gradient-to-br",
-                            ],
+                            base: "!size-6 min-w-0 max-w-full justify-center mr-2 bg-gradient-to-br",
                             content:
                               "flex justify-center drop-shadow shadow-black text-white font-bold",
                           }}

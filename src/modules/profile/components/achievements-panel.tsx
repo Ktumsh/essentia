@@ -60,7 +60,6 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
     {
       id: 8,
       name: "Mejora del Sueño",
-      icon: createAchievementIcon("mejora-sueno"),
     },
     {
       id: 9,
