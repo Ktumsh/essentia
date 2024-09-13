@@ -17,7 +17,7 @@ const AsideTabs = () => {
   return (
     <>
       {!pathnameToIgnore && (
-        <aside className="hidden lg:block w-full max-w-96 max-h-dvh sticky left-0 top-0 pt-14 select-none">
+        <aside className="hidden 2xl:block w-full max-w-96 max-h-dvh sticky left-0 top-0 pt-14 select-none">
           <div className="relative flex w-72 h-full float-end">
             <div className="flex flex-col items-center lg:justify-between w-full p-2 pb-0">
               <div className="flex flex-col size-full">

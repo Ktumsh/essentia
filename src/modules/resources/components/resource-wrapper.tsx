@@ -56,24 +56,9 @@ const ResourceWrapper: FC<Props> = ({
   };
   return (
     <>
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none hidden dark:block"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-          className={cn(
-            "before:absolute before:left-1/3 before:top-1/4 before:w-[800px] before:h-[600px] before:content-[''] before:z-[-1] before:blur-[200px] before:rounded-full before:opacity-30",
-            "after:absolute after:left-1/2 after:top-1/4 after:w-[160px] after:h-[200px] after:content-[''] after:z-[-1] after:blur-3xl after:opacity-70",
-            `before:${background} after:${background}`
-          )}
-        ></motion.div>
-      </div>
       <div className="relative flex justify-center size-full">
-        <main className="relative flex flex-col min-h-[calc(100dvh-80px)] w-full md:min-w-[768px] max-w-5xl mt-14 py-5 lg:px-5 shrink items-stretch grow">
-          <div className="container mx-auto select-none">
+        <main className="relative flex flex-col min-h-[calc(100dvh-80px)] w-full md:min-w-[768px] max-w-5xl pb-14 md:pb-0 pt-14 shrink items-stretch grow">
+          <div className="container mx-auto lg:px-5 select-none">
             <div className="flex flex-col w-full mx-auto">
               <section
                 id={`introduccion-a-${formatedTitle}`}
@@ -101,12 +86,14 @@ const ResourceWrapper: FC<Props> = ({
                     </Chip>
                   </Tooltip>
                 </div>
-                <div className="group relative flex flex-col justify-center w-full h-[368px] lg:h-[422px] text-base-color overflow-hidden">
+                <div className="group relative flex flex-col justify-center w-full h-52 lg:h-96 text-base-color overflow-hidden">
                   <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-1 px-5 pt-3 z-10 group-active:opacity-0 lg:group-hover:opacity-0 transition-opacity duration-500">
                     <span className="font-bold uppercase text-white/60 font-motivasans">
                       Introducción a
                     </span>
-                    <h2 className="text-4xl font-bold text-white">{title}</h2>
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+                      {title}
+                    </h2>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center size-full opacity-0 group-active:backdrop-blur-lg group-active:opacity-100 lg:group-hover:backdrop-blur-lg lg:group-hover:opacity-100 transition duration-500 z-10">
                     <div className="relative flex flex-col items-center justify-center max-w-60 lg:max-w-2xl z-10 before:bg-black/40 before:absolute before:inset-0 before:blur-xl before:rounded-full before:z-[-1] group-active:scale-110 lg:group-hover:scale-110 transition duration-500">
@@ -119,13 +106,13 @@ const ResourceWrapper: FC<Props> = ({
                     priority
                     as={Image}
                     width={982}
-                    height={655}
+                    height={384}
                     quality={90}
                     src={imageFull}
                     alt={title}
                     classNames={{
-                      wrapper: "!max-w-full h-full sm:h-auto",
-                      img: "relative size-full rounded-none brightness-95 object-cover object-center z-0",
+                      wrapper: "!max-w-full",
+                      img: "relative rounded-none brightness-95 object-cover object-center z-0",
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-base-full-dark-50 to-black/0 to-40%"></div>

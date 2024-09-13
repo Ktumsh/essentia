@@ -5,7 +5,7 @@ import {
   Card,
   CardHeader,
   CardFooter,
-  Image as UIImage,
+  Image as ImageUI,
   Tooltip,
   ScrollShadow,
   Modal,
@@ -78,23 +78,27 @@ export const ModalComponent: FC<Props> = ({
           onOpen();
           history.replaceState(null, "", `#${formatedTitle}`);
         }}
-        className="group h-64 text-base-color-h dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-gray-100 dark:border-base-dark shadow-md !transition overflow-clip"
+        className="grid grid-cols-12 md:flex flex-row md:flex-col group  text-base-color-h dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-gray-100 dark:border-base-dark shadow-md !transition overflow-clip"
       >
-        <CardHeader className="absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
+        <CardHeader className="hidden md:flex absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
           <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
         </CardHeader>
-        <UIImage
-          as={Image}
-          width={305}
-          height={206}
-          quality={90}
-          removeWrapper
-          alt={modalTitle}
-          radius="sm"
-          className="z-0 w-full h-52 object-cover shadow-lg shadow-black/20 group-hover:scale-95"
-          src={modalImage}
-        />
-        <CardFooter className="text-small bg-transparent">
+        <div className="flex justify-center md:w-full h-28 md:h-52 p-2 col-span-5">
+          <ImageUI
+            as={Image}
+            width={305}
+            height={208}
+            quality={90}
+            alt={modalTitle}
+            radius="sm"
+            classNames={{
+              wrapper: "max-w-full",
+              img: "z-0 !h-full md:!h-48 object-cover shadow-lg shadow-black/20 group-hover:scale-95",
+            }}
+            src={modalImage}
+          />
+        </div>
+        <CardFooter className="col-span-7 h-full md:h-auto w-full text-small bg-transparent">
           <p className="font-semibold text-start group-hover:text-black dark:group-hover:text-white transition-colors">
             {modalTitle}
           </p>

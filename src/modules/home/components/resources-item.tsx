@@ -1,23 +1,29 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowRightV2Icon } from "../../icons/navigation";
 import { cn } from "@/utils/common";
+import { Card } from "@nextui-org/react";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
 
 type ResoucesItemProps = {
-  wrapperClass?: string;
+  wrapperClass: string;
   title: string;
   subtitle: string;
-  img?: string;
-  alt?: string;
-  href?: string;
-  children?: React.ReactNode;
+  img: string;
+  href: string;
+  children: React.ReactNode;
 };
 
 const ResourcesItem = (props: ResoucesItemProps) => {
+  const windowSize = useWindowSize();
   return (
-    <div
-      id="resource_card"
+    <Card
+      as={windowSize.width > 768 ? undefined : Link}
+      href={windowSize.width > 768 ? undefined : props.href}
+      isPressable={windowSize.width > 768 ? false : true}
       className={cn(
         props.wrapperClass,
         "group flex flex-col relative",
@@ -26,7 +32,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         "hover:shadow-lg",
         "border border-gray-200 dark:border-none",
         "rounded-xl transition-all md:hover:z-50",
-        "motion-reduce:transition-none h-48 sm:h-64 duration-500"
+        "motion-reduce:transition-none h-32 sm:h-64 duration-500"
       )}
     >
       <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-1 px-5 pt-3 z-10">
@@ -42,16 +48,16 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         quality={90}
         width={600}
         height={400}
-        src={props.img || ""}
-        alt={props.alt || ""}
+        src={props.img}
+        alt={`Enlace al recurso de ${props.title}`}
         className="relative size-full object-cover rounded-xl brightness-95 z-0 lg:group-hover:brightness-75 blur-0 !transition-all dark:lg:group-hover:blur-lg"
       />
-      <div className="absolute inset-0 rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
-      <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-white/30 dark:bg-base-full-dark-40 border-t-1 border-gray-100/50 dark:border-base-full-dark-50 backdrop-blur backdrop-saturate-150 lg:group-hover:pt-[211px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
+      <div className="absolute inset-0 rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
+      <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-transparent md:bg-white/30 md:dark:bg-base-full-dark-40 md:border-t-1 border-gray-100/50 dark:border-base-full-dark-50 md:backdrop-blur md:backdrop-saturate-150 lg:group-hover:pt-[211px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
         {props.children}
         <Link
-          href={props.href || "#"}
-          className="relative inline-flex h-8 w-12 items-center justify-center overflow-hidden rounded-full cursor-pointer text-sm font-normal text-white shadow-md bg-light-gradient dark:bg-dark-gradient-v2 transition-all duration-300 hover:brightness-90 active:scale-[.97] lg:group-hover:w-20 lg:group-hover:-translate-x-4"
+          href={props.href}
+          className="relative inline-flex h-8 w-12 items-center justify-center overflow-hidden rounded-full cursor-pointer text-sm font-normal text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium transition-all duration-300 hover:brightness-90 active:scale-[.97] lg:group-hover:w-20 lg:group-hover:-translate-x-4"
         >
           <div className="inline-flex whitespace-nowrap opacity-0 transition-all duration-200 lg:group-hover:-translate-x-3 lg:group-hover:opacity-100">
             Ver
@@ -61,7 +67,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
           </div>
         </Link>
       </div>
-    </div>
+    </Card>
   );
 };
 

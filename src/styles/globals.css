@@ -765,29 +765,6 @@ html.dark {
   @apply !text-white;
 }
 
-.card::before {
-  content: "";
-  position: absolute;
-  top: var(--y);
-  left: var(--x);
-  transform: translate(-50%, -50%);
-  background: radial-gradient(var(--clr), transparent, transparent);
-  width: 300px;
-  height: 300px;
-  opacity: 0;
-  transition: opacity 0.5s, top 0s, left 0s;
-  pointer-events: none;
-}
-
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
-  pointer-events: none;
-}
-
 html.dark {
   .card::before {
     background: radial-gradient(var(--clr-dark), transparent, transparent);

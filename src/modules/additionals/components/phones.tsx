@@ -10,12 +10,10 @@ import {
 } from "@nextui-org/react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { cn } from "@/utils/common";
-import { useGlowingEffect } from "../hooks/use-glowing-effect";
 import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
 
 const Phones = () => {
-  const { handleMouseMove, setRef } = useGlowingEffect();
   return (
     <section className="flex flex-col items-center mt-5">
       <div className="self-start px-3 mb-2">
@@ -46,17 +44,9 @@ const Phones = () => {
         {PHONES.map((phone, index) => (
           <Card
             key={index}
-            ref={(el) => setRef(el, index)}
-            onMouseMove={(e) => handleMouseMove(e, index)}
             className={cn(
-              "card group col-span-12 sm:col-span-4 bg-white dark:bg-base-full-dark dark:border dark:border-base-dark text-base-color-h dark:text-base-color-dark"
+              "shadow-md group col-span-12 sm:col-span-4 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark"
             )}
-            style={
-              {
-                "--clr": "#f2709c",
-                "--clr-dark": "#ff7373",
-              } as React.CSSProperties
-            }
           >
             <CardBody className="z-10">
               <div className="inline-flex items-center justify-between w-full mb-3">

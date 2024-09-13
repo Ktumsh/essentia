@@ -10,26 +10,15 @@ import { StarIcon } from "@/modules/icons/common";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import { GUIDES } from "@/consts/guides";
-import { useGlowingEffect } from "../hooks/use-glowing-effect";
 
 export default function Guides() {
-  const { handleMouseMove, setRef } = useGlowingEffect();
-
   return (
     <section className="flex flex-col items-center py-5 md:py-0 mb-14 mt-12 md:my-0">
       <div className="w-full grid grid-cols-12 gap-2 px-3 md:px-0">
         {GUIDES.map((guide, index) => (
           <Card
             key={index}
-            ref={(el) => setRef(el, index)}
-            onMouseMove={(e) => handleMouseMove(e, index)}
-            className="card group col-span-12 sm:col-span-4 bg-white dark:bg-base-full-dark dark:border dark:border-base-dark text-base-color dark:text-base-color-dark"
-            style={
-              {
-                "--clr": "#f2709c",
-                "--clr-dark": "#ff7373",
-              } as React.CSSProperties
-            }
+            className="shadow-md group col-span-12 sm:col-span-4 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark"
           >
             <CardBody className="z-10">
               <div className="relative inline-flex items-center justify-between w-full mb-3">
