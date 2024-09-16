@@ -108,9 +108,9 @@ const ChatPanel: FC<ChatPanelProps> = ({
     <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding] z-10 pointer-events-none">
       <ButtonToBottom isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
       <div className="mx-auto max-w-2xl sm:px-4 pointer-events-auto">
-        <div className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide">
-          {messages.length === 0 &&
-            exampleMessages.slice(0, 4).map((example, index) => (
+        {messages.length === 0 && (
+          <div className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide">
+            {exampleMessages.slice(0, 4).map((example, index) => (
               <Button
                 key={index}
                 radius="sm"
@@ -149,46 +149,8 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 </div>
               </Button>
             ))}
-        </div>
-        {messages?.length >= 2 ? (
-          <div className="flex h-12 items-center justify-center">
-            <div className="flex space-x-2">
-              {id && title ? (
-                <>
-                  <Tooltip
-                    content="Compartir chat"
-                    delay={800}
-                    closeDelay={0}
-                    classNames={{
-                      content: tooltipStyles.content,
-                    }}
-                  >
-                    <Button
-                      variant="light"
-                      disableRipple
-                      radius="sm"
-                      className="min-w-fit group flex items-center justify-center size-7 p-0 my-auto mr-2 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-dark absolute inset-y-0 right-0 gap-1.5 opacity-0 group-hover:opacity-100 group-[.selected]:opacity-100 group-[.active]:opacity-100 transition-opacity duration-150"
-                      aria-haspopup="menu"
-                      endContent={<ShareIcon className="size-4" />}
-                      onPress={onOpen}
-                    ></Button>
-                  </Tooltip>
-                  <ChatShareModal
-                    open={isOpen}
-                    onOpenChange={onOpenChange}
-                    onCopy={() => onOpen()}
-                    shareChat={shareChat}
-                    chat={{
-                      id,
-                      title,
-                      messages: aiState.messages,
-                    }}
-                  />
-                </>
-              ) : null}
-            </div>
           </div>
-        ) : null}
+        )}
         <div className="md:-ml-1 space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
           <PromptForm
             profileData={profileData}

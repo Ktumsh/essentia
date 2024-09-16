@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 };
 
 const RecomendacionesPage = () => {
-  return <></>;
+  return null;
 };
 
 export default RecomendacionesPage;

@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 };
 
 const EmergenciasPage = () => {
-  return <></>;
+  return null;
 };
 
 export default EmergenciasPage;

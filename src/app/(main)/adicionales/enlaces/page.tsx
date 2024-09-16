@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 };
 
 const EnlacesPage = () => {
-  return <></>;
+  return null;
 };
 
 export default EnlacesPage;

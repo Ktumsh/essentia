@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 };
 
 const GuidesPage = () => {
-  return <></>;
+  return null;
 };
 
 export default GuidesPage;

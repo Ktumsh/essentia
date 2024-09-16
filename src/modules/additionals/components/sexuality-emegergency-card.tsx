@@ -151,7 +151,7 @@ const SexualityEmergencyCard = () => {
 
   return (
     <section className="flex flex-col w-full mt-5 text-base-color-h dark:text-base-color-dark">
-      <div className="self-start px-3 mb-2">
+      <div className="self-start mb-2">
         <Button
           as={Link}
           id="emergencias-de-salud-sexual"
@@ -175,7 +175,7 @@ const SexualityEmergencyCard = () => {
           </Chip>
         </Button>
       </div>
-      <div className="flex w-full px-3 md:px-0">
+      <div className="flex w-full">
         {info.map((cardInfo, index) => (
           <Card
             key={index}
