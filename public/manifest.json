@@ -5,6 +5,7 @@
   "theme_color": "#000",
   "background_color": "#030e1e",
   "display": "standalone",
+  "version": "pre-alpha-1.0.0",
   "icons": [
     {
       "src": "/essentia-192x192.png",

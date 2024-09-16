@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { ArrowRightV2Icon } from "../../icons/navigation";
 import { cn } from "@/utils/common";
-import { Card } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 
 type ResoucesItemProps = {
@@ -55,17 +55,28 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       <div className="absolute inset-0 rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
       <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-transparent md:bg-white/30 md:dark:bg-base-full-dark-40 md:border-t-1 border-gray-100/50 dark:border-base-full-dark-50 md:backdrop-blur md:backdrop-saturate-150 lg:group-hover:pt-[211px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
         {props.children}
-        <Link
-          href={props.href}
-          className="relative inline-flex h-8 w-12 items-center justify-center overflow-hidden rounded-full cursor-pointer text-sm font-normal text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium transition-all duration-300 hover:brightness-90 active:scale-[.97] lg:group-hover:w-20 lg:group-hover:-translate-x-4"
-        >
-          <div className="inline-flex whitespace-nowrap opacity-0 transition-all duration-200 lg:group-hover:-translate-x-3 lg:group-hover:opacity-100">
-            Ver
+        {windowSize.width > 768 ? (
+          <Button
+            as={Link}
+            href={props.href}
+            radius="full"
+            variant="light"
+            className="h-8 w-12 min-w-0 text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium !transition-all data-[hover=true]:brightness-90 group-hover:w-20"
+          >
+            <div className="inline-flex whitespace-nowrap opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
+              Ver
+            </div>
+            <div className="absolute right-3.5">
+              <ArrowRightV2Icon className="size-5" />
+            </div>
+          </Button>
+        ) : (
+          <div className="relative inline-flex h-8 w-12 items-center justify-center overflow-hidden rounded-full text-sm font-normal text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium">
+            <div className="absolute right-3.5">
+              <ArrowRightV2Icon className="size-5" />
+            </div>
           </div>
-          <div className="absolute right-3.5">
-            <ArrowRightV2Icon className="size-5" />
-          </div>
-        </Link>
+        )}
       </div>
     </Card>
   );
