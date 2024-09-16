@@ -15,8 +15,6 @@ import {
   Button,
   Textarea,
   DateInput,
-  Chip,
-  Divider,
 } from "@nextui-org/react";
 import {
   CalendarFillIcon,
@@ -30,16 +28,9 @@ import { toast } from "sonner";
 import { useDisclosure } from "@nextui-org/react";
 import FormInput from "./form-input";
 import { useProfileForm } from "../hooks/use-profile-form";
-import {
-  CheckCircledIcon,
-  CheckIcon,
-  CloseCircledIcon,
-  SpinnerIcon,
-} from "@/modules/icons/common";
+import { SpinnerIcon } from "@/modules/icons/common";
 import { formatCreatedAt, validateProfileForm } from "../lib/utils";
 import { updateUserProfile } from "@/db/actions";
-import { CircleIcon } from "@radix-ui/react-icons";
-import { cn } from "@/utils/common";
 import CompleteProfile from "./complete-profile";
 import AchievementsPanel from "./achievements-panel";
 

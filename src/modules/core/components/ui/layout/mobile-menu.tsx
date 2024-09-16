@@ -3,13 +3,7 @@
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 
-import {
-  Avatar,
-  Button,
-  Divider,
-  Listbox,
-  ListboxItem,
-} from "@nextui-org/react";
+import { Avatar, Button, Listbox, ListboxItem } from "@nextui-org/react";
 import { ThemeToggle } from "../buttons/theme-toggle";
 import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
 import { siteConfig } from "@/config/site";
@@ -22,7 +16,6 @@ import {
   ThemeIcon,
 } from "@/modules/icons/miscellaneus";
 import { Chevron } from "@/modules/icons/navigation";
-import { CommunityIcon } from "@/modules/icons/interface";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 
@@ -32,7 +25,6 @@ interface MobileMenuProps {
 
 const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
   const [currentPath, setCurrentPath] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const { first_name, last_name, username, profile_image } = profileData || {};
 
   const resourceLinks = siteConfig.asideMenuLinks;
@@ -93,7 +85,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                           {`${first_name} ${last_name}`}
                         </span>
                         <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
-                          {username}
+                          @{username}
                         </span>
                       </Link>
                     </>
@@ -119,31 +111,12 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         radius="none"
                         disableRipple
                         fullWidth
-                        endContent={
-                          <Chevron
-                            className={cn(
-                              isOpen ? "rotate-90" : "-rotate-90",
-                              "size-6 transition-transform"
-                            )}
-                          />
-                        }
-                        className={cn(
-                          isOpen
-                            ? "text-black dark:text-white"
-                            : "text-base-color-h dark:text-base-color-dark-h",
-                          "justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100"
-                        )}
-                        onPress={() => setIsOpen(!isOpen)}
+                        className="text-base-color-h dark:text-base-color-dark-h justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100"
                       >
                         Recursos
                       </Button>
                     </div>
-                    <div
-                      className={cn(
-                        isOpen ? "h-[268px] opacity-100" : "h-0 opacity-0",
-                        "overflow-hidden transition-all"
-                      )}
-                    >
+                    <div className="overflow-hidden transition-all">
                       <Listbox
                         aria-label="Recursos"
                         classNames={{
@@ -178,20 +151,6 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                           </ListboxItem>
                         ))}
                       </Listbox>
-                    </div>
-                    <Divider className="mt-5 bg-gray-200 dark:bg-base-dark" />
-                    <div className="group mt-5">
-                      <Button
-                        as={Link}
-                        href="/comunidad"
-                        aria-label="Comunidad"
-                        variant="solid"
-                        radius="none"
-                        startContent={<CommunityIcon className="size-5" />}
-                        className="justify-start px-0 text-base font-medium bg-transparent text-base-color-h dark:text-base-color-dark-h"
-                      >
-                        Comunidad
-                      </Button>
                     </div>
                   </div>
 
