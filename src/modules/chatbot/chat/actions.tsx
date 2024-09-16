@@ -128,12 +128,11 @@ async function submitUserMessage(content: string) {
     tools: {
       recommendExercise: {
         description: `\
-        Recomienda una rutina de ejercicios personalizada basada en el nivel de condición física, objetivo, tiempo disponible, preferencias del usuario, edad, género, y cualquier condición de salud o lesión.
-        Considera el acceso a equipamiento como gimnasio, pesas, bandas elásticas, o si no se dispone de equipamiento.
-        Genera una rutina de 1, 2, o 3 meses, aumentando progresivamente repeticiones y duración.
-        Indica la cantidad de semanas, ejercicios recomendados, repeticiones, series, duración de cada sesión, y tiempos de descanso.
-        Si es posible, incluye una evaluación física inicial para ajustar la rutina.
-        Finalmente, haz una recomendación basada en la información y el progreso esperado del usuario.`,
+        Recomienda una rutina de ejercicios personalizada basada en el nivel de condición física, objetivos, tiempo disponible, preferencias, edad, género y condiciones de salud del usuario.
+        Considera el acceso a equipamiento (gimnasio, pesas, bandas elásticas, etc) o si no dispone de él.
+        Genera una rutina de 1 a 3 meses, aumentando progresivamente repeticiones y duración.
+        Indica semanas de duración, ejercicios recomendados, repeticiones, series y tiempos de descanso.
+        Incluye, si es posible, una evaluación física inicial y recomendaciones basadas en el progreso esperado.`,
 
         parameters: z.object({
           routine: z.object({
@@ -151,33 +150,61 @@ async function submitUserMessage(content: string) {
                 duration: z
                   .string()
                   .optional()
-                  .describe(
-                    "Duración del ejercicio o de cada serie, si aplica"
-                  ),
+                  .describe("Duración del ejercicio o serie"),
                 rest: z
                   .string()
                   .optional()
                   .describe("Tiempo de descanso entre series o ejercicios"),
                 progression: z
                   .string()
-                  .describe(
-                    "Instrucciones de progresión para aumentar la dificultad"
-                  ),
+                  .describe("Instrucciones para aumentar la dificultad"),
                 equipment: z
                   .string()
                   .optional()
-                  .describe("Equipamiento necesario para el ejercicio"),
+                  .describe("Equipamiento necesario"),
+                instructions: z
+                  .string()
+                  .optional()
+                  .describe("Instrucciones detalladas del ejercicio"),
+                benefits: z
+                  .string()
+                  .optional()
+                  .describe("Beneficios para la salud"),
+                modifications: z
+                  .string()
+                  .optional()
+                  .describe(
+                    "Modificaciones para distintos niveles o limitaciones"
+                  ),
               })
             ),
             durationWeeks: z
               .number()
-              .describe("Número de semanas que dura la rutina"),
-            goal: z
-              .string()
-              .describe("Objetivo principal del usuario para la rutina"),
+              .describe("Número de semanas de la rutina"),
+            goal: z.string().describe("Objetivo principal del usuario"),
             fitnessLevel: z
               .string()
               .describe("Nivel de condición física del usuario"),
+            warmUp: z
+              .string()
+              .optional()
+              .describe("Recomendaciones para el calentamiento"),
+            coolDown: z
+              .string()
+              .optional()
+              .describe("Recomendaciones para el enfriamiento"),
+
+            schedule: z
+              .array(
+                z.object({
+                  day: z.string().describe("Día de la semana"),
+                  exercises: z
+                    .array(z.string())
+                    .describe("Ejercicios programados para el día"),
+                })
+              )
+              .optional()
+              .describe("Programa semanal de ejercicios"),
             recommendations: z
               .string()
               .optional()

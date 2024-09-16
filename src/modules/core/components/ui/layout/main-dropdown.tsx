@@ -40,14 +40,14 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownTrigger>
             <button
               className="size-8 focus:outline-none ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[rgb(6,_27,_55)] ring-gray-200 dark:ring-midnight-900/30 rounded-full overflow-hidden"
-              aria-label="Perfil de usuario"
+              aria-label={"Perfil de " + profileData.username}
             >
-              {profileData?.profile_image ? (
+              {profileData.profile_image ? (
                 <Image
-                  width={96}
-                  height={96}
-                  src={profileData?.profile_image}
-                  alt="Avatar del usuario"
+                  width={32}
+                  height={32}
+                  src={profileData.profile_image}
+                  alt={"Avatar de " + profileData.username}
                 />
               ) : (
                 <Avatar
@@ -91,13 +91,13 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               <DropdownItem
                 key="profile"
                 textValue="Perfil"
-                href={`/profile/${profileData?.username}`}
+                href={`/profile/${profileData.username}`}
                 className="h-14 gap-2 rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark !duration-150"
               >
                 <p className="font-medium dark:text-base-color-dark">
-                  {`${profileData?.first_name} ${profileData?.last_name}`}
+                  {`${profileData.first_name} ${profileData.last_name}`}
                 </p>
-                <p className="text-xs">@{profileData?.username}</p>
+                <p className="text-xs">@{profileData.username}</p>
               </DropdownItem>
             </DropdownSection>
             <DropdownSection

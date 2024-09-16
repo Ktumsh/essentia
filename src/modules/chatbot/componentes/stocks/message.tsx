@@ -25,6 +25,7 @@ export function UserMessage({
 }) {
   return (
     <div
+      role="user"
       className={cn(
         "group relative flex items-start md:-mr-12 sm:self-end sm:flex-row-reverse",
         className
@@ -70,7 +71,10 @@ export function BotMessage({
   const text = useStreamableText(content);
 
   return (
-    <div className={cn("group relative flex items-start md:-ml-12", className)}>
+    <div
+      role="assistant"
+      className={cn("group relative flex items-start md:-ml-12", className)}
+    >
       <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
           width={12}
@@ -145,7 +149,7 @@ export function BotCard({
   showAvatar?: boolean;
 }) {
   return (
-    <div className="group relative flex items-start md:-ml-12">
+    <div role="bot-card" className="group relative flex items-start md:-ml-12">
       <div
         className={cn(
           "flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
