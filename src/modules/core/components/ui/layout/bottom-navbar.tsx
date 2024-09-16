@@ -46,21 +46,19 @@ const BottomNav = () => {
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (
-            <>
-              <li className="relative flex items-center justify-center size-full">
-                <MainSearch />
-              </li>
-            </>
+            <li className="relative flex items-center justify-center size-full">
+              <MainSearch />
+            </li>
           ) : (
             <li className="relative flex items-center justify-center size-full">
               <Button
                 as={Link}
+                href={item.href}
                 id={`navbar_link_${index}`}
                 fullWidth
                 radius="none"
                 variant="light"
                 color="danger"
-                href={item.href}
                 className={cn(
                   "!h-full after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-full-dark-50 text-gray-500 dark:text-gray-400 dark:data-[hover=true]:text-bittersweet-400 dark:dark:data-[hover=true]:text-cerise-red-600 min-w-0",
                   item.active
