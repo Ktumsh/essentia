@@ -40,7 +40,7 @@ export default function AdditionalsTabs() {
         classNames={{
           base: "absolute top-14 left-0 md:static z-10 md:z-0",
           tabList:
-            "p-0 mx-4 md:mx-0 gap-6 rounded-none border-b border-gray-50 dark:border-white/10",
+            "p-0 mx-2 md:mx-0 gap-6 rounded-none border-b border-gray-50 dark:border-white/10",
           cursor: "w-full bg-bittersweet-400 dark:bg-cerise-red-600",
           tab: "max-w-fit px-0 h-12",
           tabContent:

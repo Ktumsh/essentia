@@ -14,7 +14,7 @@ import { GUIDES } from "@/consts/guides";
 export default function Guides() {
   return (
     <section className="flex flex-col items-center py-5 md:py-0 mb-14 mt-12 md:my-0">
-      <div className="w-full grid grid-cols-12 gap-2 px-3 md:px-0">
+      <div className="w-full grid grid-cols-12 gap-2 px-2 md:px-0">
         {GUIDES.map((guide, index) => (
           <Card
             key={index}

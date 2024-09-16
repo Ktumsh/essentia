@@ -16,7 +16,7 @@ import { HashIcon } from "@/modules/icons/common";
 const Phones = () => {
   return (
     <section className="flex flex-col items-center mt-5">
-      <div className="self-start px-3 mb-2">
+      <div className="self-start mb-2">
         <Button
           as={Link}
           id="telefonos-de-emergencia"
@@ -40,7 +40,7 @@ const Phones = () => {
           </Chip>
         </Button>
       </div>
-      <div className="w-full grid grid-cols-12 gap-2 px-3 md:px-0">
+      <div className="w-full grid grid-cols-12 gap-2 md:px-0">
         {PHONES.map((phone, index) => (
           <Card
             key={index}

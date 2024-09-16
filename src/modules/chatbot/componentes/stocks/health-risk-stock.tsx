@@ -31,7 +31,7 @@ interface RiskValue {
   level: string;
 }
 
-interface RiskAssessment {
+export interface RiskAssessment {
   diabetes: RiskValue;
   heartDisease: RiskValue;
   lungDisease: RiskValue;

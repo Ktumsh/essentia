@@ -6,7 +6,7 @@ import Link from "next/link";
 const Medicines = () => {
   return (
     <section className="flex flex-col mt-5 text-base-color-h dark:text-base-color-dark">
-      <div className="self-start px-3 mb-2">
+      <div className="self-start mb-2">
         <Button
           as={Link}
           id="medicamentos-para-un-botiquin-de-primeros-auxilios"
@@ -30,9 +30,9 @@ const Medicines = () => {
           </Chip>
         </Button>
       </div>
-      <div className="flex w-full px-3 md:px-0">
+      <div className="flex w-full">
         <Card className="shadow-md mt-2 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark">
-          <CardBody className="flex-row gap-5 overflow-x-auto scrollbar-hide z-10">
+          <CardBody className="flex-row gap-6 overflow-x-auto scrollbar-hide z-10">
             <ul className="space-y-2 min-w-[90%] md:min-w-0">
               <li>
                 <Chip

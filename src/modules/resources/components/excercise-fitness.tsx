@@ -14,8 +14,8 @@ const videos =
 const ExcerciseFitness = () => {
   return (
     <>
-      <section className="py-6">
-        <div className="w-full px-3 mb-8">
+      <section className="px-2 md:px-0 py-6 pb-12 lg:pb-6">
+        <div className="w-full px-3 mb-4">
           <h3 className="drop-shadow-md text-base-color dark:text-white">
             <Button
               as={Link}

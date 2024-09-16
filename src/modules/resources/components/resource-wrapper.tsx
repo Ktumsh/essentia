@@ -64,7 +64,7 @@ const ResourceWrapper: FC<Props> = ({
                 id={`introduccion-a-${formatedTitle}`}
                 data-id={`introduccion-a-${formatedTitle}`}
                 data-name={`Introducción a ${title}`}
-                className="relative flex mb-5 border border-gray-100 dark:border-base-dark shadow-md lg:rounded-3xl overflow-hidden"
+                className="relative flex mb-5 border border-gray-100 dark:border-base-dark shadow-md lg:rounded-b-3xl overflow-hidden"
               >
                 <div className="absolute p-5 top-0 right-0 z-20">
                   <Tooltip

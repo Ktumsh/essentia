@@ -20,10 +20,18 @@ import {
   BotCard,
 } from "../componentes/stocks/message";
 import { z } from "zod";
-import HealthRiskStock from "../componentes/stocks/health-risk-stock";
-import ExerciseRoutineStock from "../componentes/stocks/excercise-routine-stock";
-import NutritionPlanStock from "../componentes/stocks/nutrition-plan-stock";
-import MoodTrackingStock from "../componentes/stocks/mood-tracking-stock";
+import HealthRiskStock, {
+  RiskAssessment,
+} from "../componentes/stocks/health-risk-stock";
+import ExerciseRoutineStock, {
+  Routine,
+} from "../componentes/stocks/excercise-routine-stock";
+import NutritionPlanStock, {
+  Plan,
+} from "../componentes/stocks/nutrition-plan-stock";
+import MoodTrackingStock, {
+  MoodTracking,
+} from "../componentes/stocks/mood-tracking-stock";
 import NutritionPlanSkeleton from "../componentes/stocks/nutrition-plan-skeleton";
 import ExerciseRoutineSkeleton from "../componentes/stocks/excercise-routine-skeleton";
 import HealthRiskSkeleton from "../componentes/stocks/health-risk-skeleton";
@@ -59,7 +67,7 @@ async function submitUserMessage(content: string) {
     system: `\
     Essentia AI es una asistente virtual diseñada para proporcionar apoyo especializado en temas de salud y bienestar a personas residentes en Chile.
     Como una experta femenina en inteligencia artificial, tu rol es responder exclusivamente preguntas relacionadas con la salud y el bienestar, ofreciendo consejos prácticos, información confiable, y apoyo emocional cuando sea necesario.
-
+    
     Adoptas un tono amable, cordial y accesible, siempre abierta a escuchar las inquietudes de los usuarios.
     Tus respuestas son claras, educadas y brindan la mejor información disponible, enfocándote en las necesidades individuales de cada persona.
     Además, utilizas emojis en tus respuestas para hacerlas más expresivas y amigables, adecuando su uso al contexto de la conversación.
@@ -67,8 +75,24 @@ async function submitUserMessage(content: string) {
     Essentia AI busca generar un ambiente de confianza y comprensión, asegurando que cada interacción sea positiva y orientada a mejorar el bienestar de los usuarios.
     Mantendrás siempre un enfoque en la salud integral, considerando tanto el aspecto físico como el emocional, y responderás de manera apropiada a la diversidad de situaciones que puedan presentarse.
     
-    Sólo debes responder a preguntas exclusivamente relacionadas con la salud y el bienestar.
+    Solo debes responder a preguntas exclusivamente relacionadas con la salud y el bienestar.
+    
+    **Instrucciones para el modelo:**
+    
+    - **recommendExercise**: Cuando recomiendes una rutina de ejercicios, utiliza la herramienta 'recommendExercise' y proporciona el argumento 'routine' con la estructura especificada.
+    - **healthRiskAssessment**: Cuando realices una evaluación de riesgos de salud, utiliza la herramienta 'healthRiskAssessment' y proporciona el argumento 'riskAssessment' con la estructura especificada.
+    - **nutritionalAdvice**: Cuando proporciones un plan nutricional, utiliza la herramienta 'nutritionalAdvice' y proporciona el argumento 'plan' con la estructura especificada.
+    - **moodTracking**: Cuando hagas un seguimiento del estado de ánimo, utiliza la herramienta 'moodTracking' y proporciona el argumento 'moodTracking' con la estructura especificada.
+    
+    Al utilizar una herramienta, debes:
+    
+    - Llamar a la herramienta por su nombre exacto.
+    - Proporcionar los argumentos exactamente como se definen en los parámetros de la herramienta.
+    - No incluir información adicional fuera de los argumentos especificados.
+    
+    Cuando no necesites usar una herramienta, responde al usuario de manera directa y amable, siguiendo el tono y las directrices establecidas.
     `,
+
     messages: [
       ...aiState.get().messages.map((message: any) => ({
         role: message.role,
@@ -619,23 +643,19 @@ export const getUIStateFromAIState = (
           message.content.map((tool) => {
             return tool.toolName === "recommendExercise" ? (
               <BotCard>
-                {/* @ts-expect-error */}
-                <ExerciseRoutineStock props={tool.result} />
+                <ExerciseRoutineStock props={tool.result as Routine} />
               </BotCard>
             ) : tool.toolName === "healthRiskAssessment" ? (
               <BotCard>
-                {/* @ts-expect-error */}
-                <HealthRiskStock props={tool.result} />
+                <HealthRiskStock props={tool.result as RiskAssessment} />
               </BotCard>
             ) : tool.toolName === "nutritionalAdvice" ? (
               <BotCard>
-                {/* @ts-expect-error */}
-                <NutritionPlanStock props={tool.result.plan} />
+                <NutritionPlanStock props={tool.result as Plan} />
               </BotCard>
             ) : tool.toolName === "moodTracking" ? (
               <BotCard>
-                {/* @ts-expect-error */}
-                <MoodTrackingStock props={tool.result} />
+                <MoodTrackingStock props={tool.result as MoodTracking} />
               </BotCard>
             ) : null;
           })

@@ -70,7 +70,7 @@ export function Chat({
       ref={scrollRef}
     >
       <div
-        className={cn("pb-28 sm:pb-32 lg:pb-[200px] pt-4 md:pt-10", className)}
+        className={cn("pb-32 lg:pb-48 pt-4 md:pt-10", className)}
         ref={messagesRef}
       >
         {messages.length ? (

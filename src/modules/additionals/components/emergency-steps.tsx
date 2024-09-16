@@ -50,7 +50,7 @@ const EmergencySteps = () => {
   ];
 
   return (
-    <section className="flex items-center w-full pr-6 md:pr-0 px-3 md:px-0 md:mx-0 pb-5 overflow-x-scroll scrollbar-hide">
+    <section className="flex items-center w-full md:mx-0 pb-5 overflow-x-scroll scrollbar-hide">
       {info.map((card, index) => (
         <Fragment key={index}>
           <Card className="shadow-md h-full min-w-[87%] md:min-w-0 max-w-lg my-5 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark">

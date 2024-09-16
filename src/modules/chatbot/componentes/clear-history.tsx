@@ -25,6 +25,17 @@ const ClearHistory: FC<ClearHistoryProps> = ({
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isPending, startTransition] = useTransition();
+
+  const handleClearHistory = () => {
+    startTransition(async () => {
+      const result = await clearChats();
+      if (result && "error" in result) {
+        toast.error(result.error);
+        return;
+      }
+    });
+  };
+
   return (
     <>
       <div className="flex items-center justify-end w-full h-10 mt-4">
@@ -63,21 +74,7 @@ const ClearHistory: FC<ClearHistoryProps> = ({
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button
-                  color="danger"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    startTransition(async () => {
-                      const result = await clearChats();
-                      if (result && "error" in result) {
-                        toast.error(result.error);
-                        return;
-                      }
-
-                      onClose();
-                    });
-                  }}
-                >
+                <Button color="danger" onPress={handleClearHistory}>
                   Eliminar
                 </Button>
                 <Button variant="light" onPress={onClose} disabled={isPending}>
