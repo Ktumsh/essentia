@@ -11,6 +11,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { FC, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -23,16 +24,23 @@ const ClearHistory: FC<ClearHistoryProps> = ({
   isEnabled = false,
   clearChats,
 }) => {
+  const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isPending, startTransition] = useTransition();
 
-  const handleClearHistory = () => {
+  const handleClearHistory = async () => {
     startTransition(async () => {
       const result = await clearChats();
+
       if (result && "error" in result) {
         toast.error(result.error);
         return;
       }
+
+      onOpenChange();
+      router.refresh();
+      router.push("/essentia-ai");
+      toast.success("Historial eliminado");
     });
   };
 
@@ -74,10 +82,24 @@ const ClearHistory: FC<ClearHistoryProps> = ({
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" onPress={handleClearHistory}>
-                  Eliminar
+                <Button
+                  color="danger"
+                  onPress={handleClearHistory}
+                  isDisabled={isPending}
+                  startContent={
+                    isPending ? (
+                      <SpinnerIcon className="size-4 animate-spin" />
+                    ) : null
+                  }
+                  className="rounded-md"
+                >
+                  {isPending ? "Eliminando..." : "Eliminar"}
                 </Button>
-                <Button variant="light" onPress={onClose} disabled={isPending}>
+                <Button
+                  variant="light"
+                  onPress={onClose}
+                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+                >
                   Cancelar
                 </Button>
               </ModalFooter>

@@ -17,6 +17,8 @@ import ChatShareModal from "./chat-share-modal";
 import { type Chat, ServerActionResult } from "@/types/chat";
 import { toast } from "sonner";
 import { DeleteIcon, ShareIcon } from "@/modules/icons/action";
+import { SpinnerIcon } from "@/modules/icons/common";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 interface SidebarActionsProps {
   chat: Chat;
@@ -32,54 +34,58 @@ const SidebarActions: FC<SidebarActionsProps> = ({
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [isRemovePending, startRemoveTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
+
+  const handleRemoveChat = async () => {
+    startTransition(async () => {
+      const result = await removeChat({
+        id: chat.id,
+        path: chat.path,
+      });
+
+      if (result && "error" in result) {
+        toast.error(result.error);
+        return;
+      }
+
+      onOpenChange();
+      router.refresh();
+      router.push("/essentia-ai");
+      toast.success("Chat eliminado");
+    });
+  };
   return (
     <>
-      <>
-        <Tooltip
-          content="Compartir chat"
-          delay={800}
-          closeDelay={0}
-          classNames={{
-            content: tooltipStyles.content,
-          }}
+      <TooltipCTN placement="top-start" content="Compartir chat">
+        <Button
+          isIconOnly
+          variant="light"
+          disableRipple
+          size="sm"
+          radius="sm"
+          className="!size-7 min-w-0 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark"
+          aria-haspopup="menu"
+          onPress={() => setShareModalOpen(true)}
         >
-          <Button
-            isIconOnly
-            variant="light"
-            disableRipple
-            size="sm"
-            radius="sm"
-            className="!size-7 min-w-0 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark"
-            aria-haspopup="menu"
-            onClick={() => setShareModalOpen(true)}
-          >
-            <ShareIcon className="size-4" />
-          </Button>
-        </Tooltip>
-        <Tooltip
-          content="Borrar chat"
-          delay={800}
-          closeDelay={0}
-          classNames={{
-            content: tooltipStyles.content,
-          }}
+          <ShareIcon className="size-4" />
+        </Button>
+      </TooltipCTN>
+      <TooltipCTN placement="top-start" content="Borrar chat">
+        <Button
+          isIconOnly
+          variant="light"
+          disableRipple
+          size="sm"
+          radius="sm"
+          className="!size-7 min-w-0 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark"
+          aria-haspopup="menu"
+          isDisabled={isPending}
+          onPress={onOpen}
         >
-          <Button
-            isIconOnly
-            variant="light"
-            disableRipple
-            size="sm"
-            radius="sm"
-            className="!size-7 min-w-0 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark"
-            aria-haspopup="menu"
-            isDisabled={isRemovePending}
-            onPress={onOpen}
-          >
-            <DeleteIcon className="size-4" />
-          </Button>
-        </Tooltip>
-      </>
+          <DeleteIcon className="size-4" />
+        </Button>
+      </TooltipCTN>
+
       <ChatShareModal
         chat={chat}
         shareChat={shareChat}
@@ -114,32 +120,21 @@ const SidebarActions: FC<SidebarActionsProps> = ({
               <ModalFooter>
                 <Button
                   color="danger"
-                  onPress={() => {
-                    startRemoveTransition(async () => {
-                      const result = await removeChat({
-                        id: chat.id,
-                        path: chat.path,
-                      });
-
-                      if (result && "error" in result) {
-                        toast.error(result.error);
-                        return;
-                      }
-
-                      onOpen();
-                      router.refresh();
-                      router.push("/essentia-ai");
-                      toast.success("Chat eliminado");
-                    });
-                  }}
+                  isDisabled={isPending}
+                  startContent={
+                    isPending ? (
+                      <SpinnerIcon className="size-4 animate-spin" />
+                    ) : null
+                  }
+                  onPress={handleRemoveChat}
                   className="rounded-md"
                 >
-                  Eliminar
+                  {isPending ? "Eliminando..." : "Eliminar"}
                 </Button>
                 <Button
                   variant="light"
                   onPress={onClose}
-                  className="rounded-md"
+                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
                 >
                   Cancelar
                 </Button>

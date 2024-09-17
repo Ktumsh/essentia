@@ -27,7 +27,7 @@ const ButtonToBottom: FC<ButtonToBottomProps> = ({
       onPress={() => scrollToBottom()}
       {...props}
     >
-      <ArrowUpIcon className="size-4 rotate-[135deg] group-data-[hover=true]:rotate-180 transition-transform" />
+      <ArrowUpIcon className="size-4 rotate-180 md:rotate-[135deg] group-data-[hover=true]:rotate-180 transition-transform" />
       <span className="sr-only">Scroll to bottom</span>
     </Button>
   );

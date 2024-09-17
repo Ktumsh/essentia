@@ -7,36 +7,37 @@ import {
   getMutableAIState,
   streamUI,
 } from "ai/rsc";
+
 import { nanoid } from "nanoid";
+import { z } from "zod";
 
 import { openai } from "@ai-sdk/openai";
 import { auth } from "@@/auth";
 import { saveChat } from "@/app/(main)/essentia-ai/actions";
 import { Chat, Message } from "@/types/chat";
+
 import {
   UserMessage,
   BotMessage,
   SpinnerMessage,
   BotCard,
 } from "../componentes/stocks/message";
-import { z } from "zod";
-import HealthRiskStock, {
-  RiskAssessment,
-} from "../componentes/stocks/health-risk-stock";
-import ExerciseRoutineStock, {
-  Routine,
-} from "../componentes/stocks/excercise-routine-stock";
-import NutritionPlanStock, {
-  Plan,
-} from "../componentes/stocks/nutrition-plan-stock";
-import MoodTrackingStock, {
-  MoodTracking,
-} from "../componentes/stocks/mood-tracking-stock";
+
+import { RiskAssessment } from "../componentes/stocks/health-risk-stock";
+import { Routine } from "../componentes/stocks/excercise-routine-stock";
+import { Plan } from "../componentes/stocks/nutrition-plan-stock";
+import { MoodTracking } from "../componentes/stocks/mood-tracking-stock";
+import {
+  ExerciseRoutineStock,
+  HealthRiskStock,
+  MoodTrackingStock,
+  NutritionPlanStock,
+} from "../componentes/stocks";
+
 import { sleep } from "@/utils/common";
 import { Session, UserProfileData } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 import ToolSkeleton from "../componentes/stocks/tool-skeleton";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import ErrorMessage from "../componentes/stocks/error-message";
 
 async function submitUserMessage(content: string) {
@@ -62,7 +63,7 @@ async function submitUserMessage(content: string) {
   const result = await streamUI({
     model: openai("gpt-4o-mini"),
     initial: <SpinnerMessage />,
-    maxTokens: 2048,
+    maxTokens: 1024,
     system: `\
     Essentia AI es una asistente virtual diseñada para proporcionar apoyo especializado en temas de salud y bienestar a personas residentes en Chile.
     Como una experta femenina en inteligencia artificial, tu rol es responder exclusivamente preguntas relacionadas con la salud y el bienestar, ofreciendo consejos prácticos, información confiable, y apoyo emocional cuando sea necesario.

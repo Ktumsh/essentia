@@ -9,6 +9,7 @@ import { Providers } from "@/modules/core/components/wrappers/providers";
 
 import { Toaster } from "sonner";
 import { cn } from "@/utils/common";
+import TailwindIndicator from "@/modules/core/components/tailwind-indicator";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -110,6 +111,7 @@ export default async function RootLayout({
         />
         <Providers disableTransitionOnChange>
           <div className="min-h-dvh size-full relative">{children}</div>
+          <TailwindIndicator />
         </Providers>
       </body>
     </html>

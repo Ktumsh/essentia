@@ -38,7 +38,7 @@ export function UserMessage({
             width={23}
             height={25}
             src={profileData.profile_image}
-            alt={`Avatar de: ${profileData.username}`}
+            alt={`Avatar de ${profileData.username}`}
             className="object-cover object-center"
           />
         ) : (
@@ -81,7 +81,7 @@ export function BotMessage({
           width={12}
           height={18}
           src="/logo-essentia.webp"
-          alt="Essentia AI"
+          alt="Avatar de Essentia AI"
           className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
@@ -162,7 +162,7 @@ export function BotCard({
           width={12}
           height={18}
           src="/logo-essentia.webp"
-          alt="Essentia AI"
+          alt="Avatar de Essentia AI"
           className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
