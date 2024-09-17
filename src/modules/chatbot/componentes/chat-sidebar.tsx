@@ -1,9 +1,10 @@
 import { Sidebar } from "./sidebar";
 import ChatHistory from "./chat-history";
 import { auth } from "@@/auth";
+import { Session } from "@/types/session";
 
 const ChatSidebar = async () => {
-  const session = await auth();
+  const session = (await auth()) as Session;
 
   if (!session?.user?.id) {
     return null;
