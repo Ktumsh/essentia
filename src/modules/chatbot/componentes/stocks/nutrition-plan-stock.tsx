@@ -9,9 +9,7 @@ import {
 import { ClockIcon } from "@/modules/icons/status";
 
 import Image from "next/image";
-import { toPng } from "html-to-image";
-import { DownloadIcon } from "@radix-ui/react-icons";
-import { useCallback, useRef } from "react";
+import { DownloadIcon } from "@/modules/icons/action";
 import {
   Badge,
   Button,
@@ -23,6 +21,7 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { toast } from "sonner";
+import { useDownloadTool } from "../../hooks/use-download-tool";
 
 export interface MealDetail {
   name: string;
@@ -39,6 +38,12 @@ export interface Plan {
   dinner?: MealDetail[];
   additional?: MealDetail[];
   recommendations?: string;
+  totalCalories?: number;
+  macronutrients: {
+    proteins: number;
+    carbohydrates: number;
+    fats: number;
+  };
 }
 
 const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
@@ -119,23 +124,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
 };
 
 const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const downloadImage = useCallback(() => {
-    const node = cardRef.current;
-    if (node) {
-      toPng(node)
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = "nutrition-plan.png";
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((error) => {
-          console.error("Error generating image:", error);
-        });
-    }
-  }, []);
+  const { ref, downloadImage } = useDownloadTool("nutrition-plan.png");
 
   const breakfast = plan?.breakfast?.[0]?.type;
   const lunch = plan?.lunch?.[0]?.type;
@@ -146,45 +135,31 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
   if (!plan)
     return toast.error("Hubo un error al generar el plan de alimentación");
 
-  const calculateTotalCalories = () => {
-    const sumCalories = (mealDetails?: MealDetail[]) => {
-      if (!mealDetails) return 0;
-      return mealDetails.reduce((total, detail) => total + detail.calories, 0);
-    };
-
-    const totalCalories =
-      sumCalories(plan.breakfast) +
-      sumCalories(plan.lunch) +
-      sumCalories(plan.snack) +
-      sumCalories(plan.dinner) +
-      sumCalories(plan.additional);
-
-    return totalCalories;
-  };
-
-  const totalCalories = calculateTotalCalories();
+  const totalCalories = plan.totalCalories;
 
   return (
     <Card
-      ref={cardRef}
+      ref={ref}
       radius="md"
-      className="bg-white dark:bg-base-full-dark shadow-lg"
+      shadow="none"
+      className="group/card bg-white dark:bg-base-full-dark"
     >
       <CardHeader className="relative p-0 rounded-none z-0">
         <ImageUI
           as={Image}
-          width={1164}
-          height={200}
+          width={639}
+          height={426}
+          quality={100}
           src="/extras/meal-nutritional-plan-top.jpg"
           alt="Nutrition Plan Banner"
           radius="none"
           classNames={{
-            wrapper: "h-[200px] overflow-hidden",
-            img: "w-auto object-cover object-top",
+            wrapper: "h-36 md:h-[200px] overflow-hidden",
+            img: "!h-auto object-cover object-top",
           }}
         />
-        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 to-transparent to-70%"></div>
-        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-4 md:p-8">
+        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
+        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-2 md:p-8">
           <Chip color="danger" className="shadow-md">
             Plan nutricional
           </Chip>
@@ -193,15 +168,37 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className=" bg-black/50 text-white backdrop-blur backdrop-saturate-150"
+              className="opacity-0 group-hover/card:opacity-100 bg-black/10 text-white"
             >
-              <DownloadIcon className="size-3" />
+              <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="p-4 md:p-8 space-y-4 text-base-color-h dark:text-base-color-dark">
+      <CardBody className="p-2 md:p-8 space-y-2 md:space-y-4 text-base-color-h dark:text-base-color-dark">
+        <div className="flex justify-center items-center flex-wrap gap-2">
+          <div className="flex flex-col flex-1 p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
+            <h3 className="font-extrabold font-sans uppercase">Proteínas</h3>
+            <p className="dark:text-base-color-dark-h">
+              {plan.macronutrients.proteins} g
+            </p>
+          </div>
+          <div className="flex flex-col order-3 md:order-none flex-1 p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
+            <h3 className="font-extrabold font-sans uppercase">
+              Carbohidratos
+            </h3>
+            <p className="dark:text-base-color-dark-h">
+              {plan.macronutrients.carbohydrates} g
+            </p>
+          </div>
+          <div className="flex flex-col flex-1 p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
+            <h3 className="font-extrabold font-sans uppercase">Grasas</h3>
+            <p className="dark:text-base-color-dark-h">
+              {plan.macronutrients.fats} g
+            </p>
+          </div>
+        </div>
         {renderMealDetails(plan.breakfast, breakfast)}
         {renderMealDetails(plan.lunch, lunch)}
         {renderMealDetails(plan.snack, snack)}
@@ -239,7 +236,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
                 Total aproximado
               </h3>
               <p className="text-xl font-extrabold font-sans uppercase">
-                {totalCalories} calorías
+                {totalCalories} kcal
               </p>
             </div>
           </Badge>

@@ -13,6 +13,7 @@ import { MemoizedReactMarkdown } from "@/modules/core/components/ui/renderers/ma
 import { spinner } from "./spinner";
 import { CodeBlock } from "@/modules/core/components/ui/renderers/codeblock";
 import { UserProfileData } from "@/types/session";
+import MessageActions from "./message-actions";
 
 export function UserMessage({
   children,
@@ -25,8 +26,9 @@ export function UserMessage({
 }) {
   return (
     <div
+      role="user"
       className={cn(
-        "group relative flex items-start md:-mr-12 sm:self-end sm:flex-row-reverse",
+        "group relative flex items-start md:-mr-12 self-end flex-row-reverse",
         className
       )}
     >
@@ -53,7 +55,7 @@ export function UserMessage({
           />
         )}
       </div>
-      <div className="ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden text-base-color-h dark:text-base-color-dark">
+      <div className="ml-4 mr-2 space-y-2 max-w-[70%] rounded-ee-xl rounded-s-xl px-5 py-2.5 bg-white dark:bg-base-full-dark overflow-hidden text-base-color-h dark:text-base-color-dark">
         {children}
       </div>
     </div>
@@ -70,7 +72,10 @@ export function BotMessage({
   const text = useStreamableText(content);
 
   return (
-    <div className={cn("group relative flex items-start md:-ml-12", className)}>
+    <div
+      role="assistant"
+      className={cn("group relative flex items-start md:-ml-12", className)}
+    >
       <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
           width={12}
@@ -80,7 +85,7 @@ export function BotMessage({
           className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
-      <div className="flex-1 ml-4 pl-2 sm:mr-4 sm:pr-2 space-y-2 overflow-hidden text-base-color-h dark:text-base-color-dark">
+      <div className="group/message flex-1 ml-2 md:ml-6 sm:mr-6 space-y-2 overflow-hidden text-base-color-h dark:text-base-color-dark">
         <MemoizedReactMarkdown
           className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
           remarkPlugins={[remarkGfm, remarkMath]}
@@ -132,6 +137,7 @@ export function BotMessage({
         >
           {text}
         </MemoizedReactMarkdown>
+        <MessageActions content={content} />
       </div>
     </div>
   );
@@ -145,7 +151,7 @@ export function BotCard({
   showAvatar?: boolean;
 }) {
   return (
-    <div className="group relative flex items-start md:-ml-12">
+    <div role="bot-card" className="group relative flex items-start md:-ml-12">
       <div
         className={cn(
           "flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden",
@@ -160,7 +166,10 @@ export function BotCard({
           className="object-cover object-center aspect-auto self-center align-middle mr-px"
         />
       </div>
-      <div className="ml-4 flex-1 pl-2">{children}</div>
+      <div className="group/message ml-2 md:ml-6 flex-1 space-y-2">
+        {children}
+        <MessageActions />
+      </div>
     </div>
   );
 }

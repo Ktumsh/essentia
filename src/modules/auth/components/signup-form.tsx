@@ -177,14 +177,6 @@ const SignupForm = () => {
             >
               Continuar
             </Button>
-            {/* <div className="flex items-center justify-center w-full px-3 my-4">
-              <Divider className="flex-1 bg-gray-200" />
-              <span className="text-xs text-center mx-2 text-nowrap text-white sm:text-inherit">
-                o
-              </span>
-              <Divider className="flex-1 bg-gray-200" />
-            </div>
-            <SignInWith /> */}
             <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-inherit">
               <p>
                 ¿Ya tienes una cuenta?{" "}

@@ -2,7 +2,7 @@
 
 import { Card, Skeleton } from "@nextui-org/react";
 
-const NutritionPlanSkeleton = () => {
+const ToolSkeleton = () => {
   return (
     <Card radius="md" className="space-y-5 p-8 bg-white dark:bg-base-full-dark">
       <Skeleton className="bg-gray-200 dark:bg-base-dark rounded-lg before:!duration-1000">
@@ -30,4 +30,4 @@ const NutritionPlanSkeleton = () => {
   );
 };
 
-export default NutritionPlanSkeleton;
+export default ToolSkeleton;

@@ -32,13 +32,12 @@ import NutritionPlanStock, {
 import MoodTrackingStock, {
   MoodTracking,
 } from "../componentes/stocks/mood-tracking-stock";
-import NutritionPlanSkeleton from "../componentes/stocks/nutrition-plan-skeleton";
-import ExerciseRoutineSkeleton from "../componentes/stocks/excercise-routine-skeleton";
-import HealthRiskSkeleton from "../componentes/stocks/health-risk-skeleton";
-import MoodTrackingSkeleton from "../componentes/stocks/mood-tracking-skeleton";
 import { sleep } from "@/utils/common";
 import { Session, UserProfileData } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
+import ToolSkeleton from "../componentes/stocks/tool-skeleton";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import ErrorMessage from "../componentes/stocks/error-message";
 
 async function submitUserMessage(content: string) {
   "use server";
@@ -63,7 +62,7 @@ async function submitUserMessage(content: string) {
   const result = await streamUI({
     model: openai("gpt-4o-mini"),
     initial: <SpinnerMessage />,
-    maxTokens: 1024,
+    maxTokens: 2048,
     system: `\
     Essentia AI es una asistente virtual diseñada para proporcionar apoyo especializado en temas de salud y bienestar a personas residentes en Chile.
     Como una experta femenina en inteligencia artificial, tu rol es responder exclusivamente preguntas relacionadas con la salud y el bienestar, ofreciendo consejos prácticos, información confiable, y apoyo emocional cuando sea necesario.
@@ -81,7 +80,7 @@ async function submitUserMessage(content: string) {
     
     - **recommendExercise**: Cuando recomiendes una rutina de ejercicios, utiliza la herramienta 'recommendExercise' y proporciona el argumento 'routine' con la estructura especificada.
     - **healthRiskAssessment**: Cuando realices una evaluación de riesgos de salud, utiliza la herramienta 'healthRiskAssessment' y proporciona el argumento 'riskAssessment' con la estructura especificada.
-    - **nutritionalAdvice**: Cuando proporciones un plan nutricional, utiliza la herramienta 'nutritionalAdvice' y proporciona el argumento 'plan' con la estructura especificada.
+    - **nutritionalAdvice**: Cuando proporciones un plan nutricional, debes utilizar la herramienta 'nutritionalAdvice' y proporcionar el argumento 'plan' con la estructura especificada.
     - **moodTracking**: Cuando hagas un seguimiento del estado de ánimo, utiliza la herramienta 'moodTracking' y proporciona el argumento 'moodTracking' con la estructura especificada.
     
     Al utilizar una herramienta, debes:
@@ -101,39 +100,48 @@ async function submitUserMessage(content: string) {
       })),
     ],
     text: ({ content, done, delta }) => {
-      if (!textStream) {
-        textStream = createStreamableValue("");
-        textNode = <BotMessage content={textStream.value} />;
-      }
+      try {
+        if (!textStream) {
+          textStream = createStreamableValue("");
+          textNode = <BotMessage content={textStream.value} />;
+        }
 
-      if (done) {
-        textStream.done();
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: nanoid(),
-              role: "assistant",
-              content,
-            },
-          ],
-        });
-      } else {
-        textStream.update(delta);
-      }
+        if (done) {
+          textStream.done();
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: "assistant",
+                content,
+              },
+            ],
+          });
+        } else {
+          textStream.update(delta);
+        }
 
-      return textNode;
+        return textNode;
+      } catch (error) {
+        console.error("Error generando la respuesta de IA:", error);
+
+        return (
+          <BotCard>
+            <ErrorMessage />
+          </BotCard>
+        );
+      }
     },
     tools: {
       recommendExercise: {
         description: `\
-        Recomienda una rutina de ejercicios personalizada basada en el nivel de condición física, objetivo, tiempo disponible, preferencias del usuario, edad, género, y cualquier condición de salud o lesión.
-        Considera el acceso a equipamiento como gimnasio, pesas, bandas elásticas, o si no se dispone de equipamiento.
-        Genera una rutina de 1, 2, o 3 meses, aumentando progresivamente repeticiones y duración.
-        Indica la cantidad de semanas, ejercicios recomendados, repeticiones, series, duración de cada sesión, y tiempos de descanso.
-        Si es posible, incluye una evaluación física inicial para ajustar la rutina.
-        Finalmente, haz una recomendación basada en la información y el progreso esperado del usuario.`,
+        Recomienda una rutina de ejercicios personalizada basada en el nivel de condición física, objetivos, tiempo disponible, preferencias, edad, género y condiciones de salud del usuario.
+        Considera el acceso a equipamiento (gimnasio, pesas, bandas elásticas, etc) o si no dispone de él.
+        Genera una rutina de 1 a 3 meses, aumentando progresivamente repeticiones y duración.
+        Indica semanas de duración, ejercicios recomendados, repeticiones, series y tiempos de descanso.
+        Incluye, si es posible, una evaluación física inicial y recomendaciones basadas en el progreso esperado.`,
 
         parameters: z.object({
           routine: z.object({
@@ -151,33 +159,61 @@ async function submitUserMessage(content: string) {
                 duration: z
                   .string()
                   .optional()
-                  .describe(
-                    "Duración del ejercicio o de cada serie, si aplica"
-                  ),
+                  .describe("Duración del ejercicio o serie"),
                 rest: z
                   .string()
                   .optional()
                   .describe("Tiempo de descanso entre series o ejercicios"),
                 progression: z
                   .string()
-                  .describe(
-                    "Instrucciones de progresión para aumentar la dificultad"
-                  ),
+                  .describe("Instrucciones para aumentar la dificultad"),
                 equipment: z
                   .string()
                   .optional()
-                  .describe("Equipamiento necesario para el ejercicio"),
+                  .describe("Equipamiento necesario"),
+                instructions: z
+                  .string()
+                  .optional()
+                  .describe("Instrucciones detalladas del ejercicio"),
+                benefits: z
+                  .string()
+                  .optional()
+                  .describe("Beneficios para la salud"),
+                modifications: z
+                  .string()
+                  .optional()
+                  .describe(
+                    "Modificaciones para distintos niveles o limitaciones"
+                  ),
               })
             ),
             durationWeeks: z
               .number()
-              .describe("Número de semanas que dura la rutina"),
-            goal: z
-              .string()
-              .describe("Objetivo principal del usuario para la rutina"),
+              .describe("Número de semanas de la rutina"),
+            goal: z.string().describe("Objetivo principal del usuario"),
             fitnessLevel: z
               .string()
               .describe("Nivel de condición física del usuario"),
+            warmUp: z
+              .string()
+              .optional()
+              .describe("Recomendaciones para el calentamiento"),
+            coolDown: z
+              .string()
+              .optional()
+              .describe("Recomendaciones para el enfriamiento"),
+
+            schedule: z
+              .array(
+                z.object({
+                  day: z.string().describe("Día de la semana"),
+                  exercises: z
+                    .array(z.string())
+                    .describe("Ejercicios programados para el día"),
+                })
+              )
+              .optional()
+              .describe("Programa semanal de ejercicios"),
             recommendations: z
               .string()
               .optional()
@@ -190,59 +226,70 @@ async function submitUserMessage(content: string) {
         generate: async function* ({ routine }) {
           yield (
             <BotCard>
-              <ExerciseRoutineSkeleton />
+              <ToolSkeleton />
             </BotCard>
           );
 
-          await sleep(1000);
+          try {
+            await sleep(1000);
 
-          const toolCallId = nanoid();
+            const toolCallId = nanoid();
 
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: "assistant",
-                content: [
-                  {
-                    type: "tool-call",
-                    toolName: "recommendExercise",
-                    toolCallId,
-                    args: { routine },
-                  },
-                ],
-              },
-              {
-                id: nanoid(),
-                role: "tool",
-                content: [
-                  {
-                    type: "tool-result",
-                    toolName: "recommendExercise",
-                    toolCallId,
-                    result: routine,
-                  },
-                ],
-              },
-            ],
-          });
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: "assistant",
+                  content: [
+                    {
+                      type: "tool-call",
+                      toolName: "recommendExercise",
+                      toolCallId,
+                      args: { routine },
+                    },
+                  ],
+                },
+                {
+                  id: nanoid(),
+                  role: "tool",
+                  content: [
+                    {
+                      type: "tool-result",
+                      toolName: "recommendExercise",
+                      toolCallId,
+                      result: routine,
+                    },
+                  ],
+                },
+              ],
+            });
 
-          return (
-            <BotCard>
-              <ExerciseRoutineStock props={routine} />
-            </BotCard>
-          );
+            return (
+              <BotCard>
+                <ExerciseRoutineStock props={routine} />
+              </BotCard>
+            );
+          } catch (error) {
+            console.error("Error generando la respuesta de IA:", error);
+
+            return (
+              <BotCard>
+                <ErrorMessage />
+              </BotCard>
+            );
+          }
         },
       },
       healthRiskAssessment: {
         description: `\
-        Evalúa el riesgo de salud de un usuario basándote en factores como la edad, peso, altura, género, historial familiar de enfermedades, estilo de vida (dieta, actividad física, consumo de tabaco o alcohol) y cualquier condición médica preexistente.
-        La evaluación debe centrarse en identificar riesgos específicos para enfermedades cardiovasculares, diabetes, hipertensión y enfermedades respiratorias.
-        Proporciona para cada riesgo un porcentaje que indique el nivel de riesgo y categoriza este nivel como "bajo", "medio" o "alto".
-        Calcula y proporciona el índice de masa corporal (IMC) del usuario y según su IMC deberás determinar si está en su peso ideal.
-        Además, ofrece una interpretación clara de los resultados y, si el nivel de riesgo es medio o alto, proporciona recomendaciones personalizadas para mitigar los riesgos identificados.`,
+        Evalúa el riesgo de salud del usuario basándose en factores como edad, peso, altura, género, historial familiar de enfermedades, estilo de vida (dieta, actividad física, consumo de tabaco, drogas o alcohol) y condiciones médicas preexistentes.
+        Se enfoca en riesgos específicos para enfermedades cardiovasculares, diabetes, hipertensión y enfermedades respiratorias.
+        Proporciona para cada riesgo un porcentaje y lo categoriza como "bajo", "medio" o "alto".
+        Calcula el IMC y determina si el usuario está en su peso ideal.
+        Ofrece interpretaciones claras de los resultados y, si el riesgo es medio o alto, proporciona recomendaciones personalizadas para mitigarlos.`,
+
         parameters: z.object({
           riskAssessment: z.object({
             diabetes: z.object({
@@ -250,6 +297,18 @@ async function submitUserMessage(content: string) {
                 .number()
                 .describe("Porcentaje de riesgo de diabetes"),
               level: z.string().describe("Nivel de riesgo de diabetes"),
+              interpretation: z
+                .string()
+                .optional()
+                .describe(
+                  "Interpretación personalizada del riesgo de diabetes"
+                ),
+              recommendedActions: z
+                .string()
+                .optional()
+                .describe(
+                  "Acciones recomendadas para reducir el riesgo de diabetes"
+                ),
             }),
             heartDisease: z.object({
               percentage: z
@@ -258,12 +317,34 @@ async function submitUserMessage(content: string) {
               level: z
                 .string()
                 .describe("Nivel de riesgo de enfermedad cardiaca"),
+              interpretation: z
+                .string()
+                .optional()
+                .describe("Interpretación personalizada del riesgo cardiaco"),
+              recommendedActions: z
+                .string()
+                .optional()
+                .describe(
+                  "Acciones recomendadas para reducir el riesgo cardiaco"
+                ),
             }),
             hypertension: z.object({
               percentage: z
                 .number()
                 .describe("Porcentaje de riesgo de hipertensión"),
               level: z.string().describe("Nivel de riesgo de hipertensión"),
+              interpretation: z
+                .string()
+                .optional()
+                .describe(
+                  "Interpretación personalizada del riesgo de hipertensión"
+                ),
+              recommendedActions: z
+                .string()
+                .optional()
+                .describe(
+                  "Acciones recomendadas para reducir el riesgo de hipertensión"
+                ),
             }),
             lungDisease: z.object({
               percentage: z
@@ -272,12 +353,30 @@ async function submitUserMessage(content: string) {
               level: z
                 .string()
                 .describe("Nivel de riesgo de enfermedad pulmonar"),
+              interpretation: z
+                .string()
+                .optional()
+                .describe("Interpretación personalizada del riesgo pulmonar"),
+              recommendedActions: z
+                .string()
+                .optional()
+                .describe(
+                  "Acciones recomendadas para reducir el riesgo pulmonar"
+                ),
             }),
             kidneyDisease: z.object({
               percentage: z
                 .number()
                 .describe("Porcentaje de riesgo de enfermedad renal"),
               level: z.string().describe("Nivel de riesgo de enfermedad renal"),
+              interpretation: z
+                .string()
+                .optional()
+                .describe("Interpretación personalizada del riesgo renal"),
+              recommendedActions: z
+                .string()
+                .optional()
+                .describe("Acciones recomendadas para reducir el riesgo renal"),
             }),
             generalRiskLevelPercentage: z
               .number()
@@ -287,81 +386,92 @@ async function submitUserMessage(content: string) {
             bmiLevel: z.string().describe("Interpretación del IMC"),
             recommendations: z
               .string()
-              .describe("Recomendaciones según el nivel de riesgo"),
+              .describe("Recomendaciones generales según el nivel de riesgo"),
+            assessmentDate: z
+              .string()
+              .describe("Fecha actual de la evaluación"),
           }),
         }),
         generate: async function* ({ riskAssessment }) {
           yield (
             <BotCard>
-              <HealthRiskSkeleton />
+              <ToolSkeleton />
             </BotCard>
           );
-          await sleep(1000);
 
-          const toolCallId = nanoid();
+          try {
+            await sleep(1000);
 
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: "assistant",
-                content: [
-                  {
-                    type: "tool-call",
-                    toolName: "healthRiskAssessment",
-                    toolCallId,
-                    args: { riskAssessment },
-                  },
-                ],
-              },
-              {
-                id: nanoid(),
-                role: "tool",
-                content: [
-                  {
-                    type: "tool-result",
-                    toolName: "healthRiskAssessment",
-                    toolCallId,
-                    result: riskAssessment,
-                  },
-                ],
-              },
-            ],
-          });
+            const toolCallId = nanoid();
 
-          return (
-            <BotCard>
-              <HealthRiskStock props={riskAssessment} />
-            </BotCard>
-          );
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: "assistant",
+                  content: [
+                    {
+                      type: "tool-call",
+                      toolName: "healthRiskAssessment",
+                      toolCallId,
+                      args: { riskAssessment },
+                    },
+                  ],
+                },
+                {
+                  id: nanoid(),
+                  role: "tool",
+                  content: [
+                    {
+                      type: "tool-result",
+                      toolName: "healthRiskAssessment",
+                      toolCallId,
+                      result: riskAssessment,
+                    },
+                  ],
+                },
+              ],
+            });
+
+            return (
+              <BotCard>
+                <HealthRiskStock props={riskAssessment} />
+              </BotCard>
+            );
+          } catch (error) {
+            console.error("Error generando la respuesta de IA:", error);
+
+            return (
+              <BotCard>
+                <ErrorMessage />
+              </BotCard>
+            );
+          }
         },
       },
       nutritionalAdvice: {
         description: `\
         Crea un plan nutricional personalizado basado en el tipo de dieta, restricciones y objetivo calórico del usuario.
-        Primero, pregunta qué tipo de dieta sigue (vegetariana, vegana, keto, balanceada, u otra) y anota cualquier restricción, como alergias o intolerancias.
-        Si el usuario conoce su objetivo calórico, úsalo; si no, haz preguntas para determinarlo (actividad física, peso, altura, edad, objetivo de peso).
-        Pregunta si hay alguna comida que no consuma regularmente, ya sea desayuno, almuerzo, once, cena u otro adicional.
-        Proporciona el tipo de cada comida (desayuno, almuerzo, once, cena y otro adicional si lo consideras), junto con el nombre de la agrupación de alimentos al cuál pertenece con la cantidad y calorías correspondientes, estableciendo horarios sugeridos.
-        Finalmente, da una recomendación sobre cómo seguir el plan para alcanzar su objetivo de manera saludable.`,
+        Considera el tipo de dieta que sigue el usuario (vegetariana, vegana, keto, balanceada, u otra), restricciones como alergias o intolerancias, y su objetivo calórico.
+        Si el usuario no ha proporcionado su objetivo calórico, determina su necesidad calórica basada en su actividad física, peso, altura, edad y objetivo de peso.
+        Si faltan datos, realiza suposiciones razonables basadas en información general.
+        Proporciona el tipo de cada comida (desayuno, almuerzo, once, cena y otros), junto con los alimentos, cantidades, calorías y horarios sugeridos.
+        Finalmente, da recomendaciones para seguir el plan y alcanzar su objetivo de manera saludable.`,
+
         parameters: z.object({
           plan: z.object({
             breakfast: z
               .array(
                 z.object({
                   type: z.string().describe("Tipo de la comida (desayuno)"),
-                  name: z
-                    .string()
-                    .describe("Nombre de la agrupación alimenticia"),
-                  quantity: z
-                    .string()
-                    .describe("Intensidad de la comida o alimento"),
+                  name: z.string().describe("Nombre del alimento o plato"),
+                  quantity: z.string().describe("Cantidad o porción"),
                   calories: z
                     .number()
-                    .describe("Calorías de la comida o alimento"),
-                  time: z.string().describe("Horario de la comida o alimento"),
+                    .describe("Calorías del alimento o plato"),
+                  time: z.string().describe("Horario sugerido"),
                 })
               )
               .optional(),
@@ -369,33 +479,25 @@ async function submitUserMessage(content: string) {
               .array(
                 z.object({
                   type: z.string().describe("Tipo de la comida (almuerzo)"),
-                  name: z
-                    .string()
-                    .describe("Nombre de la agrupación alimenticia"),
-                  quantity: z
-                    .string()
-                    .describe("Intensidad de la comida o alimento"),
+                  name: z.string().describe("Nombre del alimento o plato"),
+                  quantity: z.string().describe("Cantidad o porción"),
                   calories: z
                     .number()
-                    .describe("Calorías de la comida o alimento"),
-                  time: z.string().describe("Horario de la comida o alimento"),
+                    .describe("Calorías del alimento o plato"),
+                  time: z.string().describe("Horario sugerido"),
                 })
               )
               .optional(),
             snack: z
               .array(
                 z.object({
-                  type: z.string().describe("Tipo de la comida (once)"),
-                  name: z
-                    .string()
-                    .describe("Nombre de la agrupación alimenticia"),
-                  quantity: z
-                    .string()
-                    .describe("Intensidad de la comida o alimento"),
+                  type: z.string().describe("Tipo de la comida (snack)"),
+                  name: z.string().describe("Nombre del alimento o plato"),
+                  quantity: z.string().describe("Cantidad o porción"),
                   calories: z
                     .number()
-                    .describe("Calorías de la comida o alimento"),
-                  time: z.string().describe("Horario de la comida o alimento"),
+                    .describe("Calorías del alimento o plato"),
+                  time: z.string().describe("Horario sugerido"),
                 })
               )
               .optional(),
@@ -403,158 +505,206 @@ async function submitUserMessage(content: string) {
               .array(
                 z.object({
                   type: z.string().describe("Tipo de la comida (cena)"),
-                  name: z
-                    .string()
-                    .describe("Nombre de la agrupación alimenticia"),
-                  quantity: z
-                    .string()
-                    .describe("Intensidad de la comida o alimento"),
+                  name: z.string().describe("Nombre del alimento o plato"),
+                  quantity: z.string().describe("Cantidad o porción"),
                   calories: z
                     .number()
-                    .describe("Calorías de la comida o alimento"),
-                  time: z.string().describe("Horario de la comida o alimento"),
+                    .describe("Calorías del alimento o plato"),
+                  time: z.string().describe("Horario sugerido"),
                 })
               )
               .optional(),
             additional: z
               .array(
                 z.object({
-                  type: z.string().describe("Tipo de la comida"),
-                  name: z
-                    .string()
-                    .describe("Nombre de la agrupación alimenticia"),
-                  quantity: z
-                    .string()
-                    .describe("Intensidad de la comida o alimento"),
+                  type: z.string().describe("Tipo de la comida (adicional)"),
+                  name: z.string().describe("Nombre del alimento o plato"),
+                  quantity: z.string().describe("Cantidad o porción"),
                   calories: z
                     .number()
-                    .describe("Calorías de la comida o alimento"),
-                  time: z.string().describe("Horario de la comida o alimento"),
+                    .describe("Calorías del alimento o plato"),
+                  time: z.string().describe("Horario sugerido"),
                 })
               )
               .optional(),
+            totalCalories: z
+              .number()
+              .optional()
+              .describe("Calorías totales diarias"),
+            macronutrients: z
+              .object({
+                proteins: z.number().describe("Gramos de proteínas"),
+                carbohydrates: z.number().describe("Gramos de carbohidratos"),
+                fats: z.number().describe("Gramos de grasas"),
+              })
+              .describe("Desglose de macronutrientes"),
             recommendations: z
               .string()
-              .describe("Recomendaciones acerca del plan nutricional")
-              .optional(),
+              .describe("Recomendaciones sobre el plan nutricional"),
           }),
         }),
         generate: async function* ({ plan }) {
+          if (!plan || Object.keys(plan).length === 0) {
+            console.error("Error: El plan está vacío o indefinido.");
+            return <ErrorMessage />;
+          }
+
           yield (
             <BotCard>
-              <NutritionPlanSkeleton />
+              <ToolSkeleton />
             </BotCard>
           );
-          await sleep(1000);
 
-          const toolCallId = nanoid();
+          try {
+            await sleep(1000);
 
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: "assistant",
-                content: [
-                  {
-                    type: "tool-call",
-                    toolName: "nutritionalAdvice",
-                    toolCallId,
-                    args: { plan },
-                  },
-                ],
-              },
-              {
-                id: nanoid(),
-                role: "tool",
-                content: [
-                  {
-                    type: "tool-result",
-                    toolName: "nutritionalAdvice",
-                    toolCallId,
-                    result: { plan },
-                  },
-                ],
-              },
-            ],
-          });
+            const toolCallId = nanoid();
 
-          return (
-            <BotCard>
-              <NutritionPlanStock props={plan} />
-            </BotCard>
-          );
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: "assistant",
+                  content: [
+                    {
+                      type: "tool-call",
+                      toolName: "nutritionalAdvice",
+                      toolCallId,
+                      args: { plan },
+                    },
+                  ],
+                },
+                {
+                  id: nanoid(),
+                  role: "tool",
+                  content: [
+                    {
+                      type: "tool-result",
+                      toolName: "nutritionalAdvice",
+                      toolCallId,
+                      result: plan,
+                    },
+                  ],
+                },
+              ],
+            });
+
+            return (
+              <BotCard>
+                <NutritionPlanStock props={plan} />
+              </BotCard>
+            );
+          } catch (error) {
+            console.error("Error generando la respuesta de IA:", error);
+
+            return (
+              <BotCard>
+                <ErrorMessage />
+              </BotCard>
+            );
+          }
         },
       },
       moodTracking: {
-        description: `
+        description: `\
         Proporciona actividades de bienestar según el estado de ánimo del usuario.
-        Si no conoces su estado de ánimo, realiza preguntas de manera amable y empática para determinarlo.
-        Si es necesario, pregunta el género del usuario de forma educada para personalizar la respuesta.
-        Luego, genera una lista de actividades recomendadas, bien adaptadas al estado de ánimo del usuario.
+        Si no conoces su estado de ánimo, pregúntalo de manera amable y empática.
+        Si es necesario, pregunta el género del usuario para personalizar la respuesta.
+        Genera una lista de actividades recomendadas adaptadas al estado de ánimo.
         Incluye una recomendación para mejorar su estado de ánimo y un consejo de vida significativo y motivador, basado en su situación actual.
-        Presenta esta información de manera clara y accesible, permitiendo la descarga de las actividades en un formato fácil de usar.`,
+        Presenta esta información de manera clara y accesible.`,
+
         parameters: z.object({
           moodTracking: z.object({
             mood: z.array(
               z.object({
-                activity: z.string().describe("Actividad de bienestar"),
+                activity: z
+                  .string()
+                  .describe("Actividad de bienestar recomendada"),
+                description: z
+                  .string()
+                  .describe("Descripción detallada de la actividad"),
               })
             ),
             suggestion: z
               .string()
               .describe("Recomendación para mejorar el estado de ánimo"),
-            tip: z.string().describe("Consejo de vida para la persona"),
+            tip: z.string().describe("Consejo de vida motivador"),
+            poeticPhrase: z
+              .object({
+                phrase: z
+                  .string()
+                  .describe("Frase poética o inspiradora sin comillas."),
+                author: z.string().describe("Autor real de la frase poética."),
+              })
+              .optional(),
           }),
         }),
+
         generate: async function* ({ moodTracking }) {
+          if (!moodTracking || Object.keys(moodTracking).length === 0) {
+            console.error("Mood tracking data is required.");
+            return <ErrorMessage />;
+          }
+
           yield (
             <BotCard>
-              <MoodTrackingSkeleton />
+              <ToolSkeleton />
             </BotCard>
           );
 
-          await sleep(1000);
+          try {
+            await sleep(1000);
 
-          const toolCallId = nanoid();
+            const toolCallId = nanoid();
 
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: "assistant",
-                content: [
-                  {
-                    type: "tool-call",
-                    toolName: "moodTracking",
-                    toolCallId,
-                    args: { moodTracking },
-                  },
-                ],
-              },
-              {
-                id: nanoid(),
-                role: "tool",
-                content: [
-                  {
-                    type: "tool-result",
-                    toolName: "moodTracking",
-                    toolCallId,
-                    result: moodTracking,
-                  },
-                ],
-              },
-            ],
-          });
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: "assistant",
+                  content: [
+                    {
+                      type: "tool-call",
+                      toolName: "moodTracking",
+                      toolCallId,
+                      args: { moodTracking },
+                    },
+                  ],
+                },
+                {
+                  id: nanoid(),
+                  role: "tool",
+                  content: [
+                    {
+                      type: "tool-result",
+                      toolName: "moodTracking",
+                      toolCallId,
+                      result: moodTracking,
+                    },
+                  ],
+                },
+              ],
+            });
 
-          return (
-            <BotCard>
-              <MoodTrackingStock props={moodTracking} />
-            </BotCard>
-          );
+            return (
+              <BotCard>
+                <MoodTrackingStock props={moodTracking} />
+              </BotCard>
+            );
+          } catch (error) {
+            console.error("Error generando la respuesta de IA:", error);
+
+            return (
+              <BotCard>
+                <ErrorMessage />
+              </BotCard>
+            );
+          }
         },
       },
     },
