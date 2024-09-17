@@ -5,7 +5,7 @@ import { CalendarFillIcon, ClockIcon } from "@/modules/icons/status";
 
 import Image from "next/image";
 import { toPng } from "html-to-image";
-import { DownloadIcon } from "@radix-ui/react-icons";
+import { DownloadIcon } from "@/modules/icons/action";
 import { Fragment, useCallback, useRef } from "react";
 import {
   Button,
@@ -31,6 +31,8 @@ import {
 
 import { ExcerciseIcon } from "@/modules/icons/interface";
 import { CheckCircledIcon, WarningCircledIcon } from "@/modules/icons/common";
+import { useDownloadTool } from "../../hooks/use-download-tool";
+import { cn } from "@/utils/common";
 
 export interface Exercise {
   name: string;
@@ -40,7 +42,6 @@ export interface Exercise {
   rest?: string;
   progression: string;
   equipment?: string;
-  //nuevos
   instructions?: string;
   benefits?: string;
   modifications?: string;
@@ -52,7 +53,6 @@ export interface Routine {
   goal: string;
   fitnessLevel: string;
   recommendations?: string;
-  //nuevos
   warmUp?: string;
   coolDown?: string;
   schedule?: Array<{
@@ -74,7 +74,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
           tabList: "px-0",
           tabContent:
             "text-base-color-m dark:text-base-color-dark-m group-data-[selected=true]:text-base-color-h dark:group-data-[selected=true]:text-base-color-dark",
-          panel: "min-h-[272px] md:min-h-[260px] px-0",
+          panel: "min-h-[272px] sm:min-h-56 md:min-h-[260px] px-0",
         }}
       >
         <Tab
@@ -92,7 +92,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
                   <span>{exercise.reps} repeticiones</span>
                 </div>
               )}
-              -
+              {exercise.reps && "-"}
               {exercise.sets && (
                 <div className="inline-flex items-center gap-1">
                   <span>{exercise.sets} series</span>
@@ -150,9 +150,9 @@ const renderExerciseDetails = (exercise: Exercise) => {
               </div>
             )}
             {exercise.benefits && (
-              <div className="flex w-fit p-3 gap-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-                <div className="flex items-center justify-center size-10 rounded-lg bg-white dark:bg-base-full-dark text-warning">
-                  <ZapIcon className="size-6 opacity-50" />
+              <div className="flex items-center w-fit p-3 gap-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
+                <div className="flex items-center justify-center min-w-8 md:min-w-10 size-8 md:size-10 rounded-lg bg-white dark:bg-base-full-dark text-warning">
+                  <ZapIcon className="size-5 md:size-6 opacity-50" />
                 </div>
                 <div className="flex flex-col ">
                   <h3 className="font-extrabold font-sans uppercase">
@@ -184,32 +184,17 @@ const renderExerciseDetails = (exercise: Exercise) => {
 };
 
 const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const downloadImage = useCallback(() => {
-    const node = cardRef.current;
-    if (node) {
-      toPng(node)
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = "exercise-routine.png";
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((error) => {
-          console.error("Error generating image:", error);
-        });
-    }
-  }, []);
+  const { ref, downloadImage } = useDownloadTool("exercise-routine.png");
 
   if (!routine)
     return toast.error("Hubo un error al generar la rutina de ejercicio");
 
   return (
     <Card
-      ref={cardRef}
+      ref={ref}
       radius="md"
-      className="bg-white dark:bg-base-full-dark shadow-lg"
+      shadow="none"
+      className="group/card bg-white dark:bg-base-full-dark"
     >
       <CardHeader className="relative p-0 rounded-none z-0">
         <ImageUI
@@ -222,10 +207,10 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           radius="none"
           classNames={{
             wrapper: "h-36 md:h-[200px] overflow-hidden",
-            img: "w-auto object-cover object-top",
+            img: "!h-auto object-cover object-top",
           }}
         />
-        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 to-transparent to-70%"></div>
+        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
         <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-4 md:p-8">
           <Chip color="danger" className="shadow-md">
             Rutina de Ejercicios
@@ -235,9 +220,9 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className=" bg-black/50 text-white backdrop-blur backdrop-saturate-150"
+              className="opacity-0 group-hover/card:opacity-100 bg-black/10 text-white"
             >
-              <DownloadIcon className="size-3" />
+              <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </TooltipCTN>
@@ -326,7 +311,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
         </div>
         {routine.warmUp && (
           <div className="flex items-center gap-3 w-full p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-            <WarningCircledIcon className="size-10 text-secondary opacity-50" />
+            <WarningCircledIcon className="min-w-8 md:min-w-10 size-8 md:size-10 text-secondary opacity-50" />
             <div className="flex flex-col">
               <h3 className="font-extrabold font-sans uppercase">
                 Antes de comenzar
@@ -352,7 +337,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
       <CardFooter className="flex-col space-y-2 md:space-y-4 p-2 md:p-8 !pt-0 justify-center items-center">
         {routine.coolDown && (
           <div className="flex items-center gap-3 w-full p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-            <CheckCircledIcon className="size-10 text-success opacity-50" />
+            <CheckCircledIcon className="min-w-8 md:min-w-10 size-8 md:size-10 text-success opacity-50" />
             <div className="flex flex-col">
               <h3 className="font-extrabold font-sans uppercase">
                 Al finalizar
@@ -369,16 +354,19 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
                 Programa semanal
               </h3>
             </div>
-            <div className="grid md:grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               {routine.schedule.map((daySchedule, index) => (
                 <div
                   key={index}
-                  className="bg-white dark:bg-base-full-dark p-3 rounded-lg space-y-2"
+                  className={cn(
+                    "bg-white dark:bg-base-full-dark p-3 rounded-lg space-y-2",
+                    index % 2 === 0 ? "last:col-span-2" : null
+                  )}
                 >
-                  <h4 className="font-semibold text-center dark:text-base-color-dark">
+                  <h4 className="text-sm md:text-base font-semibold text-center dark:text-base-color-dark">
                     {daySchedule.day}
                   </h4>
-                  <ul className="text-sm text-center dark:text-base-color-dark-h">
+                  <ul className="text-xs md:text-sm text-center dark:text-base-color-dark-h">
                     {daySchedule.exercises.map((exerciseName, idx) => (
                       <li key={idx}>{exerciseName}</li>
                     ))}

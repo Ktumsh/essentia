@@ -19,16 +19,20 @@ import {
   Divider,
   Image as ImageUI,
 } from "@nextui-org/react";
-import { useCallback, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
-import { DownloadIcon } from "@radix-ui/react-icons";
-import { toPng } from "html-to-image";
+import { DownloadIcon } from "@/modules/icons/action";
 import { cn } from "@/utils/common";
-import { toast } from "sonner";
+import { useDownloadTool } from "../../hooks/use-download-tool";
+import { CalendarFillIcon } from "@/modules/icons/status";
+import { getFormattedDate } from "../../lib/utils";
+import HealthRiskDetails from "./health-risk-details";
 
-interface RiskValue {
+export interface RiskValue {
   percentage: number;
   level: string;
+  interpretation?: string;
+  recommendedActions?: string;
 }
 
 export interface RiskAssessment {
@@ -42,6 +46,7 @@ export interface RiskAssessment {
   bmi: number;
   bmiLevel: string;
   recommendations: string;
+  assessmentDate: string;
 }
 
 const AssesHealthRiskStock = ({
@@ -49,7 +54,7 @@ const AssesHealthRiskStock = ({
 }: {
   props: RiskAssessment;
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const { ref, downloadImage } = useDownloadTool("health-risk.png");
 
   const getRiskIcon = (level: string) => {
     const icons: Record<string, JSX.Element> = {
@@ -132,22 +137,6 @@ const AssesHealthRiskStock = ({
     );
   };
 
-  const downloadImage = useCallback(() => {
-    const node = cardRef.current;
-    if (node) {
-      toPng(node)
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = "health-risk.png";
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch(() => {
-          toast.error("Hubo un error al descargar la imagen");
-        });
-    }
-  }, []);
-
   const riskInfo = useMemo(
     () =>
       getTotalRiskLevel(
@@ -157,11 +146,16 @@ const AssesHealthRiskStock = ({
     [riskAssessment.generalRiskLevel, riskAssessment.generalRiskLevelPercentage]
   );
 
+  const assessmentDate = useMemo(() => {
+    return getFormattedDate(riskAssessment.assessmentDate);
+  }, [riskAssessment.assessmentDate]);
+
   return (
     <Card
-      ref={cardRef}
+      ref={ref}
       radius="md"
-      className="bg-white dark:bg-base-full-dark shadow-lg"
+      shadow="none"
+      className="group/card bg-white dark:bg-base-full-dark"
     >
       <CardHeader className="relative p-0 rounded-none z-0">
         <ImageUI
@@ -172,14 +166,14 @@ const AssesHealthRiskStock = ({
           priority
           radius="none"
           src="/extras/health-risk-banner.jpg"
-          alt="Mood Tracking Banner"
+          alt="Health Risk Banner"
           classNames={{
-            wrapper: "h-[200px] overflow-hidden",
-            img: "h-auto object-cover object-top",
+            wrapper: "h-36 md:h-[200px] overflow-hidden",
+            img: "!h-auto object-cover object-top",
           }}
         />
-        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 to-transparent to-70%"></div>
-        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-4 md:p-8">
+        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
+        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-2 md:p-8">
           <Chip color="danger" className="shadow-md">
             Tu riesgo de salud
           </Chip>
@@ -188,100 +182,127 @@ const AssesHealthRiskStock = ({
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className="bg-black/50 text-white backdrop-blur backdrop-saturate-150"
+              className="opacity-0 group-hover/card:opacity-100 bg-black/10 text-white"
             >
-              <DownloadIcon className="size-3" />
+              <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="md:flex-row justify-around gap-4 p-4 md:p-8 text-base-color-h dark:text-base-color-dark">
-        <div className="flex flex-col items-center">
-          <CircularProgress
-            aria-label="Porcentaje de riesgo"
-            value={riskAssessment.generalRiskLevelPercentage}
-            strokeWidth={3}
-            showValueLabel={true}
-            color="danger"
-            classNames={{
-              svg: "!size-32",
-              track: "dark:stroke-white/10",
-              indicator: riskInfo.strokeColor,
-              value:
-                "text-3xl font-bold text-base-color dark:text-white font-sans",
-            }}
-          />
-          <div className={cn("mt-2 text-xl font-bold", riskInfo.color)}>
-            Nivel de riesgo{" "}
-            <span className="uppercase">{riskAssessment.generalRiskLevel}</span>
+      <CardBody className="md:flex-row justify-around p-2 md:p-8 space-y-2 md:space-y-4 text-base-color-h dark:text-base-color-dark">
+        <div className="flex flex-col items-center justify-between">
+          <div className="flex flex-col items-center">
+            <CircularProgress
+              aria-label="Porcentaje de riesgo"
+              value={riskAssessment.generalRiskLevelPercentage}
+              strokeWidth={3}
+              showValueLabel={true}
+              color="danger"
+              classNames={{
+                svg: "!size-32",
+                track: "dark:stroke-white/10",
+                indicator: riskInfo.strokeColor,
+                value:
+                  "text-3xl font-bold text-base-color dark:text-white font-sans",
+              }}
+            />
+            <div className={cn("mt-2 text-xl font-bold", riskInfo.color)}>
+              Nivel de riesgo{" "}
+              <span className="uppercase">
+                {riskAssessment.generalRiskLevel}
+              </span>
+            </div>
+            <div className="text-sm text-center">{riskInfo.message}</div>
           </div>
-          <div className="text-sm text-center">{riskInfo.message}</div>
+          {riskAssessment.assessmentDate && (
+            <Chip
+              startContent={
+                <CalendarFillIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+              }
+              variant="flat"
+              radius="sm"
+              classNames={{
+                base: "mt-2 md:mt-4 px-3 h-10 bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-base-color-dark",
+              }}
+            >
+              Evaluación {assessmentDate}
+            </Chip>
+          )}
         </div>
         <Divider className="md:hidden mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-base-dark" />
-        <div className="flex justify-between gap-2">
-          <div className="flex flex-col mt-7 space-y-2">
-            {[
-              { id: 1, label: "Diabetes", dot: "bg-[hsl(var(--chart-1))]" },
-              {
-                id: 2,
-                label: "Enfermedad Cardíaca",
-                dot: "bg-[hsl(var(--chart-2))]",
-              },
-              {
-                id: 3,
-                label: "Enfermedad Pulmonar",
-                dot: "bg-[hsl(var(--chart-3))]",
-              },
-              {
-                id: 4,
-                label: "Enfermedad Renal",
-                dot: "bg-[hsl(var(--chart-4))]",
-              },
-              { id: 5, label: "Hipertensión", dot: "bg-[hsl(var(--chart-5))]" },
-            ].map(({ id, label, dot }) => (
-              <Chip
-                key={id}
-                variant="dot"
-                classNames={{
-                  base: "max-w-none border-none p-0",
-                  content:
-                    "flex justify-between text-sm text-base-color-h dark:text-base-color-dark font-semibold",
-                  dot: dot,
-                }}
-              >
-                <span>{label}</span>
-              </Chip>
-            ))}
-          </div>
-          <table className="flex flex-col items-center text-sm space-y-2">
-            <thead>
-              <tr>
-                <th>Riesgo</th>
-              </tr>
-            </thead>
-            <tbody className="flex flex-col space-y-2 [&_tr]:h-7 [&_tr]:flex [&_tr]:justify-between">
+        <div className="flex flex-col justify-center space-y-2">
+          <div className="flex justify-between gap-2">
+            <div className="flex flex-col mt-7 space-y-2">
               {[
-                { id: 1, value: riskAssessment.diabetes },
-                { id: 2, value: riskAssessment.heartDisease },
-                { id: 3, value: riskAssessment.lungDisease },
-                { id: 4, value: riskAssessment.kidneyDisease },
-                { id: 5, value: riskAssessment.hypertension },
-              ].map(({ id, value }) => (
-                <tr key={id}>
-                  <td>{value.percentage}%</td>
-                  <TooltipCTN content={value.level} placement="right">
-                    <td>{getRiskIcon(value.level)}</td>
-                  </TooltipCTN>
-                </tr>
+                { id: 1, label: "Diabetes", dot: "bg-[hsl(var(--chart-1))]" },
+                {
+                  id: 2,
+                  label: "Enfermedad Cardíaca",
+                  dot: "bg-[hsl(var(--chart-2))]",
+                },
+                {
+                  id: 3,
+                  label: "Enfermedad Pulmonar",
+                  dot: "bg-[hsl(var(--chart-3))]",
+                },
+                {
+                  id: 4,
+                  label: "Enfermedad Renal",
+                  dot: "bg-[hsl(var(--chart-4))]",
+                },
+                {
+                  id: 5,
+                  label: "Hipertensión",
+                  dot: "bg-[hsl(var(--chart-5))]",
+                },
+              ].map(({ id, label, dot }) => (
+                <Chip
+                  key={id}
+                  variant="dot"
+                  classNames={{
+                    base: "max-w-none border-none p-0",
+                    content:
+                      "flex justify-between text-sm text-base-color-h dark:text-base-color-dark font-semibold",
+                    dot: dot,
+                  }}
+                >
+                  <span>{label}</span>
+                </Chip>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <table className="flex flex-col items-center text-sm space-y-2">
+              <thead>
+                <tr>
+                  <th className="inline-flex items-center">
+                    Riesgo
+                    <HealthRiskDetails riskAssessment={riskAssessment} />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="flex flex-col space-y-2 [&_tr]:h-7 [&_tr]:flex [&_tr]:justify-between">
+                {[
+                  { id: 1, value: riskAssessment.diabetes },
+                  { id: 2, value: riskAssessment.heartDisease },
+                  { id: 3, value: riskAssessment.lungDisease },
+                  { id: 4, value: riskAssessment.kidneyDisease },
+                  { id: 5, value: riskAssessment.hypertension },
+                ].map(({ id, value }) => (
+                  <tr key={id}>
+                    <td>{value.percentage}%</td>
+                    <TooltipCTN content={value.level} placement="right">
+                      <td>{getRiskIcon(value.level)}</td>
+                    </TooltipCTN>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </CardBody>
       <Divider className="mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-base-dark" />
-      <CardFooter className="p-4 md:p-8 pt-4 justify-center items-center">
-        <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-4">
+      <CardFooter className="p-2 md:p-8 pt-4 justify-center items-center">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-2 md:gap-4">
           <div className="p-3 text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
             <h3 className="text-xl font-extrabold font-sans uppercase">
               Recomendación

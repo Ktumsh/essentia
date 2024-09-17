@@ -34,7 +34,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const profileData = session ? await getUserProfileData(session) : null;
 
   if (!session?.user) {
-    redirect(`/login?next=/chat/${params.id}`);
+    redirect(`/login?get=/chat/${params.id}`);
   }
 
   const userId = session.user.id;

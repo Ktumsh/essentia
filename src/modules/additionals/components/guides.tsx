@@ -8,8 +8,8 @@ import {
 } from "@nextui-org/react";
 import { StarIcon } from "@/modules/icons/common";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import { DownloadIcon } from "@radix-ui/react-icons";
 import { GUIDES } from "@/consts/guides";
+import { DownloadIcon } from "@/modules/icons/action";
 
 export default function Guides() {
   return (
@@ -50,7 +50,7 @@ export default function Guides() {
                 size="sm"
                 variant="flat"
                 color="danger"
-                endContent={<DownloadIcon className="w-3" />}
+                endContent={<DownloadIcon className="size-4" />}
               >
                 Descargar
               </Button>

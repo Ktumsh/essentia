@@ -16,7 +16,7 @@ const Footer = () => {
           isIconOnly
           className="min-w-0 mb-2 !size-7 bg-black/10 dark:bg-white/10 text-base-color-h dark:text-base-color-dark-h"
         >
-          <BugIcon className="size-4 " />
+          <BugIcon className="size-5" />
         </Button>
       </TooltipCTN>
       <footer aria-label="Essentia" role="contentinfo">

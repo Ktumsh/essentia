@@ -1,3 +1,5 @@
+"use client";
+
 import { Separator } from "@/modules/core/components/ui/utils/separator";
 import { UIState } from "../chat/actions";
 import { Session } from "@/types/session";
