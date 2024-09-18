@@ -156,7 +156,7 @@ const GoogleMaps = () => {
             ref={searchRef}
             type="text"
             placeholder="Buscar por nombre o ubicación"
-            className="w-56 sm:w-80 h-[38px] px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark font-sans placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 border-0 shadow-small transition"
+            className="!left-0 !top-0 w-56 sm:w-80 h-[38px] px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark font-sans placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 border-0 shadow-small transition"
           />
         </motion.div>
 
