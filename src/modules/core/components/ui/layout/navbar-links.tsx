@@ -38,6 +38,7 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
               <Button
                 as={Link}
                 id={`navbar_link_${key + 1}`}
+                aria-label={"Ir a " + name}
                 variant="light"
                 color="danger"
                 radius="sm"
