@@ -13,14 +13,18 @@ import { formatPathName } from "@/utils/format";
 
 const BottomNav = () => {
   const pathname = usePathname();
+
   const normalizedPath = formatPathName(pathname);
+
+  const essentiaAi = pathname.startsWith("/essentia-ai");
 
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
     active:
       normalizedPath === page.href ||
       (page.href === "/adicionales" &&
-        normalizedPath.startsWith("/adicionales")),
+        normalizedPath.startsWith("/adicionales")) ||
+      (page.href === "/essentia-ai" && essentiaAi),
   }));
 
   const navItems = [

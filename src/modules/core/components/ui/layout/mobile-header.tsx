@@ -17,12 +17,14 @@ import {
   SheetTrigger,
 } from "../sheet";
 import { UserProfileData } from "@/types/session";
+import { Chat } from "@/types/chat";
 
 interface MobileHeaderProps {
   profileData: UserProfileData | null;
+  chats: Chat[];
 }
 
-const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
+const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
   const pathname = usePathname();
 
   const essentiaAi = pathname.startsWith("/essentia-ai");
@@ -38,7 +40,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
       >
         {essentiaAi && profileData && (
           <SidebarMobile>
-            <ChatHistory userId={profileData?.id} />
+            <ChatHistory chats={chats} />
           </SidebarMobile>
         )}
         <Link

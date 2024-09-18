@@ -25,6 +25,7 @@ const SidebarMobile = ({ children }: SidebarMobileProps) => {
       <SheetContent
         aria-labelledby="dialog-description"
         side="left"
+        hideCloseButton
         className="inset-y-0 flex h-auto w-[300px] flex-col p-0"
       >
         <span className="sr-only">

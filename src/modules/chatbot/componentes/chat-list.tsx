@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { Separator } from "@/modules/core/components/ui/utils/separator";
 import { UIState } from "../chat/actions";
 import { Session } from "@/types/session";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
+import { motion } from "framer-motion";
 
 export interface ChatList {
   messages: UIState;
@@ -42,12 +43,17 @@ const ChatList = ({ messages, session, isShared }: ChatList) => {
         </>
       ) : null}
       {messages.map((message, index) => (
-        <div key={message.id}>
+        <motion.div
+          key={message.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 0.5 }}
+        >
           {message.display}
           {index < messages.length - 1 && messages[index + 1].display && (
             <Separator className="my-4" />
           )}
-        </div>
+        </motion.div>
       ))}
     </div>
   );

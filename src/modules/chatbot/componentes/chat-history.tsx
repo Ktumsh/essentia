@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { FC, Suspense } from "react";
+import { FC } from "react";
 import SidebarList from "./sidebar-list";
 import { NewIcon } from "@/modules/icons/action";
+import { Chat } from "@/types/chat";
 
 interface ChatHistoryProps {
-  userId?: string;
+  chats: Chat[];
 }
 
-const ChatHistory: FC<ChatHistoryProps> = ({ userId }) => {
+const ChatHistory: FC<ChatHistoryProps> = ({ chats }) => {
   return (
     <div className="flex flex-col h-full text-base-color dark:text-base-color-dark">
       <div className="flex items-center p-4 gap-2">
@@ -22,20 +23,7 @@ const ChatHistory: FC<ChatHistoryProps> = ({ userId }) => {
           Nuevo chat
         </Link>
       </div>
-      <Suspense
-        fallback={
-          <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-full h-6 rounded-md shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
-              />
-            ))}
-          </div>
-        }
-      >
-        <SidebarList userId={userId} />
-      </Suspense>
+      <SidebarList chats={chats} />
     </div>
   );
 };

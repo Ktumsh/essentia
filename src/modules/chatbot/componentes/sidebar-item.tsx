@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -16,13 +14,16 @@ import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 interface SidebarItemProps {
   index: number;
   chat: Chat;
+  isActive: boolean;
   children: React.ReactNode;
 }
 
-export function SidebarItem({ index, chat, children }: SidebarItemProps) {
-  const pathname = usePathname();
-
-  const isActive = pathname === chat.path;
+export function SidebarItem({
+  index,
+  chat,
+  isActive,
+  children,
+}: SidebarItemProps) {
   const [newChatId, setNewChatId] = useLocalStorage("newChatId", null);
   const shouldAnimate = index === 0 && isActive && newChatId;
 
@@ -30,14 +31,14 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
 
   return (
     <motion.div
-      className="relative h-8"
+      className="group relative h-9"
       variants={{
         initial: {
           height: 0,
           opacity: 0,
         },
         animate: {
-          height: "auto",
+          height: "36px",
           opacity: 1,
         },
       }}
@@ -65,7 +66,7 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
       <Link
         href={chat.path}
         className={cn(
-          "inline-flex flex-col justify-center w-full text-sm px-8 py-2 pr-16 whitespace-nowrap font-semibold text-base-color-h dark:text-base-color-dark-h hover:text-base-color dark:hover:text-white hover:bg-gray-100 dark:hover:bg-base-dark rounded-md transition-colors duration-150",
+          "inline-flex flex-col justify-center w-full text-sm px-8 py-2 pr-16 whitespace-nowrap font-semibold text-base-color-h dark:text-base-color-dark-h group-hover:text-base-color dark:group-hover:text-white group-hover:bg-gray-100 dark:group-hover:bg-base-dark rounded-md transition-colors duration-150",
           isActive && "bg-gray-100 dark:bg-base-dark"
         )}
       >
@@ -108,7 +109,16 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
           </span>
         </div>
       </Link>
-      {isActive && <div className="absolute right-2 top-1">{children}</div>}
+      {
+        <div
+          className={cn(
+            isActive ? "opacity-100" : "opacity-0",
+            "group-hover:opacity-100 transition-opacity absolute right-2 top-1"
+          )}
+        >
+          {children}
+        </div>
+      }
     </motion.div>
   );
 }

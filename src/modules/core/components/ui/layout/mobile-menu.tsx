@@ -9,13 +9,11 @@ import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
 import { siteConfig } from "@/config/site";
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import { cn } from "@/utils/common";
 import {
   AvatarIcon,
   SettingsIcon,
   ThemeIcon,
 } from "@/modules/icons/miscellaneus";
-import { Chevron } from "@/modules/icons/navigation";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 

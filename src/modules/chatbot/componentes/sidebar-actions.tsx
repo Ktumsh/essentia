@@ -24,12 +24,14 @@ interface SidebarActionsProps {
   chat: Chat;
   removeChat: (args: { id: string; path: string }) => ServerActionResult<void>;
   shareChat: (id: string) => ServerActionResult<Chat>;
+  isActive?: boolean;
 }
 
 const SidebarActions: FC<SidebarActionsProps> = ({
   chat,
   removeChat,
   shareChat,
+  isActive,
 }) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -49,8 +51,10 @@ const SidebarActions: FC<SidebarActionsProps> = ({
       }
 
       onOpenChange();
-      router.refresh();
-      router.push("/essentia-ai");
+      if (isActive) {
+        router.refresh();
+        router.push("/essentia-ai");
+      }
       toast.success("Chat eliminado");
     });
   };
@@ -63,7 +67,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           disableRipple
           size="sm"
           radius="sm"
-          className="!size-7 min-w-0 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark"
+          className="!size-7 min-w-0 text-base-color dark:text-base-color-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark pointer-events-auto"
           aria-haspopup="menu"
           onPress={() => setShareModalOpen(true)}
         >
@@ -77,7 +81,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           disableRipple
           size="sm"
           radius="sm"
-          className="!size-7 min-w-0 dark:hover:text-white data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark"
+          className="!size-7 min-w-0 text-base-color dark:text-base-color-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark pointer-events-auto"
           aria-haspopup="menu"
           isDisabled={isPending}
           onPress={onOpen}
