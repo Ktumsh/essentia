@@ -19,13 +19,6 @@ const PaymentSuccessPage = async ({
   searchParams,
 }: PaymentSuccessPageProps) => {
   const session = (await auth()) as Session;
-
-  const accountDetails = await getAccountDetails(session.user.id);
-
-  const renewalDate = formatDate(accountDetails.premiumExpiresAt, "dd/MM/yyyy");
-
-  const paymentDate = formatDate(accountDetails.payments[0].date, "dd/MM/yyyy");
-
   const paymentIntentId = searchParams.payment_intent;
 
   if (!paymentIntentId) {
@@ -54,6 +47,18 @@ const PaymentSuccessPage = async ({
           paymentData.amount,
           paymentData.currency
         );
+
+        const accountDetails = await getAccountDetails(session.user.id);
+
+        const renewalDate = accountDetails.premiumExpiresAt
+          ? formatDate(accountDetails.premiumExpiresAt, "dd/MM/yyyy")
+          : null;
+
+        const lastPayment = accountDetails.payments?.[0];
+        const paymentDate = lastPayment
+          ? formatDate(lastPayment.date, "dd/MM/yyyy")
+          : null;
+
         return (
           <PaymentSuccessContent
             title="Pago exitoso"
@@ -70,6 +75,16 @@ const PaymentSuccessPage = async ({
       } catch (updateError: any) {
         console.error("Error al actualizar el estado premium:", updateError);
         if (updateError.message === "Este pago ya ha sido procesado.") {
+          const accountDetails = await getAccountDetails(session.user.id);
+
+          const renewalDate = accountDetails.premiumExpiresAt
+            ? formatDate(accountDetails.premiumExpiresAt, "dd/MM/yyyy")
+            : null;
+
+          const lastPayment = accountDetails.payments?.[0];
+          const paymentDate = lastPayment
+            ? formatDate(lastPayment.date, "dd/MM/yyyy")
+            : null;
           return (
             <PaymentSuccessContent
               title="Pago exitoso"
