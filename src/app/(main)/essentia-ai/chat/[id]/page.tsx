@@ -6,6 +6,7 @@ import { AI } from "@/modules/chatbot/chat/actions";
 import { Chat } from "@/modules/chatbot/componentes/chat";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
+import { getUserById } from "@/db/actions";
 
 export interface ChatPageProps {
   params: {
@@ -32,6 +33,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
   const profileData = session ? await getUserProfileData(session) : null;
+  const user = await getUserById(session.user.id);
+  const isPremium = user?.is_premium ?? null;
 
   if (!session?.user) {
     redirect(`/login?get=/chat/${params.id}`);
@@ -52,10 +55,11 @@ export default async function ChatPage({ params }: ChatPageProps) {
     <AI initialAIState={{ chatId: chat.id, messages: chat.messages }}>
       <Chat
         id={chat.id}
-        session={session as any}
+        session={session}
         initialMessages={chat.messages}
         missingKeys={missingKeys}
         profileData={profileData}
+        isPremium={isPremium}
       />
     </AI>
   );

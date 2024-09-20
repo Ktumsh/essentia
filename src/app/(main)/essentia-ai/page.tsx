@@ -7,6 +7,7 @@ import { auth } from "@@/auth";
 import { Chat } from "@/modules/chatbot/componentes/chat";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
+import { getUserById } from "@/db/actions";
 export const metadata: Metadata = {
   title: "Essentia AI",
 };
@@ -16,6 +17,8 @@ const AIPage = async () => {
   const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
   const profileData = session ? await getUserProfileData(session) : null;
+  const user = await getUserById(session.user.id);
+  const isPremium = user?.is_premium ?? null;
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
       <Chat
@@ -23,6 +26,7 @@ const AIPage = async () => {
         session={session}
         missingKeys={missingKeys}
         profileData={profileData}
+        isPremium={isPremium}
       />
     </AI>
   );
