@@ -1,43 +1,23 @@
-"use client";
-import { RESOURCES } from "@/consts/resources";
 import ResourceWrapper from "@/modules/resources/components/resource-wrapper";
+import { Metadata } from "next";
 
 type Props = {
   params: { resource: string };
 };
 
-const ResourcePage = ({ params }: Props) => {
-  const resource = params.resource;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resource = params.resource
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
-  const resourceData = RESOURCES.find((item) => item.resource === resource);
+  return {
+    title: resource,
+  };
+}
 
-  if (!resourceData) return <p>Resource not found</p>;
-
-  const {
-    title,
-    quote,
-    videoTitle,
-    videoLink,
-    videoImage,
-    imageFull,
-    component: ContentComponent,
-    background,
-  } = resourceData;
-
-  return (
-    <>
-      <ResourceWrapper
-        title={title}
-        quote={quote}
-        videoTitle={videoTitle}
-        videoLink={videoLink}
-        videoImage={videoImage}
-        imageFull={imageFull}
-        background={background}
-        component={ContentComponent}
-      />
-    </>
-  );
+const ResourcePage = async ({ params }: Props) => {
+  return <ResourceWrapper params={params} />;
 };
 
 export default ResourcePage;

@@ -26,7 +26,7 @@ export const siteConfig: SiteConfig = {
   description:
     "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
   links: {
-    github: "https://github.com/Ktumsh/essentia-web",
+    github: "https://github.com/Ktumsh/essentia",
     instagram: "https://www.instagram.com/ktumsh/",
     twitter: "hhttps://twitter.com",
   },

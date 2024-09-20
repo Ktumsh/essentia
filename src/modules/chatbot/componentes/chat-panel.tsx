@@ -124,7 +124,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                   <example.icon className={cn("size-4", example.iconColor)} />
                 }
                 className={cn(
-                  "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark"
+                  "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark data-[disabled=true]:opacity-100"
                 )}
                 onClick={async () => {
                   setMessages((currentMessages) => [
@@ -176,7 +176,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 {session ? (
                   <>Actualiza tu plan para poder usar Essentia AI</>
                 ) : (
-                  <>Inicia sesión para acceder a EssentiaAI</>
+                  <>Inicia sesión para acceder a Essentia AI</>
                 )}
               </span>
               {session ? (
@@ -199,9 +199,8 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 <Button
                   as={Link}
                   href="/login"
-                  variant="ghost"
-                  color="danger"
-                  className="rounded-md text-base-color dark:text-base-color-dark text-xs md:text-base"
+                  size="sm"
+                  className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:text-white !duration-150"
                 >
                   Iniciar sesión
                 </Button>
@@ -210,7 +209,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
           )}
         </div>
       </div>
-      {!isPremium && <WarningModal isPremium={isPremium} />}
+      {!isPremium || (!session && <WarningModal isPremium={isPremium} />)}
       <Modal
         size="lg"
         radius="sm"

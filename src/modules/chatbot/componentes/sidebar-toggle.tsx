@@ -14,7 +14,9 @@ const SidebarToggle = () => {
   return (
     <Tooltip
       content={
-        isSidebarOpen ? "Ocultar barra lateral" : "Mostrar barra lateral"
+        isSidebarOpen
+          ? "Ocultar historial de chat"
+          : "Mostrar historial de chat"
       }
       delay={800}
       closeDelay={0}
@@ -28,8 +30,16 @@ const SidebarToggle = () => {
         }}
         className="h-10 rounded-lg px-2 text-base-color-h dark:text-base-color-dark-h hover:bg-gray-200 dark:hover:bg-base-full-dark transition-colors duration-150"
       >
-        {isSidebarOpen ? <SidebarFillIcon /> : <SidebarIcon />}
-        <span className="sr-only">Toggle Sidebar</span>
+        {isSidebarOpen ? (
+          <SidebarFillIcon aria-hidden="true" />
+        ) : (
+          <SidebarIcon aria-hidden="true" />
+        )}
+        <span className="sr-only">
+          {isSidebarOpen
+            ? "Ocultar historial de chat"
+            : "Mostrar historial de chat"}
+        </span>
       </button>
     </Tooltip>
   );

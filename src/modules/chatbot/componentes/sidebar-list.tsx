@@ -20,7 +20,7 @@ const SidebarList = ({ chats }: SidebarListProps) => {
 
   const ChatDateTitle = ({ day }: { day: string }) => {
     return (
-      <div className="sticky top-0 z-20">
+      <div className="sticky top-0 z-20 bg-white dark:bg-base-full-dark">
         <span className="flex items-center">
           <h3 className="p-2 text-xs break-all truncate text-base-color-m dark:text-base-color-dark-m">
             {day}
@@ -32,7 +32,7 @@ const SidebarList = ({ chats }: SidebarListProps) => {
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
-      <div className="relative flex-1 overflow-auto">
+      <div className="relative flex-1 overflow-auto custom-scroll v2">
         {chats?.length ? (
           <div className="space-y-5 px-2">
             {todayChats.length > 0 && (

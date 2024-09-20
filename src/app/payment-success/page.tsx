@@ -1,13 +1,13 @@
-import {
-  getAccountDetails,
-  getPaymentDetails,
-  getUserById,
-  updatePremiumStatus,
-} from "@/db/actions";
+import { getAccountDetails, updatePremiumStatus } from "@/db/actions";
 import PaymentSuccessContent from "@/modules/payment/components/payment-success-content";
 import { formatDate, verifyPaymentIntent } from "@/modules/payment/lib/utils";
 import { Session } from "@/types/session";
 import { auth } from "@@/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Proceso de pago",
+};
 
 interface PaymentSuccessPageProps {
   searchParams: {

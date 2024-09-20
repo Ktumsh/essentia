@@ -65,9 +65,8 @@ const BottomNav = () => {
                 color="danger"
                 className={cn(
                   "!h-full after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-full-dark-50 text-gray-500 dark:text-gray-400 dark:data-[hover=true]:text-bittersweet-400 dark:dark:data-[hover=true]:text-cerise-red-600 min-w-0",
-                  item.active
-                    ? "current-page rounded-t-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
-                    : "not-current"
+                  item.active &&
+                    "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
                 )}
               >
                 {item.active ? (

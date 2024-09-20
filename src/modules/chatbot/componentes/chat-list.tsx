@@ -6,6 +6,8 @@ import { UIState } from "../chat/actions";
 import { Session } from "@/types/session";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { SpinnerMessage } from "./stocks/message";
+import { InitialLoading } from "./stocks/initial-loading";
 
 export interface ChatList {
   messages: UIState;
@@ -25,7 +27,7 @@ const ChatList = ({ messages, session, isShared }: ChatList) => {
             <div className="bg-white dark:bg-base-dark flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border border-gray-200 dark:border-white/10 shadow-sm">
               <ExclamationTriangleIcon className="text-base-color dark:text-base-color-dark" />
             </div>
-            <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
+            <div className="ml-2 md:ml-6 flex-1 space-y-2 overflow-hidden">
               <p className="text-base-color-m dark:text-base-color-dark-m leading-normal">
                 Por favor{" "}
                 <Link href="/login" className="underline">
@@ -35,7 +37,7 @@ const ChatList = ({ messages, session, isShared }: ChatList) => {
                 <Link href="/signup" className="underline">
                   regístrate
                 </Link>{" "}
-                para guardar y volver a visitar tu historial de chat!
+                para usar esta característica!
               </p>
             </div>
           </div>

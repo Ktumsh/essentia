@@ -38,10 +38,6 @@ export function Chat({
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
   useEffect(() => {
-    console.log("El usuario es premium? " + isPremium);
-  }, [isPremium]);
-
-  useEffect(() => {
     if (session?.user) {
       if (!path.includes("chat") && messages.length === 1) {
         window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);

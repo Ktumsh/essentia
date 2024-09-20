@@ -1,7 +1,8 @@
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { IconSvgProps } from "@/types/common";
 import { cn } from "@/utils/common";
-import { Button, Link, Tooltip } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
+import Link from "next/link";
 
 interface Page {
   name: string;
@@ -45,9 +46,8 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
                 href={href}
                 className={cn(
                   "!h-full after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
-                  active
-                    ? "current-page rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
-                    : "not-current",
+                  active &&
+                    "rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent",
                   "relative flex items-center justify-center size-full px-3 pointer-events-auto navbar_link hover:text-bittersweet-400 dark:hover:text-cerise-red-600"
                 )}
               >

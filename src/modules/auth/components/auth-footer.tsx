@@ -1,7 +1,10 @@
+import { siteConfig } from "@/config/site";
 import { InstagramIcon, TwitterIcon, GithubIcon } from "@/modules/icons/media";
 import Link from "next/link";
 
 const AuthFooter = () => {
+  const links = siteConfig.links;
+
   return (
     <div className="hidden sm:block absolute self-stretch w-full bottom-0 px-5 z-0">
       <div className="max-w-[1250px] mx-auto">
@@ -42,21 +45,21 @@ const AuthFooter = () => {
             <div className="flex flex-row items-center justify-end sm:w-[33%] gap-x-3">
               <Link
                 className="hover:text-bittersweet-400 hover:scale-125 transition-all"
-                href="https://www.instagram.com/ktumsh/"
+                href={links.instagram}
                 target="_blank"
               >
                 <InstagramIcon className="size-6" />
               </Link>
               <Link
                 className="hover:text-bittersweet-400 hover:scale-125 transition-all"
-                href="https://twitter.com"
+                href={links.twitter}
                 target="_blank"
               >
                 <TwitterIcon className="size-[21px]" />
               </Link>
               <Link
                 className="hover:text-bittersweet-400 hover:scale-125 transition-all"
-                href="https://github.com/Ktumsh/essentia-web"
+                href={links.github}
                 target="_blank"
               >
                 <GithubIcon className="size-6" />

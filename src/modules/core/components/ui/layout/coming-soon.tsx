@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ComingSoon = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-[600px] p-5 space-y-4 text-base-color dark:text-base-color-dark">
+    <div className="flex flex-1 flex-col items-center justify-center p-5 space-y-4 text-base-color dark:text-base-color-dark">
       <Image
         width={353}
         height={339}

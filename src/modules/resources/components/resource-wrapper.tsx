@@ -9,48 +9,58 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { FC, useState } from "react";
+import { FC, SetStateAction, useState } from "react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
-
-import { motion } from "framer-motion";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
 
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { formatTitle } from "@/utils/format";
-import { cn } from "@/utils/common";
 import { StarIcon } from "@/modules/icons/common";
 import { PlayIcon2 } from "@/modules/icons/action";
 import Image from "next/image";
+import { RESOURCES } from "@/consts/resources";
 
 interface Props {
+  params: { resource: string };
+}
+
+interface ResourceData {
   title: string;
   quote: string;
   videoTitle: string;
   videoLink: string;
   videoImage: string;
   imageFull: string;
-  background?: string;
+  background: string;
   component: FC;
 }
 
-const ResourceWrapper: FC<Props> = ({
-  title,
-  quote,
-  videoTitle,
-  videoLink,
-  videoImage,
-  imageFull,
-  background,
-  component: ContentComponent,
-}) => {
+const ResourceWrapper: FC<Props> = ({ params }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [activeVideo, setActiveVideo] = useState<Props | null>(null);
+  const [activeVideo, setActiveVideo] = useState<ResourceData | null>(null);
+
+  const resource = params.resource;
+
+  const resourceData = RESOURCES.find((item) => item.resource === resource);
+
+  if (!resourceData) return null;
+
+  const {
+    title,
+    quote,
+    videoTitle,
+    videoLink,
+    videoImage,
+    imageFull,
+    component: ContentComponent,
+    background,
+  } = resourceData;
 
   const formatedTitle = formatTitle(title);
 
-  const handleOpenModal = (video: Props) => {
+  const handleOpenModal = (video: ResourceData) => {
     setActiveVideo(video);
     onOpen();
   };

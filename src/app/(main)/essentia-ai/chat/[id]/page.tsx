@@ -33,7 +33,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
   const profileData = session ? await getUserProfileData(session) : null;
-  const user = await getUserById(session.user.id);
+  const user = session ? await getUserById(session.user.id) : null;
   const isPremium = user?.is_premium ?? null;
 
   if (!session?.user) {
