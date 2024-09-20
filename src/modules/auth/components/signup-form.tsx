@@ -293,7 +293,8 @@ const SignupForm = () => {
                   showArrow
                   placement="left"
                   classNames={{
-                    base: "max-w-80",
+                    base: ["max-w-80", tooltipStyles.arrow],
+                    content: ["items-start", tooltipStyles.content],
                   }}
                 >
                   <PopoverTrigger>

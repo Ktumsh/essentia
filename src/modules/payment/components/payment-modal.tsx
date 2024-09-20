@@ -6,6 +6,10 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Chip,
 } from "@nextui-org/react";
 import { useSteps } from "../../chatbot/hooks/use-steps";
 import { PlanSelector } from "./plan-selector";
@@ -14,6 +18,8 @@ import { PaymentForm } from "./payment-form";
 import { useEffect, useState } from "react";
 import { SpinnerIcon } from "@/modules/icons/status";
 import { useSession } from "next-auth/react";
+import { WarningCircledIcon } from "@/modules/icons/common";
+import { tooltipStyles } from "@/styles/tooltip-styles";
 
 const PaymentModal = ({ onOpenChange }: { onOpenChange: () => void }) => {
   const { currentStep, nextStep } = useSteps();
@@ -90,10 +96,54 @@ const PaymentModal = ({ onOpenChange }: { onOpenChange: () => void }) => {
             </>
           ) : (
             <>
-              <ModalHeader className="p-3 md:p-6">
+              <ModalHeader className="p-3 md:p-6 items-center">
                 <h2 className="text-lg font-semibold md:text-xl text-base-color dark:text-white">
                   Suscribirse a Premium
                 </h2>
+                <Popover
+                  backdrop="blur"
+                  placement="top"
+                  classNames={{
+                    base: ["max-w-80", tooltipStyles.arrow],
+                    content: ["items-start", tooltipStyles.content],
+                  }}
+                >
+                  <PopoverTrigger>
+                    <Chip
+                      as="button"
+                      variant="flat"
+                      color="danger"
+                      size="sm"
+                      startContent={<WarningCircledIcon className="size-4" />}
+                      className="ml-3 appearance-none"
+                    >
+                      Pago simulado (haz clic)
+                    </Chip>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <div className="px-1 py-2">
+                      <div className="text-small font-bold dark:text-base-color-dark">
+                        Pago simulado
+                      </div>
+                      <div className="text-xs text-base-color-h dark:text-base-color-dark-h">
+                        El pago es simulado y no se realizará ningún cargo real.
+                        Usa la tarjeta de prueba{" "}
+                        <strong className="text-base-color dark:text-base-color-dark">
+                          4242 4242 4242 4242
+                        </strong>{" "}
+                        con{" "}
+                        <strong className="text-base-color dark:text-base-color-dark">
+                          CVC 123
+                        </strong>{" "}
+                        y una{" "}
+                        <strong className="text-base-color dark:text-base-color-dark">
+                          fecha de expiración futura
+                        </strong>
+                        .
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </ModalHeader>
               <ModalBody className="!pt-0 p-3 md:p-6">
                 {isLoading ? (
