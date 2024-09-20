@@ -44,7 +44,7 @@ export const PaymentForm = ({ onClose }: PaymentFormProps) => {
       confirmParams: {
         return_url:
           process.env.NODE_ENV === "production"
-            ? `${process.env.NEXT_PUBLIC_API_URL}/payment-success`
+            ? "https://essentia-web.vercel.app/payment-success"
             : "http://localhost:3000/payment-success",
         payment_method: "auto",
       },
