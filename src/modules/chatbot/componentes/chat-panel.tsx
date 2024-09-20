@@ -4,53 +4,53 @@ import { FC, useEffect, useState } from "react";
 
 import type { AI } from "../chat/actions";
 
-import { useActions, useAIState, useUIState } from "ai/rsc";
+import { useActions, useUIState } from "ai/rsc";
 
 import { nanoid } from "nanoid";
-import { Button, Tooltip, useDisclosure } from "@nextui-org/react";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import ChatShareModal from "./chat-share-modal";
-import { shareChat } from "@/app/(main)/essentia-ai/actions";
+import { Button, Modal, useDisclosure } from "@nextui-org/react";
+
 import PromptForm from "./prompt-form";
 import FooterText from "./footer-text";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { UserMessage } from "./stocks/message";
-import { ShareIcon } from "@/modules/icons/action";
 import { cn, shuffleArray } from "@/utils/common";
 import {
   AcademicIcon,
   BrainIcon,
-  CaloriesIcon,
   FruitIcon,
   HeartbeatIcon,
   ItineraryIcon,
   LightbulbIcon,
 } from "@/modules/icons/miscellaneus";
-import { UserProfileData } from "@/types/session";
+import { Session, UserProfileData } from "@/types/session";
+import Link from "next/link";
+import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
+import { motion } from "framer-motion";
+import WarningModal from "../../payment/components/warning-premium-modal";
+import PaymentModal from "../../payment/components/payment-modal";
 
 export interface ChatPanelProps {
-  id?: string;
-  title?: string;
   input: string;
   setInput: (value: string) => void;
   isAtBottom: boolean;
   scrollToBottom: () => void;
   profileData: UserProfileData | null;
+  isPremium: boolean | null;
+  session: Session | undefined;
 }
 
 const ChatPanel: FC<ChatPanelProps> = ({
-  id,
-  title,
   input,
   setInput,
   isAtBottom,
   scrollToBottom,
   profileData,
+  isPremium,
+  session,
 }) => {
-  const [aiState] = useAIState();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [messages, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const initialMessages = [
     {
@@ -109,11 +109,17 @@ const ChatPanel: FC<ChatPanelProps> = ({
       <ButtonToBottom isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
       <div className="mx-auto max-w-2xl sm:px-4 pointer-events-auto">
         {messages.length === 0 && (
-          <div className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide">
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={!isPremium ? { opacity: 0 } : { opacity: 1 }}
+            transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
+            className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide"
+          >
             {exampleMessages.slice(0, 4).map((example, index) => (
               <Button
                 key={index}
                 radius="sm"
+                isDisabled={!isPremium}
                 startContent={
                   <example.icon className={cn("size-4", example.iconColor)} />
                 }
@@ -149,17 +155,78 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 </div>
               </Button>
             ))}
-          </div>
+          </motion.div>
         )}
-        <div className="md:-ml-1 space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
+        <div className="relative md:-ml-1 space-y-4 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
           <PromptForm
             profileData={profileData}
             input={input}
             setInput={setInput}
           />
           <FooterText className="hidden md:block" />
+          {!isPremium && (
+            <motion.div
+              initial={{ opacity: 0, y: 100, scale: 0.5 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
+              className="absolute inset-3 flex items-center justify-center gap-2 md:gap-4 !mt-0 p-2 md:p-4 rounded-lg shadow-medium backdrop-blur backdrop-saturate-150 text-xs md:text-base text-base-color dark:text-base-color-dark"
+            >
+              <span className="inline-flex items-center gap-2">
+                <WarningCircledIcon className="size-5 text-base-color-m dark:text-base-color-dark-m" />
+                {session ? (
+                  <>Actualiza tu plan para poder usar Essentia AI</>
+                ) : (
+                  <>Inicia sesión para acceder a EssentiaAI</>
+                )}
+              </span>
+              {session ? (
+                <Button
+                  radius="sm"
+                  onPress={onOpen}
+                  startContent={
+                    <StarsIcon
+                      aria-hidden="true"
+                      className="size-5 starts-icon focus:outline-none"
+                    />
+                  }
+                  className="shrink-0 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-base-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-md before:z-[-1]"
+                >
+                  <span className="text-transparent bg-clip-text bg-light-gradient-v2 dark:bg-dark-gradient-v2 font-sans font-extrabold">
+                    Hazte premium
+                  </span>
+                </Button>
+              ) : (
+                <Button
+                  as={Link}
+                  href="/login"
+                  variant="ghost"
+                  color="danger"
+                  className="rounded-md text-base-color dark:text-base-color-dark text-xs md:text-base"
+                >
+                  Iniciar sesión
+                </Button>
+              )}
+            </motion.div>
+          )}
         </div>
       </div>
+      {!isPremium && <WarningModal isPremium={isPremium} />}
+      <Modal
+        size="lg"
+        radius="sm"
+        placement="center"
+        classNames={{
+          backdrop: "z-[101] bg-black/80",
+          wrapper: "z-[102] pointer-events-auto",
+          base: "bg-white dark:bg-base-full-dark min-h-[326px] md:min-h-[375px]",
+          closeButton:
+            "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
+        }}
+        isOpen={isOpen}
+        onClose={onOpenChange}
+      >
+        <PaymentModal onOpenChange={onOpenChange} />
+      </Modal>
     </div>
   );
 };

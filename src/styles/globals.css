@@ -141,6 +141,16 @@
   --chart-5: 160 60% 45%;
 }
 
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf")
+    format("truetype");
+}
+
+.StripeElement > * {
+  font-family: var(--font-dm-sans) !important;
+}
+
 @supports selector(::-webkit-scrollbar) {
   ::-webkit-scrollbar {
     @apply size-1.5;
@@ -777,4 +787,8 @@ html.dark {
 
 .card:hover::before {
   opacity: 1;
+}
+
+.dark svg.starts-icon path {
+  fill: url(#dark-gradient-v2);
 }

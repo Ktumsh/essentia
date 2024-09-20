@@ -58,12 +58,12 @@ const CloseCircledIcon = (props: IconSvgProps) => {
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
-      viewBox="0 0 512 512"
+      viewBox="0 0 24 24"
       {...props}
     >
       <path
         fill="currentColor"
-        d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208s208-93.31 208-208S370.69 48 256 48m86.63 272L320 342.63l-64-64l-64 64L169.37 320l64-64l-64-64L192 169.37l64 64l64-64L342.63 192l-64 64Z"
+        d="m12 13.4l2.9 2.9q.275.275.7.275t.7-.275t.275-.7t-.275-.7L13.4 12l2.9-2.9q.275-.275.275-.7t-.275-.7t-.7-.275t-.7.275L12 10.6L9.1 7.7q-.275-.275-.7-.275t-.7.275t-.275.7t.275.7l2.9 2.9l-2.9 2.9q-.275.275-.275.7t.275.7t.7.275t.7-.275zm0 8.6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
       />
     </svg>
   );
@@ -135,6 +135,36 @@ const StarIcon = (props: IconSvgProps) => {
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z"></path>
+    </svg>
+  );
+};
+
+const StarsIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 16 16"
+      {...props}
+    >
+      <defs>
+        {/* Definir los gradientes */}
+        <linearGradient id="light-gradient-v2" gradientTransform="rotate(68.4)">
+          <stop offset="0.5%" stopColor="rgb(248, 182, 204)" />
+          <stop offset="49%" stopColor="rgb(192, 198, 230)" />
+          <stop offset="99.8%" stopColor="rgb(225, 246, 240)" />
+        </linearGradient>
+        <linearGradient id="dark-gradient-v2" gradientTransform="rotate(111.1)">
+          <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
+          <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />
+        </linearGradient>
+      </defs>
+
+      <path
+        fill="url(#light-gradient-v2)" // Por defecto, usaremos el gradiente claro
+        d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"
+      />
     </svg>
   );
 };
@@ -350,6 +380,7 @@ export {
   SpinnerIcon,
   LoaderIcon,
   StarIcon,
+  StarsIcon,
   SunIcon,
   MoonIcon,
   HashIcon,

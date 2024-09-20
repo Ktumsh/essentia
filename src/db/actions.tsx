@@ -1,12 +1,21 @@
 "use server";
 
 import { User, UserProfile, UserProfileData } from "@/types/session";
-import { createPool, sql } from "@vercel/postgres";
+import { Payment } from "@/utils/account";
+import { createPool, Pool, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
 });
+
+//Get user by id
+export async function getUserById(userId: string): Promise<User | null> {
+  const result = await pool.sql<User>`
+    SELECT * FROM users WHERE id = ${userId} LIMIT 1;
+  `;
+  return result.rows[0] || null;
+}
 
 //Get user by email
 export async function getUserByEmail(email: string): Promise<User | null> {
@@ -276,4 +285,133 @@ export async function deleteUserBanner(userId: string) {
     console.error("Error al eliminar el banner:", error);
     return { error: "Error interno del servidor" };
   }
+}
+
+// Actualizar el estado de un usuario a premium
+export async function updatePremiumStatus(
+  userId: string,
+  paymentIntentId: string,
+  amount: number,
+  currency: string,
+  durationInMonths: number = 1
+): Promise<void> {
+  if (!userId || !paymentIntentId || !amount || !currency) {
+    throw new Error(
+      "userId, paymentIntentId, amount y currency son requeridos"
+    );
+  }
+
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const res = await client.query(
+      "SELECT id FROM processed_payments WHERE payment_intent_id = $1",
+      [paymentIntentId]
+    );
+
+    if (res.rows.length > 0) {
+      throw new Error("Este pago ya ha sido procesado.");
+    }
+
+    const expirationDate = new Date();
+    expirationDate.setMonth(expirationDate.getMonth() + durationInMonths);
+
+    await client.query(
+      "UPDATE users SET is_premium = TRUE, premium_expires_at = $1 WHERE id = $2",
+      [expirationDate.toISOString(), userId]
+    );
+
+    await client.query(
+      "INSERT INTO processed_payments (payment_intent_id, user_id, amount, currency) VALUES ($1, $2, $3, $4)",
+      [paymentIntentId, userId, amount, currency]
+    );
+
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+export async function getAccountDetails(userId: string): Promise<{
+  payments: Payment[];
+  isPremium: boolean;
+  premiumExpiresAt: string | null;
+}> {
+  const client = await pool.connect();
+
+  try {
+    const userRes = await client.query(
+      "SELECT is_premium, premium_expires_at FROM users WHERE id = $1",
+      [userId]
+    );
+
+    if (userRes.rows.length === 0) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const { is_premium, premium_expires_at } = userRes.rows[0];
+
+    const paymentsRes = await client.query(
+      "SELECT payment_intent_id, amount, currency, processed_at FROM processed_payments WHERE user_id = $1 ORDER BY processed_at DESC",
+      [userId]
+    );
+
+    const payments: Payment[] = paymentsRes.rows.map((row) => ({
+      paymentIntentId: row.payment_intent_id,
+      amount: row.amount,
+      currency: row.currency,
+      date: new Date(row.processed_at).toLocaleDateString(),
+    }));
+
+    return {
+      payments,
+      isPremium: is_premium,
+      premiumExpiresAt: premium_expires_at
+        ? new Date(premium_expires_at).toLocaleDateString()
+        : null,
+    };
+  } catch (error) {
+    console.error("Error al obtener detalles de cuenta:", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+export async function getPaymentDetails(
+  userId: string
+): Promise<Payment[] | null> {
+  if (!userId) {
+    throw new Error("userId es requerido");
+  }
+
+  const result = await pool.sql<{
+    payment_intent_id: string;
+    amount: number;
+    currency: string;
+    processed_at: string;
+  }>`
+    SELECT payment_intent_id, amount, currency, processed_at 
+    FROM processed_payments 
+    WHERE user_id = ${userId} 
+    ORDER BY processed_at DESC;
+  `;
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  const payments: Payment[] = result.rows.map((row) => ({
+    paymentIntentId: row.payment_intent_id,
+    amount: row.amount,
+    currency: row.currency,
+    date: new Date(row.processed_at).toLocaleDateString(),
+  }));
+
+  return payments;
 }

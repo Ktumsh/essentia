@@ -18,7 +18,7 @@ export default async function MainLayout({
   const session = (await auth()) as Session;
   const profileData = session ? await getUserProfileData(session) : null;
 
-  const chats = await getChats(session.user.id);
+  const chats = session ? await getChats(session.user.id) : [];
 
   return (
     <>
