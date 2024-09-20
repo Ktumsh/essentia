@@ -46,6 +46,7 @@ export const PaymentForm = ({ onClose }: PaymentFormProps) => {
           process.env.NODE_ENV === "production"
             ? `${process.env.NEXT_PUBLIC_API_URL}/payment-success`
             : "http://localhost:3000/payment-success",
+        payment_method: "auto",
       },
       redirect: "if_required",
     });
