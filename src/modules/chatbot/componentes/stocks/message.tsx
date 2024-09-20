@@ -137,7 +137,7 @@ export function BotMessage({
         >
           {text}
         </MemoizedReactMarkdown>
-        <MessageActions content={content} />
+        <MessageActions content={text} />
       </div>
     </div>
   );

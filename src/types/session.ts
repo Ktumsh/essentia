@@ -23,6 +23,8 @@ export interface User extends Record<string, any> {
   username: string;
   password: string;
   salt: string;
+  is_premium: boolean;
+  premium_expires_at: Date;
 }
 
 export interface UserProfile {
@@ -48,4 +50,10 @@ export interface UserProfileData {
   location: string | null;
   banner_image: string | null;
   created_at: Date;
+}
+
+export interface UserMessageCount {
+  user_id: string;
+  message_date: string;
+  message_count: number;
 }

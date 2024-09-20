@@ -10,16 +10,7 @@ const FooterText = ({ className }: { className?: string }) => {
         className
       )}
     >
-      Impulsado por el modelo {""}
-      <Link
-        href="https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"
-        target="_blank"
-        className="inline-flex flex-1 justify-center gap-1 leading-4 hover:underline"
-      >
-        <span>GPT-4o-mini</span>
-        <LinkIcon />
-      </Link>
-      de {""}
+      Essentia AI impulsado por{" "}
       <Link
         href="https://openai.com/"
         target="_blank"

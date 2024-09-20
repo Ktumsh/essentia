@@ -12,23 +12,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { StreamableValue } from "ai/rsc";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const MessageActions = ({
-  content,
-}: {
-  content?: string | StreamableValue<string>;
-}) => {
+const MessageActions = ({ content }: { content?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
   const windowSize = useWindowSize();
 
   const onCopy = () => {
     if (isCopied) return;
-    copyToClipboard(content as string);
+    copyToClipboard(content || "");
     toast.success("Texto copiado");
   };
   return (

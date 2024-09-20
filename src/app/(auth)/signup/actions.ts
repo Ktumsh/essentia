@@ -97,8 +97,8 @@ export async function createUser({
       const avatarSvg = avatar.toDataUri();
 
       await sql`
-        INSERT INTO users (id, email, password_hash, salt, username)
-        VALUES (${userId}, ${email}, ${hashedPassword}, ${salt}, ${username});
+        INSERT INTO users (id, email, password_hash, salt, username, is_premium)
+        VALUES (${userId}, ${email}, ${hashedPassword}, ${salt}, ${username}, FALSE);
       `;
 
       await sql`

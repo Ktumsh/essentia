@@ -19,14 +19,14 @@ export function getFormattedDate(date: string | null): string {
   }
 }
 
-export function groupChatsByDate(chats: Chat[]) {
+export function groupChatsByDate(chats: Chat[] | undefined) {
   const todayChats: Chat[] = [];
   const yesterdayChats: Chat[] = [];
   const last7DaysChats: Chat[] = [];
   const last30DaysChats: Chat[] = [];
   const olderChats: { [key: string]: Chat[] } = {};
 
-  chats.forEach((chat) => {
+  chats?.forEach((chat) => {
     const createdAt = new Date(chat.created_at);
 
     if (isToday(createdAt)) {

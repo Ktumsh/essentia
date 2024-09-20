@@ -12,6 +12,7 @@ import { Session, UserProfileData } from "@/types/session";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { useScrollAnchor } from "../hooks/use-scroll-anchor";
 import { cn } from "@/utils/common";
+import { getUserById } from "@/db/actions";
 
 export interface ChatProps extends ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -33,8 +34,19 @@ export function Chat({
   const [input, setInput] = useState("");
   const [messages] = useUIState();
   const [aiState] = useAIState();
-
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
+  const [isPremium, setIsPremium] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const fetchUserPremiumStatus = async () => {
+      if (session?.user?.id) {
+        const user = await getUserById(session.user.id);
+        setIsPremium(user?.is_premium || false);
+      }
+    };
+
+    fetchUserPremiumStatus();
+  }, [session?.user?.id]);
 
   useEffect(() => {
     if (session?.user) {
@@ -80,13 +92,15 @@ export function Chat({
         )}
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
+
       <ChatPanel
-        id={id}
         input={input}
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
         profileData={profileData}
+        isPremium={isPremium}
+        session={session}
       />
     </div>
   );

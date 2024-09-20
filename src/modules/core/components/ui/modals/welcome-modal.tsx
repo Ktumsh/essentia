@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Divider,
   Modal,
   ModalBody,
   ModalContent,
@@ -33,22 +32,21 @@ const WelcomeModal = () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         backdrop="blur"
+        placement="center"
         hideCloseButton
         classNames={{
-          backdrop: "z-[101] bg-white/50 dark:bg-black/80",
+          backdrop: "z-[101] bg-white/50 dark:bg-black/50",
           wrapper: "z-[102]",
           base: "bg-white dark:bg-base-full-dark overflow-hidden rounded-3xl border border-gray-200 dark:border-base-dark",
           header:
             "flex-col text-center justify-center text-base-color dark:text-white",
           body: "text-base-color dark:text-gray-100 text-center",
-          closeButton:
-            "text-base-color dark:text-white/80 hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
       >
         <ModalContent>
           <>
             <ModalHeader>
-              <div className="absolute -top-[826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-base-dark border-4 border-bittersweet-400 dark:border-cerise-red-600  rounded-full -z-10"></div>
+              <div className="absolute -top-[826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-base-dark border-4 border-bittersweet-400 dark:border-cerise-red-600 rounded-full -z-10"></div>
               <h1 className="text-base-color dark:text-base-color-dark font-motivasans text-2xl font-bold">
                 ¡Bienvenid@!
               </h1>
