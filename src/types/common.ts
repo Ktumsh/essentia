@@ -63,4 +63,13 @@ export type SiteConfig = {
     comunidad: { href: string; text: string }[];
     more: { href: string; text: string }[];
   };
+  desktopFooterLinks: {
+    more: { href: string; text: string }[];
+  };
 };
+
+export interface FAQPrincing {
+  id: number;
+  question: string;
+  answer: string;
+}

@@ -9,7 +9,7 @@ import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 import { getUserById } from "@/db/actions";
 export const metadata: Metadata = {
-  title: "Essentia AI",
+  title: "Essentia AI ⭐",
 };
 
 const AIPage = async () => {

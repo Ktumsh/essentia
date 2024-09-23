@@ -32,7 +32,7 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
           isSelected={isSelected}
           onValueChange={handleSwitchChange}
           thumbIcon={isSelected ? <HospitalIcon /> : <PharmacyIcon />}
-          className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0"
+          className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0 pointer-events-auto"
           classNames={{
             label:
               "text-xs sm:text-base text-white md:text-base-color-h md:dark:text-base-color-dark",

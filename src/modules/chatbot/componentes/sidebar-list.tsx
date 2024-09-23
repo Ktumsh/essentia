@@ -3,7 +3,6 @@ import ClearHistory from "./clear-history";
 import { SidebarItems } from "./sidebar-items";
 import { Chat } from "@/types/chat";
 import { groupChatsByDate } from "../lib/utils";
-import { Fragment } from "react";
 
 interface SidebarListProps {
   chats: Chat[];

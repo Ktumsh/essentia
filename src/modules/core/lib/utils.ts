@@ -22,3 +22,7 @@ export function calculateAge(dob: string) {
 
   return age;
 }
+
+export function startsWithAny(pathname: string, prefixes: string[]): boolean {
+  return prefixes.some((prefix) => pathname.startsWith(prefix));
+}

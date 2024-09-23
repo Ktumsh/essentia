@@ -94,6 +94,23 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "localhost:3000",
+        "https://3xfnptdk-3000.brs.devtunnels.ms",
+      ],
+    },
+  },
+  async redirects() {
+    return [
+      {
+        source: "/adicionales",
+        destination: "/adicionales/guias",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

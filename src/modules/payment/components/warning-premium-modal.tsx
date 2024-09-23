@@ -15,9 +15,10 @@ import { StarsIcon } from "@/modules/icons/common";
 
 interface WarningModalProps {
   isPremium: boolean | null;
+  isPaymentModalOpen: boolean;
 }
 
-const WarningModal = ({ isPremium }: WarningModalProps) => {
+const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
     isOpen: isOpenPayment,
@@ -26,14 +27,12 @@ const WarningModal = ({ isPremium }: WarningModalProps) => {
   } = useDisclosure();
 
   useEffect(() => {
-    setTimeout(() => {
+    if (!isPaymentModalOpen) {
       onOpen();
-    }, 2000);
-  }, [onOpen]);
+    }
+  }, [isPaymentModalOpen, onOpen]);
 
-  if (isPremium) {
-    return null;
-  }
+  if (isPremium) return null;
 
   return (
     <>
@@ -83,7 +82,7 @@ const WarningModal = ({ isPremium }: WarningModalProps) => {
                   startContent={
                     <StarsIcon
                       aria-hidden="true"
-                      className="size-5 starts-icon focus:outline-none [&_*]:group-data-[hover=true]:fill-white [&_*]:transition"
+                      className="size-5 stars-icon focus:outline-none [&_*]:group-data-[hover=true]:fill-white [&_*]:transition"
                     />
                   }
                   className="bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-base-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-full before:z-[-1] data-[hover=true]:before:opacity-0 before:transition"
@@ -97,22 +96,7 @@ const WarningModal = ({ isPremium }: WarningModalProps) => {
           )}
         </ModalContent>
       </Modal>
-      <Modal
-        size="lg"
-        radius="sm"
-        placement="center"
-        classNames={{
-          backdrop: "z-[101] bg-black/80",
-          wrapper: "z-[102] pointer-events-auto",
-          base: "bg-white dark:bg-base-full-dark min-h-[326px] md:min-h-[375px]",
-          closeButton:
-            "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-        }}
-        isOpen={isOpenPayment}
-        onOpenChange={onOpenChangePayment}
-      >
-        <PaymentModal onOpenChange={onOpenChangePayment} />
-      </Modal>
+      <PaymentModal isOpen={isOpenPayment} onOpenChange={onOpenChangePayment} />
     </>
   );
 };

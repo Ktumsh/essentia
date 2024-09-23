@@ -1,5 +1,6 @@
 "use server";
 
+import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
 import { User, UserProfile, UserProfileData } from "@/types/session";
 import { Payment } from "@/utils/account";
 import { createPool, Pool, sql } from "@vercel/postgres";
@@ -287,18 +288,21 @@ export async function deleteUserBanner(userId: string) {
   }
 }
 
-// Actualizar el estado de un usuario a premium
+/**
+ * Actualiza el estado premium del usuario en la base de datos.
+ * @param userId - ID del usuario.
+ * @param subscriptionId - ID de la suscripción en Stripe.
+ * @param status - Estado de la suscripción ('active', 'canceled', 'unpaid', etc.).
+ * @param currentPeriodEnd - Fecha de finalización del periodo de suscripción en formato Unix (segundos).
+ */
 export async function updatePremiumStatus(
   userId: string,
-  paymentIntentId: string,
-  amount: number,
-  currency: string,
-  durationInMonths: number = 1
+  subscriptionId: string | null,
+  status: string,
+  currentPeriodEnd: number | null
 ): Promise<void> {
-  if (!userId || !paymentIntentId || !amount || !currency) {
-    throw new Error(
-      "userId, paymentIntentId, amount y currency son requeridos"
-    );
+  if (!userId || !status) {
+    throw new Error("userId y status son requeridos");
   }
 
   const client = await pool.connect();
@@ -306,35 +310,240 @@ export async function updatePremiumStatus(
   try {
     await client.query("BEGIN");
 
-    const res = await client.query(
-      "SELECT id FROM processed_payments WHERE payment_intent_id = $1",
-      [paymentIntentId]
-    );
+    let updateQuery = `
+      UPDATE users 
+      SET 
+        is_premium = $1, 
+        premium_expires_at = $2, 
+        subscription_id = $3,
+        subscription_status = $4,
+        updated_at = NOW()
+      WHERE id = $5;
+    `;
 
-    if (res.rows.length > 0) {
-      throw new Error("Este pago ya ha sido procesado.");
+    let isPremium: boolean;
+    let premiumExpiresAt: string | null = null;
+
+    if (status === "active") {
+      isPremium = true;
+      if (currentPeriodEnd) {
+        premiumExpiresAt = calculatePremiumExpiresAt(currentPeriodEnd);
+      }
+    } else if (status === "canceled") {
+      if (currentPeriodEnd) {
+        isPremium = true;
+        premiumExpiresAt = calculatePremiumExpiresAt(currentPeriodEnd);
+      } else {
+        isPremium = false;
+        premiumExpiresAt = null;
+      }
+    } else if (status === "unpaid") {
+      isPremium = false;
+      premiumExpiresAt = null;
+    } else if (status === "deleted") {
+      isPremium = false;
+      premiumExpiresAt = null;
+    } else {
+      isPremium = false;
+      premiumExpiresAt = null;
     }
 
-    const expirationDate = new Date();
-    expirationDate.setMonth(expirationDate.getMonth() + durationInMonths);
+    const values = [
+      isPremium,
+      premiumExpiresAt,
+      subscriptionId,
+      status,
+      userId,
+    ];
 
-    await client.query(
-      "UPDATE users SET is_premium = TRUE, premium_expires_at = $1 WHERE id = $2",
-      [expirationDate.toISOString(), userId]
-    );
-
-    await client.query(
-      "INSERT INTO processed_payments (payment_intent_id, user_id, amount, currency) VALUES ($1, $2, $3, $4)",
-      [paymentIntentId, userId, amount, currency]
-    );
+    await client.query(updateQuery, values);
 
     await client.query("COMMIT");
+
+    revalidatePath("/essentia-ai");
+    revalidatePath("/perfil");
+    revalidatePath("/premium");
   } catch (error) {
     await client.query("ROLLBACK");
+    console.error("Error actualizando el estado premium:", error);
+    throw new Error("Error actualizando el estado premium.");
+  } finally {
+    client.release();
+  }
+}
+
+// Función para limpiar todos los datos de la suscripción cuando se elimina el customer de stripe en la base de datos
+export async function deleteUserStripeCustomer(userId: string): Promise<void> {
+  if (!userId) {
+    throw new Error("userId es requerido");
+  }
+
+  const query = `
+    UPDATE users 
+    SET 
+      is_premium = FALSE, 
+      premium_expires_at = NULL, 
+      subscription_id = NULL,
+      subscription_status = NULL,
+      updated_at = NOW()
+    WHERE id = $1;
+  `;
+  const values = [userId];
+
+  try {
+    await sql.query(query, values);
+    revalidatePath("/perfil");
+  } catch (error) {
+    console.error("Error al eliminar el customer:", error);
+    throw new Error("Error al eliminar el customer.");
+  }
+}
+
+export async function getStripeCustomerById(
+  userId: string
+): Promise<string | null> {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(
+      "SELECT stripe_customer_id FROM users WHERE id = $1",
+      [userId]
+    );
+    return res.rows[0]?.stripe_customer_id || null;
+  } catch (error) {
+    console.error("Error al obtener el stripe_customer_id:", error);
     throw error;
   } finally {
     client.release();
   }
+}
+
+export async function getStripeCustomerId(
+  customerId: string
+): Promise<User | null> {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(
+      "SELECT id FROM users WHERE stripe_customer_id = $1",
+      [customerId]
+    );
+    return res.rows[0]?.id || null;
+  } catch (error) {
+    console.error("Error al obtener el id del usuario", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Función para actualizar el subscriptionId en la base de datos
+export async function updateSubscriptionId(
+  userId: string,
+  subscriptionId: string
+): Promise<void> {
+  console.log(
+    "Updating subscriptionId for user:",
+    userId,
+    "with subscriptionId:",
+    subscriptionId
+  );
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("UPDATE users SET subscription_id = $1 WHERE id = $2", [
+      subscriptionId,
+      userId,
+    ]);
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error(
+      "Error al actualizar el subscriptionId en la base de datos:",
+      error
+    );
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Función para obtener el subscriptionId desde la base de datos
+export async function getSubscriptionId(
+  userId: string
+): Promise<string | null> {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(
+      "SELECT subscription_id FROM users WHERE id = $1",
+      [userId]
+    );
+    return res.rows[0]?.subscription_id || null;
+  } catch (error) {
+    console.error(
+      "Error al obtener el subscriptionId de la base de datos:",
+      error
+    );
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Función para cancelar la suscripción en la base de datos
+export async function cancelSubscription(userId: string): Promise<void> {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query(
+      "UPDATE users SET is_premium = FALSE, premium_expires_at = NULL, subscription_id = NULL WHERE id = $1",
+      [userId]
+    );
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error(
+      "Error al cancelar la suscripción en la base de datos:",
+      error
+    );
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+/**
+ * Actualiza el `stripe_customer_id` del usuario en la base de datos.
+ * @param userId - ID del usuario en la base de datos.
+ * @param customerId - ID del cliente en Stripe.
+ */
+export async function updateUserStripeCustomerId(
+  userId: string,
+  stripeCustomerId: string
+): Promise<void> {
+  try {
+    await pool.sql`
+      UPDATE users 
+      SET stripe_customer_id = ${stripeCustomerId} 
+      WHERE id = ${userId};
+    `;
+    revalidatePath("/perfil");
+  } catch (error) {
+    console.error("Error actualizando stripe_customer_id:", error);
+    throw new Error("Error actualizando stripe_customer_id.");
+  }
+}
+
+/**
+ * Obtiene el usuario por el ID de la suscripción.
+ * @param subscriptionId - ID de la suscripción en Stripe.
+ * @returns Usuario o null si no se encuentra.
+ */
+export async function getUserBySubscriptionId(
+  subscriptionId: string
+): Promise<User | null> {
+  const result = await pool.sql<User>`
+    SELECT * FROM users WHERE subscription_id = ${subscriptionId} LIMIT 1;
+  `;
+  return result.rows[0] || null;
 }
 
 export async function getAccountDetails(userId: string): Promise<{
