@@ -88,19 +88,6 @@ export default function AdditionalsTabs() {
         >
           <Recommendations />
         </Tab>
-        {/* <Tab
-          key="/adicionales/centros-de-salud"
-          title={
-            <div className="flex items-center space-x-2">
-              <HealthCentersIcon className="size-5" />
-              <span>Centros de salud</span>
-            </div>
-          }
-          as={Link}
-          href="/adicionales/centros-de-salud"
-        >
-          <Centers />
-        </Tab> */}
         <Tab
           key="/adicionales/emergencias"
           title={

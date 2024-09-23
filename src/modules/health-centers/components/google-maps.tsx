@@ -94,7 +94,7 @@ const GoogleMaps = () => {
     if (mapInstance && infoWindowRef.current) {
       getCurrentPosition(
         (pos) => {
-          mapInstance.setCenter(pos);
+          mapInstance.panTo(pos);
         },
         infoWindowRef.current,
         mapInstance

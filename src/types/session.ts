@@ -25,6 +25,10 @@ export interface User extends Record<string, any> {
   salt: string;
   is_premium: boolean;
   premium_expires_at: Date;
+  stripe_customer_id: string;
+  subscription_id: string;
+  subscription_status: string;
+  updated_at: Date;
 }
 
 export interface UserProfile {
@@ -56,4 +60,12 @@ export interface UserMessageCount {
   user_id: string;
   message_date: string;
   message_count: number;
+}
+
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  description: string;
+  amount: number;
+  currency: string;
 }

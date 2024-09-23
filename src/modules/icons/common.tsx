@@ -155,6 +155,11 @@ const StarsIcon = (props: IconSvgProps) => {
           <stop offset="49%" stopColor="rgb(192, 198, 230)" />
           <stop offset="99.8%" stopColor="rgb(225, 246, 240)" />
         </linearGradient>
+        <linearGradient id="dark-gradient" gradientTransform="rotate(111.1)">
+          <stop offset="-4.8%" stopColor="rgb(6, 27, 55)" />
+          <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
+          <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />
+        </linearGradient>
         <linearGradient id="dark-gradient-v2" gradientTransform="rotate(111.1)">
           <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
           <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />

@@ -120,10 +120,18 @@ export const siteConfig: SiteConfig = {
       { href: "/comunidad/community-resources", text: "Recursos comunitarios" },
     ],
     more: [
-      { href: "", text: "Acerca de Essentia" },
-      { href: "", text: "Política de privacidad" },
+      { href: "", text: "Acerca de" },
+      { href: "", text: "Privacidad" },
+      { href: "", text: "Términos" },
+      { href: "", text: "Cookies" },
+    ],
+  },
+  desktopFooterLinks: {
+    more: [
+      { href: "", text: "Políticas de privacidad" },
       { href: "", text: "Términos y condiciones" },
       { href: "", text: "Cookies" },
+      { href: "", text: "Acerca de" },
     ],
   },
 };

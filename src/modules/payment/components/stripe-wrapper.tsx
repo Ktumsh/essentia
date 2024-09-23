@@ -1,18 +1,19 @@
 "use client";
 
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 interface StripeWrapperProps {
-  clientSecret: string | null;
+  stripe: any;
+  clientSecret?: string | null;
   children: React.ReactNode;
 }
 
-const StripeWrapper = ({ clientSecret, children }: StripeWrapperProps) => {
+const StripeWrapper = ({
+  stripe,
+  clientSecret,
+  children,
+}: StripeWrapperProps) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -40,15 +41,17 @@ const StripeWrapper = ({ clientSecret, children }: StripeWrapperProps) => {
 
   const options = clientSecret
     ? {
-        clientSecret: clientSecret,
+        clientSecret,
         appearance,
       }
     : undefined;
 
   return (
-    <Elements stripe={stripePromise} options={options}>
-      {children}
-    </Elements>
+    clientSecret && (
+      <Elements stripe={stripe} options={options}>
+        {children}
+      </Elements>
+    )
   );
 };
 

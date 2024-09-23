@@ -789,6 +789,10 @@ html.dark {
   opacity: 1;
 }
 
-.dark svg.starts-icon path {
+.dark svg.stars-icon path {
   fill: url(#dark-gradient-v2);
+}
+
+.dark svg.stars-icon.v2 path {
+  fill: url(#dark-gradient);
 }

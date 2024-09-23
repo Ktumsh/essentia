@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { MailIcon } from "@/modules/icons/miscellaneus";
@@ -19,8 +19,11 @@ const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [result, dispatch] = useFormState(authenticate, undefined);
   const [isPending, startTransition] = useTransition();
+
+  const redirectUrl = searchParams.get("redirect") || "/";
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
@@ -63,10 +66,10 @@ const LoginForm = () => {
           localStorage.removeItem("rememberedEmail");
         }
         toast.success(getMessageFromCode(result.resultCode));
-        router.refresh();
+        router.push(redirectUrl);
       }
     }
-  }, [result, router, email, isSelected]);
+  }, [result, router, email, isSelected, redirectUrl]);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 

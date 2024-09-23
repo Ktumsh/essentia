@@ -16,6 +16,7 @@ import {
 } from "@/modules/icons/miscellaneus";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
+import Footer from "./footer";
 
 interface MobileMenuProps {
   profileData: UserProfileData | null;
@@ -185,6 +186,9 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                           Cerrar sesión
                         </button>
                       ) : null}
+                      <div className="pb-5">
+                        <Footer isMobile />
+                      </div>
                     </footer>
                   </div>
                 </div>
