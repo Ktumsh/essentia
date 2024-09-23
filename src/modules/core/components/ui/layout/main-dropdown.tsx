@@ -26,6 +26,7 @@ import { MenuIcon, StarsIcon } from "@/modules/icons/common";
 import { usePremium } from "@/modules/core/hooks/use-premium-status";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import TooltipCTN from "../utils/tooltip-ctn";
+import { BillingIcon, PricingIcon } from "@/modules/icons/interface";
 
 interface AvatarDropdownProps {
   profileData: UserProfileData | null;
@@ -66,6 +67,30 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                   />
                 </div>
               </TooltipCTN>
+            </DropdownItem>
+          </DropdownSection>
+          <DropdownSection
+            aria-label="Detalles de la cuenta"
+            showDivider
+            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+          >
+            <DropdownItem
+              key="billing"
+              textValue="Cuenta"
+              href="/cuenta"
+              startContent={<BillingIcon className="size-4" />}
+              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+            >
+              Facturación
+            </DropdownItem>
+            <DropdownItem
+              key="pricing"
+              textValue="Premium"
+              href="/premium"
+              startContent={<PricingIcon className="size-4" />}
+              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+            >
+              Precios
             </DropdownItem>
           </DropdownSection>
           <DropdownSection
@@ -138,7 +163,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             </DropdownItem>
           </DropdownSection>
           <DropdownSection
-            aria-label="Preferences"
+            aria-label="Actualiza tu cuenta"
             showDivider
             classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
           >
@@ -163,8 +188,38 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             >
               Hazte premium
             </DropdownItem>
+          </DropdownSection>
+          <DropdownSection
+            aria-label="Detalles de la cuenta"
+            showDivider
+            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+          >
             <DropdownItem
-              key="configurations"
+              key="billing"
+              textValue="Cuenta"
+              href="/cuenta"
+              startContent={<BillingIcon className="size-4" />}
+              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+            >
+              Facturación
+            </DropdownItem>
+            <DropdownItem
+              key="pricing"
+              textValue="Premium"
+              href="/premium"
+              startContent={<PricingIcon className="size-4" />}
+              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+            >
+              Precios
+            </DropdownItem>
+          </DropdownSection>
+          <DropdownSection
+            aria-label="Configuración y preferencias"
+            showDivider
+            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+          >
+            <DropdownItem
+              key="configuration"
               textValue="Configuración"
               className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
             >
