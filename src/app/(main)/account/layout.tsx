@@ -1,5 +1,6 @@
 import { getStripeCustomerById } from "@/db/actions";
 import BillingTabs from "@/modules/account/components/billing-tabs";
+import DesktopFooter from "@/modules/core/components/ui/layout/desktop-footer";
 import {
   createSetupIntent,
   getUserBillingDetails,
@@ -34,17 +35,20 @@ export default async function AccountLayout({
   const profileData = session ? await getUserProfileData(session) : null;
 
   return (
-    <div className="flex flex-col min-h-dvh w-full pt-14">
-      <main className="flex-1">
-        <div className="flex-1 size-full max-w-5xl mx-auto text-base-color dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-y-0 border-gray-200 dark:border-base-dark">
-          {children}
-          <BillingTabs
-            profileData={profileData}
-            billingDetails={billingDetails}
-            clientSecret={clientSecret}
-          />
-        </div>
-      </main>
-    </div>
+    <>
+      <div className="flex flex-col min-h-dvh w-full pt-14">
+        <main className="flex-1">
+          <div className="flex-1 size-full max-w-5xl mx-auto text-base-color dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-y-0 border-gray-200 dark:border-base-dark">
+            {children}
+            <BillingTabs
+              profileData={profileData}
+              billingDetails={billingDetails}
+              clientSecret={clientSecret}
+            />
+          </div>
+        </main>
+      </div>
+      <DesktopFooter />
+    </>
   );
 }

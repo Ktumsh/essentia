@@ -115,18 +115,12 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                 </div>
               </div>
               <div className="relative size-full overflow-y-scroll scrollbar-hide">
-                <div className="flex flex-col justify-between h-full">
+                <div className="flex flex-col justify-between h-full py-5">
                   <div role="group">
-                    <div className="group flex mt-5">
-                      <Button
-                        variant="light"
-                        radius="none"
-                        disableRipple
-                        fullWidth
-                        className="text-base-color-h dark:text-base-color-dark-h justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100"
-                      >
+                    <div className="group flex">
+                      <div className="text-base-color-h dark:text-base-color-dark-h justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100">
                         Recursos
-                      </Button>
+                      </div>
                     </div>
                     <div className="overflow-hidden transition-all pt-3">
                       <div
@@ -164,33 +158,33 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         className="relative flex items-center w-full py-1.5 text-sm"
                         href="/account"
                       >
-                        <AccountFillIcon className="mr-3 size-[14px]" />
+                        <AccountFillIcon className="mr-3 size-3.5" />
                         Cuenta
                       </Link>
                       <Link
                         className="relative flex items-center w-full py-1.5 text-sm"
                         href="/premium"
                       >
-                        <PricingFillIcon className="mr-3 size-[14px]" />
+                        <PricingFillIcon className="mr-3 size-3.5" />
                         Premium
                       </Link>
                       <Link
                         className="relative flex items-center w-full py-1.5 text-sm"
                         href=""
                       >
-                        <SettingsIcon className="mr-3 size-[14px]" />
+                        <SettingsIcon className="mr-3 size-3.5" />
                         Configuración
                       </Link>
                       <Link
                         className="relative flex items-center w-full py-1.5 text-sm"
                         href=""
                       >
-                        <HelpIcon className="mr-3 size-[14px]" />
+                        <HelpIcon className="mr-3 size-3.5" />
                         Centro de ayuda
                       </Link>
                       <div className="w-full flex items-center justify-between py-1.5">
                         <div className="flex flex-row items-center">
-                          <ThemeIcon className="mr-3 size-[14px]" />
+                          <ThemeIcon className="mr-3 size-3.5" />
                           <span className="text-sm">Tema</span>
                         </div>
                         <ThemeToggle className="!size-8" />
@@ -201,13 +195,13 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                           className="relative flex items-center w-full py-1.5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"
                           onClick={() => signOut({ callbackUrl: "/logout" })}
                         >
-                          <LogoutIcon className="mr-3 size-[14px]" />
+                          <LogoutIcon className="mr-3 size-3.5" />
                           Cerrar sesión
                         </button>
                       ) : null}
-                      <div className="pb-5">
+                      {/* <div className="pb-5">
                         <Footer isMobile />
-                      </div>
+                      </div> */}
                     </footer>
                   </div>
                 </div>
