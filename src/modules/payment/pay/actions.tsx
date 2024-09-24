@@ -1,5 +1,6 @@
 "use server";
 
+import { siteConfig } from "@/config/site";
 import {
   deleteUserStripeCustomer,
   getStripeCustomerId,
@@ -218,11 +219,35 @@ export async function handleSubscriptionDeleted(
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
+  const customerId = subscription.customer as string;
+  const currentPeriodEnd = subscription.current_period_end;
 
   const user = await getUserBySubscriptionId(subscriptionId);
   if (!user) {
     console.error(
       `Usuario no encontrado para la suscripción: ${subscriptionId}`
+    );
+    return;
+  }
+
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "active",
+    limit: 1,
+  });
+
+  if (subscriptions.data.length > 0) {
+    const activeSubscription = subscriptions.data[0];
+
+    await updatePremiumStatus(
+      user.id,
+      activeSubscription.id,
+      activeSubscription.status,
+      activeSubscription.current_period_end
+    );
+
+    console.log(
+      `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`
     );
     return;
   }
@@ -306,14 +331,14 @@ export async function handleInvoiceFinalized(finalizedSubscriptionId: string) {
 }
 
 export async function getUserCurrentPlan(session: Session): Promise<string> {
-  if (!session || !session.user.email) return "price_free";
+  if (!session || !session.user.email) return siteConfig.planPrices.free;
 
   const customers = await stripe.customers.list({
     email: session.user.email,
     limit: 1,
   });
 
-  if (customers.data.length === 0) return "price_free";
+  if (customers.data.length === 0) return siteConfig.planPrices.free;
 
   const customer = customers.data[0];
 
@@ -323,7 +348,7 @@ export async function getUserCurrentPlan(session: Session): Promise<string> {
     limit: 1,
   });
 
-  if (subscriptions.data.length === 0) return "price_free";
+  if (subscriptions.data.length === 0) return siteConfig.planPrices.free;
 
   const subscription = subscriptions.data[0];
 
@@ -353,7 +378,7 @@ export async function setUserPlan(
     return { success: false, message: "Usuario no encontrado." };
   }
 
-  if (priceId === "price_free") {
+  if (priceId === siteConfig.planPrices.free) {
     if (subscriptionId) {
       try {
         await stripe.subscriptions.update(subscriptionId, {
@@ -412,12 +437,17 @@ export async function getUserBillingDetails(stripeCustomerId: string | null) {
   const subscriptions = await stripe.subscriptions.list({
     customer: stripeCustomerId,
     status: "all",
-    limit: 1,
   });
 
   if (subscriptions.data.length === 0) {
     return null;
   }
+
+  const activeSubscription = subscriptions.data.find(
+    (sub: { status: string }) => sub.status === "active"
+  );
+
+  const subscriptionToUse = activeSubscription || subscriptions.data[0];
 
   let paymentMethod = null;
   if (customer.invoice_settings.default_payment_method) {
@@ -436,15 +466,14 @@ export async function getUserBillingDetails(stripeCustomerId: string | null) {
       card: paymentMethod.card,
       customer: paymentMethod.customer,
     },
-    subscription:
-      subscriptions.data.length > 0
-        ? {
-            id: subscriptions.data[0].id,
-            status: subscriptions.data[0].status,
-            items: subscriptions.data[0].items,
-            current_period_end: subscriptions.data[0].current_period_end,
-          }
-        : null,
+    subscription: subscriptionToUse
+      ? {
+          id: subscriptionToUse.id,
+          status: subscriptionToUse.status,
+          items: subscriptionToUse.items,
+          current_period_end: subscriptionToUse.current_period_end,
+        }
+      : null,
   };
 }
 

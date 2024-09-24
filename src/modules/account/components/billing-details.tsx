@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactNode } from "react";
 import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
 import ChangePaymentModal from "./change-payment-modal";
 import Image from "next/image";
@@ -8,6 +9,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import CancelSubscriptionModal from "./cancel-subscription-modal";
 import PaymentModal from "@/modules/payment/components/payment-modal";
+import { usePremium } from "@/modules/core/hooks/use-premium-status";
 
 interface BillingDetailsProps {
   billingDetails: any;
@@ -30,27 +32,37 @@ const BillingDetails = ({
     onOpenChange: onOpenChangePaymentModal,
   } = useDisclosure();
 
+  const { isPremium } = usePremium();
   const subscription = billingDetails?.subscription || {};
   const isSubscriptionCanceled = subscription?.status === "canceled";
+  const isSubscriptionPending = subscription?.status === "pending";
+  const isSubscriptionIncomplete = subscription?.status === "incomplete";
 
   const paymentMethod = billingDetails?.paymentMethod?.card || {};
-  const planType = isSubscriptionCanceled
-    ? "Gratis"
-    : subscription?.items?.data?.[0]?.price?.nickname ?? "Gratis";
 
-  const price = isSubscriptionCanceled
-    ? "0"
-    : subscription?.items?.data?.[0]?.price?.unit_amount?.toLocaleString(
-        "es-CL"
-      ) ?? "N/A";
+  const planType =
+    isSubscriptionPending || isSubscriptionIncomplete || !isPremium
+      ? "Gratis"
+      : subscription?.items?.data?.[0]?.price?.nickname ?? "Gratis";
 
-  const renewalDate = subscription?.current_period_end
-    ? format(
-        new Date(subscription.current_period_end * 1000),
-        "dd 'de' MMM, yyyy",
-        { locale: es }
-      )
-    : "No aplica";
+  const price =
+    isSubscriptionPending || isSubscriptionIncomplete || !isPremium
+      ? "0"
+      : subscription?.items?.data?.[0]?.price?.unit_amount?.toLocaleString(
+          "es-CL"
+        ) ?? "N/A";
+
+  const renewalDate =
+    subscription?.current_period_end &&
+    !isSubscriptionPending &&
+    !isSubscriptionIncomplete &&
+    isPremium
+      ? format(
+          new Date(subscription.current_period_end * 1000),
+          "dd 'de' MMM, yyyy",
+          { locale: es }
+        )
+      : "No aplica";
 
   const paymentBrand = paymentMethod?.brand || "N/A";
   const paymentLast4 = paymentMethod?.last4 || "N/A";
@@ -77,7 +89,7 @@ const BillingDetails = ({
               </div>
             </h3>
             <div className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-base-dark px-4 py-3">
-              <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-6 gap-4">
                 <span className="flex flex-col">
                   <div className="flex-1 text-xs font-normal text-base-color-m dark:text-base-color-dark-m">
                     Precio/{planType === "Premium Plus" ? "Año" : "Mes"}
@@ -91,7 +103,11 @@ const BillingDetails = ({
                     Fecha de renovación
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
-                    {isSubscriptionCanceled ? "No aplica" : renewalDate}
+                    {isSubscriptionCanceled
+                      ? "No aplica"
+                      : isSubscriptionIncomplete
+                      ? "No aplica"
+                      : renewalDate}
                   </div>
                 </span>
               </div>
@@ -99,7 +115,7 @@ const BillingDetails = ({
           </div>
           <CardFooter className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 gap-4 rounded-none bg-gray-100 dark:bg-base-dark-50 border-t border-gray-200 dark:border-base-dark">
             <div className="flex flex-col w-full md:w-fit gap-2 sm:ml-auto sm:flex-row">
-              {planType !== "Gratis" && (
+              {planType !== "Gratis" && !isSubscriptionIncomplete && (
                 <Button
                   radius="sm"
                   size="sm"
@@ -115,7 +131,11 @@ const BillingDetails = ({
                 onPress={onOpenPaymentModal}
                 className="w-full md:w-fit shadow-sm bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark font-medium text-sm text-base-color dark:text-base-color-dark"
               >
-                {isSubscriptionCanceled ? "Mejorar a Premium" : "Cambiar plan"}
+                {isSubscriptionCanceled ||
+                isSubscriptionIncomplete ||
+                !isPremium
+                  ? "Mejorar a Premium"
+                  : "Cambiar plan"}
               </Button>
             </div>
           </CardFooter>
@@ -135,7 +155,7 @@ const BillingDetails = ({
                   {paymentBrand === "visa" && (
                     <Image
                       alt="logo for visa"
-                      width={18}
+                      width={19}
                       height={12}
                       src="/cardbrands/visa.svg"
                       className="w-auto h-3"

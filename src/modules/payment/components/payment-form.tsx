@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { addYears, format } from "date-fns";
 import { es } from "date-fns/locale";
 import { usePaymentStatusPolling } from "../hooks/use-payment-status-polling";
+import { siteConfig } from "@/config/site";
 
 interface PaymentFormProps {
   onClose: () => void;
@@ -76,7 +77,7 @@ const PaymentForm = ({
   };
 
   const planDetails =
-    priceId === "price_1Q1y3NI2PMoTUNZeKCLhLp9Y"
+    priceId === siteConfig.planPrices.premium
       ? {
           plan: "Premium",
           amount: "9.500",

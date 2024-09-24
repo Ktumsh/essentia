@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { checkPaymentStatus } from "../pay/actions";
@@ -8,6 +8,8 @@ import { checkPaymentStatus } from "../pay/actions";
 export const usePaymentStatusPolling = () => {
   const [isPolling, setIsPolling] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const startPollingOnChat = pathname.startsWith("/essentia-ai");
 
   const startPolling = async (
     onSuccess?: () => void,
@@ -24,7 +26,9 @@ export const usePaymentStatusPolling = () => {
         if (result.isPremium) {
           toast.success("¡Tu suscripción Premium ha comenzado!");
           router.refresh();
-          router.push("/essentia-ai");
+          if (startPollingOnChat) {
+            router.push("/essentia-ai");
+          }
           setIsPolling(false);
           if (onSuccess) {
             onSuccess();

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react"; // Asegúrate de importar useState
 import { Navbar } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +13,7 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetEdgeDragArea,
   SheetTitle,
   SheetTrigger,
 } from "../sheet";
@@ -29,8 +30,21 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
 
   const essentiaAi = pathname.startsWith("/essentia-ai");
 
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isSheetChatOpen, setIsSheetChatOpen] = useState(false);
+
+  const sheetSide = "right";
+  const sheetSideChat = "left";
+
   return (
     <>
+      <SheetEdgeDragArea onOpen={() => setIsSheetOpen(true)} side={sheetSide} />
+      {essentiaAi && profileData && (
+        <SheetEdgeDragArea
+          onOpen={() => setIsSheetChatOpen(true)}
+          side={sheetSideChat}
+        />
+      )}
       <Navbar
         shouldHideOnScroll
         classNames={{
@@ -39,7 +53,11 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
         }}
       >
         {essentiaAi && profileData && (
-          <SidebarMobile>
+          <SidebarMobile
+            isSheetOpen={isSheetChatOpen}
+            setIsSheetOpen={setIsSheetChatOpen}
+            sheetSide={sheetSideChat}
+          >
             <ChatHistory chats={chats} />
           </SidebarMobile>
         )}
@@ -57,15 +75,17 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
             alt="Logo de Essentia"
           />
         </Link>
-        <Sheet>
-          <SheetTrigger>
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetTrigger className="focus-visible:outline-none">
             <MenuButton profileData={profileData} />
           </SheetTrigger>
           <SheetContent
             aria-labelledby="dialog-description"
-            side="right"
+            side={sheetSide}
             hideCloseButton
-            className="inset-y-0 flex h-auto w-[300px] flex-col p-0"
+            open={isSheetOpen}
+            onOpenChange={setIsSheetOpen}
+            className="inset-y-0 flex h-auto w-[300px] flex-col p-0 focus-visible:outline-none [&_*]:outline-none"
           >
             <span className="sr-only">
               <SheetTitle>Menú</SheetTitle>

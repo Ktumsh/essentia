@@ -13,6 +13,7 @@ import TailwindIndicator from "@/modules/core/components/tailwind-indicator";
 import { auth } from "@@/auth";
 import { Session } from "@/types/session";
 import { getUserById } from "@/db/actions";
+import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -94,6 +95,8 @@ export default async function RootLayout({
   const session = (await auth()) as Session;
   const user = session ? await getUserById(session.user.id) : null;
   const isPremium = user?.is_premium ?? false;
+  const currentPlan = session ? await getUserCurrentPlan(session) : null;
+
   return (
     <html suppressHydrationWarning lang="es">
       <head />
@@ -115,7 +118,11 @@ export default async function RootLayout({
               "bg-white dark:bg-base-full-dark border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
           }}
         />
-        <Providers isPremium={isPremium} disableTransitionOnChange>
+        <Providers
+          currentPlan={currentPlan}
+          isPremium={isPremium}
+          disableTransitionOnChange
+        >
           <div className="min-h-dvh size-full relative">{children}</div>
           <TailwindIndicator />
         </Providers>

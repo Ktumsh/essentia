@@ -23,8 +23,7 @@ const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
 
   const itemsGroup = data.slice(startIndex, startIndex + totalItems);
 
-  const slidesToScroll =
-    windowSize < 1024 ? 1 : 3 && width && width < 1024 ? 1 : 3;
+  const slidesToScroll = windowSize < 1024 ? 1 : width && width < 1024 ? 1 : 3;
 
   return (
     <>

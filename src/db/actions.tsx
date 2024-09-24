@@ -1,9 +1,9 @@
 "use server";
 
+import { validatePassword } from "@/modules/auth/lib/form";
 import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
-import { User, UserProfile, UserProfileData } from "@/types/session";
-import { Payment } from "@/utils/account";
-import { createPool, Pool, sql } from "@vercel/postgres";
+import { Payment, User, UserProfile, UserProfileData } from "@/types/session";
+import { createPool, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 
 const pool = createPool({
@@ -67,6 +67,37 @@ export async function getUserProfileByUsername(
   const profile = await getProfile(user.id);
   if (!profile) return null;
   return { user, profile };
+}
+
+//Get password and salt by id
+export async function getPasswordAndSaltById(
+  userId: string
+): Promise<{ password: string | null; salt: string | null }> {
+  const result = await pool.sql`
+    SELECT password_hash, salt FROM users WHERE id = ${userId};
+  `;
+
+  const row = result.rows[0];
+
+  return {
+    password: row?.password_hash || null,
+    salt: row?.salt || null,
+  };
+}
+
+// Update user password and salt by id
+export async function updatePasswordAndSaltById(
+  userId: string,
+  password: string,
+  salt: string
+) {
+  const result = await pool.sql`
+    UPDATE users
+    SET password_hash = ${password}, salt = ${salt}
+    WHERE id = ${userId};
+  `;
+
+  return result;
 }
 
 // Actualizar el perfil de un usuario
@@ -310,16 +341,15 @@ export async function updatePremiumStatus(
   try {
     await client.query("BEGIN");
 
-    let updateQuery = `
-      UPDATE users 
-      SET 
-        is_premium = $1, 
-        premium_expires_at = $2, 
-        subscription_id = $3,
-        subscription_status = $4,
-        updated_at = NOW()
-      WHERE id = $5;
-    `;
+    const currentUserResult = await client.query(
+      `SELECT is_premium, premium_expires_at, subscription_id FROM users WHERE id = $1`,
+      [userId]
+    );
+
+    const currentIsPremium = currentUserResult.rows[0]?.is_premium;
+    const currentPremiumExpiresAt =
+      currentUserResult.rows[0]?.premium_expires_at;
+    const currentSubscriptionId = currentUserResult.rows[0]?.subscription_id;
 
     let isPremium: boolean;
     let premiumExpiresAt: string | null = null;
@@ -330,39 +360,56 @@ export async function updatePremiumStatus(
         premiumExpiresAt = calculatePremiumExpiresAt(currentPeriodEnd);
       }
     } else if (status === "canceled") {
-      if (currentPeriodEnd) {
+      if (currentPeriodEnd && subscriptionId === currentSubscriptionId) {
         isPremium = true;
         premiumExpiresAt = calculatePremiumExpiresAt(currentPeriodEnd);
       } else {
         isPremium = false;
         premiumExpiresAt = null;
       }
-    } else if (status === "unpaid") {
-      isPremium = false;
-      premiumExpiresAt = null;
-    } else if (status === "deleted") {
+    } else if (status === "unpaid" || status === "deleted") {
       isPremium = false;
       premiumExpiresAt = null;
     } else {
-      isPremium = false;
-      premiumExpiresAt = null;
+      isPremium = currentIsPremium;
+      premiumExpiresAt = currentPremiumExpiresAt;
     }
 
-    const values = [
-      isPremium,
-      premiumExpiresAt,
-      subscriptionId,
-      status,
-      userId,
-    ];
+    if (
+      isPremium !== currentIsPremium ||
+      premiumExpiresAt !== currentPremiumExpiresAt ||
+      subscriptionId !== currentSubscriptionId
+    ) {
+      let updateQuery = `
+        UPDATE users 
+        SET 
+          is_premium = $1, 
+          premium_expires_at = $2, 
+          subscription_id = $3,
+          subscription_status = $4,
+          updated_at = NOW()
+        WHERE id = $5;
+      `;
 
-    await client.query(updateQuery, values);
+      const values = [
+        isPremium,
+        premiumExpiresAt,
+        subscriptionId,
+        status,
+        userId,
+      ];
+
+      await client.query(updateQuery, values);
+
+      // Opcional: revalidar rutas si es necesario
+      revalidatePath("/essentia-ai");
+      revalidatePath("/perfil");
+      revalidatePath("/premium");
+
+      console.log(`Estado premium actualizado para el usuario: ${userId}`);
+    }
 
     await client.query("COMMIT");
-
-    revalidatePath("/essentia-ai");
-    revalidatePath("/perfil");
-    revalidatePath("/premium");
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error actualizando el estado premium:", error);

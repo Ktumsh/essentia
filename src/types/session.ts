@@ -45,6 +45,7 @@ export interface UserProfile {
 
 export interface UserProfileData {
   id: string;
+  email: string;
   first_name: string;
   last_name: string;
   username: string;
@@ -68,4 +69,17 @@ export interface SubscriptionPlan {
   description: string;
   amount: number;
   currency: string;
+}
+
+export interface Payment {
+  paymentIntentId: string;
+  amount: number;
+  currency: string;
+  date: string;
+}
+
+export interface AccountDetails {
+  payments: Payment[];
+  isPremium: boolean;
+  premiumExpiresAt: string | null;
 }

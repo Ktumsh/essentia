@@ -39,20 +39,20 @@ export async function POST(request: NextRequest) {
       const invoice = event.data.object as Stripe.Invoice;
       await handlePaymentSucceeded(invoice);
       break;
-    case "customer.subscription.deleted":
-      const subscription = event.data.object as Stripe.Subscription;
-      await handleSubscriptionDeleted(subscription);
-      break;
     case "customer.subscription.updated":
       const updatedSubscription = event.data.object as Stripe.Subscription;
       await handleSubscriptionUpdated(updatedSubscription);
+      break;
+    case "customer.subscription.deleted":
+      const subscription = event.data.object as Stripe.Subscription;
+      await handleSubscriptionDeleted(subscription);
       break;
     case "customer.deleted":
       const customer = event.data.object as Stripe.Customer;
       await handleCustomerDeleted(customer);
       break;
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      console.log(`Evento webhook no manejado ${event.type}`);
   }
 
   return NextResponse.json({ received: true }, { status: 200 });

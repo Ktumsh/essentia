@@ -17,12 +17,17 @@ import {
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 import Footer from "./footer";
+import { AccountFillIcon, PricingFillIcon } from "@/modules/icons/interface";
+import { usePremium } from "@/modules/core/hooks/use-premium-status";
+import { StarsIcon } from "@/modules/icons/common";
+import { cn } from "@/utils/common";
 
 interface MobileMenuProps {
   profileData: UserProfileData | null;
 }
 
 const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
+  const { isPremium } = usePremium();
   const [currentPath, setCurrentPath] = useState("");
   const { first_name, last_name, username, profile_image } = profileData || {};
 
@@ -44,7 +49,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
           <div className="flex flex-col justify-between size-full max-h-dvh">
             <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
               <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
-                <div className="inline-flex items-start gap-2 w-full">
+                <div className="relative inline-flex items-start gap-2 w-full">
                   {profileData ? (
                     <>
                       {profile_image ? (
@@ -86,6 +91,14 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
                           @{username}
                         </span>
+                        {isPremium && (
+                          <div className="absolute top-1/2 -translate-y-1/2 right-0 p-1 mr-2">
+                            <StarsIcon
+                              aria-hidden="true"
+                              className="size-6 stars-icon v2 focus:outline-none"
+                            />
+                          </div>
+                        )}
                       </Link>
                     </>
                   ) : (
@@ -115,61 +128,67 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         Recursos
                       </Button>
                     </div>
-                    <div className="overflow-hidden transition-all">
-                      <Listbox
+                    <div className="overflow-hidden transition-all pt-3">
+                      <div
                         aria-label="Recursos"
-                        classNames={{
-                          base: "px-0 pt-3",
-                          list: "gap-3",
-                        }}
+                        className="w-full flex flex-col outline-none gap-3"
                       >
                         {resourceLinks.map((link) => (
-                          <ListboxItem
+                          <Link
                             key={link.name}
                             href={link.link}
-                            variant="light"
-                            startContent={
-                              <link.icon
-                                className={`size-5 transition-colors ${
-                                  currentPath === link.link
-                                    ? "text-bittersweet-400 dark:text-cerise-red-400"
-                                    : "text-base-color-h dark:text-base-color-dark"
-                                }`}
-                              />
-                            }
-                            classNames={{
-                              base: "px-0",
-                            }}
-                            className={
+                            className={cn(
+                              "inline-flex gap-2 items-center text-sm px-0 py-1.5",
                               currentPath === link.link
                                 ? "text-bittersweet-400 dark:text-cerise-red-400"
                                 : "text-base-color-h dark:text-base-color-dark-h"
-                            }
+                            )}
                           >
-                            {link.name}
-                          </ListboxItem>
+                            <link.icon
+                              className={`size-5 transition-colors ${
+                                currentPath === link.link
+                                  ? "text-bittersweet-400 dark:text-cerise-red-400"
+                                  : "text-base-color-h dark:text-base-color-dark"
+                              }`}
+                            />
+                            <span>{link.name}</span>
+                          </Link>
                         ))}
-                      </Listbox>
+                      </div>
                     </div>
                   </div>
 
                   <div role="group">
-                    <footer className="flex flex-col justify-end text-base-color-m dark:text-base-color-dark-m">
+                    <footer className="flex flex-col justify-end gap-3 text-base-color-m dark:text-base-color-dark-m">
                       <Link
-                        className="relative flex items-center w-full py-5 text-sm"
+                        className="relative flex items-center w-full py-1.5 text-sm"
+                        href="/account"
+                      >
+                        <AccountFillIcon className="mr-3 size-[14px]" />
+                        Cuenta
+                      </Link>
+                      <Link
+                        className="relative flex items-center w-full py-1.5 text-sm"
+                        href="/premium"
+                      >
+                        <PricingFillIcon className="mr-3 size-[14px]" />
+                        Premium
+                      </Link>
+                      <Link
+                        className="relative flex items-center w-full py-1.5 text-sm"
                         href=""
                       >
                         <SettingsIcon className="mr-3 size-[14px]" />
                         Configuración
                       </Link>
                       <Link
-                        className="relative flex items-center w-full py-5 text-sm"
+                        className="relative flex items-center w-full py-1.5 text-sm"
                         href=""
                       >
                         <HelpIcon className="mr-3 size-[14px]" />
                         Centro de ayuda
                       </Link>
-                      <div className="w-full flex items-center justify-between py-3">
+                      <div className="w-full flex items-center justify-between py-1.5">
                         <div className="flex flex-row items-center">
                           <ThemeIcon className="mr-3 size-[14px]" />
                           <span className="text-sm">Tema</span>
@@ -179,7 +198,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                       {profileData ? (
                         <button
                           id="logout"
-                          className="relative flex items-center w-full py-5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"
+                          className="relative flex items-center w-full py-1.5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"
                           onClick={() => signOut({ callbackUrl: "/logout" })}
                         >
                           <LogoutIcon className="mr-3 size-[14px]" />

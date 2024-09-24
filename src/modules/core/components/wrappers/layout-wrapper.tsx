@@ -13,8 +13,8 @@ const HIDDEN_ASIDE_PATHS = [
   "/essentia-ai",
   "/share",
   "/premium",
-  "/cuenta",
   "/profile",
+  "/account",
 ];
 const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];
 
@@ -27,12 +27,14 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
 
   const hideAside = startsWithAny(pathname, HIDDEN_ASIDE_PATHS);
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
+  const isProfile = pathname.startsWith("/profile");
+  const isAccount = pathname.startsWith("/account");
   const isPremium = pathname.startsWith("/premium");
   const isEssentiaAI = pathname.startsWith("/essentia-ai");
 
   // Backgrounds
   const backgroundClasses = useMemo(() => {
-    if (!isPremium) {
+    if (!isPremium && !isProfile && !isAccount) {
       return cn(
         "z-[-1]",
         "before:absolute before:top-0 before:left-1/2 before:h-[800px] before:w-full sm:before:w-[1080px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-tr from-gray-50 to-[#c0c6e6] before:blur-[80px] before:content-['']",
@@ -50,7 +52,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
         "after:dark:top-1/4 after:dark:left-1/2 after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-base-full-dark after:dark:via-[#ff7373] after:dark:opacity-80 after:dark:blur-3xl after:dark:rounded-none"
       );
     }
-  }, [isPremium, isEssentiaAI]);
+  }, [isPremium, isProfile, isAccount, isEssentiaAI]);
 
   // Motion classes
   const motionContainerClasses = cn(
