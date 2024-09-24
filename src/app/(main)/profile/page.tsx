@@ -7,12 +7,12 @@ const ProfilePage = async () => {
   const session = (await auth()) as Session;
 
   if (!session) {
-    return redirect("/bienvenida");
+    return redirect("/");
   }
 
-  const profileData = getUserProfileData(session);
+  const profileData = await getUserProfileData(session);
 
-  redirect("/profile/" + (await profileData).username);
+  redirect("/profile/" + profileData.username);
 };
 
 export default ProfilePage;

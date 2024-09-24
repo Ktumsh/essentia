@@ -21,6 +21,7 @@ export async function getUserProfileData(
 
   const userProfileData = userProfile.profile;
   const id = userProfile.user.id;
+  const email = userProfile.user.email;
   const first_name = userProfileData.first_name || "Usuario";
   const last_name = userProfileData.last_name || "";
   const profile_image = userProfileData.profile_image || null;
@@ -32,6 +33,7 @@ export async function getUserProfileData(
 
   return {
     id,
+    email,
     first_name,
     last_name,
     username: userProfile.user.username,

@@ -25,6 +25,11 @@ export const siteConfig: SiteConfig = {
   name: "Essentia",
   description:
     "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+  planPrices: {
+    free: "price_free",
+    premium: "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",
+    premiumPlus: "price_1Q1y2QI2PMoTUNZeMt1eynxB",
+  },
   links: {
     github: "https://github.com/Ktumsh/essentia",
     instagram: "https://www.instagram.com/ktumsh/",

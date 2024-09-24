@@ -2,16 +2,42 @@
 
 import { Tabs, Tab } from "@nextui-org/react";
 import BillingDetails from "./billing-details";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import AccountDetails from "./account-details";
+import { UserProfileData } from "@/types/session";
 
 interface BillingTabsProps {
+  profileData: UserProfileData | null;
   billingDetails: any;
   clientSecret: string;
 }
 
-const BillingTabs = ({ billingDetails, clientSecret }: BillingTabsProps) => {
+const BillingTabs = ({
+  profileData,
+  billingDetails,
+  clientSecret,
+}: BillingTabsProps) => {
+  const pathname = usePathname();
+  const tabListRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (tabListRef.current) {
+      const activeTab = tabListRef.current.querySelector(
+        `[data-key="${pathname}"]`
+      );
+      if (activeTab) {
+        activeTab.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+  }, [pathname]);
+
   return (
     <div className="flex size-full flex-col">
       <Tabs
+        ref={tabListRef}
+        selectedKey={pathname}
         aria-label="Options"
         variant="underlined"
         fullWidth
@@ -27,7 +53,23 @@ const BillingTabs = ({ billingDetails, clientSecret }: BillingTabsProps) => {
         }}
       >
         <Tab
-          key="/adicionales/guias"
+          key="/account"
+          as={Link}
+          href="/account"
+          title={
+            <div className="flex items-center space-x-2">
+              <span>Mi cuenta</span>
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <AccountDetails profileData={profileData} />
+          </div>
+        </Tab>
+        <Tab
+          key="/account/billing"
+          as={Link}
+          href="/account/billing"
           title={
             <div className="flex items-center space-x-2">
               <span>Detalles del plan</span>

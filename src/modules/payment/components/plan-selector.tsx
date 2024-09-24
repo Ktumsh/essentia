@@ -1,5 +1,7 @@
 "use client";
 
+import { siteConfig } from "@/config/site";
+import { usePlan } from "@/modules/core/hooks/use-current-plan";
 import { LinkIcon } from "@/modules/icons/action";
 import { SubscriptionPlan } from "@/types/session";
 import { cn } from "@/utils/common";
@@ -14,21 +16,21 @@ interface PlanSelectorProps {
 export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
   const subscriptionPlans: SubscriptionPlan[] = [
     {
-      id: "price_free",
+      id: siteConfig.planPrices.free,
       name: "Gratis",
       description: "Plan básico, no incluye funcionalidades premium.",
       amount: 0,
       currency: "clp",
     },
     {
-      id: "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",
+      id: siteConfig.planPrices.premium,
       name: "Premium",
       description: "Plan mensual con todas las funcionalidades de Essentia AI.",
       amount: 9500,
       currency: "clp",
     },
     {
-      id: "price_1Q1y2QI2PMoTUNZeMt1eynxB",
+      id: siteConfig.planPrices.premiumPlus,
       name: "Premium Plus",
       description: "Plan anual con todas las funcionalidades de Essentia AI.",
       amount: 91200,
@@ -36,8 +38,12 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
     },
   ];
 
+  const { currentPlan } = usePlan();
+
+  const isCurrentPlan = (priceId: string) => currentPlan === priceId;
+
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(
-    "price_1Q1y3NI2PMoTUNZeKCLhLp9Y"
+    siteConfig.planPrices.premium
   );
 
   const handleSelect = (priceId: string) => {
@@ -53,8 +59,9 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
             key={plan.id}
             isPressable
             disableRipple
-            isDisabled={index === 0}
+            isDisabled={isCurrentPlan(plan.id)}
             shadow={selectedPlanId === plan.id ? "md" : "none"}
+            onPress={() => handleSelect(plan.id)}
             className={cn(
               "relative flex flex-col gap-2 rounded-xl p-4 text-sm font-normal text-base-color dark:text-white bg-white dark:bg-base-full-dark data-[disabled=true]:opacity-100 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default",
               index === 0
@@ -63,19 +70,41 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
               selectedPlanId === plan.id &&
                 "after:bg-white/70 dark:after:bg-base-full-dark-70 backdrop-blur backdrop-saturate-150"
             )}
-            onPress={() => handleSelect(plan.id)}
           >
             <div className="flex justify-between w-full z-10">
               <div className="flex items-center gap-1.5">
                 <h3 className="font-medium">{plan.name}</h3>
-                {plan.id === "price_free" && (
-                  <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-base-color dark:text-base-color-dark text-xs bg-gray-200 dark:bg-base-dark rounded-full">
+                {isCurrentPlan(plan.id) && (
+                  <div
+                    className={cn(
+                      index === 1 &&
+                        "bg-light-gradient-v2 dark:bg-dark-gradient-v2",
+                      "inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-white text-xs rounded-full"
+                    )}
+                  >
                     Plan Actual
                   </div>
                 )}
-                {index === 1 && (
+                {index === 0 && !isCurrentPlan(plan.id) && (
+                  <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 bg-gray-200 dark:bg-base-dark font-medium text-base-color dark:text-base-color-dark text-xs rounded-full">
+                    Predeterminado
+                  </div>
+                )}
+                {index === 1 && !isCurrentPlan(plan.id) && (
                   <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-white text-xs bg-light-gradient-v2 dark:bg-dark-gradient-v2 rounded-full">
                     Recomendado
+                  </div>
+                )}
+                {index === 2 && !isCurrentPlan(plan.id) && (
+                  <div
+                    className={cn(
+                      selectedPlanId === plan.id
+                        ? "bg-white dark:bg-base-full-dark"
+                        : "bg-gray-200 dark:bg-base-dark",
+                      "inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-base-color dark:text-base-color-dark text-xs rounded-full"
+                    )}
+                  >
+                    Ahorra más
                   </div>
                 )}
               </div>

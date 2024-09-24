@@ -1,6 +1,7 @@
 import { Session } from "@/types/session";
 import PricingCard from "./pricing-card";
 import PricingSelector from "./pricing-selector";
+import { siteConfig } from "@/config/site";
 
 interface PricingCardsProps {
   session: Session;
@@ -31,11 +32,14 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
             <PricingCard
               session={session}
               title="Gratis"
-              subtitle={getSubtitle("price_free", "Predeterminado")}
+              subtitle={getSubtitle(
+                siteConfig.planPrices.free,
+                "Predeterminado"
+              )}
               description="Plan básico con acceso limitado a funcionalidades."
               buttonTitle="Escoger Gratis"
-              priceId="price_free"
-              isCurrentPlan={currentPriceId === "price_free"}
+              priceId={siteConfig.planPrices.free}
+              isCurrentPlan={currentPriceId === siteConfig.planPrices.free}
               price={0}
               features={[
                 "Recursos principales",
@@ -49,15 +53,13 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
               session={session}
               title="Premium"
               subtitle={getSubtitle(
-                "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",
+                siteConfig.planPrices.premium,
                 "Recomendado"
               )}
               description="Plan mensual que incluye acceso completo a todas las funcionalidades de Essentia AI."
               buttonTitle="Escoger Premium"
-              priceId="price_1Q1y3NI2PMoTUNZeKCLhLp9Y"
-              isCurrentPlan={
-                currentPriceId === "price_1Q1y3NI2PMoTUNZeKCLhLp9Y"
-              }
+              priceId={siteConfig.planPrices.premium}
+              isCurrentPlan={currentPriceId === siteConfig.planPrices.premium}
               price={9500}
               isRecommended
               features={[
@@ -76,14 +78,14 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
               session={session}
               title="Premium Plus"
               subtitle={getSubtitle(
-                "price_1Q1y2QI2PMoTUNZeMt1eynxB",
+                siteConfig.planPrices.premiumPlus,
                 "Ahorra más"
               )}
               description="Plan anual con todas las funcionalidades de Essentia AI y algunos beneficios adicionales."
               buttonTitle="Escoger Premium Plus"
-              priceId="price_1Q1y2QI2PMoTUNZeMt1eynxB"
+              priceId={siteConfig.planPrices.premiumPlus}
               isCurrentPlan={
-                currentPriceId === "price_1Q1y2QI2PMoTUNZeMt1eynxB"
+                currentPriceId === siteConfig.planPrices.premiumPlus
               }
               price={91200}
               isAnual

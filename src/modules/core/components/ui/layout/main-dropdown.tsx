@@ -22,11 +22,16 @@ import { LogoutIcon } from "@/modules/icons/action";
 
 import { signOut } from "next-auth/react";
 import { UserProfileData } from "@/types/session";
-import { MenuIcon, StarsIcon } from "@/modules/icons/common";
+import { InfoCircledIcon, MenuIcon, StarsIcon } from "@/modules/icons/common";
 import { usePremium } from "@/modules/core/hooks/use-premium-status";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import TooltipCTN from "../utils/tooltip-ctn";
-import { BillingIcon, PricingIcon } from "@/modules/icons/interface";
+import {
+  AccountIcon,
+  BillingIcon,
+  PricingIcon,
+} from "@/modules/icons/interface";
+import { cn } from "@/utils/common";
 
 interface AvatarDropdownProps {
   profileData: UserProfileData | null;
@@ -35,6 +40,9 @@ interface AvatarDropdownProps {
 const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
   const { isPremium } = usePremium();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const itemClass =
+    "rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark";
 
   const renderPremiumMenu = () => {
     return (
@@ -53,7 +61,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               key="profile"
               textValue="Perfil"
               href={`/profile/${profileData.username}`}
-              className="h-14 gap-2 rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={cn("h-14 gap-2", itemClass)}
             >
               <p className="inline-flex gap-2 font-medium dark:text-base-color-dark">
                 {`${profileData.first_name} ${profileData.last_name}`}
@@ -75,22 +83,22 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
           >
             <DropdownItem
-              key="billing"
+              key="account"
               textValue="Cuenta"
-              href="/cuenta"
-              startContent={<BillingIcon className="size-4" />}
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              href="/account"
+              startContent={<AccountIcon className="size-4" />}
+              className={itemClass}
             >
-              Facturación
+              Cuenta
             </DropdownItem>
             <DropdownItem
-              key="pricing"
+              key="premium"
               textValue="Premium"
               href="/premium"
               startContent={<PricingIcon className="size-4" />}
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
-              Precios
+              Premium
             </DropdownItem>
           </DropdownSection>
           <DropdownSection
@@ -101,14 +109,14 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             <DropdownItem
               key="configurations"
               textValue="Configuración"
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
               Configuración
             </DropdownItem>
             <DropdownItem
               key="help_and_feedback"
               textValue="Help and Feedback"
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
               Centro de ayuda
             </DropdownItem>
@@ -128,7 +136,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             color="danger"
             onPress={() => signOut({ callbackUrl: "/logout" })}
             startContent={<LogoutIcon className="size-4" />}
-            className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600"
+            className={itemClass}
           >
             Cerrar sesión
           </DropdownItem>
@@ -154,7 +162,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               key="profile"
               textValue="Perfil"
               href={`/profile/${profileData.username}`}
-              className="h-14 gap-2 rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-m data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={cn("h-14 gap-2", itemClass)}
             >
               <p className="font-medium dark:text-base-color-dark">
                 {`${profileData.first_name} ${profileData.last_name}`}
@@ -195,22 +203,22 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
           >
             <DropdownItem
-              key="billing"
+              key="account"
               textValue="Cuenta"
-              href="/cuenta"
+              href="/account"
               startContent={<BillingIcon className="size-4" />}
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
-              Facturación
+              Cuenta
             </DropdownItem>
             <DropdownItem
-              key="pricing"
+              key="premium"
               textValue="Premium"
               href="/premium"
               startContent={<PricingIcon className="size-4" />}
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
-              Precios
+              Premium
             </DropdownItem>
           </DropdownSection>
           <DropdownSection
@@ -221,14 +229,14 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             <DropdownItem
               key="configuration"
               textValue="Configuración"
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
               Configuración
             </DropdownItem>
             <DropdownItem
               key="help_and_feedback"
               textValue="Help and Feedback"
-              className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+              className={itemClass}
             >
               Centro de ayuda
             </DropdownItem>
@@ -248,7 +256,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             color="danger"
             onPress={() => signOut({ callbackUrl: "/logout" })}
             startContent={<LogoutIcon className="size-4" />}
-            className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600"
+            className={itemClass}
           >
             Cerrar sesión
           </DropdownItem>
@@ -260,15 +268,39 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
   const renderNonProfileMenu = () => {
     return (
       <DropdownMenu aria-label="Acciones del perfil" variant="flat">
+        <DropdownSection
+          aria-label="Acerca de Essentia"
+          showDivider
+          classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+        >
+          <DropdownItem
+            key="about"
+            textValue="Acerca de Essentia"
+            href="/premium"
+            startContent={<InfoCircledIcon className="size-4" />}
+            className={itemClass}
+          >
+            Acerca de
+          </DropdownItem>
+          <DropdownItem
+            key="premium"
+            textValue="Premium"
+            href="/premium"
+            startContent={<PricingIcon className="size-4" />}
+            className={itemClass}
+          >
+            Premium
+          </DropdownItem>
+        </DropdownSection>
         <DropdownItem
-          className="rounded-md dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+          className={itemClass}
           key="configurations"
           textValue="Configuración"
         >
           Configuración
         </DropdownItem>
         <DropdownItem
-          className="rounded-md dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark"
+          className={itemClass}
           key="help_and_feedback"
           textValue="Help and Feedback"
         >

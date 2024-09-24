@@ -4,6 +4,7 @@ import { Select, SelectItem, Selection } from "@nextui-org/react";
 import { useState } from "react";
 import PricingCard from "./pricing-card";
 import { Session } from "@/types/session";
+import { siteConfig } from "@/config/site";
 
 interface PricingSelectorProps {
   session: Session;
@@ -74,8 +75,8 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           subtitle="Actual"
           description="Plan básico con acceso limitado a funcionalidades."
           buttonTitle="Escoger Gratis"
-          priceId="price_free"
-          isCurrentPlan={currentPriceId === "price_free"}
+          priceId={siteConfig.planPrices.free}
+          isCurrentPlan={currentPriceId === siteConfig.planPrices.free}
           price={0}
           features={[
             "Recursos principales",
@@ -92,8 +93,8 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           subtitle="Recomendado"
           description="Plan mensual que incluye acceso completo a todas las funcionalidades de Essentia AI."
           buttonTitle="Escoger Premium"
-          priceId="price_1Q1y3NI2PMoTUNZeKCLhLp9Y"
-          isCurrentPlan={currentPriceId === "price_1Q1y3NI2PMoTUNZeKCLhLp9Y"}
+          priceId={siteConfig.planPrices.premium}
+          isCurrentPlan={currentPriceId === siteConfig.planPrices.premium}
           price={9500}
           isRecommended
           features={[
@@ -115,8 +116,8 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           subtitle="Ahorra más"
           description="Plan anual con todas las funcionalidades de Essentia AI y algunos beneficios adicionales."
           buttonTitle="Escoger Premium Plus"
-          priceId="price_1Q1y2QI2PMoTUNZeMt1eynxB"
-          isCurrentPlan={currentPriceId === "price_1Q1y2QI2PMoTUNZeMt1eynxB"}
+          priceId={siteConfig.planPrices.premiumPlus}
+          isCurrentPlan={currentPriceId === siteConfig.planPrices.premiumPlus}
           price={91200}
           isAnual
           features={[

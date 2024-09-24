@@ -1,8 +1,21 @@
 import Link from "next/link";
 import { FC } from "react";
-import SidebarList from "./sidebar-list";
 import { NewIcon } from "@/modules/icons/action";
 import { Chat } from "@/types/chat";
+import dynamic from "next/dynamic";
+
+const SidebarList = dynamic(() => import("./sidebar-list"), {
+  loading: () => (
+    <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
+      {Array.from({ length: 15 }).map((_, i) => (
+        <div
+          key={i}
+          className="w-full h-6 rounded-md shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
+        />
+      ))}
+    </div>
+  ),
+});
 
 interface ChatHistoryProps {
   chats: Chat[];

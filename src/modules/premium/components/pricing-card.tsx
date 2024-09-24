@@ -16,6 +16,7 @@ import PaymentModal from "./payment-modal";
 import CancelPlanModal from "./cancel-plan-modal";
 import { setUserPlan } from "@/modules/payment/pay/actions";
 import { CheckCircledIcon } from "@/modules/icons/common";
+import { siteConfig } from "@/config/site";
 
 interface PricingCardProps {
   title: string;
@@ -75,7 +76,7 @@ const PricingCard: FC<PricingCardProps> = ({
   };
 
   const handlePlanSelect = (priceId: string) => {
-    if (priceId === "price_free") {
+    if (priceId === siteConfig.planPrices.free) {
       if (session) {
         onOpenCancelModal();
       } else {

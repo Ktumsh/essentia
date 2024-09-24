@@ -39,6 +39,11 @@ export interface HealthFact {
 export type SiteConfig = {
   name: string;
   description: string;
+  planPrices: {
+    free: string;
+    premium: string;
+    premiumPlus: string;
+  };
   links: {
     github: string;
     instagram: string;

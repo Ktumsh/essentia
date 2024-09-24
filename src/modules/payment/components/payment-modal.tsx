@@ -23,6 +23,9 @@ import StripeWrapper from "./stripe-wrapper";
 import { toast } from "sonner";
 import { cn } from "@/utils/common";
 import { createSubscription } from "../pay/actions";
+import { siteConfig } from "@/config/site";
+import { usePlan } from "@/modules/core/hooks/use-current-plan";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
@@ -34,10 +37,14 @@ interface PaymentModalProps {
 }
 
 const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
+  const { currentPlan } = usePlan();
   const { currentStep, nextStep } = useSteps();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(
-    "price_1Q1y3NI2PMoTUNZeKCLhLp9Y"
+    currentPlan === siteConfig.planPrices.free
+      ? siteConfig.planPrices.premium
+      : null
   );
+
   const [cardholderName, setCardholderName] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -47,6 +54,12 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
   };
 
   const handleProceedToPayment = async () => {
+    if (selectedPlan === siteConfig.planPrices.free) {
+      toast.error(
+        "Para seleccionar un plan gratuito debes cancelar tu suscripción actual."
+      );
+      return;
+    }
     if (!selectedPlan || !cardholderName) {
       toast.error(
         "Selecciona un plan y proporciona el nombre del titular de la suscripción"
@@ -134,19 +147,31 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
                   >
                     Cancelar
                   </Button>
-                  <Button
-                    color="danger"
-                    onPress={handleProceedToPayment}
-                    className="rounded-md"
-                    isDisabled={!selectedPlan || !cardholderName || isLoading}
-                    startContent={
-                      isLoading ? (
-                        <SpinnerIcon className="size-4 animate-spin" />
-                      ) : null
+                  <TooltipCTN
+                    content={
+                      !selectedPlan && !cardholderName
+                        ? "Selecciona un plan y proporciona un titular"
+                        : !selectedPlan
+                        ? "Selecciona un plan"
+                        : !cardholderName
+                        ? "Proporciona un titular"
+                        : null
                     }
                   >
-                    {isLoading ? "Procesando..." : "Mejorar a Premium"}
-                  </Button>
+                    <Button
+                      color="danger"
+                      onPress={handleProceedToPayment}
+                      isDisabled={!selectedPlan || !cardholderName || isLoading}
+                      startContent={
+                        isLoading ? (
+                          <SpinnerIcon className="size-4 animate-spin" />
+                        ) : null
+                      }
+                      className="rounded-md pointer-events-auto"
+                    >
+                      {isLoading ? "Procesando..." : "Mejorar a Premium"}
+                    </Button>
+                  </TooltipCTN>
                 </ModalFooter>
               </>
             ) : (

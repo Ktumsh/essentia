@@ -1,5 +1,6 @@
 "use client";
 
+import { siteConfig } from "@/config/site";
 import { SpinnerIcon } from "@/modules/icons/common";
 import { setUserPlan } from "@/modules/payment/pay/actions";
 import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
@@ -57,7 +58,7 @@ const CancelSubscriptionModal = ({
       startTransition(async () => {
         const result = await setUserPlan(
           session as Session,
-          "price_free",
+          siteConfig.planPrices.free,
           combinedReasons
         );
 

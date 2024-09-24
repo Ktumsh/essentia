@@ -79,7 +79,7 @@ const PaymentModal = ({
         wrapper: "z-[102] pointer-events-auto",
         base: [
           "bg-white dark:bg-base-full-dark",
-          currentStep === 1 && "min-h-[560px]",
+          currentStep === 1 && "min-h-[485px] md:min-h-[505px]",
         ],
         closeButton:
           "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",

@@ -22,6 +22,7 @@ import WarningModal from "../../payment/components/warning-premium-modal";
 import PaymentModal from "../../payment/components/payment-modal";
 import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import { usePathname } from "next/navigation";
 
 export interface ChatPanelProps {
   input: string;
@@ -47,6 +48,10 @@ const ChatPanel: FC<ChatPanelProps> = ({
     useWarningModal(isPremium);
   const [messages, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions();
+
+  const pathname = usePathname();
+
+  const isChat = pathname.startsWith("/essentia-ai/chat");
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -197,7 +202,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
         </div>
       </div>
       {/* Warning Premium Modal */}
-      {!isPremium && session && isWarningModalOpen && (
+      {!isPremium && session && isWarningModalOpen && !isChat && (
         <WarningModal isPremium={isPremium} isPaymentModalOpen={isOpen} />
       )}
       {/* Payment Modal */}
