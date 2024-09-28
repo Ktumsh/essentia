@@ -796,3 +796,11 @@ html.dark {
 .dark svg.stars-icon.v2 path {
   fill: url(#dark-gradient);
 }
+
+.dark svg.ai-gradient-icon path {
+  fill: url(#ai-dark-gradient-v2);
+}
+
+.dark svg.ai-gradient-icon.v2 path {
+  fill: url(#ai-dark-gradient);
+}

@@ -46,6 +46,7 @@ export interface UserProfile {
 export interface UserProfileData {
   id: string;
   email: string;
+  is_premium: boolean;
   first_name: string;
   last_name: string;
   username: string;

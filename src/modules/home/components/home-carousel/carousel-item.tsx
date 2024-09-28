@@ -53,7 +53,7 @@ const CarouselItem = (props: CarouselProps) => {
   }, [startAutoChange, stopAutoChange]);
 
   return (
-    <div className="shadow-md border border-gray-200 dark:border-none rounded-3xl">
+    <div className="shadow-md border border-white dark:border-base-full-dark rounded-3xl">
       <div
         className="relative overflow-hidden"
         ref={emblaRef}
@@ -77,15 +77,17 @@ const CarouselItem = (props: CarouselProps) => {
                 </div>
               </Link>
 
-              <Image
-                priority
-                quality={90}
-                width={982}
-                height={286}
-                src={img}
-                alt={title}
-                className="w-full h-52 md:rounded-3xl object-cover object-center"
-              />
+              <div className="flex items-center w-fit md:rounded-3xl overflow-hidden h-52">
+                <Image
+                  priority
+                  quality={90}
+                  width={index === 1 || index === 3 ? 1080 : 992}
+                  height={index === 1 || index === 3 ? 549 : 558}
+                  src={img}
+                  alt={title}
+                  className="!h-auto object-cover object-center aspect-auto"
+                />
+              </div>
             </div>
           ))}
         </div>

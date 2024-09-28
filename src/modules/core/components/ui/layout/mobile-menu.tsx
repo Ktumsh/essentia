@@ -27,9 +27,9 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
-  const { isPremium } = usePremium();
   const [currentPath, setCurrentPath] = useState("");
-  const { first_name, last_name, username, profile_image } = profileData || {};
+  const { first_name, last_name, username, profile_image, is_premium } =
+    profileData || {};
 
   const resourceLinks = siteConfig.asideMenuLinks;
 
@@ -91,7 +91,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
                           @{username}
                         </span>
-                        {isPremium && (
+                        {is_premium && (
                           <div className="absolute top-1/2 -translate-y-1/2 right-0 p-1 mr-2">
                             <StarsIcon
                               aria-hidden="true"

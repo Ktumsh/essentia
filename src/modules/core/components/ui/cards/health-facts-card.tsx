@@ -20,7 +20,7 @@ const HealthFactsCard: FC<HealthFactsCardProps> = ({ facts, setFacts }) => {
       {facts.map((fact, index) => (
         <article
           key={index}
-          className="relative size-full mb-5 bg-white/50 bg-bento-gradient dark:bg-none border border-gray-200 dark:border-none backdrop-blur backdrop-saturate-150 dark:backdrop-saturate-100 dark:bg-transparent rounded-xl shadow-md overflow-hidden"
+          className="relative size-full mb-5 bg-white/50 bg-bento-gradient dark:bg-none border border-white dark:border-base-full-dark backdrop-blur backdrop-saturate-150 dark:backdrop-saturate-100 dark:bg-transparent rounded-xl shadow-md overflow-hidden"
         >
           <div className="relative flex flex-col h-full overflow-hidden">
             <div className="flex flex-col items-center justify-between size-full overflow-hidden">

@@ -53,10 +53,10 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         </Navbar>
         <div className="z-40 fixed top-0 left-0">
           <div className="flex items-center justify-center w-full px-4 h-14 gap-5">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               {essentiaAi && profileData && <SidebarToggle />}
               <Link
-                className="relative hidden sm:flex items-center justify-center w-7 active:scale-95 transition-transform rounded-full"
+                className="relative hidden sm:flex items-center justify-center h-10 shrink-0 active:scale-95 transition-transform rounded-full"
                 href="/"
                 aria-label="Página de inicio"
               >

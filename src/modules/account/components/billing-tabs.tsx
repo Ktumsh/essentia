@@ -80,6 +80,7 @@ const BillingTabs = ({
             <BillingDetails
               billingDetails={billingDetails}
               clientSecret={clientSecret}
+              profileData={profileData}
             />
           </div>
         </Tab>

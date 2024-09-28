@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FC,
   useCallback,
@@ -28,11 +30,12 @@ import { toast } from "sonner";
 import { useDisclosure } from "@nextui-org/react";
 import FormInput from "./form-input";
 import { useProfileForm } from "../hooks/use-profile-form";
-import { SpinnerIcon } from "@/modules/icons/common";
+import { SpinnerIcon, StarsIcon } from "@/modules/icons/common";
 import { formatCreatedAt, validateProfileForm } from "../lib/utils";
 import { updateUserProfile } from "@/db/actions";
 import CompleteProfile from "./complete-profile";
 import AchievementsPanel from "./achievements-panel";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 interface ProfileInfoProps {
   profileData: UserProfileData | null;
@@ -61,7 +64,9 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
     resetTempData,
   } = useProfileForm(profileData);
 
-  const createdAt = profileData && formatCreatedAt(profileData.created_at);
+  const { created_at, is_premium } = profileData || {};
+
+  const createdAt = formatCreatedAt(created_at as Date);
 
   const onSubmit = useCallback(async () => {
     startTransition(async () => {
@@ -112,7 +117,17 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           {children}
           <div className="ml-24 md:ml-44 flex justify-between items-start">
             <div className="inline-flex flex-col">
-              <h2 className="md:text-xl font-bold text-base-color dark:text-base-color-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
+              <div className="inline-flex items-center gap-2">
+                <h2 className="md:text-xl font-bold text-base-color dark:text-base-color-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
+                {is_premium && (
+                  <TooltipCTN content="Cuenta Premium">
+                    <div className="relative inline-flex shrink-0 items-center justify-center gap-1 p-1 text-xs rounded text-base-color-h dark:text-base-color-dark bg-light-gradient-v2 dark:bg-dark-gradient">
+                      <StarsIcon className="size-3.5 [&_*]:fill-white" />
+                      <span className="sr-only">Cuenta Premium</span>
+                    </div>
+                  </TooltipCTN>
+                )}
+              </div>
               <span className="text-xs md:text-sm text-base-color-m dark:text-base-color-dark-m">
                 @{formData.username}
               </span>
@@ -167,8 +182,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
             !formData.banner_image) && <CompleteProfile formData={formData} />}
 
         {/* Panel de logros en Essentia */}
-
-        <AchievementsPanel isOwnProfile={isOwnProfile} />
+        {/* <AchievementsPanel isOwnProfile={isOwnProfile} /> */}
       </div>
 
       {/* Modal de edición */}
@@ -184,7 +198,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
             backdrop: "z-[101] bg-black/80",
             wrapper: "z-[102]",
             base: "bg-white dark:bg-base-full-dark",
-            body: "gap-0 px-0 py-0 pb-16 custom-scroll v2",
+            body: "gap-0 px-0 py-0 custom-scroll v2",
             closeButton:
               "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
           }}
