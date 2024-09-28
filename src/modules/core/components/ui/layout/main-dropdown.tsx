@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import {
   Avatar,
@@ -38,8 +38,9 @@ interface AvatarDropdownProps {
 }
 
 const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
-  const { isPremium } = usePremium();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const { is_premium } = profileData || {};
 
   const itemClass =
     "rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark";
@@ -370,13 +371,13 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             </DropdownTrigger>
           )}
 
-          {profileData && isPremium && renderPremiumMenu()}
-          {profileData && !isPremium && renderNonPremiumMenu()}
+          {profileData && is_premium && renderPremiumMenu()}
+          {profileData && !is_premium && renderNonPremiumMenu()}
           {!profileData && renderNonProfileMenu()}
         </Dropdown>
       </div>
       {/* Payment Modal */}
-      {!isPremium && profileData && (
+      {!is_premium && profileData && (
         <PaymentModal isOpen={isOpen} onOpenChange={onOpenChange} />
       )}
     </>

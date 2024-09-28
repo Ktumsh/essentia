@@ -1,6 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
 import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
 import ChangePaymentModal from "./change-payment-modal";
 import Image from "next/image";
@@ -9,16 +8,18 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import CancelSubscriptionModal from "./cancel-subscription-modal";
 import PaymentModal from "@/modules/payment/components/payment-modal";
-import { usePremium } from "@/modules/core/hooks/use-premium-status";
+import { UserProfileData } from "@/types/session";
 
 interface BillingDetailsProps {
   billingDetails: any;
   clientSecret: string;
+  profileData: UserProfileData | null;
 }
 
 const BillingDetails = ({
   billingDetails,
   clientSecret,
+  profileData,
 }: BillingDetailsProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
@@ -31,8 +32,8 @@ const BillingDetails = ({
     onOpen: onOpenPaymentModal,
     onOpenChange: onOpenChangePaymentModal,
   } = useDisclosure();
+  const { is_premium } = profileData || {};
 
-  const { isPremium } = usePremium();
   const subscription = billingDetails?.subscription || {};
   const isSubscriptionCanceled = subscription?.status === "canceled";
   const isSubscriptionPending = subscription?.status === "pending";
@@ -41,12 +42,12 @@ const BillingDetails = ({
   const paymentMethod = billingDetails?.paymentMethod?.card || {};
 
   const planType =
-    isSubscriptionPending || isSubscriptionIncomplete || !isPremium
+    isSubscriptionPending || isSubscriptionIncomplete || !is_premium
       ? "Gratis"
       : subscription?.items?.data?.[0]?.price?.nickname ?? "Gratis";
 
   const price =
-    isSubscriptionPending || isSubscriptionIncomplete || !isPremium
+    isSubscriptionPending || isSubscriptionIncomplete || !is_premium
       ? "0"
       : subscription?.items?.data?.[0]?.price?.unit_amount?.toLocaleString(
           "es-CL"
@@ -56,7 +57,7 @@ const BillingDetails = ({
     subscription?.current_period_end &&
     !isSubscriptionPending &&
     !isSubscriptionIncomplete &&
-    isPremium
+    is_premium
       ? format(
           new Date(subscription.current_period_end * 1000),
           "dd 'de' MMM, yyyy",
@@ -133,7 +134,7 @@ const BillingDetails = ({
               >
                 {isSubscriptionCanceled ||
                 isSubscriptionIncomplete ||
-                !isPremium
+                !is_premium
                   ? "Mejorar a Premium"
                   : "Cambiar plan"}
               </Button>

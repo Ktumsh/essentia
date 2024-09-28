@@ -28,9 +28,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         props.wrapperClass,
         "group flex flex-col relative",
         "text-foreground outline-none",
-        "shadow-md",
+        "shadow-none md:shadow-md",
         "hover:shadow-lg",
-        "border border-gray-200 dark:border-none",
+        "border border-white dark:border-base-full-dark",
         "rounded-xl transition-all md:hover:z-50",
         "motion-reduce:transition-none h-32 sm:h-64 duration-500"
       )}

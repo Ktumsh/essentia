@@ -74,6 +74,47 @@ const AIFillIcon = (props: IconSvgProps) => {
   );
 };
 
+const AIGradientIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <defs>
+        {/* Define gradients */}
+        <linearGradient
+          id="ai-light-gradient-v2"
+          gradientTransform="rotate(68.4)"
+        >
+          <stop offset="0.5%" stopColor="rgb(248, 182, 204)" />
+          <stop offset="49%" stopColor="rgb(192, 198, 230)" />
+          <stop offset="99.8%" stopColor="rgb(225, 246, 240)" />
+        </linearGradient>
+        <linearGradient id="ai-dark-gradient" gradientTransform="rotate(111.1)">
+          <stop offset="-4.8%" stopColor="rgb(6, 27, 55)" />
+          <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
+          <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />
+        </linearGradient>
+        <linearGradient
+          id="ai-dark-gradient-v2"
+          gradientTransform="rotate(111.1)"
+        >
+          <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
+          <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />
+        </linearGradient>
+      </defs>
+
+      <path
+        fill="url(#ai-light-gradient-v2)" // Use the default light gradient
+        d="M22 14h-1c0-3.87-3.13-7-7-7h-1V5.73A2 2 0 1 0 10 4c0 .74.4 1.39 1 1.73V7h-1c-3.87 0-7 3.13-7 7H2c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h1v1a2 2 0 0 0 2 2h14c1.11 0 2-.89 2-2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1M9.79 16.5C9.4 15.62 8.53 15 7.5 15s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1m9 0c-.39-.88-1.29-1.5-2.29-1.5s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1"
+      />
+    </svg>
+  );
+};
+
 const HomeIcon = (props: IconSvgProps) => {
   return (
     <svg
@@ -489,6 +530,7 @@ export {
   AdditionalFillIcon,
   AIIcon,
   AIFillIcon,
+  AIGradientIcon,
   HomeIcon,
   HomeFillIcon,
   NewsIcon,

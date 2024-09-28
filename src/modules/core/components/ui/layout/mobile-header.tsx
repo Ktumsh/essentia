@@ -48,7 +48,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
       <Navbar
         shouldHideOnScroll
         classNames={{
-          base: "fixed md:hidden bg-white dark:bg-base-full-dark shadow-md overflow-hidden",
+          base: "fixed md:hidden bg-white dark:bg-base-full-dark overflow-hidden border-b border-gray-300 dark:border-base-dark",
           wrapper: "h-14",
         }}
       >
