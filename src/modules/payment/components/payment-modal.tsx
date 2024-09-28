@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
   Chip,
   Modal,
+  Snippet,
 } from "@nextui-org/react";
 import { useSteps } from "../../chatbot/hooks/use-steps";
 import { SpinnerIcon, WarningCircledIcon } from "@/modules/icons/common";
@@ -26,6 +27,7 @@ import { createSubscription } from "../pay/actions";
 import { siteConfig } from "@/config/site";
 import { usePlan } from "@/modules/core/hooks/use-current-plan";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { CopyIcon } from "@/modules/icons/action";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
@@ -184,7 +186,7 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
                     backdrop="blur"
                     placement="top"
                     classNames={{
-                      base: ["max-w-80", tooltipStyles.arrow],
+                      base: ["max-w-96", tooltipStyles.arrow],
                       content: ["items-start", tooltipStyles.content],
                     }}
                   >
@@ -208,9 +210,24 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
                         <div className="text-xs text-base-color-h dark:text-base-color-dark-h">
                           El pago es simulado y no se realizará ningún cargo
                           real. Usa la tarjeta de prueba{" "}
-                          <strong className="text-base-color dark:text-base-color-dark">
+                          <Snippet
+                            size="sm"
+                            hideSymbol
+                            copyIcon={<CopyIcon />}
+                            tooltipProps={{
+                              content: "Copiar",
+                              classNames: {
+                                content: tooltipStyles.content,
+                              },
+                            }}
+                            classNames={{
+                              base: "bg-gray-100 dark:bg-base-full-dark",
+                              copyButton:
+                                "!size-4 min-w-0 [&_svg]:size-3 [&_svg]:text-base-color-m dark:[&_svg]:text-base-color-dark-m",
+                            }}
+                          >
                             4242 4242 4242 4242
-                          </strong>{" "}
+                          </Snippet>{" "}
                           con{" "}
                           <strong className="text-base-color dark:text-base-color-dark">
                             CVC 123

@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
   Chip,
   PopoverContent,
+  Snippet,
 } from "@nextui-org/react";
 import { cn } from "@/utils/common";
 
@@ -23,6 +24,7 @@ import { useState } from "react";
 import { SpinnerIcon, WarningCircledIcon } from "@/modules/icons/common";
 import PaymentForm from "@/modules/payment/components/payment-form";
 import { createSubscription } from "@/modules/payment/pay/actions";
+import { CopyIcon } from "@/modules/icons/action";
 
 interface PricingCardProps {
   isOpen: boolean;
@@ -160,7 +162,7 @@ const PaymentModal = ({
                     backdrop="blur"
                     placement="top"
                     classNames={{
-                      base: ["max-w-80", tooltipStyles.arrow],
+                      base: ["max-w-96", tooltipStyles.arrow],
                       content: ["items-start", tooltipStyles.content],
                     }}
                   >
@@ -184,9 +186,24 @@ const PaymentModal = ({
                         <div className="text-xs text-base-color-h dark:text-base-color-dark-h">
                           El pago es simulado y no se realizará ningún cargo
                           real. Usa la tarjeta de prueba{" "}
-                          <strong className="text-base-color dark:text-base-color-dark">
+                          <Snippet
+                            size="sm"
+                            hideSymbol
+                            copyIcon={<CopyIcon />}
+                            tooltipProps={{
+                              content: "Copiar",
+                              classNames: {
+                                content: tooltipStyles.content,
+                              },
+                            }}
+                            classNames={{
+                              base: "bg-gray-100 dark:bg-base-full-dark",
+                              copyButton:
+                                "!size-4 min-w-0 [&_svg]:size-3 [&_svg]:text-base-color-m dark:[&_svg]:text-base-color-dark-m",
+                            }}
+                          >
                             4242 4242 4242 4242
-                          </strong>{" "}
+                          </Snippet>{" "}
                           con{" "}
                           <strong className="text-base-color dark:text-base-color-dark">
                             CVC 123
