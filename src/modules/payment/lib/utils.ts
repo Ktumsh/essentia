@@ -21,6 +21,5 @@ export function formatDate(
 }
 
 export function calculatePremiumExpiresAt(currentPeriodEnd: number): string {
-  const expirationDate = new Date(currentPeriodEnd * 1000);
-  return expirationDate.toISOString();
+  return new Date(currentPeriodEnd * 1000).toISOString();
 }
