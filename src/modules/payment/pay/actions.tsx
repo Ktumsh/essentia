@@ -63,12 +63,14 @@ export async function verifyPaymentIntent(
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
   const status = "active";
-  const currentPeriodEnd = invoice.period_end;
 
-  console.log("Valor numérico de currentPeriodEnd:", invoice.period_end);
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const currentPeriodEnd = subscription.current_period_end;
+
+  console.log("Valor numérico de currentPeriodEnd:", currentPeriodEnd);
   console.log(
     "Fecha convertida de currentPeriodEnd:",
-    new Date(invoice.period_end * 1000).toISOString()
+    new Date(currentPeriodEnd * 1000).toISOString()
   );
 
   const user = await getUserBySubscriptionId(subscriptionId);
