@@ -2,8 +2,8 @@
 
 <div align="center">
 
-<a href="https://github.com/Ktumsh/essentia-web-oficial">
-  <img src="./public/essentia-1200x630.jpg" alt="Logo" />
+<a href="https://github.com/Ktumsh/essentia">
+  <img src="./public/essentia-1200x630.png" alt="Logo" />
 </a>
 
 # 🌟 Web oficial de Essentia®
