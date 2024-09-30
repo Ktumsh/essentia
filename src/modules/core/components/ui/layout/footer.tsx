@@ -12,7 +12,7 @@ interface FooterProps {
 const Footer = ({ isMobile }: FooterProps) => {
   const links = siteConfig.desktopFooterLinks.more;
   return (
-    <div className={cn(!isMobile ? "p-4" : undefined)}>
+    <div className={cn(!isMobile ? "p-4 hidden lg:block" : undefined)}>
       {!isMobile && (
         <TooltipCTN content="Reportar un error">
           <Button

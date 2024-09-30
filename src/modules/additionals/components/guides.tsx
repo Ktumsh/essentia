@@ -13,12 +13,13 @@ import { DownloadIcon } from "@/modules/icons/action";
 
 export default function Guides() {
   return (
-    <section className="flex flex-col items-center py-5 md:py-0 mb-14 mt-12 md:my-0">
-      <div className="w-full grid grid-cols-12 gap-2 px-2 md:px-0">
+    <section className="flex flex-col items-center py-5 pb-12 md:pb-0 md:py-0 mb-14 mt-12 md:my-0">
+      <div className="w-full grid grid-cols-12 gap-4 px-2 md:px-0">
         {GUIDES.map((guide, index) => (
           <Card
             key={index}
-            className="shadow-md group col-span-12 sm:col-span-4 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark"
+            radius="sm"
+            className="shadow-none md:shadow-md group col-span-12 sm:col-span-6 lg:col-span-4 bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color dark:text-base-color-dark"
           >
             <CardBody className="z-10">
               <div className="relative inline-flex items-center justify-between w-full mb-3">
@@ -41,16 +42,15 @@ export default function Guides() {
                 {guide.description}
               </p>
             </CardBody>
-            <Divider className="w-auto mx-3 bg-gray-200 dark:bg-base-dark z-10" />
-            <CardFooter className="justify-end z-10">
+            <CardFooter className="justify-end z-10 bg-gray-100 dark:bg-base-dark-50 border-t border-gray-200 dark:border-base-dark rounded-none">
               <Button
                 as={"a"}
                 download={guide.downloadTitle || undefined}
                 href={guide.link}
+                radius="sm"
                 size="sm"
-                variant="flat"
-                color="danger"
-                endContent={<DownloadIcon className="size-4" />}
+                endContent={<DownloadIcon className="size-4 " />}
+                className="shadow-sm bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark font-medium text-sm text-base-color dark:text-base-color-dark"
               >
                 Descargar
               </Button>
