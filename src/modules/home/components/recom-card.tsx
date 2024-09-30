@@ -22,61 +22,30 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
   return (
     <div className="flex size-full">
       <div className="w-full gap-4 md:gap-2 grid grid-cols-2">
-        <Card
-          as={Link}
-          href="/centros-de-salud"
-          isPressable
-          isBlurred
-          shadow="none"
-          className="bg-white dark:bg-base-full-dark border border-gray-300 dark:border-base-dark"
-        >
-          <CardBody className="h-20 items-center justify-between text-base-color-h dark:text-base-color-dark">
-            <HealthCentersFillIcon className="size-7" />
-            <h2 className="text-sm">Centros de Salud</h2>
-          </CardBody>
-        </Card>
-        <Card
-          as={Link}
-          href="/adicionales"
-          isPressable
-          isBlurred
-          shadow="none"
-          className="bg-white dark:bg-base-full-dark border border-gray-300 dark:border-base-dark"
-        >
-          <CardBody className="h-20 items-center justify-between text-base-color-h dark:text-base-color-dark">
-            <AdditionalFillIcon className="size-7" />
-            <h2 className="text-sm">Recursos Adicionales</h2>
-          </CardBody>
-        </Card>
-        <Card
-          as={Link}
-          href="/essentia-ai"
-          isPressable
-          isBlurred
-          shadow="none"
-          className={cn(
-            "bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition",
-            "col-span-2 border-2 border-white"
-          )}
-        >
-          <CardBody className="flex-row gap-4 h-16 items-center justify-center">
-            <AIFillIcon className="text-white size-7" />
-            <h2 className="text-white leading-none text-2xl font-extrabold">
-              Essentia AI
-            </h2>
-          </CardBody>
-        </Card>
-        {!is_premium && (
+        {is_premium ? (
+          <Card
+            as={Link}
+            href="/essentia-ai"
+            isPressable
+            isBlurred
+            shadow="none"
+            className="col-span-2 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition"
+          >
+            <CardBody className="flex-row gap-4 h-16 items-center justify-center">
+              <AIFillIcon className="text-white size-7" />
+              <h2 className="text-white leading-none text-2xl font-extrabold">
+                Essentia AI
+              </h2>
+            </CardBody>
+          </Card>
+        ) : (
           <Card
             as={Link}
             href="/premium"
             isPressable
             isBlurred
             shadow="none"
-            className={cn(
-              "bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition",
-              "col-span-2 border-2 border-white"
-            )}
+            className="col-span-2 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition"
           >
             <CardBody className="flex-row gap-4 h-16 items-center justify-center">
               <StarsIcon
@@ -89,6 +58,32 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             </CardBody>
           </Card>
         )}
+        <Card
+          as={Link}
+          href="/centros-de-salud"
+          isPressable
+          isBlurred
+          shadow="none"
+          className="bg-gray-100 dark:bg-base-dark-50 border border-gray-300 dark:border-base-dark"
+        >
+          <CardBody className="h-20 items-center justify-between text-base-color-h dark:text-base-color-dark">
+            <HealthCentersFillIcon className="size-7" />
+            <h2 className="text-sm">Centros de Salud</h2>
+          </CardBody>
+        </Card>
+        <Card
+          as={Link}
+          href="/adicionales"
+          isPressable
+          isBlurred
+          shadow="none"
+          className="bg-gray-100 dark:bg-base-dark-50 border border-gray-300 dark:border-base-dark"
+        >
+          <CardBody className="h-20 items-center justify-between text-base-color-h dark:text-base-color-dark">
+            <AdditionalFillIcon className="size-7" />
+            <h2 className="text-sm">Recursos Adicionales</h2>
+          </CardBody>
+        </Card>
       </div>
     </div>
   );

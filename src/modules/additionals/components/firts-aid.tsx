@@ -47,7 +47,6 @@ const FirstAid = () => {
           className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
         >
           <Chip
-            variant="flat"
             color="danger"
             startContent={<ExclamationTriangleIcon className="size-3 ml-2" />}
           >
@@ -58,12 +57,13 @@ const FirstAid = () => {
       <div className="flex flex-col md:max-h-[945px] md:dark:max-h-[947px] md:px-0 space-y-2">
         {info.map((cardInfo, index) => (
           <Card
+            key={index}
             isPressable
             disableRipple
             fullWidth
-            key={index}
+            radius="sm"
             onPress={() => toggleShow(index)}
-            className="shadow-md min-h-[54px] bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark overflow-hidden data-[pressed=true]:scale-100"
+            className="shadow-none md:shadow-md min-h-[54px] bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark overflow-hidden data-[pressed=true]:scale-100"
           >
             <CardBody className="z-10 overflow-hidden">
               <div className="inline-flex items-center justify-between w-full">
@@ -80,7 +80,7 @@ const FirstAid = () => {
                   <Chip
                     size="sm"
                     variant="bordered"
-                    className="border-black/10 dark:border-white/10 text-base-color-m dark:text-base-color-dark-m"
+                    className="border border-gray-300 md:border-gray-200 dark:border-base-dark text-base-color-m dark:text-base-color-dark-m"
                   >
                     <QuestionIcon className="size-3" />
                   </Chip>
@@ -102,7 +102,7 @@ const FirstAid = () => {
                   window.innerWidth > 768 ? { duration: 0.3 } : { duration: 0 }
                 }
               >
-                <Divider className="bg-gray-200 dark:bg-base-dark my-3" />
+                <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-base-dark my-3" />
               </motion.div>
               <div
                 className={cn(
@@ -117,7 +117,6 @@ const FirstAid = () => {
                       <ul className="inline-flex">
                         <Chip
                           size="sm"
-                          variant="shadow"
                           color="danger"
                           classNames={{
                             base: "!size-6 min-w-0 max-w-full justify-center mr-2 bg-gradient-to-br",

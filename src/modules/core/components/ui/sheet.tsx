@@ -55,6 +55,8 @@ interface SheetContentProps
   hideCloseButton?: boolean;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
+  translateX?: number; // Nueva propiedad para actualizar la posición en el drag.
+  setTranslateX?: (value: number) => void;
 }
 
 const SheetContent = React.forwardRef<
@@ -219,31 +221,35 @@ const SheetEdgeDragArea = ({
 }) => {
   const [translateX, setTranslateX] = React.useState(0);
   const [isDragging, setIsDragging] = React.useState(false);
+  const [hasOpened, setHasOpened] = React.useState(false);
 
   const bind = useGesture(
     {
-      onDrag: ({ down, movement: [mx], last }) => {
+      onDrag: ({ down, movement: [mx], memo = false, first }) => {
         setIsDragging(down);
 
-        let offset = mx;
+        // Solo abrir el Sheet una vez, al iniciar el arrastre
+        if (first && !hasOpened) {
+          onOpen();
+          setHasOpened(true); // Evita que se vuelva a abrir durante el mismo gesto
+        }
 
+        let offset = mx;
         if (side === "right") {
-          if (mx > 0) offset = 0;
+          if (mx > 0) offset = 0; // Limitar el movimiento hacia la derecha
         } else {
-          if (mx < 0) offset = 0;
+          if (mx < 0) offset = 0; // Limitar el movimiento hacia la izquierda
         }
 
         setTranslateX(offset);
 
-        if (last) {
-          const shouldOpen = side === "right" ? mx < -80 : mx > 80;
-
-          if (shouldOpen) {
-            onOpen();
-          }
+        if (!down) {
           setTranslateX(0);
           setIsDragging(false);
+          setHasOpened(false); // Resetear estado de apertura al finalizar el gesto
         }
+
+        return memo;
       },
     },
     {
@@ -260,13 +266,12 @@ const SheetEdgeDragArea = ({
     <div
       {...bind()}
       className={cn(
-        "fixed inset-y-0 z-50 w-5",
+        "fixed inset-y-0 z-50 w-5 block md:hidden",
         side === "right" ? "right-0" : "left-0"
       )}
       style={{
         touchAction: "none",
         transform: `translateX(${translateX}px)`,
-        transition: isDragging ? "none" : "transform 0.3s ease",
       }}
     />
   );

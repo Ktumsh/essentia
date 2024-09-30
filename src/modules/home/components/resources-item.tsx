@@ -31,7 +31,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         "shadow-none md:shadow-md",
         "hover:shadow-lg",
         "border border-white dark:border-base-full-dark",
-        "rounded-xl transition-all md:hover:z-50",
+        "rounded-large md:rounded-xl transition-all md:hover:z-50",
         "motion-reduce:transition-none h-32 sm:h-64 duration-500"
       )}
     >
@@ -50,9 +50,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         height={400}
         src={props.img}
         alt={`Enlace al recurso de ${props.title}`}
-        className="relative size-full object-cover rounded-xl brightness-95 z-0 lg:group-hover:brightness-75 blur-0 !transition-all dark:lg:group-hover:blur-lg"
+        className="relative size-full object-cover rounded-large md:rounded-xl brightness-95 z-0 lg:group-hover:brightness-75 blur-0 !transition-all dark:lg:group-hover:blur-lg"
       />
-      <div className="absolute inset-0 rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
+      <div className="absolute inset-0 rounded-large md:rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
       <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-transparent md:bg-white/30 md:dark:bg-base-full-dark-40 md:border-t-1 border-gray-100/50 dark:border-base-full-dark-50 md:backdrop-blur md:backdrop-saturate-150 lg:group-hover:pt-[211px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
         {props.children}
         {windowSize.width > 768 ? (
