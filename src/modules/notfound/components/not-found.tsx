@@ -115,7 +115,7 @@ const NotFoundWrapper = () => {
 
         <div className="-order-1 md:order-none md:absolute left-20 -bottom-20 mt-20 md:mt-0 -z-10 pointer-events-none">
           <Image
-            width={750}
+            width={1132}
             height={1132}
             quality={100}
             priority

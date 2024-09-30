@@ -62,7 +62,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
               >
                 <Image
                   className="h-10 w-auto aspect-auto transition-all ease-in-out"
-                  width={27}
+                  width={40}
                   height={40}
                   quality={100}
                   src="/logo-essentia.webp"
