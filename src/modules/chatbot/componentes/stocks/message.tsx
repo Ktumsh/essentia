@@ -78,7 +78,7 @@ export function BotMessage({
     >
       <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         <Image
-          width={12}
+          width={18}
           height={18}
           src="/logo-essentia.webp"
           alt="Avatar de Essentia AI"
@@ -159,7 +159,7 @@ export function BotCard({
         )}
       >
         <Image
-          width={12}
+          width={18}
           height={18}
           src="/logo-essentia.webp"
           alt="Avatar de Essentia AI"
