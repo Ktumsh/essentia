@@ -55,7 +55,7 @@ interface SheetContentProps
   hideCloseButton?: boolean;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
-  translateX?: number; // Nueva propiedad para actualizar la posición en el drag.
+  translateX?: number;
   setTranslateX?: (value: number) => void;
 }
 
@@ -86,14 +86,13 @@ const SheetContent = React.forwardRef<
         setIsVisible(true);
         setTranslateX(0);
       } else {
-        // Iniciar animación de cierre
         const endTranslateX =
           side === "right" ? window.innerWidth : -window.innerWidth;
         setTranslateX(endTranslateX);
         setTimeout(() => {
           setIsVisible(false);
           setTranslateX(0);
-        }, 300);
+        }, 250);
       }
     }, [open, side]);
 
@@ -119,7 +118,7 @@ const SheetContent = React.forwardRef<
             const shouldClose =
               side === "right"
                 ? mx > window.innerWidth * 0.35
-                : mx < -window.innerWidth * 0.5;
+                : mx < -window.innerWidth * 0.35;
 
             if (shouldClose) {
               const endTranslateX =
@@ -228,17 +227,16 @@ const SheetEdgeDragArea = ({
       onDrag: ({ down, movement: [mx], memo = false, first }) => {
         setIsDragging(down);
 
-        // Solo abrir el Sheet una vez, al iniciar el arrastre
         if (first && !hasOpened) {
           onOpen();
-          setHasOpened(true); // Evita que se vuelva a abrir durante el mismo gesto
+          setHasOpened(true);
         }
 
         let offset = mx;
         if (side === "right") {
-          if (mx > 0) offset = 0; // Limitar el movimiento hacia la derecha
+          if (mx > 0) offset = 0;
         } else {
-          if (mx < 0) offset = 0; // Limitar el movimiento hacia la izquierda
+          if (mx < 0) offset = 0;
         }
 
         setTranslateX(offset);
@@ -246,7 +244,7 @@ const SheetEdgeDragArea = ({
         if (!down) {
           setTranslateX(0);
           setIsDragging(false);
-          setHasOpened(false); // Resetear estado de apertura al finalizar el gesto
+          setHasOpened(false);
         }
 
         return memo;
@@ -272,6 +270,7 @@ const SheetEdgeDragArea = ({
       style={{
         touchAction: "none",
         transform: `translateX(${translateX}px)`,
+        transition: isDragging ? "none" : "transform 0.3s ease",
       }}
     />
   );
