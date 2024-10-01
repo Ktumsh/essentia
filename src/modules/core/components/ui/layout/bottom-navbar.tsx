@@ -1,13 +1,11 @@
 "use client";
 
 import { siteConfig } from "@/config/site";
-
 import { Button, Navbar } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import MainSearch from "./main-search";
 import Link from "next/link";
-
-import { Fragment } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/utils/common";
 import { formatPathName } from "@/utils/format";
 
@@ -15,7 +13,6 @@ const BottomNav = () => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
-
   const essentiaAi = pathname.startsWith("/essentia-ai");
 
   const pages = siteConfig.navLinks.map((page) => ({
@@ -27,18 +24,49 @@ const BottomNav = () => {
       (page.href === "/essentia-ai" && essentiaAi),
   }));
 
-  const navItems = [
-    ...pages.slice(0, 1),
-    {
-      name: "Search",
-      href: "#",
-      icon: () => null,
-      fillIcon: () => null,
-      active: false,
-      isSearch: true,
-    },
-    ...pages.slice(1),
-  ];
+  const navItems = useMemo(
+    () => [
+      ...pages.slice(0, 1),
+      {
+        name: "Search",
+        href: "#",
+        icon: () => null,
+        fillIcon: () => null,
+        active: false,
+        isSearch: true,
+      },
+      ...pages.slice(1),
+    ],
+    [pages]
+  );
+
+  const [underlineStyle, setUnderlineStyle] = useState<React.CSSProperties>({
+    width: 0,
+    left: 0,
+  });
+
+  const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+  useEffect(() => {
+    const activePageIndex = navItems.findIndex((item) => item.active);
+
+    if (activePageIndex !== -1 && linkRefs.current[activePageIndex]) {
+      const activeElement = linkRefs.current[activePageIndex];
+      if (activeElement) {
+        const newStyle = {
+          width: activeElement.clientWidth,
+          left: activeElement.offsetLeft,
+        };
+
+        if (
+          newStyle.width !== underlineStyle.width ||
+          newStyle.left !== underlineStyle.left
+        ) {
+          setUnderlineStyle(newStyle);
+        }
+      }
+    }
+  }, [navItems, underlineStyle]);
 
   return (
     <Navbar
@@ -47,6 +75,10 @@ const BottomNav = () => {
         wrapper: "h-14 justify-center gap-0 px-0",
       }}
     >
+      <hr
+        style={underlineStyle}
+        className="absolute top-0 h-1 bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out"
+      />
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (
@@ -54,7 +86,12 @@ const BottomNav = () => {
               <MainSearch />
             </li>
           ) : (
-            <li className="relative flex items-center justify-center size-full">
+            <li
+              ref={(el) => {
+                linkRefs.current[index] = el;
+              }}
+              className="relative flex items-center justify-center size-full"
+            >
               <Button
                 as={Link}
                 href={item.href}
@@ -64,9 +101,9 @@ const BottomNav = () => {
                 variant="light"
                 color="danger"
                 className={cn(
-                  "!h-full after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-full-dark-50 text-gray-500 dark:text-gray-400 dark:data-[hover=true]:text-bittersweet-400 dark:dark:data-[hover=true]:text-cerise-red-600 min-w-0",
+                  "!h-full text-gray-500 dark:text-gray-400 data-[hover=true]:text-bittersweet-400 dark:dark:data-[hover=true]:text-cerise-red-600 min-w-0",
                   item.active &&
-                    "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
+                    "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600 bg-transparent dark:bg-transparent"
                 )}
               >
                 {item.active ? (

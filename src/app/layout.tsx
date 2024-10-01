@@ -14,6 +14,8 @@ import { auth } from "@@/auth";
 import { Session } from "@/types/session";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
   title: {
@@ -119,6 +121,7 @@ export default async function RootLayout({
           <div className="min-h-dvh size-full relative">{children}</div>
           <TailwindIndicator />
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
