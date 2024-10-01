@@ -5,7 +5,14 @@ import { Button, Navbar } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import MainSearch from "./main-search";
 import Link from "next/link";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import {
+  CSSProperties,
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { cn } from "@/utils/common";
 import { formatPathName } from "@/utils/format";
 
@@ -40,7 +47,7 @@ const BottomNav = () => {
     [pages]
   );
 
-  const [underlineStyle, setUnderlineStyle] = useState<React.CSSProperties>({
+  const [underlineStyle, setUnderlineStyle] = useState<CSSProperties>({
     width: 0,
     left: 0,
   });
@@ -52,6 +59,7 @@ const BottomNav = () => {
 
     if (activePageIndex !== -1 && linkRefs.current[activePageIndex]) {
       const activeElement = linkRefs.current[activePageIndex];
+
       if (activeElement) {
         const newStyle = {
           width: activeElement.clientWidth,
@@ -64,6 +72,13 @@ const BottomNav = () => {
         ) {
           setUnderlineStyle(newStyle);
         }
+      }
+    } else {
+      if (underlineStyle.width !== 0 || underlineStyle.left !== 0) {
+        setUnderlineStyle({
+          width: 0,
+          left: 0,
+        });
       }
     }
   }, [navItems, underlineStyle]);
