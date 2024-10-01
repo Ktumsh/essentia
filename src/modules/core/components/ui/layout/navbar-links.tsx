@@ -3,7 +3,7 @@ import { IconSvgProps } from "@/types/common";
 import { cn } from "@/utils/common";
 import { Button, Tooltip } from "@nextui-org/react";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FC, CSSProperties } from "react";
 
 interface Page {
   name: string;
@@ -17,13 +17,12 @@ interface NavbarLinksProps {
   pages: Page[];
 }
 
-const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
-  const [underlineStyle, setUnderlineStyle] = useState<React.CSSProperties>({
+const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
+  const [underlineStyle, setUnderlineStyle] = useState<CSSProperties>({
     width: 0,
     left: 0,
   });
 
-  // Refs para cada elemento <li>
   const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
@@ -31,6 +30,7 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
 
     if (activePageIndex !== -1 && linkRefs.current[activePageIndex]) {
       const activeElement = linkRefs.current[activePageIndex];
+
       if (activeElement) {
         const newStyle = {
           width: activeElement.clientWidth,
@@ -43,6 +43,13 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
         ) {
           setUnderlineStyle(newStyle);
         }
+      }
+    } else {
+      if (underlineStyle.width !== 0 || underlineStyle.left !== 0) {
+        setUnderlineStyle({
+          width: 0,
+          left: 0,
+        });
       }
     }
   }, [pages, underlineStyle]);
