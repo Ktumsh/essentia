@@ -8,17 +8,17 @@
   "version": "pre-alpha-1.0.0",
   "icons": [
     {
-      "src": "/logo-essentia-app-192x192.png",
+      "src": "/essentia-app-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/logo-essentia-app-512x512.png",
+      "src": "/essentia-app-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/logo-essentia-app-512x512.png",
+      "src": "/essentia-app-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
