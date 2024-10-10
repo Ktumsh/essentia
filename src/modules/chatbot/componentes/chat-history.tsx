@@ -10,7 +10,7 @@ const SidebarList = dynamic(() => import("./sidebar-list"), {
       {Array.from({ length: 15 }).map((_, i) => (
         <div
           key={i}
-          className="w-full h-6 rounded-md shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
+          className="w-full h-6 rounded-full shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
         />
       ))}
     </div>

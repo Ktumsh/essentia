@@ -1,8 +1,5 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
-import Facebook from "next-auth/providers/facebook";
-import Twitter from "next-auth/providers/twitter";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
 import { getStringFromBuffer } from "@/utils/common";
@@ -44,8 +41,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return null;
       },
     }),
-    Google,
-    Facebook,
-    Twitter,
   ],
+  trustHost: true,
 });

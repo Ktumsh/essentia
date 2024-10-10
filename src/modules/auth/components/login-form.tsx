@@ -18,9 +18,9 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const [result, dispatch] = useFormState(authenticate, undefined);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [result, dispatch] = useFormState(authenticate, undefined);
   const [isPending, startTransition] = useTransition();
 
   const redirectUrl = searchParams.get("redirect") || "/";
@@ -74,7 +74,7 @@ const LoginForm = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="flex flex-col relative justify-center items-center p-8 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark sm:dark:border dark:border-base-dark text-left sm:shadow-lg font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
+    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark sm:dark:border dark:border-base-dark text-left sm:shadow-lg font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
       <form
         className="flex flex-col items-start justify-center size-full gap-5 mb-4 select-none"
         onSubmit={handleSubmit}
@@ -100,7 +100,7 @@ const LoginForm = () => {
           endContent={<MailIcon className="size-6" />}
           classNames={{
             inputWrapper:
-              "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+              "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
             input:
               "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
           }}
@@ -128,7 +128,7 @@ const LoginForm = () => {
           }
           classNames={{
             inputWrapper:
-              "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+              "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
             input:
               "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
           }}
@@ -141,6 +141,8 @@ const LoginForm = () => {
             size="sm"
             color="danger"
             classNames={{
+              wrapper:
+                "before:border-base-color-d md:before:border-gray-200 dark:before:border-base-color-dark-d md:dark:before:border-base-dark",
               label: "text-[13px] text-inherit",
             }}
           >

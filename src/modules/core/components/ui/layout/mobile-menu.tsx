@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 
-import { Avatar, Button, Listbox, ListboxItem } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
 import { ThemeToggle } from "../buttons/theme-toggle";
 import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
 import { siteConfig } from "@/config/site";
@@ -16,9 +16,7 @@ import {
 } from "@/modules/icons/miscellaneus";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
-import Footer from "./footer";
 import { AccountFillIcon, PricingFillIcon } from "@/modules/icons/interface";
-import { usePremium } from "@/modules/core/hooks/use-premium-status";
 import { StarsIcon } from "@/modules/icons/common";
 import { cn } from "@/utils/common";
 
@@ -49,70 +47,66 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
           <div className="flex flex-col justify-between size-full max-h-dvh">
             <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
               <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
-                <div className="relative inline-flex items-start gap-2 w-full">
-                  {profileData ? (
-                    <>
-                      {profile_image ? (
-                        <Link
-                          href={`/profile/${username}`}
-                          aria-label="Perfil de usuario"
-                          className="size-12 bg-white dark:bg-base-full-dark border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden"
-                        >
-                          <Image
-                            className="object-cover object-center rounded-full"
-                            width={44}
-                            height={44}
-                            src={profile_image}
-                            alt="Avatar del usuario"
-                          />
-                        </Link>
-                      ) : (
-                        <Avatar
-                          as={Link}
-                          href={`/profile/${username}`}
-                          showFallback
-                          src="https://images.unsplash.com/broken"
-                          size="sm"
-                          icon={<AvatarIcon />}
-                          classNames={{
-                            icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
-                            base: "bg-gray-300 dark:bg-gray-600",
-                            name: "font-medium text-base-color-h dark:text-base-color-dark-h",
-                          }}
-                        />
-                      )}
+                {profileData && (
+                  <div className="relative inline-flex items-start gap-2 w-full">
+                    {profile_image ? (
                       <Link
-                        className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-base-dark transition-colors duration-100"
                         href={`/profile/${username}`}
+                        aria-label="Perfil de usuario"
+                        className="size-12 bg-white dark:bg-base-full-dark border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden"
                       >
-                        <span className="font-medium text-inherit transition-none capitalize">
-                          {`${first_name} ${last_name}`}
-                        </span>
-                        <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
-                          @{username}
-                        </span>
-                        {is_premium && (
-                          <div className="absolute top-1/2 -translate-y-1/2 right-0 p-1 mr-2">
-                            <StarsIcon
-                              aria-hidden="true"
-                              className="size-6 stars-icon v2 focus:outline-none"
-                            />
-                          </div>
-                        )}
+                        <Image
+                          className="object-cover object-center rounded-full"
+                          width={44}
+                          height={44}
+                          src={profile_image}
+                          alt="Avatar del usuario"
+                        />
                       </Link>
-                    </>
-                  ) : (
-                    <Button
-                      as={Link}
-                      href="/login"
-                      size="sm"
-                      fullWidth
-                      className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:text-white !duration-150"
+                    ) : (
+                      <Avatar
+                        as={Link}
+                        href={`/profile/${username}`}
+                        showFallback
+                        src="https://images.unsplash.com/broken"
+                        size="sm"
+                        icon={<AvatarIcon />}
+                        classNames={{
+                          icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
+                          base: "bg-gray-300 dark:bg-gray-600",
+                          name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                        }}
+                      />
+                    )}
+                    <Link
+                      className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-base-dark transition-colors duration-100"
+                      href={`/profile/${username}`}
                     >
-                      Iniciar sesión
-                    </Button>
-                  )}
-                </div>
+                      <span className="font-medium text-inherit transition-none capitalize">
+                        {`${first_name} ${last_name}`}
+                      </span>
+                      <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
+                        @{username}
+                      </span>
+                      {is_premium && (
+                        <div className="absolute top-1/2 -translate-y-1/2 right-0 p-1 mr-2">
+                          <StarsIcon
+                            aria-hidden="true"
+                            className="size-6 stars-icon v2 focus:outline-none"
+                          />
+                        </div>
+                      )}
+                    </Link>
+                  </div>
+                )}
+                {!profileData && (
+                  <Link
+                    href="/login"
+                    className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white active:scale-[0.97] inline-flex items-center justify-center min-w-16 h-8 gap-2 w-full box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transition-transform-colors-opacity motion-reduce:transition-none"
+                  >
+                    Iniciar sesión
+                  </Link>
+                )}
               </div>
               <div className="relative size-full overflow-y-scroll scrollbar-hide">
                 <div className="flex flex-col justify-between h-full py-5">
