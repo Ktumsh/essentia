@@ -93,7 +93,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       </div>
 
       {/* Button Up */}
-      {!hideButtonUp && <ButtonUp />}
+      {!hideButtonUp && windowSize.width > 768 && <ButtonUp />}
     </>
   );
 };

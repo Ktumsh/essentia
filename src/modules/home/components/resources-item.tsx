@@ -35,7 +35,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         "motion-reduce:transition-none h-32 sm:h-64 duration-500"
       )}
     >
-      <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-1 px-5 pt-3 z-10">
+      <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-0 px-5 pt-3 z-10">
         <span className="text-tiny text-white/60 uppercase font-bold lg:group-hover:opacity-0 transition-opacity">
           {props.subtitle}
         </span>
@@ -46,11 +46,11 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       <Image
         priority
         quality={75}
-        width={600}
-        height={400}
+        width={windowSize.width > 768 ? 600 : 384}
+        height={windowSize.width > 768 ? 400 : 256}
         src={props.img}
         alt={`Enlace al recurso de ${props.title}`}
-        className="relative w-full h-auto object-cover rounded-large md:rounded-xl brightness-95 z-0 lg:group-hover:brightness-75 blur-0 !transition-all dark:lg:group-hover:blur-lg"
+        className="relative size-full object-cover rounded-large md:rounded-xl brightness-95 z-0 lg:group-hover:brightness-75 blur-0 !transition-all dark:lg:group-hover:blur-lg"
       />
       <div className="absolute inset-0 rounded-large md:rounded-xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
       <div className="flex items-center justify-end absolute bottom-0 h-auto w-full p-3 text-inherit subpixel-antialiased rounded-b-xl bg-transparent md:bg-white/30 md:dark:bg-base-full-dark-40 md:border-t-1 border-gray-100/50 dark:border-base-full-dark-50 md:backdrop-blur md:backdrop-saturate-150 lg:group-hover:pt-[211px] lg:group-hover:bg-white/50 dark:lg:group-hover:bg-base-full-dark-40 lg:group-hover:rounded-xl transition-all duration-500 z-10">
