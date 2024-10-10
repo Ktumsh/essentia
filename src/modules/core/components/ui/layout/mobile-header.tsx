@@ -1,11 +1,10 @@
 "use client";
 
-import { FC, useState } from "react"; // Asegúrate de importar useState
+import { FC, useState } from "react";
 import { Navbar } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import MenuButton from "../buttons/menu-button";
-import MobileMenu from "./mobile-menu";
 import { usePathname } from "next/navigation";
 import SidebarMobile from "@/modules/chatbot/componentes/sidebar-mobile";
 import ChatHistory from "@/modules/chatbot/componentes/chat-history";
@@ -19,6 +18,8 @@ import {
 } from "../sheet";
 import { UserProfileData } from "@/types/session";
 import { Chat } from "@/types/chat";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
+import MobileMenu from "./mobile-menu";
 
 interface MobileHeaderProps {
   profileData: UserProfileData | null;
@@ -26,13 +27,14 @@ interface MobileHeaderProps {
 }
 
 const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
+  const windowSize = useWindowSize();
   const pathname = usePathname();
-
-  const essentiaAi = pathname.startsWith("/essentia-ai");
-
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSheetChatOpen, setIsSheetChatOpen] = useState(false);
 
+  if (windowSize.width > 768) return null;
+
+  const essentiaAi = pathname.startsWith("/essentia-ai");
   const sheetSide = "right";
   const sheetSideChat = "left";
 
@@ -68,11 +70,12 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
         >
           <Image
             className="h-8 w-auto aspect-auto transition-all ease-in-out"
-            width={27}
-            height={40}
+            width={32}
+            height={32}
             quality={100}
             src="/logo-essentia.webp"
             alt="Logo de Essentia"
+            priority
           />
         </Link>
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

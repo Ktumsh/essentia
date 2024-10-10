@@ -20,6 +20,7 @@ const MenuButton: React.FC<Props> = ({ profileData }) => {
             <div className="size-8 bg-white dark:bg-base-full-dark md:border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden">
               <Image
                 priority
+                quality={50}
                 width={32}
                 height={32}
                 src={profile_image}
