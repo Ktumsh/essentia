@@ -9,7 +9,7 @@ import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitne
 
 const HealthWellness = () => {
   return (
-    <section className="px-2 md:px-0 py-6 pb-12 lg:pb-6">
+    <section className="px-2 md:px-0 py-4 md:py-0">
       <div className="w-full px-3 mb-4">
         <h3 className="drop-shadow-md text-base-color dark:text-white">
           <Button

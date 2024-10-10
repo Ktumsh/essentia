@@ -7,7 +7,7 @@ import { HashIcon } from "@/modules/icons/common";
 const Nutrition = () => {
   return (
     <>
-      <section className="-ml-3 py-6">
+      <section className="-ml-3 py-4 md:py-0">
         <div className="w-full px-8 md:px-6 mb-8">
           <h3 className="drop-shadow-md text-base-color dark:text-white">
             <Button

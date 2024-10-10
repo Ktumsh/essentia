@@ -68,7 +68,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
     <>
       <div className="relative flex justify-center size-full">
         <main className="relative flex flex-col min-h-[calc(100dvh-80px)] w-full md:min-w-[768px] max-w-5xl pb-14 md:pb-0 pt-14 shrink items-stretch grow">
-          <div className="container mx-auto lg:px-5 select-none">
+          <div className="container mx-auto lg:px-5 md:pb-5 select-none">
             <div className="flex flex-col w-full mx-auto">
               <section
                 id={`introduccion-a-${formatedTitle}`}
