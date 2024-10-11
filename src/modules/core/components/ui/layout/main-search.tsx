@@ -21,7 +21,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { searchData, SearchResult } from "@/consts/search-data";
 
@@ -60,8 +60,6 @@ const MainSearch: FC = () => {
   const id = useId();
 
   const router = useRouter();
-
-  const pathname = usePathname();
 
   const { width } = useWindowSize();
 
@@ -125,18 +123,11 @@ const MainSearch: FC = () => {
 
   const handleSearchSelect = useCallback(
     (search: SearchResult) => {
-      if (pathname === search.url.split("#")[0]) {
-        window.location.hash = search.url.split("#")[1];
-        setTimeout(() => {
-          window.dispatchEvent(new Event("hashchange"));
-        }, 100);
-      } else {
-        router.push(search.url);
-      }
+      router.push(search.url);
       saveRecentSearch(search);
       onClose();
     },
-    [pathname, router, saveRecentSearch, onClose]
+    [router, saveRecentSearch, onClose]
   );
 
   const clearRecentSearches = useCallback(() => {
@@ -417,36 +408,37 @@ const MainSearch: FC = () => {
                   </div>
                 </div>
               )}
-              {/* Esto aparece si el usuario ingresó menos de dos caracteres o simplemente no se encuentra la búsqueda */}
-              {searchTerm.length >= 1 &&
-                searchTerm.length < 6 &&
-                searchResults.length === 0 && (
-                  <div role="presentation" data-value="no-results">
-                    <div className={cn(searchStyles.noResults)}>
-                      <div>
-                        <p>No hay resultados para &quot;{searchTerm}&quot;</p>
-                        <p className="text-base-color-d dark:text-base-color-dark-d">
-                          Intente agregar más caracteres a su término de
-                          búsqueda.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              {/* Esto aparece si el usuario ingresó más de 6 caracteres y no se encuentra la búsqueda */}
-              {searchTerm.length >= 6 && searchResults.length === 0 && (
+              {/* No results found */}
+              {searchTerm.length >= 1 && searchResults.length === 0 && (
                 <div role="presentation" data-value="no-results">
                   <div className={cn(searchStyles.noResults)}>
                     <div>
                       <p>No hay resultados para &quot;{searchTerm}&quot;</p>
                       <p className="text-base-color-d dark:text-base-color-dark-d">
-                        Intente buscar otra cosa.
+                        {searchTerm.length < 6
+                          ? "Intente agregar más caracteres a su término de búsqueda."
+                          : "Intente buscar otra cosa."}
                       </p>
+                      <Button
+                        variant="flat"
+                        color="primary"
+                        onClick={() => {
+                          router.push(
+                            `/essentia-ai?search=${encodeURIComponent(
+                              searchTerm
+                            )}`
+                          );
+                          onClose();
+                        }}
+                        className="mt-4"
+                      >
+                        Buscar con Essentia AI
+                      </Button>
                     </div>
                   </div>
                 </div>
               )}
-              {/* Búsqueda | aparece cuando encuentra una o más búsquedas*/}
+              {/* Search Results */}
               {searchResults.length > 0 && (
                 <div role="presentation" data-value="search">
                   {searchResults.map((result, index) =>
