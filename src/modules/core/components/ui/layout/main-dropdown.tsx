@@ -23,7 +23,6 @@ import { LogoutIcon } from "@/modules/icons/action";
 import { signOut } from "next-auth/react";
 import { UserProfileData } from "@/types/session";
 import { InfoCircledIcon, MenuIcon, StarsIcon } from "@/modules/icons/common";
-import { usePremium } from "@/modules/core/hooks/use-premium-status";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import TooltipCTN from "../utils/tooltip-ctn";
 import {

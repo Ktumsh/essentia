@@ -33,6 +33,8 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   const isAccount = pathname.startsWith("/account");
   const isPremium = pathname.startsWith("/premium");
   const isEssentiaAI = pathname.startsWith("/essentia-ai");
+  const isShare = pathname.startsWith("/share");
+  const isAIorShare = isEssentiaAI || isShare;
 
   // Backgrounds
   const backgroundClasses = useMemo(() => {
@@ -43,7 +45,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
         "before:dark:h-[300px] sm:before:dark:h-[600px] before:dark:w-[980px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-[#ff7373] before:dark:opacity-0 md:before:dark:opacity-20",
         "after:absolute after:top-[10%] after:left-[20%] after:z-10 after:h-[580px] after:w-full sm:after:w-[540px] after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:blur-[80px] after:content-[''] after:rounded-full after:opacity-0 md:after:opacity-50",
         "after:dark:top-1/4 after:dark:left-2/3 after:dark:h-[80px] sm:after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-base-full-dark after:dark:via-[#ff7373] after:dark:opacity-0 md:after:dark:opacity-50 after:dark:blur-3xl after:dark:rounded-none",
-        isEssentiaAI &&
+        isAIorShare &&
           "after:!opacity-0 before:!opacity-100 after:dark:!opacity-50 before:dark:!opacity-20"
       );
     } else {
@@ -55,7 +57,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
         "after:dark:top-1/4 after:dark:left-1/2 after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-base-full-dark after:dark:via-[#ff7373] after:dark:opacity-80 after:dark:blur-3xl after:dark:rounded-none"
       );
     }
-  }, [isPremium, isProfile, isAccount, isEssentiaAI]);
+  }, [isPremium, isProfile, isAccount, isAIorShare]);
 
   // Motion classes
   const motionContainerClasses = cn(

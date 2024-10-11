@@ -1,6 +1,7 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
+import React from "react"; // Importar React
 
 import type { AI } from "../chat/actions";
 
@@ -22,7 +23,7 @@ import WarningModal from "../../payment/components/warning-premium-modal";
 import PaymentModal from "../../payment/components/payment-modal";
 import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 export interface ChatPanelProps {
   input: string;
@@ -49,7 +50,10 @@ const ChatPanel: FC<ChatPanelProps> = ({
   const [messages, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions();
 
+  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search");
 
   const isChat = pathname.startsWith("/essentia-ai/chat");
 
@@ -62,6 +66,58 @@ const ChatPanel: FC<ChatPanelProps> = ({
   useEffect(() => {
     setExampleMessages((prevMessages) => shuffleArray([...prevMessages]));
   }, []);
+
+  const hasProcessedQueryRef = useRef(false);
+
+  useEffect(() => {
+    if (searchQuery && !hasProcessedQueryRef.current) {
+      hasProcessedQueryRef.current = true;
+
+      router.replace(pathname);
+
+      const hasAlreadyProcessed = messages.some((message) => {
+        if (React.isValidElement(message.display)) {
+          // Verificar si el elemento es un UserMessage
+          if (message.display.type === UserMessage) {
+            const children = message.display.props.children;
+            if (typeof children === "string") {
+              return children === searchQuery;
+            }
+          }
+        }
+        return false;
+      });
+
+      if (!hasAlreadyProcessed) {
+        setMessages((currentMessages) => [
+          ...currentMessages,
+          {
+            id: nanoid(),
+            display: (
+              <UserMessage profileData={profileData}>{searchQuery}</UserMessage>
+            ),
+          },
+        ]);
+
+        const sendMessage = async () => {
+          const responseMessage = await submitUserMessage(searchQuery);
+          setMessages((currentMessages) => [
+            ...currentMessages,
+            responseMessage,
+          ]);
+        };
+        sendMessage();
+      }
+    }
+  }, [
+    searchQuery,
+    messages,
+    router,
+    pathname,
+    profileData,
+    setMessages,
+    submitUserMessage,
+  ]);
 
   return (
     <>
@@ -201,11 +257,11 @@ const ChatPanel: FC<ChatPanelProps> = ({
           </div>
         </div>
       </div>
-      {/* Warning Premium Modal */}
+      {/* Modal de advertencia para Premium */}
       {!isPremium && session && isWarningModalOpen && !isChat && (
         <WarningModal isPremium={isPremium} isPaymentModalOpen={isOpen} />
       )}
-      {/* Payment Modal */}
+      {/* Modal de Pago */}
       {!isPremium && session && (
         <PaymentModal isOpen={isOpen} onOpenChange={onOpenChange} />
       )}
