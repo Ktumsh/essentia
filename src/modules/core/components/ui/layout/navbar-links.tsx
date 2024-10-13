@@ -68,7 +68,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
     <>
       <hr
         style={underlineStyle}
-        className="absolute bottom-0 h-1 bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out"
+        className="absolute bottom-0 h-1 bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out border-none"
       />
       {pages.map(
         ({ name, href, icon: Icon, fillIcon: FillIcon, active }, key) => (

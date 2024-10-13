@@ -11,6 +11,7 @@ import {
   DropdownSection,
   Button,
   useDisclosure,
+  Badge,
 } from "@nextui-org/react";
 
 import { ThemeToggle } from "../buttons/theme-toggle";
@@ -31,6 +32,7 @@ import {
   PricingIcon,
 } from "@/modules/icons/interface";
 import { cn } from "@/utils/common";
+import { ArrowUpIcon, Chevron } from "@/modules/icons/navigation";
 
 interface AvatarDropdownProps {
   profileData: UserProfileData | null;
@@ -331,31 +333,59 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
         >
           {profileData ? (
             <DropdownTrigger>
-              <button
-                className="size-8 focus:outline-none ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[rgb(6,_27,_55)] ring-gray-200 dark:ring-midnight-900/30 rounded-full overflow-hidden"
-                aria-label={"Perfil de " + profileData.username}
-              >
-                {profileData.profile_image ? (
-                  <Image
-                    width={32}
-                    height={32}
-                    src={profileData.profile_image}
-                    alt={"Avatar de " + profileData.username}
-                  />
-                ) : (
-                  <Avatar
-                    showFallback
-                    src="https://images.unsplash.com/broken"
+              {profileData.profile_image ? (
+                <button type="button" className="relative flex">
+                  <Badge
+                    isOneChar
+                    content={<Chevron className="size-3 -rotate-90" />}
+                    placement="bottom-right"
                     size="sm"
-                    icon={<AvatarIcon />}
                     classNames={{
-                      icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
-                      base: "bg-gray-300 dark:bg-gray-600",
-                      name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                      badge:
+                        "bg-gray-200 dark:bg-base-dark border-white dark:border-base-full-dark-80",
                     }}
-                  />
-                )}
-              </button>
+                  >
+                    <Avatar
+                      isBordered
+                      src={profileData.profile_image}
+                      alt={"Avatar de " + profileData.username}
+                      size="sm"
+                      icon={<AvatarIcon />}
+                      classNames={{
+                        icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
+                        base: "bg-gray-300 dark:bg-gray-600 ring-gray-200 dark:ring-base-dark",
+                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                      }}
+                    />
+                  </Badge>
+                </button>
+              ) : (
+                <button type="button" className="relative flex">
+                  <Badge
+                    isOneChar
+                    content={<Chevron className="size-3 -rotate-90" />}
+                    placement="bottom-right"
+                    size="sm"
+                    classNames={{
+                      badge:
+                        "bg-gray-200 dark:bg-base-dark border-white dark:border-base-full-dark-80",
+                    }}
+                  >
+                    <Avatar
+                      isBordered
+                      showFallback
+                      src="https://images.unsplash.com/broken"
+                      size="sm"
+                      icon={<AvatarIcon />}
+                      classNames={{
+                        icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
+                        base: "bg-gray-300 dark:bg-gray-600 ring-gray-200 dark:ring-base-dark",
+                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                      }}
+                    />
+                  </Badge>
+                </button>
+              )}
             </DropdownTrigger>
           ) : (
             <DropdownTrigger>

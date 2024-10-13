@@ -15,6 +15,7 @@ import { Session } from "@/types/session";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import ServiceWorkerRegistration from "@/modules/core/lib/sw-registration";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -120,6 +121,7 @@ export default async function RootLayout({
         <Providers currentPlan={currentPlan} disableTransitionOnChange>
           <div className="min-h-dvh size-full relative">{children}</div>
           <TailwindIndicator />
+          <ServiceWorkerRegistration />
         </Providers>
         <SpeedInsights />
       </body>

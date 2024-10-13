@@ -1,8 +1,8 @@
 import { sleep } from "@/utils/common";
 import { nanoid } from "nanoid";
-import { BotCard } from "./message";
-import ErrorMessage from "./error-message";
 import { AIState } from "../../chat/actions";
+import { BotCard } from "../stocks/message";
+import ErrorMessage from "../stocks/error-message";
 
 type ValueOrUpdater<T> = T | ((current: T) => T);
 

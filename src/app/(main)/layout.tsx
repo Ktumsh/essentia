@@ -28,7 +28,7 @@ export default async function MainLayout({
       <MobileHeader profileData={profileData} chats={chats} />
       <LayoutWrapper>{children}</LayoutWrapper>
       {/* Bottom Mobile Navbar */}
-      <BottomNav />
+      <BottomNav profileData={profileData} />
       {!session && <WelcomeModal />}
     </>
   );

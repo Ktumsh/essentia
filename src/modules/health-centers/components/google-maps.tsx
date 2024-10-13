@@ -15,10 +15,13 @@ import useGoogleMapsLoader from "../hooks/use-google-maps-loader";
 import useMapInstance from "../hooks/use-map-instance";
 import useMarkers from "../hooks/use-markers";
 import useSearchBox from "../hooks/use-searchbox";
+import { LocationSelfIcon } from "@/modules/icons/status";
+import { createPortal } from "react-dom";
 
 const GoogleMaps = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const markerRef = useRef<HTMLDivElement>(null);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,6 +77,22 @@ const GoogleMaps = () => {
       getCurrentPosition(
         (pos) => {
           mapInstance.setCenter(pos);
+
+          const advancedMarker = new google.maps.marker.AdvancedMarkerElement({
+            position: pos,
+            map: mapInstance,
+            title: "Tu ubicación",
+            content: markerRef.current!,
+          });
+
+          advancedMarker.addListener("click", () => {
+            infoWindowRef.current?.setContent("Tu ubicación");
+            infoWindowRef.current?.open({
+              map: mapInstance,
+              anchor: advancedMarker,
+            });
+          });
+
           searchNearby(["hospital", "doctor", "clinic"], pos);
         },
         infoWindowRef.current,
@@ -158,6 +177,9 @@ const GoogleMaps = () => {
             placeholder="Buscar por nombre o ubicación"
             className="!left-0 !top-0 w-56 sm:w-80 h-[38px] px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark font-sans placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 border-0 shadow-small transition"
           />
+          <div ref={markerRef} className="bg-white rounded-full p-px">
+            <LocationSelfIcon className="size-7 text-sky-500" />
+          </div>
         </motion.div>
 
         <MapActions

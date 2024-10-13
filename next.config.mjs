@@ -1,3 +1,5 @@
+import { GenerateSW } from "workbox-webpack-plugin";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -110,6 +112,46 @@ const nextConfig = {
         permanent: true,
       },
     ];
+  },
+  webpack(config, { isServer, dev }) {
+    if (!isServer && !dev) {
+      config.plugins.push(
+        new GenerateSW({
+          clientsClaim: true,
+          skipWaiting: true,
+          swDest: "public/sw.js",
+          maximumFileSizeToCacheInBytes: 20 * 1024 * 1024,
+          runtimeCaching: [
+            {
+              urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "images",
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 30 * 24 * 60 * 60,
+                },
+              },
+            },
+            {
+              urlPattern: /\.(?:js|css)$/,
+              handler: "StaleWhileRevalidate",
+              options: {
+                cacheName: "static-resources",
+              },
+            },
+            {
+              urlPattern: /\.(?:html)$/,
+              handler: "NetworkFirst",
+              options: {
+                cacheName: "html-cache",
+              },
+            },
+          ],
+        })
+      );
+    }
+    return config;
   },
 };
 
