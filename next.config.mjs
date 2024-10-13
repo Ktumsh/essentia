@@ -1,4 +1,4 @@
-import { GenerateSW } from "workbox-webpack-plugin";
+import withPWAInit from "@ducanh2912/next-pwa";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -113,46 +113,15 @@ const nextConfig = {
       },
     ];
   },
-  webpack(config, { isServer, dev }) {
-    if (!isServer && !dev) {
-      config.plugins.push(
-        new GenerateSW({
-          clientsClaim: true,
-          skipWaiting: true,
-          swDest: "public/sw.js",
-          maximumFileSizeToCacheInBytes: 20 * 1024 * 1024,
-          runtimeCaching: [
-            {
-              urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
-              handler: "CacheFirst",
-              options: {
-                cacheName: "images",
-                expiration: {
-                  maxEntries: 50,
-                  maxAgeSeconds: 30 * 24 * 60 * 60,
-                },
-              },
-            },
-            {
-              urlPattern: /\.(?:js|css)$/,
-              handler: "StaleWhileRevalidate",
-              options: {
-                cacheName: "static-resources",
-              },
-            },
-            {
-              urlPattern: /\.(?:html)$/,
-              handler: "NetworkFirst",
-              options: {
-                cacheName: "html-cache",
-              },
-            },
-          ],
-        })
-      );
-    }
-    return config;
-  },
 };
 
-export default nextConfig;
+const withPWA = withPWAInit({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+});
+
+export default withPWA({
+  ...nextConfig,
+});
