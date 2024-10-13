@@ -112,7 +112,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
   return (
     <>
       <div className="px-4 md:px-8 pb-8 pt-3 space-y-3 md:space-y-6">
-        {/* Foto de perfil y botón editar */}
+        {/* Nombre y botón editar */}
         <div className="relative">
           {children}
           <div className="ml-24 md:ml-44 flex justify-between items-start">

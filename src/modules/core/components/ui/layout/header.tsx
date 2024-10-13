@@ -37,6 +37,8 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
       (page.href === "/essentia-ai" && essentiaAi),
   }));
 
+  const { is_premium } = profileData ?? {};
+
   return (
     <>
       <div role="banner" className="z-[100] fixed top-0 w-full hidden md:block">
@@ -76,7 +78,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
                 Essentia®️
               </Link>
             </div>
-            <MainSearch profileData={profileData} />
+            <MainSearch isPremium={is_premium} />
           </div>
         </div>
         <div className="z-40 h-14 fixed top-0 right-0">

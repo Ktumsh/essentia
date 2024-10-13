@@ -6,7 +6,7 @@ import {
   Card,
   CardFooter,
   CardHeader,
-  Image,
+  Image as ImageUI,
   Modal,
   ModalBody,
   ModalContent,
@@ -19,6 +19,7 @@ import { EyeIcon } from "@/modules/icons/status";
 import { HeartIcon } from "@/modules/icons/miscellaneus";
 import { StarIcon } from "@/modules/icons/common";
 import { cn } from "@/utils/common";
+import Image from "next/image";
 
 interface Props {
   modalSize?:
@@ -36,6 +37,7 @@ interface Props {
   modalTitle: string;
   modalImage: string;
   modalBody: string;
+  index: number;
 }
 
 const NutritionCarouselItem = ({
@@ -43,6 +45,7 @@ const NutritionCarouselItem = ({
   modalTitle,
   modalImage,
   modalBody,
+  index,
 }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLiked, setIsLiked] = useState(false);
@@ -74,13 +77,13 @@ const NutritionCarouselItem = ({
           </CardHeader>
           <div className="relative overflow-hidden">
             <Image
-              radius="none"
+              priority={index < 3}
+              loading={index > 2 ? "lazy" : "eager"}
+              width={257}
+              height={256}
               src={modalImage}
               alt={modalTitle}
-              classNames={{
-                wrapper: "overflow-hidden min-w-full",
-              }}
-              className="z-0 w-full h-64 object-cover"
+              className="z-0 w-full h-64 object-cover [content-visibility:auto] animate-opacity"
             />
             <div className="absolute inset-0 flex flex-col h-full scale-90 bg-gray-900/90 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
               <div className="flex items-center justify-center h-full mx-auto">
@@ -165,13 +168,17 @@ const NutritionCarouselItem = ({
             <>
               <ModalBody>
                 <div className="-mx-6">
-                  <Image
+                  <ImageUI
+                    as={Image}
+                    width={698}
+                    height={256}
                     src={modalImage}
                     alt={modalTitle}
+                    radius="none"
                     classNames={{
                       wrapper: "!max-w-full w-full h-64",
+                      img: "aspect-auto object-cover object-center [content-visibility:auto]",
                     }}
-                    className="z-0 size-full object-cover object-center rounded-none"
                   />
                 </div>
                 <div className="w-full">

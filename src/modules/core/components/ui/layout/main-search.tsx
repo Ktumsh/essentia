@@ -57,13 +57,12 @@ import { CloseIcon, HashFillIcon } from "@/modules/icons/common";
 import { Chevron } from "@/modules/icons/navigation";
 
 import { tooltipStyles } from "@/styles/tooltip-styles";
-import { UserProfileData } from "@/types/session";
 
 interface MainSearchProps {
-  profileData: UserProfileData | null;
+  isPremium?: boolean;
 }
 
-const MainSearch: FC<MainSearchProps> = ({ profileData }) => {
+const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const id = useId();
@@ -85,8 +84,6 @@ const MainSearch: FC<MainSearchProps> = ({ profileData }) => {
   const eventRef = useRef<"mouse" | "keyboard">();
   const listRef = useRef<HTMLDivElement>(null);
   const menuNodes = useRef(new Map<number, HTMLButtonElement>()).current;
-
-  const { is_premium } = profileData || {};
 
   const items = useMemo(() => {
     if (debouncedSearchTerm.length < 2) return recentSearches;
@@ -431,7 +428,7 @@ const MainSearch: FC<MainSearchProps> = ({ profileData }) => {
                             : "Intente buscar otra cosa."}
                         </p>
                       </div>
-                      {is_premium && (
+                      {isPremium && (
                         <Button
                           radius="sm"
                           onPress={() => {

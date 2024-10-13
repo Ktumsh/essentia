@@ -39,9 +39,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         <span className="text-tiny text-white/60 uppercase font-bold lg:group-hover:opacity-0 transition-opacity">
           {props.subtitle}
         </span>
-        <h4 className="text-white font-medium text-2xl sm:text-xl 2xl:text-2xl lg:group-hover:opacity-0 transition-opacity">
+        <h3 className="text-white font-medium text-2xl sm:text-xl 2xl:text-2xl lg:group-hover:opacity-0 transition-opacity">
           {props.title}
-        </h4>
+        </h3>
       </div>
       <Image
         priority
