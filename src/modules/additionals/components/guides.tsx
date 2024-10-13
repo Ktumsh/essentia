@@ -13,7 +13,7 @@ import { DownloadIcon } from "@/modules/icons/action";
 
 export default function Guides() {
   return (
-    <section className="flex flex-col items-center py-5 pb-12 md:pb-0 md:py-0 mb-14 mt-12 md:my-0">
+    <section className="flex flex-col items-center py-5 pb-5 md:pb-0 md:py-0 mt-12 md:my-0">
       <div className="w-full grid grid-cols-12 gap-4 px-2 md:px-0">
         {GUIDES.map((guide, index) => (
           <Card

@@ -7,6 +7,7 @@ import MainSearch from "./main-search";
 import Link from "next/link";
 import {
   CSSProperties,
+  FC,
   Fragment,
   useEffect,
   useMemo,
@@ -15,8 +16,13 @@ import {
 } from "react";
 import { cn } from "@/utils/common";
 import { formatPathName } from "@/utils/format";
+import { UserProfileData } from "@/types/session";
 
-const BottomNav = () => {
+interface BottomNavProps {
+  profileData: UserProfileData | null;
+}
+
+const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
@@ -47,66 +53,21 @@ const BottomNav = () => {
     [pages]
   );
 
-  const [underlineStyle, setUnderlineStyle] = useState<CSSProperties>({
-    width: 0,
-    left: 0,
-  });
-
-  const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
-
-  useEffect(() => {
-    const activePageIndex = navItems.findIndex((item) => item.active);
-
-    if (activePageIndex !== -1 && linkRefs.current[activePageIndex]) {
-      const activeElement = linkRefs.current[activePageIndex];
-
-      if (activeElement) {
-        const newStyle = {
-          width: activeElement.clientWidth,
-          left: activeElement.offsetLeft,
-        };
-
-        if (
-          newStyle.width !== underlineStyle.width ||
-          newStyle.left !== underlineStyle.left
-        ) {
-          setUnderlineStyle(newStyle);
-        }
-      }
-    } else {
-      if (underlineStyle.width !== 0 || underlineStyle.left !== 0) {
-        setUnderlineStyle({
-          width: 0,
-          left: 0,
-        });
-      }
-    }
-  }, [navItems, underlineStyle]);
-
   return (
     <Navbar
       classNames={{
-        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-base-full-dark z-50",
-        wrapper: "h-14 justify-center gap-0 px-0",
+        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-base-full-dark z-50 rounded-t-3xl overflow-hidden",
+        wrapper: "h-16 justify-center gap-0 px-0",
       }}
     >
-      <hr
-        style={underlineStyle}
-        className="absolute top-0 h-1 bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out"
-      />
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (
             <li className="relative flex items-center justify-center size-full">
-              <MainSearch />
+              <MainSearch profileData={profileData} />
             </li>
           ) : (
-            <li
-              ref={(el) => {
-                linkRefs.current[index] = el;
-              }}
-              className="relative flex items-center justify-center size-full"
-            >
+            <li className="relative flex items-center justify-center size-full">
               <Button
                 as={Link}
                 href={item.href}
@@ -129,6 +90,9 @@ const BottomNav = () => {
                   <item.icon className="size-6" aria-hidden="true" />
                 ) : null}
               </Button>
+              {item.active && (
+                <hr className="absolute bottom-3 h-0.5 w-1.5 rounded-full bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out border-none" />
+              )}
             </li>
           )}
         </Fragment>

@@ -76,7 +76,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
                 Essentia®️
               </Link>
             </div>
-            <MainSearch />
+            <MainSearch profileData={profileData} />
           </div>
         </div>
         <div className="z-40 h-14 fixed top-0 right-0">
