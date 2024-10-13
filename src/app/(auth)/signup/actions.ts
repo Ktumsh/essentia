@@ -9,7 +9,7 @@ import { getStringFromBuffer } from "@/utils/common";
 import { getUserByEmail, getUserByUsername } from "@/db/actions";
 
 import { createAvatar } from "@dicebear/core";
-import { icons } from "@dicebear/collection";
+import * as icons from "@dicebear/icons";
 
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),

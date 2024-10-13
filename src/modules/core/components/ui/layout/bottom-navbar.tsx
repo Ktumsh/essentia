@@ -28,6 +28,8 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
   const normalizedPath = formatPathName(pathname);
   const essentiaAi = pathname.startsWith("/essentia-ai");
 
+  const { is_premium } = profileData || {};
+
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
     active:
@@ -64,7 +66,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
         <Fragment key={index}>
           {item.isSearch ? (
             <li className="relative flex items-center justify-center size-full">
-              <MainSearch profileData={profileData} />
+              <MainSearch isPremium={is_premium} />
             </li>
           ) : (
             <li className="relative flex items-center justify-center size-full">

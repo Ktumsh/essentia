@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 import {
   Avatar,
@@ -32,7 +32,7 @@ import {
   PricingIcon,
 } from "@/modules/icons/interface";
 import { cn } from "@/utils/common";
-import { ArrowUpIcon, Chevron } from "@/modules/icons/navigation";
+import { Chevron } from "@/modules/icons/navigation";
 
 interface AvatarDropdownProps {
   profileData: UserProfileData | null;
@@ -334,7 +334,11 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           {profileData ? (
             <DropdownTrigger>
               {profileData.profile_image ? (
-                <button type="button" className="relative flex">
+                <button
+                  type="button"
+                  aria-label="Abrir menú"
+                  className="relative flex appearance-none rounded-full"
+                >
                   <Badge
                     isOneChar
                     content={<Chevron className="size-3 -rotate-90" />}
@@ -349,6 +353,11 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                       isBordered
                       src={profileData.profile_image}
                       alt={"Avatar de " + profileData.username}
+                      ImgComponent={Image}
+                      imgProps={{
+                        width: 32,
+                        height: 32,
+                      }}
                       size="sm"
                       icon={<AvatarIcon />}
                       classNames={{
@@ -360,7 +369,11 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                   </Badge>
                 </button>
               ) : (
-                <button type="button" className="relative flex">
+                <button
+                  type="button"
+                  aria-label="Abrir menú"
+                  className="relative flex appearance-none rounded-full"
+                >
                   <Badge
                     isOneChar
                     content={<Chevron className="size-3 -rotate-90" />}

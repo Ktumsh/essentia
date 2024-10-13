@@ -1,8 +1,21 @@
-import FirstAid from "./firts-aid";
-import SexualityEmergencyCard from "./sexuality-emegergency-card";
-import Medicines from "./medicines";
 import Phones from "./phones";
 import EmergencySteps from "./emergency-steps";
+import dynamic from "next/dynamic";
+
+const FirstAid = dynamic(() => import("./firts-aid"), {
+  ssr: false,
+});
+
+const SexualityEmergencyCard = dynamic(
+  () => import("./sexuality-emegergency-card"),
+  {
+    ssr: false,
+  }
+);
+
+const Medicines = dynamic(() => import("./medicines"), {
+  ssr: false,
+});
 
 const Emergencies = () => {
   return (

@@ -1,10 +1,42 @@
+"use client";
+
 import { NUTRITION_MODAL_DATA } from "@/consts/nutrition-modal";
-import NutritionCarousel from "./nutrition-carousel";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
+import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { useVisibilityObserver } from "../hooks/use-visibility-obs";
+
+const Loading = () => {
+  const windowSize = useWindowSize();
+  const width = windowSize.width;
+  return (
+    <div className="flex flex-1 space-x-8 ml-5 overflow-hidden">
+      {Array.from({ length: width < 1024 ? 1 : 3 }).map((_, i) => (
+        <div
+          key={i}
+          className="flex flex-col gap-4 w-full lg:w-[306.66px] h-96 p-5 rounded shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
+        >
+          <div className="w-full h-64 shrink-0 animate-pulse bg-gray-200 dark:bg-base-full-dark"></div>
+          <div className="w-4/5 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-base-full-dark"></div>
+          <div className="w-1/2 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-base-full-dark"></div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const NutritionCarousel = dynamic(() => import("./nutrition-carousel"), {
+  loading: () => <Loading />,
+  ssr: false,
+});
 
 const Nutrition = () => {
+  const secondCarousel = useVisibilityObserver();
+  const thirdCarousel = useVisibilityObserver();
+
   return (
     <>
       <section className="-ml-3 py-4 md:py-0">
@@ -31,7 +63,7 @@ const Nutrition = () => {
             </Button>
           </h3>
         </div>
-        <div className="mb-24">
+        <section className="mb-24">
           <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-base-color dark:text-white">
             <h4 className="drop-shadow-md text-base-color dark:text-white">
               <Button
@@ -62,8 +94,8 @@ const Nutrition = () => {
             startIndex={18}
             totalItems={15}
           />
-        </div>
-        <div className="mb-24">
+        </section>
+        <section className="mb-24" ref={secondCarousel.ref}>
           <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-base-color dark:text-white">
             <h4 className="drop-shadow-md text-base-color dark:text-white">
               <Button
@@ -89,13 +121,17 @@ const Nutrition = () => {
               plancha.
             </p>
           </div>
-          <NutritionCarousel
-            data={NUTRITION_MODAL_DATA}
-            startIndex={0}
-            totalItems={18}
-          />
-        </div>
-        <div className="mb-24">
+          {secondCarousel.isVisible ? (
+            <NutritionCarousel
+              data={NUTRITION_MODAL_DATA}
+              startIndex={0}
+              totalItems={18}
+            />
+          ) : (
+            <Loading />
+          )}
+        </section>
+        <section className="mb-24" ref={thirdCarousel.ref}>
           <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-base-color dark:text-white">
             <h4 className="drop-shadow-md text-base-color dark:text-white">
               <Button
@@ -121,12 +157,16 @@ const Nutrition = () => {
               galletas de avena.
             </p>
           </div>
-          <NutritionCarousel
-            data={NUTRITION_MODAL_DATA}
-            startIndex={33}
-            totalItems={15}
-          />
-        </div>
+          {thirdCarousel.isVisible ? (
+            <NutritionCarousel
+              data={NUTRITION_MODAL_DATA}
+              startIndex={33}
+              totalItems={15}
+            />
+          ) : (
+            <Loading />
+          )}
+        </section>
       </section>
     </>
   );

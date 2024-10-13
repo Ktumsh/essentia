@@ -1,4 +1,4 @@
-import NutritionCarouselItem from "./nutrition-carousel-item";
+import dynamic from "next/dynamic";
 
 import { FC } from "react";
 import {
@@ -11,6 +11,11 @@ import {
 import { ModalData } from "@/types/common";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 
+const NutritionCarouselItem = dynamic(
+  () => import("./nutrition-carousel-item"),
+  { ssr: false }
+);
+
 interface Props {
   data: Array<ModalData>;
   startIndex: number;
@@ -18,12 +23,11 @@ interface Props {
 }
 
 const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
-  const { width } = useWindowSize();
-  const windowSize = window.innerWidth;
+  const windowSize = useWindowSize();
 
   const itemsGroup = data.slice(startIndex, startIndex + totalItems);
 
-  const slidesToScroll = windowSize < 1024 ? 1 : width && width < 1024 ? 1 : 3;
+  const slidesToScroll = windowSize.width < 1024 ? 1 : 3;
 
   return (
     <>
@@ -41,6 +45,7 @@ const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
                 modalTitle={item.modalTitle}
                 modalImage={item.modalImage}
                 modalBody={item.modalBody}
+                index={index}
               />
             </CarouselItem>
           ))}

@@ -18,7 +18,7 @@ const Footer = ({ isMobile }: FooterProps) => {
           <Button
             as={Link}
             href="https://github.com/Ktumsh/essentia/issues/new"
-            target="_blank"
+            aria-label="Reportar un error"
             variant="flat"
             size="sm"
             isIconOnly

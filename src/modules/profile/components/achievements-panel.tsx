@@ -5,10 +5,9 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Tooltip,
 } from "@nextui-org/react";
 import { createAvatar } from "@dicebear/core";
-import { icons } from "@dicebear/collection";
+import * as icons from "@dicebear/icons";
 import { TrophyIcon } from "@/modules/icons/miscellaneus";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 

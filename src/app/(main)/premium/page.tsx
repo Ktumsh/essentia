@@ -1,10 +1,14 @@
 import DesktopFooter from "@/modules/core/components/ui/layout/desktop-footer";
-import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
-import FAQ from "@/modules/premium/components/faq";
 import PricingCards from "@/modules/premium/components/pricing-cards";
+import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 import { Session } from "@/types/session";
 import { auth } from "@@/auth";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const FAQ = dynamic(() => import("@/modules/premium/components/faq"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Premium",
