@@ -2,8 +2,9 @@
 
 import { FC, useEffect } from "react";
 import { HealthFact } from "@/types/common";
-import { Image as UIImage } from "@nextui-org/react";
+import { Image as ImageUI } from "@nextui-org/react";
 import { getRandomFacts } from "../../../lib/utils";
+import Image from "next/image";
 
 interface HealthFactsCardProps {
   facts: HealthFact[];
@@ -24,7 +25,10 @@ const HealthFactsCard: FC<HealthFactsCardProps> = ({ facts, setFacts }) => {
         >
           <div className="relative flex flex-col h-full overflow-hidden">
             <div className="flex flex-col items-center justify-between size-full overflow-hidden">
-              <UIImage
+              <ImageUI
+                as={Image}
+                width={270}
+                height={190}
                 removeWrapper
                 src={fact.image}
                 alt={fact.fact}
