@@ -143,7 +143,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
               ))}
             </motion.div>
           )}
-          <div className="relative md:-ml-1 border-t bg-white dark:bg-base-full-dark px-4 py-2 shadow-lg sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
+          <div className="relative md:-ml-1 border-t bg-white dark:bg-base-full-dark px-4 py-2 sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
             <motion.div
               initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={
