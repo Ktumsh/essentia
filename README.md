@@ -42,6 +42,7 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 ## 💡 Secciones Principales
 
 1. **Recursos**
+
    - 🧘‍♀️ Salud y Bienestar
    - 🏋️ Ejercicios y Fitness
    - 🍎 Nutrición
@@ -49,11 +50,11 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
    - 👫 Salud y Educación Sexual
    - 👨‍👩‍👧‍👦 Salud para Todas las Edades
 
-3. **🤖 Essentia AI**: Inteligencia artificial especializada en salud.
+2. **🤖 Essentia AI**: Inteligencia artificial especializada en salud.
 
-4. **🌐 Centros de Salud**: Apartado de búsqueda de centros de salud y farmacias cercanas.
+3. **🌐 Centros de Salud**: Apartado de búsqueda de centros de salud y farmacias cercanas.
 
-5. **📚 Recursos Adicionales**: Sección para recursos adicionales sobre salud.
+4. **📚 Recursos Adicionales**: Sección para recursos adicionales sobre salud.
 
 ## 🦾 Para empezar
 
@@ -90,13 +91,13 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
    ```sh
    pnpm run dev
    ```
-   
+
 4. Uso de Essentia AI necesitarás una API key, si eres amigo del propietario puedes perdir
 
 5. Configura las variables de entorno necesarias para tu desarrollo local
-   - Genera un hash aleatorio, puedes usar el siguiente comando ```openssl rand -hex 32``` o en [esta página](https://generate-secret.vercel.app/)
-   - Crea un archivo llamado ```.env.local``` y copia el contenido de [.env.demo](.env.demo) en él
-   - Reemplaza el texto copiado de demo en ```.env.local``` con tu id, secreto y hash
+   - Genera un hash aleatorio, puedes usar el siguiente comando `openssl rand -hex 32` o en [esta página](https://generate-secret.vercel.app/)
+   - Crea un archivo llamado `.env.local` y copia el contenido de [.env.demo](.env.demo) en él
+   - Reemplaza el texto copiado de demo en `.env.local` con tu id, secreto y hash
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
@@ -110,24 +111,24 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 ```text
 ├── /modules/                      # Módulos principales de la aplicación
 │   ├── /additionals/              # Módulo de Recursos Adicionales
-│   │   ├── /components/           # Componentes UI adicionales
+│   │   ├── /components/           # components UI adicionales
 │   │   ├── /hooks/                # Hooks reutilizables para recursos adicionales
 │   │   └── /lib/                  # Lógica y utilidades de recursos adicionales
 │   ├── /auth/                     # Módulo de Autenticación
-│   │   ├── /components/           # Componentes UI para autenticación
+│   │   ├── /components/           # components UI para autenticación
 │   │   ├── /hooks/                # Hooks específicos para autenticación
 │   │   └── /lib/                  # Lógica relacionada con la autenticación
 │   ├── /chatbot/                  # Módulo de Chatbot/Essentia AI
 │   │   ├── /chat/                 # Funcionalidades del chat del chatbot
-│   │   ├── /componentes/          # Componentes de UI del chatbot
+│   │   ├── /components/          # components de UI del chatbot
 │   │   ├── /hooks/                # Hooks reutilizables para el chatbot
 │   │   └── /lib/                  # Lógica y utilidades del chatbot
 │   ├── /core/                     # Núcleo de la aplicación
-│   │   ├── /components/           # Componentes UI principales
+│   │   ├── /components/           # components UI principales
 │   │   ├── /hooks/                # Hooks reutilizables globales
 │   │   └── /lib/                  # Lógica central compartida
 │   ├── /health-centers/           # Módulo de Centros de Salud
-│   │   ├── /components/           # Componentes UI relacionados con centros de salud
+│   │   ├── /components/           # components UI relacionados con centros de salud
 │   │   ├── /hooks/                # Hooks específicos para centros de salud
 │   │   └── /lib/                  # Lógica y utilidades relacionadas con centros de salud
 │   ├── /home/                     # Módulo página de inicio
@@ -147,11 +148,9 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 - [![Typescript][typescript-badge]][typescript-url] JavaScript con sintaxis para tipos.
 - [![Tailwind CSS][tailwind-badge]][tailwind-url] Un marco de utilidad CSS para crear rápidamente diseños personalizados.
 
-
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo la **[Licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/)**. Consulta el archivo [LICENSE](LICENSE.md) para más detalles.
-
 
 ## 📧 Contacto
 
@@ -166,7 +165,6 @@ Para más información o preguntas, puedes contactar al propietario en [jo.barra
 [nextjs-url]: https://nextjs.org/
 [typescript-url]: https://www.typescriptlang.org/
 [tailwind-url]: https://tailwindcss.com/
-
 [nextjs-badge]: https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [typescript-badge]: https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white&color=blue
 [tailwind-badge]: https://img.shields.io/badge/Tailwind-ffffff?style=for-the-badge&logo=tailwindcss&logoColor=38bdf8

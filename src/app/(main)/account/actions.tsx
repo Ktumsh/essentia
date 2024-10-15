@@ -6,7 +6,7 @@ import {
 } from "@/db/actions";
 import { Session } from "@/types/session";
 import { changePasswordSchema } from "@/utils/account";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { z } from "zod";
 import { ResultCode } from "@/utils/code";
 import { getStringFromBuffer } from "@/utils/common";

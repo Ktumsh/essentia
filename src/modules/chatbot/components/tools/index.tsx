@@ -1,7 +1,5 @@
-"use client";
-
 import dynamic from "next/dynamic";
-import ToolSkeleton from "../tools/tool-skeleton";
+import ToolSkeleton from "./tool-skeleton";
 
 export const ExerciseRoutineStock = dynamic(
   () => import("./excercise-routine-stock").then((mod) => mod.default),

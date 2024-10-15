@@ -1,19 +1,21 @@
 "use client";
 
-import { SpinnerMessage } from "./message";
 import { motion } from "framer-motion";
+import { spinner } from "./spinner";
 
 const InitialLoading = () => {
   return (
     <div className="inline-flex items-center gap-1">
-      <SpinnerMessage />
-      <span className="text-base-color-m dark:text-base-color-dark-m animate-pulse">
+      <div className="h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden">
+        {spinner}
+      </div>
+      <span className="text-base-color-m dark:text-base-color-dark-m">
         {"Poniendo un poco de esencia".split("").map((character, index) => (
           <motion.span
             key={index}
             variants={{
               initial: {
-                opacity: 0.75,
+                opacity: 0.5,
                 x: -100,
               },
               animate: {

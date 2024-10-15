@@ -1,6 +1,5 @@
 "use client";
 
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import {
   Button,
   Modal,
@@ -8,56 +7,59 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { FC, useState, useTransition } from "react";
+import { FC, useState } from "react";
 import ChatShareModal from "./chat-share-modal";
 import { type Chat, ServerActionResult } from "@/types/chat";
 import { toast } from "sonner";
 import { DeleteIcon, ShareIcon } from "@/modules/icons/action";
 import { SpinnerIcon } from "@/modules/icons/common";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { KeyedMutator } from "swr";
 
 interface SidebarActionsProps {
   chat: Chat;
-  removeChat: (args: { id: string; path: string }) => ServerActionResult<void>;
   shareChat: (id: string) => ServerActionResult<Chat>;
   isActive?: boolean;
+  mutate: KeyedMutator<Chat[]>;
 }
 
 const SidebarActions: FC<SidebarActionsProps> = ({
   chat,
-  removeChat,
   shareChat,
-  isActive,
+  mutate,
 }) => {
-  const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleRemoveChat = async () => {
-    startTransition(async () => {
-      const result = await removeChat({
-        id: chat.id,
-        path: chat.path,
-      });
+  const handleDelete = async () => {
+    setIsLoading(true);
 
-      if (result && "error" in result) {
-        toast.error(result.error);
-        return;
-      }
-
-      onOpenChange();
-      if (isActive) {
-        router.refresh();
-        router.push("/essentia-ai");
-      }
-      toast.success("Chat eliminado");
+    const deletePromise = fetch(`/api/chat?id=${chat.id}`, {
+      method: "DELETE",
     });
+
+    toast.promise(
+      deletePromise.then(() => {
+        mutate((history) => {
+          if (history) {
+            return history.filter((h) => h.id !== chat.id);
+          }
+        });
+      }),
+      {
+        loading: "Eliminando chat...",
+        success: "Chat eliminado",
+        error: "Error al eliminar chat",
+      }
+    );
+
+    await deletePromise;
+    setIsLoading(false);
   };
+
   return (
     <>
       <TooltipCTN placement="top-start" content="Compartir chat">
@@ -83,7 +85,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           radius="sm"
           className="!size-7 min-w-0 text-base-color dark:text-base-color-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark pointer-events-auto"
           aria-haspopup="menu"
-          isDisabled={isPending}
+          isDisabled={isLoading}
           onPress={onOpen}
         >
           <DeleteIcon className="size-4" />
@@ -124,16 +126,16 @@ const SidebarActions: FC<SidebarActionsProps> = ({
               <ModalFooter>
                 <Button
                   color="danger"
-                  isDisabled={isPending}
+                  isDisabled={isLoading}
                   startContent={
-                    isPending ? (
+                    isLoading ? (
                       <SpinnerIcon className="size-4 animate-spin" />
                     ) : null
                   }
-                  onPress={handleRemoveChat}
+                  onPress={handleDelete}
                   className="rounded-md"
                 >
-                  {isPending ? "Eliminando..." : "Eliminar"}
+                  {isLoading ? "Eliminando..." : "Eliminar"}
                 </Button>
                 <Button
                   variant="light"

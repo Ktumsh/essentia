@@ -1,21 +1,14 @@
 "use client";
 
 import { FC, useEffect, useRef, useState } from "react";
-import React from "react"; // Importar React
 
-import type { AI } from "../chat/actions";
-
-import { useActions, useUIState } from "ai/rsc";
-
-import { nanoid } from "nanoid";
 import { Button, useDisclosure } from "@nextui-org/react";
 
 import PromptForm from "./prompt-form";
-import FooterText from "./footer-text";
+import FooterText from "../components/ui/footer-text";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
-import { UserMessage } from "./stocks/message";
 import { cn, shuffleArray } from "@/utils/common";
-import { Session, UserProfileData } from "@/types/session";
+import { Session } from "@/types/session";
 import Link from "next/link";
 import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
 import { motion } from "framer-motion";
@@ -24,13 +17,26 @@ import PaymentModal from "../../payment/components/payment-modal";
 import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { ChatRequestOptions, CreateMessage, Message } from "ai";
 
 export interface ChatPanelProps {
   input: string;
   setInput: (value: string) => void;
-  isAtBottom: boolean;
+  stop: () => void;
   scrollToBottom: () => void;
-  profileData: UserProfileData | null;
+  append: (
+    message: Message | CreateMessage,
+    chatRequestOptions?: ChatRequestOptions
+  ) => Promise<string | null | undefined>;
+  handleSubmit: (
+    event?: {
+      preventDefault?: () => void;
+    },
+    chatRequestOptions?: ChatRequestOptions
+  ) => void;
+  messages: Array<Message>;
+  isLoading: boolean;
+  isAtBottom: boolean;
   isPremium: boolean | null;
   session: Session | undefined;
 }
@@ -38,17 +44,19 @@ export interface ChatPanelProps {
 const ChatPanel: FC<ChatPanelProps> = ({
   input,
   setInput,
-  isAtBottom,
+  stop,
   scrollToBottom,
-  profileData,
+  append,
+  handleSubmit,
+  messages,
+  isLoading,
+  isAtBottom,
   isPremium,
   session,
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isWarningModalOpen, handleOpenPaymentModal } =
     useWarningModal(isPremium);
-  const [messages, setMessages] = useUIState<typeof AI>();
-  const { submitUserMessage } = useActions();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -61,10 +69,10 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   const initialMessages = INITIAL_CHAT_MESSAGES;
 
-  const [exampleMessages, setExampleMessages] = useState(initialMessages);
+  const [suggestedActions, setSuggestedActions] = useState(initialMessages);
 
   useEffect(() => {
-    setExampleMessages((prevMessages) => shuffleArray([...prevMessages]));
+    setSuggestedActions((prevMessages) => shuffleArray([...prevMessages]));
   }, []);
 
   const hasProcessedQueryRef = useRef(false);
@@ -72,61 +80,23 @@ const ChatPanel: FC<ChatPanelProps> = ({
   useEffect(() => {
     if (searchQuery && !hasProcessedQueryRef.current) {
       hasProcessedQueryRef.current = true;
-
       router.replace(pathname);
-
-      const hasAlreadyProcessed = messages.some((message) => {
-        if (React.isValidElement(message.display)) {
-          // Verificar si el elemento es un UserMessage
-          if (message.display.type === UserMessage) {
-            const children = message.display.props.children;
-            if (typeof children === "string") {
-              return children === searchQuery;
-            }
-          }
-        }
-        return false;
+      append({
+        role: "user",
+        content: searchQuery,
       });
-
-      if (!hasAlreadyProcessed) {
-        setMessages((currentMessages) => [
-          ...currentMessages,
-          {
-            id: nanoid(),
-            display: (
-              <UserMessage profileData={profileData}>{searchQuery}</UserMessage>
-            ),
-          },
-        ]);
-
-        const sendMessage = async () => {
-          const responseMessage = await submitUserMessage(searchQuery);
-          setMessages((currentMessages) => [
-            ...currentMessages,
-            responseMessage,
-          ]);
-        };
-        sendMessage();
-      }
+      handleSubmit();
     }
-  }, [
-    searchQuery,
-    messages,
-    router,
-    pathname,
-    profileData,
-    setMessages,
-    submitUserMessage,
-  ]);
+  }, [searchQuery, router, pathname, append, handleSubmit]);
 
   return (
     <>
-      <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding] z-10 pointer-events-none">
-        <ButtonToBottom
-          isAtBottom={isAtBottom}
-          scrollToBottom={scrollToBottom}
-        />
+      <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:md:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding] z-10 pointer-events-none">
         <div className="relative mx-auto max-w-2xl sm:px-4 pointer-events-auto">
+          <ButtonToBottom
+            isAtBottom={isAtBottom}
+            scrollToBottom={scrollToBottom}
+          />
           {messages.length === 0 && (
             <motion.div
               initial={{ opacity: 1 }}
@@ -134,45 +104,42 @@ const ChatPanel: FC<ChatPanelProps> = ({
               transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
               className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide"
             >
-              {exampleMessages.slice(0, 4).map((example, index) => (
-                <Button
+              {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ delay: 0.1 * index }}
                   key={index}
-                  radius="sm"
-                  isDisabled={!isPremium}
-                  startContent={
-                    <example.icon className={cn("size-4", example.iconColor)} />
-                  }
-                  className={cn(
-                    "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark data-[disabled=true]:opacity-100"
-                  )}
-                  onClick={async () => {
-                    setMessages((currentMessages) => [
-                      ...currentMessages,
-                      {
-                        id: nanoid(),
-                        display: (
-                          <UserMessage profileData={profileData}>
-                            {example.message}
-                          </UserMessage>
-                        ),
-                      },
-                    ]);
-
-                    const responseMessage = await submitUserMessage(
-                      example.message
-                    );
-
-                    setMessages((currentMessages) => [
-                      ...currentMessages,
-                      responseMessage,
-                    ]);
-                  }}
+                  className="w-full"
                 >
-                  <div className="text-sm font-semibold">{example.heading}</div>
-                  <div className="text-sm text-base-color-m dark:text-base-color-dark-m text-wrap">
-                    {example.subheading}
-                  </div>
-                </Button>
+                  <Button
+                    radius="sm"
+                    isDisabled={!isPremium}
+                    fullWidth
+                    startContent={
+                      <suggestedAction.icon
+                        className={cn("size-4", suggestedAction.iconColor)}
+                      />
+                    }
+                    className={cn(
+                      "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark data-[disabled=true]:opacity-100"
+                    )}
+                    onPress={async () => {
+                      append({
+                        role: "user",
+                        content: suggestedAction.action,
+                      });
+                    }}
+                  >
+                    <div className="text-sm font-semibold">
+                      {suggestedAction.heading}
+                    </div>
+                    <div className="text-sm text-base-color-m dark:text-base-color-dark-m text-wrap">
+                      {suggestedAction.subheading}
+                    </div>
+                  </Button>
+                </motion.div>
               ))}
             </motion.div>
           )}
@@ -192,9 +159,12 @@ const ChatPanel: FC<ChatPanelProps> = ({
               className="space-y-4"
             >
               <PromptForm
-                profileData={profileData}
+                isLoading={isLoading}
+                handleSubmit={handleSubmit}
+                stop={stop}
                 input={input}
                 setInput={setInput}
+                isPremium={isPremium}
               />
               <FooterText className="hidden md:block" />
             </motion.div>

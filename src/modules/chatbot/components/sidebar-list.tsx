@@ -1,14 +1,16 @@
-import { clearChats } from "@/app/(main)/essentia-ai/actions";
 import ClearHistory from "./clear-history";
 import { SidebarItems } from "./sidebar-items";
 import { Chat } from "@/types/chat";
 import { groupChatsByDate } from "../lib/utils";
+import { clearChats } from "@/db/chat-querys";
+import { KeyedMutator } from "swr";
 
 interface SidebarListProps {
-  chats: Chat[];
+  chats?: Chat[];
+  mutate: KeyedMutator<Chat[]>;
 }
 
-const SidebarList = ({ chats }: SidebarListProps) => {
+const SidebarList = ({ chats, mutate }: SidebarListProps) => {
   const {
     todayChats,
     yesterdayChats,
@@ -37,35 +39,35 @@ const SidebarList = ({ chats }: SidebarListProps) => {
             {todayChats.length > 0 && (
               <div className="relative">
                 <ChatDateTitle day="Hoy" />
-                <SidebarItems chats={todayChats} />
+                <SidebarItems chats={todayChats} mutate={mutate} />
               </div>
             )}
 
             {yesterdayChats.length > 0 && (
               <div className="relative">
                 <ChatDateTitle day="Ayer" />
-                <SidebarItems chats={yesterdayChats} />
+                <SidebarItems chats={yesterdayChats} mutate={mutate} />
               </div>
             )}
 
             {last7DaysChats.length > 0 && (
               <div className="relative">
                 <ChatDateTitle day="Últimos 7 días" />
-                <SidebarItems chats={last7DaysChats} />
+                <SidebarItems chats={last7DaysChats} mutate={mutate} />
               </div>
             )}
 
             {last30DaysChats.length > 0 && (
               <div className="relative">
                 <ChatDateTitle day="Últimos 30 días" />
-                <SidebarItems chats={last30DaysChats} />
+                <SidebarItems chats={last30DaysChats} mutate={mutate} />
               </div>
             )}
 
             {Object.keys(olderChats).map((monthYear) => (
               <div key={monthYear} className="relative">
                 <ChatDateTitle day={monthYear} />
-                <SidebarItems chats={olderChats[monthYear]} />
+                <SidebarItems chats={olderChats[monthYear]} mutate={mutate} />
               </div>
             ))}
           </div>
@@ -78,7 +80,10 @@ const SidebarList = ({ chats }: SidebarListProps) => {
         )}
       </div>
       <div className="flex items-center justify-between p-4">
-        <ClearHistory clearChats={clearChats} isEnabled={chats.length > 0} />
+        <ClearHistory
+          clearChats={clearChats}
+          isEnabled={chats ? chats.length > 0 : false}
+        />
       </div>
     </div>
   );

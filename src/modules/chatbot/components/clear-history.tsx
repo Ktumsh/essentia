@@ -50,7 +50,7 @@ const ClearHistory: FC<ClearHistoryProps> = ({
         <Button
           onPress={onOpen}
           variant="light"
-          disabled={!isEnabled || isPending}
+          isDisabled={!isEnabled || isPending}
           className="h-10 rounded-xl px-3 font-medium text-sm text-base-color-h dark:text-base-color-dark-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent"
         >
           {isPending && <SpinnerIcon className="mr-2" />}

@@ -44,6 +44,7 @@ export const routineSchema = z.object({
       .string()
       .optional()
       .describe("Recomendaciones para el enfriamiento"),
+
     schedule: z
       .array(
         z.object({

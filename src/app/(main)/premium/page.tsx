@@ -2,7 +2,7 @@ import DesktopFooter from "@/modules/core/components/ui/layout/desktop-footer";
 import PricingCards from "@/modules/premium/components/pricing-cards";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 import { Session } from "@/types/session";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 

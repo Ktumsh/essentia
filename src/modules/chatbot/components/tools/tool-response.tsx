@@ -1,4 +1,4 @@
-import { sleep } from "@/utils/common";
+/* import { sleep } from "@/utils/common";
 import { nanoid } from "nanoid";
 import { AIState } from "../../chat/actions";
 import { BotCard } from "../stocks/message";
@@ -19,6 +19,8 @@ export const generateToolResponse = async (
   resultComponent: React.ReactNode
 ): Promise<React.ReactNode> => {
   try {
+    await sleep(1000);
+
     const toolCallId = nanoid();
 
     aiState.done({
@@ -33,7 +35,7 @@ export const generateToolResponse = async (
               type: "tool-call",
               toolName,
               toolCallId,
-              args,
+              args: { args },
             },
           ],
         },
@@ -52,8 +54,6 @@ export const generateToolResponse = async (
       ],
     });
 
-    await sleep(1000);
-
     return <BotCard>{resultComponent}</BotCard>;
   } catch (error) {
     console.error(
@@ -67,3 +67,4 @@ export const generateToolResponse = async (
     );
   }
 };
+ */

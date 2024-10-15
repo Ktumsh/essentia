@@ -1,6 +1,6 @@
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { redirect } from "next/navigation";
 
 const ProfilePage = async () => {

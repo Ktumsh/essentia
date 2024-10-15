@@ -3,7 +3,7 @@
 import { Chat } from "@/types/chat";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { sql } from "@vercel/postgres";
 
 export async function saveChat(chat: Chat) {
@@ -25,6 +25,9 @@ export async function saveChat(chat: Chat) {
     JSON.stringify(messages),
     sharePath || null,
   ];
+
+  revalidatePath(path);
+  revalidatePath("/essentia-ai");
 
   await sql.query(query, values);
 }

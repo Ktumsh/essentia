@@ -1,25 +1,24 @@
 "use client";
 
-import { Message } from "@/types/chat";
-import { useAIState, useUIState } from "ai/rsc";
-import { usePathname, useRouter } from "next/navigation";
-import { ComponentProps, useEffect, useState } from "react";
+import { ComponentProps, useEffect } from "react";
+import { Message } from "ai";
+import { useChat } from "ai/react";
 import { toast } from "sonner";
-import ChatList from "./chat-list";
-import EmptyScreen from "./empty-screen";
-import ChatPanel from "./chat-panel";
 import { Session, UserProfileData } from "@/types/session";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { useScrollAnchor } from "../hooks/use-scroll-anchor";
 import { cn } from "@/utils/common";
+import ChatList from "./chat-list";
+import EmptyScreen from "./empty-screen";
+import ChatPanel from "./chat-panel";
 
 export interface ChatProps extends ComponentProps<"div"> {
-  initialMessages?: Message[];
-  id?: string;
+  id: string;
   session?: Session | undefined;
   missingKeys: string[];
   profileData: UserProfileData | null;
   isPremium: boolean | null;
+  initialMessages: Array<Message>;
 }
 
 export function Chat({
@@ -29,28 +28,18 @@ export function Chat({
   missingKeys,
   profileData,
   isPremium,
+  initialMessages,
 }: ChatProps) {
-  const router = useRouter();
-  const path = usePathname();
-  const [input, setInput] = useState("");
-  const [messages] = useUIState();
-  const [aiState] = useAIState();
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
-
-  useEffect(() => {
-    if (session?.user) {
-      if (!path.includes("chat") && messages.length === 1) {
+  const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
+    useChat({
+      id,
+      body: { id },
+      initialMessages,
+      onFinish: () => {
         window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);
-      }
-    }
-  }, [id, path, session?.user, messages.length]);
-
-  useEffect(() => {
-    const messagesLength = aiState.messages?.length;
-    if (messagesLength === 2) {
-      router.refresh();
-    }
-  }, [aiState.messages, router]);
+      },
+    });
 
   useEffect(() => {
     setNewChatId(id);
@@ -67,7 +56,7 @@ export function Chat({
 
   return (
     <div
-      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
+      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
       ref={scrollRef}
     >
       <div
@@ -75,7 +64,13 @@ export function Chat({
         ref={messagesRef}
       >
         {messages.length ? (
-          <ChatList messages={messages} isShared={false} session={session} />
+          <ChatList
+            id={id}
+            messages={messages}
+            isShared={false}
+            session={session}
+            profileData={profileData}
+          />
         ) : (
           <EmptyScreen />
         )}
@@ -85,9 +80,13 @@ export function Chat({
       <ChatPanel
         input={input}
         setInput={setInput}
-        isAtBottom={isAtBottom}
+        stop={stop}
         scrollToBottom={scrollToBottom}
-        profileData={profileData}
+        append={append}
+        handleSubmit={handleSubmit}
+        messages={messages}
+        isAtBottom={isAtBottom}
+        isLoading={isLoading}
         isPremium={isPremium}
         session={session}
       />

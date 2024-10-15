@@ -1,7 +1,7 @@
 import Home from "@/modules/home/components/home";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 
 export const metadata = {
   title: "Inicio",
