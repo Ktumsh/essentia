@@ -74,7 +74,7 @@ const LoginForm = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark sm:dark:border dark:border-base-dark text-left sm:shadow-lg font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
+    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
       <form
         className="flex flex-col items-start justify-center size-full gap-5 mb-4 select-none"
         onSubmit={handleSubmit}
