@@ -431,6 +431,23 @@ const UploadIcon = (props: IconSvgProps) => {
   );
 };
 
+const StopIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M20.2 3H3.8a.8.8 0 0 0-.8.8v16.4a.8.8 0 0 0 .8.8h16.4a.8.8 0 0 0 .8-.8V3.8a.8.8 0 0 0-.8-.8"
+      />
+    </svg>
+  );
+};
+
 export {
   AddPhotoIcon,
   BugIcon,
@@ -454,4 +471,5 @@ export {
   ZoomInIcon,
   ZoomOutIcon,
   UploadIcon,
+  StopIcon,
 };

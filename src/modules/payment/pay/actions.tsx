@@ -11,7 +11,7 @@ import {
   updateUserStripeCustomerId,
 } from "@/db/actions";
 import { Session } from "@/types/session";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import Stripe from "stripe";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);

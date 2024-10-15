@@ -1,7 +1,7 @@
 import ProfilePanel from "@/modules/profile/components/profile-panel";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { Metadata } from "next";
 
 type Props = {

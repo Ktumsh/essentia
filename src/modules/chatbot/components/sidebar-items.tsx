@@ -4,14 +4,16 @@ import { Chat } from "@/types/chat";
 import { AnimatePresence, motion } from "framer-motion";
 import { SidebarItem } from "./sidebar-item";
 import SidebarActions from "./sidebar-actions";
-import { removeChat, shareChat } from "@/app/(main)/essentia-ai/actions";
 import { usePathname } from "next/navigation";
+import { removeChat, shareChat } from "@/db/chat-querys";
+import { KeyedMutator } from "swr";
 
 interface SidebarItemsProps {
   chats?: Chat[];
+  mutate: KeyedMutator<Chat[]>;
 }
 
-export function SidebarItems({ chats }: SidebarItemsProps) {
+export function SidebarItems({ chats, mutate }: SidebarItemsProps) {
   const pathname = usePathname();
 
   if (!chats?.length) return null;
@@ -27,9 +29,9 @@ export function SidebarItems({ chats }: SidebarItemsProps) {
               <SidebarItem index={index} chat={chat} isActive={isActive}>
                 <SidebarActions
                   chat={chat}
-                  removeChat={removeChat}
                   shareChat={shareChat}
                   isActive={isActive}
+                  mutate={mutate}
                 />
               </SidebarItem>
             </motion.div>

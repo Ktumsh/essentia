@@ -1,13 +1,13 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Navbar } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import MenuButton from "../buttons/menu-button";
 import { usePathname } from "next/navigation";
-import SidebarMobile from "@/modules/chatbot/componentes/sidebar-mobile";
-import ChatHistory from "@/modules/chatbot/componentes/chat-history";
+import SidebarMobile from "@/modules/chatbot/components/sidebar-mobile";
+import ChatHistory from "@/modules/chatbot/components/chat-history";
 import {
   Sheet,
   SheetContent,
@@ -20,17 +20,31 @@ import { UserProfileData } from "@/types/session";
 import { Chat } from "@/types/chat";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import MobileMenu from "./mobile-menu";
+import useSWR from "swr";
+import { fetcher } from "@/utils/common";
 
 interface MobileHeaderProps {
   profileData: UserProfileData | null;
-  chats: Chat[];
 }
 
-const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
+const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
   const windowSize = useWindowSize();
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSheetChatOpen, setIsSheetChatOpen] = useState(false);
+  const { data: history, mutate } = useSWR<Array<Chat>>(
+    profileData ? "/api/history" : null,
+    fetcher,
+    {
+      fallbackData: [],
+    }
+  );
+
+  useEffect(() => {
+    if (windowSize.width < 768) {
+      mutate();
+    }
+  }, [windowSize.width, pathname, mutate]);
 
   if (windowSize.width > 768) return null;
 
@@ -60,7 +74,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData, chats }) => {
             setIsSheetOpen={setIsSheetChatOpen}
             sheetSide={sheetSideChat}
           >
-            <ChatHistory chats={chats} />
+            <ChatHistory chats={history} mutate={mutate} />
           </SidebarMobile>
         )}
         <Link

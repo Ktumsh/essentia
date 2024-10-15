@@ -10,7 +10,7 @@ import { Providers } from "@/modules/core/components/wrappers/providers";
 import { Toaster } from "sonner";
 import { cn } from "@/utils/common";
 import TailwindIndicator from "@/modules/core/components/tailwind-indicator";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { Session } from "@/types/session";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 

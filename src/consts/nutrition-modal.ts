@@ -256,7 +256,7 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
               "Cocinar las arvejitas en abundante agua hirviendo a fuego medio con sal por 2 minutos. Retirar y dejar enfriar.",
               "Cocinar el choclo desde agua fría con sal por 2 minutos desde que hierve el agua a fuego medio. Retirar y dejar enfriar.",
               "Cocinar la pasta en abundante agua con sal por 10 minutos o hasta que esté al dente. Drenar y mezclar con el aceite de oliva para que no se pegue mientras se enfría.",
-              "Una vez que todos los componentes se hayan enfriado, mezclar todo con la salsa de ajo tostado y servir.",
+              "Una vez que todos los components se hayan enfriado, mezclar todo con la salsa de ajo tostado y servir.",
             ],
           })}
           <p class="italic text-center font-bold !mt-8">

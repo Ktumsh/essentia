@@ -1,6 +1,5 @@
 "use server";
 
-import { validatePassword } from "@/modules/auth/lib/form";
 import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
 import { Payment, User, UserProfile, UserProfileData } from "@/types/session";
 import { createPool, sql } from "@vercel/postgres";

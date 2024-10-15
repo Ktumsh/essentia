@@ -7,8 +7,7 @@ import WelcomeModal from "@/modules/core/components/ui/modals/welcome-modal";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
-import { auth } from "@@/auth";
-import { getChats } from "./essentia-ai/actions";
+import { auth } from "@/app/(auth)/auth";
 
 export default async function MainLayout({
   children,
@@ -18,14 +17,12 @@ export default async function MainLayout({
   const session = (await auth()) as Session;
   const profileData = session ? await getUserProfileData(session) : null;
 
-  const chats = session ? await getChats(session.user.id) : [];
-
   return (
     <>
       {/* Header */}
       <Header profileData={profileData} />
       {/* Mobile Header */}
-      <MobileHeader profileData={profileData} chats={chats} />
+      <MobileHeader profileData={profileData} />
       <LayoutWrapper>{children}</LayoutWrapper>
       {/* Bottom Mobile Navbar */}
       <BottomNav profileData={profileData} />

@@ -4,9 +4,8 @@ import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { CalendarFillIcon, ClockIcon } from "@/modules/icons/status";
 
 import Image from "next/image";
-import { toPng } from "html-to-image";
 import { DownloadIcon } from "@/modules/icons/action";
-import { Fragment, useCallback, useRef } from "react";
+import { Fragment } from "react";
 import {
   Button,
   Card,

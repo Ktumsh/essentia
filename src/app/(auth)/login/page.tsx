@@ -1,6 +1,6 @@
 import LoginWrapper from "@/modules/auth/components/login-wrapper";
 import { Session } from "@/types/session";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

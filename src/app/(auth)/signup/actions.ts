@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { ResultCode } from "@/utils/code";
-import { signIn } from "@@/auth";
+import { signIn } from "@/app/(auth)/auth";
 import { AuthError } from "next-auth";
 import { getStringFromBuffer } from "@/utils/common";
 import { getUserByEmail, getUserByUsername } from "@/db/actions";

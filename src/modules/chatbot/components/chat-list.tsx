@@ -2,20 +2,26 @@
 
 import Link from "next/link";
 import { Separator } from "@/modules/core/components/ui/utils/separator";
-import { UIState } from "../chat/actions";
-import { Session } from "@/types/session";
+import { Session, UserProfileData } from "@/types/session";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { motion } from "framer-motion";
-import { SpinnerMessage } from "./stocks/message";
-import { InitialLoading } from "./stocks/initial-loading";
+import { Message } from "ai";
+import { Message as PreviewMessage } from "../components/ui/message";
 
 export interface ChatList {
-  messages: UIState;
+  id?: string;
+  messages: Array<Message>;
   session?: Session;
   isShared: boolean;
+  profileData?: UserProfileData | null;
 }
 
-const ChatList = ({ messages, session, isShared }: ChatList) => {
+const ChatList = ({
+  id,
+  messages,
+  session,
+  isShared,
+  profileData,
+}: ChatList) => {
   if (!messages.length) {
     return null;
   }
@@ -45,17 +51,18 @@ const ChatList = ({ messages, session, isShared }: ChatList) => {
         </>
       ) : null}
       {messages.map((message, index) => (
-        <motion.div
-          key={message.id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-        >
-          {message.display}
-          {index < messages.length - 1 && messages[index + 1].display && (
+        <div key={message.id}>
+          <PreviewMessage
+            key={`${id}-${index}`}
+            role={message.role}
+            content={message.content}
+            toolInvocations={message.toolInvocations}
+            profileData={profileData}
+          />
+          {index < messages.length - 1 && messages[index + 1] && (
             <Separator className="my-4" />
           )}
-        </motion.div>
+        </div>
       ))}
     </div>
   );

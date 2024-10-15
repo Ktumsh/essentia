@@ -52,7 +52,7 @@ const ExcerciseFitness = () => {
         </div>
       </section>
 
-      {/* Contenedores ocultos para los componentes de React*/}
+      {/* Contenedores ocultos para los components de React*/}
       <div id="components" style={{ display: "none" }}>
         {FITNESS_MODAL_DATA.map((modal, index) => (
           <div key={index} id={`component-${modal.id}`}>

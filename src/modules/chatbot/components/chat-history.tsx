@@ -3,25 +3,19 @@ import { FC } from "react";
 import { NewIcon } from "@/modules/icons/action";
 import { Chat } from "@/types/chat";
 import dynamic from "next/dynamic";
+import HistoryLoading from "../components/ui/history-loading";
+import { KeyedMutator } from "swr";
 
 const SidebarList = dynamic(() => import("./sidebar-list"), {
-  loading: () => (
-    <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
-      {Array.from({ length: 15 }).map((_, i) => (
-        <div
-          key={i}
-          className="w-full h-6 rounded-full shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
-        />
-      ))}
-    </div>
-  ),
+  loading: () => <HistoryLoading hideHeader={true} />,
 });
 
 interface ChatHistoryProps {
-  chats: Chat[];
+  chats?: Chat[];
+  mutate: KeyedMutator<Chat[]>;
 }
 
-const ChatHistory: FC<ChatHistoryProps> = ({ chats }) => {
+const ChatHistory: FC<ChatHistoryProps> = ({ chats, mutate }) => {
   return (
     <div className="flex flex-col h-full text-base-color dark:text-base-color-dark">
       <div className="flex items-center p-4 gap-2">
@@ -36,7 +30,7 @@ const ChatHistory: FC<ChatHistoryProps> = ({ chats }) => {
           Nuevo chat
         </Link>
       </div>
-      <SidebarList chats={chats} />
+      <SidebarList chats={chats} mutate={mutate} />
     </div>
   );
 };

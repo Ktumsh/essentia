@@ -18,7 +18,7 @@ import MainSearch from "./main-search";
 
 import { formatPathName } from "@/utils/format";
 
-import SidebarToggle from "@/modules/chatbot/componentes/sidebar-toggle";
+import SidebarToggle from "@/modules/chatbot/components/sidebar-toggle";
 import { UserProfileData } from "@/types/session";
 
 const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
