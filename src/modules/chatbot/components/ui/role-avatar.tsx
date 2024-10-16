@@ -34,7 +34,6 @@ export const UserAvatar = ({
   ) : (
     <Avatar
       showFallback
-      src="https://images.unsplash.com/broken"
       size="sm"
       icon={<AvatarIcon className="size-4" />}
       classNames={{

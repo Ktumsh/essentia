@@ -387,7 +387,6 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                     <Avatar
                       isBordered
                       showFallback
-                      src="https://images.unsplash.com/broken"
                       size="sm"
                       icon={<AvatarIcon />}
                       classNames={{
