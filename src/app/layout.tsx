@@ -16,6 +16,7 @@ import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
+import { PreloadResources } from "./preload-resources";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -99,18 +100,7 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning lang="es">
-      <head>
-        <link
-          rel="preconnect"
-          href="https://js.stripe.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://vercel.live"
-          crossOrigin="anonymous"
-        />
-      </head>
+      <head />
       <body
         className={cn(
           "bg-white dark:bg-base-full-dark isolate antialiased",
@@ -122,6 +112,7 @@ export default async function RootLayout({
           "font-dmsans"
         )}
       >
+        <PreloadResources />
         <Toaster
           position="top-center"
           toastOptions={{
