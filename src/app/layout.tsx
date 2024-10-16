@@ -15,6 +15,7 @@ import { Session } from "@/types/session";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://essentia-web.vercel.app"),
@@ -55,9 +56,9 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "/essentia-512x512.png",
-        width: 512,
-        height: 512,
+        url: "/essentia-1200x630.png",
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -69,9 +70,9 @@ export const metadata: Metadata = {
     creator: "@essentia_cl",
     images: [
       {
-        url: "/essentia-512x512.png",
-        width: 512,
-        height: 512,
+        url: "/essentia-1200x630.png",
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -122,6 +123,7 @@ export default async function RootLayout({
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />
+        <Script src="https://js.stripe.com" strategy="lazyOnload" />
       </body>
     </html>
   );

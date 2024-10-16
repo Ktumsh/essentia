@@ -5,7 +5,6 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { HashIcon } from "@/modules/icons/common";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { useVisibilityObserver } from "../hooks/use-visibility-obs";
 
