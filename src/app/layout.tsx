@@ -99,7 +99,18 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning lang="es">
-      <head />
+      <head>
+        <link
+          rel="preconnect"
+          href="https://js.stripe.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://vercel.live"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={cn(
           "bg-white dark:bg-base-full-dark isolate antialiased",
@@ -123,7 +134,7 @@ export default async function RootLayout({
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />
-        <Script src="https://js.stripe.com" strategy="lazyOnload" />
+        <Script src="https://js.stripe.com/v3/" strategy="lazyOnload" />
       </body>
     </html>
   );

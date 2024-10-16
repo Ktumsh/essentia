@@ -68,7 +68,6 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         as={Link}
                         href={`/profile/${username}`}
                         showFallback
-                        src="https://images.unsplash.com/broken"
                         size="sm"
                         icon={<AvatarIcon />}
                         classNames={{

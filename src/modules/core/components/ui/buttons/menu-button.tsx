@@ -31,7 +31,6 @@ const MenuButton: React.FC<Props> = ({ profileData }) => {
           ) : (
             <Avatar
               showFallback
-              src="https://images.unsplash.com/broken"
               size="sm"
               icon={<AvatarIcon />}
               classNames={{
