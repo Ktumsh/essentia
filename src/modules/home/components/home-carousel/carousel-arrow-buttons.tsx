@@ -62,7 +62,7 @@ export const PrevButton: React.FC<PropType> = (props) => {
         {...restProps}
         variant="flat"
         radius="full"
-        className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-full bg-black/10 active:bg-black/30 pointer-events-auto"
+        className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-full bg-black/10 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30 pointer-events-auto"
       >
         <CarouselArrowIcon className="size-6 text-white" />
         {children}
@@ -80,7 +80,7 @@ export const NextButton: React.FC<PropType> = (props) => {
         {...restProps}
         variant="flat"
         radius="full"
-        className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-full bg-black/10 active:bg-black/30 pointer-events-auto"
+        className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-full bg-black/10 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30 pointer-events-auto"
       >
         <CarouselArrowIcon className="size-6 text-white rotate-180" />
         {children}

@@ -22,7 +22,6 @@ export const RESOURCES: Resources[] = [
     background: "bg-resource-1",
     resource: "salud-y-bienestar",
     component: HealthWellness,
-    span: "md:col-span-4",
   },
   {
     id: 2,
@@ -39,7 +38,6 @@ export const RESOURCES: Resources[] = [
     background: "bg-resource-2",
     resource: "ejercicios-y-fitness",
     component: ExcerciseFitness,
-    span: "md:col-span-5",
   },
   {
     id: 3,
@@ -55,7 +53,6 @@ export const RESOURCES: Resources[] = [
     background: "bg-resource-3",
     resource: "nutricion-y-alimentacion",
     component: Nutrition,
-    span: "md:col-span-3",
   },
   {
     id: 4,
@@ -72,7 +69,6 @@ export const RESOURCES: Resources[] = [
     background: "bg-resource-4",
     resource: "bienestar-emocional",
     component: Wellbeing,
-    span: "md:col-span-3",
   },
   {
     id: 5,
@@ -89,7 +85,6 @@ export const RESOURCES: Resources[] = [
     background: "bg-resource-5",
     resource: "salud-y-educacion-sexual",
     component: SexEducation,
-    span: "md:col-span-4",
   },
   {
     id: 6,
@@ -106,6 +101,5 @@ export const RESOURCES: Resources[] = [
     background: "bg-resource-6",
     resource: "salud-para-todas-las-edades",
     component: ForAllAges,
-    span: "md:col-span-5",
   },
 ];

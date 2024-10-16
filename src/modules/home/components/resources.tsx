@@ -3,13 +3,12 @@ import ResourcesItem from "./resources-item";
 
 const Resources = () => {
   const itemId = RESOURCES.map(
-    ({ title, subtitle, quote, image, resource, span }) => ({
+    ({ title, subtitle, quote, image, resource }) => ({
       title,
       subtitle,
       quote,
       image,
       href: `/${resource}`,
-      span,
     })
   );
   return (
@@ -18,7 +17,7 @@ const Resources = () => {
         {itemId.map((item, index) => (
           <ResourcesItem
             key={index}
-            wrapperClass={`col-span-12 sm:col-span-6 ${item.span}`}
+            index={index}
             title={item.title}
             subtitle={item.subtitle}
             img={item.image}
