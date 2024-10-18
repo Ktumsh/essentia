@@ -1,6 +1,6 @@
 "use server";
 
-import { sendVerificationEmail } from "@/modules/auth/lib/send-verification-email";
+import { sendEmail } from "@/modules/auth/lib/send-email";
 import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
 import { Payment, User, UserProfile, UserProfileData } from "@/types/session";
 import { createPool, sql } from "@vercel/postgres";
@@ -47,7 +47,7 @@ export async function resendEmailVerification(userId: string, email: string) {
       );
     }
 
-    const resultEmail = await sendVerificationEmail(email, newToken);
+    const resultEmail = await sendEmail(email, newToken);
 
     if (resultEmail.success) {
       return {

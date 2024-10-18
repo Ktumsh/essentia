@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createPool } from "@vercel/postgres";
-import { sendVerificationEmail } from "@/modules/auth/lib/send-verification-email";
+import { sendEmail } from "@/modules/auth/lib/send-email";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
@@ -17,7 +17,7 @@ export async function GET() {
   for (const user of usersDay1.rows) {
     const verificationToken = user.id;
 
-    const result = await sendVerificationEmail(user.email, verificationToken);
+    const result = await sendEmail(user.email, verificationToken);
 
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email} (día 1).`);
@@ -36,7 +36,7 @@ export async function GET() {
   for (const user of usersDay3.rows) {
     const verificationToken = user.id;
 
-    const result = await sendVerificationEmail(user.email, verificationToken);
+    const result = await sendEmail(user.email, verificationToken);
 
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email} (día 3).`);
