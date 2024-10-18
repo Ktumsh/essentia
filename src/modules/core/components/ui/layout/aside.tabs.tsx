@@ -5,7 +5,7 @@ import HealthFactsCard from "../cards/health-facts-card";
 import { usePathname } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { HealthFact } from "@/types/common";
-import { getRandomFacts } from "../../../lib/utils";
+import { getRandomFacts } from "@/modules/core/lib/utils";
 
 const AsideTabs = () => {
   const [facts, setFacts] = useState<HealthFact[]>([]);
@@ -26,17 +26,18 @@ const AsideTabs = () => {
                     Consejos del día
                   </h3>
                 </div>
-                <section className="flex flex-col h-1/2">
+                <section className="flex flex-col h-full">
                   <HealthFactsCard facts={facts} setFacts={setFacts} />
+                  <Button
+                    aria-label="Ver más consejos"
+                    variant="flat"
+                    radius="sm"
+                    onPress={() => setFacts(getRandomFacts(2))}
+                    className="bg-black/5 dark:bg-white/5 text-base-color dark:text-base-color-dark"
+                  >
+                    Ver más consejos
+                  </Button>
                 </section>
-                <Button
-                  variant="flat"
-                  radius="sm"
-                  onPress={() => setFacts(getRandomFacts(2))}
-                  className="bg-black/5 dark:bg-white/5 text-base-color dark:text-base-color-dark"
-                >
-                  Ver más consejos
-                </Button>
               </div>
             </div>
           </div>

@@ -32,6 +32,7 @@ const MessageActions = ({ content }: { content?: string }) => {
         <div className="flex p-1 opacity-0 group-hover/message:opacity-100 transition-opacity border border-black/10 dark:border-white/10 w-fit rounded-xl overflow-hidden">
           <TooltipCTN content="Reportar un error" delay={0}>
             <Button
+              aria-label="Reportar un error"
               as={Link}
               href="https://github.com/Ktumsh/essentia/issues/new"
               target="_blank"
@@ -47,6 +48,7 @@ const MessageActions = ({ content }: { content?: string }) => {
           {content && (
             <TooltipCTN content="Copiar" delay={0}>
               <Button
+                aria-label="Copiar texto"
                 size="sm"
                 isIconOnly
                 variant="light"
@@ -73,16 +75,19 @@ const MessageActions = ({ content }: { content?: string }) => {
           >
             <PopoverTrigger>
               <Button
+                aria-label="Reportar un error"
                 variant="light"
                 size="sm"
                 isIconOnly
                 className="min-w-0 !size-7 text-base-color-m dark:text-base-color-dark-m"
               >
+                <span className="sr-only">Reportar un error</span>
                 <BugIcon className="size-5" />
               </Button>
             </PopoverTrigger>
             <PopoverContent>
               <Button
+                aria-label="Reportar un error"
                 as={Link}
                 href="https://github.com/Ktumsh/essentia/issues/new"
                 target="_blank"
@@ -105,6 +110,7 @@ const MessageActions = ({ content }: { content?: string }) => {
             >
               <PopoverTrigger>
                 <Button
+                  aria-label="Copiar texto"
                   size="sm"
                   variant="light"
                   isIconOnly
@@ -115,10 +121,12 @@ const MessageActions = ({ content }: { content?: string }) => {
                   ) : (
                     <CopyIcon className="size-4" />
                   )}
+                  <span className="sr-only">Copiar texto</span>
                 </Button>
               </PopoverTrigger>
               <PopoverContent>
                 <Button
+                  aria-label="Copiar texto"
                   size="sm"
                   variant="light"
                   onPress={() => {

@@ -56,12 +56,13 @@ const EmergencySteps = () => {
   ];
 
   return (
-    <section className="flex items-center justify-between w-full md:mx-0 overflow-x-scroll scrollbar-hide">
+    <section className="flex items-center justify-between w-full max-w-6xl md:mx-0 overflow-x-scroll scrollbar-hide">
       {info.map((card, index) => (
         <Fragment key={index}>
           <Card
             radius="sm"
-            className="shadow-none md:shadow-md h-full min-w-[87%] md:min-w-0 max-w-lg my-5 bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark"
+            shadow="none"
+            className="h-full min-w-[87%] md:min-w-0 max-w-lg my-5 bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark"
           >
             <CardBody className="z-10">
               <div className="inline-flex items-center justify-between w-full">

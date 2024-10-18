@@ -1,15 +1,9 @@
 "use client";
 
 import { StarsIcon } from "@/modules/icons/common";
-import {
-  AdditionalFillIcon,
-  AIFillIcon,
-  AIGradientIcon,
-  AIIcon,
-} from "@/modules/icons/interface";
+import { AdditionalFillIcon, AIFillIcon } from "@/modules/icons/interface";
 import { HealthCentersFillIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
-import { cn } from "@/utils/common";
 import { Card, CardBody } from "@nextui-org/react";
 import Link from "next/link";
 

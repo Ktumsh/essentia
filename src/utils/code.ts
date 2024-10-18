@@ -1,5 +1,5 @@
 export enum ResultCode {
-  USER_CREATED = "Usuario creado, bienvenido!",
+  USER_CREATED = "Usuario creado",
   USER_LOGGED_IN = "¡Bienvenido de nuevo!",
   REQUIRED_EMAIL = "Por favor, ingresa un correo electrónico válido",
   REQUIRED_PASSWORD = "Por favor, ingresa tu contraseña",
@@ -16,6 +16,7 @@ export enum ResultCode {
   INVALID_STRING_PASSWORD = "Tu contraseña debe incluir una letra mayúscula, una letra minúscula, un número y un carácter especial",
   INVALID_BIRTHDATE = "Debes tener al menos 13 años y la fecha debe ser realista",
   INVALID_CREDENTIALS = "Credenciales inválidas, por favor revisa tu correo y contraseña",
+  EMAIL_NOT_VERIFIED = "Por favor verifica tu correo electrónico",
   EMAIL_AVAILABLE = "Este correo electrónico está disponible",
   EMAIL_EXISTS = "Este correo electrónico ya está registrado",
   USERNAME_EXISTS = "Este nombre de usuario ya existe",
@@ -35,7 +36,7 @@ export enum ResultCode {
 export const getMessageFromCode = (resultCode: string) => {
   switch (resultCode) {
     case ResultCode.USER_CREATED:
-      return "Usuario creado, bienvenido!";
+      return "¡Usuario creado! Verifica tu correo para activar tu cuenta";
     case ResultCode.USER_LOGGED_IN:
       return "¡Bienvenido de nuevo!";
     case ResultCode.REQUIRED_EMAIL:
@@ -68,6 +69,8 @@ export const getMessageFromCode = (resultCode: string) => {
       return "Debes tener al menos 13 años y la fecha debe ser realista";
     case ResultCode.INVALID_CREDENTIALS:
       return "Credenciales inválidas, por favor revisa tu correo y contraseña";
+    case ResultCode.EMAIL_NOT_VERIFIED:
+      return "Correo no verificado, por favor, revisa tu bandeja de entrada";
     case ResultCode.EMAIL_AVAILABLE:
       return "Este correo electrónico está disponible";
     case ResultCode.EMAIL_EXISTS:

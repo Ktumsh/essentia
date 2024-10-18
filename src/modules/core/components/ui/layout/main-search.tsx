@@ -69,7 +69,8 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
 
   const router = useRouter();
 
-  const { width } = useWindowSize();
+  const windowSize = useWindowSize();
+  const width = windowSize.width;
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recentSearches, setRecentSearches] = useLocalStorage<SearchResult[]>(
@@ -225,7 +226,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
           }}
           role="option"
           data-value={item.content}
-          data-active={width && width > 768 ? activeItem === index : undefined}
+          data-active={width > 768 ? activeItem === index : undefined}
           fullWidth
           size="lg"
           radius="lg"
@@ -289,18 +290,18 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
     <>
       {/* Desktop Search */}
       <Button
-        aria-label="Abrir búsqueda"
+        aria-label="Busca rápida"
         radius="full"
         onPress={onOpen}
         startContent={<SearchIcon className="size-5" />}
         className="hidden md:inline-flex lg:justify-start w-10 xl:w-full px-0 lg:px-4 min-w-0 lg:min-w-40 dark:bg-base-dark text-base-color-m dark:text-base-color-dark-m"
       >
-        <span className="hidden lg:block">Busca rápida...</span>
+        <span className="hidden lg:block">Busca rápida</span>
       </Button>
 
       {/* Mobile Search */}
       <Button
-        aria-label="Abrir búsqueda"
+        aria-label="Busca rápida"
         onPress={onOpen}
         fullWidth
         radius="none"
@@ -308,11 +309,12 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
         color="danger"
         className="inline-flex md:hidden !h-full min-w-0 after:content-[''] after:absolute after:left-0 after:top-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-full-dark-50 text-gray-500 dark:text-gray-400 dark:data-[hover=true]:text-bittersweet-400 dark:dark:data-[hover=true]:text-cerise-red-600"
       >
+        <span className="sr-only">Busca rápida</span>
         <SearchIcon className="size-6" aria-hidden="true" />
       </Button>
 
       <Modal
-        placement={width && width > 768 ? "center" : "top"}
+        placement={width > 768 ? "center" : "top"}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         hideCloseButton

@@ -3,7 +3,6 @@
 import { ToolInvocation } from "ai";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { Markdown } from "./markdown";
 import { BotAvatar, UserAvatar } from "./role-avatar";
 import { UserProfileData } from "@/types/session";
 import {
@@ -19,6 +18,7 @@ import { RiskAssessment } from "../tools/health-risk-stock";
 import { Plan } from "../tools/nutrition-plan-stock";
 import { MoodTracking } from "../tools/mood-tracking-stock";
 import { InitialLoading } from "./initial-loading";
+import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 
 export const Message = ({
   role,

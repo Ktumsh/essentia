@@ -4,10 +4,12 @@ import { signIn } from "@/app/(auth)/auth";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 import { ResultCode } from "@/utils/code";
+import { getUserByEmail } from "@/db/actions";
 
 interface Result {
   type: string;
   resultCode: ResultCode;
+  redirectUrl?: string;
 }
 
 export async function authenticate(
@@ -26,6 +28,15 @@ export async function authenticate(
       .safeParse({ email, password });
 
     if (parsedCredentials.success) {
+      const user = await getUserByEmail(email);
+      if (!user?.email_verified) {
+        return {
+          type: "error",
+          resultCode: ResultCode.EMAIL_NOT_VERIFIED,
+          redirectUrl: `/verify-email?email=${email}`,
+        };
+      }
+
       const result = await signIn("credentials", {
         email,
         password,

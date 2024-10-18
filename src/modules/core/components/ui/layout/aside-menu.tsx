@@ -42,6 +42,7 @@ const AsideMenu = () => {
                   <Button
                     as={Link}
                     href={link.link}
+                    aria-label={link.name}
                     disableRipple
                     fullWidth
                     size="lg"
