@@ -1,5 +1,5 @@
 export async function sendEmail(email: string, token: string) {
-  const res = await fetch("/api/send-verification-email", {
+  const res = await fetch("/api/auth/send-email", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
