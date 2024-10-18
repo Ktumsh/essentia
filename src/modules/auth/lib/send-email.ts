@@ -1,5 +1,9 @@
 export async function sendEmail(email: string, token: string) {
-  const res = await fetch("/api/auth/send-email", {
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/api/auth/send-email`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
