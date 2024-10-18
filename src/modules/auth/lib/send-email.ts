@@ -11,10 +11,19 @@ export async function sendEmail(email: string, token: string) {
     body: JSON.stringify({ email, token }),
   });
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || "Error al enviar el correo de verificación");
-  }
+  const responseText = await res.text();
 
-  return data;
+  try {
+    const data = JSON.parse(responseText);
+    console.log(data);
+    if (!res.ok) {
+      throw new Error(
+        data.error || "Error al enviar el correo de verificación"
+      );
+    }
+    return data;
+  } catch (error) {
+    console.error("Error parsing response:", error);
+    throw new Error("Failed to parse response as JSON.");
+  }
 }

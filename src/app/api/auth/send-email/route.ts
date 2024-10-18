@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       );
 
     smtpEmail.subject = "Verifica tu correo electrónico";
-    smtpEmail.sender = { name: "Essentia", email: "essentia.app.cl@gmail.com" };
+    smtpEmail.sender = { name: "Essentia", email: process.env.EMAIL_FROM };
     smtpEmail.to = [{ email, name: username }];
     smtpEmail.htmlContent = htmlContent;
 
