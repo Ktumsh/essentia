@@ -16,18 +16,7 @@ export async function GET() {
   for (const user of usersDay1.rows) {
     const verificationToken = user.id;
 
-    const response = await fetch("/api/auth/send-verification-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user.email,
-        token: verificationToken,
-      }),
-    });
-
-    const result = await response.json();
+    const result = await sendVerificationEmail(user.email, verificationToken);
 
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email} (día 1).`);
@@ -46,18 +35,7 @@ export async function GET() {
   for (const user of usersDay3.rows) {
     const verificationToken = user.id;
 
-    const response = await fetch("/api/auth/send-verification-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user.email,
-        token: verificationToken,
-      }),
-    });
-
-    const result = await response.json();
+    const result = await sendVerificationEmail(user.email, verificationToken);
 
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email} (día 3).`);

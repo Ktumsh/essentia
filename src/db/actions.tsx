@@ -46,20 +46,9 @@ export async function resendEmailVerification(userId: string, email: string) {
       );
     }
 
-    const response = await fetch("/api/send-verification-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        token: newToken,
-      }),
-    });
+    const resultEmail = await sendVerificationEmail(email, newToken);
 
-    const resultJson = await response.json();
-
-    if (resultJson.success) {
+    if (resultEmail.success) {
       return {
         status: "success",
         message: "Se ha enviado un nuevo correo de verificación.",
