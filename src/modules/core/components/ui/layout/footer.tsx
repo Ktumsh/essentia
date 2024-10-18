@@ -24,6 +24,7 @@ const Footer = ({ isMobile }: FooterProps) => {
             isIconOnly
             className="min-w-0 mb-2 !size-7 bg-black/10 dark:bg-white/10 text-base-color-h dark:text-base-color-dark-h"
           >
+            <span className="sr-only">Reportar un error</span>
             <BugIcon className="size-5" />
           </Button>
         </TooltipCTN>
@@ -46,9 +47,7 @@ const Footer = ({ isMobile }: FooterProps) => {
                 )}
               </li>
             ))}
-            <li className="text-base-color-m dark:text-base-color-dark-m mt-2">
-              © 2024 Essentia®️
-            </li>
+            <li className="mt-2">© 2024 Essentia®️</li>
           </ul>
         </span>
       </footer>

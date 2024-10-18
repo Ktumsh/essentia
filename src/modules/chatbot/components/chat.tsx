@@ -55,7 +55,7 @@ export function Chat({
     useScrollAnchor();
 
   return (
-    <div
+    <main
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
       ref={scrollRef}
     >
@@ -90,6 +90,6 @@ export function Chat({
         isPremium={isPremium}
         session={session}
       />
-    </div>
+    </main>
   );
 }

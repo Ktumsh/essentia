@@ -20,6 +20,7 @@ export interface AuthResult {
 export interface User extends Record<string, any> {
   id: string;
   email: string;
+  email_verified: boolean;
   username: string;
   password: string;
   salt: string;

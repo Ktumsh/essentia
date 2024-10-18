@@ -1,6 +1,12 @@
 "use client";
 
-import { FormEvent, useEffect, useState, useTransition } from "react";
+import {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import Link from "next/link";
@@ -12,6 +18,7 @@ import { toast } from "sonner";
 import { useFormState } from "react-dom";
 import { authenticate } from "@/app/(auth)/login/actions";
 import { SpinnerIcon } from "@/modules/icons/common";
+import { getProfileNameByEmail } from "@/db/actions";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -54,22 +61,38 @@ const LoginForm = () => {
     });
   };
 
+  const fetchUserName = useCallback(async () => {
+    const userName = await getProfileNameByEmail(email);
+    if (userName) {
+      toast.success(`¡Bienvenid@ de nuevo, ${userName.first_name}!`);
+    } else {
+      toast.success(`¡Bienvenido de nuevo!`);
+    }
+    router.push(redirectUrl);
+  }, [email, router, redirectUrl]);
+
   useEffect(() => {
     if (result) {
       if (result.type === "error") {
-        startTransition(() => {});
-        toast.error(getMessageFromCode(result.resultCode));
+        if (
+          result.resultCode === ResultCode.EMAIL_NOT_VERIFIED &&
+          result.redirectUrl
+        ) {
+          router.push(result.redirectUrl);
+        } else {
+          startTransition(() => {});
+          toast.error(getMessageFromCode(result.resultCode));
+        }
       } else {
         if (isSelected) {
           localStorage.setItem("rememberedEmail", email);
         } else {
           localStorage.removeItem("rememberedEmail");
         }
-        toast.success(getMessageFromCode(result.resultCode));
-        router.push(redirectUrl);
+        fetchUserName();
       }
     }
-  }, [result, router, email, isSelected, redirectUrl]);
+  }, [result, router, email, isSelected, fetchUserName]);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 

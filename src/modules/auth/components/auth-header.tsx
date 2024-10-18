@@ -8,6 +8,10 @@ import { usePathname } from "next/navigation";
 const AuthHeader = () => {
   const pathname = usePathname();
   const isRegister = pathname === "/signup";
+  const isVerifyEmail = pathname.startsWith("/verify-email");
+  if (isVerifyEmail) {
+    return null;
+  }
   return (
     <div role="banner" className="z-[100] fixed top-0 w-full">
       <div className="flex items-center justify-between w-full px-6 h-14 gap-5">

@@ -79,9 +79,9 @@ const SignupForm = () => {
             }));
           } else if (result.type === "error") {
             toast.error(getMessageFromCode(result.resultCode));
-          } else {
+          } else if (result.type === "success" && result.redirectUrl) {
             toast.success(getMessageFromCode(result.resultCode));
-            router.refresh();
+            router.push(result.redirectUrl);
           }
         }
       });
@@ -125,7 +125,7 @@ const SignupForm = () => {
       layout
       style={{ height: "auto" }}
       transition={{ ease: "easeInOut", duration: 0.5 }}
-      className="flex relative justify-center items-center md:p-8 px-6 mb-9 sm:w-[500px] rounded-xl g-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden"
+      className="flex relative justify-center items-center md:p-8 px-6 mb-9 sm:w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden"
     >
       <AnimatePresence mode="popLayout">
         {step === 1 ? (

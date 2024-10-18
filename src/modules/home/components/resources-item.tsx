@@ -98,6 +98,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
           <Button
             as={Link}
             href={href}
+            aria-label="Ver"
             radius="full"
             variant="light"
             className="h-8 w-12 min-w-0 text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium !transition-all data-[hover=true]:brightness-90 group-hover:w-20"

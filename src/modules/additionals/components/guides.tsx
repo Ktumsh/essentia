@@ -19,7 +19,8 @@ export default function Guides() {
           <Card
             key={index}
             radius="sm"
-            className="shadow-none md:shadow-md group col-span-12 sm:col-span-6 lg:col-span-4 bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color dark:text-base-color-dark"
+            shadow="none"
+            className="group col-span-12 sm:col-span-6 lg:col-span-4 bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 dark:border-base-dark md:dark:border-base-dark text-base-color dark:text-base-color-dark"
           >
             <CardBody className="z-10">
               <div className="relative inline-flex items-center justify-between w-full mb-3">
