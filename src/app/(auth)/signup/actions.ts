@@ -14,6 +14,7 @@ import {
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { nanoid } from "nanoid";
+import { sendVerificationEmail } from "@/modules/auth/lib/send-verification-email";
 
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),

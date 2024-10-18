@@ -1,4 +1,4 @@
-const sendVerificationEmail = async (email: string, token: string) => {
+export async function sendVerificationEmail(email: string, token: string) {
   try {
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
@@ -36,4 +36,4 @@ const sendVerificationEmail = async (email: string, token: string) => {
       message: "Error al enviar el correo de verificación",
     };
   }
-};
+}
