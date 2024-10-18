@@ -1,7 +1,7 @@
 export async function sendEmail(email: string, token: string) {
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+    : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const res = await fetch(`${baseUrl}/api/auth/send-email`, {
     method: "POST",
@@ -12,10 +12,10 @@ export async function sendEmail(email: string, token: string) {
   });
 
   const responseText = await res.text();
+  console.log("Response text:", responseText);
 
   try {
     const data = JSON.parse(responseText);
-    console.log(data);
     if (!res.ok) {
       throw new Error(
         data.error || "Error al enviar el correo de verificación"
