@@ -29,6 +29,13 @@ export async function authenticate(
 
     if (parsedCredentials.success) {
       const user = await getUserByEmail(email);
+      if (!user) {
+        return {
+          type: "error",
+          resultCode: ResultCode.INVALID_CREDENTIALS,
+        };
+      }
+
       if (!user?.email_verified) {
         return {
           type: "error",
