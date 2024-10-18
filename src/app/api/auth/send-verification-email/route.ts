@@ -23,9 +23,7 @@ export async function POST(req: Request) {
   );
   let htmlContent = fs.readFileSync(templatePath, "utf8");
 
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  const baseUrl = "https://essentia-web.vercel.app";
 
   htmlContent = htmlContent
     .replace("{{username}}", username)
@@ -38,19 +36,12 @@ export async function POST(req: Request) {
       `${baseUrl}/_next/image?url=%2Flogo-essentia.webp&w=48&q=100`
     );
 
-  console.log("SMTP_USER:", process.env.SMTP_USER);
-  console.log("SMTP_PASS:", process.env.SMTP_PASS);
-
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    service: "gmail",
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
-    logger: true,
-    debug: true,
   });
 
   const mailOptions = {
