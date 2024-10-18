@@ -14,7 +14,7 @@ import {
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { nanoid } from "nanoid";
-import { sendVerificationEmail } from "@/modules/auth/lib/send-verification-email";
+import { sendEmail } from "@/modules/auth/lib/send-email";
 
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),
@@ -114,9 +114,9 @@ export async function createUser({
       const verificationToken = nanoid();
       await insertEmailVerificationToken(userId, verificationToken);
 
-      const result = await sendVerificationEmail(email, verificationToken);
+      const result = await sendEmail(email, verificationToken);
 
-      if (result.success) {
+      if (result?.success) {
         return {
           type: "success",
           resultCode: ResultCode.USER_CREATED,
