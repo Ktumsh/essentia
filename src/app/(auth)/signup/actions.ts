@@ -113,15 +113,7 @@ export async function createUser({
       const verificationToken = nanoid();
       await insertEmailVerificationToken(userId, verificationToken);
 
-      const response = await fetch("/api/auth/send-verification-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, token: verificationToken }),
-      });
-
-      const result = await response.json();
+      const result = await sendVerificationEmail(email, verificationToken);
 
       if (result.success) {
         return {
