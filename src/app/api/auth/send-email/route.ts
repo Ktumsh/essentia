@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+    const baseUrl = process.env.DEVELOPMENT
+      ? "http://localhost:3000"
+      : "https://essentia-web.vercel.app";
 
     htmlContent = htmlContent
       .replace("{{username}}", username)
