@@ -33,7 +33,9 @@ export async function POST(req: NextRequest) {
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
-    const baseUrl = "https://essentia-web.vercel.app";
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
 
     htmlContent = htmlContent
       .replace("{{username}}", username)
@@ -43,7 +45,7 @@ export async function POST(req: NextRequest) {
       )
       .replace(
         "{{logoUrl}}",
-        `${baseUrl}/_next/image?url=%2Flogo-essentia.webp&w=48&q=100`
+        `https://raw.githubusercontent.com/Ktumsh/essentia/main/public/essentia_x512.png`
       );
 
     smtpEmail.subject = "Verifica tu correo electrónico";
