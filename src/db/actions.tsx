@@ -1,5 +1,6 @@
 "use server";
 
+import { sendVerificationEmail } from "@/modules/auth/lib/send-verification-email";
 import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
 import { Payment, User, UserProfile, UserProfileData } from "@/types/session";
 import { createPool, sql } from "@vercel/postgres";

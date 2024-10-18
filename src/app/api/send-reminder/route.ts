@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createPool } from "@vercel/postgres";
+import { sendVerificationEmail } from "@/modules/auth/lib/send-verification-email";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
