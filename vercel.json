@@ -1,11 +1,11 @@
 {
   "crons": [
     {
-      "path": "api/send-reminder",
+      "path": "/api/send-reminder",
       "schedule": "0 0 * * *"
     },
     {
-      "path": "api/delete-unverified-users",
+      "path": "/api/delete-unverified-users",
       "schedule": "0 1 * * *"
     }
   ]
