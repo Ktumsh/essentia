@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import * as brevo from "@getbrevo/brevo";
 import path from "path";
 import fs from "fs";
@@ -13,7 +13,7 @@ apiInstance.setApiKey(
 
 const smtpEmail = new brevo.SendSmtpEmail();
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { email, token } = await req.json();
 
@@ -33,9 +33,7 @@ export async function POST(req: Request) {
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+    const baseUrl = "https://essentia-web.vercel.app";
 
     htmlContent = htmlContent
       .replace("{{username}}", username)

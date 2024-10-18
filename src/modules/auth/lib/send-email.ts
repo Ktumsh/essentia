@@ -1,7 +1,5 @@
 export async function sendEmail(email: string, token: string) {
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  const baseUrl = "https://essentia-web.vercel.app";
 
   const res = await fetch(`${baseUrl}/api/auth/send-email`, {
     method: "POST",
@@ -10,6 +8,7 @@ export async function sendEmail(email: string, token: string) {
     },
     body: JSON.stringify({ email, token }),
   });
+  console.log("Response:", res);
 
   const responseText = await res.text();
   console.log("Response text:", responseText);
