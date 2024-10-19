@@ -1,10 +1,18 @@
-export function formatDate(input: string | number | Date): string {
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
+export function formatDate(
+  input: string | number | Date,
+  formatStr: string = "dd/MM/yyyy"
+): string {
   const date = new Date(input);
-  return date.toLocaleDateString("es-CL", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+
+  if (isNaN(date.getTime())) {
+    throw new Error("Fecha inválida proporcionada.");
+  }
+
+  const formattedDate = format(date, formatStr, { locale: es });
+  return formattedDate;
 }
 
 export const formatNumber = (value: number) =>

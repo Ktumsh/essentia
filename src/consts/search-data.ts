@@ -46,6 +46,21 @@ const healthVideos: Video[] =
     ?.videos || [];
 
 // Datos estáticos
+const healthCentersSearchData: SearchResult[] = [
+  {
+    content: "Centros de Salud",
+    objectID: nanoid(),
+    type: "lvl1",
+    url: "/centros-de-salud",
+    hierarchy: {
+      lvl1: "Centros de Salud",
+      lvl2: null,
+      lvl3: null,
+    },
+    icon: HealthCentersIcon,
+  },
+];
+
 const healthSearchData: SearchResult[] = [
   {
     content: "Introducción a Salud y Bienestar",
@@ -67,28 +82,6 @@ const healthSearchData: SearchResult[] = [
     hierarchy: {
       lvl1: "Salud y Bienestar",
       lvl2: "Artículos Interesantes",
-      lvl3: null,
-    },
-  },
-  {
-    content: "Videos Recomendados",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/salud-y-bienestar#videos-recomendados",
-    hierarchy: {
-      lvl1: "Salud y Bienestar",
-      lvl2: "Videos Recomendados",
-      lvl3: null,
-    },
-  },
-  {
-    content: "Podcasts Recomendados",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/salud-y-bienestar#podcasts-recomendados",
-    hierarchy: {
-      lvl1: "Salud y Bienestar",
-      lvl2: "Podcasts Recomendados",
       lvl3: null,
     },
   },
@@ -115,17 +108,6 @@ const fitnessSearchData: SearchResult[] = [
     hierarchy: {
       lvl1: "Ejercicios y Fitness",
       lvl2: "Rutinas de Ejercicios",
-      lvl3: null,
-    },
-  },
-  {
-    content: "Música para tu Entrenamiento",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/ejercicios-y-fitness#musica-para-tu-entrenamiento",
-    hierarchy: {
-      lvl1: "Ejercicios y Fitness",
-      lvl2: "Música para tu Entrenamiento",
       lvl3: null,
     },
   },
@@ -285,18 +267,6 @@ const additionalsSearchData: SearchResult[] = [
     icon: RecommendationsIcon,
   },
   {
-    content: "Centros de Salud",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/adicionales/centros-de-salud",
-    hierarchy: {
-      lvl1: "Recursos Adicionales",
-      lvl2: "Centros de Salud",
-      lvl3: null,
-    },
-    icon: HealthCentersIcon,
-  },
-  {
     content: "Emergencias",
     objectID: nanoid(),
     type: "lvl2",
@@ -410,6 +380,7 @@ const nutritionModalSearchData: SearchResult[] = NUTRITION_MODAL_DATA.map(
 
 // Combinación de arrays
 export const searchData: SearchResult[] = [
+  ...healthCentersSearchData,
   ...healthSearchData,
   ...fitnessSearchData,
   ...nutritionSearchData,

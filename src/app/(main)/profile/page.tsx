@@ -1,18 +1,18 @@
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { redirect } from "next/navigation";
 
 const ProfilePage = async () => {
   const session = (await auth()) as Session;
 
   if (!session) {
-    return redirect("/bienvenida");
+    return redirect("/");
   }
 
-  const profileData = getUserProfileData(session);
+  const profileData = await getUserProfileData(session);
 
-  redirect("/profile/" + (await profileData).username);
+  redirect("/profile/" + profileData.username);
 };
 
 export default ProfilePage;

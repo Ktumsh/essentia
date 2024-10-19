@@ -25,8 +25,13 @@ export const siteConfig: SiteConfig = {
   name: "Essentia",
   description:
     "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+  planPrices: {
+    free: "price_free",
+    premium: "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",
+    premiumPlus: "price_1Q1y2QI2PMoTUNZeMt1eynxB",
+  },
   links: {
-    github: "https://github.com/Ktumsh/essentia-web",
+    github: "https://github.com/Ktumsh/essentia",
     instagram: "https://www.instagram.com/ktumsh/",
     twitter: "hhttps://twitter.com",
   },
@@ -120,10 +125,18 @@ export const siteConfig: SiteConfig = {
       { href: "/comunidad/community-resources", text: "Recursos comunitarios" },
     ],
     more: [
-      { href: "", text: "Acerca de Essentia" },
-      { href: "", text: "Política de privacidad" },
+      { href: "", text: "Acerca de" },
+      { href: "", text: "Privacidad" },
+      { href: "", text: "Términos" },
+      { href: "", text: "Cookies" },
+    ],
+  },
+  desktopFooterLinks: {
+    more: [
+      { href: "", text: "Políticas de privacidad" },
       { href: "", text: "Términos y condiciones" },
       { href: "", text: "Cookies" },
+      { href: "", text: "Acerca de" },
     ],
   },
 };

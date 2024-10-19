@@ -33,8 +33,9 @@ export default function AdditionalsTabs() {
   return (
     <div className="flex size-full flex-col">
       <Tabs
-        aria-label="Options"
+        ref={tabListRef}
         selectedKey={pathname}
+        aria-label="Options"
         variant="underlined"
         fullWidth
         classNames={{
@@ -47,70 +48,56 @@ export default function AdditionalsTabs() {
             "text-base-color-h dark:text-base-color-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
           panel: "px-0 py-0 md:py-5 h-full",
         }}
-        ref={tabListRef}
       >
         <Tab
           key="/adicionales/guias"
+          as={Link}
+          href="/adicionales/guias"
           title={
             <div className="flex items-center space-x-2">
               <GuidesIcon className="size-5" />
               <span>Guías</span>
             </div>
           }
-          as={Link}
-          href="/adicionales/guias"
         >
           <Guides />
         </Tab>
         <Tab
           key="/adicionales/enlaces"
+          as={Link}
+          href="/adicionales/enlaces"
           title={
             <div className="flex items-center space-x-2">
               <LinksIcon className="size-5" />
               <span>Enlaces</span>
             </div>
           }
-          as={Link}
-          href="/adicionales/enlaces"
         >
           <Links />
         </Tab>
         <Tab
           key="/adicionales/recomendaciones"
+          as={Link}
+          href="/adicionales/recomendaciones"
           title={
             <div className="flex items-center space-x-2">
               <RecommendationsIcon className="size-5" />
               <span>Recomendaciones</span>
             </div>
           }
-          as={Link}
-          href="/adicionales/recomendaciones"
         >
           <Recommendations />
         </Tab>
-        {/* <Tab
-          key="/adicionales/centros-de-salud"
-          title={
-            <div className="flex items-center space-x-2">
-              <HealthCentersIcon className="size-5" />
-              <span>Centros de salud</span>
-            </div>
-          }
-          as={Link}
-          href="/adicionales/centros-de-salud"
-        >
-          <Centers />
-        </Tab> */}
         <Tab
           key="/adicionales/emergencias"
+          as={Link}
+          href="/adicionales/emergencias"
           title={
             <div className="flex items-center space-x-2">
               <EmergenciesIcon className="size-5" />
               <span>Emergencias</span>
             </div>
           }
-          as={Link}
-          href="/adicionales/emergencias"
         >
           <Emergencies />
         </Tab>

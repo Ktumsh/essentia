@@ -3,13 +3,18 @@
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { ResultCode } from "@/utils/code";
-import { signIn } from "@@/auth";
 import { AuthError } from "next-auth";
 import { getStringFromBuffer } from "@/utils/common";
-import { getUserByEmail, getUserByUsername } from "@/db/actions";
+import {
+  getUserByEmail,
+  getUserByUsername,
+  insertEmailVerificationToken,
+} from "@/db/actions";
 
 import { createAvatar } from "@dicebear/core";
-import { icons } from "@dicebear/collection";
+import * as icons from "@dicebear/icons";
+import { nanoid } from "nanoid";
+import { sendEmail } from "@/modules/auth/lib/send-email";
 
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),
@@ -97,8 +102,8 @@ export async function createUser({
       const avatarSvg = avatar.toDataUri();
 
       await sql`
-        INSERT INTO users (id, email, password_hash, salt, username)
-        VALUES (${userId}, ${email}, ${hashedPassword}, ${salt}, ${username});
+        INSERT INTO users (id, email, password_hash, salt, username, is_premium)
+        VALUES (${userId}, ${email}, ${hashedPassword}, ${salt}, ${username}, FALSE);
       `;
 
       await sql`
@@ -106,10 +111,22 @@ export async function createUser({
         VALUES (${userId}, ${name}, ${lastname}, ${birthdate}, ${avatarSvg});
       `;
 
-      return {
-        type: "success",
-        resultCode: ResultCode.USER_CREATED,
-      };
+      const verificationToken = nanoid();
+      await insertEmailVerificationToken(userId, verificationToken);
+
+      const result = await sendEmail(email, verificationToken);
+
+      if (result?.success) {
+        return {
+          type: "success",
+          resultCode: ResultCode.USER_CREATED,
+        };
+      } else {
+        return {
+          type: "error",
+          resultCode: ResultCode.UNKNOWN_ERROR,
+        };
+      }
     } catch (error) {
       console.error("Error inserting user into database:", error);
       return {
@@ -124,6 +141,7 @@ interface Result {
   type: string;
   resultCode: ResultCode;
   errors?: Record<string, string>;
+  redirectUrl?: string;
 }
 
 export async function signup(
@@ -168,14 +186,12 @@ export async function signup(
       });
 
       if (result.resultCode === ResultCode.USER_CREATED) {
-        await signIn("credentials", {
-          email,
-          password,
-          redirect: false,
-        });
+        return {
+          type: "success",
+          resultCode: ResultCode.USER_CREATED,
+          redirectUrl: `/verify-email?email=${email}`,
+        };
       }
-
-      console.log("Auth result:", result);
 
       return result;
     } catch (error) {

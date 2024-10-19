@@ -1,7 +1,13 @@
 "use client";
 
-import { FormEvent, useEffect, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Checkbox, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { MailIcon } from "@/modules/icons/miscellaneus";
@@ -12,15 +18,19 @@ import { toast } from "sonner";
 import { useFormState } from "react-dom";
 import { authenticate } from "@/app/(auth)/login/actions";
 import { SpinnerIcon } from "@/modules/icons/common";
+import { getProfileNameByEmail } from "@/db/actions";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
-  const router = useRouter();
   const [result, dispatch] = useFormState(authenticate, undefined);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+
+  const redirectUrl = searchParams.get("redirect") || "/";
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
@@ -51,27 +61,43 @@ const LoginForm = () => {
     });
   };
 
+  const fetchUserName = useCallback(async () => {
+    const userName = await getProfileNameByEmail(email);
+    if (userName) {
+      toast.success(`¡Bienvenid@ de nuevo, ${userName.first_name}!`);
+    } else {
+      toast.success(`¡Bienvenido de nuevo!`);
+    }
+    router.push(redirectUrl);
+  }, [email, router, redirectUrl]);
+
   useEffect(() => {
     if (result) {
       if (result.type === "error") {
-        startTransition(() => {});
-        toast.error(getMessageFromCode(result.resultCode));
+        if (
+          result.resultCode === ResultCode.EMAIL_NOT_VERIFIED &&
+          result.redirectUrl
+        ) {
+          router.push(result.redirectUrl);
+        } else {
+          startTransition(() => {});
+          toast.error(getMessageFromCode(result.resultCode));
+        }
       } else {
         if (isSelected) {
           localStorage.setItem("rememberedEmail", email);
         } else {
           localStorage.removeItem("rememberedEmail");
         }
-        toast.success(getMessageFromCode(result.resultCode));
-        router.refresh();
+        fetchUserName();
       }
     }
-  }, [result, router, email, isSelected]);
+  }, [result, router, email, isSelected, fetchUserName]);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="flex flex-col relative justify-center items-center p-8 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark sm:dark:border dark:border-base-dark text-left sm:shadow-lg font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
+    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
       <form
         className="flex flex-col items-start justify-center size-full gap-5 mb-4 select-none"
         onSubmit={handleSubmit}
@@ -97,7 +123,7 @@ const LoginForm = () => {
           endContent={<MailIcon className="size-6" />}
           classNames={{
             inputWrapper:
-              "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+              "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
             input:
               "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
           }}
@@ -125,7 +151,7 @@ const LoginForm = () => {
           }
           classNames={{
             inputWrapper:
-              "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+              "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
             input:
               "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
           }}
@@ -138,6 +164,8 @@ const LoginForm = () => {
             size="sm"
             color="danger"
             classNames={{
+              wrapper:
+                "before:border-base-color-d md:before:border-gray-200 dark:before:border-base-color-dark-d md:dark:before:border-base-dark",
               label: "text-[13px] text-inherit",
             }}
           >

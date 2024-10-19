@@ -79,9 +79,9 @@ const SignupForm = () => {
             }));
           } else if (result.type === "error") {
             toast.error(getMessageFromCode(result.resultCode));
-          } else {
+          } else if (result.type === "success" && result.redirectUrl) {
             toast.success(getMessageFromCode(result.resultCode));
-            router.refresh();
+            router.push(result.redirectUrl);
           }
         }
       });
@@ -125,7 +125,7 @@ const SignupForm = () => {
       layout
       style={{ height: "auto" }}
       transition={{ ease: "easeInOut", duration: 0.5 }}
-      className="flex relative justify-center items-center p-8 mb-9 sm:w-[500px] rounded-xl g-transparent sm:bg-white sm:dark:bg-base-full-dark sm:dark:border dark:border-base-dark text-left sm:shadow-lg font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden"
+      className="flex relative justify-center items-center md:p-8 px-6 mb-9 sm:w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden"
     >
       <AnimatePresence mode="popLayout">
         {step === 1 ? (
@@ -158,7 +158,7 @@ const SignupForm = () => {
               }}
               classNames={{
                 inputWrapper:
-                  "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                  "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                 input:
                   "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
               }}
@@ -239,7 +239,7 @@ const SignupForm = () => {
                   }}
                   classNames={{
                     inputWrapper:
-                      "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                      "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                     input:
                       "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                   }}
@@ -261,7 +261,7 @@ const SignupForm = () => {
                   }}
                   classNames={{
                     inputWrapper:
-                      "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                      "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                     input:
                       "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                   }}
@@ -283,7 +283,7 @@ const SignupForm = () => {
                 }}
                 classNames={{
                   inputWrapper:
-                    "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                    "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                   input:
                     "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                 }}
@@ -293,7 +293,8 @@ const SignupForm = () => {
                   showArrow
                   placement="left"
                   classNames={{
-                    base: "max-w-80",
+                    base: ["max-w-80", tooltipStyles.arrow],
+                    content: ["items-start", tooltipStyles.content],
                   }}
                 >
                   <PopoverTrigger>
@@ -343,7 +344,9 @@ const SignupForm = () => {
                       birthdate: "",
                     }));
                   }}
-                  endContent={<CalendarFillIcon className="size-6" />}
+                  endContent={
+                    <CalendarFillIcon className="size-6 text-base-color-m dark:text-base-color-dark-m" />
+                  }
                   errorMessage={fieldErrors.birthdate}
                   isInvalid={!!fieldErrors.birthdate}
                   color={fieldErrors.birthdate ? "danger" : "default"}
@@ -351,7 +354,8 @@ const SignupForm = () => {
                     label: "ml-5",
                     description:
                       "text-base-color-m dark:text-base-color-dark-m",
-                    inputWrapper: "dark:!bg-white/5 dark:hover:!bg-white/10",
+                    inputWrapper:
+                      "bg-white md:bg-gray-100 dark:!bg-white/5 dark:hover:!bg-white/10",
                     innerWrapper: "text-base-color-m",
                   }}
                 />
@@ -385,13 +389,13 @@ const SignupForm = () => {
                 }
                 classNames={{
                   inputWrapper:
-                    "dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
+                    "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                   input:
                     "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
                 }}
               />
               <div className="flex mb-6 relative w-full text-[13px] leading-snug select-text text-base-color-h dark:text-base-color-dark-h">
-                <p>
+                <p className="text-center md:text-start">
                   Al registrarte, estás aceptando los{" "}
                   <Link
                     className="hover:underline underline-offset-2 font-bold text-orient-700 sm:font-medium"

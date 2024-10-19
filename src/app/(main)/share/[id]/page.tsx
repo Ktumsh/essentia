@@ -1,18 +1,16 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getSharedChat } from "@/app/(main)/essentia-ai/actions";
-import {
-  AI,
-  getUIStateFromAIState,
-  UIState,
-} from "@/modules/chatbot/chat/actions";
 import { formatDate } from "@/utils/format";
-import ChatList from "@/modules/chatbot/componentes/chat-list";
-import FooterText from "@/modules/chatbot/componentes/footer-text";
-import { auth } from "@@/auth";
+import ChatList from "@/modules/chatbot/components/chat-list";
+import FooterText from "@/modules/chatbot/components/ui/footer-text";
+import { auth } from "@/app/(auth)/auth";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
+import { getSharedChat } from "@/db/chat-querys";
+import { Chat } from "@/types/chat";
+import { CoreMessage } from "ai";
+import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
 
 interface SharePageProps {
   params: {
@@ -26,12 +24,17 @@ export async function generateMetadata({
   const chat = await getSharedChat(params.id);
 
   return {
-    title: chat?.title.slice(0, 50) + "..." ?? "Chat",
+    title: chat.title ? chat.title.slice(0, 50) + "..." : "Chat",
   };
 }
 
 export default async function SharePage({ params }: SharePageProps) {
-  const chat = await getSharedChat(params.id);
+  const { id } = params;
+  const chatFromDb = await getSharedChat(id);
+  const chat: Chat = {
+    ...chatFromDb,
+    messages: convertToUIMessages(chatFromDb.messages as Array<CoreMessage>),
+  };
 
   const session = (await auth()) as Session;
 
@@ -40,8 +43,6 @@ export default async function SharePage({ params }: SharePageProps) {
   if (!chat || !chat?.share_path) {
     notFound();
   }
-
-  const uiState: UIState = getUIStateFromAIState(chat, profileData);
 
   return (
     <>
@@ -52,15 +53,18 @@ export default async function SharePage({ params }: SharePageProps) {
               <h1 className="text-2xl font-bold text-base-color dark:text-base-color-dark">
                 {chat.title}
               </h1>
-              <div className="text-sm text-base-color-d dark:text-base-color-dark-d">
-                {formatDate(chat.created_at)} · {chat.messages.length} mensajes
+              <div className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                {formatDate(chat.created_at, "dd 'de' MMMM 'de' yyyy")} ·{" "}
+                {chat.messages.length} mensajes
               </div>
             </div>
           </div>
         </div>
-        <AI>
-          <ChatList messages={uiState} isShared={true} />
-        </AI>
+        <ChatList
+          messages={chat.messages}
+          isShared={true}
+          profileData={profileData}
+        />
       </div>
       <FooterText className="py-8" />
     </>

@@ -5,6 +5,7 @@ import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/common";
+import { useGesture } from "@use-gesture/react";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -52,6 +53,10 @@ interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {
   hideCloseButton?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  open?: boolean;
+  translateX?: number;
+  setTranslateX?: (value: number) => void;
 }
 
 const SheetContent = React.forwardRef<
@@ -59,29 +64,217 @@ const SheetContent = React.forwardRef<
   SheetContentProps
 >(
   (
-    { side = "right", className, children, hideCloseButton = false, ...props },
+    {
+      side = "right",
+      className,
+      children,
+      hideCloseButton = false,
+      onOpenChange,
+      open = false,
+      ...props
+    },
     ref
-  ) => (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content
-        ref={ref}
-        className={cn(sheetVariants({ side }), className)}
-        aria-describedby="dialog-description"
-        {...props}
-      >
-        {children}
-        {!hideCloseButton && (
-          <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-0 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-secondary">
-            <Cross2Icon className="size-4" />
-            <span className="sr-only">Close</span>
-          </SheetPrimitive.Close>
-        )}
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  )
+  ) => {
+    const [translateX, setTranslateX] = React.useState(0);
+    const [isDragging, setIsDragging] = React.useState(false);
+    const [isVisible, setIsVisible] = React.useState(open);
+
+    const contentRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+      if (open) {
+        setIsVisible(true);
+        setTranslateX(0);
+      } else {
+        const endTranslateX =
+          side === "right" ? window.innerWidth : -window.innerWidth;
+        setTranslateX(endTranslateX);
+        setTimeout(() => {
+          setIsVisible(false);
+          setTranslateX(0);
+        }, 250);
+      }
+    }, [open, side]);
+
+    // Manejar el gesto de arrastre
+    const bind = useGesture(
+      {
+        onDrag: ({ down, movement: [mx], last }) => {
+          if (!isVisible) return;
+
+          setIsDragging(down);
+
+          let offset = mx;
+
+          if (side === "right") {
+            if (mx < 0) offset = 0;
+          } else {
+            if (mx > 0) offset = 0;
+          }
+
+          setTranslateX(offset);
+
+          if (last) {
+            const shouldClose =
+              side === "right"
+                ? mx > window.innerWidth * 0.35
+                : mx < -window.innerWidth * 0.35;
+
+            if (shouldClose) {
+              const endTranslateX =
+                side === "right" ? window.innerWidth : -window.innerWidth;
+              setTranslateX(endTranslateX);
+              setIsDragging(false);
+
+              setTimeout(() => {
+                onOpenChange && onOpenChange(false);
+              }, 300);
+            } else {
+              setTranslateX(0);
+              setIsDragging(false);
+            }
+          }
+        },
+      },
+      {
+        drag: {
+          from: () => [translateX, 0],
+          bounds: side === "right" ? { left: 0 } : { right: 0 },
+          axis: "x",
+          filterTaps: true,
+        },
+      }
+    );
+
+    if (!isVisible) return null;
+
+    return (
+      <SheetPortal>
+        <SheetOverlay />
+        <SheetPrimitive.Content
+          ref={(node) => {
+            (
+              contentRef as React.MutableRefObject<HTMLDivElement | null>
+            ).current = node;
+            if (typeof ref === "function") {
+              ref(node);
+            } else if (ref) {
+              (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+                node;
+            }
+          }}
+          className={cn(sheetVariants({ side }), className)}
+          style={{
+            transform: `translateX(${translateX}px)`,
+            transition: isDragging ? "none" : "transform 0.3s ease",
+            touchAction: "none",
+          }}
+          aria-describedby="dialog-description"
+          forceMount
+          {...props}
+          {...bind()}
+          onPointerDownOutside={(event) => {
+            event.preventDefault();
+
+            const endTranslateX =
+              side === "right" ? window.innerWidth : -window.innerWidth;
+            setTranslateX(endTranslateX);
+
+            setTimeout(() => {
+              onOpenChange && onOpenChange(false);
+            }, 300);
+          }}
+        >
+          {children}
+          {!hideCloseButton && (
+            <SheetPrimitive.Close
+              className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
+              onClick={() => {
+                const endTranslateX =
+                  side === "right" ? window.innerWidth : -window.innerWidth;
+                setTranslateX(endTranslateX);
+
+                setTimeout(() => {
+                  onOpenChange && onOpenChange(false);
+                }, 300);
+              }}
+            >
+              <Cross2Icon className="size-4" />
+              <span className="sr-only">Cerrar</span>
+            </SheetPrimitive.Close>
+          )}
+        </SheetPrimitive.Content>
+      </SheetPortal>
+    );
+  }
 );
 SheetContent.displayName = SheetPrimitive.Content.displayName;
+
+// Componente para el área sensible al gesto de abrir el Sheet
+const SheetEdgeDragArea = ({
+  onOpen,
+  side = "right",
+}: {
+  onOpen: () => void;
+  side?: "left" | "right";
+}) => {
+  const [translateX, setTranslateX] = React.useState(0);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [hasOpened, setHasOpened] = React.useState(false);
+
+  const bind = useGesture(
+    {
+      onDrag: ({ down, movement: [mx], memo = false, first }) => {
+        setIsDragging(down);
+
+        if (first && !hasOpened) {
+          onOpen();
+          setHasOpened(true);
+        }
+
+        let offset = mx;
+        if (side === "right") {
+          if (mx > 0) offset = 0;
+        } else {
+          if (mx < 0) offset = 0;
+        }
+
+        setTranslateX(offset);
+
+        if (!down) {
+          setTranslateX(0);
+          setIsDragging(false);
+          setHasOpened(false);
+        }
+
+        return memo;
+      },
+    },
+    {
+      drag: {
+        from: () => [0, 0],
+        bounds: side === "right" ? { right: 0 } : { left: 0 },
+        axis: "x",
+        filterTaps: true,
+      },
+    }
+  );
+
+  return (
+    <div
+      {...bind()}
+      className={cn(
+        "fixed inset-y-0 z-50 w-5 block md:hidden",
+        side === "right" ? "right-0" : "left-0"
+      )}
+      style={{
+        touchAction: "none",
+        transform: `translateX(${translateX}px)`,
+        transition: isDragging ? "none" : "transform 0.3s ease",
+      }}
+    />
+  );
+};
 
 const SheetHeader = ({
   className,
@@ -142,6 +335,7 @@ export {
   SheetTrigger,
   SheetClose,
   SheetContent,
+  SheetEdgeDragArea,
   SheetHeader,
   SheetFooter,
   SheetTitle,

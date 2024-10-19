@@ -39,23 +39,27 @@ const AsideMenu = () => {
             <ul>
               {asideLinks.map((link, index) => (
                 <li key={index} className="w-fit lg:w-full">
-                  <Link href={link.link}>
-                    <Button
-                      disableRipple
-                      fullWidth
-                      size="lg"
-                      radius="sm"
-                      variant="light"
-                      startContent={
-                        <link.icon className="size-5 transition-colors text-base-color-h dark:text-base-color-dark group-hover:text-base-color dark:group-hover:text-white" />
-                      }
-                      className="w-fit lg:w-full min-w-fit lg:min-w-24 h-auto lg:h-[50px] justify-start text-left p-3 mb-2 data-[hover=true]:bg-gray-200 dark:hover:bg-base-dark !duration-150"
-                    >
-                      <span className="hidden lg:block text-sm mr-4 transition-colors text-base-color-h dark:text-base-color-dark group-hover:text-base-color dark:group-hover:text-white">
-                        {link.name}
-                      </span>
-                    </Button>
-                  </Link>
+                  <Button
+                    as={Link}
+                    href={link.link}
+                    aria-label={link.name}
+                    disableRipple
+                    fullWidth
+                    size="lg"
+                    radius="sm"
+                    variant="light"
+                    startContent={
+                      <link.icon
+                        aria-hidden="true"
+                        className="size-5 transition-colors text-base-color-h dark:text-base-color-dark group-hover:text-base-color dark:group-hover:text-white"
+                      />
+                    }
+                    className="w-fit lg:w-full min-w-fit lg:min-w-24 h-auto lg:h-[50px] justify-start text-left p-3 mb-2 data-[hover=true]:bg-gray-200 dark:hover:bg-base-dark !duration-150"
+                  >
+                    <span className="hidden lg:block text-sm mr-4 transition-colors text-base-color-h dark:text-base-color-dark group-hover:text-base-color dark:group-hover:text-white">
+                      {link.name}
+                    </span>
+                  </Button>
                 </li>
               ))}
             </ul>

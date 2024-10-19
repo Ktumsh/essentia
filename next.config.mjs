@@ -1,3 +1,5 @@
+import withPWAInit from "@ducanh2912/next-pwa";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -94,6 +96,32 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "localhost:3000",
+        "https://3xfnptdk-3000.brs.devtunnels.ms",
+      ],
+    },
+  },
+  async redirects() {
+    return [
+      {
+        source: "/adicionales",
+        destination: "/adicionales/guias",
+        permanent: true,
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+const withPWA = withPWAInit({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+});
+
+export default withPWA({
+  ...nextConfig,
+});

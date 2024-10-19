@@ -18,7 +18,7 @@ import MainSearch from "./main-search";
 
 import { formatPathName } from "@/utils/format";
 
-import SidebarToggle from "@/modules/chatbot/componentes/sidebar-toggle";
+import SidebarToggle from "@/modules/chatbot/components/sidebar-toggle";
 import { UserProfileData } from "@/types/session";
 
 const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
@@ -37,6 +37,8 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
       (page.href === "/essentia-ai" && essentiaAi),
   }));
 
+  const { is_premium } = profileData ?? {};
+
   return (
     <>
       <div role="banner" className="z-[100] fixed top-0 w-full hidden md:block">
@@ -53,16 +55,16 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         </Navbar>
         <div className="z-40 fixed top-0 left-0">
           <div className="flex items-center justify-center w-full px-4 h-14 gap-5">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               {essentiaAi && profileData && <SidebarToggle />}
               <Link
-                className="relative hidden sm:flex items-center justify-center w-7 active:scale-95 transition-transform rounded-full"
+                className="relative hidden sm:flex items-center justify-center h-10 shrink-0 active:scale-95 transition-transform rounded-full"
                 href="/"
                 aria-label="Página de inicio"
               >
                 <Image
                   className="h-10 w-auto aspect-auto transition-all ease-in-out"
-                  width={27}
+                  width={40}
                   height={40}
                   quality={100}
                   src="/logo-essentia.webp"
@@ -76,7 +78,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
                 Essentia®️
               </Link>
             </div>
-            <MainSearch />
+            <MainSearch isPremium={is_premium} />
           </div>
         </div>
         <div className="z-40 h-14 fixed top-0 right-0">

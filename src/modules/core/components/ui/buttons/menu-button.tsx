@@ -1,26 +1,29 @@
 "use client";
 
+import Image from "next/image";
 import { MenuIcon } from "@/modules/icons/common";
 import { UserProfileData } from "@/types/session";
-import { Avatar, AvatarIcon, Button } from "@nextui-org/react";
-import Image from "next/image";
+import { Avatar, AvatarIcon } from "@nextui-org/react";
 
 interface Props {
   profileData: UserProfileData | null;
 }
 
 const MenuButton: React.FC<Props> = ({ profileData }) => {
+  const { profile_image } = profileData || {};
+
   return (
     <>
       {profileData ? (
         <>
-          {profileData.profile_image ? (
-            <div className="size-8 bg-white dark:bg-base-full-dark border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden">
+          {profile_image ? (
+            <div className="size-8 bg-white dark:bg-base-full-dark md:border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden">
               <Image
                 priority
-                width={28}
-                height={28}
-                src={profileData.profile_image}
+                quality={50}
+                width={32}
+                height={32}
+                src={profile_image}
                 alt="Avatar del usuario"
                 className="object-cover object-center rounded-full"
               />
@@ -28,7 +31,6 @@ const MenuButton: React.FC<Props> = ({ profileData }) => {
           ) : (
             <Avatar
               showFallback
-              src="https://images.unsplash.com/broken"
               size="sm"
               icon={<AvatarIcon />}
               classNames={{

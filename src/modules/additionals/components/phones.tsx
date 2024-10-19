@@ -32,7 +32,6 @@ const Phones = () => {
           className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
         >
           <Chip
-            variant="flat"
             color="danger"
             startContent={<ExclamationTriangleIcon className="size-3 ml-2" />}
           >
@@ -44,13 +43,16 @@ const Phones = () => {
         {PHONES.map((phone, index) => (
           <Card
             key={index}
+            radius="sm"
             className={cn(
-              "shadow-md group col-span-12 sm:col-span-4 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-base-color-h dark:text-base-color-dark"
+              "shadow-none md:shadow-md group col-span-12 sm:col-span-4 bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark"
             )}
           >
             <CardBody className="z-10">
               <div className="inline-flex items-center justify-between w-full mb-3">
-                <h3 className="text-xl font-semibold">{phone.title}</h3>
+                <h3 className="text-lg md:text-xl font-semibold">
+                  {phone.title}
+                </h3>
               </div>
               <div>
                 <p className="text-sm text-base-color-h dark:text-base-color-dark-h">
@@ -58,12 +60,11 @@ const Phones = () => {
                 </p>
               </div>
             </CardBody>
-            <Divider className="w-auto mx-3 bg-gray-200 dark:bg-base-dark z-10" />
-            <CardFooter className="dark:border-base-dark z-10">
+            <CardFooter className="bg-gray-100 dark:bg-base-dark-50 border-t border-gray-200 dark:border-base-dark rounded-none z-10">
               <span>
                 <PhoneIcon className="size-5 text-base-color-m dark:text-base-color-dark-m" />
               </span>
-              <span className="ml-2 text-lg font-semibold text-base-color dark:text-base-color-dark">
+              <span className="ml-2 md:text-lg font-semibold text-base-color dark:text-base-color-dark">
                 Llame al {phone.phone}
               </span>
             </CardFooter>

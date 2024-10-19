@@ -53,7 +53,7 @@ const CarouselItem = (props: CarouselProps) => {
   }, [startAutoChange, stopAutoChange]);
 
   return (
-    <div className="shadow-md border border-gray-200 dark:border-none rounded-3xl">
+    <div className="shadow-md border border-white dark:border-base-full-dark rounded-3xl">
       <div
         className="relative overflow-hidden"
         ref={emblaRef}
@@ -77,32 +77,45 @@ const CarouselItem = (props: CarouselProps) => {
                 </div>
               </Link>
 
-              <Image
-                priority
-                quality={90}
-                width={982}
-                height={286}
-                src={img}
-                alt={title}
-                className="w-full h-52 md:rounded-3xl object-cover object-center"
-              />
+              <div className="flex items-center w-fit md:rounded-3xl overflow-hidden h-52">
+                <Image
+                  priority={index < 2}
+                  loading={index > 1 ? "lazy" : "eager"}
+                  quality={90}
+                  width={index === 1 ? 982 : index === 3 ? 1080 : 992}
+                  height={index === 1 ? 561 : index === 3 ? 549 : 558}
+                  src={img}
+                  alt={title}
+                  className="!h-auto object-cover object-center aspect-auto"
+                />
+              </div>
             </div>
           ))}
         </div>
 
-        <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-        <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+        <PrevButton
+          onPress={onPrevButtonClick}
+          disabled={prevBtnDisabled}
+          aria-label="Anterior"
+        />
+        <NextButton
+          onPress={onNextButtonClick}
+          disabled={nextBtnDisabled}
+          aria-label="Siguiente"
+        />
 
-        <div className="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
+        <div className="absolute z-30 flex -translate-x-1/2 space-x-4 rtl:space-x-reverse bottom-5 left-1/2">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
               onClick={() => onDotButtonClick(index)}
+              aria-current={index === selectedIndex ? "true" : "false"}
+              aria-label={`Deslizamiento ${index + 1}`}
               className={cn(
-                "h-1.5 rounded-full shadow-sm shadow-black/30 transition-all",
+                "h-2 rounded-full shadow-sm shadow-black/30 transition-all",
                 index === selectedIndex
-                  ? "bg-white dark:bg-base-full-dark w-8"
-                  : "bg-white/50 dark:bg-base-full-dark-50 w-4"
+                  ? "bg-white dark:bg-base-full-dark w-10"
+                  : "bg-white/50 dark:bg-base-full-dark-50 w-5"
               )}
             />
           ))}

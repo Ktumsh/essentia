@@ -1,28 +1,24 @@
+import { cn } from "@/utils/common";
 import Image from "next/image";
 import Link from "next/link";
 
-const Logo = () => {
+interface LogoProps {
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+const Logo = ({ width, height, className }: LogoProps) => {
   return (
-    <div className="flex col-span-2 md:col-span-1 justify-center md:justify-start justify-items-start mb-6">
-      <Link title="Essentia Logo" href="/" aria-label="Essentia Logo">
-        <div className="w-28 h-auto">
-          <Image
-            className="size-auto dark:hidden"
-            width={1500}
-            height={1500}
-            src="/logo-essentia-on-light.webp"
-            alt="Essentia Logo"
-          />
-          <Image
-            className="size-auto hidden dark:block"
-            width={1500}
-            height={1500}
-            src="/logo-essentia-on-dark.webp"
-            alt="Essentia Logo"
-          />
-        </div>
-      </Link>
-    </div>
+    <Link href="/" aria-label="Logo Essentia">
+      <Image
+        src="/logo-essentia.webp"
+        alt="Logo Essentia"
+        width={width || 10.66}
+        height={height || 16}
+        className={cn("w-auto h-4", className)}
+      />
+    </Link>
   );
 };
 

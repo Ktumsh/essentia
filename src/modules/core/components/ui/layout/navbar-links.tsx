@@ -1,7 +1,9 @@
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { IconSvgProps } from "@/types/common";
 import { cn } from "@/utils/common";
-import { Button, Link, Tooltip } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
+import Link from "next/link";
+import { useEffect, useState, useRef, FC, CSSProperties } from "react";
 
 interface Page {
   name: string;
@@ -15,9 +17,60 @@ interface NavbarLinksProps {
   pages: Page[];
 }
 
-const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
+const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
+  const [underlineStyle, setUnderlineStyle] = useState<CSSProperties>({
+    width: 0,
+    left: 0,
+  });
+
+  const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+  useEffect(() => {
+    const activePageIndex = pages.findIndex((page) => page.active);
+
+    if (activePageIndex !== -1 && linkRefs.current[activePageIndex]) {
+      const activeElement = linkRefs.current[activePageIndex];
+
+      if (activeElement) {
+        const newStyle = {
+          width: activeElement.clientWidth,
+          left: activeElement.offsetLeft,
+        };
+
+        if (
+          newStyle.width !== underlineStyle.width ||
+          newStyle.left !== underlineStyle.left
+        ) {
+          setUnderlineStyle(newStyle);
+        }
+      }
+    } else {
+      if (underlineStyle.width !== 0 || underlineStyle.left !== 0) {
+        setUnderlineStyle({
+          width: 0,
+          left: 0,
+        });
+      }
+    }
+  }, [pages, underlineStyle]);
+
+  const handleNavItemClick = (index: number) => {
+    const activeElement = linkRefs.current[index];
+    if (activeElement) {
+      setUnderlineStyle({
+        width: activeElement.clientWidth,
+        left: activeElement.offsetLeft,
+      });
+    }
+  };
+
   return (
     <>
+      <hr
+        aria-hidden="true"
+        style={underlineStyle}
+        className="absolute bottom-0 h-1 bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out border-none"
+      />
       {pages.map(
         ({ name, href, icon: Icon, fillIcon: FillIcon, active }, key) => (
           <Tooltip
@@ -30,24 +83,26 @@ const NavbarLinks: React.FC<NavbarLinksProps> = ({ pages }) => {
             }}
           >
             <li
-              className={cn(
-                active ? "!pb-0" : "",
-                "relative flex items-center justify-center h-full w-20 lg:w-28 py-1"
-              )}
+              ref={(el) => {
+                linkRefs.current[key] = el;
+              }}
+              className="relative flex items-center justify-center h-full w-20 lg:w-28 py-1"
             >
               <Button
                 as={Link}
                 id={`navbar_link_${key + 1}`}
+                aria-label={"Ir a " + name}
                 variant="light"
                 color="danger"
                 radius="sm"
+                fullWidth
                 href={href}
+                onPress={() => handleNavItemClick}
                 className={cn(
-                  "!h-full after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[3px] after:bg-current after:scale-x-0 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
-                  active
-                    ? "current-page rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 after:bg-bittersweet-400 dark:after:bg-cerise-red-600 after:scale-x-100 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
-                    : "not-current",
-                  "relative flex items-center justify-center size-full px-3 pointer-events-auto navbar_link hover:text-bittersweet-400 dark:hover:text-cerise-red-600"
+                  "!h-full max-h-12 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
+                  "px-3 pointer-events-auto hover:text-bittersweet-400 dark:hover:text-cerise-red-600",
+                  active &&
+                    "rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
                 )}
               >
                 {active ? (

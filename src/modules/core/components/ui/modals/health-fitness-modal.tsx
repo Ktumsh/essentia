@@ -71,14 +71,13 @@ export const ModalComponent: FC<Props> = ({
         id={formatedTitle}
         data-id={formatedTitle}
         data-name={modalTitle}
-        shadow="sm"
         radius="sm"
         isPressable
         onPress={() => {
           onOpen();
           history.replaceState(null, "", `#${formatedTitle}`);
         }}
-        className="grid grid-cols-12 md:flex flex-row md:flex-col group  text-base-color-h dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-gray-100 dark:border-base-dark shadow-md !transition overflow-clip"
+        className="grid grid-cols-12 md:flex flex-row md:flex-col group text-base-color-h dark:text-base-color-dark bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-100 dark:border-base-dark md:dark:border-base-dark shadow-none md:shadow-md !transition overflow-clip"
       >
         <CardHeader className="hidden md:flex absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
           <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />

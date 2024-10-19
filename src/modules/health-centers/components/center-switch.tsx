@@ -1,14 +1,17 @@
+"use client";
+
 import { Switch } from "@nextui-org/react";
 import { HospitalIcon, PharmacyIcon } from "@/modules/icons/miscellaneus";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { useState } from "react";
 
 interface Props {
-  isSelected: boolean;
-  setIsSelected: (value: boolean) => void;
   onSwitchChange: (value: boolean) => void;
 }
 
-const CenterSwitch = ({ isSelected, setIsSelected, onSwitchChange }: Props) => {
+const CenterSwitch = ({ onSwitchChange }: Props) => {
+  const [isSelected, setIsSelected] = useState(true);
+
   const handleSwitchChange = (selected: boolean) => {
     setIsSelected(selected);
     onSwitchChange(selected);
@@ -29,7 +32,7 @@ const CenterSwitch = ({ isSelected, setIsSelected, onSwitchChange }: Props) => {
           isSelected={isSelected}
           onValueChange={handleSwitchChange}
           thumbIcon={isSelected ? <HospitalIcon /> : <PharmacyIcon />}
-          className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0"
+          className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0 pointer-events-auto"
           classNames={{
             label:
               "text-xs sm:text-base text-white md:text-base-color-h md:dark:text-base-color-dark",

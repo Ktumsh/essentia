@@ -141,6 +141,16 @@
   --chart-5: 160 60% 45%;
 }
 
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf")
+    format("truetype");
+}
+
+.StripeElement > * {
+  font-family: var(--font-dm-sans) !important;
+}
+
 @supports selector(::-webkit-scrollbar) {
   ::-webkit-scrollbar {
     @apply size-1.5;
@@ -777,4 +787,20 @@ html.dark {
 
 .card:hover::before {
   opacity: 1;
+}
+
+.dark svg.stars-icon path {
+  fill: url(#dark-gradient-v2);
+}
+
+.dark svg.stars-icon.v2 path {
+  fill: url(#dark-gradient);
+}
+
+.dark svg.ai-gradient-icon path {
+  fill: url(#ai-dark-gradient-v2);
+}
+
+.dark svg.ai-gradient-icon.v2 path {
+  fill: url(#ai-dark-gradient);
 }

@@ -230,7 +230,6 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                   <div className="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-32">
                     <Avatar
                       showFallback
-                      src="https://images.unsplash.com/broken"
                       icon={<AvatarIcon className="size-3/5" />}
                       classNames={{
                         icon: "text-base-color-m dark:text-base-color-dark-m",

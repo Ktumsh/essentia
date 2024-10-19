@@ -23,7 +23,6 @@ export interface Resources {
   background: string;
   resource: string;
   component: FC;
-  span?: string;
 }
 
 export interface Video {

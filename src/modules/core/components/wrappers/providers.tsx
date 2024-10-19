@@ -3,13 +3,20 @@ import { ThemeProviderProps } from "next-themes/dist/types";
 import { SidebarProvider } from "@/modules/chatbot/hooks/use-sidebar";
 import { ThemeProvider } from "../../hooks/use-theme";
 import SessionProviderComponent from "../../hooks/use-session";
+import { PlanProvider } from "../../hooks/use-current-plan";
 
-export function Providers({ children, ...props }: ThemeProviderProps) {
+export async function Providers({
+  currentPlan,
+  children,
+  ...props
+}: { currentPlan: string | null } & ThemeProviderProps) {
   return (
     <SessionProviderComponent>
-      <SidebarProvider>
-        <ThemeProvider {...props}>{children}</ThemeProvider>
-      </SidebarProvider>
+      <PlanProvider currentPlan={currentPlan}>
+        <SidebarProvider>
+          <ThemeProvider {...props}>{children}</ThemeProvider>
+        </SidebarProvider>
+      </PlanProvider>
     </SessionProviderComponent>
   );
 }

@@ -1,7 +1,7 @@
 import ProfilePanel from "@/modules/profile/components/profile-panel";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 import { Metadata } from "next";
 
 type Props = {
@@ -38,7 +38,7 @@ const ProfilePage = async ({ params }: Props) => {
 
   return (
     <>
-      <main className="flex flex-col min-h-dvh w-full md:min-w-[768px] max-w-5xl md:px-5 pb-14 md:pb-0 pt-14 shrink items-stretch grow">
+      <main className="flex flex-col min-h-dvh w-full max-w-5xl pb-16 md:pb-0 pt-14 shrink items-stretch grow">
         <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />
       </main>
     </>

@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import LayoutWrapper from "@/modules/core/components/wrappers/layout-wrapper";
 import BottomNav from "@/modules/core/components/ui/layout/bottom-navbar";
 import Header from "@/modules/core/components/ui/layout/header";
@@ -6,12 +7,12 @@ import WelcomeModal from "@/modules/core/components/ui/modals/welcome-modal";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
-import { auth } from "@@/auth";
+import { auth } from "@/app/(auth)/auth";
 
 export default async function MainLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const session = (await auth()) as Session;
   const profileData = session ? await getUserProfileData(session) : null;
@@ -24,7 +25,7 @@ export default async function MainLayout({
       <MobileHeader profileData={profileData} />
       <LayoutWrapper>{children}</LayoutWrapper>
       {/* Bottom Mobile Navbar */}
-      <BottomNav />
+      <BottomNav profileData={profileData} />
       {!session && <WelcomeModal />}
     </>
   );

@@ -39,6 +39,11 @@ export interface HealthFact {
 export type SiteConfig = {
   name: string;
   description: string;
+  planPrices: {
+    free: string;
+    premium: string;
+    premiumPlus: string;
+  };
   links: {
     github: string;
     instagram: string;
@@ -63,4 +68,13 @@ export type SiteConfig = {
     comunidad: { href: string; text: string }[];
     more: { href: string; text: string }[];
   };
+  desktopFooterLinks: {
+    more: { href: string; text: string }[];
+  };
 };
+
+export interface FAQPrincing {
+  id: number;
+  question: string;
+  answer: string;
+}

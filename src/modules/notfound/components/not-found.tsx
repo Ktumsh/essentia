@@ -1,62 +1,13 @@
-"use client";
-
-import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Button } from "@nextui-org/react";
-import { motion } from "framer-motion";
-import ConfettiComponent from "@/modules/core/components/ui/confetti";
-import MainButton from "./main-btn";
-import MotivationalMessages from "./motivational-message";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { cn } from "@/utils/common";
 
 const NotFoundWrapper = () => {
-  const [clicks, setClicks] = useState(0);
-  const [lastClickTime, setLastClickTime] = useState<number | null>(null);
-  const [isFastClick, setIsFastClick] = useState(false);
-  const [showSpeedMessage, setShowSpeedMessage] = useState(false);
-
-  const windowSize = useWindowSize();
-
-  const handleClick = useCallback(() => {
-    const now = Date.now();
-    if (lastClickTime !== null) {
-      const speed = now - lastClickTime;
-      setIsFastClick(speed < 250);
-      if (speed < 150) setShowSpeedMessage(true);
-    }
-    setLastClickTime(now);
-    setClicks((prevClicks) => prevClicks + 1);
-  }, [lastClickTime]);
-
-  useEffect(() => {
-    if (lastClickTime) {
-      const timeoutId = setTimeout(() => {
-        const now = Date.now();
-        if (now - lastClickTime >= 1000) {
-          setIsFastClick(false);
-        }
-      }, 1000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [lastClickTime]);
-
-  useEffect(() => {
-    if (showSpeedMessage) {
-      const timeoutId = setTimeout(() => setShowSpeedMessage(false), 1000);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [showSpeedMessage]);
-
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ ease: "easeInOut", duration: 0.5 }}
+      <div
         aria-hidden="true"
         className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
       >
@@ -69,10 +20,8 @@ const NotFoundWrapper = () => {
             "after:dark:top-1/4 after:dark:left-2/3 after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-base-full-dark after:dark:via-[#ff7373] after:dark:opacity-50 after:dark:blur-3xl after:dark:rounded-none"
           )}
         ></div>
-      </motion.div>
+      </div>
       <div className="relative flex flex-col items-center md:justify-center min-h-dvh px-5 md:px-40 gap-5 text-base-color dark:text-white overflow-hidden">
-        <ConfettiComponent clicks={clicks} windowSize={windowSize} />
-
         <div className="md:absolute top-52 left-1/4 flex flex-col justify-center max-w-xl space-y-5">
           <div className="flex flex-col gap-4 text-center md:text-start h-full md:h-auto">
             <h1 className="text-3xl md:text-6xl font-extrabold font-sans text-wrap">
@@ -95,32 +44,22 @@ const NotFoundWrapper = () => {
               disableRipple
               variant="solid"
               startContent={<ArrowLeftIcon className="size-5" />}
-              className="w-full md:w-auto rounded-full md:rounded-lg h-14 md:h-auto text-base md:text-sm bg-white dark:bg-base-dark shadow-medium border border-gray-200 dark:border-white/10"
+              className="w-full md:w-auto rounded-full md:rounded-lg h-14 md:h-10 text-base md:text-sm bg-white dark:bg-base-dark shadow-medium border border-gray-200 dark:border-white/10"
             >
               Recuperar mi esencia
             </Button>
-
-            <MainButton
-              handleClick={handleClick}
-              isFastClick={isFastClick}
-              clicks={clicks}
-            />
           </div>
-          <MotivationalMessages
-            clicks={clicks}
-            isFastClick={isFastClick}
-            showSpeedMessage={showSpeedMessage}
-          />
         </div>
 
         <div className="-order-1 md:order-none md:absolute left-20 -bottom-20 mt-20 md:mt-0 -z-10 pointer-events-none">
           <Image
-            width={750}
+            width={1132}
             height={1132}
-            quality={100}
+            quality={80}
             priority
             src="/logo-essentia.webp"
-            alt=""
+            alt="Logo Essentia"
+            aria-hidden="true"
             className="h-64 md:h-[1132px] w-auto md:opacity-30 [mask-image:linear-gradient(to_bottom,_rgba(0,_0,_0,_1)_0%,_transparent_90%)]"
           />
         </div>

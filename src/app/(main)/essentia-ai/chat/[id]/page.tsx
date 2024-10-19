@@ -1,11 +1,14 @@
 import { type Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { getChat, getMissingKeys } from "../../actions";
-import { auth } from "@@/auth";
-import { AI } from "@/modules/chatbot/chat/actions";
-import { Chat } from "@/modules/chatbot/componentes/chat";
+import { auth } from "@/app/(auth)/auth";
+import { Chat as PreviewChat } from "@/modules/chatbot/components/chat";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
+import { getUserById } from "@/db/actions";
+import { getChat, getMissingKeys } from "@/db/chat-querys";
+import { CoreMessage } from "ai";
+import { Chat } from "@/types/chat";
+import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
 
 export interface ChatPageProps {
   params: {
@@ -29,16 +32,28 @@ export async function generateMetadata({
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
+  const { id } = params;
   const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();
   const profileData = session ? await getUserProfileData(session) : null;
+  const user = session ? await getUserById(session.user.id) : null;
+  const isPremium = user?.is_premium ?? null;
 
   if (!session?.user) {
     redirect(`/login?get=/chat/${params.id}`);
   }
 
   const userId = session.user.id;
-  const chat = await getChat(params.id, userId);
+  const chatFromDb = await getChat(id, userId);
+
+  if (!chatFromDb) {
+    redirect("/essentia-ai");
+  }
+
+  const chat: Chat = {
+    ...chatFromDb,
+    messages: convertToUIMessages(chatFromDb.messages as Array<CoreMessage>),
+  };
 
   if (!chat) {
     redirect("/essentia-ai");
@@ -49,14 +64,13 @@ export default async function ChatPage({ params }: ChatPageProps) {
   }
 
   return (
-    <AI initialAIState={{ chatId: chat.id, messages: chat.messages }}>
-      <Chat
-        id={chat.id}
-        session={session as any}
-        initialMessages={chat.messages}
-        missingKeys={missingKeys}
-        profileData={profileData}
-      />
-    </AI>
+    <PreviewChat
+      id={chat.id}
+      session={session}
+      initialMessages={chat.messages}
+      missingKeys={missingKeys}
+      profileData={profileData}
+      isPremium={isPremium}
+    />
   );
 }
