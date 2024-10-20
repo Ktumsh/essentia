@@ -14,6 +14,7 @@ const VerifyEmailPage = async ({ searchParams }: Props) => {
   }
 
   const user = await getUserByEmail(email);
+  console.log("User:", user);
   const userId = user?.id;
 
   console.log("Email:", email);
