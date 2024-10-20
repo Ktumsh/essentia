@@ -66,13 +66,14 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
                 <Button
                   radius="sm"
                   variant="light"
+                  fullWidth
                   onPress={handleResendEmail}
                   startContent={
                     isSending ? (
                       <SpinnerIcon className="size-4 animate-spin" />
                     ) : null
                   }
-                  className="w-full md:w-fit md:border border-bittersweet-400 dark:border-cerise-red-600 bg-bittersweet-400 dark:bg-cerise-red-600 md:bg-transparent dark:md:bg-transparent data-[hover=true]:bg-bittersweet-400 data-[hover=true]:dark:bg-cerise-red-600 data-[hover=true]:text-white"
+                  className="md:border border-bittersweet-400 dark:border-cerise-red-600 bg-bittersweet-400 dark:bg-cerise-red-600 md:bg-transparent dark:md:bg-transparent data-[hover=true]:bg-bittersweet-400 data-[hover=true]:dark:bg-cerise-red-600 data-[hover=true]:text-white"
                 >
                   {!isSending ? "Reenviar correo" : "Reenviando..."}
                 </Button>

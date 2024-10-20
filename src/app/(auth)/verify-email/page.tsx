@@ -16,7 +16,14 @@ const VerifyEmailPage = async ({ searchParams }: Props) => {
   const user = await getUserByEmail(email);
   const userId = user?.id;
 
-  return <VerifyEmail email={email} userId={userId || ""} />;
+  console.log("Email:", email);
+  console.log("UserId:", user?.id);
+
+  if (!userId) {
+    return redirect("/login");
+  }
+
+  return <VerifyEmail email={email} userId={userId} />;
 };
 
 export default VerifyEmailPage;
