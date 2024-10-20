@@ -57,6 +57,7 @@ const ChatList = ({
             role={message.role}
             content={message.content}
             toolInvocations={message.toolInvocations}
+            attachments={message.experimental_attachments}
             profileData={profileData}
           />
           {index < messages.length - 1 && messages[index + 1] && (

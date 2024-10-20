@@ -2,13 +2,22 @@
 
 import Textarea from "react-textarea-autosize";
 import { Button, Tooltip } from "@nextui-org/react";
-import { FC, useRef } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useCallback,
+  useRef,
+} from "react";
 import { tooltipStyles } from "@/styles/tooltip-styles";
-import { NewIcon, StopIcon } from "@/modules/icons/action";
+import { StopIcon } from "@/modules/icons/action";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
-import Link from "next/link";
-import { ChatRequestOptions } from "ai";
+import { Attachment, ChatRequestOptions } from "ai";
 import { toast } from "sonner";
+import { PaperclipIcon } from "@/modules/icons/common";
+import { useEnterSubmit } from "../hooks/use-enter-submit";
 
 interface PromptFormProps {
   input: string;
@@ -22,6 +31,10 @@ interface PromptFormProps {
     },
     chatRequestOptions?: ChatRequestOptions
   ) => void;
+  attachments: Array<Attachment>;
+  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
+  uploadQueue: string[];
+  setUploadQueue: Dispatch<SetStateAction<string[]>>;
 }
 
 const PromptForm: FC<PromptFormProps> = ({
@@ -31,18 +44,99 @@ const PromptForm: FC<PromptFormProps> = ({
   isPremium,
   stop,
   handleSubmit,
+  attachments,
+  setAttachments,
+  uploadQueue,
+  setUploadQueue,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { formRef, onKeyDown } = useEnterSubmit();
+
+  const submitForm = useCallback(
+    (event: FormEvent) => {
+      if (event?.preventDefault) {
+        event.preventDefault();
+      }
+
+      handleSubmit(undefined, {
+        experimental_attachments: attachments,
+      });
+
+      setAttachments([]);
+    },
+    [attachments, handleSubmit, setAttachments]
+  );
+
+  const uploadFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch(`/api/files/upload-ai`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const { url, pathname, contentType } = data;
+
+        return {
+          url,
+          name: pathname,
+          contentType: contentType,
+        };
+      } else {
+        const { error } = await response.json();
+        toast.error(error);
+      }
+    } catch (error) {
+      toast.error("Error al cargar el archivo, por favor intenta nuevamente!");
+    }
+  };
+
+  const handleFileChange = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(event.target.files || []);
+
+      setUploadQueue(files.map((file) => file.name));
+
+      try {
+        const uploadPromises = files.map((file) => uploadFile(file));
+        const uploadedAttachments = await Promise.all(uploadPromises);
+        const successfullyUploadedAttachments = uploadedAttachments.filter(
+          (attachment) => attachment !== undefined
+        );
+
+        setAttachments((currentAttachments) => [
+          ...currentAttachments,
+          ...successfullyUploadedAttachments,
+        ]);
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      } catch (error) {
+        console.error("Error uploading files!", error);
+      } finally {
+        setUploadQueue([]);
+      }
+    },
+    [setAttachments, setUploadQueue]
+  );
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
   };
 
   return (
-    <form>
+    <form ref={formRef} onSubmit={submitForm}>
       <div className="relative flex flex-col grow max-h-60 w-full px-8 sm:px-12 bg-white dark:bg-transparent sm:dark:bg-base-dark-50 sm:border border-gray-200 dark:border-base-dark sm:rounded-md overflow-hidden">
         <Tooltip
-          content="Nuevo chat"
+          content="Adjuntar imagen"
           delay={800}
           closeDelay={0}
           classNames={{
@@ -50,18 +144,28 @@ const PromptForm: FC<PromptFormProps> = ({
           }}
         >
           <Button
-            as={Link}
-            href="/essentia-ai"
             isIconOnly
-            isDisabled={!isPremium}
             size="sm"
             radius="full"
             variant="light"
-            className="absolute left-0 sm:left-4 top-[13px] !size-9 text-base-color dark:text-base-color-dark border border-gray-200 dark:border-base-dark sm:dark:border-base-full-dark dark:data-[hover=true]:bg-base-dark sm:dark:data-[hover=true]:bg-base-full-dark"
+            isDisabled={isLoading}
+            onPress={() => fileInputRef.current?.click()}
+            className="absolute left-0 sm:left-4 top-[13px] !size-9 text-base-color dark:text-base-color-dark border border-gray-300 dark:border-[#123a6f] sm:dark:border-[] dark:data-[hover=true]:bg-base-dark sm:dark:data-[hover=true]:bg-base-full-dark"
           >
-            <NewIcon className="size-4" />
+            <PaperclipIcon className="size-3.5" />
           </Button>
         </Tooltip>
+
+        <input
+          type="file"
+          className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
+          accept="image/jpeg,image/jpg,image/png,image/webp"
+          ref={fileInputRef}
+          multiple
+          onChange={handleFileChange}
+          tabIndex={-1}
+        />
+
         <Textarea
           ref={textareaRef}
           tabIndex={0}
@@ -75,21 +179,10 @@ const PromptForm: FC<PromptFormProps> = ({
           disabled={!isPremium || false}
           placeholder="Escribe tu mensaje."
           onChange={handleInput}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-
-              if (isLoading) {
-                toast.error(
-                  "¡Por favor espera a que el bot responda tu mensaje!"
-                );
-              } else {
-                handleSubmit();
-              }
-            }
-          }}
+          onKeyDown={onKeyDown}
           className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none text-base-color dark:text-base-color-dark"
         />
+
         {isLoading ? (
           <Tooltip
             content="Detener"
@@ -104,8 +197,8 @@ const PromptForm: FC<PromptFormProps> = ({
               size="sm"
               radius="full"
               color="danger"
-              className="absolute right-0 sm:right-4 top-[13px] !size-9 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
               onPress={stop}
+              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
             >
               <StopIcon className="size-4" />
             </Button>
@@ -124,9 +217,11 @@ const PromptForm: FC<PromptFormProps> = ({
               size="sm"
               radius="full"
               color="danger"
-              className="absolute right-0 sm:right-4 top-[13px] !size-9 shadow-md disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
-              isDisabled={input === "" || !isPremium}
+              isDisabled={
+                input.length === 0 || uploadQueue.length > 0 || !isPremium
+              }
               onPress={() => handleSubmit()}
+              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
             >
               <ArrowUpIcon className="size-4" />
             </Button>

@@ -1,7 +1,7 @@
 "use client";
 
-import { ComponentProps, useEffect } from "react";
-import { Message } from "ai";
+import { ComponentProps, useEffect, useState } from "react";
+import { Attachment, Message } from "ai";
 import { useChat } from "ai/react";
 import { toast } from "sonner";
 import { Session, UserProfileData } from "@/types/session";
@@ -54,6 +54,8 @@ export function Chat({
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor();
 
+  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+
   return (
     <main
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
@@ -84,6 +86,8 @@ export function Chat({
         scrollToBottom={scrollToBottom}
         append={append}
         handleSubmit={handleSubmit}
+        attachments={attachments}
+        setAttachments={setAttachments}
         messages={messages}
         isAtBottom={isAtBottom}
         isLoading={isLoading}

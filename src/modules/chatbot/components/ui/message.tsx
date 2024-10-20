@@ -1,6 +1,6 @@
 "use client";
 
-import { ToolInvocation } from "ai";
+import { Attachment, ToolInvocation } from "ai";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import { BotAvatar, UserAvatar } from "./role-avatar";
@@ -19,18 +19,23 @@ import { Plan } from "../tools/nutrition-plan-stock";
 import { MoodTracking } from "../tools/mood-tracking-stock";
 import { InitialLoading } from "./initial-loading";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
+import { PreviewAttachment } from "./preview-attachment";
+
+interface MessageProps {
+  role: string;
+  content: string | ReactNode;
+  toolInvocations: Array<ToolInvocation> | undefined;
+  attachments?: Array<Attachment>;
+  profileData?: UserProfileData | null;
+}
 
 export const Message = ({
   role,
   content,
   toolInvocations,
+  attachments,
   profileData,
-}: {
-  role: string;
-  content: string | ReactNode;
-  toolInvocations: Array<ToolInvocation> | undefined;
-  profileData?: UserProfileData | null;
-}) => {
+}: MessageProps) => {
   const { profile_image, username } = profileData || {};
   return (
     <motion.div
@@ -90,6 +95,15 @@ export const Message = ({
               return <InitialLoading key={toolCallId} />;
             }
           })}
+
+        {attachments && (
+          <div className="flex flex-row gap-2">
+            {attachments.map((attachment) => (
+              <PreviewAttachment key={attachment.url} attachment={attachment} />
+            ))}
+          </div>
+        )}
+
         {role === "assistant" && !toolInvocations?.length && (
           <MessageActions content={content as string} />
         )}
