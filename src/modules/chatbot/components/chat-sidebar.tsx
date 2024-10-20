@@ -22,7 +22,7 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
     data: history,
     mutate,
     isLoading,
-  } = useSWR<Array<Chat>>(session?.user ? "/api/history" : null, fetcher, {
+  } = useSWR<Array<Chat>>(session?.user ? "/api/chat/history" : null, fetcher, {
     fallbackData: [],
   });
 

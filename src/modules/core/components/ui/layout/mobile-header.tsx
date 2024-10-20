@@ -33,7 +33,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSheetChatOpen, setIsSheetChatOpen] = useState(false);
   const { data: history, mutate } = useSWR<Array<Chat>>(
-    profileData ? "/api/history" : null,
+    profileData ? "/api/chat/history" : null,
     fetcher,
     {
       fallbackData: [],

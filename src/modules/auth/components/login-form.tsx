@@ -64,9 +64,9 @@ const LoginForm = () => {
   const fetchUserName = useCallback(async () => {
     const userName = await getProfileNameByEmail(email);
     if (userName) {
-      toast.success(`¡Bienvenid@ de nuevo, ${userName.first_name}!`);
+      toast.success(`¡Hola de nuevo, ${userName.first_name}!`);
     } else {
-      toast.success(`¡Bienvenido de nuevo!`);
+      toast.success(`¡Hola de nuevo!`);
     }
     router.push(redirectUrl);
   }, [email, router, redirectUrl]);

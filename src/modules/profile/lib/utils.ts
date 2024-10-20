@@ -51,7 +51,7 @@ export async function uploadFile(
   formData.append("imageType", imageType);
   formData.append("userId", userId);
 
-  const response = await fetch("/api/upload", {
+  const response = await fetch("/api/files/upload-profile", {
     method: "POST",
     body: formData,
   });
