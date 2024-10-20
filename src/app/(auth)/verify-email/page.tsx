@@ -9,6 +9,8 @@ type Props = {
 const VerifyEmailPage = async ({ searchParams }: Props) => {
   const { email } = searchParams;
 
+  console.log("SearchParams:", searchParams);
+
   if (!email) {
     return redirect("/login");
   }
