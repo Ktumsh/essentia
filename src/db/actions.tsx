@@ -114,10 +114,15 @@ export async function getUserById(userId: string): Promise<User | null> {
 
 //Get user by email
 export async function getUserByEmail(email: string): Promise<User | null> {
-  const result = await pool.sql<User>`
+  try {
+    const result = await pool.sql<User>`
     SELECT * FROM users WHERE email = ${email} LIMIT 1;
   `;
-  return result.rows[0] || null;
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error("Error al obtener el usuario por email:", error);
+    return null;
+  }
 }
 
 //Get user by username
