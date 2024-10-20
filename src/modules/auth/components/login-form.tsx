@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { useFormState } from "react-dom";
 import { authenticate } from "@/app/(auth)/login/actions";
 import { SpinnerIcon } from "@/modules/icons/common";
-import { getProfileNameByEmail } from "@/db/actions";
+import { getProfileNameByEmail } from "@/db/profile-querys";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");

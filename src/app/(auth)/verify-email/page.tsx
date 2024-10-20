@@ -1,4 +1,4 @@
-import { getUserByEmail } from "@/db/actions";
+import { getUserByEmail } from "@/db/user-querys";
 import VerifyEmail from "@/modules/auth/components/verify-email";
 import { redirect } from "next/navigation";
 
@@ -9,18 +9,13 @@ type Props = {
 const VerifyEmailPage = async ({ searchParams }: Props) => {
   const { email } = searchParams;
 
-  console.log("SearchParams:", searchParams);
-
   if (!email) {
     return redirect("/login");
   }
 
-  const user = await getUserByEmail(email);
-  console.log("User:", user);
-  const userId = user?.id;
+  const user = email ? await getUserByEmail(email) : null;
 
-  console.log("Email:", email);
-  console.log("UserId:", user?.id);
+  const userId = user?.id;
 
   if (!userId) {
     return redirect("/login");

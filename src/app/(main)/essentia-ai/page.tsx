@@ -5,8 +5,8 @@ import { auth } from "@/app/(auth)/auth";
 import { Chat } from "@/modules/chatbot/components/chat";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { getUserById } from "@/db/actions";
 import { getMissingKeys } from "@/db/chat-querys";
+import { getUserById } from "@/db/user-querys";
 export const metadata: Metadata = {
   title: "Essentia AI ⭐",
 };

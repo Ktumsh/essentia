@@ -32,9 +32,8 @@ import FormInput from "./form-input";
 import { useProfileForm } from "../hooks/use-profile-form";
 import { SpinnerIcon, StarsIcon } from "@/modules/icons/common";
 import { formatCreatedAt, validateProfileForm } from "../lib/utils";
-import { updateUserProfile } from "@/db/actions";
+import { updateUserProfile } from "@/db/profile-querys";
 import CompleteProfile from "./complete-profile";
-import AchievementsPanel from "./achievements-panel";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 interface ProfileInfoProps {

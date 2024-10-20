@@ -1,4 +1,7 @@
-import { getUserProfileByEmail, getUserProfileByUsername } from "@/db/actions";
+import {
+  getUserProfileByEmail,
+  getUserProfileByUsername,
+} from "@/db/profile-querys";
 import { Session, UserProfileData } from "@/types/session";
 
 export async function getUserProfileData(

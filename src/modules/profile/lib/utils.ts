@@ -1,5 +1,4 @@
-import { getUserByUsername } from "@/db/actions";
-import { UserProfileData } from "@/types/session";
+import { getUserByUsername } from "@/db/user-querys";
 import { CalendarDate, DateValue } from "@internationalized/date";
 import { toast } from "sonner";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { resendEmailVerification } from "@/db/actions";
+import { resendEmailVerification } from "@/db/email-querys";
 import { SpinnerIcon } from "@/modules/icons/common";
 import { BackIcon } from "@/modules/icons/navigation";
 import { Button } from "@nextui-org/react";

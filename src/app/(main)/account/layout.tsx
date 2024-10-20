@@ -1,4 +1,4 @@
-import { getStripeCustomerById } from "@/db/actions";
+import { getStripeCustomerById } from "@/db/payment-querys";
 import BillingTabs from "@/modules/account/components/billing-tabs";
 import DesktopFooter from "@/modules/core/components/ui/layout/desktop-footer";
 import {

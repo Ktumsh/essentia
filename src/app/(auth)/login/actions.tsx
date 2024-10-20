@@ -4,7 +4,7 @@ import { signIn } from "@/app/(auth)/auth";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 import { ResultCode } from "@/utils/code";
-import { getUserByEmail } from "@/db/actions";
+import { getUserByEmail } from "@/db/user-querys";
 
 interface Result {
   type: string;

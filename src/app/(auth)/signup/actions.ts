@@ -5,11 +5,8 @@ import { sql } from "@vercel/postgres";
 import { ResultCode } from "@/utils/code";
 import { AuthError } from "next-auth";
 import { getStringFromBuffer } from "@/utils/common";
-import {
-  getUserByEmail,
-  getUserByUsername,
-  insertEmailVerificationToken,
-} from "@/db/actions";
+import { insertEmailVerificationToken } from "@/db/email-querys";
+import { getUserByEmail, getUserByUsername } from "@/db/user-querys";
 
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";

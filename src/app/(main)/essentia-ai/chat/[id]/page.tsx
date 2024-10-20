@@ -4,7 +4,7 @@ import { auth } from "@/app/(auth)/auth";
 import { Chat as PreviewChat } from "@/modules/chatbot/components/chat";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { getUserById } from "@/db/actions";
+import { getUserById } from "@/db/user-querys";
 import { getChat, getMissingKeys } from "@/db/chat-querys";
 import { CoreMessage } from "ai";
 import { Chat } from "@/types/chat";

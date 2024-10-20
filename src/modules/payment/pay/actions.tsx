@@ -5,14 +5,13 @@ import {
   deleteUserStripeCustomer,
   getStripeCustomerId,
   getSubscriptionId,
-  getUserById,
-  getUserBySubscriptionId,
   updatePremiumStatus,
   updateUserStripeCustomerId,
-} from "@/db/actions";
+} from "@/db/payment-querys";
 import { Session } from "@/types/session";
 import { auth } from "@/app/(auth)/auth";
 import Stripe from "stripe";
+import { getUserById, getUserBySubscriptionId } from "@/db/user-querys";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 

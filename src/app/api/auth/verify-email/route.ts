@@ -1,9 +1,9 @@
 import {
-  getUserById,
   getVerificationToken,
   updateEmailVerified,
   deleteVerificationToken,
-} from "@/db/actions";
+} from "@/db/email-querys";
+import { getUserById } from "@/db/user-querys";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 

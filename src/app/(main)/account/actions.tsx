@@ -3,7 +3,7 @@
 import {
   getPasswordAndSaltById,
   updatePasswordAndSaltById,
-} from "@/db/actions";
+} from "@/db/user-querys";
 import { Session } from "@/types/session";
 import { changePasswordSchema } from "@/utils/account";
 import { auth } from "@/app/(auth)/auth";

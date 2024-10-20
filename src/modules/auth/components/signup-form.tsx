@@ -22,7 +22,7 @@ import { getMessageFromCode, ResultCode } from "@/utils/code";
 import { toast } from "sonner";
 import { validateEmail } from "../lib/form";
 import { SpinnerIcon } from "@/modules/icons/common";
-import { getUserByEmail } from "@/db/actions";
+import { getUserByEmail } from "@/db/user-querys";
 import { AnimatePresence, motion } from "framer-motion";
 
 const SignupForm = () => {

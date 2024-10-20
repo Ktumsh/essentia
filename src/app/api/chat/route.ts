@@ -5,7 +5,7 @@ import { z } from "zod";
 import { auth } from "@/app/(auth)/auth";
 import { removeChat, saveChat } from "@/db/chat-querys";
 import { createSystemPrompt } from "@/config/chatbot-prompt";
-import { getUserById } from "@/db/actions";
+import { getUserById } from "@/db/user-querys";
 import { formatDate } from "@/modules/payment/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
 import { calculateAge } from "@/modules/core/lib/utils";

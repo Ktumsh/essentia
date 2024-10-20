@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { auth } from "@/app/(auth)/auth";
-import { updateUserBanner, updateUserPhoto } from "@/db/actions";
+import { updateUserBanner, updateUserPhoto } from "@/db/profile-querys";
 
 const FileSchema = z.object({
   file: z
@@ -95,7 +95,7 @@ export const POST = async (req: NextRequest) => {
         updateResult = await updateUserPhoto(userId, fileUrl);
       }
 
-      if (updateResult.error) {
+      if (updateResult?.error) {
         return NextResponse.json(
           {
             success: false,
@@ -107,10 +107,12 @@ export const POST = async (req: NextRequest) => {
 
       return NextResponse.json({
         success: true,
-        [imageType === "banner" ? "banner_image" : "profile_image"]:
-          updateResult[
-            imageType === "banner" ? "banner_image" : "profile_image"
-          ],
+        [imageType === "banner" ? "banner_image" : "profile_image"]: (
+          updateResult as {
+            banner_image?: string | null;
+            profile_image?: string | null;
+          }
+        )[imageType === "banner" ? "banner_image" : "profile_image"],
       });
     } catch (error) {
       console.error("Error uploading file to Vercel Blob:", error);
