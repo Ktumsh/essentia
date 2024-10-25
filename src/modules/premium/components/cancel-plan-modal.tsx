@@ -1,4 +1,3 @@
-import { SpinnerIcon } from "@/modules/icons/common";
 import {
   Modal,
   ModalContent,
@@ -6,6 +5,8 @@ import {
   ModalBody,
   Button,
 } from "@nextui-org/react";
+
+import { SpinnerIcon } from "@/modules/icons/common";
 
 interface CancelPlanModalProps {
   isOpen: boolean;

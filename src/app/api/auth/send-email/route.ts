@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import * as brevo from "@getbrevo/brevo";
-import path from "path";
 import fs from "fs";
+import path from "path";
+
+import * as brevo from "@getbrevo/brevo";
+import { NextRequest, NextResponse } from "next/server";
+
 import { getUserByEmail } from "@/db/user-querys";
 
 const apiInstance = new brevo.TransactionalEmailsApi();

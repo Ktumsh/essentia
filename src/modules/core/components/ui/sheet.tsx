@@ -1,11 +1,12 @@
 "use client";
 
-import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/utils/common";
 import { useGesture } from "@use-gesture/react";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+
+import { cn } from "@/utils/common";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -127,7 +128,9 @@ const SheetContent = React.forwardRef<
               setIsDragging(false);
 
               setTimeout(() => {
-                onOpenChange && onOpenChange(false);
+                if (onOpenChange) {
+                  onOpenChange(false);
+                }
               }, 300);
             } else {
               setTranslateX(0);
@@ -181,7 +184,9 @@ const SheetContent = React.forwardRef<
             setTranslateX(endTranslateX);
 
             setTimeout(() => {
-              onOpenChange && onOpenChange(false);
+              if (onOpenChange) {
+                onOpenChange(false);
+              }
             }, 300);
           }}
         >
@@ -195,7 +200,9 @@ const SheetContent = React.forwardRef<
                 setTranslateX(endTranslateX);
 
                 setTimeout(() => {
-                  onOpenChange && onOpenChange(false);
+                  if (onOpenChange) {
+                    onOpenChange(false);
+                  }
                 }, 300);
               }}
             >

@@ -1,10 +1,11 @@
 "use server";
 
-import { Chat } from "@/types/chat";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import { auth } from "@/app/(auth)/auth";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+import { auth } from "@/app/(auth)/auth";
+import { Chat } from "@/types/chat";
 
 export async function saveChat(chat: Chat) {
   const { id, title, createdAt, userId, path, messages, sharePath } = chat;
@@ -68,6 +69,7 @@ export async function getChats(userId?: string | null) {
       return chat;
     });
   } catch (error) {
+    console.error("Error al obtener los chats:", error);
     return [];
   }
 }

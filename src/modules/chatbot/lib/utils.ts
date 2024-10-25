@@ -1,4 +1,3 @@
-import { Chat } from "@/types/chat";
 import { CoreMessage, CoreToolMessage, Message, ToolInvocation } from "ai";
 import {
   parseISO,
@@ -10,6 +9,8 @@ import {
 } from "date-fns";
 import { es } from "date-fns/locale";
 import { nanoid } from "nanoid";
+
+import { Chat } from "@/types/chat";
 
 export function getFormattedDate(date: string | null): string {
   const aiDate = date ? parseISO(date) : null;
@@ -112,7 +113,7 @@ export function convertToUIMessages(
     }
 
     let textContent = "";
-    let toolInvocations: Array<ToolInvocation> = [];
+    const toolInvocations: Array<ToolInvocation> = [];
 
     if (typeof message.content === "string") {
       textContent = message.content;

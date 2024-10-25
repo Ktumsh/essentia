@@ -1,9 +1,10 @@
 "use client";
 
 import { Switch } from "@nextui-org/react";
-import { HospitalIcon, PharmacyIcon } from "@/modules/icons/miscellaneus";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { useState } from "react";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { HospitalIcon, PharmacyIcon } from "@/modules/icons/miscellaneus";
 
 interface Props {
   onSwitchChange: (value: boolean) => void;

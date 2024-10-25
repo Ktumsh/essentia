@@ -102,6 +102,7 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: ["geist"],
   experimental: {
     serverActions: {
       allowedOrigins: [

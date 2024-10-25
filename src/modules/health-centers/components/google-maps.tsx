@@ -1,22 +1,20 @@
 "use client";
 
 import "./map.css";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
 
-import { motion } from "framer-motion";
+import { LocationSelfIcon } from "@/modules/icons/status";
 
 import CenterSwitch from "./center-switch";
-import MapLoading from "./map-loading";
 import MapActions from "./map-actions";
 import MapHeader from "./map-header";
-
+import MapLoading from "./map-loading";
 import useGeolocation from "../hooks/use-geolocation";
 import useGoogleMapsLoader from "../hooks/use-google-maps-loader";
 import useMapInstance from "../hooks/use-map-instance";
 import useMarkers from "../hooks/use-markers";
 import useSearchBox from "../hooks/use-searchbox";
-import { LocationSelfIcon } from "@/modules/icons/status";
-import { createPortal } from "react-dom";
 
 const GoogleMaps = () => {
   const mapRef = useRef<HTMLDivElement>(null);

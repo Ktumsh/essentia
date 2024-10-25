@@ -1,6 +1,8 @@
-import { useReducer, useCallback, useState, ChangeEvent } from "react";
-import { UserProfileData } from "@/types/session";
 import { DateValue } from "@internationalized/date";
+import { useReducer, useCallback, useState, ChangeEvent } from "react";
+
+import { UserProfileData } from "@/types/session";
+
 import { formatInitialDate } from "../lib/utils";
 
 interface State {

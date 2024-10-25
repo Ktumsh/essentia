@@ -1,9 +1,10 @@
 "use client";
 
-import { CarouselArrowIcon } from "@/modules/icons/navigation";
 import { Button } from "@nextui-org/react";
 import { EmblaCarouselType } from "embla-carousel";
 import { ComponentPropsWithRef, useCallback, useEffect, useState } from "react";
+
+import { CarouselArrowIcon } from "@/modules/icons/navigation";
 
 type UsePrevNextButtonsType = {
   prevBtnDisabled: boolean;

@@ -1,6 +1,7 @@
 import { Card, CardBody, Chip, Divider } from "@nextui-org/react";
-import { Chevron } from "@/modules/icons/navigation";
 import { Fragment } from "react";
+
+import { Chevron } from "@/modules/icons/navigation";
 
 const EmergencySteps = () => {
   const info = [

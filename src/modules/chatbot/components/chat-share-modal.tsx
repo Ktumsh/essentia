@@ -1,9 +1,3 @@
-import { FC, useCallback, useTransition } from "react";
-
-import { toast } from "sonner";
-
-import { type Chat, ServerActionResult } from "@/types/chat";
-
 import {
   Button,
   Modal,
@@ -12,8 +6,12 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import { FC, useCallback, useTransition } from "react";
+import { toast } from "sonner";
+
 import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
 import { SpinnerIcon } from "@/modules/icons/common";
+import { type Chat, ServerActionResult } from "@/types/chat";
 
 interface ChatShareModalProps {
   chat: Pick<Chat, "id" | "title" | "messages">;
@@ -88,7 +86,6 @@ const ChatShareModal: FC<ChatShareModalProps> = ({
                 ) : null
               }
               onPress={() => {
-                // @ts-ignore
                 startShareTransition(async () => {
                   const result = await shareChat(chat.id);
 

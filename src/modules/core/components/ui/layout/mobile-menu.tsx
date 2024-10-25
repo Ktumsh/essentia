@@ -1,24 +1,25 @@
 "use client";
 
+import { Avatar } from "@nextui-org/react";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
-
-import { Avatar, Button } from "@nextui-org/react";
-import { ThemeToggle } from "../buttons/theme-toggle";
-import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
-import { siteConfig } from "@/config/site";
-import { FC, useEffect, useState } from "react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { FC, useEffect, useState } from "react";
+
+import { siteConfig } from "@/config/site";
+import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
+import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
+import { StarsIcon } from "@/modules/icons/common";
+import { AccountFillIcon, PricingFillIcon } from "@/modules/icons/interface";
 import {
   AvatarIcon,
   SettingsIcon,
   ThemeIcon,
 } from "@/modules/icons/miscellaneus";
-import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
-import { AccountFillIcon, PricingFillIcon } from "@/modules/icons/interface";
-import { StarsIcon } from "@/modules/icons/common";
 import { cn } from "@/utils/common";
+
+import { ThemeToggle } from "../buttons/theme-toggle";
 
 interface MobileMenuProps {
   profileData: UserProfileData | null;

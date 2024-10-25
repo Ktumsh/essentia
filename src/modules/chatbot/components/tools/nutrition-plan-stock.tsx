@@ -1,15 +1,5 @@
 "use client";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import {
-  CaloriesIcon,
-  MealIcon,
-  QuantityIcon,
-} from "@/modules/icons/miscellaneus";
-import { ClockIcon } from "@/modules/icons/status";
-
-import Image from "next/image";
-import { DownloadIcon } from "@/modules/icons/action";
 import {
   Badge,
   Button,
@@ -20,7 +10,20 @@ import {
   Image as ImageUI,
   Divider,
 } from "@nextui-org/react";
+import Image from "next/image";
 import { toast } from "sonner";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { DownloadIcon } from "@/modules/icons/action";
+import {
+  CaloriesIcon,
+  MealIcon,
+  QuantityIcon,
+} from "@/modules/icons/miscellaneus";
+import { ClockIcon } from "@/modules/icons/status";
+
+
+
 import { useDownloadTool } from "../../hooks/use-download-tool";
 
 export interface MealDetail {

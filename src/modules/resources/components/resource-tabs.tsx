@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 import {
   HealthIcon,
   ExcerciseIcon,

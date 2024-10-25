@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardFooter,
   Image as ImageUI,
-  Tooltip,
   ScrollShadow,
   Modal,
   ModalContent,
@@ -15,13 +14,13 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { useRef, useEffect, FC } from "react";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { formatTitle } from "@/utils/format";
-import { useModalHash } from "@/modules/resources/hooks/use-modal-hash";
-import { EyeIcon } from "@/modules/icons/status";
-import { HeartIcon } from "@/modules/icons/miscellaneus";
 import Image from "next/image";
+import { useRef, useEffect, FC } from "react";
+
+import { HeartIcon } from "@/modules/icons/miscellaneus";
+import { EyeIcon } from "@/modules/icons/status";
+import { useModalHash } from "@/modules/resources/hooks/use-modal-hash";
+import { formatTitle } from "@/utils/format";
 
 interface Props {
   modalSize?: string;
@@ -38,7 +37,7 @@ export const ModalComponent: FC<Props> = ({
   modalBody,
   componentId,
 }) => {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const formatedTitle = formatTitle(modalTitle);
   const componentRef = useRef<HTMLDivElement>(null);
 
@@ -77,7 +76,7 @@ export const ModalComponent: FC<Props> = ({
           onOpen();
           history.replaceState(null, "", `#${formatedTitle}`);
         }}
-        className="grid grid-cols-12 md:flex flex-row md:flex-col group text-base-color-h dark:text-base-color-dark bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-100 dark:border-base-dark md:dark:border-base-dark shadow-none md:shadow-md !transition overflow-clip"
+        className="grid grid-cols-12 md:flex flex-row md:flex-col group text-base-color-h dark:text-base-color-dark bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-100 dark:border-base-dark md:dark:border-base-dark shadow-none md:shadow-md !transition text-clip"
       >
         <CardHeader className="hidden md:flex absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
           <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
@@ -97,7 +96,7 @@ export const ModalComponent: FC<Props> = ({
             src={modalImage}
           />
         </div>
-        <CardFooter className="col-span-7 h-full md:h-auto w-full text-small bg-transparent">
+        <CardFooter className="col-span-7 size-full md:h-auto text-small bg-transparent">
           <p className="font-semibold text-start group-hover:text-black dark:group-hover:text-white transition-colors">
             {modalTitle}
           </p>

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import { cn } from "@/utils/common";
+import { useEffect, useState } from "react";
+
 import { ArrowUpIcon } from "@/modules/icons/navigation";
+import { cn } from "@/utils/common";
 
 const ButtonUp = () => {
   const [isVisible, setIsVisible] = useState(false);

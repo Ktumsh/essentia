@@ -1,9 +1,10 @@
 "use server";
 
-import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
-import { Payment, User } from "@/types/session";
 import { createPool, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
+
+import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
+import { Payment, User } from "@/types/session";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
@@ -63,7 +64,7 @@ export async function updatePremiumStatus(
       premiumExpiresAt !== currentPremiumExpiresAt ||
       subscriptionId !== currentSubscriptionId
     ) {
-      let updateQuery = `
+      const updateQuery = `
           UPDATE users 
           SET 
             is_premium = $1, 

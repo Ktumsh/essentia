@@ -1,3 +1,6 @@
+import { redirect } from "next/navigation";
+
+import { auth } from "@/app/(auth)/auth";
 import { getStripeCustomerById } from "@/db/payment-querys";
 import BillingTabs from "@/modules/account/components/billing-tabs";
 import DesktopFooter from "@/modules/core/components/ui/layout/desktop-footer";
@@ -7,8 +10,6 @@ import {
 } from "@/modules/payment/pay/actions";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@/app/(auth)/auth";
-import { redirect } from "next/navigation";
 
 export default async function AccountLayout({
   children,
@@ -37,16 +38,16 @@ export default async function AccountLayout({
   return (
     <>
       <div className="flex flex-col min-h-dvh w-full pt-14">
-        <main className="flex-1">
+        <div className="flex-1">
           <div className="flex-1 size-full max-w-5xl mx-auto text-base-color dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-y-0 border-gray-200 dark:border-base-dark">
             {children}
             <BillingTabs
               profileData={profileData}
               billingDetails={billingDetails}
-              clientSecret={clientSecret}
+              clientSecret={clientSecret as string}
             />
           </div>
-        </main>
+        </div>
       </div>
       <DesktopFooter />
     </>

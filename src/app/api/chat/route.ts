@@ -1,20 +1,21 @@
-import { gptFlashModel } from "@/modules/chatbot/ai";
-import { Session } from "@/types/session";
 import { convertToCoreMessages, Message, streamText } from "ai";
 import { z } from "zod";
+
 import { auth } from "@/app/(auth)/auth";
-import { removeChat, saveChat } from "@/db/chat-querys";
 import { createSystemPrompt } from "@/config/chatbot-prompt";
+import { removeChat, saveChat } from "@/db/chat-querys";
 import { getUserById } from "@/db/user-querys";
-import { formatDate } from "@/modules/payment/lib/utils";
-import { getUserProfileData } from "@/utils/profile";
-import { calculateAge } from "@/modules/core/lib/utils";
+import { gptFlashModel } from "@/modules/chatbot/ai";
 import {
   generateExerciseRoutine,
   generateMoodTracking,
   generateNutritionalPlan,
   generateRiskAssessment,
 } from "@/modules/chatbot/ai/actions";
+import { calculateAge } from "@/modules/core/lib/utils";
+import { formatDate } from "@/modules/payment/lib/utils";
+import { Session } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 
 export const maxDuration = 60;
 
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
   const userBio = profileData?.bio;
 
   const coreMessages = convertToCoreMessages(messages).filter(
-    (message) => message.content.length > 0
+    (message) => message.content.length > 0,
   );
 
   const systemPrompt = createSystemPrompt({
@@ -225,7 +226,7 @@ export async function DELETE(request: Request) {
     await removeChat({ id, path });
 
     return new Response("Chat eliminado", { status: 200 });
-  } catch (error) {
+  } catch {
     return new Response("An error occurred while processing your request", {
       status: 500,
     });

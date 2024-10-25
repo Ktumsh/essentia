@@ -1,5 +1,6 @@
-import { ErrorCircledIcon } from "@/modules/icons/common";
 import { Chip } from "@nextui-org/react";
+
+import { ErrorCircledIcon } from "@/modules/icons/common";
 
 const ErrorMessage = () => {
   return (

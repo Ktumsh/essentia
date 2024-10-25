@@ -1,6 +1,8 @@
 import { EmblaOptionsType } from "embla-carousel";
-import CarouselItem from "./carousel-item";
+
 import { MAINCAP_RESOURCES } from "@/consts/recom-carousel";
+
+import CarouselItem from "./carousel-item";
 
 const OPTIONS: EmblaOptionsType = { loop: true, duration: 30 };
 const SLIDE_COUNT = 5;

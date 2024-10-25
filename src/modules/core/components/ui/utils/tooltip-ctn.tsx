@@ -1,6 +1,7 @@
 import * as _nextui_org_aria_utils from "@nextui-org/aria-utils";
-import { ReactNode } from "react";
 import { Tooltip } from "@nextui-org/react";
+import { ReactNode } from "react";
+
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { cn } from "@/utils/common";
 

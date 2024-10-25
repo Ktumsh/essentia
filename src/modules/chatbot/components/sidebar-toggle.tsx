@@ -2,9 +2,10 @@
 
 import { Tooltip } from "@nextui-org/react";
 
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { useSidebar } from "../hooks/use-sidebar";
 import { SidebarFillIcon, SidebarIcon } from "@/modules/icons/navigation";
+import { tooltipStyles } from "@/styles/tooltip-styles";
+
+import { useSidebar } from "../hooks/use-sidebar";
 
 const SidebarToggle = () => {
   const { toggleSidebar } = useSidebar();

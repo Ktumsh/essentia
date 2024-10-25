@@ -1,7 +1,7 @@
 import { Chip, Card, CardBody, Divider, Button } from "@nextui-org/react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { useGlowingEffect } from "../hooks/use-glowing-effect";
 import Link from "next/link";
+
 import { HashIcon } from "@/modules/icons/common";
 
 const SexualityEmergencyCard = () => {

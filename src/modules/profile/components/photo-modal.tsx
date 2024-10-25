@@ -1,8 +1,8 @@
 "use client";
 
-import { FC } from "react";
 import { Modal, ModalContent } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { FC } from "react";
 
 interface ProfilePhotoModalProps {
   children: React.ReactNode;

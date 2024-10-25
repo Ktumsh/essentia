@@ -1,17 +1,20 @@
 import { generateObject } from "ai";
-import { gptFlashModel } from ".";
+
 import {
   MOOD_TRACKING_PROMPT,
   PLAN_PROMPT,
   RISK_ASSESSMENT_PROMPT,
   ROUTINE_PROMPT,
 } from "@/config/tools-prompt";
+
 import {
   moodTrackingSchema,
   nutritionalPlanSchema,
   riskAssessmentSchema,
   routineSchema,
 } from "../components/tools/tool-schemas";
+
+import { gptFlashModel } from ".";
 
 type Routine = {
   objective: string;

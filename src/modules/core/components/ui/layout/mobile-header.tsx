@@ -1,13 +1,19 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
 import { Navbar } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import MenuButton from "../buttons/menu-button";
 import { usePathname } from "next/navigation";
-import SidebarMobile from "@/modules/chatbot/components/sidebar-mobile";
+import { FC, useEffect, useState } from "react";
+import useSWR from "swr";
+
 import ChatHistory from "@/modules/chatbot/components/chat-history";
+import SidebarMobile from "@/modules/chatbot/components/sidebar-mobile";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { Chat } from "@/types/chat";
+import { UserProfileData } from "@/types/session";
+import { fetcher } from "@/utils/common";
+
 import {
   Sheet,
   SheetContent,
@@ -16,12 +22,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../sheet";
-import { UserProfileData } from "@/types/session";
-import { Chat } from "@/types/chat";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import MobileMenu from "./mobile-menu";
-import useSWR from "swr";
-import { fetcher } from "@/utils/common";
+import MenuButton from "../buttons/menu-button";
 
 interface MobileHeaderProps {
   profileData: UserProfileData | null;

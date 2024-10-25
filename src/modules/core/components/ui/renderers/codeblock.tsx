@@ -1,15 +1,15 @@
 "use client";
 
-import { FC, memo, useState } from "react";
+import { Button } from "@nextui-org/react";
+import { FC, memo } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-
-import { Button } from "@nextui-org/react";
-import { useCopyToClipboard } from "../../../hooks/use-copy-to-clipboard";
-import { CopyIcon } from "@/modules/icons/action";
-import { CheckIcon } from "@/modules/icons/common";
-import { DownloadIcon } from "@/modules/icons/action";
 import { toast } from "sonner";
+
+import { CopyIcon, DownloadIcon } from "@/modules/icons/action";
+import { CheckIcon } from "@/modules/icons/common";
+
+import { useCopyToClipboard } from "../../../hooks/use-copy-to-clipboard";
 
 interface Props {
   language: string;
@@ -88,7 +88,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
   };
 
   return (
-    <div className="relative w-full font-sans codeblock bg-gray-950 border border-gray-50 border-white/10">
+    <div className="relative w-full font-sans codeblock bg-gray-950 border border-gray-50 dark:border-white/10">
       <div className="flex items-center justify-between w-full px-6 py-2 pr-4 text-base-color-dark-h border-b border-white/10">
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">

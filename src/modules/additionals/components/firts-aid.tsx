@@ -1,13 +1,14 @@
-import { Fragment, useState } from "react";
 import { Button, Card, CardBody, Chip, Divider } from "@nextui-org/react";
-import { cn } from "@/utils/common";
-import { motion } from "framer-motion";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { FAQ_FIRST_AID } from "@/consts/faq-firts-aid";
-import { QuestionIcon } from "@/modules/icons/miscellaneus";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { Fragment, useState } from "react";
+
+import { FAQ_FIRST_AID } from "@/consts/faq-firts-aid";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { HashIcon } from "@/modules/icons/common";
+import { QuestionIcon } from "@/modules/icons/miscellaneus";
+import { cn } from "@/utils/common";
 
 const FirstAid = () => {
   const info = FAQ_FIRST_AID;

@@ -1,12 +1,14 @@
 "use client";
 
 import { Tabs, Tab } from "@nextui-org/react";
-import BillingDetails from "./billing-details";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import Link from "next/link";
-import AccountDetails from "./account-details";
+
 import { UserProfileData } from "@/types/session";
+
+import AccountDetails from "./account-details";
+import BillingDetails from "./billing-details";
 
 interface BillingTabsProps {
   profileData: UserProfileData | null;

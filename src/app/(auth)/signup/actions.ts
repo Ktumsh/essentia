@@ -1,17 +1,18 @@
 "use server";
 
-import { z } from "zod";
-import { sql } from "@vercel/postgres";
-import { ResultCode } from "@/utils/code";
-import { AuthError } from "next-auth";
-import { getStringFromBuffer } from "@/utils/common";
-import { insertEmailVerificationToken } from "@/db/email-querys";
-import { getUserByEmail, getUserByUsername } from "@/db/user-querys";
 
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
+import { sql } from "@vercel/postgres";
 import { nanoid } from "nanoid";
+import { AuthError } from "next-auth";
+import { z } from "zod";
+
+import { insertEmailVerificationToken } from "@/db/email-querys";
+import { getUserByEmail, getUserByUsername } from "@/db/user-querys";
 import { sendEmail } from "@/modules/auth/lib/send-email";
+import { ResultCode } from "@/utils/code";
+import { getStringFromBuffer } from "@/utils/common";
 
 const registerSchema = z.object({
   email: z.string().email(ResultCode.REQUIRED_EMAIL),

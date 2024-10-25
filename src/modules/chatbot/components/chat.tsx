@@ -1,16 +1,18 @@
 "use client";
 
-import { ComponentProps, useEffect, useState } from "react";
 import { Attachment, Message } from "ai";
 import { useChat } from "ai/react";
+import { ComponentProps, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Session, UserProfileData } from "@/types/session";
+
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
-import { useScrollAnchor } from "../hooks/use-scroll-anchor";
+import { Session, UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
+
 import ChatList from "./chat-list";
-import EmptyScreen from "./empty-screen";
 import ChatPanel from "./chat-panel";
+import EmptyScreen from "./empty-screen";
+import { useScrollAnchor } from "../hooks/use-scroll-anchor";
 
 export interface ChatProps extends ComponentProps<"div"> {
   id: string;
@@ -30,12 +32,14 @@ export function Chat({
   isPremium,
   initialMessages,
 }: ChatProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
       id,
       body: { id },
       initialMessages,
+
       onFinish: () => {
         window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);
       },
@@ -57,7 +61,7 @@ export function Chat({
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
   return (
-    <main
+    <div
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
       ref={scrollRef}
     >
@@ -94,6 +98,6 @@ export function Chat({
         isPremium={isPremium}
         session={session}
       />
-    </main>
+    </div>
   );
 }

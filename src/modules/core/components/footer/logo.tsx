@@ -1,6 +1,7 @@
-import { cn } from "@/utils/common";
 import Image from "next/image";
 import Link from "next/link";
+
+import { cn } from "@/utils/common";
 
 interface LogoProps {
   width?: number;

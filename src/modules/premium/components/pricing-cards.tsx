@@ -1,10 +1,11 @@
 "use client";
 
-import { Session } from "@/types/session";
-import PricingCard from "./pricing-card";
-import PricingSelector from "./pricing-selector";
 import { siteConfig } from "@/config/site";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { Session } from "@/types/session";
+
+import PricingCard from "./pricing-card";
+import PricingSelector from "./pricing-selector";
 
 interface PricingCardsProps {
   session: Session;

@@ -1,10 +1,5 @@
 "use client";
 
-import { siteConfig } from "@/config/site";
-import { SpinnerIcon } from "@/modules/icons/common";
-import { setUserPlan } from "@/modules/payment/pay/actions";
-import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
-import { Session } from "@/types/session";
 import {
   Modal,
   ModalContent,
@@ -16,10 +11,16 @@ import {
 } from "@nextui-org/react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+
+import { siteConfig } from "@/config/site";
+import { SpinnerIcon } from "@/modules/icons/common";
+import { setUserPlan } from "@/modules/payment/pay/actions";
+import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
+import { Session } from "@/types/session";
 
 interface CancelSubscriptionModalProps {
   isOpen: boolean;

@@ -1,11 +1,5 @@
 "use client";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
-import { BugIcon, CopyIcon } from "@/modules/icons/action";
-import { CheckIcon } from "@/modules/icons/common";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import {
   Button,
   Popover,
@@ -15,6 +9,13 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { BugIcon, CopyIcon } from "@/modules/icons/action";
+import { CheckIcon } from "@/modules/icons/common";
+import { tooltipStyles } from "@/styles/tooltip-styles";
 
 const MessageActions = ({ content }: { content?: string }) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,9 +1,11 @@
-import { BugIcon } from "@/modules/icons/action";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
-import TooltipCTN from "../utils/tooltip-ctn";
-import { cn } from "@/utils/common";
+
 import { siteConfig } from "@/config/site";
+import { BugIcon } from "@/modules/icons/action";
+import { cn } from "@/utils/common";
+
+import TooltipCTN from "../utils/tooltip-ctn";
 
 interface FooterProps {
   isMobile?: boolean;

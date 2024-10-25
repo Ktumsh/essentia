@@ -1,5 +1,6 @@
-import { NewIcon } from "@/modules/icons/action";
 import { Button } from "@nextui-org/react";
+
+import { NewIcon } from "@/modules/icons/action";
 
 const HistoryLoading = ({ hideHeader }: { hideHeader?: boolean }) => {
   return (

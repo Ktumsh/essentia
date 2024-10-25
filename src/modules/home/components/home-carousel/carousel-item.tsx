@@ -1,21 +1,26 @@
 "use client";
 
-import useEmblaCarousel from "embla-carousel-react";
-
-import Image from "next/image";
-import { MaincapResources } from "@/types/resource";
-import { DotButton, useDotButton } from "./carousel-dot-buttons";
-import Fade from "embla-carousel-fade";
+import { EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Fade from "embla-carousel-fade";
+import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect } from "react";
+
+import { MaincapResources } from "@/types/resource";
+import { cn } from "@/utils/common";
+
 import {
   NextButton,
   PrevButton,
   usePrevNextButtons,
 } from "./carousel-arrow-buttons";
-import { EmblaOptionsType } from "embla-carousel";
-import { cn } from "@/utils/common";
-import Link from "next/link";
-import { useCallback, useEffect } from "react";
+import { DotButton, useDotButton } from "./carousel-dot-buttons";
+
+
+
+
 
 interface CarouselProps {
   slides: MaincapResources[];

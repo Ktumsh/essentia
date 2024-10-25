@@ -1,6 +1,7 @@
 import { Button } from "@nextui-org/react";
-import { GoogleIcon, FacebookIcon, TwitterIcon } from "@/modules/icons/media";
 import { signIn } from "next-auth/react";
+
+import { GoogleIcon, FacebookIcon, TwitterIcon } from "@/modules/icons/media";
 
 const SignInWith = () => {
   return (

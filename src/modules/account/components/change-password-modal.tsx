@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect, useTransition, useCallback } from "react";
-import { SpinnerIcon } from "@/modules/icons/common";
 import {
   Modal,
   ModalContent,
@@ -11,11 +9,15 @@ import {
   Button,
   Input,
 } from "@nextui-org/react";
+import { useState, useEffect, useTransition, useCallback } from "react";
 import { toast } from "sonner";
-import { getMessageFromCode, ResultCode } from "@/utils/code";
-import { changePasswordAction } from "@/app/(main)/account/actions";
-import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { z } from "zod";
+
+import { changePasswordAction } from "@/app/(main)/account/actions";
+import { SpinnerIcon } from "@/modules/icons/common";
+import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
+import { getMessageFromCode, ResultCode } from "@/utils/code";
+
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -288,7 +290,7 @@ const ChangePasswordModal = ({
                 isDisabled={isPending}
                 startContent={
                   isPending ? (
-                    <SpinnerIcon className="h-4 w-4 animate-spin" />
+                    <SpinnerIcon className="size-4 animate-spin" />
                   ) : null
                 }
                 className="rounded-md"

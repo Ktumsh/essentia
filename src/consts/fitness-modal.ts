@@ -1,5 +1,6 @@
-import type { ModalData } from "@/types/common";
 import RESOURCES_VIDEOS from "@/consts/resources-videos";
+
+import type { ModalData } from "@/types/common";
 
 const videos =
   RESOURCES_VIDEOS.find((section) => section.section === "ExerciseFitness")

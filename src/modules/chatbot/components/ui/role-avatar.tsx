@@ -1,6 +1,7 @@
-import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { Avatar } from "@nextui-org/react";
 import Image from "next/image";
+
+import { AvatarIcon } from "@/modules/icons/miscellaneus";
 
 export const BotAvatar = () => {
   return (

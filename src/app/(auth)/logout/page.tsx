@@ -1,9 +1,10 @@
 "use client";
 
-import { SpinnerIcon } from "@/modules/icons/status";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+
+import { SpinnerIcon } from "@/modules/icons/status";
 
 const LogoutPage = () => {
   const router = useRouter();

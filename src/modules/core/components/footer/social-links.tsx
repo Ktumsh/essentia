@@ -1,6 +1,7 @@
+import Link from "next/link";
+
 import { siteConfig } from "@/config/site";
 import { InstagramIcon, TwitterIcon, GithubIcon } from "@/modules/icons/media";
-import Link from "next/link";
 
 const SocialLinks = () => {
   return (

@@ -2,9 +2,11 @@
 
 import { Select, SelectItem, Selection } from "@nextui-org/react";
 import { useState } from "react";
-import PricingCard from "./pricing-card";
-import { Session } from "@/types/session";
+
 import { siteConfig } from "@/config/site";
+import { Session } from "@/types/session";
+
+import PricingCard from "./pricing-card";
 
 interface PricingSelectorProps {
   session: Session;

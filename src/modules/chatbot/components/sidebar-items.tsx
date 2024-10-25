@@ -1,12 +1,14 @@
 "use client";
 
-import { Chat } from "@/types/chat";
 import { AnimatePresence, motion } from "framer-motion";
-import { SidebarItem } from "./sidebar-item";
-import SidebarActions from "./sidebar-actions";
 import { usePathname } from "next/navigation";
-import { removeChat, shareChat } from "@/db/chat-querys";
 import { KeyedMutator } from "swr";
+
+import { shareChat } from "@/db/chat-querys";
+import { Chat } from "@/types/chat";
+
+import SidebarActions from "./sidebar-actions";
+import { SidebarItem } from "./sidebar-item";
 
 interface SidebarItemsProps {
   chats?: Chat[];

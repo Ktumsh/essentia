@@ -1,19 +1,22 @@
 "use client";
 
-import { SpinnerIcon } from "@/modules/icons/common";
 import { Button } from "@nextui-org/react";
 import {
   PaymentElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useState, FormEvent } from "react";
-import { motion } from "framer-motion";
-import { toast } from "sonner";
 import { addYears, format } from "date-fns";
 import { es } from "date-fns/locale";
-import { usePaymentStatusPolling } from "../hooks/use-payment-status-polling";
+import { motion } from "framer-motion";
+import { useState, FormEvent } from "react";
+import { toast } from "sonner";
+
+
 import { siteConfig } from "@/config/site";
+import { SpinnerIcon } from "@/modules/icons/common";
+
+import { usePaymentStatusPolling } from "../hooks/use-payment-status-polling";
 
 interface PaymentFormProps {
   onClose: () => void;
@@ -73,7 +76,7 @@ const PaymentForm = ({
   };
 
   const paymentElementOptions = {
-    layout: "tabs" as "tabs",
+    layout: "tabs" as const,
   };
 
   const planDetails =

@@ -9,9 +9,11 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import PaymentModal from "./payment-modal";
 import { useEffect } from "react";
+
 import { StarsIcon } from "@/modules/icons/common";
+
+import PaymentModal from "./payment-modal";
 
 interface WarningModalProps {
   isPremium: boolean | null;

@@ -3,23 +3,26 @@
 import { Attachment, ToolInvocation } from "ai";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { BotAvatar, UserAvatar } from "./role-avatar";
+
+import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import { UserProfileData } from "@/types/session";
+import { cn } from "@/utils/common";
+
+import { BotAvatar, UserAvatar } from "./role-avatar";
 import {
   ExerciseRoutineStock,
   HealthRiskStock,
   MoodTrackingStock,
   NutritionPlanStock,
 } from "../tools";
-import { cn } from "@/utils/common";
+import { InitialLoading } from "./initial-loading";
 import MessageActions from "./message-actions";
+import { PreviewAttachment } from "./preview-attachment";
 import { Routine } from "../tools/excercise-routine-stock";
 import { RiskAssessment } from "../tools/health-risk-stock";
-import { Plan } from "../tools/nutrition-plan-stock";
 import { MoodTracking } from "../tools/mood-tracking-stock";
-import { InitialLoading } from "./initial-loading";
-import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
-import { PreviewAttachment } from "./preview-attachment";
+import { Plan } from "../tools/nutrition-plan-stock";
+
 
 interface MessageProps {
   role: string;

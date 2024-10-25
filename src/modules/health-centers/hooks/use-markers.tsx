@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useCallback } from "react";
+import { renderToString } from "react-dom/server";
+
 import InfoWindowContent from "../components/info-window-content";
-import ReactDOMServer from "react-dom/server";
 
 const useMarkers = (mapInstance: google.maps.Map | null) => {
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
@@ -40,7 +41,7 @@ const useMarkers = (mapInstance: google.maps.Map | null) => {
               status === google.maps.places.PlacesServiceStatus.OK &&
               placeDetails
             ) {
-              const contentString = ReactDOMServer.renderToString(
+              const contentString = renderToString(
                 <InfoWindowContent placeDetails={placeDetails} />
               );
               infoWindow.setContent(contentString);

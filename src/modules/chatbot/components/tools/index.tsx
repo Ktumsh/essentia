@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+
 import ToolSkeleton from "./tool-skeleton";
 
 export const ExerciseRoutineStock = dynamic(

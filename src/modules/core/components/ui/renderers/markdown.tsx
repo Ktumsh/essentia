@@ -1,7 +1,8 @@
-import { CodeBlock } from "@/modules/core/components/ui/renderers/codeblock";
 import { memo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+
+import { CodeBlock } from "@/modules/core/components/ui/renderers/codeblock";
 
 const NonMemoizedMarkdown = ({ children }: { children: string }) => {
   const components = {

@@ -1,7 +1,5 @@
 "use client";
 
-import { FC, useState, useTransition } from "react";
-import { cn } from "@/utils/common";
 import {
   Button,
   Card,
@@ -9,14 +7,20 @@ import {
   CardHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Session } from "@/types/session";
-import PaymentModal from "./payment-modal";
-import CancelPlanModal from "./cancel-plan-modal";
-import { setUserPlan } from "@/modules/payment/pay/actions";
-import { CheckCircledIcon } from "@/modules/icons/common";
+import { FC, useState, useTransition } from "react";
+import { toast } from "sonner";
+
 import { siteConfig } from "@/config/site";
+import { CheckCircledIcon } from "@/modules/icons/common";
+import { setUserPlan } from "@/modules/payment/pay/actions";
+import { Session } from "@/types/session";
+import { cn } from "@/utils/common";
+
+
+import CancelPlanModal from "./cancel-plan-modal";
+import PaymentModal from "./payment-modal";
+
 
 interface PricingCardProps {
   title: string;

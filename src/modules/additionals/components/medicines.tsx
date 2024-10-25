@@ -1,7 +1,8 @@
-import { HashIcon } from "@/modules/icons/common";
 import { Button, Card, CardBody, Chip, Divider } from "@nextui-org/react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+
+import { HashIcon } from "@/modules/icons/common";
 
 const Medicines = () => {
   return (

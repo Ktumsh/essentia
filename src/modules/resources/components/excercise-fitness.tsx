@@ -1,11 +1,12 @@
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { FITNESS_MODAL_DATA } from "@/consts/fitness-modal";
-import LiteYouTubeEmbed from "react-lite-youtube-embed";
-import RESOURCES_VIDEOS from "@/consts/resources-videos";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
-import { HashIcon } from "@/modules/icons/common";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+
+import { FITNESS_MODAL_DATA } from "@/consts/fitness-modal";
+import RESOURCES_VIDEOS from "@/consts/resources-videos";
 import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitness-modal";
+import { HashIcon } from "@/modules/icons/common";
 
 const videos =
   RESOURCES_VIDEOS.find((section) => section.section === "ExerciseFitness")
@@ -14,7 +15,7 @@ const videos =
 const ExcerciseFitness = () => {
   return (
     <>
-      <section className="px-2 md:px-0 py-4 md:py-0">
+      <section className="px-2 md:p-0 py-4">
         <div className="w-full px-3 mb-4">
           <h3 className="drop-shadow-md text-base-color dark:text-white">
             <Button

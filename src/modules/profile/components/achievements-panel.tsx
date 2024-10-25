@@ -1,3 +1,5 @@
+import { createAvatar } from "@dicebear/core";
+import * as icons from "@dicebear/icons";
 import {
   Avatar,
   AvatarGroup,
@@ -6,10 +8,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { createAvatar } from "@dicebear/core";
-import * as icons from "@dicebear/icons";
-import { TrophyIcon } from "@/modules/icons/miscellaneus";
+
 import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { TrophyIcon } from "@/modules/icons/miscellaneus";
 
 interface AchievementPanelProps {
   isOwnProfile: boolean;

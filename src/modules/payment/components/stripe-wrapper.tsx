@@ -18,7 +18,7 @@ const StripeWrapper = ({
   const isDark = theme === "dark";
 
   const appearance = {
-    theme: "stripe" as "stripe",
+    theme: "stripe" as const,
     variables: {
       colorPrimary: isDark ? "#c93560" : "#fa8072",
       colorBackground: isDark ? "#061b37" : "#f3f4f6",

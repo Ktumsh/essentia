@@ -1,10 +1,11 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+
 import AuthFooter from "@/modules/auth/components/auth-footer";
 import AuthHeader from "@/modules/auth/components/auth-header";
 import { cn } from "@/utils/common";
-import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 
 export default function AuthLayout({
   children,
@@ -16,7 +17,7 @@ export default function AuthLayout({
   const logout = pathname.startsWith("/logout");
   return (
     <>
-      <main className="relative w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -37,7 +38,7 @@ export default function AuthLayout({
         {!logout && <AuthHeader />}
         {children}
         {!logout && <AuthFooter />}
-      </main>
+      </div>
     </>
   );
 }

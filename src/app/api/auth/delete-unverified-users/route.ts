@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { createPool } from "@vercel/postgres";
+import { NextResponse } from "next/server";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,

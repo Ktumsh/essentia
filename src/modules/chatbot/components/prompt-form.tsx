@@ -1,7 +1,7 @@
 "use client";
 
-import Textarea from "react-textarea-autosize";
 import { Button, Tooltip } from "@nextui-org/react";
+import { Attachment, ChatRequestOptions } from "ai";
 import {
   ChangeEvent,
   Dispatch,
@@ -11,12 +11,14 @@ import {
   useCallback,
   useRef,
 } from "react";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { StopIcon } from "@/modules/icons/action";
-import { ArrowUpIcon } from "@/modules/icons/navigation";
-import { Attachment, ChatRequestOptions } from "ai";
+import Textarea from "react-textarea-autosize";
 import { toast } from "sonner";
+
+import { StopIcon } from "@/modules/icons/action";
 import { PaperclipIcon } from "@/modules/icons/common";
+import { ArrowUpIcon } from "@/modules/icons/navigation";
+import { tooltipStyles } from "@/styles/tooltip-styles";
+
 import { useEnterSubmit } from "../hooks/use-enter-submit";
 
 interface PromptFormProps {
@@ -93,7 +95,7 @@ const PromptForm: FC<PromptFormProps> = ({
         const { error } = await response.json();
         toast.error(error);
       }
-    } catch (error) {
+    } catch {
       toast.error("Error al cargar el archivo, por favor intenta nuevamente!");
     }
   };
@@ -120,7 +122,7 @@ const PromptForm: FC<PromptFormProps> = ({
           fileInputRef.current.value = "";
         }
       } catch (error) {
-        console.error("Error uploading files!", error);
+        console.error("Error al cargar los archivos!", error);
       } finally {
         setUploadQueue([]);
       }

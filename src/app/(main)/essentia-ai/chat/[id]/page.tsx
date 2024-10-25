@@ -1,14 +1,15 @@
+import { CoreMessage } from "ai";
 import { type Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+
 import { auth } from "@/app/(auth)/auth";
+import { getChat, getMissingKeys } from "@/db/chat-querys";
+import { getUserById } from "@/db/user-querys";
 import { Chat as PreviewChat } from "@/modules/chatbot/components/chat";
+import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
+import { Chat } from "@/types/chat";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-import { getUserById } from "@/db/user-querys";
-import { getChat, getMissingKeys } from "@/db/chat-querys";
-import { CoreMessage } from "ai";
-import { Chat } from "@/types/chat";
-import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
 
 export interface ChatPageProps {
   params: {

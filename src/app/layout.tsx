@@ -1,21 +1,20 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-
-import { fontMotiva, spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
-import { GeistSans } from "geist/font/sans";
-import { siteConfig } from "@/config/site";
-
-import { Providers } from "@/modules/core/components/wrappers/providers";
-
-import { Toaster } from "sonner";
-import { cn } from "@/utils/common";
-import TailwindIndicator from "@/modules/core/components/tailwind-indicator";
-import { auth } from "@/app/(auth)/auth";
-import { Session } from "@/types/session";
-import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
-
 import { SpeedInsights } from "@vercel/speed-insights/next";
+// eslint-disable-next-line import/no-unresolved
+import { GeistSans } from "geist/font/sans";
+import { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Toaster } from "sonner";
+
+import { auth } from "@/app/(auth)/auth";
+import { fontMotiva, spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
+import { siteConfig } from "@/config/site";
+import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
+import { Providers } from "@/modules/core/components/wrappers/providers";
+import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
+import { Session } from "@/types/session";
+import { cn } from "@/utils/common";
+
 import { PreloadResources } from "./preload-resources";
 
 export const metadata: Metadata = {

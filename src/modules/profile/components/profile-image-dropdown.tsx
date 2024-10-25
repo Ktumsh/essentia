@@ -1,4 +1,3 @@
-import { ChangeEvent, FC, RefObject } from "react";
 import {
   Button,
   Dropdown,
@@ -6,6 +5,9 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
+import { ChangeEvent, FC, RefObject } from "react";
+
+import useWindowSize from "@/modules/core/hooks/use-window-size";
 import {
   AddPhotoIcon,
   UploadIcon,
@@ -13,7 +15,6 @@ import {
   EditIcon,
 } from "@/modules/icons/action";
 import { cn } from "@/utils/common";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 
 interface ProfileImageDropdownProps {
   type: "profile" | "banner";

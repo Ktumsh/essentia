@@ -1,14 +1,7 @@
-import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
 
 import { nanoid } from "nanoid";
-import RESOURCES_VIDEOS from "./resources-videos";
-import { FITNESS_MODAL_DATA } from "./fitness-modal";
-import { IconSvgProps } from "@/types/common";
 
-import { NUTRITION_MODAL_DATA } from "./nutrition-modal";
-
-import { Video } from "@/types/resource";
-
+import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
 import {
   HealthIcon,
   ExcerciseIcon,
@@ -18,8 +11,6 @@ import {
   ForAllAgesIcon,
   AdditionalIcon,
 } from "@/modules/icons/interface";
-
-import { formatTitle } from "@/utils/format";
 import {
   EmergenciesIcon,
   GuidesIcon,
@@ -27,6 +18,13 @@ import {
   LinksIcon,
   RecommendationsIcon,
 } from "@/modules/icons/miscellaneus";
+import { IconSvgProps } from "@/types/common";
+import { Video } from "@/types/resource";
+import { formatTitle } from "@/utils/format";
+
+import { FITNESS_MODAL_DATA } from "./fitness-modal";
+import { NUTRITION_MODAL_DATA } from "./nutrition-modal";
+import RESOURCES_VIDEOS from "./resources-videos";
 
 export interface SearchResult {
   content: string;

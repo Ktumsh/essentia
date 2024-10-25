@@ -1,13 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { Separator } from "@/modules/core/components/ui/utils/separator";
-import { Session, UserProfileData } from "@/types/session";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { Message } from "ai";
+import Link from "next/link";
+
+import { Separator } from "@/modules/core/components/ui/utils/separator";
+import { Session, UserProfileData } from "@/types/session";
+
 import { Message as PreviewMessage } from "../components/ui/message";
 
-export interface ChatList {
+interface ChatList {
   id?: string;
   messages: Array<Message>;
   session?: Session;

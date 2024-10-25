@@ -1,6 +1,8 @@
+import { Card, CardFooter, Button, useDisclosure } from "@nextui-org/react";
+
 import { UserProfileData } from "@/types/session";
 import { formatDate } from "@/utils/format";
-import { Card, CardFooter, Button, useDisclosure } from "@nextui-org/react";
+
 import ChangePasswordModal from "./change-password-modal";
 
 interface AccountDetailsProps {

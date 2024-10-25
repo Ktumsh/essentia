@@ -1,16 +1,16 @@
+import { CoreMessage } from "ai";
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { formatDate } from "@/utils/format";
+import { auth } from "@/app/(auth)/auth";
+import { getSharedChat } from "@/db/chat-querys";
 import ChatList from "@/modules/chatbot/components/chat-list";
 import FooterText from "@/modules/chatbot/components/ui/footer-text";
-import { auth } from "@/app/(auth)/auth";
-import { Session } from "@/types/session";
-import { getUserProfileData } from "@/utils/profile";
-import { getSharedChat } from "@/db/chat-querys";
-import { Chat } from "@/types/chat";
-import { CoreMessage } from "ai";
 import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
+import { Chat } from "@/types/chat";
+import { Session } from "@/types/session";
+import { formatDate } from "@/utils/format";
+import { getUserProfileData } from "@/utils/profile";
 
 interface SharePageProps {
   params: {

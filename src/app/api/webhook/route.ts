@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
+
 import {
   handlePaymentSucceeded,
   handleSubscriptionDeleted,
@@ -6,7 +8,6 @@ import {
   handleCustomerDeleted,
 } from "@/modules/payment/pay/actions";
 import stripe from "@/utils/stripe";
-import Stripe from "stripe";
 
 export const runtime = "edge";
 

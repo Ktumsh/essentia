@@ -46,7 +46,7 @@ const WelcomeModal = () => {
         <ModalContent>
           <>
             <ModalHeader>
-              <div className="absolute -top-[826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-base-dark border-4 border-bittersweet-400 dark:border-cerise-red-600 rounded-full -z-10"></div>
+              <div className="absolute top-[-826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-base-dark border-4 border-bittersweet-400 dark:border-cerise-red-600 rounded-full -z-10"></div>
               <h1 className="text-base-color dark:text-base-color-dark font-motivasans text-2xl font-bold">
                 ¡Bienvenid@!
               </h1>

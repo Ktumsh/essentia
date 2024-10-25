@@ -1,6 +1,8 @@
 import { Attachment } from "ai";
-import { spinner } from "./spinner";
+
 import { CloseIcon } from "@/modules/icons/common";
+
+import { spinner } from "./spinner";
 
 interface PreviewAttachmentProps {
   attachment: Attachment;

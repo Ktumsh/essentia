@@ -1,19 +1,13 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Chip,
-  Divider,
-} from "@nextui-org/react";
-import { StarIcon } from "@/modules/icons/common";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { Button, Card, CardBody, CardFooter, Chip } from "@nextui-org/react";
+
 import { GUIDES } from "@/consts/guides";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DownloadIcon } from "@/modules/icons/action";
+import { StarIcon } from "@/modules/icons/common";
 
 export default function Guides() {
   return (
-    <section className="flex flex-col items-center py-5 pb-5 md:pb-0 md:py-0 mt-12 md:my-0">
+    <section className="flex flex-col items-center py-5 md:py-0 mt-12 md:my-0">
       <div className="w-full grid grid-cols-12 gap-4 px-2 md:px-0">
         {GUIDES.map((guide, index) => (
           <Card

@@ -1,13 +1,13 @@
 import { siteConfig } from "@/config/site";
-import Logo from "../../footer/logo";
+
 import Copyright from "../../footer/copyright";
 import LinkList from "../../footer/link-list";
+import Logo from "../../footer/logo";
 import SocialLinks from "../../footer/social-links";
 
 const FullFooter = () => {
   const resources = siteConfig.footerLinks.resources;
   const additionalresources = siteConfig.footerLinks.additionalresources;
-  const comunidad = siteConfig.footerLinks.comunidad;
   const more = siteConfig.footerLinks.more;
 
   return (

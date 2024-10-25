@@ -1,5 +1,6 @@
-import { LinkIcon } from "@/modules/icons/action";
 import { Fragment } from "react";
+
+import { LinkIcon } from "@/modules/icons/action";
 
 const InfoWindowContent = ({ placeDetails }: any) => (
   <div className="flex flex-col mt-4 gap-2 text-base-color-h dark:text-base-color-dark-h">

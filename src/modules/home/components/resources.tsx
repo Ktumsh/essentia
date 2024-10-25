@@ -1,4 +1,5 @@
 import { RESOURCES } from "@/consts/resources";
+
 import ResourcesItem from "./resources-item";
 
 const Resources = () => {

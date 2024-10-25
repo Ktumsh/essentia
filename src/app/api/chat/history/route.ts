@@ -1,6 +1,6 @@
+import { auth } from "@/app/(auth)/auth";
 import { getChats } from "@/db/chat-querys";
 import { Session } from "@/types/session";
-import { auth } from "@/app/(auth)/auth";
 
 export async function GET() {
   const session = (await auth()) as Session;

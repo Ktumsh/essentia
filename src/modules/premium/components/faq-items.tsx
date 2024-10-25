@@ -1,7 +1,8 @@
 "use client";
 
-import { FAQPrincing } from "@/types/common";
 import { Accordion, AccordionItem } from "@nextui-org/react";
+
+import { FAQPrincing } from "@/types/common";
 
 interface FAQItemProps {
   faqs: FAQPrincing[];

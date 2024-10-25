@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Sidebar } from "./sidebar";
+
 import {
   Sheet,
   SheetContent,
@@ -8,6 +8,8 @@ import {
   SheetTrigger,
 } from "@/modules/core/components/ui/sheet";
 import { SidebarIcon } from "@/modules/icons/navigation";
+
+import { Sidebar } from "./sidebar";
 
 interface SidebarMobileProps {
   children: ReactNode;

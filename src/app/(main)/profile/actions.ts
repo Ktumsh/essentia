@@ -1,7 +1,8 @@
 "use server";
 
-import { deleteUserBanner, deleteUserPhoto } from "@/db/profile-querys";
 import { revalidatePath } from "next/cache";
+
+import { deleteUserBanner, deleteUserPhoto } from "@/db/profile-querys";
 
 export async function deleteFile(userId: string, type: "banner" | "profile") {
   try {

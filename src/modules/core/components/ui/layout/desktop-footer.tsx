@@ -1,5 +1,7 @@
-import { siteConfig } from "@/config/site";
 import Link from "next/link";
+
+import { siteConfig } from "@/config/site";
+
 import Logo from "../../footer/logo";
 
 const DesktopFooter = () => {

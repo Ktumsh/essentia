@@ -1,5 +1,3 @@
-import { QuestionIcon } from "@/modules/icons/miscellaneus";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import {
   Popover,
   PopoverTrigger,
@@ -8,6 +6,10 @@ import {
   Tabs,
   Tab,
 } from "@nextui-org/react";
+
+import { QuestionIcon } from "@/modules/icons/miscellaneus";
+import { tooltipStyles } from "@/styles/tooltip-styles";
+
 import { RiskAssessment, RiskValue } from "./health-risk-stock";
 
 const HealthRiskDetails = ({

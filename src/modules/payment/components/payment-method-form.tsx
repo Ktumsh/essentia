@@ -1,16 +1,20 @@
 "use client";
 
+import { Button } from "@nextui-org/react";
 import {
   useStripe,
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { useState } from "react";
-import { updatePaymentMethod } from "../pay/actions";
-import { Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { SpinnerIcon } from "@/modules/icons/common";
+import { useState } from "react";
 import { toast } from "sonner";
+
+import { SpinnerIcon } from "@/modules/icons/common";
+
+import { updatePaymentMethod } from "../pay/actions";
+
+
 
 interface PaymentMethodFormProps {
   customerId: string;

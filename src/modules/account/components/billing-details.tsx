@@ -1,14 +1,17 @@
 "use client";
 
 import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
-import ChangePaymentModal from "./change-payment-modal";
-import Image from "next/image";
-import { cn } from "@/utils/common";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import CancelSubscriptionModal from "./cancel-subscription-modal";
+import Image from "next/image";
+
+
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import { UserProfileData } from "@/types/session";
+import { cn } from "@/utils/common";
+
+import CancelSubscriptionModal from "./cancel-subscription-modal";
+import ChangePaymentModal from "./change-payment-modal";
 
 interface BillingDetailsProps {
   billingDetails: any;

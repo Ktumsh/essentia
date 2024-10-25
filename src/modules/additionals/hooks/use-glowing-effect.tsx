@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, MutableRefObject } from "react";
+import { useRef } from "react";
 
 type UseGlowingEffectReturnType = {
   setRef: (el: HTMLDivElement | null, index?: number) => void;
@@ -18,7 +18,6 @@ export function useGlowingEffect(): UseGlowingEffectReturnType {
     index?: number
   ): void => {
     if (index !== undefined) {
-      // Caso de múltiples elementos (array)
       const element = elementRefs.current[index];
       if (element) {
         const x = e.pageX - element.offsetLeft;
@@ -28,7 +27,6 @@ export function useGlowingEffect(): UseGlowingEffectReturnType {
         element.style.setProperty("--y", `${y}px`);
       }
     } else if (elementRefs.current[0]) {
-      // Caso de un solo elemento
       const element = elementRefs.current[0];
       const x = e.pageX - element.offsetLeft;
       const y = e.pageY - element.offsetTop;

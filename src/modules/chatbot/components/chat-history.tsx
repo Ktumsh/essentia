@@ -1,10 +1,13 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { FC } from "react";
+import { KeyedMutator } from "swr";
+
 import { NewIcon } from "@/modules/icons/action";
 import { Chat } from "@/types/chat";
-import dynamic from "next/dynamic";
+
 import HistoryLoading from "../components/ui/history-loading";
-import { KeyedMutator } from "swr";
+
 
 const SidebarList = dynamic(() => import("./sidebar-list"), {
   loading: () => <HistoryLoading hideHeader={true} />,

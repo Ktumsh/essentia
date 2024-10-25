@@ -1,8 +1,5 @@
 "use client";
 
-import { FormEvent, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { signup } from "@/app/(auth)/signup/actions";
 import {
   Button,
   DateInput,
@@ -13,17 +10,22 @@ import {
   PopoverTrigger,
   Tooltip,
 } from "@nextui-org/react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { tooltipStyles } from "@/styles/tooltip-styles";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState, useTransition } from "react";
+import { toast } from "sonner";
+
+import { signup } from "@/app/(auth)/signup/actions";
+import { getUserByEmail } from "@/db/user-querys";
+import { SpinnerIcon } from "@/modules/icons/common";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import { ArrowRightV2Icon } from "@/modules/icons/navigation";
 import { CalendarFillIcon, EyeIcon, EyeOffIcon } from "@/modules/icons/status";
+import { tooltipStyles } from "@/styles/tooltip-styles";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
-import { toast } from "sonner";
+
 import { validateEmail } from "../lib/form";
-import { SpinnerIcon } from "@/modules/icons/common";
-import { getUserByEmail } from "@/db/user-querys";
-import { AnimatePresence, motion } from "framer-motion";
 
 const SignupForm = () => {
   const [step, setStep] = useState(1);
@@ -85,7 +87,7 @@ const SignupForm = () => {
           }
         }
       });
-    } catch (error) {
+    } catch {
       toast.error(ResultCode.ACCOUNT_CREATED_ERROR);
     }
   };
@@ -108,7 +110,7 @@ const SignupForm = () => {
         } else {
           setStep(2);
         }
-      } catch (error) {
+      } catch {
         toast.error(ResultCode.EMAIL_VERIFICATION_ERROR);
       }
     });

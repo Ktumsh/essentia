@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
-
 import { FC } from "react";
+
 import {
   Carousel,
   CarouselContent,
@@ -8,8 +8,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/modules/core/components/ui/carousels/carousel-sheet";
-import { ModalData } from "@/types/common";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { ModalData } from "@/types/common";
 
 const NutritionCarouselItem = dynamic(
   () => import("./nutrition-carousel-item"),

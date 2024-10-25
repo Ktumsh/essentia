@@ -10,13 +10,15 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { FC, useState } from "react";
-import ChatShareModal from "./chat-share-modal";
-import { type Chat, ServerActionResult } from "@/types/chat";
 import { toast } from "sonner";
+import { KeyedMutator } from "swr";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DeleteIcon, ShareIcon } from "@/modules/icons/action";
 import { SpinnerIcon } from "@/modules/icons/common";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import { KeyedMutator } from "swr";
+import { type Chat, ServerActionResult } from "@/types/chat";
+
+import ChatShareModal from "./chat-share-modal";
 
 interface SidebarActionsProps {
   chat: Chat;

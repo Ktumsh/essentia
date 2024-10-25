@@ -1,5 +1,8 @@
 "use server";
 
+import Stripe from "stripe";
+
+import { auth } from "@/app/(auth)/auth";
 import { siteConfig } from "@/config/site";
 import {
   deleteUserStripeCustomer,
@@ -8,12 +11,10 @@ import {
   updatePremiumStatus,
   updateUserStripeCustomerId,
 } from "@/db/payment-querys";
-import { Session } from "@/types/session";
-import { auth } from "@/app/(auth)/auth";
-import Stripe from "stripe";
 import { getUserById, getUserBySubscriptionId } from "@/db/user-querys";
+import { Session } from "@/types/session";
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 interface VerifyPaymentIntentResponse {
   success: boolean;
@@ -221,7 +222,6 @@ export async function handleSubscriptionDeleted(
   const subscriptionId = subscription.id;
   const status = subscription.status;
   const customerId = subscription.customer as string;
-  const currentPeriodEnd = subscription.current_period_end;
 
   const user = await getUserBySubscriptionId(subscriptionId);
   if (!user) {

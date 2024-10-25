@@ -1,7 +1,5 @@
 "use client";
 
-import { SpinnerIcon } from "@/modules/icons/common";
-import { ServerActionResult } from "@/types/chat";
 import {
   Button,
   Modal,
@@ -14,6 +12,9 @@ import {
 import { useRouter } from "next/navigation";
 import { FC, useTransition } from "react";
 import { toast } from "sonner";
+
+import { SpinnerIcon } from "@/modules/icons/common";
+import { ServerActionResult } from "@/types/chat";
 
 interface ClearHistoryProps {
   isEnabled: boolean;

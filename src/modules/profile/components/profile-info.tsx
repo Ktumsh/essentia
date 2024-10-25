@@ -1,14 +1,6 @@
 "use client";
 
 import {
-  FC,
-  useCallback,
-  useTransition,
-  ReactNode,
-  memo,
-  useState,
-} from "react";
-import {
   Modal,
   ModalBody,
   ModalContent,
@@ -17,24 +9,33 @@ import {
   Button,
   Textarea,
   DateInput,
-} from "@nextui-org/react";
+ useDisclosure } from "@nextui-org/react";
+import {
+  FC,
+  useCallback,
+  useTransition,
+  ReactNode,
+  memo,
+  useState,
+} from "react";
+import { toast } from "sonner";
+
+import { updateUserProfile } from "@/db/profile-querys";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { SpinnerIcon, StarsIcon } from "@/modules/icons/common";
 import {
   CalendarFillIcon,
   CalendarIcon,
   LocationIcon,
 } from "@/modules/icons/status";
-
 import { UserProfileData } from "@/types/session";
 
-import { toast } from "sonner";
-import { useDisclosure } from "@nextui-org/react";
+
+import CompleteProfile from "./complete-profile";
 import FormInput from "./form-input";
 import { useProfileForm } from "../hooks/use-profile-form";
-import { SpinnerIcon, StarsIcon } from "@/modules/icons/common";
 import { formatCreatedAt, validateProfileForm } from "../lib/utils";
-import { updateUserProfile } from "@/db/profile-querys";
-import CompleteProfile from "./complete-profile";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+
 
 interface ProfileInfoProps {
   profileData: UserProfileData | null;

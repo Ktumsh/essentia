@@ -1,9 +1,10 @@
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { IconSvgProps } from "@/types/common";
-import { cn } from "@/utils/common";
 import { Button, Tooltip } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState, useRef, FC, CSSProperties } from "react";
+
+import { tooltipStyles } from "@/styles/tooltip-styles";
+import { IconSvgProps } from "@/types/common";
+import { cn } from "@/utils/common";
 
 interface Page {
   name: string;

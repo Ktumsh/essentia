@@ -1,12 +1,5 @@
 "use client";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import {
-  HeartbeatIcon,
-  HighLevelIcon,
-  LowLevelIcon,
-  MediumLevelIcon,
-} from "@/modules/icons/miscellaneus";
 import {
   Badge,
   Button,
@@ -19,14 +12,23 @@ import {
   Divider,
   Image as ImageUI,
 } from "@nextui-org/react";
-import { useMemo } from "react";
 import Image from "next/image";
+import { useMemo } from "react";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DownloadIcon } from "@/modules/icons/action";
-import { cn } from "@/utils/common";
-import { useDownloadTool } from "../../hooks/use-download-tool";
+import {
+  HeartbeatIcon,
+  HighLevelIcon,
+  LowLevelIcon,
+  MediumLevelIcon,
+} from "@/modules/icons/miscellaneus";
 import { CalendarFillIcon } from "@/modules/icons/status";
-import { getFormattedDate } from "../../lib/utils";
+import { cn } from "@/utils/common";
+
 import HealthRiskDetails from "./health-risk-details";
+import { useDownloadTool } from "../../hooks/use-download-tool";
+import { getFormattedDate } from "../../lib/utils";
 
 export interface RiskValue {
   percentage: number;

@@ -1,7 +1,3 @@
-import { CheckCircledIcon } from "@/modules/icons/common";
-import { QuestionIcon } from "@/modules/icons/miscellaneus";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { cn } from "@/utils/common";
 import {
   Chip,
   Divider,
@@ -10,6 +6,11 @@ import {
   PopoverTrigger,
   Tooltip,
 } from "@nextui-org/react";
+
+import { CheckCircledIcon } from "@/modules/icons/common";
+import { QuestionIcon } from "@/modules/icons/miscellaneus";
+import { tooltipStyles } from "@/styles/tooltip-styles";
+import { cn } from "@/utils/common";
 
 const CompleteProfile = ({ formData }: { formData: any }) => {
   return (

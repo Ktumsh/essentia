@@ -1,20 +1,22 @@
 "use client";
 
-import { FC, useEffect } from "react";
-import { useDisclosure } from "@nextui-org/react";
-import LiteYouTubeEmbed from "react-lite-youtube-embed";
-import { Video } from "@/types/resource";
-import {
+import { useDisclosure ,
   Card,
   CardBody,
   Image as ImageUI,
   Modal,
   ModalContent,
 } from "@nextui-org/react";
-import { formatTitle } from "@/utils/format";
-import { useModalHash } from "../hooks/use-modal-hash";
-import { PlayIcon } from "@/modules/icons/action";
 import Image from "next/image";
+import { FC, useEffect } from "react";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+
+import { PlayIcon } from "@/modules/icons/action";
+import { Video } from "@/types/resource";
+import { formatTitle } from "@/utils/format";
+
+import { useModalHash } from "../hooks/use-modal-hash";
+
 
 const getYouTubeThumbnail = (videoId: string) => {
   return `https://i.ytimg.com/vi_webp/${videoId}/maxresdefault.webp`;

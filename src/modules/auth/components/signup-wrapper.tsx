@@ -1,7 +1,8 @@
 "use client";
 
-import SignupForm from "./signup-form";
 import { motion } from "framer-motion";
+
+import SignupForm from "./signup-form";
 
 const SignupWrapper = () => {
   return (

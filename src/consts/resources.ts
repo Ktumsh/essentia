@@ -4,6 +4,7 @@ import HealthWellness from "@/modules/resources/components/health-wellness";
 import Nutrition from "@/modules/resources/components/nutrition";
 import SexEducation from "@/modules/resources/components/sex-education";
 import Wellbeing from "@/modules/resources/components/wellbeing";
+
 import type { Resources } from "@/types/resource";
 
 export const RESOURCES: Resources[] = [

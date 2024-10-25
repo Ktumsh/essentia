@@ -1,9 +1,13 @@
+import { KeyedMutator } from "swr";
+
+import { clearChats } from "@/db/chat-querys";
+import { Chat } from "@/types/chat";
+
 import ClearHistory from "./clear-history";
 import { SidebarItems } from "./sidebar-items";
-import { Chat } from "@/types/chat";
 import { groupChatsByDate } from "../lib/utils";
-import { clearChats } from "@/db/chat-querys";
-import { KeyedMutator } from "swr";
+
+
 
 interface SidebarListProps {
   chats?: Chat[];

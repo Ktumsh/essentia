@@ -1,8 +1,9 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { siteConfig } from "@/config/site";
 import { ThemeToggle } from "@/modules/core/components/ui/buttons/theme-toggle";
 import { InstagramIcon, TwitterIcon, GithubIcon } from "@/modules/icons/media";
-import Image from "next/image";
-import Link from "next/link";
 
 const AuthFooter = () => {
   const links = siteConfig.links;

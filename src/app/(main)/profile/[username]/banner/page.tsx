@@ -1,10 +1,11 @@
-import PhotoModal from "@/modules/profile/components/photo-modal";
-import { Session } from "@/types/session";
-import { getUserProfileData } from "@/utils/profile";
-import { auth } from "@/app/(auth)/auth";
 import { Image as ImageUI } from "@nextui-org/react";
 import { Metadata } from "next";
 import Image from "next/image";
+
+import { auth } from "@/app/(auth)/auth";
+import PhotoModal from "@/modules/profile/components/photo-modal";
+import { Session } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 
 type Props = {
   params: { username: string };

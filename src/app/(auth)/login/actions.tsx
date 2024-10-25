@@ -1,10 +1,11 @@
 "use server";
 
-import { signIn } from "@/app/(auth)/auth";
 import { AuthError } from "next-auth";
 import { z } from "zod";
-import { ResultCode } from "@/utils/code";
+
+import { signIn } from "@/app/(auth)/auth";
 import { getUserByEmail } from "@/db/user-querys";
+import { ResultCode } from "@/utils/code";
 
 interface Result {
   type: string;

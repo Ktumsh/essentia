@@ -13,21 +13,23 @@ import {
   Modal,
   Snippet,
 } from "@nextui-org/react";
-import { useSteps } from "../../chatbot/hooks/use-steps";
-import { SpinnerIcon, WarningCircledIcon } from "@/modules/icons/common";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
-import { PlanSelector } from "./plan-selector";
-import PaymentForm from "./payment-form";
-import StripeWrapper from "./stripe-wrapper";
 import { toast } from "sonner";
-import { cn } from "@/utils/common";
-import { createSubscription } from "../pay/actions";
+
 import { siteConfig } from "@/config/site";
-import { usePlan } from "@/modules/core/hooks/use-current-plan";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { usePlan } from "@/modules/core/hooks/use-current-plan";
 import { CopyIcon } from "@/modules/icons/action";
+import { SpinnerIcon, WarningCircledIcon } from "@/modules/icons/common";
+import { tooltipStyles } from "@/styles/tooltip-styles";
+import { cn } from "@/utils/common";
+
+import PaymentForm from "./payment-form";
+import { PlanSelector } from "./plan-selector";
+import StripeWrapper from "./stripe-wrapper";
+import { useSteps } from "../../chatbot/hooks/use-steps";
+import { createSubscription } from "../pay/actions";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
@@ -77,7 +79,7 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
       });
       setClientSecret(subscriptionResponse.clientSecret);
       nextStep();
-    } catch (err: any) {
+    } catch {
       toast.error("Hubo un error creando tu suscripción");
     } finally {
       setIsLoading(false);
@@ -154,10 +156,10 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
                       !selectedPlan && !cardholderName
                         ? "Selecciona un plan y proporciona un titular"
                         : !selectedPlan
-                        ? "Selecciona un plan"
-                        : !cardholderName
-                        ? "Proporciona un titular"
-                        : null
+                          ? "Selecciona un plan"
+                          : !cardholderName
+                            ? "Proporciona un titular"
+                            : null
                     }
                   >
                     <Button

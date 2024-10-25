@@ -1,9 +1,10 @@
 "use client";
 
-import { FC } from "react";
 import { Button } from "@nextui-org/react";
-import { cn } from "@/utils/common";
+import { FC } from "react";
+
 import { ArrowUpIcon } from "@/modules/icons/navigation";
+import { cn } from "@/utils/common";
 
 interface ButtonToBottomProps {
   isAtBottom: boolean;

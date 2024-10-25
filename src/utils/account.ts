@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { ResultCode } from "./code";
 
 const passwordSchema = z

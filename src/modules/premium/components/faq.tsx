@@ -1,4 +1,5 @@
 import { FAQ_PRICING } from "@/consts/faq-pricing";
+
 import FAQItems from "./faq-items";
 
 const FAQ = () => {

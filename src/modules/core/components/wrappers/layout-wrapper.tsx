@@ -1,14 +1,16 @@
 "use client";
 
-import React, { FC, useMemo } from "react";
-import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import React, { FC, useMemo } from "react";
+
 import { cn } from "@/utils/common";
+
+import useWindowSize from "../../hooks/use-window-size";
+import { startsWithAny } from "../../lib/utils";
 import ButtonUp from "../ui/buttons/button-up";
 import AsideMenu from "../ui/layout/aside-menu";
 import AsideTabs from "../ui/layout/aside.tabs";
-import { startsWithAny } from "../../lib/utils";
-import useWindowSize from "../../hooks/use-window-size";
 
 const HIDDEN_ASIDE_PATHS = [
   "/essentia-ai",
@@ -69,6 +71,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
     <>
       {/* Background */}
       <motion.div
+        data-id="background"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ ease: "easeInOut", duration: 0.5 }}
@@ -79,20 +82,20 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       </motion.div>
 
       {/* Main content */}
-      <div className="relative w-full overflow-clip">
+      <main className="relative w-full text-clip">
         <div className="flex min-h-screen w-full">
           {!hideAside && windowSize.width > 768 && <AsideMenu />}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ ease: "easeInOut", duration: 0.3 }}
-            className="flex flex-col flex-grow items-center w-full"
+            className="flex flex-col grow items-center w-full"
           >
             {children}
           </motion.div>
           {!hideAside && windowSize.width > 768 && <AsideTabs />}
         </div>
-      </div>
+      </main>
 
       {/* Button Up */}
       {!hideButtonUp && windowSize.width > 768 && <ButtonUp />}

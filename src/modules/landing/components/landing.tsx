@@ -1,18 +1,20 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 
+import { LandingCrop } from "@/modules/icons/miscellaneus";
+import { ArrowAnimateIcon } from "@/modules/icons/navigation";
+import { $$ } from "@/utils/dom-selector";
+
+import Footer from "./footer";
 import HomeLine from "./home-line";
 import Section from "./section";
 
-import { LandingCrop } from "@/modules/icons/miscellaneus";
 
-import Image from "next/image";
-import Link from "next/link";
-import Footer from "./footer";
 
-import { $$ } from "@/utils/dom-selector";
-import { ArrowAnimateIcon } from "@/modules/icons/navigation";
+
 
 const Landing = () => {
   useEffect(() => {
@@ -60,7 +62,7 @@ const Landing = () => {
     };
   }, []);
   return (
-    <article className="size-full bg-gray-50 break-words font-normal text-base-color z-40 overflow-clip">
+    <article className="size-full bg-gray-50 break-words font-normal text-base-color z-40 text-clip">
       <div className="relative flex px-5 pt-24 sm:pt-52 max-w-screen-xl mx-auto">
         <HomeLine />
         <div className="flex flex-col pl-6 sm:pl-0">

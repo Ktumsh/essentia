@@ -1,6 +1,5 @@
 "use client";
 
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import {
   Modal,
   ModalContent,
@@ -14,17 +13,18 @@ import {
   PopoverContent,
   Snippet,
 } from "@nextui-org/react";
-import { cn } from "@/utils/common";
-
-import StripeWrapper from "@/modules/payment/components/stripe-wrapper";
-import { toast } from "sonner";
 import { loadStripe } from "@stripe/stripe-js";
-import { useSteps } from "@/modules/chatbot/hooks/use-steps";
 import { useState } from "react";
+import { toast } from "sonner";
+
+import { useSteps } from "@/modules/chatbot/hooks/use-steps";
+import { CopyIcon } from "@/modules/icons/action";
 import { SpinnerIcon, WarningCircledIcon } from "@/modules/icons/common";
 import PaymentForm from "@/modules/payment/components/payment-form";
+import StripeWrapper from "@/modules/payment/components/stripe-wrapper";
 import { createSubscription } from "@/modules/payment/pay/actions";
-import { CopyIcon } from "@/modules/icons/action";
+import { tooltipStyles } from "@/styles/tooltip-styles";
+import { cn } from "@/utils/common";
 
 interface PricingCardProps {
   isOpen: boolean;
@@ -64,7 +64,7 @@ const PaymentModal = ({
       });
       setClientSecret(subscriptionResponse.clientSecret);
       nextStep();
-    } catch (err: any) {
+    } catch {
       toast.error("Hubo un error creando tu suscripción");
     } finally {
       setIsLoading(false);

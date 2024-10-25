@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 import { nextui } from "@nextui-org/theme";
 import typography from "@tailwindcss/typography";
-import animate from "tailwindcss-animate";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import animate from "tailwindcss-animate";
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {

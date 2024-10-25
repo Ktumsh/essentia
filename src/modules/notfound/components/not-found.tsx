@@ -1,7 +1,8 @@
+import { Button } from "@nextui-org/react";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import { Button } from "@nextui-org/react";
+
 import { cn } from "@/utils/common";
 
 const NotFoundWrapper = () => {

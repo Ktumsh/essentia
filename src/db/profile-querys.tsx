@@ -1,8 +1,10 @@
 "use server";
 
-import { User, UserProfile, UserProfileData } from "@/types/session";
 import { createPool, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
+
+import { User, UserProfile, UserProfileData } from "@/types/session";
+
 import { getUserByEmail, getUserByUsername } from "./user-querys";
 
 const pool = createPool({

@@ -1,11 +1,12 @@
 "use client";
 
+import { Card, CardBody } from "@nextui-org/react";
+import Link from "next/link";
+
 import { StarsIcon } from "@/modules/icons/common";
 import { AdditionalFillIcon, AIFillIcon } from "@/modules/icons/interface";
 import { HealthCentersFillIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
-import { Card, CardBody } from "@nextui-org/react";
-import Link from "next/link";
 
 interface RecomCardProps {
   profileData: UserProfileData | null;

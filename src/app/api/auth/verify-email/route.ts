@@ -1,11 +1,12 @@
+import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
+
 import {
   getVerificationToken,
   updateEmailVerified,
   deleteVerificationToken,
 } from "@/db/email-querys";
 import { getUserById } from "@/db/user-querys";
-import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

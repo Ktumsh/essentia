@@ -1,10 +1,13 @@
 "use client";
 
-import { FC, useEffect } from "react";
-import { HealthFact } from "@/types/common";
 import { Image as ImageUI } from "@nextui-org/react";
-import { getRandomFacts } from "../../../lib/utils";
 import Image from "next/image";
+import { FC, useEffect } from "react";
+
+import { HealthFact } from "@/types/common";
+
+import { getRandomFacts } from "../../../lib/utils";
+
 
 interface HealthFactsCardProps {
   facts: HealthFact[];

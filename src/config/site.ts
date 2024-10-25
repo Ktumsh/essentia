@@ -1,8 +1,6 @@
 import {
   HomeIcon,
   HomeFillIcon,
-  NewsIcon,
-  NewsFillIcon,
   HealthIcon,
   ExcerciseIcon,
   NutritionIcon,
@@ -18,7 +16,6 @@ import {
   HealthCentersFillIcon,
   HealthCentersIcon,
 } from "@/modules/icons/miscellaneus";
-
 import { SiteConfig } from "@/types/common";
 
 export const siteConfig: SiteConfig = {

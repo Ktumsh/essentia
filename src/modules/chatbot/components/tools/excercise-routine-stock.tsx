@@ -1,11 +1,6 @@
 "use client";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import { CalendarFillIcon, ClockIcon } from "@/modules/icons/status";
 
-import Image from "next/image";
-import { DownloadIcon } from "@/modules/icons/action";
-import { Fragment } from "react";
 import {
   Button,
   Card,
@@ -18,7 +13,14 @@ import {
   Tabs,
   Tab,
 } from "@nextui-org/react";
+import Image from "next/image";
+import { Fragment } from "react";
 import { toast } from "sonner";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { DownloadIcon } from "@/modules/icons/action";
+import { CheckCircledIcon, WarningCircledIcon } from "@/modules/icons/common";
+import { ExcerciseIcon } from "@/modules/icons/interface";
 import {
   EquipmentIcon,
   ItineraryIcon,
@@ -27,11 +29,10 @@ import {
   RestIcon,
   ZapIcon,
 } from "@/modules/icons/miscellaneus";
-
-import { ExcerciseIcon } from "@/modules/icons/interface";
-import { CheckCircledIcon, WarningCircledIcon } from "@/modules/icons/common";
-import { useDownloadTool } from "../../hooks/use-download-tool";
+import { CalendarFillIcon, ClockIcon } from "@/modules/icons/status";
 import { cn } from "@/utils/common";
+
+import { useDownloadTool } from "../../hooks/use-download-tool";
 
 export interface Exercise {
   name: string;

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { Button, Tooltip } from "@nextui-org/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
+import { MoonIcon, SunIcon } from "@/modules/icons/common";
+import { SystemIcon } from "@/modules/icons/status";
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { cn } from "@/utils/common";
-import { SystemIcon } from "@/modules/icons/status";
-import { MoonIcon, SunIcon } from "@/modules/icons/common";
 
 type Theme = "light" | "dark" | "system";
 

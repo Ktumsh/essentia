@@ -1,5 +1,10 @@
 "use client";
 
+import { Button, useDisclosure } from "@nextui-org/react";
+import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import {
   Dispatch,
   FC,
@@ -9,23 +14,19 @@ import {
   useState,
 } from "react";
 
-import { Button, useDisclosure } from "@nextui-org/react";
+
+import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
+import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
+import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
+import { Session } from "@/types/session";
+import { cn, shuffleArray } from "@/utils/common";
 
 import PromptForm from "./prompt-form";
-import FooterText from "../components/ui/footer-text";
-import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
-import { cn, shuffleArray } from "@/utils/common";
-import { Session } from "@/types/session";
-import Link from "next/link";
-import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
-import { motion } from "framer-motion";
-import WarningModal from "../../payment/components/warning-premium-modal";
-import PaymentModal from "../../payment/components/payment-modal";
-import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
-import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { PreviewAttachment } from "./ui/preview-attachment";
+import PaymentModal from "../../payment/components/payment-modal";
+import WarningModal from "../../payment/components/warning-premium-modal";
+import FooterText from "../components/ui/footer-text";
 
 export interface ChatPanelProps {
   input: string;

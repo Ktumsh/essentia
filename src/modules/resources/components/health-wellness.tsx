@@ -2,14 +2,15 @@
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { Button } from "@nextui-org/react";
-import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
 import Link from "next/link";
-import { HashIcon } from "@/modules/icons/common";
+
+import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
 import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitness-modal";
+import { HashIcon } from "@/modules/icons/common";
 
 const HealthWellness = () => {
   return (
-    <section className="px-2 md:px-0 py-4 md:py-0">
+    <section className="px-2 md:p-0 py-4">
       <div className="w-full px-3 mb-4">
         <h3 className="drop-shadow-md text-base-color dark:text-white">
           <Button

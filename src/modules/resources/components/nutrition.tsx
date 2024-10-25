@@ -1,11 +1,13 @@
 "use client";
 
-import { NUTRITION_MODAL_DATA } from "@/consts/nutrition-modal";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
-import { HashIcon } from "@/modules/icons/common";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+
+import { NUTRITION_MODAL_DATA } from "@/consts/nutrition-modal";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { HashIcon } from "@/modules/icons/common";
+
 import { useVisibilityObserver } from "../hooks/use-visibility-obs";
 
 const Loading = () => {

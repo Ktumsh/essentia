@@ -1,9 +1,5 @@
 "use client";
 
-import { DownloadIcon } from "@/modules/icons/action";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
-import Image from "next/image";
-import { HeartIcon, ListIcon } from "@/modules/icons/miscellaneus";
 import {
   Button,
   Card,
@@ -13,9 +9,16 @@ import {
   Image as ImageUI,
   Divider,
 } from "@nextui-org/react";
+import Image from "next/image";
 import { toast } from "sonner";
-import { useDownloadTool } from "../../hooks/use-download-tool";
+
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { DownloadIcon } from "@/modules/icons/action";
 import { QuoteLeftIcon } from "@/modules/icons/common";
+import { HeartIcon, ListIcon } from "@/modules/icons/miscellaneus";
+
+
+import { useDownloadTool } from "../../hooks/use-download-tool";
 
 interface Activity {
   activity: string;

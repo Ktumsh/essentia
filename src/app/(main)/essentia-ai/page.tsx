@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 
-import { nanoid } from "@/utils/common";
 import { auth } from "@/app/(auth)/auth";
-import { Chat } from "@/modules/chatbot/components/chat";
-import { Session } from "@/types/session";
-import { getUserProfileData } from "@/utils/profile";
 import { getMissingKeys } from "@/db/chat-querys";
 import { getUserById } from "@/db/user-querys";
+import { Chat } from "@/modules/chatbot/components/chat";
+import { Session } from "@/types/session";
+import { nanoid } from "@/utils/common";
+import { getUserProfileData } from "@/utils/profile";
 export const metadata: Metadata = {
   title: "Essentia AI ⭐",
 };

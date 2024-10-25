@@ -1,9 +1,4 @@
-import ButtonUp from "@/modules/core/components/ui/buttons/button-up";
-import Landing from "@/modules/landing/components/landing";
-import LandingHeader from "@/modules/landing/components/landing-header";
-import { auth } from "@/app/(auth)/auth";
 import { Metadata } from "next";
-
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {

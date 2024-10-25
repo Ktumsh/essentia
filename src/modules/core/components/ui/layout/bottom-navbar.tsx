@@ -1,22 +1,16 @@
 "use client";
 
-import { siteConfig } from "@/config/site";
 import { Button, Navbar } from "@nextui-org/react";
-import { usePathname } from "next/navigation";
-import MainSearch from "./main-search";
 import Link from "next/link";
-import {
-  CSSProperties,
-  FC,
-  Fragment,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { usePathname } from "next/navigation";
+import { FC, Fragment, useMemo } from "react";
+
+import { siteConfig } from "@/config/site";
+import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 import { formatPathName } from "@/utils/format";
-import { UserProfileData } from "@/types/session";
+
+import MainSearch from "./main-search";
 
 interface BottomNavProps {
   profileData: UserProfileData | null;

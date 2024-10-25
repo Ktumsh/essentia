@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
-import LayoutWrapper from "@/modules/core/components/wrappers/layout-wrapper";
+
+import { auth } from "@/app/(auth)/auth";
 import BottomNav from "@/modules/core/components/ui/layout/bottom-navbar";
 import Header from "@/modules/core/components/ui/layout/header";
 import MobileHeader from "@/modules/core/components/ui/layout/mobile-header";
 import WelcomeModal from "@/modules/core/components/ui/modals/welcome-modal";
+import LayoutWrapper from "@/modules/core/components/wrappers/layout-wrapper";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
-
-import { auth } from "@/app/(auth)/auth";
 
 export default async function MainLayout({
   children,

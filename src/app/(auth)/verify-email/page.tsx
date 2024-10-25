@@ -1,6 +1,7 @@
+import { redirect } from "next/navigation";
+
 import { getUserByEmail } from "@/db/user-querys";
 import VerifyEmail from "@/modules/auth/components/verify-email";
-import { redirect } from "next/navigation";
 
 type Props = {
   searchParams: { email?: string };

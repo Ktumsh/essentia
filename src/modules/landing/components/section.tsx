@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import SectionItem from "./section-item";
 
 type Props = {

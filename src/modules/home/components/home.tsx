@@ -1,10 +1,11 @@
 "use client";
 
-import Carousel from "@/modules/home/components/home-carousel/carousel";
-import Resources from "./resources";
-import RecomCard from "./recom-card";
-import { UserProfileData } from "@/types/session";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
+import Carousel from "@/modules/home/components/home-carousel/carousel";
+import { UserProfileData } from "@/types/session";
+
+import RecomCard from "./recom-card";
+import Resources from "./resources";
 
 interface HomeProps {
   profileData: UserProfileData | null;
@@ -15,7 +16,7 @@ const Home = ({ profileData }: HomeProps) => {
 
   return (
     <div className="w-full flex items-stretch justify-center grow lg:px-8 md:pb-0 pt-14 shrink">
-      <main className="flex flex-col size-full max-w-5xl py-5 lg:pb-5 lg:px-5 shrink items-stretch grow">
+      <div className="flex flex-col size-full max-w-5xl py-5 lg:pb-5 lg:px-5 shrink items-stretch grow">
         {windowSize.width > 768 ? (
           <div className="hidden md:flex flex-row relative w-full gap-2 mb-2">
             <section className="flex flex-col flex-1 w-full">
@@ -42,7 +43,7 @@ const Home = ({ profileData }: HomeProps) => {
             </section>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

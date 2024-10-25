@@ -1,17 +1,11 @@
-import { PHONES } from "@/consts/phones";
-import { PhoneIcon } from "@/modules/icons/status";
-import {
-  Chip,
-  Card,
-  CardBody,
-  Divider,
-  CardFooter,
-  Button,
-} from "@nextui-org/react";
+import { Chip, Card, CardBody, CardFooter, Button } from "@nextui-org/react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { cn } from "@/utils/common";
 import Link from "next/link";
+
+import { PHONES } from "@/consts/phones";
 import { HashIcon } from "@/modules/icons/common";
+import { PhoneIcon } from "@/modules/icons/status";
+import { cn } from "@/utils/common";
 
 const Phones = () => {
   return (

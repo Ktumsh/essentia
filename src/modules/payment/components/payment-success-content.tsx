@@ -1,20 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-} from "@nextui-org/react";
-import {
-  CheckCircledIcon,
-  CloseCircledIcon,
-  SpinnerIcon,
-} from "@/modules/icons/common";
+import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+
+import { CheckCircledIcon, CloseCircledIcon } from "@/modules/icons/common";
 import { cn } from "@/utils/common";
 
 interface PaymentDetails {

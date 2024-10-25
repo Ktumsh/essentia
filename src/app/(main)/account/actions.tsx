@@ -1,13 +1,14 @@
 "use server";
 
+import { z } from "zod";
+
+import { auth } from "@/app/(auth)/auth";
 import {
   getPasswordAndSaltById,
   updatePasswordAndSaltById,
 } from "@/db/user-querys";
 import { Session } from "@/types/session";
 import { changePasswordSchema } from "@/utils/account";
-import { auth } from "@/app/(auth)/auth";
-import { z } from "zod";
 import { ResultCode } from "@/utils/code";
 import { getStringFromBuffer } from "@/utils/common";
 

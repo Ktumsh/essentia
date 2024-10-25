@@ -1,6 +1,19 @@
 "use client";
 
 import {
+  Button,
+  Input,
+  Kbd,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  Tooltip,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useLocalStorage } from "@rehooks/local-storage";
+import { matchSorter } from "match-sorter";
+import { useRouter } from "next/navigation";
+import {
   useState,
   useEffect,
   useCallback,
@@ -11,52 +24,25 @@ import {
 } from "react";
 
 import {
-  Button,
-  Input,
-  Kbd,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  Tooltip,
-  useDisclosure,
-} from "@nextui-org/react";
-
-import { useRouter } from "next/navigation";
-
-import { searchData, SearchResult } from "@/consts/search-data";
-
-import { useLocalStorage } from "@rehooks/local-storage";
-
-import {
   MATCH_KEYS,
   RECENT_SEARCHES_KEY,
   MAX_RECENT_SEARCHES,
   MAX_RESULTS,
 } from "@/consts/search-constants";
-
+import { searchData, SearchResult } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
-
-import { matchSorter } from "match-sorter";
-
 import useWindowSize from "@/modules/core/hooks/use-window-size";
-
-import { formatText } from "@/utils/format";
-
 import {
   DeleteHistoryIcon,
   SearchAIIcon,
   SearchIcon,
 } from "@/modules/icons/action";
-
-import { cn } from "@/utils/common";
-
-import { searchStyles } from "@/styles/search-styles";
-
 import { CloseIcon, HashFillIcon } from "@/modules/icons/common";
-
 import { Chevron } from "@/modules/icons/navigation";
-
+import { searchStyles } from "@/styles/search-styles";
 import { tooltipStyles } from "@/styles/tooltip-styles";
+import { cn } from "@/utils/common";
+import { formatText } from "@/utils/format";
 
 interface MainSearchProps {
   isPremium?: boolean;
@@ -75,7 +61,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recentSearches, setRecentSearches] = useLocalStorage<SearchResult[]>(
     RECENT_SEARCHES_KEY,
-    []
+    [],
   );
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [activeItem, setActiveItem] = useState(0);
@@ -93,7 +79,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
       keys: MATCH_KEYS,
       sorter: (matches) =>
         matches.sort((a, b) =>
-          a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0
+          a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0,
         ),
     }).slice(0, MAX_RESULTS);
     return results.length > 0 ? results : recentSearches;
@@ -108,7 +94,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
         keys: MATCH_KEYS,
         sorter: (matches) =>
           matches.sort((a, b) =>
-            a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0
+            a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0,
           ),
       }).slice(0, MAX_RESULTS);
       setSearchResults(results);
@@ -123,7 +109,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
       ].slice(0, MAX_RECENT_SEARCHES);
       setRecentSearches(updatedSearches);
     },
-    [recentSearches, setRecentSearches]
+    [recentSearches, setRecentSearches],
   );
 
   const handleSearchChange = useCallback((value: string) => {
@@ -136,7 +122,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
       saveRecentSearch(search);
       onClose();
     },
-    [router, saveRecentSearch, onClose]
+    [router, saveRecentSearch, onClose],
   );
 
   const clearRecentSearches = useCallback(() => {
@@ -149,7 +135,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
       router.push(item.url);
       saveRecentSearch(item);
     },
-    [onClose, router, saveRecentSearch]
+    [onClose, router, saveRecentSearch],
   );
 
   const onInputKeyDown = useCallback(
@@ -173,7 +159,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
           break;
       }
     },
-    [activeItem, items, onItemSelect]
+    [activeItem, items, onItemSelect],
   );
 
   useEffect(() => {
@@ -194,7 +180,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
             searchStyles.iconColor,
             "group-data-[hover=true]:text-white",
             "group-data-[focus=true]:text-white",
-            "group-data-[active=true]:text-white"
+            "group-data-[active=true]:text-white",
           )}
         />
       ) : (isLvl1 && item.icon) || (isLvl2 && item.icon) ? (
@@ -203,7 +189,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
             searchStyles.iconColor,
             "group-data-[hover=true]:text-white",
             "group-data-[focus=true]:text-white",
-            "group-data-[active=true]:text-white"
+            "group-data-[active=true]:text-white",
           )}
         />
       ) : (
@@ -212,7 +198,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
             searchStyles.iconColor,
             "group-data-[hover=true]:text-white",
             "group-data-[focus=true]:text-white",
-            "group-data-[active=true]:text-white"
+            "group-data-[active=true]:text-white",
           )}
         />
       );
@@ -239,7 +225,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                 "size-5 rotate-180",
                 "group-data-[hover=true]:text-white",
                 "group-data-[focus=true]:text-white",
-                "group-data-[active=true]:text-white"
+                "group-data-[active=true]:text-white",
               )}
             />
           }
@@ -251,7 +237,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
             "dark:data-[focus=true]:bg-cerise-red-600",
             "data-[active=true]:bg-bittersweet-400",
             "dark:data-[active=true]:bg-cerise-red-600",
-            searchStyles.buttonTextColor
+            searchStyles.buttonTextColor,
           )}
           onPress={() => handleSearchSelect(item)}
         >
@@ -262,7 +248,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                   "text-xs select-none flex items-center",
                   "group-data-[hover=true]:text-white",
                   "group-data-[focus=true]:text-white",
-                  "group-data-[active=true]:text-white"
+                  "group-data-[active=true]:text-white",
                 )}
               >
                 {item.hierarchy?.lvl1}
@@ -274,7 +260,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                 "truncate text-base-color-h dark:text-base-color-dark-h select-none",
                 "group-data-[hover=true]:text-white",
                 "group-data-[focus=true]:text-white",
-                "group-data-[active=true]:text-white"
+                "group-data-[active=true]:text-white",
               )}
             >
               {item.content}
@@ -283,7 +269,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
         </Button>
       );
     },
-    [activeItem, menuNodes, handleSearchSelect, width]
+    [activeItem, menuNodes, handleSearchSelect, width],
   );
 
   return (
@@ -358,7 +344,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                       "data-[hover=true]:bg-transparent",
                       "group-data-[focus=true]:bg-transparent",
                       "group-data-[focus-visible=true]:ring-0",
-                      "group-data-[focus-visible=true]:ring-offset-0"
+                      "group-data-[focus-visible=true]:ring-offset-0",
                     ),
                     input: cn(searchStyles.input),
                   }}
@@ -381,7 +367,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
               ref={listRef}
               className={cn(
                 searchStyles.modalContent,
-                "max-h-[50vh] md:scrollbar-default custom-scroll v2"
+                "max-h-[50vh] md:scrollbar-default custom-scroll v2",
               )}
             >
               {/* Búsquedas recientes */}
@@ -394,7 +380,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                   </div>
                   <div role="group" aria-labelledby={id}>
                     {recentSearches.map((search, index) =>
-                      renderItem(search, index, true)
+                      renderItem(search, index, true),
                     )}
                     <Tooltip
                       content="Limpiar historial de búsquedas"
@@ -436,8 +422,8 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                           onPress={() => {
                             router.push(
                               `/essentia-ai?search=${encodeURIComponent(
-                                searchTerm
-                              )}`
+                                searchTerm,
+                              )}`,
                             );
                             onClose();
                           }}
@@ -460,7 +446,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
               {searchResults.length > 0 && (
                 <div role="presentation" data-value="search">
                   {searchResults.map((result, index) =>
-                    renderItem(result, index)
+                    renderItem(result, index),
                   )}
                 </div>
               )}

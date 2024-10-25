@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { Video } from "@/types/resource";
 
 export const useModalHash = (

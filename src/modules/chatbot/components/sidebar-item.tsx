@@ -1,14 +1,14 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 
-import { motion } from "framer-motion";
 
-import { type Chat } from "@/types/chat";
+import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { ChatIcon, UsersIcon } from "@/modules/icons/miscellaneus";
+import { type Chat } from "@/types/chat";
 import { cn } from "@/utils/common";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 
 interface SidebarItemProps {
   index: number;

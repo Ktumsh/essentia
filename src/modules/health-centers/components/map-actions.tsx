@@ -1,3 +1,6 @@
+import { Button } from "@nextui-org/react";
+import { FC } from "react";
+
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import {
   FullscreenIcon,
@@ -5,8 +8,6 @@ import {
   ZoomOutIcon,
 } from "@/modules/icons/action";
 import { CenterLocationIcon } from "@/modules/icons/status";
-import { Button } from "@nextui-org/react";
-import { FC } from "react";
 
 interface MapActionsProps {
   handleFullscreen: () => void;

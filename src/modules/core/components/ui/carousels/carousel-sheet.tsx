@@ -1,12 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { Button } from "@nextui-org/react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import { Button } from "@nextui-org/react";
-import { cn } from "@/utils/common";
+import * as React from "react";
+
 import { CarouselArrowIcon } from "@/modules/icons/navigation";
+import { cn } from "@/utils/common";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -80,13 +81,6 @@ const Carousel = React.forwardRef<
     const scrollNext = React.useCallback(() => {
       api?.scrollNext();
     }, [api]);
-
-    const scrollTo = React.useCallback(
-      (index: number) => {
-        api?.scrollTo(index);
-      },
-      [api]
-    );
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {

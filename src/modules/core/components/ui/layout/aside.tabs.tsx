@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import HealthFactsCard from "../cards/health-facts-card";
-import { usePathname } from "next/navigation";
 import { Button } from "@nextui-org/react";
-import { HealthFact } from "@/types/common";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
 import { getRandomFacts } from "@/modules/core/lib/utils";
+import { HealthFact } from "@/types/common";
+
+import HealthFactsCard from "../cards/health-facts-card";
+
 
 const AsideTabs = () => {
   const [facts, setFacts] = useState<HealthFact[]>([]);

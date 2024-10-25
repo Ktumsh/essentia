@@ -1,11 +1,12 @@
 "use client";
 
-import LoginForm from "./login-form";
 import { motion } from "framer-motion";
+
+import LoginForm from "./login-form";
 
 const LoginWrapper = () => {
   return (
-    <main className="relative size-full">
+    <div className="relative size-full">
       <div className="z-40 w-full min-h-dvh sm:min-h-dvh">
         <div className="flex justify-center items-center w-full min-h-dvh sm:min-h-[calc(100dvh-72px)]">
           <motion.div
@@ -18,7 +19,7 @@ const LoginWrapper = () => {
           </motion.div>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

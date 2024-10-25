@@ -1,9 +1,10 @@
 "use client";
 
+import { Avatar, AvatarIcon } from "@nextui-org/react";
 import Image from "next/image";
+
 import { MenuIcon } from "@/modules/icons/common";
 import { UserProfileData } from "@/types/session";
-import { Avatar, AvatarIcon } from "@nextui-org/react";
 
 interface Props {
   profileData: UserProfileData | null;

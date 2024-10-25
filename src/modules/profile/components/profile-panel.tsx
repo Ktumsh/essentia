@@ -1,8 +1,5 @@
 "use client";
 
-import { FC, RefObject, useRef, useState, useTransition } from "react";
-import Link from "next/link";
-import ProfileInfo from "./profile-info";
 import {
   Button,
   Image as ImageUI,
@@ -10,16 +7,21 @@ import {
   ModalContent,
   Avatar,
 } from "@nextui-org/react";
-import Image from "next/image";
-import { UserProfileData } from "@/types/session";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import Link from "next/link";
+import { FC, RefObject, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { SpinnerIcon } from "@/modules/icons/common";
-import { useProfileForm } from "../hooks/use-profile-form";
+
 import { deleteFile } from "@/app/(main)/profile/actions";
+import { SpinnerIcon } from "@/modules/icons/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
-import { uploadFile } from "../lib/utils";
+import { UserProfileData } from "@/types/session";
+
 import ProfileImageDropdown from "./profile-image-dropdown";
+import ProfileInfo from "./profile-info";
+import { useProfileForm } from "../hooks/use-profile-form";
+import { uploadFile } from "../lib/utils";
 
 interface ProfilePanelProps {
   profileData: UserProfileData;
@@ -75,7 +77,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           }
 
           setShowSaveModal(false);
-        } catch (error) {
+        } catch {
           toast.error(
             `Hubo un error al subir tu ${
               modalType === "banner" ? "foto de portada" : "foto de perfil"
@@ -118,7 +120,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
             }`
           );
         }
-      } catch (error) {
+      } catch {
         toast.error(
           `Hubo un error al eliminar tu ${
             modalType === "banner" ? "foto de portada" : "foto de perfil"
@@ -284,7 +286,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           >
             <ModalContent className="p-4 gap-4">
               <div className="flex items-center justify-between w-full">
-                <div className="inline-flex items-center text-base-color dark:text-base-color-dark md:text-white dark:text-white">
+                <div className="inline-flex items-center text-base-color md:text-white dark:text-white">
                   <QuestionMarkCircledIcon className="size-4 mr-3" />
                   <p className="text-sm">
                     {`¿Deseas guardar la nueva foto de ${
@@ -296,7 +298,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                   <Button
                     onPress={handleCancel}
                     variant="bordered"
-                    className="text-base-color dark:text-base-color-dark md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-base-dark md:dark:border-base-full-dark "
+                    className="text-base-color md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-base-dark md:dark:border-base-full-dark "
                   >
                     Cancelar
                   </Button>

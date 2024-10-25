@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+
 import { SpinnerIcon } from "@/modules/icons/status";
 
 const MapLoading = () => {

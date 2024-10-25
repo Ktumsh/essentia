@@ -1,25 +1,23 @@
 "use client";
 
-import AvatarDropdown from "./main-dropdown";
 
-import NavbarLinks from "./navbar-links";
 
-import Image from "next/image";
 
-import { siteConfig } from "@/config/site";
 
-import { usePathname } from "next/navigation";
 
 import { Button, Navbar, NavbarContent } from "@nextui-org/react";
-
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import MainSearch from "./main-search";
-
-import { formatPathName } from "@/utils/format";
-
+import { siteConfig } from "@/config/site";
 import SidebarToggle from "@/modules/chatbot/components/sidebar-toggle";
 import { UserProfileData } from "@/types/session";
+import { formatPathName } from "@/utils/format";
+
+import AvatarDropdown from "./main-dropdown";
+import MainSearch from "./main-search";
+import NavbarLinks from "./navbar-links";
 
 const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
   const pathname = usePathname();

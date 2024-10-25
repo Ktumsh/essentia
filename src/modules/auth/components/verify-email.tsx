@@ -1,13 +1,14 @@
 "use client";
 
-import { resendEmailVerification } from "@/db/email-querys";
-import { SpinnerIcon } from "@/modules/icons/common";
-import { BackIcon } from "@/modules/icons/navigation";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { resendEmailVerification } from "@/db/email-querys";
+import { SpinnerIcon } from "@/modules/icons/common";
+import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
   email: string;
@@ -27,7 +28,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
       } else {
         toast.error(response?.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
     } finally {
       setIsSending(false);
@@ -35,7 +36,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   };
 
   return (
-    <main className="relative size-full">
+    <div className="relative size-full">
       <div className="flex items-center justify-center w-full min-h-dvh sm:min-h-dvh">
         <div className="max-w-2xl">
           <div className="flex relative justify-center items-center md:p-8 px-6 mb-9 rounded-xl bg-transparent md:bg-white md:dark:bg-base-full-dark text-base-color dark:text-base-color-dark">
@@ -93,7 +94,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

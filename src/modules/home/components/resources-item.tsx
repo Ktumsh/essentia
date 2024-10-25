@@ -1,13 +1,15 @@
 "use client";
 
+import { Button, Card } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { cn } from "@/utils/common";
 
 import { ArrowRightV2Icon } from "../../icons/navigation";
-import { cn } from "@/utils/common";
-import { Button, Card } from "@nextui-org/react";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
-import { useEffect, useState } from "react";
+
 
 type ResoucesItemProps = {
   index: number;

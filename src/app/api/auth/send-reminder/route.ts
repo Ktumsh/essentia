@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
 import { createPool } from "@vercel/postgres";
+import { NextResponse } from "next/server";
+
 import { sendEmail } from "@/modules/auth/lib/send-email";
 
 const pool = createPool({

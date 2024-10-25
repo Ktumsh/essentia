@@ -1,19 +1,21 @@
 "use client";
 
 import { Tabs, Tab } from "@nextui-org/react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import Guides from "./guides";
-import Links from "./links";
-import Recommendations from "./recommendations";
-import Emergencies from "./emergencies";
+
 import {
   EmergenciesIcon,
   GuidesIcon,
   LinksIcon,
   RecommendationsIcon,
 } from "@/modules/icons/miscellaneus";
+
+import Emergencies from "./emergencies";
+import Guides from "./guides";
+import Links from "./links";
+import Recommendations from "./recommendations";
 
 export default function AdditionalsTabs() {
   const pathname = usePathname();

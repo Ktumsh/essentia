@@ -1,10 +1,11 @@
 "use client";
 
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
+import { loadStripe } from "@stripe/stripe-js";
+
+import { SpinnerIcon } from "@/modules/icons/common";
 import PaymentMethodForm from "@/modules/payment/components/payment-method-form";
 import StripeWrapper from "@/modules/payment/components/stripe-wrapper";
-import { loadStripe } from "@stripe/stripe-js";
-import { SpinnerIcon } from "@/modules/icons/common";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 

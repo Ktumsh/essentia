@@ -1,6 +1,5 @@
 "use client";
 
-import { formatTitle } from "@/utils/format";
 import {
   Button,
   Card,
@@ -12,14 +11,19 @@ import {
   ModalContent,
   useDisclosure,
 } from "@nextui-org/react";
-
-import { useState } from "react";
-import { useModalHash } from "../hooks/use-modal-hash";
-import { EyeIcon } from "@/modules/icons/status";
-import { HeartIcon } from "@/modules/icons/miscellaneus";
-import { StarIcon } from "@/modules/icons/common";
-import { cn } from "@/utils/common";
 import Image from "next/image";
+import { useState } from "react";
+
+import { StarIcon } from "@/modules/icons/common";
+import { HeartIcon } from "@/modules/icons/miscellaneus";
+import { EyeIcon } from "@/modules/icons/status";
+import { cn } from "@/utils/common";
+import { formatTitle } from "@/utils/format";
+
+
+import { useModalHash } from "../hooks/use-modal-hash";
+
+
 
 interface Props {
   modalSize?:
@@ -69,7 +73,7 @@ const NutritionCarouselItem = ({
         radius="none"
         isPressable={false}
         disableRipple
-        className="group h-96 w-full block p-[10px] text-base-color-h dark:text-base-color-dark bg-[#ece3d4] dark:bg-base-full-dark border border-[#e6d5bc] dark:border-base-dark !transition overflow-clip on-scroll rounded shadow-lg hover:shadow-md select-none"
+        className="group h-96 w-full block p-[10px] text-base-color-h dark:text-base-color-dark bg-[#ece3d4] dark:bg-base-full-dark border border-[#e6d5bc] dark:border-base-dark !transition text-clip on-scroll rounded shadow-lg hover:shadow-md select-none"
       >
         <div className="h-full w-[98%] box- mx-[1%] p-[10px] bg-[#e6d5bc] dark:bg-base-dark border border-[#c7a26b] dark:border-white/5">
           <CardHeader className="absolute top-8 flex-col !items-start opacity-0 group-hover:opacity-100 px-0 group-hover:px-8 transition-all duration-300 z-20 pointer-events-none">

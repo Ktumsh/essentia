@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
 import { siteConfig } from "@/config/site";
 
 import Footer from "./footer";
-import Link from "next/link";
 import Greeting from "../greeting";
 
 const AsideMenu = () => {

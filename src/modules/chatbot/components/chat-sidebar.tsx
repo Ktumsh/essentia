@@ -1,15 +1,18 @@
 "use client";
 
-import { Sidebar } from "./sidebar";
-import ChatHistory from "./chat-history";
-import { Session } from "@/types/session";
 import { usePathname } from "next/navigation";
-import useSWR from "swr";
-import { Chat } from "@/types/chat";
-import { fetcher } from "@/utils/common";
 import { useEffect } from "react";
-import HistoryLoading from "../components/ui/history-loading";
+import useSWR from "swr";
+
+
 import useWindowSize from "@/modules/core/hooks/use-window-size";
+import { Chat } from "@/types/chat";
+import { Session } from "@/types/session";
+import { fetcher } from "@/utils/common";
+
+import ChatHistory from "./chat-history";
+import { Sidebar } from "./sidebar";
+import HistoryLoading from "../components/ui/history-loading";
 
 interface ChatSidebarProps {
   session: Session;

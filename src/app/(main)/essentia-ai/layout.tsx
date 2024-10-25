@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
+
+import { auth } from "@/app/(auth)/auth";
 import ChatSidebar from "@/modules/chatbot/components/chat-sidebar";
 import { Session } from "@/types/session";
-import { auth } from "@/app/(auth)/auth";
-import { ReactNode } from "react";
 
 interface ChatLayoutProps {
   children: ReactNode;

@@ -1,8 +1,8 @@
-import { FC, ChangeEvent, useRef } from "react";
-import { Button, Tooltip } from "@nextui-org/react";
-import { AddPhotoIcon } from "@/modules/icons/action";
-import { Image as ImageUI } from "@nextui-org/react";
+import { Button, Tooltip , Image as ImageUI } from "@nextui-org/react";
 import Image from "next/image";
+import { FC, ChangeEvent, useRef } from "react";
+
+import { AddPhotoIcon } from "@/modules/icons/action";
 
 interface BannerImageUploaderProps {
   bannerImage: string | null;

@@ -1,5 +1,8 @@
 "use client";
 
+import { Button, Checkbox, Input } from "@nextui-org/react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   FormEvent,
   useCallback,
@@ -7,18 +10,17 @@ import {
   useState,
   useTransition,
 } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button, Checkbox, Input } from "@nextui-org/react";
-import Link from "next/link";
+import { useFormState } from "react-dom";
+import { toast } from "sonner";
+
+import { authenticate } from "@/app/(auth)/login/actions";
+import { getProfileNameByEmail } from "@/db/profile-querys";
+import { SpinnerIcon } from "@/modules/icons/common";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
-import { validateEmail } from "../lib/form";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
-import { toast } from "sonner";
-import { useFormState } from "react-dom";
-import { authenticate } from "@/app/(auth)/login/actions";
-import { SpinnerIcon } from "@/modules/icons/common";
-import { getProfileNameByEmail } from "@/db/profile-querys";
+
+import { validateEmail } from "../lib/form";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");

@@ -1,8 +1,9 @@
 "use server";
 
-import { sendEmail } from "@/modules/auth/lib/send-email";
 import { createPool } from "@vercel/postgres";
 import { nanoid } from "nanoid";
+
+import { sendEmail } from "@/modules/auth/lib/send-email";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,

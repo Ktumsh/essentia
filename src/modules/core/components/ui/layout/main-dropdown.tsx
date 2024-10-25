@@ -1,7 +1,5 @@
 "use client";
 
-import { FC } from "react";
-
 import {
   Avatar,
   Dropdown,
@@ -13,26 +11,25 @@ import {
   useDisclosure,
   Badge,
 } from "@nextui-org/react";
-
-import { ThemeToggle } from "../buttons/theme-toggle";
-
 import Image from "next/image";
-
-import { AvatarIcon } from "@/modules/icons/miscellaneus";
-import { LogoutIcon } from "@/modules/icons/action";
-
 import { signOut } from "next-auth/react";
-import { UserProfileData } from "@/types/session";
+import { FC } from "react";
+
+import { LogoutIcon } from "@/modules/icons/action";
 import { InfoCircledIcon, MenuIcon, StarsIcon } from "@/modules/icons/common";
-import PaymentModal from "@/modules/payment/components/payment-modal";
-import TooltipCTN from "../utils/tooltip-ctn";
 import {
   AccountIcon,
   BillingIcon,
   PricingIcon,
 } from "@/modules/icons/interface";
-import { cn } from "@/utils/common";
+import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { Chevron } from "@/modules/icons/navigation";
+import PaymentModal from "@/modules/payment/components/payment-modal";
+import { UserProfileData } from "@/types/session";
+import { cn } from "@/utils/common";
+
+import { ThemeToggle } from "../buttons/theme-toggle";
+import TooltipCTN from "../utils/tooltip-ctn";
 
 interface AvatarDropdownProps {
   profileData: UserProfileData | null;

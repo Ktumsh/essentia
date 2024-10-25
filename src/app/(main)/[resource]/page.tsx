@@ -1,5 +1,6 @@
-import ResourceWrapper from "@/modules/resources/components/resource-wrapper";
 import { Metadata } from "next";
+
+import ResourceWrapper from "@/modules/resources/components/resource-wrapper";
 
 type Props = {
   params: { resource: string };

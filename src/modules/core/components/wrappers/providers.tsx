@@ -1,9 +1,11 @@
-import * as React from "react";
 import { ThemeProviderProps } from "next-themes/dist/types";
+import * as React from "react";
+
 import { SidebarProvider } from "@/modules/chatbot/hooks/use-sidebar";
-import { ThemeProvider } from "../../hooks/use-theme";
-import SessionProviderComponent from "../../hooks/use-session";
+
 import { PlanProvider } from "../../hooks/use-current-plan";
+import SessionProviderComponent from "../../hooks/use-session";
+import { ThemeProvider } from "../../hooks/use-theme";
 
 export async function Providers({
   currentPlan,

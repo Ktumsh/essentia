@@ -1,7 +1,8 @@
 "use server";
 
-import { User } from "@/types/session";
 import { createPool } from "@vercel/postgres";
+
+import { User } from "@/types/session";
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,

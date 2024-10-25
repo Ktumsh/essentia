@@ -1,6 +1,7 @@
+import Link from "next/link";
+
 import { LinkIcon } from "@/modules/icons/action";
 import { cn } from "@/utils/common";
-import Link from "next/link";
 
 const FooterText = ({ className }: { className?: string }) => {
   return (
