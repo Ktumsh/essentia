@@ -1,22 +1,27 @@
 "use client";
 
+import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 
-import { LandingCrop } from "@/modules/icons/miscellaneus";
+import { StarsIcon } from "@/modules/icons/common";
+import { AboutCrop } from "@/modules/icons/miscellaneus";
 import { ArrowAnimateIcon } from "@/modules/icons/navigation";
+import { Session } from "@/types/session";
 import { $$ } from "@/utils/dom-selector";
 
-import Footer from "./footer";
-import HomeLine from "./home-line";
+import AboutFooter from "./about-footer";
 import Section from "./section";
+import useSmoothScroll from "../hooks/use-smooth-scroll";
 
+interface AboutProps {
+  session: Session | null;
+}
 
+const About = ({ session }: AboutProps) => {
+  const scrollToSection = useSmoothScroll("#nuestros_recursos");
 
-
-
-const Landing = () => {
   useEffect(() => {
     const bubbles = $$(".bubble");
     const inView = new Map<Element, number>();
@@ -33,9 +38,8 @@ const Landing = () => {
       inView.forEach((initialScrollY, image) => {
         const deltaY = scrollY - initialScrollY;
         const translateYValue = deltaY > 0 ? deltaY * speed : 0;
-        (
-          image as HTMLElement
-        ).style.transform = `translate3d(0px, ${translateYValue}px, 0px)`;
+        (image as HTMLElement).style.transform =
+          `translate3d(0px, ${translateYValue}px, 0px)`;
       });
     };
 
@@ -62,41 +66,40 @@ const Landing = () => {
     };
   }, []);
   return (
-    <article className="size-full bg-gray-50 break-words font-normal text-base-color z-40 text-clip">
-      <div className="relative flex px-5 pt-24 sm:pt-52 max-w-screen-xl mx-auto">
-        <HomeLine />
-        <div className="flex flex-col pl-6 sm:pl-0">
-          <div className="text-start">
-            <h1 className="text-5xl sm:text-[72px] sm:leading-[76px] lg:text-[80px] lg:leading-[80px] tracking-tight font-medium mb-4 lg:ml-[-7px] max-w-4xl">
-              <span className="text-4xl sm:text-5xl md:text-7xl">
-                La Información de Salud Esencial para tu Bienestar
-              </span>
-            </h1>
-            <p className="text-lg sm:text-2xl mb-4 sm:mb-24">
-              Todo lo que necesitas para una vida{" "}
-              <span className="text-orient-700">más saludable</span> y
-              equilibrada
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row">
-            <Link
-              href="/signup"
-              type="button"
-              aria-label="Registrar usuario"
-              className="btn_mktg relative inline-block py-4 px-6 text-[17px] leading-4 align-middle text-center whitespace-nowrap rounded-xl font-extrabold text-cerise-red-600 hover:text-cerise-red-800 shadow-[0_0_0_1px_rgb(201,53,96)] hover:shadow-[0_0_0_2px_rgb(142,35,73)] transition-shadow duration-200"
-            >
-              Únete a Essentia
+    <article className="size-full bg-white break-words font-normal text-base-color z-40 text-clip">
+      <div className="relative flex flex-col items-center justify-center px-5 pt-24 sm:pt-52 max-w-screen-xl mx-auto">
+        <div className="flex flex-col items-center pl-6 sm:pl-0 text-center">
+          <h1 className="text-5xl sm:text-[72px] sm:leading-[76px] lg:text-[80px] lg:leading-[80px] tracking-tight font-medium mb-4 lg:ml-[-7px] max-w-4xl">
+            <span className="font-semibold tracking-tight text-4xl sm:text-5xl md:text-7xl">
+              La Información de Salud Esencial para tu Bienestar
+            </span>
+          </h1>
+          <p className="text-lg sm:text-2xl mb-4 sm:mb-24">
+            Todo lo que necesitas para una vida{" "}
+            <span className="text-orient-700">más saludable</span> y equilibrada
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row">
+          <Button
+            size="lg"
+            radius="sm"
+            variant="light"
+            disableRipple
+            onPress={scrollToSection}
+            className="btn_mktg border border-gray-200"
+            endContent={
               <ArrowAnimateIcon className="size-4 inline-block arrow-symbol-mktg" />
-            </Link>
-          </div>
+            }
+          >
+            Comenzar
+          </Button>
           <div className="h-48"></div>
         </div>
       </div>
 
       <article className="relative size-full break-words font-normal text-base-color dark:text-base-color-dark-h bg-[url('/extras/essentia-bg-page.png')] bg-center bg-no-repeat">
-        <div className="absolute inset-0 bg-[url(https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/664f212db01d13abd533fda6_Texture%203.webp)] bg-no-repeat bg-[length:95.5%] bg-[100%_-33%] bg-scroll"></div>
-        <div className="abolute w-full top-0 left-0">
-          <LandingCrop className="absolute block w-full h-28 z-10" />
+        <div className="abolute w-full top-0 left-0 overflow-hidden">
+          <AboutCrop className="absolute block w-full h-28 z-10" />
           <Section
             sectionId="nuestros_recursos"
             classSection="pt-60 pb-40"
@@ -105,7 +108,7 @@ const Landing = () => {
             sectionName="Nuestros recursos"
             title="Infórmate, aprende y descubre todo sobre tu salud y la de otros en un sólo lugar"
             description="Descubre cómo tener una vida saludable, visualiza tutoriales para ejercicios, información de nutrición, consejos sobre el bienestar emocional, tu salud sexual y aborda las necesidades específicas según tú edad o la de otros."
-            img="/essentia-screenshot-2.png"
+            img="/screenshots/essentia-screenshot-2.png"
             imgAlt="Recursos de Essentia"
           >
             <Image
@@ -131,7 +134,7 @@ const Landing = () => {
             sectionName="Nuestro método"
             title="Promovemos la salud y el bienestar de forma rápida y amigable"
             description="Creemos que la salud es invaluable y todos, sin importar la situación, merecen disfrutar de una vida plena. Es por eso que nos enfocamos en proporcionarte información basándonos en lo fundamental, lo relevante y lo esencial."
-            img="/essentia-screenshot-7.png"
+            img="/screenshots/essentia-screenshot-7.png"
             imgAlt="Metodo de Essentia"
           >
             <Image
@@ -143,32 +146,6 @@ const Landing = () => {
             />
           </Section>
           <Section
-            sectionId="noticias_al_dia"
-            classSection="py-28 lg:py-40"
-            wrapper="lg:pr-14 slideleft"
-            inner="lg:flex-row-reverse"
-            sectionName="Noticias al día"
-            title="Mantente al tanto de las actualizaciones en el mundo"
-            description="Descubre avances médicos, consejos de expertos y descubrimientos en salud. Desde consejos prácticos sobre el bienestar hasta reportajes sobre el tema, encuentra artículos actualizados que te ayudarán a comprender los desafíos y soluciones en salud a nivel mundial."
-            img="/essentia-screenshot-4.png"
-            imgAlt="Noticias de Essentia"
-          >
-            <Image
-              className="bubble absolute right-[-15%] sm:right-[-10%] lg:right-[10%] top-0 opacity-90 w-[150px] blur-xl"
-              width={150}
-              height={150}
-              src="/surface-01.svg"
-              alt="bubble1"
-            />
-            <Image
-              className="bubble absolute left-[-30%] sm:left-[-15%] lg:left-[15%] bottom-[15%] w-[230px] blur-xl"
-              width={150}
-              height={150}
-              src="/surface-03.svg"
-              alt="bubble3"
-            />
-          </Section>
-          <Section
             sectionId="essentia_ai"
             classSection="py-28 lg:py-40"
             wrapper="lg:pl-14 slideright"
@@ -176,7 +153,7 @@ const Landing = () => {
             sectionName="Essentia AI"
             title="Descubre nuestra asistencia automatizada"
             description="¡Obtén respuestas rápidas y precisas sobre salud y bienestar! Nuestro asistente virtual te ofrece orientación personalizada al instante. Accede a información confiable sobre diversos temas de salud, respaldada por evidencia científica, para tomar decisiones informadas. Descubre soluciones precisas y confiables para todas tus dudas."
-            img="/essentia-screenshot-6.png"
+            img="/screenshots/essentia-screenshot-6.png"
             imgAlt="Inteligencia Artificial de Essentia"
           >
             <Image
@@ -202,17 +179,16 @@ const Landing = () => {
             />
           </Section>
           <section
-            id="todo_y_mas"
+            id="premium"
             className="relative size-full px-5 sm:px-10 py-28 pb-64 lg:pb-80 lg:py-40"
           >
             <div className="size-full max-w-[1250px] mx-auto">
-              <div className="flex flex-col items-center max-w-[1100px] mx-auto mb-10">
-                <h2 className="text-3xl sm:text-6xl font-black tracking-wider uppercase text-center text-base-color">
-                  Essentia contará con una versión
-                  <span className="text-transparent bg-clip-text bg-dark-gradient-v2">
-                    premium
-                  </span>{" "}
-                  próximamente...
+              <div className="flex flex-col items-center max-w-4xl mx-auto mb-10">
+                <h2 className="text-xl sm:text-3xl font-black tracking-wider uppercase text-center text-base-color">
+                  Aprovecha al máximo las posibilidades con{" "}
+                  <span className="text-6xl text-transparent bg-clip-text bg-dark-gradient-v2">
+                    Essentia Premium
+                  </span>
                 </h2>
               </div>
               <div className="flex flex-col items-center justify-center w-full sm:w-96 mx-auto gap-6 text-center">
@@ -220,27 +196,35 @@ const Landing = () => {
                   type="button"
                   aria-label="Autenticar usuario"
                   className="relative inline-flex items-center justify-center overflow-hidden w-full h-14 px-4 sm:px-8 font-medium text-lg rounded-full bg-light-gradient hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:transition-none active:shadow-none active:brightness-90 text-white transition"
-                  href="/login"
+                  href="/premium"
                 >
-                  Unirse a Essentia
+                  <span className="mr-2">
+                    <StarsIcon
+                      aria-hidden="true"
+                      className="size-5 [&_*]:fill-white focus:outline-none"
+                    />
+                  </span>
+                  Hazte premium
                 </Link>
-                <Link
-                  type="button"
-                  aria-label="Autenticar usuario"
-                  className="relative inline-flex items-center justify-center overflow-hidden w-full h-14 px-4 sm:px-8 font-medium text-lg rounded-full bg-base-dark-40 hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:transition-none active:shadow-none active:brightness-90 text-white transition"
-                  href=""
-                >
-                  Echar vistazo a Essentia Plus
-                </Link>
+                {!session && (
+                  <Link
+                    type="button"
+                    aria-label="Autenticar usuario"
+                    className="relative inline-flex items-center justify-center overflow-hidden w-full h-14 px-4 sm:px-8 font-medium text-lg rounded-full bg-base-dark-40 hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:transition-none active:shadow-none active:brightness-90 text-white transition"
+                    href="/login"
+                  >
+                    Inicia sesión
+                  </Link>
+                )}
               </div>
             </div>
           </section>
-          <LandingCrop className="absolute block w-full h-28 bottom-0 rotate-180" />
+          <AboutCrop className="absolute block w-full h-28 bottom-0 rotate-180" />
         </div>
       </article>
-      <Footer />
+      <AboutFooter />
     </article>
   );
 };
 
-export default Landing;
+export default About;

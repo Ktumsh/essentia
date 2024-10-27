@@ -5,6 +5,8 @@ const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
 });
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const deleteResult = await pool.sql`
       DELETE FROM users

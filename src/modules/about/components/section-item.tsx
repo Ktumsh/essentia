@@ -1,4 +1,4 @@
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
 
 type Props = {
   wrapper: string;
@@ -58,7 +58,8 @@ const SectionItem = ({
         <div className="relative flex items-center justify-center flex-[0_auto] w-full shadow-xl rounded-[50px]">
           <div className="aspect-auto size-full lg:min-h-[600px] lg:max-w-3xl rounded-[50px] overflow-hidden">
             <Image
-              removeWrapper
+              width={674}
+              height={600}
               className="size-full object-cover"
               loading="lazy"
               src={img}

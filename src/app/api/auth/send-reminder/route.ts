@@ -7,6 +7,8 @@ const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
 });
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const usersDay1 = await pool.sql`
       SELECT email, id

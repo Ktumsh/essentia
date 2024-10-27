@@ -133,7 +133,7 @@ export const siteConfig: SiteConfig = {
       { href: "", text: "Políticas de privacidad" },
       { href: "", text: "Términos y condiciones" },
       { href: "", text: "Cookies" },
-      { href: "", text: "Acerca de" },
+      { href: "/about-essentia", text: "Acerca de" },
     ],
   },
 };

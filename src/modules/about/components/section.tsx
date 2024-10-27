@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+import { cn } from "@/utils/common";
+
 import SectionItem from "./section-item";
 
 type Props = {
@@ -57,7 +59,7 @@ const Section = ({
 
     const observer = new IntersectionObserver(
       observerCallback,
-      observerOptions,
+      observerOptions
     );
 
     slideLeftElements.forEach((element) => observer.observe(element));
@@ -71,9 +73,7 @@ const Section = ({
   return (
     <section id={sectionId} className="relative flex flex-col mx-auto w-full">
       {children}
-      <div
-        className={`${classSection} lg:max-h-[1030px] bg-[url('/extras/landing-texture.webp')] bg-no-repeat bg-[length:93%] bg-[100%_100%]`}
-      >
+      <div className={cn(classSection, "lg:max-h-[1030px]")}>
         <div className="px-5 sm:px-10">
           <div className="relative w-full mx-auto max-w-[1250px]">
             {/* SectionItem */}

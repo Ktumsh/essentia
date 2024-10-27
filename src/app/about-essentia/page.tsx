@@ -1,5 +1,10 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+
+import { auth } from "@/app/(auth)/auth";
+import About from "@/modules/about/components/about";
+import AboutHeader from "@/modules/about/components/about-header";
+import ButtonUp from "@/modules/core/components/ui/buttons/button-up";
+import { Session } from "@/types/session";
 
 export const metadata: Metadata = {
   title: "Bienvenida",
@@ -33,18 +38,14 @@ export const metadata: Metadata = {
 };
 
 const WelcomePage = async () => {
-  /*   const session = await auth();
-  if (session) {
-    return redirect("/");
-  } */
-  return redirect("/");
-  {
-    /* <>
-      <LandingHeader />
-      <Landing />
+  const session = (await auth()) as Session;
+  return (
+    <>
+      <AboutHeader session={session} />
+      <About session={session} />
       <ButtonUp />
-    </> */
-  }
+    </>
+  );
 };
 
 export default WelcomePage;
