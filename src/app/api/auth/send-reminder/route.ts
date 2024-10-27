@@ -9,7 +9,12 @@ const pool = createPool({
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
   const usersDay1 = await pool.sql`
       SELECT email, id
       FROM users
