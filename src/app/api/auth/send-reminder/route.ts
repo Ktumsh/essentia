@@ -14,12 +14,15 @@ export async function GET() {
       SELECT email, id
       FROM users
       WHERE email_verified = FALSE
-      AND created_at = NOW() - INTERVAL '1 day';
+      AND created_at BETWEEN NOW() - INTERVAL '2 days' AND NOW() - INTERVAL '1 day';
     `;
+
+  console.log(
+    `Usuarios encontrados para el recordatorio de día 1: ${usersDay1.rowCount}`
+  );
 
   for (const user of usersDay1.rows) {
     const verificationToken = user.id;
-
     const result = await sendEmail(user.email, verificationToken);
 
     if (result.success) {
@@ -33,12 +36,15 @@ export async function GET() {
       SELECT email, id
       FROM users
       WHERE email_verified = FALSE
-      AND created_at = NOW() - INTERVAL '3 days';
+      AND created_at BETWEEN NOW() - INTERVAL '4 days' AND NOW() - INTERVAL '3 days';
     `;
+
+  console.log(
+    `Usuarios encontrados para el recordatorio de día 3: ${usersDay3.rowCount}`
+  );
 
   for (const user of usersDay3.rows) {
     const verificationToken = user.id;
-
     const result = await sendEmail(user.email, verificationToken);
 
     if (result.success) {

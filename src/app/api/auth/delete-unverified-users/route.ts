@@ -9,10 +9,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const deleteResult = await pool.sql`
-      DELETE FROM users
-      WHERE email_verified = FALSE
-      AND created_at < NOW() - INTERVAL '7 days';
-    `;
+    DELETE FROM users
+    WHERE email_verified = FALSE
+    AND DATE_TRUNC('day', created_at) <= DATE_TRUNC('day', NOW() - INTERVAL '7 days');
+  `;
 
   console.log(
     `Se eliminaron ${deleteResult.rowCount} usuarios no verificados.`
