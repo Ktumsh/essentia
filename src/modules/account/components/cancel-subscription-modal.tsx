@@ -88,23 +88,23 @@ const CancelSubscriptionModal = ({
       classNames={{
         backdrop: "z-[101] bg-black/80",
         wrapper: "z-[102] pointer-events-auto",
-        base: "bg-white dark:bg-base-full-dark",
+        base: "bg-white dark:bg-full-dark",
       }}
     >
       <ModalContent className="gap-6">
         {(onClose) => (
           <>
-            <ModalHeader className="p-6 items-center border-b border-gray-200 dark:border-base-dark">
+            <ModalHeader className="p-6 items-center border-b border-gray-200 dark:border-dark">
               <div className="flex-col">
-                <h2 className="whitespace-nowrap font-semibold tracking-tight w-full text-left text-xl sm:text-2xl text-base-color dark:text-white">
+                <h2 className="whitespace-nowrap font-semibold tracking-tight w-full text-left text-xl sm:text-2xl text-main dark:text-white">
                   ¿Estás seguro que quieres cancelar?
                 </h2>
               </div>
             </ModalHeader>
-            <div className="px-6 text-base-color-m dark:text-base-color-dark-m">
-              <div className="flex w-full justify-between rounded-lg border border-gray-200 dark:border-base-dark bg-gray-50 dark:bg-base-dark-50 p-4">
+            <div className="px-6 text-main-m dark:text-main-dark-m">
+              <div className="flex w-full justify-between rounded-lg border border-gray-200 dark:border-dark bg-gray-50 dark:bg-dark/50 p-4">
                 <span>
-                  <span className="text-sm font-medium text-base-color dark:text-base-color-dark">
+                  <span className="text-sm font-medium text-main dark:text-main-dark">
                     Plan {planType}
                   </span>
                   <span>
@@ -115,14 +115,14 @@ const CancelSubscriptionModal = ({
               </div>
             </div>
             <ModalBody className="!pt-0 p-6">
-              <p className="text-sm text-base-color-h dark:text-base-color-dark-h">
+              <p className="text-sm text-main-h dark:text-main-dark-h">
                 Tu plan permanecerá activo hasta el final de tu período de
                 facturación actual, {renewalDate}. Después de esa fecha, tu plan
                 cambiará a gratuito y perderás acceso a las funcionalidades
                 Premium.
               </p>
-              <div className="mt-4 flex flex-col gap-4 text-base-color dark:text-base-color-dark">
-                <Divider className="my-0 bg-gray-200 dark:bg-base-dark" />
+              <div className="mt-4 flex flex-col gap-4 text-main dark:text-main-dark">
+                <Divider className="my-0 bg-gray-200 dark:bg-dark" />
                 <p className="text-sm">Nos gustaría saber por qué cancelas.</p>
                 <ReasonCheckbox
                   selectedReasons={selectedReasons}
@@ -135,7 +135,7 @@ const CancelSubscriptionModal = ({
                   onValueChange={(value) => setCancelReason(value)}
                   classNames={{
                     inputWrapper:
-                      "rounded-md border border-gray-200 dark:border-base-dark",
+                      "rounded-md border border-gray-200 dark:border-dark",
                   }}
                 />
               </div>
@@ -143,7 +143,7 @@ const CancelSubscriptionModal = ({
                 <Button
                   variant="light"
                   onPress={onClose}
-                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>

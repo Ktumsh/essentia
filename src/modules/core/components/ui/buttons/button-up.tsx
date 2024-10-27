@@ -54,7 +54,7 @@ const ButtonUp = () => {
         id="scroll-to-top"
         aria-label="Volver al inicio de la página"
         disableRipple
-        className="group flex items-center justify-center !size-9 min-w-0 px-0 rounded-md shadow-md hover:shadow-lg text-base-color dark:text-base-color-dark data-[hover=true]:text-bittersweet-400 bg-white dark:bg-base-dark dark:data-[hover=true]:bg-base-full-dark border border-gray-200 dark:border-white/10 data-[hover=true]:border-bittersweet-400 data-[hover=true]:scale-105 data-[hover=true]:!opacity-100 motion-safe:transition transition cursor-pointer"
+        className="group flex items-center justify-center !size-9 min-w-0 px-0 rounded-md shadow-md hover:shadow-lg text-main dark:text-main-dark data-[hover=true]:text-bittersweet-400 bg-white dark:bg-dark dark:data-[hover=true]:bg-full-dark border border-gray-200 dark:border-white/10 data-[hover=true]:border-bittersweet-400 data-[hover=true]:scale-105 data-[hover=true]:!opacity-100 motion-safe:transition transition cursor-pointer"
         onClick={scrollToTop}
       >
         <ArrowUpIcon className="size-4 rotate-0 md:rotate-45 group-data-[hover=true]:rotate-0 transition-transform" />

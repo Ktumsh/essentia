@@ -19,7 +19,7 @@ const NewCard = () => {
           />
           <div className="absolute inset-0 size-full bg-cover bg-center"></div>
           <div className="flex flex-col w-full content-center p-5 z-10">
-            <h4 className="font-medium text-lg text-base-color-h dark:text-white drop-shadow-sm">
+            <h4 className="font-medium text-lg text-main-h dark:text-white drop-shadow-sm">
               Échale un vistazo a las noticias interesantes del momento...
             </h4>
           </div>

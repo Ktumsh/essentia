@@ -122,7 +122,7 @@ export const siteConfig: SiteConfig = {
       { href: "/comunidad/community-resources", text: "Recursos comunitarios" },
     ],
     more: [
-      { href: "", text: "Acerca de" },
+      { href: "/about-essentia", text: "Acerca de" },
       { href: "", text: "Privacidad" },
       { href: "", text: "Términos" },
       { href: "", text: "Cookies" },

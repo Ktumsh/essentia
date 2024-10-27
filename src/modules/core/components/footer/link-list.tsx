@@ -29,7 +29,7 @@ const LinkList = ({ href, title, links }: Props) => {
       {links.map((link, index) => (
         <div key={index}>
           <Link
-            className="border-b inline-block border-transparent text-sm hover:border-current dark:text-base-color-dark"
+            className="border-b inline-block border-transparent text-sm hover:border-current dark:text-main-dark"
             href={link.href}
           >
             {link.text}

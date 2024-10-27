@@ -33,13 +33,13 @@ const Phones = () => {
           </Chip>
         </Button>
       </div>
-      <div className="w-full grid grid-cols-12 gap-2 md:px-0">
+      <div className="grid md:grid-cols-12 gap-2 md:px-0">
         {PHONES.map((phone, index) => (
           <Card
             key={index}
             radius="sm"
             className={cn(
-              "shadow-none md:shadow-md group col-span-12 sm:col-span-4 bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark"
+              "shadow-none md:shadow-md group sm:col-span-4 bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 md:border-gray-200 dark:border-dark md:dark:border-dark text-main-h dark:text-main-dark"
             )}
           >
             <CardBody className="z-10">
@@ -49,16 +49,16 @@ const Phones = () => {
                 </h3>
               </div>
               <div>
-                <p className="text-sm text-base-color-h dark:text-base-color-dark-h">
+                <p className="text-sm text-main-h dark:text-main-dark-h">
                   {phone.description}
                 </p>
               </div>
             </CardBody>
-            <CardFooter className="bg-gray-100 dark:bg-base-dark-50 border-t border-gray-200 dark:border-base-dark rounded-none z-10">
+            <CardFooter className="bg-gray-100 dark:bg-dark/50 border-t border-gray-200 dark:border-dark rounded-none z-10">
               <span>
-                <PhoneIcon className="size-5 text-base-color-m dark:text-base-color-dark-m" />
+                <PhoneIcon className="size-5 text-main-m dark:text-main-dark-m" />
               </span>
-              <span className="ml-2 md:text-lg font-semibold text-base-color dark:text-base-color-dark">
+              <span className="ml-2 md:text-lg font-semibold text-main dark:text-main-dark">
                 Llame al {phone.phone}
               </span>
             </CardFooter>

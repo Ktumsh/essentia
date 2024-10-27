@@ -14,8 +14,6 @@ import { SpinnerIcon } from "@/modules/icons/common";
 
 import { updatePaymentMethod } from "../pay/actions";
 
-
-
 interface PaymentMethodFormProps {
   customerId: string;
   onClose: () => void;
@@ -83,7 +81,7 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
           onPress={onClose}
           isDisabled={isLoading}
           variant="light"
-          className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+          className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
         >
           Cancelar
         </Button>

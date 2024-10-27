@@ -39,7 +39,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
     <div className="relative size-full">
       <div className="flex items-center justify-center w-full min-h-dvh sm:min-h-dvh">
         <div className="max-w-2xl">
-          <div className="flex relative justify-center items-center md:p-8 px-6 mb-9 rounded-xl bg-transparent md:bg-white md:dark:bg-base-full-dark text-base-color dark:text-base-color-dark">
+          <div className="flex relative justify-center items-center md:p-8 px-6 mb-9 rounded-xl bg-transparent md:bg-white md:dark:bg-full-dark text-main dark:text-main-dark">
             <div className="flex flex-col items-center space-y-8">
               <div className="flex flex-col items-center">
                 <Image
@@ -53,7 +53,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
                 />
                 <h1 className="text-2xl font-semibold">¡Confirma tu correo!</h1>
               </div>
-              <div className="max-w-lg space-y-4 text-center text-base-color-h dark:text-base-color-dark-h">
+              <div className="max-w-lg space-y-4 text-center text-main-h dark:text-main-dark-h">
                 <p>
                   Hemos enviado un correo de verificación a {email} para que
                   puedas activar tu cuenta.

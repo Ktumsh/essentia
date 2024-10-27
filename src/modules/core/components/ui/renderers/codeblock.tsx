@@ -89,14 +89,14 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
 
   return (
     <div className="relative w-full font-sans codeblock bg-gray-950 border border-gray-50 dark:border-white/10">
-      <div className="flex items-center justify-between w-full px-6 py-2 pr-4 text-base-color-dark-h border-b border-white/10">
+      <div className="flex items-center justify-between w-full px-6 py-2 pr-4 text-main-dark-h border-b border-white/10">
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">
           <Button
             size="sm"
             isIconOnly
             variant="light"
-            className="text-xs text-base-color-dark-h data-[hover=true]:bg-white/5"
+            className="text-xs text-main-dark-h data-[hover=true]:bg-white/5"
             onPress={downloadAsFile}
           >
             <DownloadIcon className="size-4" />
@@ -106,7 +106,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
             size="sm"
             isIconOnly
             variant="light"
-            className="text-xs text-base-color-dark-m data-[hover=true]:bg-white/5"
+            className="text-xs text-main-dark-m data-[hover=true]:bg-white/5"
             onPress={onCopy}
           >
             {isCopied ? (

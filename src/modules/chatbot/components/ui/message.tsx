@@ -23,7 +23,6 @@ import { RiskAssessment } from "../tools/health-risk-stock";
 import { MoodTracking } from "../tools/mood-tracking-stock";
 import { Plan } from "../tools/nutrition-plan-stock";
 
-
 interface MessageProps {
   role: string;
   content: string | ReactNode;
@@ -50,7 +49,7 @@ export const Message = ({
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
     >
-      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-lg bg-white dark:bg-base-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-lg bg-white dark:bg-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
         {role === "assistant" ? (
           <BotAvatar />
         ) : (
@@ -62,7 +61,7 @@ export const Message = ({
         className={cn(
           role === "assistant"
             ? "group/message flex-1 ml-2 md:ml-4 sm:mr-6 space-y-2 overflow-hidden"
-            : "ml-4 mr-2 space-y-2 max-w-[70%] rounded-ee-xl rounded-s-xl px-5 py-2.5 bg-white dark:bg-base-full-dark overflow-hidden",
+            : "ml-4 mr-2 space-y-2 max-w-[70%] rounded-ee-xl rounded-s-xl px-5 py-2.5 bg-white dark:bg-full-dark overflow-hidden",
           toolInvocations?.length && "!mr-0"
         )}
       >

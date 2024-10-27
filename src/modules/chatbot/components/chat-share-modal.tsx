@@ -53,7 +53,7 @@ const ChatShareModal: FC<ChatShareModalProps> = ({
       classNames={{
         backdrop: "z-[101] bg-black/80",
         wrapper: "z-[102] pointer-events-auto",
-        base: "bg-white dark:bg-base-full-dark",
+        base: "bg-white dark:bg-full-dark",
         closeButton:
           "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
       }}
@@ -64,13 +64,13 @@ const ChatShareModal: FC<ChatShareModalProps> = ({
             Compartir link al chat
           </ModalHeader>
           <ModalBody>
-            <div className="flex flex-col gap-4 text-base-color dark:text-base-color-dark">
-              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+            <div className="flex flex-col gap-4 text-main dark:text-main-dark">
+              <p className="text-sm text-main-m dark:text-main-dark-m">
                 Cualquier persona que tenga la URL podrá ver el chat compartido.
               </p>
-              <div className="p-4 space-y-1 text-sm border border-gray-200 dark:border-base-dark rounded-md">
+              <div className="p-4 space-y-1 text-sm border border-gray-200 dark:border-dark rounded-md">
                 <div className="font-medium">{chat.title}</div>
-                <div className="text-base-color-m dark:text-base-color-dark-m">
+                <div className="text-main-m dark:text-main-dark-m">
                   {chat.messages.length} mensajes
                 </div>
               </div>

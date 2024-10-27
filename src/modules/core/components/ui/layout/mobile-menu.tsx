@@ -42,19 +42,19 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
       <div
         id={MOBILE_MENU_CONTENT_ID}
         role="menu"
-        className="flex w-screen max-w-[300px] h-full flex-col items-center bg-white dark:bg-base-full-dark lg:hidden px-8 overflow-y-hidden"
+        className="flex w-screen max-w-[300px] h-full flex-col items-center bg-white dark:bg-full-dark lg:hidden px-8 overflow-y-hidden"
       >
         <nav className="size-full">
           <div className="flex flex-col justify-between size-full max-h-dvh">
-            <div className="flex flex-col size-full text-base-color-h dark:text-base-color-dark-h overflow-y-hidden">
-              <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-base-dark">
+            <div className="flex flex-col size-full text-main-h dark:text-main-dark-h overflow-y-hidden">
+              <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-dark">
                 {profileData && (
                   <div className="relative inline-flex items-start gap-2 w-full">
                     {profile_image ? (
                       <Link
                         href={`/profile/${username}`}
                         aria-label="Perfil de usuario"
-                        className="size-12 bg-white dark:bg-base-full-dark border-2 border-gray-200 dark:border-base-dark rounded-full overflow-hidden"
+                        className="size-12 bg-white dark:bg-full-dark border-2 border-gray-200 dark:border-dark rounded-full overflow-hidden"
                       >
                         <Image
                           className="object-cover object-center rounded-full"
@@ -72,20 +72,20 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                         size="sm"
                         icon={<AvatarIcon />}
                         classNames={{
-                          icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
+                          icon: "text-main-m dark:text-main-dark-m size-[80%]",
                           base: "bg-gray-300 dark:bg-gray-600",
-                          name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                          name: "font-medium text-main-h dark:text-main-dark-h",
                         }}
                       />
                     )}
                     <Link
-                      className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-base-dark transition-colors duration-100"
+                      className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-dark transition-colors duration-100"
                       href={`/profile/${username}`}
                     >
                       <span className="font-medium text-inherit transition-none capitalize">
                         {`${first_name} ${last_name}`}
                       </span>
-                      <span className="text-sm text-base-color-m dark:text-base-color-dark-d transition-none">
+                      <span className="text-sm text-main-m dark:text-main-dark-l transition-none">
                         @{username}
                       </span>
                       {is_premium && (
@@ -112,7 +112,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                 <div className="flex flex-col justify-between h-full py-5">
                   <div role="group">
                     <div className="group flex">
-                      <div className="text-base-color-h dark:text-base-color-dark-h justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100">
+                      <div className="text-main-h dark:text-main-dark-h justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100">
                         Recursos
                       </div>
                     </div>
@@ -129,14 +129,14 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                               "inline-flex gap-2 items-center text-sm px-0 py-1.5",
                               currentPath === link.link
                                 ? "text-bittersweet-400 dark:text-cerise-red-400"
-                                : "text-base-color-h dark:text-base-color-dark-h"
+                                : "text-main-h dark:text-main-dark-h"
                             )}
                           >
                             <link.icon
                               className={`size-5 transition-colors ${
                                 currentPath === link.link
                                   ? "text-bittersweet-400 dark:text-cerise-red-400"
-                                  : "text-base-color-h dark:text-base-color-dark"
+                                  : "text-main-h dark:text-main-dark"
                               }`}
                             />
                             <span>{link.name}</span>
@@ -147,7 +147,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                   </div>
 
                   <div role="group">
-                    <footer className="flex flex-col justify-end gap-3 text-base-color-m dark:text-base-color-dark-m">
+                    <footer className="flex flex-col justify-end gap-3 text-main-m dark:text-main-dark-m">
                       <Link
                         className="relative flex items-center w-full py-1.5 text-sm"
                         href="/account"

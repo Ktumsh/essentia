@@ -9,9 +9,9 @@ const AuthFooter = () => {
   const links = siteConfig.links;
   const linksMore = siteConfig.footerLinks.more;
   return (
-    <div className="bg-white dark:bg-base-full-dark border-t border-gray-200 dark:border-base-dark px-5 z-0">
+    <div className="bg-white dark:bg-full-dark border-t border-gray-200 dark:border-dark px-5 z-0">
       <div className="max-w-7xl mx-auto">
-        <footer className="relative flex flex-col text-base-color dark:text-base-color-dark font-norma py-6 space-y-8">
+        <footer className="relative flex flex-col text-main dark:text-main-dark font-norma py-6 space-y-8">
           <div className="inline-flex w-full items-center justify-between">
             <div className="flex items-center justify-center gap-3">
               <Link

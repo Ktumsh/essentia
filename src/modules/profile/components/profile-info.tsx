@@ -9,7 +9,8 @@ import {
   Button,
   Textarea,
   DateInput,
- useDisclosure } from "@nextui-org/react";
+  useDisclosure,
+} from "@nextui-org/react";
 import {
   FC,
   useCallback,
@@ -30,12 +31,10 @@ import {
 } from "@/modules/icons/status";
 import { UserProfileData } from "@/types/session";
 
-
 import CompleteProfile from "./complete-profile";
 import FormInput from "./form-input";
 import { useProfileForm } from "../hooks/use-profile-form";
 import { formatCreatedAt, validateProfileForm } from "../lib/utils";
-
 
 interface ProfileInfoProps {
   profileData: UserProfileData | null;
@@ -118,17 +117,17 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           <div className="ml-24 md:ml-44 flex justify-between items-start">
             <div className="inline-flex flex-col">
               <div className="inline-flex items-center gap-2">
-                <h2 className="md:text-xl font-bold text-base-color dark:text-base-color-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
+                <h2 className="md:text-xl font-bold text-main dark:text-main-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
                 {is_premium && (
                   <TooltipCTN content="Cuenta Premium">
-                    <div className="relative inline-flex shrink-0 items-center justify-center gap-1 p-1 text-xs rounded text-base-color-h dark:text-base-color-dark bg-light-gradient-v2 dark:bg-dark-gradient">
+                    <div className="relative inline-flex shrink-0 items-center justify-center gap-1 p-1 text-xs rounded text-main-h dark:text-main-dark bg-light-gradient-v2 dark:bg-dark-gradient">
                       <StarsIcon className="size-3.5 [&_*]:fill-white" />
                       <span className="sr-only">Cuenta Premium</span>
                     </div>
                   </TooltipCTN>
                 )}
               </div>
-              <span className="text-xs md:text-sm text-base-color-m dark:text-base-color-dark-m">
+              <span className="text-xs md:text-sm text-main-m dark:text-main-dark-m">
                 @{formData.username}
               </span>
             </div>
@@ -138,7 +137,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                 color="default"
                 radius="sm"
                 onPress={onOpen}
-                className="border-gray-200 dark:border-base-dark hover:!bg-gray-200 dark:hover:!bg-base-dark text-base-color dark:text-base-color-dark font-bold"
+                className="border-gray-200 dark:border-dark hover:!bg-gray-200 dark:hover:!bg-dark text-main dark:text-main-dark font-bold"
               >
                 Editar perfil
               </Button>
@@ -149,24 +148,24 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
         <div className="pt-6 space-y-6">
           {formData.bio && (
             <div>
-              <h3 className="mb-2 font-semibold md:text-lg text-base-color dark:text-base-color-dark">
+              <h3 className="mb-2 font-semibold md:text-lg text-main dark:text-main-dark">
                 {isOwnProfile ? "Acerca de mi" : "Biografía"}
               </h3>
-              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+              <p className="text-sm text-main-m dark:text-main-dark-m">
                 {formData.bio}
               </p>
             </div>
           )}
 
-          <div className="grid gap-4 text-base-color-m dark:text-base-color-dark-m">
+          <div className="grid gap-4 text-main-m dark:text-main-dark-m">
             {formData.location && (
               <div className="flex items-center space-x-2 text-sm">
-                <LocationIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+                <LocationIcon className="size-4 text-main-m dark:text-main-dark-m" />
                 <span>{formData.location}</span>
               </div>
             )}
             <div className="flex items-center space-x-2 text-sm">
-              <CalendarIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+              <CalendarIcon className="size-4 text-main-m dark:text-main-dark-m" />
               <span>
                 {isOwnProfile ? "Te uniste en" : "Se unió en"} {createdAt}
               </span>
@@ -197,7 +196,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           classNames={{
             backdrop: "z-[101] bg-black/80",
             wrapper: "z-[102]",
-            base: "bg-white dark:bg-base-full-dark",
+            base: "bg-white dark:bg-full-dark",
             body: "gap-0 px-0 py-0 custom-scroll v2",
             closeButton:
               "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
@@ -243,9 +242,9 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                   radius="sm"
                   classNames={{
                     base: "px-4 py-3",
-                    input: "text-base-color dark:text-base-color-dark",
+                    input: "text-main dark:text-main-dark",
                     inputWrapper:
-                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-dark dark:data-[hover=true]:border-dark",
                   }}
                 />
                 <FormInput
@@ -271,11 +270,10 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                     label:
                       "text-xs text-bittersweet-400 dark:text-cerise-red-600",
                     segment:
-                      "data-[editable=true]:text-base-color dark:data-[editable=true]:text-base-color-dark data-[editable=true]:data-[placeholder=true]:text-base-color-m dark:data-[editable=true]:data-[placeholder=true]:text-base-color-dark-m",
+                      "data-[editable=true]:text-main dark:data-[editable=true]:text-main-dark data-[editable=true]:data-[placeholder=true]:text-main-m dark:data-[editable=true]:data-[placeholder=true]:text-main-dark-m",
                     inputWrapper:
-                      "border-gray-200 dark:border-base-dark hover:border-gray-200 dark:hover:border-base-dark",
-                    innerWrapper:
-                      "text-base-color-m dark:text-base-color-dark-m",
+                      "border-gray-200 dark:border-dark hover:border-gray-200 dark:hover:border-dark",
+                    innerWrapper: "text-main-m dark:text-main-dark-m",
                   }}
                 />
               </ModalBody>
@@ -283,7 +281,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                 <Button
                   onPress={onCancel}
                   variant="bordered"
-                  className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
+                  className="rounded-md border border-gray-200 dark:border-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>

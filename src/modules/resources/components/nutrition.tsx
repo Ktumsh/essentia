@@ -18,11 +18,11 @@ const Loading = () => {
       {Array.from({ length: width < 1024 ? 1 : 3 }).map((_, i) => (
         <div
           key={i}
-          className="flex flex-col gap-4 w-full lg:w-[306.66px] h-96 p-5 rounded shrink-0 animate-pulse bg-gray-100 dark:bg-base-dark"
+          className="flex flex-col gap-4 w-full lg:w-[306.66px] h-96 p-5 rounded shrink-0 animate-pulse bg-gray-100 dark:bg-dark"
         >
-          <div className="w-full h-64 shrink-0 animate-pulse bg-gray-200 dark:bg-base-full-dark"></div>
-          <div className="w-4/5 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-base-full-dark"></div>
-          <div className="w-1/2 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-base-full-dark"></div>
+          <div className="w-full h-64 shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
+          <div className="w-4/5 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
+          <div className="w-1/2 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
         </div>
       ))}
     </div>
@@ -42,7 +42,7 @@ const Nutrition = () => {
     <>
       <section className="-ml-3 py-4 md:py-0">
         <div className="w-full px-8 md:px-6 mb-8">
-          <h3 className="drop-shadow-md text-base-color dark:text-white">
+          <h3 className="drop-shadow-md text-main dark:text-white">
             <Button
               as={Link}
               id="recetas-saludables"
@@ -65,8 +65,8 @@ const Nutrition = () => {
           </h3>
         </div>
         <section className="mb-24">
-          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-base-color dark:text-white">
-            <h4 className="drop-shadow-md text-base-color dark:text-white">
+          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-main dark:text-white">
+            <h4 className="drop-shadow-md text-main dark:text-white">
               <Button
                 as={Link}
                 id="desayunos-saludables"
@@ -84,7 +84,7 @@ const Nutrition = () => {
                 Desayunos Saludables
               </Button>
             </h4>
-            <p className="text-sm text-base-color-h dark:text-base-color-dark">
+            <p className="text-sm text-main-h dark:text-main-dark">
               En Essentia te damos las mejores recetas de desayuno saludable
               para que comiences el día comiendo sano. Granola, batido de frutas
               o Yogurt con berries.
@@ -97,8 +97,8 @@ const Nutrition = () => {
           />
         </section>
         <section className="mb-24" ref={secondCarousel.ref}>
-          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-base-color dark:text-white">
-            <h4 className="drop-shadow-md text-base-color dark:text-white">
+          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-main dark:text-white">
+            <h4 className="drop-shadow-md text-main dark:text-white">
               <Button
                 as={Link}
                 id="almuerzos-y-cenas-saludables"
@@ -116,7 +116,7 @@ const Nutrition = () => {
                 Almuerzos y Cenas Saludables
               </Button>
             </h4>
-            <p className="text-sm text-base-color-h dark:text-base-color-dark">
+            <p className="text-sm text-main-h dark:text-main-dark">
               Prepara tu almuerzo o cena de forma saludable con nuestras
               recetas. Tortilla de acelga, berenjena rellena o salmón a la
               plancha.
@@ -133,8 +133,8 @@ const Nutrition = () => {
           )}
         </section>
         <section className="mb-24" ref={thirdCarousel.ref}>
-          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-base-color dark:text-white">
-            <h4 className="drop-shadow-md text-base-color dark:text-white">
+          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-main dark:text-white">
+            <h4 className="drop-shadow-md text-main dark:text-white">
               <Button
                 as={Link}
                 id="onces-saludables"
@@ -152,7 +152,7 @@ const Nutrition = () => {
                 Onces Saludables
               </Button>
             </h4>
-            <p className="text-sm text-base-color-h dark:text-base-color-dark">
+            <p className="text-sm text-main-h dark:text-main-dark">
               Prepara tu once saludable o la hora del té con alguna de estas
               recetas. Aprende a hacer pan integral, hamburguesas de lentejas o
               galletas de avena.

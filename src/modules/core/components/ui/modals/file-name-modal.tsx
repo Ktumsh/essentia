@@ -32,8 +32,8 @@ const FileNameModal: FC<FileNameModalProps> = ({
     classNames={{
       backdrop: "z-[101] bg-black/80",
       wrapper: "z-[102]",
-      base: "bg-white dark:bg-base-full-dark",
-      header: "text-base-color dark:text-base-color-dark",
+      base: "bg-white dark:bg-full-dark",
+      header: "text-main dark:text-main-dark",
       closeButton:
         "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
     }}
@@ -50,8 +50,8 @@ const FileNameModal: FC<FileNameModalProps> = ({
           onValueChange={setFileName}
           classNames={{
             inputWrapper:
-              "dark:bg-base-dark dark:data-[hover=true]:bg-base-dark-50 dark:data-[focus=true]:bg-base-dark",
-            clearButton: "text-base-color-m dark:text-base-color-dark-m",
+              "dark:bg-dark dark:data-[hover=true]:bg-dark/50 dark:data-[focus=true]:bg-dark",
+            clearButton: "text-main-m dark:text-main-dark-m",
           }}
         />
       </ModalBody>

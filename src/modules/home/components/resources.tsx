@@ -24,7 +24,7 @@ const Resources = () => {
             img={item.image}
             href={item.href}
           >
-            <q className="absolute top-5 left-5 max-w-[calc(100%-40px)] text-base sm:text-sm xl:text-base text-base-color dark:text-white font-normal dark:font-extralight opacity-0 lg:group-hover:opacity-100 invisible lg:group-hover:visible transition-opacity delay-200 duration-500">
+            <q className="absolute top-5 left-5 max-w-[calc(100%-40px)] text-base sm:text-sm xl:text-base text-main dark:text-white font-normal dark:font-extralight opacity-0 lg:group-hover:opacity-100 invisible lg:group-hover:visible transition-opacity delay-200 duration-500">
               {item.quote}
             </q>
           </ResourcesItem>

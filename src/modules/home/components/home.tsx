@@ -20,7 +20,7 @@ const Home = ({ profileData }: HomeProps) => {
         {windowSize.width > 768 ? (
           <div className="hidden md:flex flex-row relative w-full gap-2 mb-2">
             <section className="flex flex-col flex-1 w-full">
-              <h2 className="text-sm uppercase font-bold px-5 lg:px-0 mb-2 ml-3 text-base-color-h dark:text-base-color-dark">
+              <h2 className="text-sm uppercase font-bold px-5 lg:px-0 mb-2 ml-3 text-main-h dark:text-main-dark">
                 Recomendaciones
               </h2>
               <Carousel />
@@ -33,9 +33,9 @@ const Home = ({ profileData }: HomeProps) => {
             </section>
           </div>
         )}
-        <div className="relative pb-16 lg:pb-0 mt-5 bg-gray-100 dark:bg-base-dark-50 md:bg-transparent md:dark:bg-transparent rounded-t-3xl md:rounded-none">
+        <div className="relative pb-16 lg:pb-0 mt-5 bg-gray-100 dark:bg-dark/50 md:bg-transparent md:dark:bg-transparent rounded-t-3xl md:rounded-none">
           <div className="flex flex-col w-full py-4 md:py-0 select-none">
-            <h2 className="px-8 lg:px-0 mb-2 ml-3 text-base-color-h dark:text-base-color-dark text-2xl md:text-sm font-medium md:font-bold normal-case md:uppercase tracking-tight">
+            <h2 className="px-8 lg:px-0 mb-2 ml-3 text-main-h dark:text-main-dark text-2xl md:text-sm font-medium md:font-bold normal-case md:uppercase tracking-tight">
               Recursos
             </h2>
             <section className="flex flex-col w-full px-6 lg:px-0">

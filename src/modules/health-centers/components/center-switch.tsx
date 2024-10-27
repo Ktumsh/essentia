@@ -36,9 +36,9 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
           className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0 pointer-events-auto"
           classNames={{
             label:
-              "text-xs sm:text-base text-white md:text-base-color-h md:dark:text-base-color-dark",
+              "text-xs sm:text-base text-white md:text-main-h md:dark:text-main-dark",
             wrapper:
-              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-base-full-dark dark:bg-base-full-dark border border-gray-200 dark:border-base-dark shadow-small mr-0 sm:mr-2",
+              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-full-dark dark:bg-full-dark border border-gray-200 dark:border-dark shadow-small mr-0 sm:mr-2",
             thumb: "bg-bittersweet-400 dark:bg-cerise-red-600",
             thumbIcon: "text-white",
           }}

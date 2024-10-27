@@ -11,11 +11,11 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
           <img class="w-full h-full object-cover object-top" src="/modal/salud-article-01.webp" />
         </div>
         <div class="flex flex-col w-full gap-4">
-          <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Descubre el Bienestar Multidimensional</h2>
+          <h2 class="text-lg text-main dark:text-main-dark font-medium">Descubre el Bienestar Multidimensional</h2>
           <p>
             El bienestar no se trata solo de ser feliz o sentirse satisfecho con la vida. Un estudio ha analizado 10 dimensiones del bienestar psicológico en 21 países europeos para ofrecer una visión más completa de lo que realmente significa estar bien.
           </p>
-          <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Dimensiones Clave del Bienestar</h2>
+          <h2 class="text-lg text-main dark:text-main-dark font-medium">Dimensiones Clave del Bienestar</h2>
           <ul class="flex flex-col gap-4 ml-5">
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Competencia:</strong> Sentirse capaz y eficiente.</li>
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Estabilidad Emocional:</strong> Mantener un equilibrio emocional.</li>
@@ -31,7 +31,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
           <p>
             Este enfoque multidimensional permite identificar áreas específicas donde se pueden hacer intervenciones para mejorar el bienestar general. Las relaciones positivas y la resiliencia se destacan como factores cruciales.
           </p>
-          <p class="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p class="text-sm text-main-m dark:text-main-dark-m">
             Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://hqlo.biomedcentral.com/articles/10.1186/s12955-020-01423-y">BMC</a>
           </p>
           </div>
@@ -61,7 +61,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
             <li class="list-decimal marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Ocupacional:</strong> Busca satisfacción y crecimiento en tu trabajo.</li>
             <li class="list-decimal marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Financiero:</strong> Administra tus finanzas para una mayor seguridad.</li>
           </ul>
-          <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Actividades Prácticas:</h2>
+          <h2 class="text-lg text-main dark:text-main-dark font-medium">Actividades Prácticas:</h2>
           <ul class="flex flex-col gap-4 ml-5">
             <li class="list-decimal marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Diario de Gratitud:</strong> Anota cosas positivas diariamente.</li>
             <li class="list-decimal marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Organización:</strong> Mejora la iluminación y el orden de tus espacios.</li>
@@ -75,7 +75,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
           <p>
             Implementar estas prácticas puede ayudarte a alcanzar un bienestar integral. Para más detalles, visita el artículo completo.
           </p>
-          <p class="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p class="text-sm text-main-m dark:text-main-dark-m">
             Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://learningforward.org/journal/looking-ahead/8-dimensions-of-wellness-for-educators/">Learning Forward</a>
           </p>
         </div>
@@ -95,14 +95,14 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
           <p>
             La atención plena, o mindfulness, se trata de estar presente en el momento actual y observar nuestros pensamientos y sentimientos sin juicio. Originada en la meditación budista, se ha incorporado en escuelas, trabajos y hospitales debido a sus beneficios para la salud.
           </p>
-          <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Beneficios de la Atención Plena</h2>
+          <h2 class="text-lg text-main dark:text-main-dark font-medium">Beneficios de la Atención Plena</h2>
           <ul class="flex flex-col gap-4 ml-5">
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Reducción del Estrés y Ansiedad:</strong> Ayuda a disminuir la ansiedad y la depresión.</li>
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Mejora del Sueño y la Presión Arterial:</strong> Contribuye a dormir mejor y bajar la presión arterial.</li>
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Manejo del Dolor:</strong> Ayuda a enfrentar el dolor crónico.</li>
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Hábitos Saludables:</strong> Fomenta elecciones saludables en la dieta y el ejercicio.</li>
           </ul>
-          <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Prácticas de Mindfulness</h2>
+          <h2 class="text-lg text-main dark:text-main-dark font-medium">Prácticas de Mindfulness</h2>
           <ul class="flex flex-col gap-2 ml-5">
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Respiración Consciente:</strong> Respira profundamente y enfócate en tu respiración.</li>
             <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Paseos Conscientes:</strong> Observa el entorno mientras caminas.</li>
@@ -112,7 +112,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
           <p>
             Busca programas y aplicaciones de mindfulness en universidades y escuelas de medicina para asegurarte de que sean confiables y basados en evidencia.
           </p>
-          <p class="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p class="text-sm text-main-m dark:text-main-dark-m">
             Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://newsinhealth.nih.gov/2021/06/mindfulness-your-health">NIH News in Health</a>
           </p>
         </div>
@@ -158,7 +158,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
               Combina una dieta balanceada con ejercicio regular y un buen descanso. Mantener un peso adecuado es importante para la salud general y la prevención de enfermedades.
             </p>
           </ul>
-          <p class="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p class="text-sm text-main-m dark:text-main-dark-m">
             Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://www.olivetto.com.co/bienestar/estilo-de-vida-adecuado-asi-se-logra/">Olivetto</a>.
           </p>
         </div>
@@ -212,7 +212,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
               Disfruta de la luz solar para obtener vitamina D, que es esencial para la salud ósea y el sistema inmunológico.
             </p>
           </ul>
-          <p class="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p class="text-sm text-main-m dark:text-main-dark-m">
             Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://www.naturelorganic.cl/consejos-para-mejorar-bienestar-fisico-emocional">Naturel Organic</a>.
           </p>
         </div>
@@ -302,7 +302,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
               Evita el consumo excesivo de alcohol y deja de fumar.
             </p>
           </ul>
-          <p class="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p class="text-sm text-main-m dark:text-main-dark-m">
             Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://www.saludsiemprevc.org/consejos-de-bienestar">Salud Siempre</a>.
           </p>
         </div>

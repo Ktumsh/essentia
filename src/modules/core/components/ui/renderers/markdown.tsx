@@ -53,7 +53,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={components}
-      className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 !text-base-color-h dark:!text-base-color-dark"
+      className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 !text-main-h dark:!text-main-dark"
     >
       {children}
     </ReactMarkdown>

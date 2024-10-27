@@ -55,10 +55,10 @@ const ResourceTabs = () => {
   ];
   return (
     <aside className="w-auto">
-      <div className="relative flex w-fit h-full bg-white/50 bg-bento-gradient dark:bg-none dark:bg-base-full-dark-50 backdrop-blur backdrop-saturate-150">
+      <div className="relative flex w-fit h-full bg-white/50 bg-bento-gradient dark:bg-none dark:bg-full-dark/50 backdrop-blur backdrop-saturate-150">
         <div className="bg-noise bg-repeat bg-[length:100px] pointer-events-none absolute inset-0 opacity-5 lg:rounded-xl -z-10"></div>
         <div className="flex flex-col items-center lg:justify-between w-full p-2 pb-0">
-          <div className="flex items-center gap-5 lg:w-full mb-2 lg:px-3 lg:py-2 rounded-xl lg:bg-white lg:dark:bg-base-dark lg:border lg:border-gray-200 lg:dark:border-base-full-dark">
+          <div className="flex items-center gap-5 lg:w-full mb-2 lg:px-3 lg:py-2 rounded-xl lg:bg-white lg:dark:bg-dark lg:border lg:border-gray-200 lg:dark:border-full-dark">
             <Link href="/recursos" className="h-10">
               <Button variant="flat" color="danger" isIconOnly size="md">
                 <BackIcon className="size-7" />
@@ -82,17 +82,17 @@ const ResourceTabs = () => {
                           className={`size-5 transition-colors ${
                             currentPath === link.link
                               ? "text-bittersweet-400 dark:text-cerise-red-400 group-hover:text-bittersweet-500 dark:group-hover:text-cerise-red-500"
-                              : "text-base-color-h dark:text-base-color-dark group-hover:text-base-color dark:group-hover:text-white"
+                              : "text-main-h dark:text-main-dark group-hover:text-main dark:group-hover:text-white"
                           }`}
                         />
                       }
-                      className="w-fit lg:w-full min-w-fit lg:min-w-24 h-auto lg:h-[50px] justify-start text-left p-3 mb-2 data-[hover=true]:bg-white dark:hover:bg-base-dark !duration-150"
+                      className="w-fit lg:w-full min-w-fit lg:min-w-24 h-auto lg:h-[50px] justify-start text-left p-3 mb-2 data-[hover=true]:bg-white dark:hover:bg-dark !duration-150"
                     >
                       <span
                         className={`hidden lg:block text-sm mr-4 transition-colors ${
                           currentPath === link.link
                             ? "text-bittersweet-400 dark:text-cerise-red-400 group-hover:text-bittersweet-500 dark:group-hover:text-cerise-red-500"
-                            : "text-base-color-h dark:text-base-color-dark group-hover:text-base-color dark:group-hover:text-white"
+                            : "text-main-h dark:text-main-dark group-hover:text-main dark:group-hover:text-white"
                         }`}
                       >
                         {link.name}

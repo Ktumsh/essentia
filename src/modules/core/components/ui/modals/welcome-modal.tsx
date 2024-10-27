@@ -37,21 +37,21 @@ const WelcomeModal = () => {
         classNames={{
           backdrop: "z-[101] bg-white/50 dark:bg-black/50",
           wrapper: "z-[102]",
-          base: "bg-white dark:bg-base-full-dark overflow-hidden rounded-3xl border border-gray-200 dark:border-base-dark",
+          base: "bg-white dark:bg-full-dark overflow-hidden rounded-3xl border border-gray-200 dark:border-dark",
           header:
-            "flex-col text-center justify-center text-base-color dark:text-white",
-          body: "text-base-color dark:text-gray-100 text-center",
+            "flex-col text-center justify-center text-main dark:text-white",
+          body: "text-main dark:text-gray-100 text-center",
         }}
       >
         <ModalContent>
           <>
             <ModalHeader>
-              <div className="absolute top-[-826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-base-dark border-4 border-bittersweet-400 dark:border-cerise-red-600 rounded-full -z-10"></div>
-              <h1 className="text-base-color dark:text-base-color-dark font-motivasans text-2xl font-bold">
+              <div className="absolute top-[-826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-dark border-4 border-bittersweet-400 dark:border-cerise-red-600 rounded-full -z-10"></div>
+              <h1 className="text-main dark:text-main-dark font-motivasans text-2xl font-bold">
                 ¡Bienvenid@!
               </h1>
             </ModalHeader>
-            <ModalBody className="pt-8 text-base-color dark:text-base-color-dark">
+            <ModalBody className="pt-8 text-main dark:text-main-dark">
               <div className="flex items-center justify-center">
                 <Image
                   src="/logo-essentia.webp"
@@ -62,13 +62,11 @@ const WelcomeModal = () => {
                 />
               </div>
               <h2 className="font-bold">¿Es tu primera vez?</h2>
-              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
-                <span className="text-base-color dark:text-base-color-dark">
-                  Essentia
-                </span>{" "}
+              <p className="text-sm text-main-m dark:text-main-dark-m">
+                <span className="text-main dark:text-main-dark">Essentia</span>{" "}
                 es tu plataforma esencial de salud y bienestar 🌿
               </p>
-              <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+              <p className="text-sm text-main-m dark:text-main-dark-m">
                 Nos alegra que nos acompañes. Aún estamos en desarrollo, así que
                 tu ayuda probando la web será muy valiosa para mejorarla.
                 ¡Gracias por tu apoyo!

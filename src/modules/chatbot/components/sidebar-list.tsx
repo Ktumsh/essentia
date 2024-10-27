@@ -7,8 +7,6 @@ import ClearHistory from "./clear-history";
 import { SidebarItems } from "./sidebar-items";
 import { groupChatsByDate } from "../lib/utils";
 
-
-
 interface SidebarListProps {
   chats?: Chat[];
   mutate: KeyedMutator<Chat[]>;
@@ -25,9 +23,9 @@ const SidebarList = ({ chats, mutate }: SidebarListProps) => {
 
   const ChatDateTitle = ({ day }: { day: string }) => {
     return (
-      <div className="sticky top-0 z-20 bg-white dark:bg-base-full-dark">
+      <div className="sticky top-0 z-20 bg-white dark:bg-full-dark">
         <span className="flex items-center">
-          <h3 className="p-2 text-xs break-all truncate text-base-color-m dark:text-base-color-dark-m">
+          <h3 className="p-2 text-xs break-all truncate text-main-m dark:text-main-dark-m">
             {day}
           </h3>
         </span>
@@ -77,7 +75,7 @@ const SidebarList = ({ chats, mutate }: SidebarListProps) => {
           </div>
         ) : (
           <div className="p-8 text-center">
-            <p className="text-sm text-base-color-d dark:text-base-color-dark-d">
+            <p className="text-sm text-main-l dark:text-main-dark-l">
               Sin historial de chat
             </p>
           </div>

@@ -63,7 +63,7 @@ const EmergencySteps = () => {
           <Card
             radius="sm"
             shadow="none"
-            className="h-full min-w-[87%] md:min-w-0 max-w-lg my-5 bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark"
+            className="h-full min-w-[87%] md:min-w-0 max-w-lg my-5 bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 dark:border-dark md:dark:border-dark text-main-h dark:text-main-dark"
           >
             <CardBody className="z-10">
               <div className="inline-flex items-center justify-between w-full">
@@ -71,7 +71,7 @@ const EmergencySteps = () => {
                   {card.title}
                 </h3>
               </div>
-              <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-base-dark my-3" />
+              <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-dark my-3" />
               <ol className="flex flex-col space-y-4">
                 {card.steps.map((step, stepIndex) => (
                   <li key={stepIndex} className="text-sm">
@@ -93,7 +93,7 @@ const EmergencySteps = () => {
                       {step.title}
                     </span>
 
-                    <p className="ml-8 text-base-color-h dark:text-base-color-dark-h">
+                    <p className="ml-8 text-main-h dark:text-main-dark-h">
                       {step.description}
                     </p>
                   </li>
@@ -103,7 +103,7 @@ const EmergencySteps = () => {
           </Card>
           {index < info.length - 1 && (
             <div className="motion-safe:animate-[pulse_4s_cubic-bezier(0.4,_0,_0.6,_1)_infinite]">
-              <Chevron className="size-16 text-base-color-m dark:text-base-color-dark-m rotate-180" />
+              <Chevron className="size-16 text-main-m dark:text-main-dark-m rotate-180" />
             </div>
           )}
         </Fragment>

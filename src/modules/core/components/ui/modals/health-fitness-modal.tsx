@@ -76,7 +76,7 @@ export const ModalComponent: FC<Props> = ({
           onOpen();
           history.replaceState(null, "", `#${formatedTitle}`);
         }}
-        className="grid grid-cols-12 md:flex flex-row md:flex-col group text-base-color-h dark:text-base-color-dark bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-100 dark:border-base-dark md:dark:border-base-dark shadow-none md:shadow-md !transition text-clip"
+        className="grid grid-cols-12 md:flex flex-row md:flex-col group text-main-h dark:text-main-dark bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 md:border-gray-100 dark:border-dark md:dark:border-dark shadow-none md:shadow-md !transition text-clip"
       >
         <CardHeader className="hidden md:flex absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
           <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
@@ -114,7 +114,7 @@ export const ModalComponent: FC<Props> = ({
           backdrop: "z-[101] bg-white/50 dark:bg-black/80",
           wrapper: "overflow-hidden z-[102]",
           body: "py-6",
-          base: "bg-white dark:bg-base-full-dark max-h-[calc(100%_-_10rem)] lg:max-h-[calc(100%_-_7.5rem)]",
+          base: "bg-white dark:bg-full-dark max-h-[calc(100%_-_10rem)] lg:max-h-[calc(100%_-_7.5rem)]",
           header: "border-b-1 border-gray-200 dark:border-base-color-m",
           footer: "border-t-1 border-gray-200 dark:border-base-color-m",
           closeButton:
@@ -124,16 +124,16 @@ export const ModalComponent: FC<Props> = ({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-base-color dark:text-base-color-dark font-grotesk font-bold text-xl">
+              <ModalHeader className="flex flex-col gap-1 text-main dark:text-main-dark font-grotesk font-bold text-xl">
                 <q>{modalTitle}</q>
               </ModalHeader>
               <ScrollShadow className="custom-scroll v2" size={80}>
-                <ModalBody className="text-base-color-h dark:text-base-color-dark-h">
+                <ModalBody className="text-main-h dark:text-main-dark-h">
                   <div dangerouslySetInnerHTML={{ __html: modalBody }} />
                   <div ref={componentRef}></div>
                 </ModalBody>
               </ScrollShadow>
-              <ModalFooter className="text-base-color dark:text-base-color-dark">
+              <ModalFooter className="text-main dark:text-main-dark">
                 <Button
                   radius="sm"
                   color="default"

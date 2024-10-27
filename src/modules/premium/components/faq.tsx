@@ -5,7 +5,7 @@ import FAQItems from "./faq-items";
 const FAQ = () => {
   const faqs = FAQ_PRICING;
   return (
-    <div className="flex flex-col bg-gray-100 dark:bg-base-dark-50 p-5 md:gap-4 md:px-6 md:py-14">
+    <div className="flex flex-col bg-gray-100 dark:bg-dark/50 p-5 md:gap-4 md:px-6 md:py-14">
       <h2 className="hidden text-center text-2xl font-semibold tracking-tighter md:block md:text-4xl">
         Preguntas Frecuentes
       </h2>

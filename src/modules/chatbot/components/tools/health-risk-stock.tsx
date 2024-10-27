@@ -157,7 +157,7 @@ const AssesHealthRiskStock = ({
       ref={ref}
       radius="md"
       shadow="none"
-      className="group/card bg-white dark:bg-base-full-dark"
+      className="group/card bg-white dark:bg-full-dark"
     >
       <CardHeader className="relative p-0 rounded-none z-0">
         <ImageUI
@@ -192,7 +192,7 @@ const AssesHealthRiskStock = ({
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="md:flex-row justify-around p-2 md:p-8 space-y-2 md:space-y-4 text-base-color-h dark:text-base-color-dark">
+      <CardBody className="md:flex-row justify-around p-2 md:p-8 space-y-2 md:space-y-4 text-main-h dark:text-main-dark">
         <div className="flex flex-col items-center justify-between">
           <div className="flex flex-col items-center">
             <CircularProgress
@@ -205,8 +205,7 @@ const AssesHealthRiskStock = ({
                 svg: "!size-32",
                 track: "dark:stroke-white/10",
                 indicator: riskInfo.strokeColor,
-                value:
-                  "text-3xl font-bold text-base-color dark:text-white font-sans",
+                value: "text-3xl font-bold text-main dark:text-white font-sans",
               }}
             />
             <div className={cn("mt-2 text-xl font-bold", riskInfo.color)}>
@@ -220,19 +219,19 @@ const AssesHealthRiskStock = ({
           {riskAssessment.assessmentDate && (
             <Chip
               startContent={
-                <CalendarFillIcon className="size-4 text-base-color-m dark:text-base-color-dark-m" />
+                <CalendarFillIcon className="size-4 text-main-m dark:text-main-dark-m" />
               }
               variant="flat"
               radius="sm"
               classNames={{
-                base: "mt-2 md:mt-4 px-3 h-10 bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-base-color-dark",
+                base: "mt-2 md:mt-4 px-3 h-10 bg-gray-100 dark:bg-dark text-main-h dark:text-main-dark",
               }}
             >
               Evaluación {assessmentDate}
             </Chip>
           )}
         </div>
-        <Divider className="md:hidden mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-base-dark" />
+        <Divider className="md:hidden mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-dark" />
         <div className="flex flex-col justify-center space-y-2">
           <div className="flex justify-between gap-2">
             <div className="flex flex-col mt-7 space-y-2">
@@ -265,7 +264,7 @@ const AssesHealthRiskStock = ({
                   classNames={{
                     base: "max-w-none border-none p-0",
                     content:
-                      "flex justify-between text-sm text-base-color-h dark:text-base-color-dark font-semibold",
+                      "flex justify-between text-sm text-main-h dark:text-main-dark font-semibold",
                     dot: dot,
                   }}
                 >
@@ -302,14 +301,14 @@ const AssesHealthRiskStock = ({
           </div>
         </div>
       </CardBody>
-      <Divider className="mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-base-dark" />
+      <Divider className="mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-dark" />
       <CardFooter className="p-2 md:p-8 pt-4 justify-center items-center">
         <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-2 md:gap-4">
-          <div className="p-3 text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
+          <div className="p-3 text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
             <h3 className="text-xl font-extrabold font-sans uppercase">
               Recomendación
             </h3>
-            <p className="text-base-color-h dark:text-base-color-dark">
+            <p className="text-main-h dark:text-main-dark">
               {riskAssessment.recommendations}
             </p>
           </div>
@@ -323,15 +322,15 @@ const AssesHealthRiskStock = ({
               placement="top-right"
               classNames={{
                 base: [
-                  "flex-col gap-1 w-fit p-3 text-sm bg-gradient-to-bl from-gray-200 to-white to-50% dark:from-base-dark dark:to-base-full-dark text-base-color-h dark:text-white rounded-xl",
-                  "before:content-[''] before:absolute before:inset-0.5 before:bg-white before:dark:bg-base-full-dark before:rounded-[10px] before:z-0",
+                  "flex-col gap-1 w-fit p-3 text-sm bg-gradient-to-bl from-gray-200 to-white to-50% dark:from-dark dark:to-full-dark text-main-h dark:text-white rounded-xl",
+                  "before:content-[''] before:absolute before:inset-0.5 before:bg-white before:dark:bg-full-dark before:rounded-[10px] before:z-0",
                 ],
                 badge:
-                  "!size-7 top-[5%] right-[5%] border-white dark:border-base-full-dark",
+                  "!size-7 top-[5%] right-[5%] border-white dark:border-full-dark",
               }}
             >
               <div className="flex flex-col z-[1]">
-                <h3 className="text-lg font-medium text-base-color-h dark:text-base-color-dark">
+                <h3 className="text-lg font-medium text-main-h dark:text-main-dark">
                   IMC
                 </h3>
                 <TooltipCTN content="Índice de masa corporal">
@@ -341,10 +340,10 @@ const AssesHealthRiskStock = ({
                 </TooltipCTN>
               </div>
             </Badge>
-            <div className="py-1.5 px-3 bg-gray-100 dark:bg-base-dark rounded-lg">
+            <div className="py-1.5 px-3 bg-gray-100 dark:bg-dark rounded-lg">
               <p
                 className={cn(
-                  "text-xs text-center first-letter:uppercase text-base-color-h dark:text-base-color-dark"
+                  "text-xs text-center first-letter:uppercase text-main-h dark:text-main-dark"
                 )}
               >
                 {riskAssessment.bmiLevel}

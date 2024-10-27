@@ -78,3 +78,23 @@ export interface FAQPrincing {
   question: string;
   answer: string;
 }
+
+interface BubbleData {
+  ref: React.RefObject<HTMLImageElement> | null;
+  src: string;
+  className: string;
+  alt: string;
+}
+
+export interface AboutSection {
+  sectionId: string;
+  classSection: string;
+  wrapper: string;
+  inner: string;
+  sectionName: string;
+  title: string;
+  description: string;
+  img: string;
+  imgAlt: string;
+  bubbles: BubbleData[];
+}

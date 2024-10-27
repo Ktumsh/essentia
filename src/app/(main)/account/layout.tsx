@@ -39,7 +39,7 @@ export default async function AccountLayout({
     <>
       <div className="flex flex-col min-h-dvh w-full pt-14">
         <div className="flex-1">
-          <div className="flex-1 size-full max-w-5xl mx-auto text-base-color dark:text-base-color-dark bg-white dark:bg-base-full-dark border border-y-0 border-gray-200 dark:border-base-dark">
+          <div className="flex-1 size-full max-w-5xl mx-auto text-main dark:text-main-dark bg-white dark:bg-full-dark border border-y-0 border-gray-200 dark:border-dark">
             {children}
             <BillingTabs
               profileData={profileData}

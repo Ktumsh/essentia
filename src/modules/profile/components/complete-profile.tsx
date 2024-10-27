@@ -15,10 +15,10 @@ import { cn } from "@/utils/common";
 const CompleteProfile = ({ formData }: { formData: any }) => {
   return (
     <>
-      <Divider className="bg-gray-200 dark:bg-base-dark" />
+      <Divider className="bg-gray-200 dark:bg-dark" />
       <div className="inline-flex flex-col space-y-3">
         <div className="inline-flex items-center gap-2">
-          <h3 className="text-lg font-semibold text-base-color dark:text-base-color-dark">
+          <h3 className="text-lg font-semibold text-main dark:text-main-dark">
             Completa tu perfil
           </h3>
           <Popover
@@ -70,8 +70,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             isDisabled={!formData.profile_image}
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
-              !formData.profile_image &&
-                "text-base-color dark:text-base-color-dark",
+              !formData.profile_image && "text-main dark:text-main-dark",
               "px-0"
             )}
           >
@@ -84,8 +83,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             isDisabled={!formData.banner_image}
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
-              !formData.banner_image &&
-                "text-base-color dark:text-base-color-dark",
+              !formData.banner_image && "text-main dark:text-main-dark",
               "px-0"
             )}
           >
@@ -98,7 +96,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             isDisabled={!formData.bio}
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
-              !formData.bio && "text-base-color dark:text-base-color-dark",
+              !formData.bio && "text-main dark:text-main-dark",
               "px-0"
             )}
           >
@@ -110,7 +108,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             isDisabled={!formData.location}
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
-              !formData.location && "text-base-color dark:text-base-color-dark",
+              !formData.location && "text-main dark:text-main-dark",
               "px-0"
             )}
           >

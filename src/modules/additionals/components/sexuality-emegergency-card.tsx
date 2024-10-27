@@ -150,7 +150,7 @@ const SexualityEmergencyCard = () => {
   };
 
   return (
-    <section className="flex flex-col w-full mt-5 text-base-color-h dark:text-base-color-dark">
+    <section className="flex flex-col w-full mt-5 text-main-h dark:text-main-dark">
       <div className="self-start mb-2">
         <Button
           as={Link}
@@ -179,7 +179,7 @@ const SexualityEmergencyCard = () => {
           <Card
             key={index}
             radius="sm"
-            className="shadow-none md:shadow-md bg-gray-100 md:bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 md:border-gray-200 dark:border-base-dark md:dark:border-base-dark text-base-color-h dark:text-base-color-dark"
+            className="shadow-none md:shadow-md bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 md:border-gray-200 dark:border-dark md:dark:border-dark text-main-h dark:text-main-dark"
           >
             <CardBody className="z-10">
               <div className="inline-flex items-center justify-between w-full">
@@ -187,7 +187,7 @@ const SexualityEmergencyCard = () => {
                   Emergencias de Salud Sexual
                 </h3>
               </div>
-              <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-base-dark my-3" />
+              <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-dark my-3" />
               <ol className="flex flex-col space-y-4">
                 {cardInfo.steps.map((step, stepIndex) => (
                   <li key={stepIndex} className="text-sm space-y-1.5">
@@ -211,7 +211,7 @@ const SexualityEmergencyCard = () => {
                         {step.title}
                       </li>
                     </ul>
-                    <ul className="ml-8 text-base-color-h dark:text-base-color-dark-h space-y-1.5">
+                    <ul className="ml-8 text-main-h dark:text-main-dark-h space-y-1.5">
                       {step.description.map((desc, i) => (
                         <li key={i}>
                           {desc.type === "bold" ? (

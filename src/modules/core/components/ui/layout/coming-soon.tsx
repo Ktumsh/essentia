@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ComingSoon = () => {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center p-5 space-y-4 text-base-color dark:text-base-color-dark">
+    <div className="flex flex-1 flex-col items-center justify-center p-5 space-y-4 text-main dark:text-main-dark">
       <Image
         width={353}
         height={339}
@@ -14,7 +14,7 @@ const ComingSoon = () => {
       />
       <div className="inline-flex flex-col items-center">
         <h3 className="text-lg font-semibold">Próximamente...</h3>
-        <p className="text-base-color-m dark:text-base-color-dark-m">
+        <p className="text-main-m dark:text-main-dark-m">
           Estamos trabajando para ti
         </p>
       </div>

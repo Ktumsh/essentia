@@ -31,7 +31,7 @@ const ChangePaymentModal = ({
       classNames={{
         backdrop: "z-[101] bg-black/80",
         wrapper: "z-[102] pointer-events-auto",
-        base: "bg-white dark:bg-base-full-dark min-h-[381px] md:min-h-[429px]",
+        base: "bg-white dark:bg-full-dark min-h-[381px] md:min-h-[429px]",
         closeButton:
           "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
       }}
@@ -41,7 +41,7 @@ const ChangePaymentModal = ({
           <>
             <ModalHeader className="p-3 md:p-6 items-center">
               <div className="flex-col">
-                <h2 className="text-lg font-semibold md:text-xl text-base-color dark:text-white">
+                <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
                   Cambiar método de pago
                 </h2>
               </div>
@@ -50,7 +50,7 @@ const ChangePaymentModal = ({
               {!clientSecret || !stripePromise ? (
                 <div className="flex flex-col flex-1 justify-center items-center h-full gap-2">
                   <SpinnerIcon className="size-6 animate-spin" />
-                  <h3 className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                  <h3 className="text-sm text-main-m dark:text-main-dark-m">
                     Procesando
                   </h3>
                 </div>

@@ -19,7 +19,7 @@ export const PreviewAttachment = ({
 
   return (
     <div className="group/preview flex flex-col gap-2 max-w-16">
-      <div className="size-16 bg-gray-100 dark:bg-base-dark rounded-md relative flex flex-col items-center justify-center">
+      <div className="size-16 bg-gray-100 dark:bg-dark rounded-md relative flex flex-col items-center justify-center">
         {contentType ? (
           contentType.startsWith("image") ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -27,7 +27,7 @@ export const PreviewAttachment = ({
               key={url}
               src={url}
               alt={name ?? "An image attachment"}
-              className="rounded-md size-full object-cover aspect-square animate-opacity"
+              className="rounded-md size-full object-cover aspect-square animate-fade-in"
             />
           ) : (
             <div className=""></div>
@@ -37,7 +37,7 @@ export const PreviewAttachment = ({
         )}
 
         {isUploading && (
-          <div className="absolute text-base-color-m dark:text-base-color-dark-m">
+          <div className="absolute text-main-m dark:text-main-dark-m">
             {spinner}
           </div>
         )}
@@ -45,9 +45,9 @@ export const PreviewAttachment = ({
         {!isUploading && !!onRemove && (
           <button
             onClick={onRemove}
-            className="absolute -top-1.5 -right-1.5 bg-white dark:bg-base-full-dark border border-gray-300 dark:border-[#123a6f] rounded-full p-1 flex items-center justify-center md:opacity-0 group-hover/preview:opacity-100 transition-opacity"
+            className="absolute -top-1.5 -right-1.5 bg-white dark:bg-full-dark border border-gray-300 dark:border-[#123a6f] rounded-full p-1 flex items-center justify-center md:opacity-0 group-hover/preview:opacity-100 transition-opacity"
           >
-            <CloseIcon className="size-3 text-base-color dark:text-white" />
+            <CloseIcon className="size-3 text-main dark:text-white" />
           </button>
         )}
       </div>

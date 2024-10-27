@@ -17,7 +17,7 @@ const FAQItems = ({ faqs }: FAQItemProps) => {
       itemClasses={{
         base: "py-2 md:py-4",
         trigger: "py-4 md:px-6 data-[hover=true]:underline underline-offset-2",
-        title: "text-sm font-medium text-base-color dark:text-base-color-dark",
+        title: "text-sm font-medium text-main dark:text-main-dark",
         content: "pb-4 !pt-0",
       }}
     >
@@ -28,7 +28,7 @@ const FAQItems = ({ faqs }: FAQItemProps) => {
           title={faq.question}
           HeadingComponent={"h3"}
         >
-          <p className="prose-sm pr-10 text-left text-base-color-h dark:text-base-color-dark-h md:px-6 md:pr-12">
+          <p className="prose-sm pr-10 text-left text-main-h dark:text-main-dark-h md:px-6 md:pr-12">
             {faq.answer}
           </p>
         </AccordionItem>

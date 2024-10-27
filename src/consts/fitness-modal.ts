@@ -40,7 +40,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-center" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2ZmYW0zdm56OHRwdWY1N2E5czUwb3l3MXZ0eG5ibmo2eXByaHEwMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/J99LWJ61hkOVq/giphy.gif" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Cardio</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Cardio</h2>
     <p>
       Mantén un ritmo constante al correr y asegúrate de mantener una buena postura para evitar lesiones.
     </p>
@@ -51,8 +51,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Enfriamiento:</strong> 5-10 minutos de estiramientos.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
 
         `;
@@ -63,7 +63,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-[50%_30%]" src="https://media.giphy.com/media/lPdnkrxkqnS48/giphy.gif?cid=ecf05e47e09pvv8odkp7hnbyy2a1up07835dzrn2j6yezeca&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Fuerza para Principiantes</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Fuerza para Principiantes</h2>
     <p>
       No sobrecargues el peso al principio, aumenta gradualmente según tu capacidad.
     </p>
@@ -74,8 +74,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Plancha:</strong> 3 series de 30 segundos.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 3:
@@ -85,7 +85,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-[50%_20%]" src="https://media.giphy.com/media/bcqfZjsFQJHLmXMYJw/giphy.gif?cid=ecf05e47e09pvv8odkp7hnbyy2a1up07835dzrn2j6yezeca&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Alta Intensidad (HIIT)</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Alta Intensidad (HIIT)</h2>
     <p>
       Mantén una buena hidratación antes y después del ejercicio.
     </p>
@@ -98,8 +98,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Descanso:</strong> 15 segundos.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 4:
@@ -109,7 +109,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-[50%_20%]" src="https://media.giphy.com/media/rDIbIO2O7UStO/giphy.gif?cid=ecf05e476t5litj5r7tis0ebyo54r42l5iuf8iyo76nrwmkr&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Core y Abdominales</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Core y Abdominales</h2>
     <p>
       Realiza los ejercicios lentamente para maximizar el trabajo muscular.
     </p>
@@ -120,8 +120,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Plancha lateral:</strong> 3 series de 30 segundos por lado.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 5:
@@ -131,7 +131,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-[50%_80%]" src="https://media.giphy.com/media/ScAw6bZg3P2j6/giphy.gif?cid=ecf05e47i3sy130tuempfm3qvypnc9ka2suxeyg0z6yqd9a1&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Movilidad y Equilibrio</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Movilidad y Equilibrio</h2>
     <p>
       Realiza los ejercicios en una superficie estable para evitar caídas.
     </p>
@@ -142,8 +142,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Estiramiento de tobillos:</strong> 3 series de 30 segundos por lado.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 6:
@@ -153,7 +153,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-[50%_70%]" src="https://media.giphy.com/media/AWfeFosX36RTW/giphy.gif?cid=ecf05e47q8p2fzjleegjwey4hfd14z5yc2kuit25bgr4doye&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Piernas y Glúteos</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Piernas y Glúteos</h2>
     <p>
       No permitas que la rodilla delantera pase la punta del pie en las zancadas.
     <ul class="flex flex-col gap-4 ml-5">
@@ -163,8 +163,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Puente de glúteos:</strong> 3 series de 15 repeticiones.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 7:
@@ -174,7 +174,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-center" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2ZmYW0zdm56OHRwdWY1N2E5czUwb3l3MXZ0eG5ibmo2eXByaHEwMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/W7dBXzbnEpOBG/giphy.gif" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Espalda y Bíceps</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Espalda y Bíceps</h2>
     <p>
       Mantén la espalda recta y evita encorvarte durante los ejercicios.
     </p>
@@ -185,8 +185,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Plancha inversa:</strong> 3 series de 30 segundos.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 8:
@@ -196,7 +196,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-bottom" src="https://media.giphy.com/media/l378edm0oLZN1hmTK/giphy.gif?cid=ecf05e47x2f8uyp73tosejku4jdzh3gojwtuehw7kgx43tfi&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Pecho y Tríceps</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Pecho y Tríceps</h2>
     <p>
       Controla el movimiento y evita rebotes bruscos para prevenir lesiones.
     </p>
@@ -207,8 +207,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Extensiones de tríceps:</strong> 3 series de 15 repeticiones.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     case 9:
@@ -218,7 +218,7 @@ function generateModalBody(index: number, videoTitle: string) {
     <Image class="w-full h-full object-cover object-[50%_40%]" src="https://media.giphy.com/media/3o85xtk0zf2Vvpuy1W/giphy.gif?cid=ecf05e47vjzlpesk23giu2yzyww60w40qf7k1i4rm1mnw4tf&ep=v1_gifs_search&rid=giphy.gif&ct=g" />
   </div>
   <div class="flex flex-col w-full gap-4 mb-10">
-    <h2 class="text-lg text-base-color dark:text-base-color-dark font-medium">Rutina de Flexibilidad</h2>
+    <h2 class="text-lg text-main dark:text-main-dark font-medium">Rutina de Flexibilidad</h2>
     <p>
       No fuerces los estiramientos, hazlos de manera suave y gradual.
     </p>
@@ -229,8 +229,8 @@ function generateModalBody(index: number, videoTitle: string) {
       <li class="list-disc marker:text-gray-300 dark:marker:text-white/20"><strong class="font-medium text-bittersweet-900 dark:text-cerise-red-300/90">Estiramiento de hombros:</strong> 3 series de 30 segundos por lado.</li>
     </ul>
   </div>
-  <p class="text-xs uppercase text-base-color-m dark:text-base-color-dark-m font-bold">Video tutorial</p>
-  <h2 class="text-xl text-base-color dark:text-base-color-dark font-medium my-2">${videoTitle}</h2>
+  <p class="text-xs uppercase text-main-m dark:text-main-dark-m font-bold">Video tutorial</p>
+  <h2 class="text-xl text-main dark:text-main-dark font-medium my-2">${videoTitle}</h2>
 </section>
       `;
     default:

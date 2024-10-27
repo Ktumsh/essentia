@@ -1,10 +1,10 @@
 export const tooltipStyles = {
   content: [
     "bg-white",
-    "dark:bg-base-dark",
+    "dark:bg-dark",
     "text-xs",
-    "text-base-color-h",
-    "dark:text-base-color-dark",
+    "text-main-h",
+    "dark:text-main-dark",
   ],
-  arrow: ["before:bg-white", "dark:before:bg-base-dark"],
+  arrow: ["before:bg-white", "dark:before:bg-dark"],
 };

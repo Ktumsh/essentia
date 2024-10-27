@@ -80,7 +80,7 @@ const PaymentModal = ({
         backdrop: "z-[101] bg-black/80",
         wrapper: "z-[102] pointer-events-auto",
         base: [
-          "bg-white dark:bg-base-full-dark",
+          "bg-white dark:bg-full-dark",
           currentStep === 1 && "min-h-[485px] md:min-h-[505px]",
         ],
         closeButton:
@@ -96,10 +96,10 @@ const PaymentModal = ({
               <>
                 <ModalHeader className="p-3 md:p-6">
                   <div className="flex-col">
-                    <h2 className="text-lg font-semibold md:text-xl text-base-color dark:text-white">
+                    <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
                       Seleccionaste el plan {title}
                     </h2>
-                    <p className="font-normal text-sm text-base-color-h dark:text-base-color-dark-h">
+                    <p className="font-normal text-sm text-main-h dark:text-main-dark-h">
                       Para continuar con la suscripción, proporciona el nombre
                       del titular de la suscripción.
                     </p>
@@ -109,7 +109,7 @@ const PaymentModal = ({
                   <div>
                     <label
                       htmlFor="cardholderName"
-                      className="text-sm text-base-color dark:text-base-color-dark"
+                      className="text-sm text-main dark:text-main-dark"
                     >
                       Nombre del titular de la suscripción
                     </label>
@@ -121,7 +121,7 @@ const PaymentModal = ({
                       placeholder="Ingresa el nombre del titular de la suscripción"
                       onChange={(e) => setCardholderName(e.target.value)}
                       className={cn(
-                        "mt-1 block w-full p-3 pr-[26px] text-sm leading-none bg-gray-100 dark:bg-base-dark border border-gray-300 dark:border-[#123a6f] rounded-md shadow-sm focus:outline-none",
+                        "mt-1 block w-full p-3 pr-[26px] text-sm leading-none bg-gray-100 dark:bg-dark border border-gray-300 dark:border-[#123a6f] rounded-md shadow-sm focus:outline-none",
                         "focus:border-[hsla(6,_93%,_71%,_50%)] focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(6,_93%,_71%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]",
                         "focus:dark:border-[hsla(343,_58%,_50%,_50%)] focus:dark:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(343,_58%,_50%,_25%),_0_1px_1px_0_rgba(255,_255,_255,_0.12))]"
                       )}
@@ -133,7 +133,7 @@ const PaymentModal = ({
                   <Button
                     onPress={onClose}
                     variant="light"
-                    className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+                    className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
                   >
                     Cancelar
                   </Button>
@@ -155,7 +155,7 @@ const PaymentModal = ({
             ) : (
               <>
                 <ModalHeader className="p-3 md:p-6 items-center">
-                  <h2 className="text-lg font-semibold md:text-xl text-base-color dark:text-white">
+                  <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
                     Suscribirse a Premium
                   </h2>
                   <Popover
@@ -180,10 +180,10 @@ const PaymentModal = ({
                     </PopoverTrigger>
                     <PopoverContent>
                       <div className="px-1 py-2">
-                        <div className="text-small font-bold dark:text-base-color-dark">
+                        <div className="text-small font-bold dark:text-main-dark">
                           Pago simulado
                         </div>
-                        <div className="text-xs text-base-color-h dark:text-base-color-dark-h">
+                        <div className="text-xs text-main-h dark:text-main-dark-h">
                           El pago es simulado y no se realizará ningún cargo
                           real. Usa la tarjeta de prueba{" "}
                           <Snippet
@@ -197,19 +197,19 @@ const PaymentModal = ({
                               },
                             }}
                             classNames={{
-                              base: "bg-gray-100 dark:bg-base-full-dark",
+                              base: "bg-gray-100 dark:bg-full-dark",
                               copyButton:
-                                "!size-4 min-w-0 [&_svg]:size-3 [&_svg]:text-base-color-m dark:[&_svg]:text-base-color-dark-m",
+                                "!size-4 min-w-0 [&_svg]:size-3 [&_svg]:text-main-m dark:[&_svg]:text-main-dark-m",
                             }}
                           >
                             4242 4242 4242 4242
                           </Snippet>{" "}
                           con{" "}
-                          <strong className="text-base-color dark:text-base-color-dark">
+                          <strong className="text-main dark:text-main-dark">
                             CVC 123
                           </strong>{" "}
                           y una{" "}
-                          <strong className="text-base-color dark:text-base-color-dark">
+                          <strong className="text-main dark:text-main-dark">
                             fecha de expiración futura
                           </strong>
                           .
@@ -222,7 +222,7 @@ const PaymentModal = ({
                   {!selectedPlan || !cardholderName || !clientSecret ? (
                     <div className="flex flex-col flex-1 justify-center items-center h-full gap-2">
                       <SpinnerIcon className="size-6" />
-                      <h3 className="text-sm text-base-color-m dark:text-base-color-dark-m">
+                      <h3 className="text-sm text-main-m dark:text-main-dark-m">
                         Procesando
                       </h3>
                     </div>

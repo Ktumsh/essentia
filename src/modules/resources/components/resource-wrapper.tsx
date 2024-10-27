@@ -33,7 +33,6 @@ interface ResourceData {
   videoLink: string;
   videoImage: string;
   imageFull: string;
-  background: string;
   component: FC;
 }
 
@@ -55,7 +54,6 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
     videoImage,
     imageFull,
     component: ContentComponent,
-    background,
   } = resourceData;
 
   const formatedTitle = formatTitle(title);
@@ -74,7 +72,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                 id={`introduccion-a-${formatedTitle}`}
                 data-id={`introduccion-a-${formatedTitle}`}
                 data-name={`Introducción a ${title}`}
-                className="relative flex mb-5 border border-gray-100 dark:border-base-dark shadow-md lg:rounded-b-3xl overflow-hidden"
+                className="relative flex mb-5 border border-gray-100 dark:border-dark shadow-md lg:rounded-b-3xl overflow-hidden"
               >
                 <div className="absolute p-5 top-0 right-0 z-20">
                   <Tooltip
@@ -96,7 +94,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                     </Chip>
                   </Tooltip>
                 </div>
-                <div className="group relative flex flex-col justify-center w-full h-52 lg:h-96 text-base-color overflow-hidden">
+                <div className="group relative flex flex-col justify-center w-full h-52 lg:h-96 text-main overflow-hidden">
                   <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-1 px-5 pt-3 z-10 group-active:opacity-0 lg:group-hover:opacity-0 transition-opacity duration-500">
                     <span className="font-bold uppercase text-white/60 font-motivasans">
                       Introducción a
@@ -125,7 +123,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                       img: "relative rounded-none brightness-95 object-cover object-center z-0",
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-base-full-dark-50 to-black/0 to-40%"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
                 </div>
                 <div className="absolute right-0 bottom-0 px-5 py-3 z-20">
                   <Tooltip
@@ -147,7 +145,6 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                           videoLink,
                           videoImage,
                           imageFull,
-                          background,
                           component: ContentComponent,
                         })
                       }
@@ -159,7 +156,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
               </section>
               <div
                 id="content"
-                className="relative text-base-color dark:text-base-color-dark"
+                className="relative text-main dark:text-main-dark"
               >
                 <ContentComponent />
               </div>

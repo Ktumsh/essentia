@@ -40,7 +40,7 @@ const MessageActions = ({ content }: { content?: string }) => {
               variant="light"
               size="sm"
               isIconOnly
-              className="rounded-lg min-w-0 !size-7 data-[hover=true]:bg-black/10 data-[hover=true]:dark:bg-white/10 text-base-color-h dark:text-base-color-dark-h"
+              className="rounded-lg min-w-0 !size-7 data-[hover=true]:bg-black/10 data-[hover=true]:dark:bg-white/10 text-main-h dark:text-main-dark-h"
             >
               <BugIcon className="size-5" />
               <span className="sr-only">Reportar un error</span>
@@ -53,7 +53,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                 size="sm"
                 isIconOnly
                 variant="light"
-                className="rounded-lg min-w-0 !size-7 data-[hover=true]:bg-black/10 data-[hover=true]:dark:bg-white/10 text-base-color-h dark:text-base-color-dark-h"
+                className="rounded-lg min-w-0 !size-7 data-[hover=true]:bg-black/10 data-[hover=true]:dark:bg-white/10 text-main-h dark:text-main-dark-h"
                 onPress={onCopy}
               >
                 {isCopied ? (
@@ -80,7 +80,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                 variant="light"
                 size="sm"
                 isIconOnly
-                className="min-w-0 !size-7 text-base-color-m dark:text-base-color-dark-m"
+                className="min-w-0 !size-7 text-main-m dark:text-main-dark-m"
               >
                 <span className="sr-only">Reportar un error</span>
                 <BugIcon className="size-5" />
@@ -94,7 +94,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                 target="_blank"
                 variant="light"
                 size="sm"
-                className="text-base-color dark:text-base-color-dark"
+                className="text-main dark:text-main-dark"
               >
                 Reportar un error
               </Button>
@@ -115,7 +115,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                   size="sm"
                   variant="light"
                   isIconOnly
-                  className="min-w-0 !size-7 text-base-color-m dark:text-base-color-dark-m"
+                  className="min-w-0 !size-7 text-main-m dark:text-main-dark-m"
                 >
                   {isCopied ? (
                     <CheckIcon className="size-4" />
@@ -134,7 +134,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                     onCopy();
                     setIsOpen(false);
                   }}
-                  className="text-base-color dark:text-base-color-dark"
+                  className="text-main dark:text-main-dark"
                 >
                   Copiar texto
                 </Button>

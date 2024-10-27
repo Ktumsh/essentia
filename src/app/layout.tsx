@@ -102,7 +102,7 @@ export default async function RootLayout({
       <head />
       <body
         className={cn(
-          "bg-white dark:bg-base-full-dark isolate antialiased",
+          "bg-white dark:bg-full-dark isolate antialiased",
           fontMotiva.variable,
           spaceGrotesk.variable,
           spaceMono.variable,
@@ -116,7 +116,7 @@ export default async function RootLayout({
           position="top-center"
           toastOptions={{
             className:
-              "bg-white dark:bg-base-full-dark border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark",
+              "bg-white dark:bg-full-dark border-gray-200 dark:border-dark text-main dark:text-main-dark",
           }}
         />
         <Providers currentPlan={currentPlan} disableTransitionOnChange>

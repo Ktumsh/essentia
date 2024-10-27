@@ -52,7 +52,7 @@ const ClearHistory: FC<ClearHistoryProps> = ({
           onPress={onOpen}
           variant="light"
           isDisabled={!isEnabled || isPending}
-          className="h-10 rounded-xl px-3 font-medium text-sm text-base-color-h dark:text-base-color-dark-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent"
+          className="h-10 rounded-xl px-3 font-medium text-sm text-main-h dark:text-main-dark-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent"
         >
           {isPending && <SpinnerIcon className="mr-2" />}
           Limpiar historial
@@ -65,7 +65,7 @@ const ClearHistory: FC<ClearHistoryProps> = ({
         classNames={{
           backdrop: "z-[101] bg-black/80",
           wrapper: "z-[102] pointer-events-auto",
-          base: "bg-white dark:bg-base-full-dark",
+          base: "bg-white dark:bg-full-dark",
           closeButton:
             "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
@@ -77,7 +77,7 @@ const ClearHistory: FC<ClearHistoryProps> = ({
                 ¿Estás absolutamente seguro?
               </ModalHeader>
               <ModalBody>
-                <p className="text-base-color-m dark:text-base-color-dark-m">
+                <p className="text-main-m dark:text-main-dark-m">
                   Esto eliminará permanentemente su historial de chat y
                   eliminará sus datos de nuestros servidores.
                 </p>
@@ -99,7 +99,7 @@ const ClearHistory: FC<ClearHistoryProps> = ({
                 <Button
                   variant="light"
                   onPress={onClose}
-                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>

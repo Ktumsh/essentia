@@ -41,7 +41,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
   const { is_premium } = profileData || {};
 
   const itemClass =
-    "rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-base-color-h dark:data-[hover=true]:text-base-color-dark";
+    "rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark text-main-h dark:text-main-dark-h data-[hover=true]:text-main-h dark:data-[hover=true]:text-main-dark";
 
   const renderPremiumMenu = () => {
     return (
@@ -54,7 +54,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Preferences"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="profile"
@@ -62,7 +62,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               href={`/profile/${profileData.username}`}
               className={cn("h-14 gap-2", itemClass)}
             >
-              <p className="inline-flex gap-2 font-medium dark:text-base-color-dark">
+              <p className="inline-flex gap-2 font-medium dark:text-main-dark">
                 {`${profileData.first_name} ${profileData.last_name}`}
               </p>
               <p className="text-xs">@{profileData.username}</p>
@@ -79,7 +79,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Detalles de la cuenta"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="account"
@@ -103,7 +103,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Preferences"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="configurations"
@@ -122,7 +122,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             <DropdownItem
               isReadOnly
               textValue="Tema"
-              className="cursor-default select-none rounded-md text-base-color-h dark:text-base-color-dark-h"
+              className="cursor-default select-none rounded-md text-main-h dark:text-main-dark-h"
               endContent={<ThemeToggle />}
             >
               Tema
@@ -155,7 +155,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Preferences"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="profile"
@@ -163,7 +163,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               href={`/profile/${profileData.username}`}
               className={cn("h-14 gap-2", itemClass)}
             >
-              <p className="font-medium dark:text-base-color-dark">
+              <p className="font-medium dark:text-main-dark">
                 {`${profileData.first_name} ${profileData.last_name}`}
               </p>
               <p className="text-xs">@{profileData.username}</p>
@@ -172,7 +172,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Actualiza tu cuenta"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="upgrade"
@@ -199,7 +199,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Detalles de la cuenta"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="account"
@@ -223,7 +223,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           <DropdownSection
             aria-label="Configuración y preferencias"
             showDivider
-            classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+            classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
           >
             <DropdownItem
               key="configuration"
@@ -242,7 +242,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
             <DropdownItem
               isReadOnly
               textValue="Tema"
-              className="cursor-default select-none rounded-md text-base-color-h dark:text-base-color-dark-h"
+              className="cursor-default select-none rounded-md text-main-h dark:text-main-dark-h"
               endContent={<ThemeToggle />}
             >
               Tema
@@ -270,12 +270,12 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
         <DropdownSection
           aria-label="Acerca de Essentia"
           showDivider
-          classNames={{ divider: "bg-gray-200 dark:bg-base-dark" }}
+          classNames={{ divider: "bg-gray-200 dark:bg-dark" }}
         >
           <DropdownItem
             key="about"
             textValue="Acerca de Essentia"
-            href="/premium"
+            href="/about-essentia"
             startContent={<InfoCircledIcon className="size-4" />}
             className={itemClass}
           >
@@ -308,7 +308,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
         <DropdownItem
           isReadOnly
           endContent={<ThemeToggle />}
-          className="cursor-default select-none rounded-md text-base-color-h dark:text-base-color-dark-h"
+          className="cursor-default select-none rounded-md text-main-h dark:text-main-dark-h"
           textValue="Tema"
         >
           Tema
@@ -324,7 +324,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
           shouldBlockScroll={false}
           classNames={{
             content:
-              "p-1 bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg",
+              "p-1 bg-white dark:bg-full-dark border border-gray-200 dark:border-dark rounded-lg",
           }}
           placement="bottom-end"
         >
@@ -343,7 +343,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                     size="sm"
                     classNames={{
                       badge:
-                        "bg-gray-200 dark:bg-base-dark border-white dark:border-base-full-dark-80",
+                        "bg-gray-200 dark:bg-dark border-white dark:border-full-dark/80",
                     }}
                   >
                     <Avatar
@@ -358,9 +358,9 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                       size="sm"
                       icon={<AvatarIcon />}
                       classNames={{
-                        icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
-                        base: "bg-gray-300 dark:bg-gray-600 ring-gray-200 dark:ring-base-dark",
-                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                        icon: "text-main-m dark:text-main-dark-m size-[80%]",
+                        base: "bg-gray-300 dark:bg-gray-600 ring-gray-200 dark:ring-dark",
+                        name: "font-medium text-main-h dark:text-main-dark-h",
                       }}
                     />
                   </Badge>
@@ -378,7 +378,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                     size="sm"
                     classNames={{
                       badge:
-                        "bg-gray-200 dark:bg-base-dark border-white dark:border-base-full-dark-80",
+                        "bg-gray-200 dark:bg-dark border-white dark:border-full-dark/80",
                     }}
                   >
                     <Avatar
@@ -387,9 +387,9 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                       size="sm"
                       icon={<AvatarIcon />}
                       classNames={{
-                        icon: "text-base-color-m dark:text-base-color-dark-m size-[80%]",
-                        base: "bg-gray-300 dark:bg-gray-600 ring-gray-200 dark:ring-base-dark",
-                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                        icon: "text-main-m dark:text-main-dark-m size-[80%]",
+                        base: "bg-gray-300 dark:bg-gray-600 ring-gray-200 dark:ring-dark",
+                        name: "font-medium text-main-h dark:text-main-dark-h",
                       }}
                     />
                   </Badge>
@@ -402,7 +402,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                 isIconOnly
                 disableRipple
                 variant="light"
-                className="dark:data-[hover=true]:bg-white/5 text-base-color dark:text-base-color-dark"
+                className="dark:data-[hover=true]:bg-white/5 text-main dark:text-main-dark"
               >
                 <MenuIcon className="size-6" />
               </Button>

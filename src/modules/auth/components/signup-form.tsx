@@ -127,7 +127,7 @@ const SignupForm = () => {
       layout
       style={{ height: "auto" }}
       transition={{ ease: "easeInOut", duration: 0.5 }}
-      className="flex relative justify-center items-center md:p-8 px-6 mb-9 sm:w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden"
+      className="flex relative justify-center items-center md:p-8 px-6 mb-9 sm:w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-full-dark text-left font-normal text-main-m dark:text-main-dark-m overflow-hidden"
     >
       <AnimatePresence mode="popLayout">
         {step === 1 ? (
@@ -142,7 +142,7 @@ const SignupForm = () => {
             className="flex flex-col items-start justify-center w-full select-none"
             onSubmit={handleEmailSubmit}
           >
-            <div className="w-full text-sm text-base-color-h dark:text-base-color-dark-h mb-5">
+            <div className="w-full text-sm text-main-h dark:text-main-dark-h mb-5">
               <p>Continúa con tu correo para comenzar a crear tu cuenta.</p>
             </div>
             <Input
@@ -162,7 +162,7 @@ const SignupForm = () => {
                 inputWrapper:
                   "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                 input:
-                  "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+                  "placeholder:text-main-l dark:placeholder:text-main-dark-l",
               }}
             />
             <Button
@@ -209,11 +209,11 @@ const SignupForm = () => {
                 <Button
                   isIconOnly
                   onPress={() => setStep(1)}
-                  className="bg-transparent sm:bg-gray-100 sm:dark:bg-base-dark"
+                  className="bg-transparent sm:bg-gray-100 sm:dark:bg-dark"
                 >
-                  <ArrowRightV2Icon className="size-6 rotate-180 text-base-color-h dark:text-base-color-dark-h" />
+                  <ArrowRightV2Icon className="size-6 rotate-180 text-main-h dark:text-main-dark-h" />
                 </Button>
-                <div className="w-full text-sm text-base-color-h dark:text-base-color-dark-h">
+                <div className="w-full text-sm text-main-h dark:text-main-dark-h">
                   <p>
                     Parece que no tienes una cuenta. Vamos a crear una nueva
                     cuenta para{" "}
@@ -243,7 +243,7 @@ const SignupForm = () => {
                     inputWrapper:
                       "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                     input:
-                      "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+                      "placeholder:text-main-l dark:placeholder:text-main-dark-l",
                   }}
                 />
                 <Input
@@ -265,7 +265,7 @@ const SignupForm = () => {
                     inputWrapper:
                       "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                     input:
-                      "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+                      "placeholder:text-main-l dark:placeholder:text-main-dark-l",
                   }}
                 />
               </div>
@@ -287,7 +287,7 @@ const SignupForm = () => {
                   inputWrapper:
                     "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                   input:
-                    "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+                    "placeholder:text-main-l dark:placeholder:text-main-dark-l",
                 }}
               />
               <div className="relative">
@@ -347,18 +347,17 @@ const SignupForm = () => {
                     }));
                   }}
                   endContent={
-                    <CalendarFillIcon className="size-6 text-base-color-m dark:text-base-color-dark-m" />
+                    <CalendarFillIcon className="size-6 text-main-m dark:text-main-dark-m" />
                   }
                   errorMessage={fieldErrors.birthdate}
                   isInvalid={!!fieldErrors.birthdate}
                   color={fieldErrors.birthdate ? "danger" : "default"}
                   classNames={{
                     label: "ml-5",
-                    description:
-                      "text-base-color-m dark:text-base-color-dark-m",
+                    description: "text-main-m dark:text-main-dark-m",
                     inputWrapper:
                       "bg-white md:bg-gray-100 dark:!bg-white/5 dark:hover:!bg-white/10",
-                    innerWrapper: "text-base-color-m",
+                    innerWrapper: "text-main-m",
                   }}
                 />
               </div>
@@ -393,10 +392,10 @@ const SignupForm = () => {
                   inputWrapper:
                     "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
                   input:
-                    "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+                    "placeholder:text-main-l dark:placeholder:text-main-dark-l",
                 }}
               />
-              <div className="flex mb-6 relative w-full text-[13px] leading-snug select-text text-base-color-h dark:text-base-color-dark-h">
+              <div className="flex mb-6 relative w-full text-[13px] leading-snug select-text text-main-h dark:text-main-dark-h">
                 <p className="text-center md:text-start">
                   Al registrarte, estás aceptando los{" "}
                   <Link
@@ -431,7 +430,7 @@ const SignupForm = () => {
             >
               Crear cuenta
             </Button>
-            <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-base-color-h dark:text-base-color-dark-h">
+            <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-main-h dark:text-main-dark-h">
               <p>
                 ¿Ya tienes una cuenta?{" "}
                 <Link

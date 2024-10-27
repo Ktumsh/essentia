@@ -14,9 +14,9 @@ const FormInput: FC<FormInput> = ({ onChange, ...props }) => (
     {...props}
     classNames={{
       base: "px-4 py-3",
-      input: "text-base-color dark:text-base-color-dark",
+      input: "text-main dark:text-main-dark",
       inputWrapper:
-        "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+        "border-gray-200 data-[hover=true]:border-gray-200 dark:border-dark dark:data-[hover=true]:border-dark",
     }}
   />
 );

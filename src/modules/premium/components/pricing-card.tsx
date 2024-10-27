@@ -17,10 +17,8 @@ import { setUserPlan } from "@/modules/payment/pay/actions";
 import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
 
-
 import CancelPlanModal from "./cancel-plan-modal";
 import PaymentModal from "./payment-modal";
-
 
 interface PricingCardProps {
   title: string;
@@ -100,23 +98,23 @@ const PricingCard: FC<PricingCardProps> = ({
     <>
       <Card
         className={cn(
-          "relative bg-white dark:bg-base-full-dark rounded-xl shadow-lg",
+          "relative bg-white dark:bg-full-dark rounded-xl shadow-lg",
           !isRecommended &&
             !isAnual &&
             "border border-gray-300 dark:border-[#123a6f]",
           isRecommended &&
-            "z-10 dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:dark:bg-base-full-dark-40",
+            "z-10 dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:dark:bg-full-dark/40",
           isAnual &&
-            "z-0 dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-[12px] after:bg-white after:dark:bg-base-full-dark"
+            "z-0 dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-[12px] after:bg-white after:dark:bg-full-dark"
         )}
       >
         <CardHeader
           className={cn(
-            "relative flex-col items-stretch p-3 md:p-6 gap-3 text-base-color dark:text-white after:border-b after:border-gray-300 after:dark:border-[#123a6f] z-10",
+            "relative flex-col items-stretch p-3 md:p-6 gap-3 text-main dark:text-white after:border-b after:border-gray-300 after:dark:border-[#123a6f] z-10",
             !isRecommended && !isAnual && "after:!inset-0",
             isRecommended
-              ? "after:content-[''] after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:dark:bg-base-full-dark-80 after:dark:border-base-full-dark after:z-[-1]"
-              : "after:content-[''] after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:dark:bg-base-dark-50 after:z-[-1]"
+              ? "after:content-[''] after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:dark:bg-full-dark/80 after:dark:border-full-dark after:z-[-1]"
+              : "after:content-[''] after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:dark:bg-dark/50 after:z-[-1]"
           )}
         >
           <div className="inline-flex items-center gap-2">
@@ -124,24 +122,24 @@ const PricingCard: FC<PricingCardProps> = ({
             {subtitle && (
               <div
                 className={cn(
-                  "relative inline-flex shrink-0 items-center justify-center h-5 gap-1 px-2.5 text-xs rounded-full text-base-color-h dark:text-base-color-dark",
+                  "relative inline-flex shrink-0 items-center justify-center h-5 gap-1 px-2.5 text-xs rounded-full text-main-h dark:text-main-dark",
                   isRecommended
-                    ? "bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-full after:bg-white after:dark:bg-base-full-dark after:z-0"
-                    : "bg-white dark:bg-base-full-dark border border-gray-300 dark:border-[#123a6f]"
+                    ? "bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-full after:bg-white after:dark:bg-full-dark after:z-0"
+                    : "bg-white dark:bg-full-dark border border-gray-300 dark:border-[#123a6f]"
                 )}
               >
                 <span className="z-10">{subtitle}</span>
               </div>
             )}
           </div>
-          <p className="min-h-[40px] lg:min-h-[60px] text-sm text-base-color-h dark:text-base-color-dark-h">
+          <p className="min-h-[40px] lg:min-h-[60px] text-sm text-main-h dark:text-main-dark-h">
             {description}
           </p>
           <p className="inline-block whitespace-nowrap leading-none">
             <span className="text-2xl font-semibold tracking-tight font-sans">
               ${price.toLocaleString("es-CL")}
             </span>
-            <span className="ml-0.5 text-sm text-base-color-m dark:text-base-color-dark-h">
+            <span className="ml-0.5 text-sm text-main-m dark:text-main-dark-h">
               {isAnual ? "/año" : "/mes"}
             </span>
           </p>
@@ -150,10 +148,10 @@ const PricingCard: FC<PricingCardProps> = ({
             isDisabled={isCurrentPlan}
             onPress={() => handlePlanSelect(priceId)}
             className={cn(
-              "z-10 text-sm dark:bg-base-full-dark-80 border border-gray-300 dark:border-[#123a6f]",
+              "z-10 text-sm dark:bg-full-dark/80 border border-gray-300 dark:border-[#123a6f]",
               isRecommended &&
                 "border-none bg-light-gradient-v2 dark:bg-dark-gradient-v2",
-              isAnual && "bg-white dark:bg-base-full-dark"
+              isAnual && "bg-white dark:bg-full-dark"
             )}
           >
             {session ? (
@@ -177,7 +175,7 @@ const PricingCard: FC<PricingCardProps> = ({
               <li key={index} className="text-sm">
                 <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
                   <CheckCircledIcon className="inline-flex shrink-0 size-5 text-teal-400" />
-                  <span className="text-left text-base-color-h dark:text-white/90">
+                  <span className="text-left text-main-h dark:text-white/90">
                     {feature}
                   </span>
                 </div>

@@ -21,7 +21,7 @@ const Medicines = dynamic(() => import("./medicines"), {
 const Emergencies = () => {
   return (
     <>
-      <article className="flex flex-col pb-5 md:p-0 mt-12 md:my-0 px-2 text-base-color-h dark:text-base-color-dark">
+      <article className="flex flex-col pb-5 md:p-0 mt-12 md:my-0 px-2 text-main-h dark:text-main-dark">
         <EmergencySteps />
         <Phones />
         <div className="flex flex-col md:flex-row gap-2">

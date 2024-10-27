@@ -25,7 +25,7 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
         <h1 className="text-center text-2xl font-semibold tracking-tight md:text-5xl">
           Precios
         </h1>
-        <p className="max-w-md text-center text-sm text-base-color-h dark:text-base-color-dark-h md:max-w-[850px] md:text-base">
+        <p className="max-w-md text-center text-sm text-main-h dark:text-main-dark-h md:max-w-[850px] md:text-base">
           Actualiza al plan Premium para obtener acceso a todas las
           funcionalidades de Essentia AI, diseñadas para brindarte una
           experiencia personalizada y ayudarte a alcanzar tus objetivos de

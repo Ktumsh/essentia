@@ -104,7 +104,7 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
 
   return (
     <>
-      <Divider className="bg-gray-200 dark:bg-base-dark" />
+      <Divider className="bg-gray-200 dark:bg-dark" />
       <div>
         <h3 className="mb-2 font-semibold md:text-lg text-bittersweet dark:text-orient">
           {isOwnProfile ? "Mis insignias" : "Insignias"}
@@ -127,7 +127,7 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
                 classNames={{
                   base: "before:bg-light-gradient-v2 before:dark:bg-dark-gradient",
                   content:
-                    "border-3 border-white dark:border-base-dark bg-light-gradient-v2 dark:bg-dark-gradient p-0",
+                    "border-3 border-white dark:border-dark bg-light-gradient-v2 dark:bg-dark-gradient p-0",
                 }}
               >
                 <PopoverTrigger className="aria-expanded:opacity-100">
@@ -135,7 +135,7 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
                     src={achievement.icon}
                     alt={achievement.name}
                     classNames={{
-                      base: "ring-2 md:ring-4 ring-white dark:ring-base-full-dark cursor-pointer",
+                      base: "ring-2 md:ring-4 ring-white dark:ring-full-dark cursor-pointer",
                     }}
                   />
                 </PopoverTrigger>
@@ -154,7 +154,7 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
             ))}
           </AvatarGroup>
         ) : (
-          <p className="text-sm text-base-color-m dark:text-base-color-dark-m">
+          <p className="text-sm text-main-m dark:text-main-dark-m">
             Aquí podrás visualizar tus metas en la plataforma.
           </p>
         )}

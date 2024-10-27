@@ -28,7 +28,7 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
   return (
     <div
       className={cn(
-        "flex gap-1.5 rounded-full border border-gray-200 dark:border-base-dark"
+        "flex gap-1.5 rounded-full border border-gray-200 dark:border-dark"
       )}
     >
       <Tooltip
@@ -45,8 +45,8 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onPress={() => handleThemeChange("system")}
           className={cn(
-            "text-base-color-h dark:text-gray-400 bg-transparent min-w-6",
-            theme === "system" && "!bg-gray-200 dark:!bg-base-dark",
+            "text-main-h dark:text-gray-400 bg-transparent min-w-6",
+            theme === "system" && "!bg-gray-200 dark:!bg-dark",
             className
           )}
         >
@@ -70,8 +70,8 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onPress={() => handleThemeChange("light")}
           className={cn(
-            "text-base-color-h dark:text-gray-400 bg-transparent min-w-6",
-            theme === "light" && "!bg-gray-200 dark:!bg-base-dark",
+            "text-main-h dark:text-gray-400 bg-transparent min-w-6",
+            theme === "light" && "!bg-gray-200 dark:!bg-dark",
             className
           )}
         >
@@ -95,8 +95,8 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onPress={() => handleThemeChange("dark")}
           className={cn(
-            "text-base-color-h dark:text-gray-400 bg-transparent min-w-6",
-            theme === "dark" && "!bg-gray-200 dark:!bg-base-dark",
+            "text-main-h dark:text-gray-400 bg-transparent min-w-6",
+            theme === "dark" && "!bg-gray-200 dark:!bg-dark",
             className
           )}
         >

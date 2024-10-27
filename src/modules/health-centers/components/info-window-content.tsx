@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { LinkIcon } from "@/modules/icons/action";
 
 const InfoWindowContent = ({ placeDetails }: any) => (
-  <div className="flex flex-col mt-4 gap-2 text-base-color-h dark:text-base-color-dark-h">
+  <div className="flex flex-col mt-4 gap-2 text-main-h dark:text-main-dark-h">
     <h2 className="text-xl font-bold font-dmsans absolute top-0 left-0 m-4">
       {placeDetails.name}
     </h2>

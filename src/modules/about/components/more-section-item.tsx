@@ -8,7 +8,7 @@ const MoreSectionItem = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <li className="flex text-start text-base">
+    <li className="flex text-start text-main">
       <div className="flex-[0_0_auto] min-w-0 box-border">
         <span
           aria-hidden="true"

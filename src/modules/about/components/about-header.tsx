@@ -67,9 +67,9 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
       <nav
         id="nav"
         className={cn(
-          "px-5 shadow-md items-center flex justify-between text-base-color z-50 transition-all duration-300 ease-in-out",
+          "px-5 shadow-md items-center flex justify-between text-main z-50 transition-all duration-300 ease-in-out",
           isChanged
-            ? "bg-white/50 backdrop-blur-2xl text-base-color-h"
+            ? "bg-white/50 backdrop-blur-2xl text-main-h"
             : "bg-white sm:mx-5 sm:my-2 sm:rounded-lg"
         )}
       >
@@ -80,7 +80,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
         >
           <div
             id="nav_links"
-            className={`flex text-base font-light whitespace-nowrap transition-opacity duration-150 ${
+            className={`flex text-main font-light whitespace-nowrap transition-opacity duration-150 ${
               isChanging ? "opacity-0" : "opacity-100"
             }`}
           >
@@ -120,7 +120,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
                 </Link>
                 <Link
                   href="/"
-                  className="hidden md:block font-grotesk text-base-color dark:text-white/95"
+                  className="hidden md:block font-grotesk text-main dark:text-white/95"
                 >
                   Essentia®️
                 </Link>
@@ -130,7 +130,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
           <div
             id="nav_btns"
             className={cn(
-              "items-center text-base font-normal inline-flex gap-4 transition-opacity duration-150",
+              "items-center text-main font-normal inline-flex gap-4 transition-opacity duration-150",
               isChanging || isChanged
                 ? "opacity-0 pointer-events-none"
                 : "opacity-100"
@@ -142,7 +142,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
                 href="/login"
                 variant="light"
                 radius="sm"
-                className="bg-white dark:bg-base-full-dark data-[hover=true]:bg-gray-100 data-[hover=true]:dark:bg-base-dark border border-gray-200 dark:border-base-dark"
+                className="bg-white dark:bg-full-dark data-[hover=true]:bg-gray-100 data-[hover=true]:dark:bg-dark border border-gray-200 dark:border-dark text-main"
               >
                 Inicia sesión
               </Button>

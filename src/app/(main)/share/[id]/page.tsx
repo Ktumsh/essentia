@@ -50,10 +50,10 @@ export default async function SharePage({ params }: SharePageProps) {
         <div className="border-b border-gray-50 dark:border-white/10 px-4 py-6 md:px-6 md:py-8">
           <div className="mx-auto max-w-2xl">
             <div className="space-y-1 md:-mx-8">
-              <h1 className="text-2xl font-bold text-base-color dark:text-base-color-dark">
+              <h1 className="text-2xl font-bold text-main dark:text-main-dark">
                 {chat.title}
               </h1>
-              <div className="text-sm text-base-color-m dark:text-base-color-dark-m">
+              <div className="text-sm text-main-m dark:text-main-dark-m">
                 {formatDate(chat.created_at, "dd 'de' MMMM 'de' yyyy")} ·{" "}
                 {chat.messages.length} mensajes
               </div>

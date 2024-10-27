@@ -33,9 +33,8 @@ const ReasonCheckbox = ({ selectedReasons, onChange }: ReasonCheckboxProps) => {
           color="danger"
           value={reason}
           classNames={{
-            base: "m-0 max-w-full inline-flex items-center py-1.5 gap-0 border border-gray-200 dark:border-base-dark rounded-md",
-            label:
-              "w-full text-sm md:text-sm text-base-color dark:text-base-color-dark",
+            base: "m-0 max-w-full inline-flex items-center py-1.5 gap-0 border border-gray-200 dark:border-dark rounded-md",
+            label: "w-full text-sm md:text-sm text-main dark:text-main-dark",
           }}
         >
           {reason}

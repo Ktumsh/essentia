@@ -12,7 +12,6 @@ import { motion } from "framer-motion";
 import { useState, FormEvent } from "react";
 import { toast } from "sonner";
 
-
 import { siteConfig } from "@/config/site";
 import { SpinnerIcon } from "@/modules/icons/common";
 
@@ -111,15 +110,15 @@ const PaymentForm = ({
       className="flex flex-1 flex-col h-full space-y-4"
     >
       <PaymentElement options={paymentElementOptions} />
-      <p className="flex-1 text-sm text-base-color-m dark:text-base-color-dark-m">
+      <p className="flex-1 text-sm text-main-m dark:text-main-dark-m">
         Al hacer clic en Confirmar comenzará tu suscripción al plan{" "}
         {planDetails.plan} de{" "}
-        <span className="font-medium text-base-color dark:text-base-color-dark">
+        <span className="font-medium text-main dark:text-main-dark">
           ${planDetails.amount}
         </span>
         /{planDetails.frequency}, con fecha de renovación{" "}
         {planDetails.connector}{" "}
-        <span className="font-medium text-base-color dark:text-base-color-dark">
+        <span className="font-medium text-main dark:text-main-dark">
           {planDetails.renewal}
         </span>
         .
@@ -129,7 +128,7 @@ const PaymentForm = ({
           onPress={onClose}
           isDisabled={isLoading || isPolling}
           variant="light"
-          className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+          className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
         >
           Cerrar
         </Button>

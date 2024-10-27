@@ -48,7 +48,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
           wrapper: "z-[102] pointer-events-auto",
           base: [
             "bg-light-gradient-v2 dark:bg-dark-gradient-v2 rounded-3xl",
-            "before:bg-white before:dark:bg-base-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-[23px] before:z-[-1]",
+            "before:bg-white before:dark:bg-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-[23px] before:z-[-1]",
           ],
         }}
         isOpen={isOpen}
@@ -57,17 +57,17 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="p-3 flex-col text-center justify-center text-base-color dark:text-white md:p-6 bg-light-gradient-v2 dark:bg-dark-gradient-v2 rounded-3xl">
+              <ModalHeader className="p-3 flex-col text-center justify-center text-main dark:text-white md:p-6 bg-light-gradient-v2 dark:bg-dark-gradient-v2 rounded-3xl">
                 <h2 className="text-2xl leading-normal font-extrabold uppercase tracking-widest text-white font-sans">
                   Essentia Premium
                 </h2>
               </ModalHeader>
-              <ModalBody className="p-3 md:p-6 text-base-color dark:text-base-color-dark text-center">
+              <ModalBody className="p-3 md:p-6 text-main dark:text-main-dark text-center">
                 <p className="font-medium">
                   Para acceder a todas las funcionalidades de Essentia AI, es
                   necesario tener un plan premium.
                 </p>
-                <p className="text-sm text-base-color-h dark:text-base-color-dark-h">
+                <p className="text-sm text-main-h dark:text-main-dark-h">
                   Actualiza al plan Premium para obtener acceso a todas las
                   funcionalidades de Essentia AI.
                 </p>
@@ -87,7 +87,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
                       className="size-5 stars-icon focus:outline-none [&_*]:group-data-[hover=true]:fill-white [&_*]:transition"
                     />
                   }
-                  className="bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-base-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-full before:z-[-1] data-[hover=true]:before:opacity-0 before:transition"
+                  className="bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-full before:z-[-1] data-[hover=true]:before:opacity-0 before:transition"
                 >
                   <span className="text-transparent bg-clip-text bg-light-gradient-v2 dark:bg-dark-gradient-v2 font-extrabold tracking-widest group-data-[hover=true]:text-white transition-colors">
                     Hazte premium

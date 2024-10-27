@@ -14,7 +14,7 @@ export default function Guides() {
             key={index}
             radius="sm"
             shadow="none"
-            className="group col-span-12 sm:col-span-6 lg:col-span-4 bg-white dark:bg-base-dark-50 md:dark:bg-base-full-dark border border-gray-300 dark:border-base-dark md:dark:border-base-dark text-base-color dark:text-base-color-dark"
+            className="group col-span-12 sm:col-span-6 lg:col-span-4 bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 dark:border-dark md:dark:border-dark text-main dark:text-main-dark"
           >
             <CardBody className="z-10">
               <div className="relative inline-flex items-center justify-between w-full mb-3">
@@ -33,11 +33,11 @@ export default function Guides() {
                   )}
                 </TooltipCTN>
               </div>
-              <p className="text-sm text-base-color-h dark:text-base-color-dark-h">
+              <p className="text-sm text-main-h dark:text-main-dark-h">
                 {guide.description}
               </p>
             </CardBody>
-            <CardFooter className="justify-end z-10 bg-gray-100 dark:bg-base-dark-50 border-t border-gray-200 dark:border-base-dark rounded-none">
+            <CardFooter className="justify-end z-10 bg-gray-100 dark:bg-dark/50 border-t border-gray-200 dark:border-dark rounded-none">
               <Button
                 as={"a"}
                 download={guide.downloadTitle || undefined}
@@ -45,7 +45,7 @@ export default function Guides() {
                 radius="sm"
                 size="sm"
                 endContent={<DownloadIcon className="size-4 " />}
-                className="shadow-sm bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark font-medium text-sm text-base-color dark:text-base-color-dark"
+                className="shadow-sm bg-white dark:bg-full-dark border border-gray-200 dark:border-dark font-medium text-sm text-main dark:text-main-dark"
               >
                 Descargar
               </Button>

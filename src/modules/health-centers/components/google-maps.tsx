@@ -167,13 +167,13 @@ const GoogleMaps = () => {
           animate={!isLoading && { opacity: 1 }}
           transition={{ ease: "easeInOut", duration: 0.5 }}
           ref={mapRef}
-          className="!absolute inset-0 size-full bg-white dark:bg-base-full-dark md:rounded-3xl overflow-hidden shadow-medium focus:[&_*]:!outline-0 [&_*]:!border-none [&_>_div]:!bg-transparent"
+          className="!absolute inset-0 size-full bg-white dark:bg-full-dark md:rounded-3xl overflow-hidden shadow-medium focus:[&_*]:!outline-0 [&_*]:!border-none [&_>_div]:!bg-transparent"
         >
           <input
             ref={searchRef}
             type="text"
             placeholder="Buscar por nombre o ubicación"
-            className="!left-0 !top-0 w-56 sm:w-80 h-10 px-4 p-2 mt-2 ml-2 bg-white dark:bg-base-full-dark font-sans placeholder:text-xs lg:placeholder:text-sm placeholder:text-base-color-m dark:placeholder:text-base-color-dark-m text-sm text-base-color dark:text-base-color-dark rounded-full outline-none ring-0 border-0 shadow-small transition"
+            className="!left-0 !top-0 w-56 sm:w-80 h-10 px-4 p-2 mt-2 ml-2 bg-white dark:bg-full-dark font-sans placeholder:text-xs lg:placeholder:text-sm placeholder:text-main-m dark:placeholder:text-main-dark-m text-sm text-main dark:text-main-dark rounded-full outline-none ring-0 border-0 shadow-small transition"
           />
           <div ref={markerRef} className="bg-white rounded-full p-px">
             <LocationSelfIcon className="size-7 text-sky-500" />

@@ -18,10 +18,6 @@ import {
 } from "./carousel-arrow-buttons";
 import { DotButton, useDotButton } from "./carousel-dot-buttons";
 
-
-
-
-
 interface CarouselProps {
   slides: MaincapResources[];
   options?: EmblaOptionsType;
@@ -58,7 +54,7 @@ const CarouselItem = (props: CarouselProps) => {
   }, [startAutoChange, stopAutoChange]);
 
   return (
-    <div className="shadow-md border border-white dark:border-base-full-dark rounded-3xl">
+    <div className="shadow-md border border-white dark:border-full-dark rounded-3xl">
       <div
         className="relative overflow-hidden"
         ref={emblaRef}
@@ -119,8 +115,8 @@ const CarouselItem = (props: CarouselProps) => {
               className={cn(
                 "h-2 rounded-full shadow-sm shadow-black/30 transition-all",
                 index === selectedIndex
-                  ? "bg-white dark:bg-base-full-dark w-10"
-                  : "bg-white/50 dark:bg-base-full-dark-50 w-5"
+                  ? "bg-white dark:bg-full-dark w-10"
+                  : "bg-white/50 dark:bg-full-dark/50 w-5"
               )}
             />
           ))}

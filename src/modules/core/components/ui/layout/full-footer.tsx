@@ -13,7 +13,7 @@ const FullFooter = () => {
   return (
     <div
       id="footer"
-      className="w-full static bg-gray-100 dark:bg-base-dark text-base-color dark:text-white font-light"
+      className="w-full static bg-gray-100 dark:bg-dark text-main dark:text-white font-light"
     >
       <footer className="flex flex-col max-w-[1250px] py-10 px-5 mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-8 max-w-7xl mb-10">

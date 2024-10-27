@@ -59,9 +59,9 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           isPressable
           isBlurred
           shadow="none"
-          className="bg-gray-100 dark:bg-base-dark-50 border border-gray-300 dark:border-base-dark"
+          className="bg-gray-100 dark:bg-dark/50 border border-gray-300 dark:border-dark"
         >
-          <CardBody className="h-20 items-center justify-between text-base-color-h dark:text-base-color-dark">
+          <CardBody className="h-20 items-center justify-between text-main-h dark:text-main-dark">
             <HealthCentersFillIcon className="size-7" />
             <h2 className="text-sm">Centros de Salud</h2>
           </CardBody>
@@ -72,9 +72,9 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           isPressable
           isBlurred
           shadow="none"
-          className="bg-gray-100 dark:bg-base-dark-50 border border-gray-300 dark:border-base-dark"
+          className="bg-gray-100 dark:bg-dark/50 border border-gray-300 dark:border-dark"
         >
-          <CardBody className="h-20 items-center justify-between text-base-color-h dark:text-base-color-dark">
+          <CardBody className="h-20 items-center justify-between text-main-h dark:text-main-dark">
             <AdditionalFillIcon className="size-7" />
             <h2 className="text-sm">Recursos Adicionales</h2>
           </CardBody>

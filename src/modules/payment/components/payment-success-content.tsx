@@ -69,7 +69,7 @@ const PaymentSuccessContent = ({
     titleStatus === "success" ? "text-success" : "text-red-600";
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 space-y-6 text-base-color dark:text-base-color-dark">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 space-y-6 text-main dark:text-main-dark">
       <div className="relative flex items-center justify-center size-[120px]">
         {circles.map((circle, index) => (
           <motion.div
@@ -137,20 +137,14 @@ const PaymentSuccessContent = ({
         <p className="font-semibold text-xl text-center">{message}</p>
       )}
 
-      <p className="text-center text-base-color-h dark:text-base-color-dark-h">
-        {status}
-      </p>
+      <p className="text-center text-main-h dark:text-main-dark-h">{status}</p>
 
       {paymentDetails && (
         <div className="w-full max-w-lg">
-          <h2 className="text-sm uppercase font-bold px-5 lg:px-0 ml-3 text-base-color-h dark:text-base-color-dark">
+          <h2 className="text-sm uppercase font-bold px-5 lg:px-0 ml-3 text-main-h dark:text-main-dark">
             Detalles del Pago
           </h2>
-          <Card
-            fullWidth
-            shadow="none"
-            className="bg-gray-200 dark:bg-base-dark"
-          >
+          <Card fullWidth shadow="none" className="bg-gray-200 dark:bg-dark">
             <CardBody className="p-3 md:p-6 space-y-4">
               <div className="inline-flex justify-between">
                 <span>Plan premium</span>{" "}

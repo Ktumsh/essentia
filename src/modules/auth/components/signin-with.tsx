@@ -10,7 +10,7 @@ const SignInWith = () => {
         id="loginWithGoogle"
         fullWidth
         variant="light"
-        className="text-sm rounded text-white sm:text-base-color-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
+        className="text-sm rounded text-white sm:text-main-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
         onClick={async () =>
           await signIn("google", { callbackUrl: "/", redirect: false })
         }
@@ -23,7 +23,7 @@ const SignInWith = () => {
         id="loginWithFacebook"
         fullWidth
         variant="light"
-        className="text-sm rounded text-white sm:text-base-color-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
+        className="text-sm rounded text-white sm:text-main-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
         onClick={async () =>
           await signIn("facebook", { callbackUrl: "/", redirect: false })
         }
@@ -36,7 +36,7 @@ const SignInWith = () => {
         id="loginWithX"
         fullWidth
         variant="light"
-        className="text-sm rounded text-white sm:text-base-color-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
+        className="text-sm rounded text-white sm:text-main-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
         onClick={async () =>
           await signIn("twitter", { callbackUrl: "/", redirect: false })
         }

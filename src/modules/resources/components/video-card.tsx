@@ -1,6 +1,7 @@
 "use client";
 
-import { useDisclosure ,
+import {
+  useDisclosure,
   Card,
   CardBody,
   Image as ImageUI,
@@ -16,7 +17,6 @@ import { Video } from "@/types/resource";
 import { formatTitle } from "@/utils/format";
 
 import { useModalHash } from "../hooks/use-modal-hash";
-
 
 const getYouTubeThumbnail = (videoId: string) => {
   return `https://i.ytimg.com/vi_webp/${videoId}/maxresdefault.webp`;
@@ -52,7 +52,7 @@ const VideoCard: FC<VideoCardProps> = ({
         data-name={video.title}
         radius="sm"
         classNames={{
-          base: "col-span-12 md:col-span-6 border border-gray-100 dark:border-base-dark bg-white dark:bg-base-full-dark shadow-md",
+          base: "col-span-12 md:col-span-6 border border-gray-100 dark:border-dark bg-white dark:bg-full-dark shadow-md",
           body: "p-0",
         }}
         shadow="sm"
@@ -83,7 +83,7 @@ const VideoCard: FC<VideoCardProps> = ({
               </Card>
             </div>
             <div className="flex flex-col justify-center h-full col-span-7 p-3">
-              <p className="line-clamp-4 text-xs sm:text-sm text-base-color-h dark:text-base-color-dark">
+              <p className="line-clamp-4 text-xs sm:text-sm text-main-h dark:text-main-dark">
                 {video.description}
               </p>
             </div>

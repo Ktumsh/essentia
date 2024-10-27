@@ -64,12 +64,12 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
             shadow={selectedPlanId === plan.id ? "md" : "none"}
             onPress={() => handleSelect(plan.id)}
             className={cn(
-              "relative flex flex-col gap-2 rounded-xl p-4 text-sm font-normal text-base-color dark:text-white bg-white dark:bg-base-full-dark data-[disabled=true]:opacity-100 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default",
+              "relative flex flex-col gap-2 rounded-xl p-4 text-sm font-normal text-main dark:text-white bg-white dark:bg-full-dark data-[disabled=true]:opacity-100 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default",
               index === 0
-                ? "border border-gray-200 dark:border-base-dark"
-                : "dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-[2px] after:rounded-[10px] after:bg-white after:dark:bg-base-full-dark",
+                ? "border border-gray-200 dark:border-dark"
+                : "dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-[2px] after:rounded-[10px] after:bg-white after:dark:bg-full-dark",
               selectedPlanId === plan.id &&
-                "after:bg-white/70 dark:after:bg-base-full-dark-70 backdrop-blur backdrop-saturate-150"
+                "after:bg-white/70 dark:after:bg-full-dark/70 backdrop-blur backdrop-saturate-150"
             )}
           >
             <div className="flex justify-between w-full z-10">
@@ -87,7 +87,7 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                   </div>
                 )}
                 {index === 0 && !isCurrentPlan(plan.id) && (
-                  <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 bg-gray-200 dark:bg-base-dark font-medium text-base-color dark:text-base-color-dark text-xs rounded-full">
+                  <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 bg-gray-200 dark:bg-dark font-medium text-main dark:text-main-dark text-xs rounded-full">
                     Predeterminado
                   </div>
                 )}
@@ -100,9 +100,9 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                   <div
                     className={cn(
                       selectedPlanId === plan.id
-                        ? "bg-white dark:bg-base-full-dark"
-                        : "bg-gray-200 dark:bg-base-dark",
-                      "inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-base-color dark:text-base-color-dark text-xs rounded-full"
+                        ? "bg-white dark:bg-full-dark"
+                        : "bg-gray-200 dark:bg-dark",
+                      "inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-main dark:text-main-dark text-xs rounded-full"
                     )}
                   >
                     Ahorra más
@@ -113,19 +113,19 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                 <span className="text-base font-medium font-sans">
                   ${plan.amount.toLocaleString("es-CL")}
                 </span>
-                <span className="text-base-color-m dark:text-base-color-dark-m">
+                <span className="text-main-m dark:text-main-dark-m">
                   {index > 1 ? "/año" : "/mes"}
                 </span>
               </div>
             </div>
-            <p className="text-start text-base-color-h dark:text-base-color-dark-h z-10">
+            <p className="text-start text-main-h dark:text-main-dark-h z-10">
               {plan.description}
             </p>
           </Card>
         ))}
       </div>
 
-      <p className="flex gap-1 text-center text-sm text-base-color-m dark:text-base-color-dark-m">
+      <p className="flex gap-1 text-center text-sm text-main-m dark:text-main-dark-m">
         Ver más detalles en nuestra
         <Link
           className="flex items-center gap-x-1 text-orient-700"

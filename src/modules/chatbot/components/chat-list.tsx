@@ -32,11 +32,11 @@ const ChatList = ({
       {!isShared && !session ? (
         <>
           <div className="group relative mb-4 flex items-start md:-ml-12">
-            <div className="bg-white dark:bg-base-dark flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border border-gray-200 dark:border-white/10 shadow-sm">
-              <ExclamationTriangleIcon className="text-base-color dark:text-base-color-dark" />
+            <div className="bg-white dark:bg-dark flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border border-gray-200 dark:border-white/10 shadow-sm">
+              <ExclamationTriangleIcon className="text-main dark:text-main-dark" />
             </div>
             <div className="ml-2 md:ml-6 flex-1 space-y-2 overflow-hidden">
-              <p className="text-base-color-m dark:text-base-color-dark-m leading-normal">
+              <p className="text-main-m dark:text-main-dark-m leading-normal">
                 Por favor{" "}
                 <Link href="/login" className="underline">
                   inicia sesión

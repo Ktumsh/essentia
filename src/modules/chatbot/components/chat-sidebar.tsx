@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import useSWR from "swr";
 
-
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { Chat } from "@/types/chat";
 import { Session } from "@/types/session";
@@ -38,7 +37,7 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
   if (!session?.user) return null;
 
   return (
-    <Sidebar className="peer absolute inset-y-0 pt-14 z-30 hidden md:flex w-[250px] xl:w-[300px] -translate-x-full border-r border-gray-200 dark:border-base-dark bg-white dark:bg-base-full-dark duration-300 ease-in-out data-[state=open]:translate-x-0">
+    <Sidebar className="peer absolute inset-y-0 pt-14 z-30 hidden md:flex w-[250px] xl:w-[300px] -translate-x-full border-r border-gray-200 dark:border-dark bg-white dark:bg-full-dark duration-300 ease-in-out data-[state=open]:translate-x-0">
       {isLoading ? (
         <HistoryLoading />
       ) : (

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { ChatIcon, UsersIcon } from "@/modules/icons/miscellaneus";
@@ -52,12 +51,12 @@ export function SidebarItem({
         {chat.share_path ? (
           <TooltipCTN content="Este es un chat compartido">
             <span>
-              <UsersIcon className="size-4 mr-2 mt-1 text-base-color-m dark:text-base-color-dark-m" />
+              <UsersIcon className="size-4 mr-2 mt-1 text-main-m dark:text-main-dark-m" />
             </span>
           </TooltipCTN>
         ) : (
           <span>
-            <ChatIcon className="size-4 mr-2 mt-2 text-base-color-d dark:text-base-color-dark-d" />
+            <ChatIcon className="size-4 mr-2 mt-2 text-main-l dark:text-main-dark-l" />
           </span>
         )}
       </div>
@@ -65,8 +64,8 @@ export function SidebarItem({
       <Link
         href={chat.path}
         className={cn(
-          "inline-flex flex-col justify-center w-full text-sm px-8 py-2 pr-16 whitespace-nowrap font-semibold text-base-color-h dark:text-base-color-dark-h group-hover:text-base-color dark:group-hover:text-white group-hover:bg-gray-100 dark:group-hover:bg-base-dark rounded-md transition-colors duration-150",
-          isActive && "bg-gray-100 dark:bg-base-dark"
+          "inline-flex flex-col justify-center w-full text-sm px-8 py-2 pr-16 whitespace-nowrap font-semibold text-main-h dark:text-main-dark-h group-hover:text-main dark:group-hover:text-white group-hover:bg-gray-100 dark:group-hover:bg-dark rounded-md transition-colors duration-150",
+          isActive && "bg-gray-100 dark:bg-dark"
         )}
       >
         <div className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all">

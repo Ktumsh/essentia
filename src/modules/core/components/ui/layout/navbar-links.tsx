@@ -100,7 +100,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
                 href={href}
                 onPress={() => handleNavItemClick}
                 className={cn(
-                  "!h-full max-h-12 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
+                  "!h-full max-h-12 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
                   "px-3 pointer-events-auto hover:text-bittersweet-400 dark:hover:text-cerise-red-600",
                   active &&
                     "rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"

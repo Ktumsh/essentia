@@ -24,7 +24,7 @@ const Footer = ({ isMobile }: FooterProps) => {
             variant="flat"
             size="sm"
             isIconOnly
-            className="min-w-0 mb-2 !size-7 bg-black/10 dark:bg-white/10 text-base-color-h dark:text-base-color-dark-h"
+            className="min-w-0 mb-2 !size-7 bg-black/10 dark:bg-white/10 text-main-h dark:text-main-dark-h"
           >
             <span className="sr-only">Reportar un error</span>
             <BugIcon className="size-5" />
@@ -32,7 +32,7 @@ const Footer = ({ isMobile }: FooterProps) => {
         </TooltipCTN>
       )}
       <footer aria-label="Essentia" role="contentinfo">
-        <span className="text-xs text-base-color-h dark:text-base-color-dark-h">
+        <span className="text-xs text-main-h dark:text-main-dark-h">
           <ul className="inline">
             {links.map((link, index) => (
               <li key={index} className="inline">

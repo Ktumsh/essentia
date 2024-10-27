@@ -1,10 +1,5 @@
 "use client";
 
-
-
-
-
-
 import { Button, Navbar, NavbarContent } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,7 +38,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         <Navbar
           maxWidth="sm"
           classNames={{
-            base: "bg-white/80 dark:bg-base-full-dark-80",
+            base: "bg-white/80 dark:bg-full-dark/80",
             wrapper: "h-14 justify-center",
           }}
         >
@@ -71,7 +66,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
               </Link>
               <Link
                 href="/"
-                className="hidden xl:block font-grotesk text-base-color dark:text-white/95"
+                className="hidden xl:block font-grotesk text-main dark:text-white/95"
               >
                 Essentia®️
               </Link>
@@ -80,7 +75,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
           </div>
         </div>
         <div className="z-40 h-14 fixed top-0 right-0">
-          <div className="flex justify-center items-center size-full text-sm font-normal text-gray-500 dark:text-base-color-dark-h ">
+          <div className="flex justify-center items-center size-full text-sm font-normal text-gray-500 dark:text-main-dark-h ">
             {!profileData && (
               <Button
                 as={Link}

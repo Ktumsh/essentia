@@ -22,8 +22,6 @@ import {
 } from "@/modules/icons/miscellaneus";
 import { ClockIcon } from "@/modules/icons/status";
 
-
-
 import { useDownloadTool } from "../../hooks/use-download-tool";
 
 export interface MealDetail {
@@ -57,7 +55,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
     <>
       <div className="flex items-center justify-between w-full">
         <div className="inline-flex items-center gap-2">
-          <h3 className="text-lg md:text-xl font-medium text-base-color dark:text-white capitalize">
+          <h3 className="text-lg font-medium capitalize md:text-xl text-main dark:text-white">
             {mealType}
           </h3>
           <TooltipCTN content="Horario">
@@ -75,12 +73,8 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
             </Chip>
           </TooltipCTN>
         </div>
-        <Chip
-          size="sm"
-          variant="flat"
-          className="bg-gray-100 dark:bg-base-dark-80"
-        >
-          <MealIcon className="size-4 text-base-color-d dark:text-base-color-dark-d" />
+        <Chip size="sm" variant="flat" className="bg-gray-100 dark:bg-dark/80">
+          <MealIcon className="size-4 text-main-l dark:text-main-dark-l" />
         </Chip>
       </div>
       <ul className="space-y-3">
@@ -95,12 +89,12 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
                 base: "flex items-start md:items-center h-auto md:h-7 px-0 border-none text-wrap whitespace-wrap",
                 dot: "ml-0 mt-1.5 md:mt-0 bg-black/10 dark:bg-white/10",
                 content:
-                  "text-md md:text-base font-semibold text-base-color-h dark:text-base-color-dark",
+                  "text-md md:text-base font-semibold text-main-h dark:text-main-dark",
               }}
             >
               {detail.name}
             </Chip>
-            <div className="ml-3 inline-flex items-center gap-2 text-base-color-m dark:text-base-color-dark-m">
+            <div className="inline-flex items-center gap-2 ml-3 text-main-m dark:text-main-dark-m">
               <div className="inline-flex items-center gap-1">
                 <TooltipCTN content="Cantidad">
                   <div aria-hidden="true">
@@ -121,7 +115,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
           </li>
         ))}
       </ul>
-      <Divider className="bg-gray-200 dark:bg-base-dark" />
+      <Divider className="bg-gray-200 dark:bg-dark" />
     </>
   );
 };
@@ -145,9 +139,9 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
       ref={ref}
       radius="md"
       shadow="none"
-      className="group/card bg-white dark:bg-base-full-dark"
+      className="bg-white group/card dark:bg-full-dark"
     >
-      <CardHeader className="relative p-0 rounded-none z-0">
+      <CardHeader className="relative z-0 p-0 rounded-none">
         <ImageUI
           as={Image}
           width={639}
@@ -162,7 +156,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
           }}
         />
         <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-2 md:p-8">
+        <div className="absolute inset-x-0 top-0 z-10 flex justify-between w-full p-2 md:p-8">
           <Chip color="danger" className="shadow-md">
             Plan nutricional
           </Chip>
@@ -171,7 +165,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className="opacity-0 group-hover/card:opacity-100 bg-black/10 text-white"
+              className="text-white opacity-0 group-hover/card:opacity-100 bg-black/10"
             >
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -179,25 +173,25 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="p-2 md:p-8 space-y-2 md:space-y-4 text-base-color-h dark:text-base-color-dark">
-        <div className="flex justify-center items-center flex-wrap gap-2">
-          <div className="flex flex-col flex-1 p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-            <h3 className="font-extrabold font-sans uppercase">Proteínas</h3>
-            <p className="dark:text-base-color-dark-h">
+      <CardBody className="p-2 space-y-2 md:p-8 md:space-y-4 text-main-h dark:text-main-dark">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex flex-col flex-1 p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <h3 className="font-sans font-extrabold uppercase">Proteínas</h3>
+            <p className="dark:text-main-dark-h">
               {plan.macronutrients.proteins} g
             </p>
           </div>
-          <div className="flex flex-col order-3 md:order-none flex-1 p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-            <h3 className="font-extrabold font-sans uppercase">
+          <div className="flex flex-col flex-1 order-3 p-3 text-xs bg-gray-100 rounded-lg md:order-none md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <h3 className="font-sans font-extrabold uppercase">
               Carbohidratos
             </h3>
-            <p className="dark:text-base-color-dark-h">
+            <p className="dark:text-main-dark-h">
               {plan.macronutrients.carbohydrates} g
             </p>
           </div>
-          <div className="flex flex-col flex-1 p-3 text-xs md:text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-            <h3 className="font-extrabold font-sans uppercase">Grasas</h3>
-            <p className="dark:text-base-color-dark-h">
+          <div className="flex flex-col flex-1 p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <h3 className="font-sans font-extrabold uppercase">Grasas</h3>
+            <p className="dark:text-main-dark-h">
               {plan.macronutrients.fats} g
             </p>
           </div>
@@ -207,13 +201,13 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
         {renderMealDetails(plan.snack, snack)}
         {renderMealDetails(plan.dinner, dinner)}
         {renderMealDetails(plan.additional, additional)}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
           {plan.recommendations && (
-            <div className="p-3 text-sm bg-gray-100 dark:bg-base-dark text-base-color-h dark:text-white rounded-lg">
-              <h3 className="text-xl font-extrabold font-sans uppercase">
+            <div className="p-3 text-sm bg-gray-100 rounded-lg dark:bg-dark text-main-h dark:text-white">
+              <h3 className="font-sans text-xl font-extrabold uppercase">
                 Recomendaciones
               </h3>
-              <p className="text-base-color-h dark:text-base-color-dark">
+              <p className="text-main-h dark:text-main-dark">
                 {plan.recommendations}
               </p>
             </div>
@@ -223,22 +217,22 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
             color="danger"
             shape="circle"
             size="lg"
-            content={<CaloriesIcon className="size-5 text-white" />}
+            content={<CaloriesIcon className="text-white size-5" />}
             placement="top-right"
             classNames={{
               base: [
-                "flex-col gap-1 w-fit p-3 text-sm bg-gradient-to-bl from-gray-200 to-white to-50% dark:from-base-dark dark:to-base-full-dark text-base-color-h dark:text-white rounded-xl",
-                "before:content-[''] before:absolute before:inset-0.5 before:bg-white before:dark:bg-base-full-dark before:rounded-[10px] before:z-0",
+                "flex-col gap-1 w-fit p-3 text-sm bg-gradient-to-bl from-gray-200 to-white to-50% dark:from-dark dark:to-full-dark text-main-h dark:text-white rounded-xl",
+                "before:content-[''] before:absolute before:inset-0.5 before:bg-white before:dark:bg-full-dark before:rounded-[10px] before:z-0",
               ],
               badge:
-                "!size-7 top-[5%] right-[5%] border-white dark:border-base-full-dark",
+                "!size-7 top-[5%] right-[5%] border-white dark:border-full-dark",
             }}
           >
             <div className="flex flex-col z-[1]">
-              <h3 className="text-base-color-h dark:text-base-color-dark">
+              <h3 className="text-main-h dark:text-main-dark">
                 Total aproximado
               </h3>
-              <p className="text-xl font-extrabold font-sans uppercase">
+              <p className="font-sans text-xl font-extrabold uppercase">
                 {totalCalories} kcal
               </p>
             </div>

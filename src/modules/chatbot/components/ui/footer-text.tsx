@@ -7,7 +7,7 @@ const FooterText = ({ className }: { className?: string }) => {
   return (
     <p
       className={cn(
-        "text-base-color-d dark:text-base-color-dark-d px-2 text-center text-xs leading-normal font-dmsans",
+        "text-main-l dark:text-main-dark-l px-2 text-center text-xs leading-normal font-dmsans",
         className
       )}
     >

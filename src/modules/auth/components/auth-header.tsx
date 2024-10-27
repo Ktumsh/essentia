@@ -33,7 +33,7 @@ const AuthHeader = () => {
           </Link>
           <Link
             href="/"
-            className="hidden md:block font-grotesk text-base-color dark:text-white/95"
+            className="hidden md:block font-grotesk text-main dark:text-white/95"
           >
             Essentia®️
           </Link>
@@ -43,7 +43,7 @@ const AuthHeader = () => {
           href={isRegister ? "/login" : "/signup"}
           variant="light"
           radius="sm"
-          className="bg-white dark:bg-base-full-dark data-[hover=true]:bg-gray-100 data-[hover=true]:dark:bg-base-dark md:border border-gray-200 dark:border-base-dark"
+          className="bg-white dark:bg-full-dark data-[hover=true]:bg-gray-100 data-[hover=true]:dark:bg-dark md:border border-gray-200 dark:border-dark text-main dark:text-main-dark"
         >
           {isRegister ? "Inicia sesión" : "Regístrate"}
         </Button>

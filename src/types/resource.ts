@@ -20,7 +20,6 @@ export interface Resources {
   description?: string;
   image: string;
   imageFull: string;
-  background: string;
   resource: string;
   component: FC;
 }

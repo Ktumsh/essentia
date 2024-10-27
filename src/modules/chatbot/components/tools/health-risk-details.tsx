@@ -54,11 +54,10 @@ const HealthRiskDetails = ({
             variant="light"
             classNames={{
               wrapper: "gap-2 md:gap-4",
-              cursor:
-                "rounded-md bg-gray-100 dark:bg-base-full-dark shadow-none",
+              cursor: "rounded-md bg-gray-100 dark:bg-full-dark shadow-none",
               tabList: "px-0 rounded-none",
               tabContent:
-                "text-base-color-m dark:text-base-color-dark-m group-data-[selected=true]:text-base-color-h dark:group-data-[selected=true]:text-base-color-dark",
+                "text-main-m dark:text-main-dark-m group-data-[selected=true]:text-main-h dark:group-data-[selected=true]:text-main-dark",
               panel: "px-0 space-y-3",
             }}
           >

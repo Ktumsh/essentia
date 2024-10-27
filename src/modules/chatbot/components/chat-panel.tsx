@@ -14,7 +14,6 @@ import {
   useState,
 } from "react";
 
-
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
@@ -140,7 +139,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                         />
                       }
                       className={cn(
-                        "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-base-full-dark hover:bg-gray-100 border border-gray-200 dark:border-base-dark text-base-color dark:text-base-color-dark data-[disabled=true]:opacity-100"
+                        "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-full-dark hover:bg-gray-100 border border-gray-200 dark:border-dark text-main dark:text-main-dark data-[disabled=true]:opacity-100"
                       )}
                       onPress={async () => {
                         append({
@@ -152,7 +151,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                       <div className="text-sm font-semibold">
                         {suggestedAction.heading}
                       </div>
-                      <div className="text-sm text-base-color-m dark:text-base-color-dark-m text-wrap">
+                      <div className="text-sm text-main-m dark:text-main-dark-m text-wrap">
                         {suggestedAction.subheading}
                       </div>
                     </Button>
@@ -160,7 +159,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 ))}
               </motion.div>
             )}
-          <div className="relative md:-ml-1 border-t bg-white dark:bg-base-full-dark px-4 py-2 sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-base-dark">
+          <div className="relative md:-ml-1 border-t bg-white dark:bg-full-dark px-4 py-2 sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-dark">
             <motion.div
               initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={
@@ -234,10 +233,10 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     ? { ease: "easeInOut", duration: 1, delay: 0.3 }
                     : { ease: "easeInOut", duration: 0.5, delay: 0.3 }
                 }
-                className="absolute inset-3 flex items-center justify-center gap-2 md:gap-4 p-2 md:p-4 rounded-xl shadow-lg bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark text-xs md:text-base text-base-color dark:text-base-color-dark"
+                className="absolute inset-3 flex items-center justify-center gap-2 md:gap-4 p-2 md:p-4 rounded-xl shadow-lg bg-white dark:bg-full-dark border border-gray-200 dark:border-dark text-xs md:text-base text-main dark:text-main-dark"
               >
                 <span className="inline-flex items-center gap-2">
-                  <WarningCircledIcon className="size-5 text-base-color-m dark:text-base-color-dark-m" />
+                  <WarningCircledIcon className="size-5 text-main-m dark:text-main-dark-m" />
                   {session ? (
                     <>Actualiza tu plan para poder usar Essentia AI</>
                   ) : (
@@ -254,7 +253,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                         className="size-5 stars-icon focus:outline-none"
                       />
                     }
-                    className="shrink-0 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-base-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-md before:z-[-1]"
+                    className="shrink-0 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-md before:z-[-1]"
                   >
                     <span className="text-transparent bg-clip-text bg-light-gradient-v2 dark:bg-dark-gradient-v2 font-sans font-extrabold">
                       Hazte premium

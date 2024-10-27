@@ -19,18 +19,18 @@
 }
 
 .pac-container {
-  @apply p-1.5 bg-white dark:bg-base-full-dark border-t-0 mt-2 rounded-xl shadow-medium;
+  @apply p-1.5 bg-white dark:bg-full-dark border-t-0 mt-2 rounded-xl shadow-medium;
 
   & .pac-item {
-    @apply text-base-color-m dark:!text-base-color-dark-m border-t-0 rounded-lg;
+    @apply text-main-m dark:!text-main-dark-m border-t-0 rounded-lg;
   }
 
   & .pac-item:hover {
-    @apply bg-gray-200 dark:bg-base-dark cursor-pointer;
+    @apply bg-gray-200 dark:bg-dark cursor-pointer;
   }
 
   & .pac-item-query {
-    @apply text-base-color-h dark:text-base-color-dark-h;
+    @apply text-main-h dark:text-main-dark-h;
   }
 }
 
@@ -39,7 +39,7 @@
 }
 
 .gm-style .gm-style-iw-c {
-  @apply !p-4 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark-h rounded-xl shadow-medium;
+  @apply !p-4 bg-white dark:bg-full-dark text-main-h dark:text-main-dark-h rounded-xl shadow-medium;
 
   & .gm-style-iw-chr {
     @apply absolute top-0 right-0;
@@ -91,11 +91,11 @@
     @apply !flex flex-col gap-1;
 
     & * {
-      @apply text-base-color-h dark:!text-base-color-dark-h;
+      @apply text-main-h dark:!text-main-dark-h;
     }
   }
 }
 
 .gm-title.gm-full-width {
-  @apply !fixed top-0 left-0 !m-4 !text-base-color dark:!text-base-color-dark capitalize;
+  @apply !fixed top-0 left-0 !m-4 !text-main dark:!text-main-dark capitalize;
 }

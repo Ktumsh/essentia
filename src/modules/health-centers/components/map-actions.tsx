@@ -26,7 +26,7 @@ const MapActions: FC<MapActionsProps> = (props) => {
           aria-label="Pantalla completa"
           isIconOnly
           onPress={handleFullscreen}
-          className="hidden md:inline-flex absolute top-2 right-2 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+          className="hidden md:inline-flex absolute top-2 right-2 bg-white dark:bg-full-dark text-main-h dark:text-main-dark"
         >
           <span className="sr-only">Pantalla completa</span>
           <FullscreenIcon className="size-6" />
@@ -40,7 +40,7 @@ const MapActions: FC<MapActionsProps> = (props) => {
             radius="full"
             isIconOnly
             onPress={centerLocation}
-            className="!size-12 md:!size-9 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+            className="!size-12 md:!size-9 bg-white dark:bg-full-dark text-main-h dark:text-main-dark"
           >
             <span className="sr-only">Centrar ubicación</span>
             <CenterLocationIcon className="size-7 md:size-5" />
@@ -53,7 +53,7 @@ const MapActions: FC<MapActionsProps> = (props) => {
             radius="full"
             isIconOnly
             onPress={handleZoomIn}
-            className="!size-12 md:!size-9 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+            className="!size-12 md:!size-9 bg-white dark:bg-full-dark text-main-h dark:text-main-dark"
           >
             <span className="sr-only">Aumentar</span>
             <ZoomInIcon className="size-7 md:size-5" />
@@ -66,7 +66,7 @@ const MapActions: FC<MapActionsProps> = (props) => {
             radius="full"
             isIconOnly
             onPress={handleZoomOut}
-            className="!size-12 md:!size-9 bg-white dark:bg-base-full-dark text-base-color-h dark:text-base-color-dark"
+            className="!size-12 md:!size-9 bg-white dark:bg-full-dark text-main-h dark:text-main-dark"
           >
             <span className="sr-only">Alejar</span>
             <ZoomOutIcon className="size-7 md:size-5" />

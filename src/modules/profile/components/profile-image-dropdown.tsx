@@ -43,7 +43,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
         shouldBlockScroll={false}
         classNames={{
           content:
-            "p-1 bg-gradient-to-br from-white to-gray-100 dark:from-base-dark dark:to-base-full-dark border border-gray-200 dark:border-base-dark rounded-lg",
+            "p-1 bg-gradient-to-br from-white to-gray-100 dark:from-dark dark:to-full-dark border border-gray-200 dark:border-dark rounded-lg",
         }}
       >
         <DropdownTrigger>
@@ -65,14 +65,14 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
               className={cn(
                 windowSize.width > 768
                   ? "bg-black/60"
-                  : "absolute -bottom-11 -right-11 inline-flex md:hidden bg-white dark:bg-base-full-dark border-2 border-gray-200 dark:border-base-dark",
+                  : "absolute -bottom-11 -right-11 inline-flex md:hidden bg-white dark:bg-full-dark border-2 border-gray-200 dark:border-dark",
                 "pointer-events-auto z-10"
               )}
             >
               {windowSize.width > 768 ? (
                 <AddPhotoIcon className="size-5 text-white" />
               ) : (
-                <EditIcon className="size-4 text-base-color dark:text-base-color-dark" />
+                <EditIcon className="size-4 text-main dark:text-main-dark" />
               )}
             </Button>
           )}
@@ -88,7 +88,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
           <DropdownItem
             key="upload"
             startContent={<UploadIcon className="size-4" />}
-            className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark text-base-color-h dark:text-base-color-dark-h"
+            className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark text-main-h dark:text-main-dark-h"
           >
             Subir foto de {type === "profile" ? "perfil" : "portada"}
           </DropdownItem>
@@ -96,7 +96,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
             key="delete"
             color="danger"
             startContent={<DeleteIcon className="size-4" />}
-            className="rounded-md text-base-color-h dark:text-base-color-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600"
+            className="rounded-md text-main-h dark:text-main-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600"
           >
             Eliminar
           </DropdownItem>

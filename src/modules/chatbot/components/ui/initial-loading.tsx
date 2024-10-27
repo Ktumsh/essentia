@@ -10,7 +10,7 @@ const InitialLoading = () => {
       <div className="h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden">
         {spinner}
       </div>
-      <span className="text-base-color-m dark:text-base-color-dark-m">
+      <span className="text-main-m dark:text-main-dark-m">
         {"Poniendo un poco de esencia".split("").map((character, index) => (
           <motion.span
             key={index}

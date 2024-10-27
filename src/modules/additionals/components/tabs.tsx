@@ -47,7 +47,7 @@ export default function AdditionalsTabs() {
           cursor: "w-full bg-bittersweet-400 dark:bg-cerise-red-600",
           tab: "max-w-fit px-0 h-12",
           tabContent:
-            "text-base-color-h dark:text-base-color-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
+            "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
           panel: "px-0 py-0 md:py-5 h-full",
         }}
       >

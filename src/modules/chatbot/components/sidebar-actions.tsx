@@ -71,7 +71,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           disableRipple
           size="sm"
           radius="sm"
-          className="!size-7 min-w-0 text-base-color dark:text-base-color-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark pointer-events-auto"
+          className="!size-7 min-w-0 text-main dark:text-main-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-full-dark pointer-events-auto"
           aria-haspopup="menu"
           onPress={() => setShareModalOpen(true)}
         >
@@ -85,7 +85,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           disableRipple
           size="sm"
           radius="sm"
-          className="!size-7 min-w-0 text-base-color dark:text-base-color-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-base-full-dark pointer-events-auto"
+          className="!size-7 min-w-0 text-main dark:text-main-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-full-dark pointer-events-auto"
           aria-haspopup="menu"
           isDisabled={isLoading}
           onPress={onOpen}
@@ -108,7 +108,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
         classNames={{
           backdrop: "z-[101] bg-black/80",
           wrapper: "z-[102] pointer-events-auto",
-          base: "bg-white dark:bg-base-full-dark",
+          base: "bg-white dark:bg-full-dark",
           closeButton:
             "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
@@ -120,7 +120,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
                 ¿Estás absolutamente seguro?
               </ModalHeader>
               <ModalBody>
-                <p className="text-base-color-m dark:text-base-color-dark-m">
+                <p className="text-main-m dark:text-main-dark-m">
                   Esto eliminará permanentemente su mensaje de chat y eliminará
                   sus datos de nuestros servidores.
                 </p>
@@ -142,7 +142,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
                 <Button
                   variant="light"
                   onPress={onClose}
-                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>

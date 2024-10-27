@@ -29,7 +29,7 @@ const CancelPlanModal = ({
       classNames={{
         backdrop: "z-[101] bg-black/80",
         wrapper: "z-[102] pointer-events-auto",
-        base: "bg-white dark:bg-base-full-dark",
+        base: "bg-white dark:bg-full-dark",
         closeButton:
           "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
       }}
@@ -39,10 +39,10 @@ const CancelPlanModal = ({
           <>
             <ModalHeader className="p-3 md:p-6 items-center">
               <div className="flex-col">
-                <h2 className="text-lg font-semibold md:text-xl text-base-color dark:text-white">
+                <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
                   Seleccionaste el plan Gratis
                 </h2>
-                <p className="font-normal text-sm text-base-color-h dark:text-base-color-dark-h">
+                <p className="font-normal text-sm text-main-h dark:text-main-dark-h">
                   Al continuar, tu plan se cancelará y perderás acceso a todas
                   las funcionalidades Premium a partir de la fecha de
                   vencimiento de tu suscripción actual.
@@ -54,7 +54,7 @@ const CancelPlanModal = ({
                 <Button
                   variant="light"
                   onPress={onClose}
-                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-base-dark"
+                  className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
                 >
                   Cerrar
                 </Button>

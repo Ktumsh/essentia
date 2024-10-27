@@ -18,7 +18,6 @@ import { SpinnerIcon } from "@/modules/icons/common";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
-
 interface ChangePasswordModalProps {
   isOpen: boolean;
   onOpenChange: () => void;
@@ -161,13 +160,13 @@ const ChangePasswordModal = ({
       classNames={{
         backdrop: "z-[101] bg-black/80",
         wrapper: "z-[102]",
-        base: "bg-white dark:bg-base-full-dark",
+        base: "bg-white dark:bg-full-dark",
         body: "gap-0 px-0 py-0 pb-4 custom-scroll v2",
         closeButton:
           "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
       }}
     >
-      <ModalContent className="text-base-color-m dark:text-base-color-dark-m">
+      <ModalContent className="text-main-m dark:text-main-dark-m">
         <>
           <ModalHeader>Cambiar contraseña</ModalHeader>
           <form onSubmit={handleSubmit}>
@@ -201,9 +200,9 @@ const ChangePasswordModal = ({
                 }
                 classNames={{
                   base: "px-4 py-3",
-                  input: "text-base-color dark:text-base-color-dark",
+                  input: "text-main dark:text-main-dark",
                   inputWrapper:
-                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-dark dark:data-[hover=true]:border-dark",
                 }}
               />
               <Input
@@ -235,9 +234,9 @@ const ChangePasswordModal = ({
                 }
                 classNames={{
                   base: "px-4 py-3",
-                  input: "text-base-color dark:text-base-color-dark",
+                  input: "text-main dark:text-main-dark",
                   inputWrapper:
-                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-dark dark:data-[hover=true]:border-dark",
                 }}
               />
               <Input
@@ -269,9 +268,9 @@ const ChangePasswordModal = ({
                 }}
                 classNames={{
                   base: "px-4 py-3",
-                  input: "text-base-color dark:text-base-color-dark",
+                  input: "text-main dark:text-main-dark",
                   inputWrapper:
-                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-base-dark dark:data-[hover=true]:border-base-dark",
+                    "border-gray-200 data-[hover=true]:border-gray-200 dark:border-dark dark:data-[hover=true]:border-dark",
                 }}
               />
             </ModalBody>
@@ -280,7 +279,7 @@ const ChangePasswordModal = ({
                 variant="bordered"
                 disabled={isPending}
                 onPress={() => handleOpenChange(false)}
-                className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
+                className="rounded-md border border-gray-200 dark:border-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark"
               >
                 Cancelar
               </Button>

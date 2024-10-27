@@ -99,16 +99,16 @@ const LoginForm = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-base-full-dark text-left font-normal text-base-color-m dark:text-base-color-dark-m overflow-hidden">
+    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-full-dark text-left font-normal text-main-m dark:text-main-dark-m overflow-hidden">
       <form
         className="flex flex-col items-start justify-center size-full gap-5 mb-4 select-none"
         onSubmit={handleSubmit}
       >
         <div>
-          <h2 className="text-xl sm:text-2xl text-base-color-h dark:text-base-color-dark font-extrabold font-sans">
+          <h2 className="text-xl sm:text-2xl text-main-h dark:text-main-dark font-extrabold font-sans">
             Bienvenid@,
           </h2>
-          <div className="w-full text-sm text-base-color-h dark:text-base-color-dark-h">
+          <div className="w-full text-sm text-main-h dark:text-main-dark-h">
             <p>
               Ingresa tus credenciales para acceder a tu cuenta de Essentia.
             </p>
@@ -126,8 +126,7 @@ const LoginForm = () => {
           classNames={{
             inputWrapper:
               "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
-            input:
-              "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+            input: "placeholder:text-main-l dark:placeholder:text-main-dark-l",
           }}
         />
         <Input
@@ -154,12 +153,11 @@ const LoginForm = () => {
           classNames={{
             inputWrapper:
               "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
-            input:
-              "placeholder:text-base-color-d dark:placeholder:text-base-color-dark-d",
+            input: "placeholder:text-main-l dark:placeholder:text-main-dark-l",
           }}
         />
 
-        <div className="flex w-full mt-[-15px] mx-0 justify-between text-[13px] text-base-color-h dark:text-base-color-dark-h">
+        <div className="flex w-full mt-[-15px] mx-0 justify-between text-[13px] text-main-h dark:text-main-dark-h">
           <Checkbox
             isSelected={isSelected}
             onValueChange={setIsSelected}
@@ -167,7 +165,7 @@ const LoginForm = () => {
             color="danger"
             classNames={{
               wrapper:
-                "before:border-base-color-d md:before:border-gray-200 dark:before:border-base-color-dark-d md:dark:before:border-base-dark",
+                "before:border-base-color-d md:before:border-gray-200 dark:before:border-base-color-dark-d md:dark:before:border-dark",
               label: "text-[13px] text-inherit",
             }}
           >
@@ -203,7 +201,7 @@ const LoginForm = () => {
         <hr className="flex-1 h-px border-gray-200" />
       </div>
       <SignInWith /> */}
-      <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-base-color-h dark:text-base-color-dark-h">
+      <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-main-h dark:text-main-dark-h">
         <p>
           ¿No tienes una cuenta?{" "}
           <Link

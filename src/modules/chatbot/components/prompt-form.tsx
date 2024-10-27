@@ -136,7 +136,7 @@ const PromptForm: FC<PromptFormProps> = ({
 
   return (
     <form ref={formRef} onSubmit={submitForm}>
-      <div className="relative flex flex-col grow max-h-60 w-full px-8 sm:px-12 bg-white dark:bg-transparent sm:dark:bg-base-dark-50 sm:border border-gray-200 dark:border-base-dark sm:rounded-md overflow-hidden">
+      <div className="relative flex flex-col grow max-h-60 w-full px-8 sm:px-12 bg-white dark:bg-transparent sm:dark:bg-dark/50 sm:border border-gray-200 dark:border-dark sm:rounded-md overflow-hidden">
         <Tooltip
           content="Adjuntar imagen"
           delay={800}
@@ -152,7 +152,7 @@ const PromptForm: FC<PromptFormProps> = ({
             variant="light"
             isDisabled={isLoading}
             onPress={() => fileInputRef.current?.click()}
-            className="absolute left-0 sm:left-4 top-[13px] !size-9 text-base-color dark:text-base-color-dark border border-gray-300 dark:border-[#123a6f] sm:dark:border-[] dark:data-[hover=true]:bg-base-dark sm:dark:data-[hover=true]:bg-base-full-dark"
+            className="absolute left-0 sm:left-4 top-[13px] !size-9 text-main dark:text-main-dark border border-gray-300 dark:border-[#123a6f] sm:dark:border-[] dark:data-[hover=true]:bg-dark sm:dark:data-[hover=true]:bg-full-dark"
           >
             <PaperclipIcon className="size-3.5" />
           </Button>
@@ -182,7 +182,7 @@ const PromptForm: FC<PromptFormProps> = ({
           placeholder="Escribe tu mensaje."
           onChange={handleInput}
           onKeyDown={onKeyDown}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none text-base-color dark:text-base-color-dark"
+          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none text-main dark:text-main-dark"
         />
 
         {isLoading ? (
@@ -200,7 +200,7 @@ const PromptForm: FC<PromptFormProps> = ({
               radius="full"
               color="danger"
               onPress={stop}
-              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
+              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-main-dark"
             >
               <StopIcon className="size-4" />
             </Button>
@@ -223,7 +223,7 @@ const PromptForm: FC<PromptFormProps> = ({
                 input.length === 0 || uploadQueue.length > 0 || !isPremium
               }
               onPress={() => handleSubmit()}
-              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-base-dark"
+              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-main-dark"
             >
               <ArrowUpIcon className="size-4" />
             </Button>

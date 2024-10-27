@@ -17,7 +17,7 @@ const ExcerciseFitness = () => {
     <>
       <section className="px-2 md:p-0 py-4">
         <div className="w-full px-3 mb-4">
-          <h3 className="drop-shadow-md text-base-color dark:text-white">
+          <h3 className="drop-shadow-md text-main dark:text-white">
             <Button
               as={Link}
               id="rutinas-de-ejercicios"

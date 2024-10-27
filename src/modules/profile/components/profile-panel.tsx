@@ -162,7 +162,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
   return (
     <>
       <section className="flex flex-col items-stretch shrink w-full">
-        <div className="relative flex flex-col min-h-[calc(100dvh-112px)] md:min-h-[calc(100dvh-56px)] bg-white dark:bg-base-full-dark border border-gray-200 dark:border-base-dark">
+        <div className="relative flex flex-col min-h-[calc(100dvh-112px)] md:min-h-[calc(100dvh-56px)] bg-white dark:bg-full-dark border border-gray-200 dark:border-dark">
           <div className="group relative">
             {previewBannerImage ? (
               <Link
@@ -213,7 +213,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           <ProfileInfo profileData={profileData} isOwnProfile={isOwnProfile}>
             {/* Avatar */}
             <div className="group absolute -top-9 md:-top-14 left-0 md:left-6">
-              <div className="z-0 size-full bg-gray-200 dark:bg-base-dark border-5 border-white dark:border-base-full-dark rounded-full overflow-hidden">
+              <div className="z-0 size-full bg-gray-200 dark:bg-dark border-5 border-white dark:border-full-dark rounded-full overflow-hidden">
                 {previewProfileImage ? (
                   <Link
                     href={`/profile/${username}/photo`}
@@ -234,9 +234,9 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                       showFallback
                       icon={<AvatarIcon className="size-3/5" />}
                       classNames={{
-                        icon: "text-base-color-m dark:text-base-color-dark-m",
+                        icon: "text-main-m dark:text-main-dark-m",
                         base: "bg-gray-300 dark:bg-gray-600 !size-full",
-                        name: "font-medium text-base-color-h dark:text-base-color-dark-h",
+                        name: "font-medium text-main-h dark:text-main-dark-h",
                       }}
                     />
                   </div>
@@ -279,14 +279,14 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
             classNames={{
               backdrop: "z-[101] bg-black/80",
               wrapper: "z-[102]",
-              base: "absolute bottom-0 md:bottom-auto md:top-0 bg-white dark:bg-base-full-dark md:bg-white/30 md:dark:bg-base-full-dark-30 backdrop-blur backdrop-saturate-150 border border-white dark:border-base-full-dark",
+              base: "absolute bottom-0 md:bottom-auto md:top-0 bg-white dark:bg-full-dark md:bg-white/30 md:dark:bg-full-dark/30 backdrop-blur backdrop-saturate-150 border border-white dark:border-full-dark",
               closeButton:
                 "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
             }}
           >
             <ModalContent className="p-4 gap-4">
               <div className="flex items-center justify-between w-full">
-                <div className="inline-flex items-center text-base-color md:text-white dark:text-white">
+                <div className="inline-flex items-center text-main md:text-white dark:text-white">
                   <QuestionMarkCircledIcon className="size-4 mr-3" />
                   <p className="text-sm">
                     {`¿Deseas guardar la nueva foto de ${
@@ -298,7 +298,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                   <Button
                     onPress={handleCancel}
                     variant="bordered"
-                    className="text-base-color md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-base-dark md:dark:border-base-full-dark "
+                    className="text-main md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-dark md:dark:border-full-dark "
                   >
                     Cancelar
                   </Button>
@@ -332,19 +332,19 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
             classNames={{
               backdrop: "z-[101] bg-black/80",
               wrapper: "z-[102]",
-              base: "bg-white dark:bg-base-full-dark",
+              base: "bg-white dark:bg-full-dark",
               closeButton:
                 "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
             }}
           >
             <ModalContent className="p-6 gap-4">
               <div className="flex flex-col space-y-2 text-center sm:text-left">
-                <h2 className="text-lg text-base-color dark:text-base-color-dark">
+                <h2 className="text-lg text-main dark:text-main-dark">
                   {`¿Deseas eliminar tu foto de ${
                     modalType === "banner" ? "portada" : "perfil"
                   }?`}
                 </h2>
-                <p className="text-sm text-base-color-m dark:text-base-color-dark-h">
+                <p className="text-sm text-main-m dark:text-main-dark-h">
                   No te preocupes, siempre puedes volver a subir una nueva foto.
                 </p>
               </div>
@@ -352,7 +352,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                 <Button
                   onPress={() => setShowDeleteModal(false)}
                   variant="bordered"
-                  className="rounded-md border border-gray-200 dark:border-base-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-base-dark"
+                  className="rounded-md border border-gray-200 dark:border-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>
