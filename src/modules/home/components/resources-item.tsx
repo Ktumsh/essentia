@@ -65,11 +65,11 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         "motion-reduce:transition-none h-32 sm:h-64 duration-500"
       )}
     >
-      <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-0 px-5 pt-3 z-10">
-        <span className="text-tiny text-white/60 uppercase font-bold lg:group-hover:opacity-0 transition-opacity">
+      <div className="absolute top-0 z-10 flex flex-col items-start justify-start w-full px-5 pt-3 shrink-0">
+        <span className="font-bold uppercase transition-opacity text-tiny text-white/60 lg:group-hover:opacity-0">
           {subtitle}
         </span>
-        <h3 className="text-white font-medium text-2xl sm:text-xl 2xl:text-2xl lg:group-hover:opacity-0 transition-opacity">
+        <h3 className="text-2xl font-medium text-white transition-opacity sm:text-xl 2xl:text-2xl lg:group-hover:opacity-0">
           {title}
         </h3>
       </div>
@@ -104,7 +104,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
             variant="light"
             className="h-8 w-12 min-w-0 text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium !transition-all data-[hover=true]:brightness-90 group-hover:w-20"
           >
-            <div className="inline-flex whitespace-nowrap opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
+            <div className="inline-flex transition-all duration-200 opacity-0 whitespace-nowrap group-hover:-translate-x-3 group-hover:opacity-100">
               Ver
             </div>
             <div className="absolute right-3.5">
@@ -112,7 +112,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
             </div>
           </Button>
         ) : (
-          <div className="relative inline-flex h-8 w-12 items-center justify-center overflow-hidden rounded-full text-sm font-normal text-white bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium">
+          <div className="relative inline-flex items-center justify-center w-12 h-8 overflow-hidden text-sm font-normal text-white rounded-full bg-light-gradient dark:bg-dark-gradient-v2 shadow-medium">
             <div className="absolute right-3.5">
               <ArrowRightV2Icon className="size-5" />
             </div>

@@ -15,12 +15,24 @@ export async function GET(request: Request) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
+  const day1Start = new Date(
+    Date.now() - 2 * 24 * 60 * 60 * 1000
+  ).toISOString();
+  const day1End = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString();
+  const day3Start = new Date(
+    Date.now() - 4 * 24 * 60 * 60 * 1000
+  ).toISOString();
+  const day3End = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+
+  console.log(`Intervalo de día 1: ${day1Start} - ${day1End}`);
+  console.log(`Intervalo de día 3: ${day3Start} - ${day3End}`);
+
   const usersDay1 = await pool.sql`
-      SELECT email, id
-      FROM users
-      WHERE email_verified = FALSE
-      AND created_at BETWEEN NOW() - INTERVAL '2 days' AND NOW() - INTERVAL '1 day';
-    `;
+    SELECT email, id, created_at
+    FROM users
+    WHERE email_verified = FALSE
+    AND created_at BETWEEN ${day1Start} AND ${day1End};
+  `;
 
   console.log(
     `Usuarios encontrados para el recordatorio de día 1: ${usersDay1.rowCount}`
@@ -33,16 +45,19 @@ export async function GET(request: Request) {
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email} (día 1).`);
     } else {
-      console.error(`Error al enviar recordatorio a ${user.email} (día 1).`);
+      console.error(
+        `Error al enviar recordatorio a ${user.email} (día 1):`,
+        result.error
+      );
     }
   }
 
   const usersDay3 = await pool.sql`
-      SELECT email, id
-      FROM users
-      WHERE email_verified = FALSE
-      AND created_at BETWEEN NOW() - INTERVAL '4 days' AND NOW() - INTERVAL '3 days';
-    `;
+    SELECT email, id, created_at
+    FROM users
+    WHERE email_verified = FALSE
+    AND created_at BETWEEN ${day3Start} AND ${day3End};
+  `;
 
   console.log(
     `Usuarios encontrados para el recordatorio de día 3: ${usersDay3.rowCount}`
@@ -55,7 +70,10 @@ export async function GET(request: Request) {
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email} (día 3).`);
     } else {
-      console.error(`Error al enviar recordatorio a ${user.email} (día 3).`);
+      console.error(
+        `Error al enviar recordatorio a ${user.email} (día 3):`,
+        result.error
+      );
     }
   }
 

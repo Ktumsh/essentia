@@ -81,7 +81,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
           aria-label="Ejercicio"
           title={<ExcerciseIcon aria-hidden="true" className="size-4" />}
         >
-          <h3 className="text-main md:text-lg font-medium text-main dark:text-white">
+          <h3 className="font-medium text-main md:text-lg dark:text-white">
             {exercise.name}
           </h3>
           <div className="inline-flex flex-col justify-center gap-2 text-main-h dark:text-main-dark-h">
@@ -129,7 +129,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
               </div>
             )}
             {exercise.progression && (
-              <div className="inline-flex md:items-center gap-1">
+              <div className="inline-flex gap-1 md:items-center">
                 <TooltipCTN placement="left" content="Progresión">
                   <div aria-hidden="true" className="mt-1 md:mt-0">
                     <ProgressionIcon className="size-3" />
@@ -149,12 +149,12 @@ const renderExerciseDetails = (exercise: Exercise) => {
               </div>
             )}
             {exercise.benefits && (
-              <div className="flex items-center w-fit p-3 gap-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-                <div className="flex items-center justify-center min-w-8 md:min-w-10 size-8 md:size-10 rounded-lg bg-white dark:bg-full-dark text-warning">
-                  <ZapIcon className="size-5 md:size-6 opacity-50" />
+              <div className="flex items-center gap-3 p-3 text-xs bg-gray-100 rounded-lg w-fit md:text-sm dark:bg-dark text-main-h dark:text-white">
+                <div className="flex items-center justify-center bg-white rounded-lg min-w-8 md:min-w-10 size-8 md:size-10 dark:bg-full-dark text-warning">
+                  <ZapIcon className="opacity-50 size-5 md:size-6" />
                 </div>
                 <div className="flex flex-col ">
-                  <h3 className="font-extrabold font-sans uppercase">
+                  <h3 className="font-sans font-extrabold uppercase">
                     Beneficios
                   </h3>
                   <p className="dark:text-main-dark-h">{exercise.benefits}</p>
@@ -168,8 +168,8 @@ const renderExerciseDetails = (exercise: Exercise) => {
           aria-label="Instrucciones"
           title={<QuestionFillIcon aria-hidden="true" className="size-4" />}
         >
-          <div className="flex flex-col md:items-center md:justify-center h-full gap-2 md:text-center">
-            <h3 className="text-main md:text-lg font-medium text-main dark:text-white">
+          <div className="flex flex-col h-full gap-2 md:items-center md:justify-center md:text-center">
+            <h3 className="text-base font-medium md:text-lg text-main dark:text-white">
               Instrucciones
             </h3>
             <p>{exercise.instructions || "No hay instrucciones disponibles"}</p>
@@ -191,9 +191,9 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
       ref={ref}
       radius="md"
       shadow="none"
-      className="group/card bg-white dark:bg-full-dark"
+      className="bg-white group/card dark:bg-full-dark"
     >
-      <CardHeader className="relative p-0 rounded-none z-0">
+      <CardHeader className="relative z-0 p-0 rounded-none">
         <ImageUI
           as={Image}
           width={639}
@@ -208,7 +208,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           }}
         />
         <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-4 md:p-8">
+        <div className="absolute inset-x-0 top-0 z-10 flex justify-between w-full p-4 md:p-8">
           <Chip color="danger" className="shadow-md">
             Rutina de Ejercicios
           </Chip>
@@ -217,7 +217,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className="opacity-0 group-hover/card:opacity-100 bg-black/10 text-white"
+              className="text-white opacity-0 group-hover/card:opacity-100 bg-black/10"
             >
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -225,9 +225,9 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="p-2 md:p-8 space-y-2 md:space-y-4 text-main-h dark:text-main-dark">
+      <CardBody className="p-2 space-y-2 md:p-8 md:space-y-4 text-main-h dark:text-main-dark">
         <div className="flex items-center justify-center">
-          <div className="flex flex-col md:flex-row items-center justify-between w-full text-xs md:text-sm space-y-2 md:space-y-0 md:space-x-4">
+          <div className="flex flex-col items-center justify-between w-full space-y-2 text-xs md:flex-row md:text-sm md:space-y-0 md:space-x-4">
             <Chip
               variant="dot"
               classNames={{
@@ -238,7 +238,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
             >
               Diccionario
             </Chip>
-            <div className="flex flex-wrap gap-4 w-full">
+            <div className="flex flex-wrap w-full gap-4">
               <div className="inline-flex items-center gap-1.5">
                 <div aria-hidden="true">
                   <ExcerciseIcon className="size-4" />
@@ -285,30 +285,30 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-2 md:!mt-8">
-          <div className="flex md:w-1/2 gap-2">
-            <div className="flex flex-col w-full p-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-              <h3 className="font-extrabold font-sans uppercase">Objetivo</h3>
+          <div className="flex gap-2 md:w-1/2">
+            <div className="flex flex-col w-full p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+              <h3 className="font-sans font-extrabold uppercase">Objetivo</h3>
               <p className="dark:text-main-dark-h">{routine.goal}</p>
             </div>
-            <div className="flex flex-col w-full p-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-              <h3 className="font-extrabold font-sans uppercase">Duración</h3>
+            <div className="flex flex-col w-full p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+              <h3 className="font-sans font-extrabold uppercase">Duración</h3>
               <p className="dark:text-main-dark-h">
                 {routine.durationWeeks} semanas
               </p>
             </div>
           </div>
-          <div className="flex flex-col md:w-1/2 p-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-            <h3 className="font-extrabold font-sans uppercase">
+          <div className="flex flex-col p-3 text-xs bg-gray-100 rounded-lg md:w-1/2 md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <h3 className="font-sans font-extrabold uppercase">
               Nivel de Condición Física
             </h3>
             <p className="dark:text-main-dark-h">{routine.fitnessLevel}</p>
           </div>
         </div>
         {routine.warmUp && (
-          <div className="flex items-center gap-3 w-full p-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-            <WarningCircledIcon className="min-w-8 md:min-w-10 size-8 md:size-10 text-secondary opacity-50" />
+          <div className="flex items-center w-full gap-3 p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <WarningCircledIcon className="opacity-50 min-w-8 md:min-w-10 size-8 md:size-10 text-secondary" />
             <div className="flex flex-col">
-              <h3 className="font-extrabold font-sans uppercase">
+              <h3 className="font-sans font-extrabold uppercase">
                 Antes de comenzar
               </h3>
               <p className="dark:text-main-dark-h">{routine.warmUp}</p>
@@ -331,10 +331,10 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
       </CardBody>
       <CardFooter className="flex-col space-y-2 md:space-y-4 p-2 md:p-8 !pt-0 justify-center items-center">
         {routine.coolDown && (
-          <div className="flex items-center gap-3 w-full p-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-            <CheckCircledIcon className="min-w-8 md:min-w-10 size-8 md:size-10 text-success opacity-50" />
+          <div className="flex items-center w-full gap-3 p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <CheckCircledIcon className="opacity-50 min-w-8 md:min-w-10 size-8 md:size-10 text-success" />
             <div className="flex flex-col">
-              <h3 className="font-extrabold font-sans uppercase">
+              <h3 className="font-sans font-extrabold uppercase">
                 Al finalizar
               </h3>
               <p className="dark:text-main-dark-h">{routine.coolDown}</p>
@@ -342,10 +342,10 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           </div>
         )}
         {routine.schedule && (
-          <div className="flex flex-col w-full p-2 md:p-3 space-y-2 md:space-y-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-            <div className="inline-flex items-center justify-center gap-2 h-full">
+          <div className="flex flex-col w-full p-2 space-y-2 text-xs bg-gray-100 rounded-lg md:p-3 md:space-y-3 md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <div className="inline-flex items-center justify-center h-full gap-2">
               <CalendarFillIcon className="size-4 text-main-m dark:text-main-dark-m" />
-              <h3 className="font-extrabold font-sans uppercase">
+              <h3 className="font-sans font-extrabold uppercase">
                 Programa semanal
               </h3>
             </div>
@@ -358,10 +358,10 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
                     index % 2 === 0 ? "last:col-span-2" : null
                   )}
                 >
-                  <h4 className="text-sm md:text-main font-semibold text-center dark:text-main-dark">
+                  <h4 className="text-sm font-semibold text-center md:text-main dark:text-main-dark">
                     {daySchedule.day}
                   </h4>
-                  <ul className="text-xs md:text-sm text-center dark:text-main-dark-h">
+                  <ul className="text-xs text-center md:text-sm dark:text-main-dark-h">
                     {daySchedule.exercises.map((exerciseName, idx) => (
                       <li key={idx}>{exerciseName}</li>
                     ))}
@@ -372,8 +372,8 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           </div>
         )}
         {routine.recommendations && (
-          <div className="p-3 text-xs md:text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-            <h3 className="text-lg md:text-xl font-extrabold font-sans uppercase">
+          <div className="p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+            <h3 className="font-sans text-lg font-extrabold uppercase md:text-xl">
               Recomendaciones
             </h3>
             <p className="dark:text-main-dark-h">{routine.recommendations}</p>

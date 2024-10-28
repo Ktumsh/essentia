@@ -41,9 +41,9 @@ const HealthRiskDetails = ({
               <button
                 aria-label="Ayuda"
                 type="button"
-                className="flex items-center justify-center size-3 bg-bittersweet-300 dark:bg-cerise-red-600 rounded-full"
+                className="flex items-center justify-center rounded-full size-3 bg-bittersweet-300 dark:bg-cerise-red-600"
               >
-                <QuestionIcon className="size-2 text-white" />
+                <QuestionIcon className="text-white size-2" />
               </button>
             </Tooltip>
           </div>

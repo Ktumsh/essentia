@@ -14,7 +14,7 @@ const Resources = () => {
   );
   return (
     <div className="flex size-full">
-      <div className="w-full gap-4 md:gap-2 grid grid-cols-12 grid-rows-2">
+      <div className="grid w-full grid-cols-12 grid-rows-2 gap-4 md:gap-2">
         {itemId.map((item, index) => (
           <ResourcesItem
             key={index}

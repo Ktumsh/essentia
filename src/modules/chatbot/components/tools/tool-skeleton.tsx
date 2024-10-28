@@ -4,7 +4,7 @@ import { Card, Skeleton } from "@nextui-org/react";
 
 const ToolSkeleton = () => {
   return (
-    <Card radius="md" className="space-y-5 p-8 bg-white dark:bg-full-dark">
+    <Card radius="md" className="p-8 space-y-5 bg-white dark:bg-full-dark">
       <Skeleton className="bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
         <div className="h-24 rounded-lg bg-default-300"></div>
       </Skeleton>

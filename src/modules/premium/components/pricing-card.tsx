@@ -163,9 +163,9 @@ const PricingCard: FC<PricingCardProps> = ({
                 <span>{isCurrentPlan ? "Plan Actual" : buttonTitle}</span>
               )
             ) : isRecommended ? (
-              <span className="font-bold text-white">Iniciar sesión</span>
+              <span className="font-bold text-white">Inicia sesión</span>
             ) : (
-              <span>Iniciar sessión</span>
+              <span>Inicia sesión</span>
             )}
           </Button>
         </CardHeader>

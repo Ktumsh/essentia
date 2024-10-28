@@ -157,9 +157,9 @@ const AssesHealthRiskStock = ({
       ref={ref}
       radius="md"
       shadow="none"
-      className="group/card bg-white dark:bg-full-dark"
+      className="bg-white group/card dark:bg-full-dark"
     >
-      <CardHeader className="relative p-0 rounded-none z-0">
+      <CardHeader className="relative z-0 p-0 rounded-none">
         <ImageUI
           as={Image}
           width={639}
@@ -175,7 +175,7 @@ const AssesHealthRiskStock = ({
           }}
         />
         <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="z-10 absolute top-0 inset-x-0 w-full flex justify-between p-2 md:p-8">
+        <div className="absolute inset-x-0 top-0 z-10 flex justify-between w-full p-2 md:p-8">
           <Chip color="danger" className="shadow-md">
             Tu riesgo de salud
           </Chip>
@@ -184,7 +184,7 @@ const AssesHealthRiskStock = ({
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className="opacity-0 group-hover/card:opacity-100 bg-black/10 text-white"
+              className="text-white opacity-0 group-hover/card:opacity-100 bg-black/10"
             >
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -192,7 +192,7 @@ const AssesHealthRiskStock = ({
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="md:flex-row justify-around p-2 md:p-8 space-y-2 md:space-y-4 text-main-h dark:text-main-dark">
+      <CardBody className="justify-around p-2 space-y-2 md:flex-row md:p-8 md:space-y-4 text-main-h dark:text-main-dark">
         <div className="flex flex-col items-center justify-between">
           <div className="flex flex-col items-center">
             <CircularProgress
@@ -231,10 +231,10 @@ const AssesHealthRiskStock = ({
             </Chip>
           )}
         </div>
-        <Divider className="md:hidden mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-dark" />
+        <Divider className="w-auto mx-4 bg-gray-200 md:hidden md:mx-8 dark:bg-dark" />
         <div className="flex flex-col justify-center space-y-2">
           <div className="flex justify-between gap-2">
-            <div className="flex flex-col mt-7 space-y-2">
+            <div className="flex flex-col space-y-2 mt-7">
               {[
                 { id: 1, label: "Diabetes", dot: "bg-[hsl(var(--chart-1))]" },
                 {
@@ -272,7 +272,7 @@ const AssesHealthRiskStock = ({
                 </Chip>
               ))}
             </div>
-            <table className="flex flex-col items-center text-sm space-y-2">
+            <table className="flex flex-col items-center space-y-2 text-sm">
               <thead>
                 <tr>
                   <th className="inline-flex items-center">
@@ -301,11 +301,11 @@ const AssesHealthRiskStock = ({
           </div>
         </div>
       </CardBody>
-      <Divider className="mx-4 md:mx-8 w-auto bg-gray-200 dark:bg-dark" />
-      <CardFooter className="p-2 md:p-8 pt-4 justify-center items-center">
-        <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-2 md:gap-4">
-          <div className="p-3 text-sm bg-gray-100 dark:bg-dark text-main-h dark:text-white rounded-lg">
-            <h3 className="text-xl font-extrabold font-sans uppercase">
+      <Divider className="w-auto mx-4 bg-gray-200 md:mx-8 dark:bg-dark" />
+      <CardFooter className="items-center justify-center p-2 pt-4 md:p-8">
+        <div className="flex flex-col-reverse items-center justify-center gap-2 md:flex-row md:gap-4">
+          <div className="p-3 text-sm bg-gray-100 rounded-lg dark:bg-dark text-main-h dark:text-white">
+            <h3 className="font-sans text-xl font-extrabold uppercase">
               Recomendación
             </h3>
             <p className="text-main-h dark:text-main-dark">
@@ -318,7 +318,7 @@ const AssesHealthRiskStock = ({
               color="danger"
               shape="circle"
               size="lg"
-              content={<HeartbeatIcon className="size-5 text-white" />}
+              content={<HeartbeatIcon className="text-white size-5" />}
               placement="top-right"
               classNames={{
                 base: [
@@ -334,7 +334,7 @@ const AssesHealthRiskStock = ({
                   IMC
                 </h3>
                 <TooltipCTN content="Índice de masa corporal">
-                  <p className="text-4xl font-extrabold font-sans uppercase">
+                  <p className="font-sans text-4xl font-extrabold uppercase">
                     {riskAssessment.bmi}
                   </p>
                 </TooltipCTN>
