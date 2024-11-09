@@ -57,21 +57,21 @@ const EmergencySteps = () => {
   ];
 
   return (
-    <section className="flex items-center justify-between w-full max-w-6xl md:mx-0 overflow-x-scroll scrollbar-hide">
+    <section className="flex w-full max-w-6xl items-center justify-between overflow-x-scroll scrollbar-hide md:mx-0">
       {info.map((card, index) => (
         <Fragment key={index}>
           <Card
             radius="sm"
             shadow="none"
-            className="h-full min-w-[87%] md:min-w-0 max-w-lg my-5 bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 dark:border-dark md:dark:border-dark text-main-h dark:text-main-dark"
+            className="h-full min-w-[87%] max-w-lg border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-white md:min-w-0 md:dark:border-dark md:dark:bg-full-dark"
           >
             <CardBody className="z-10">
-              <div className="inline-flex items-center justify-between w-full">
-                <h3 className="text-lg md:text-xl font-semibold">
+              <div className="inline-flex w-full items-center justify-between">
+                <h3 className="text-lg font-semibold md:text-xl">
                   {card.title}
                 </h3>
               </div>
-              <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-dark my-3" />
+              <Divider className="my-3 bg-gray-300 dark:bg-dark md:bg-gray-200" />
               <ol className="flex flex-col space-y-4">
                 {card.steps.map((step, stepIndex) => (
                   <li key={stepIndex} className="text-sm">
@@ -83,17 +83,16 @@ const EmergencySteps = () => {
                           "!size-6 min-w-0 max-w-full justify-center mr-2",
                           step.color,
                         ],
-                        content:
-                          "flex justify-center drop-shadow shadow-black text-white font-bold",
+                        content: "flex justify-center text-white font-bold",
                       }}
                     >
                       {step.step}
                     </Chip>
-                    <span className="font-semibold mr-4 text-nowrap">
+                    <span className="mr-4 text-nowrap font-semibold">
                       {step.title}
                     </span>
 
-                    <p className="ml-8 text-main-h dark:text-main-dark-h">
+                    <p className="ml-8 text-main-h dark:text-main-dark">
                       {step.description}
                     </p>
                   </li>
@@ -103,7 +102,7 @@ const EmergencySteps = () => {
           </Card>
           {index < info.length - 1 && (
             <div className="motion-safe:animate-[pulse_4s_cubic-bezier(0.4,_0,_0.6,_1)_infinite]">
-              <Chevron className="size-16 text-main-m dark:text-main-dark-m rotate-180" />
+              <Chevron className="size-16 rotate-180 text-main-m dark:text-main-dark-m" />
             </div>
           )}
         </Fragment>

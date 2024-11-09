@@ -11,7 +11,7 @@ const SexualityEmergencyCard = dynamic(
   () => import("./sexuality-emegergency-card"),
   {
     ssr: false,
-  }
+  },
 );
 
 const Medicines = dynamic(() => import("./medicines"), {
@@ -21,10 +21,10 @@ const Medicines = dynamic(() => import("./medicines"), {
 const Emergencies = () => {
   return (
     <>
-      <article className="flex flex-col pb-5 md:p-0 mt-12 md:my-0 px-2 text-main-h dark:text-main-dark">
+      <article className="flex flex-col pb-5 text-main-h dark:text-main-dark md:p-0">
         <EmergencySteps />
         <Phones />
-        <div className="flex flex-col md:flex-row gap-2">
+        <div className="flex flex-col gap-2 md:flex-row">
           <FirstAid />
           <SexualityEmergencyCard />
         </div>

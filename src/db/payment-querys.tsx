@@ -14,7 +14,7 @@ export async function updatePremiumStatus(
   userId: string,
   subscriptionId: string | null,
   status: string,
-  currentPeriodEnd: number | null
+  currentPeriodEnd: number | null,
 ): Promise<void> {
   if (!userId || !status) {
     throw new Error("userId y status son requeridos");
@@ -27,7 +27,7 @@ export async function updatePremiumStatus(
 
     const currentUserResult = await client.query(
       `SELECT is_premium, premium_expires_at, subscription_id FROM users WHERE id = $1`,
-      [userId]
+      [userId],
     );
 
     const currentIsPremium = currentUserResult.rows[0]?.is_premium;
@@ -131,13 +131,13 @@ export async function deleteUserStripeCustomer(userId: string): Promise<void> {
 }
 
 export async function getStripeCustomerById(
-  userId: string
+  userId: string,
 ): Promise<string | null> {
   const client = await pool.connect();
   try {
     const res = await client.query(
       "SELECT stripe_customer_id FROM users WHERE id = $1",
-      [userId]
+      [userId],
     );
     return res.rows[0]?.stripe_customer_id || null;
   } catch (error) {
@@ -149,13 +149,13 @@ export async function getStripeCustomerById(
 }
 
 export async function getStripeCustomerId(
-  customerId: string
+  customerId: string,
 ): Promise<User | null> {
   const client = await pool.connect();
   try {
     const res = await client.query(
       "SELECT id FROM users WHERE stripe_customer_id = $1",
-      [customerId]
+      [customerId],
     );
     return res.rows[0]?.id || null;
   } catch (error) {
@@ -169,13 +169,13 @@ export async function getStripeCustomerId(
 // Función para actualizar el subscriptionId en la base de datos
 export async function updateSubscriptionId(
   userId: string,
-  subscriptionId: string
+  subscriptionId: string,
 ): Promise<void> {
   console.log(
     "Updating subscriptionId for user:",
     userId,
     "with subscriptionId:",
-    subscriptionId
+    subscriptionId,
   );
   const client = await pool.connect();
   try {
@@ -189,7 +189,7 @@ export async function updateSubscriptionId(
     await client.query("ROLLBACK");
     console.error(
       "Error al actualizar el subscriptionId en la base de datos:",
-      error
+      error,
     );
     throw error;
   } finally {
@@ -199,19 +199,19 @@ export async function updateSubscriptionId(
 
 // Función para obtener el subscriptionId desde la base de datos
 export async function getSubscriptionId(
-  userId: string
+  userId: string,
 ): Promise<string | null> {
   const client = await pool.connect();
   try {
     const res = await client.query(
       "SELECT subscription_id FROM users WHERE id = $1",
-      [userId]
+      [userId],
     );
     return res.rows[0]?.subscription_id || null;
   } catch (error) {
     console.error(
       "Error al obtener el subscriptionId de la base de datos:",
-      error
+      error,
     );
     throw error;
   } finally {
@@ -226,14 +226,14 @@ export async function cancelSubscription(userId: string): Promise<void> {
     await client.query("BEGIN");
     await client.query(
       "UPDATE users SET is_premium = FALSE, premium_expires_at = NULL, subscription_id = NULL WHERE id = $1",
-      [userId]
+      [userId],
     );
     await client.query("COMMIT");
   } catch (error) {
     await client.query("ROLLBACK");
     console.error(
       "Error al cancelar la suscripción en la base de datos:",
-      error
+      error,
     );
     throw error;
   } finally {
@@ -248,7 +248,7 @@ export async function cancelSubscription(userId: string): Promise<void> {
  */
 export async function updateUserStripeCustomerId(
   userId: string,
-  stripeCustomerId: string
+  stripeCustomerId: string,
 ): Promise<void> {
   try {
     await pool.sql`
@@ -264,7 +264,7 @@ export async function updateUserStripeCustomerId(
 }
 
 export async function getPaymentDetails(
-  userId: string
+  userId: string,
 ): Promise<Payment[] | null> {
   if (!userId) {
     throw new Error("userId es requerido");

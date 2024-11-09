@@ -4,26 +4,26 @@ import { Card, Skeleton } from "@nextui-org/react";
 
 const ToolSkeleton = () => {
   return (
-    <Card radius="md" className="p-8 space-y-5 bg-white dark:bg-full-dark">
-      <Skeleton className="bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+    <Card radius="md" className="space-y-5 bg-white p-8 dark:bg-full-dark">
+      <Skeleton className="rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-24 rounded-lg bg-default-300"></div>
       </Skeleton>
-      <Skeleton className="w-1/4 bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+      <Skeleton className="w-1/4 rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-5 rounded-lg bg-default-200"></div>
       </Skeleton>
-      <Skeleton className="w-1/2 bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+      <Skeleton className="w-1/2 rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-4 rounded-lg bg-default-200"></div>
       </Skeleton>
-      <Skeleton className="w-1/5 bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+      <Skeleton className="w-1/5 rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-3 rounded-lg bg-default-200"></div>
       </Skeleton>
-      <Skeleton className="w-1/4 bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+      <Skeleton className="w-1/4 rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-5 rounded-lg bg-default-200"></div>
       </Skeleton>
-      <Skeleton className="w-1/2 bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+      <Skeleton className="w-1/2 rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-4 rounded-lg bg-default-200"></div>
       </Skeleton>
-      <Skeleton className="w-1/5 bg-gray-200 dark:bg-dark rounded-lg before:!duration-1000">
+      <Skeleton className="w-1/5 rounded-lg bg-gray-200 before:!duration-1000 dark:bg-dark">
         <div className="h-3 rounded-lg bg-default-200"></div>
       </Skeleton>
     </Card>

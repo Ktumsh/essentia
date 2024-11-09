@@ -20,7 +20,7 @@ const PremiumPage = async () => {
   const currentPriceId = session ? await getUserCurrentPlan(session) : null;
   return (
     <>
-      <div className="flex flex-col min-h-dvh w-full pt-14">
+      <div className="flex min-h-dvh w-full flex-col pt-14">
         <div className="flex-1">
           <div className="w-full">
             <PricingCards session={session} currentPriceId={currentPriceId} />

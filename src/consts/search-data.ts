@@ -1,4 +1,3 @@
-
 import { nanoid } from "nanoid";
 
 import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
@@ -359,7 +358,7 @@ const fitnessModalSearchData: SearchResult[] = FITNESS_MODAL_DATA.map(
       lvl2: "Rutinas de Ejercicios",
       lvl3: data.modalTitle,
     },
-  })
+  }),
 );
 
 const nutritionModalSearchData: SearchResult[] = NUTRITION_MODAL_DATA.map(
@@ -373,7 +372,7 @@ const nutritionModalSearchData: SearchResult[] = NUTRITION_MODAL_DATA.map(
       lvl2: "Recetas Saludables",
       lvl3: data.modalTitle,
     },
-  })
+  }),
 );
 
 // Combinación de arrays

@@ -7,7 +7,7 @@ import { spinner } from "./spinner";
 const InitialLoading = () => {
   return (
     <div className="inline-flex items-center gap-1">
-      <div className="h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden">
+      <div className="flex h-[24px] flex-1 flex-row items-center space-y-2 overflow-hidden">
         {spinner}
       </div>
       <span className="text-main-m dark:text-main-dark-m">

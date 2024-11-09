@@ -13,11 +13,11 @@ const FileSchema = z.object({
     .refine(
       (file) =>
         ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
-          file.type
+          file.type,
         ),
       {
         message: "Los archivos permitidos son JPEG, PNG o WEBP",
-      }
+      },
     ),
 });
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   if (request.body === null) {
     return NextResponse.json(
       { error: "Request body is empty" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     console.error("Failed to process request:", error);
     return NextResponse.json(
       { error: "Failed to process request" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

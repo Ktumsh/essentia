@@ -40,6 +40,8 @@
   --background-dark-f-20: rgb(3 14 30 / 20%);
   --background-dark-f-10: rgb(3 14 30 / 10%);
 
+  --background-accent-dark: #123a6f;
+
   --chart-1: 173 58% 39%;
   --chart-2: 12 76% 61%;
   --chart-3: 197 37% 24%;
@@ -280,6 +282,34 @@ html.dark {
 
 .animate-fade-in {
   animation: fade-in 0.25s ease-in-out;
+}
+
+.animate-bounce-rotate {
+  animation: bounce-rotate 3s infinite;
+}
+
+@keyframes bounce-rotate {
+  0%,
+  10% {
+    transform: translate(-25%, -50%) rotate(-45deg);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  10% {
+    transform: translate(-25%, -50%) rotate(-45deg);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translate(0, 0) rotate(-45deg);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  70%,
+  100% {
+    transform: translate(-25%, -50%) rotate(-45deg);
+    opacity: 0;
+  }
 }
 
 @keyframes fade-in {

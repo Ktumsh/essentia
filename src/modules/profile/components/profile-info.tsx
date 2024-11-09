@@ -110,24 +110,24 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
 
   return (
     <>
-      <div className="px-4 md:px-8 pb-8 pt-3 space-y-3 md:space-y-6">
+      <div className="space-y-3 px-4 pb-8 pt-3 md:space-y-6 md:px-8">
         {/* Nombre y botón editar */}
         <div className="relative">
           {children}
-          <div className="ml-24 md:ml-44 flex justify-between items-start">
+          <div className="ml-24 flex items-start justify-between md:ml-44">
             <div className="inline-flex flex-col">
               <div className="inline-flex items-center gap-2">
-                <h2 className="md:text-xl font-bold text-main dark:text-main-dark">{`${formData.first_name} ${formData.last_name}`}</h2>
+                <h2 className="font-bold text-main dark:text-main-dark md:text-xl">{`${formData.first_name} ${formData.last_name}`}</h2>
                 {is_premium && (
                   <TooltipCTN content="Cuenta Premium">
-                    <div className="relative inline-flex shrink-0 items-center justify-center gap-1 p-1 text-xs rounded text-main-h dark:text-main-dark bg-light-gradient-v2 dark:bg-dark-gradient">
+                    <div className="relative inline-flex shrink-0 items-center justify-center gap-1 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
                       <StarsIcon className="size-3.5 [&_*]:fill-white" />
                       <span className="sr-only">Cuenta Premium</span>
                     </div>
                   </TooltipCTN>
                 )}
               </div>
-              <span className="text-xs md:text-sm text-main-m dark:text-main-dark-m">
+              <span className="text-xs text-main-m dark:text-main-dark-m md:text-sm">
                 @{formData.username}
               </span>
             </div>
@@ -137,7 +137,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                 color="default"
                 radius="sm"
                 onPress={onOpen}
-                className="border-gray-200 dark:border-dark hover:!bg-gray-200 dark:hover:!bg-dark text-main dark:text-main-dark font-bold"
+                className="border-gray-200 font-bold text-main hover:!bg-gray-200 dark:border-dark dark:text-main-dark dark:hover:!bg-dark"
               >
                 Editar perfil
               </Button>
@@ -145,10 +145,10 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
           </div>
         </div>
         {/* Información del perfil */}
-        <div className="pt-6 space-y-6">
+        <div className="space-y-6 pt-6">
           {formData.bio && (
             <div>
-              <h3 className="mb-2 font-semibold md:text-lg text-main dark:text-main-dark">
+              <h3 className="mb-2 font-semibold text-main dark:text-main-dark md:text-lg">
                 {isOwnProfile ? "Acerca de mi" : "Biografía"}
               </h3>
               <p className="text-sm text-main-m dark:text-main-dark-m">
@@ -281,7 +281,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                 <Button
                   onPress={onCancel}
                   variant="bordered"
-                  className="rounded-md border border-gray-200 dark:border-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark"
+                  className="rounded-md border border-gray-200 data-[hover=true]:bg-gray-200 dark:border-dark dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>

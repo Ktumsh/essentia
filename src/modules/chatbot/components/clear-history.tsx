@@ -47,12 +47,12 @@ const ClearHistory: FC<ClearHistoryProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-end w-full h-10 mt-4">
+      <div className="mt-4 flex h-10 w-full items-center justify-end">
         <Button
           onPress={onOpen}
           variant="light"
           isDisabled={!isEnabled || isPending}
-          className="h-10 rounded-xl px-3 font-medium text-sm text-main-h dark:text-main-dark-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent"
+          className="h-10 rounded-xl px-3 text-sm font-medium text-main-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent dark:text-main-dark-h"
         >
           {isPending && <SpinnerIcon className="mr-2" />}
           Limpiar historial

@@ -70,11 +70,11 @@ const NutritionCarouselItem = ({
         radius="none"
         isPressable={false}
         disableRipple
-        className="group h-96 w-full block p-[10px] text-main-h dark:text-main-dark bg-[#ece3d4] dark:bg-full-dark border border-[#e6d5bc] dark:border-dark !transition text-clip on-scroll rounded shadow-lg hover:shadow-md select-none"
+        className="on-scroll group block h-96 w-full select-none text-clip rounded border border-[#e6d5bc] bg-[#ece3d4] p-[10px] text-main-h shadow-lg !transition hover:shadow-md dark:border-dark dark:bg-full-dark dark:text-main-dark"
       >
-        <div className="h-full w-[98%] box- mx-[1%] p-[10px] bg-[#e6d5bc] dark:bg-dark border border-[#c7a26b] dark:border-white/5">
-          <CardHeader className="absolute top-8 flex-col !items-start opacity-0 group-hover:opacity-100 px-0 group-hover:px-8 transition-all duration-300 z-20 pointer-events-none">
-            <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
+        <div className="box- mx-[1%] h-full w-[98%] border border-[#c7a26b] bg-[#e6d5bc] p-[10px] dark:border-white/5 dark:bg-dark">
+          <CardHeader className="pointer-events-none absolute top-8 z-20 flex-col !items-start px-0 opacity-0 transition-all duration-300 group-hover:px-8 group-hover:opacity-100">
+            <EyeIcon className="size-6 text-white/60 drop-shadow-md transition group-hover:text-white" />
           </CardHeader>
           <div className="relative overflow-hidden">
             <Image
@@ -84,10 +84,10 @@ const NutritionCarouselItem = ({
               height={256}
               src={modalImage}
               alt={modalTitle}
-              className="z-0 w-full h-64 object-cover [content-visibility:auto] animate-fade-in"
+              className="animate-fade-in z-0 h-64 w-full object-cover [content-visibility:auto]"
             />
-            <div className="absolute inset-0 flex flex-col h-full scale-90 bg-gray-900/90 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-              <div className="flex items-center justify-center h-full mx-auto">
+            <div className="absolute inset-0 z-10 flex h-full translate-y-full scale-90 flex-col bg-gray-900/90 transition-transform duration-300 group-hover:translate-y-0">
+              <div className="mx-auto flex h-full items-center justify-center">
                 <Button
                   isIconOnly
                   size="sm"
@@ -97,13 +97,13 @@ const NutritionCarouselItem = ({
                   onPress={() => setIsLiked(!isLiked)}
                   className={cn(
                     isLiked && "!text-cerise-red-500",
-                    "bg-transparent text-white/40 hover:text-white data-[hover=true]:opacity-100"
+                    "bg-transparent text-white/40 hover:text-white data-[hover=true]:opacity-100",
                   )}
                 >
                   <HeartIcon />
                 </Button>
               </div>
-              <div className="flex items-center justify-center h-full mx-auto">
+              <div className="mx-auto flex h-full items-center justify-center">
                 <Button
                   variant="ghost"
                   radius="none"
@@ -112,12 +112,12 @@ const NutritionCarouselItem = ({
                     onOpen();
                     history.replaceState(null, "", `#${formatedTitle}`);
                   }}
-                  className="text-white border-white hover:!bg-white hover:text-black uppercase font-spacemono font-medium"
+                  className="border-white font-spacemono font-medium uppercase text-white hover:!bg-white hover:text-black"
                 >
                   Ver receta
                 </Button>
               </div>
-              <div className="flex items-center justify-center h-full mx-auto gap-3">
+              <div className="mx-auto flex h-full items-center justify-center gap-3">
                 {[...Array(5)].map((_, index) => (
                   <Button
                     key={index}
@@ -129,7 +129,7 @@ const NutritionCarouselItem = ({
                     onPress={() => handleRating(index)}
                     className={cn(
                       rating > index && "!text-yellow-300",
-                      "bg-transparent text-white/40 hover:text-white data-[hover=true]:opacity-100"
+                      "bg-transparent text-white/40 hover:text-white data-[hover=true]:opacity-100",
                     )}
                   >
                     <StarIcon />
@@ -138,8 +138,8 @@ const NutritionCarouselItem = ({
               </div>
             </div>
           </div>
-          <CardFooter className="text-small bg-transparent px-0">
-            <h3 className="text-base uppercase font-spacemono text-start text-[#4a381c] dark:text-main-dark-h group-hover:text-black dark:group-hover:text-white transition-colors">
+          <CardFooter className="bg-transparent px-0 text-small">
+            <h3 className="text-start font-spacemono text-base uppercase text-[#4a381c] transition-colors group-hover:text-black dark:text-main-dark-h dark:group-hover:text-white">
               {modalTitle}
             </h3>
           </CardFooter>
@@ -183,14 +183,14 @@ const NutritionCarouselItem = ({
                   />
                 </div>
                 <div className="w-full">
-                  <h2 className="text-3xl font-bold font-dmsans">
+                  <h2 className="font-dmsans text-3xl font-bold">
                     {modalTitle}
                   </h2>
-                  <hr className="w-full h-px border-t-2 border-current mt-2" />
+                  <hr className="mt-2 h-px w-full border-t-2 border-current" />
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: modalBody }} />
               </ModalBody>
-              <div className="flex justify-end items-center mt-5">
+              <div className="mt-5 flex items-center justify-end">
                 <Button
                   radius="lg"
                   color="default"

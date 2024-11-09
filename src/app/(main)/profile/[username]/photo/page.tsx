@@ -38,8 +38,8 @@ export default async function PhotoPage({ params }: Props) {
   return (
     <PhotoModal>
       {profileData.profile_image && (
-        <div className="size-full flex items-center justify-center">
-          <div className="bg-gray-200 dark:bg-dark rounded-full overflow-hidden">
+        <div className="flex size-full items-center justify-center">
+          <div className="overflow-hidden rounded-full bg-gray-200 dark:bg-dark">
             <ImageUI
               as={Image}
               width={320}

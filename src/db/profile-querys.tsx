@@ -19,7 +19,7 @@ export async function getProfile(userId: string): Promise<UserProfile | null> {
 }
 
 export async function getProfileNameByEmail(
-  email: string
+  email: string,
 ): Promise<UserProfile | null> {
   const user = await getUserByEmail(email);
   if (!user) {
@@ -34,7 +34,7 @@ export async function getProfileNameByEmail(
 }
 
 export async function getUserProfileByEmail(
-  email: string
+  email: string,
 ): Promise<{ user: User; profile: UserProfile } | null> {
   const user = await getUserByEmail(email);
   if (!user) return null;
@@ -46,7 +46,7 @@ export async function getUserProfileByEmail(
 }
 
 export async function getUserProfileByUsername(
-  username: string
+  username: string,
 ): Promise<{ user: User; profile: UserProfile } | null> {
   const user = await getUserByUsername(username);
   if (!user) return null;
@@ -119,7 +119,7 @@ export async function updateUserProfile(profileData: Partial<UserProfileData>) {
       const resUser = await sql.query(queryUser, userValues);
       if (resUser.rowCount === 0) {
         console.error(
-          "Error al actualizar: Usuario no encontrado en tabla 'users'"
+          "Error al actualizar: Usuario no encontrado en tabla 'users'",
         );
         return { error: "Usuario no encontrado en tabla 'users'" };
       }
@@ -142,7 +142,7 @@ export async function updateUserProfile(profileData: Partial<UserProfileData>) {
 // Actualizar la foto de perfil de un usuario
 export async function updateUserPhoto(
   userId: string,
-  profileImageData: string
+  profileImageData: string,
 ) {
   if (!userId) {
     return { error: "ID de usuario es requerido" };

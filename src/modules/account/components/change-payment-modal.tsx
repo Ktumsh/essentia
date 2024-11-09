@@ -39,16 +39,16 @@ const ChangePaymentModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="p-3 md:p-6 items-center">
+            <ModalHeader className="items-center p-3 md:p-6">
               <div className="flex-col">
-                <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
+                <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
                   Cambiar método de pago
                 </h2>
               </div>
             </ModalHeader>
-            <ModalBody className="!pt-0 p-3 md:p-6">
+            <ModalBody className="p-3 !pt-0 md:p-6">
               {!clientSecret || !stripePromise ? (
-                <div className="flex flex-col flex-1 justify-center items-center h-full gap-2">
+                <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
                   <SpinnerIcon className="size-6 animate-spin" />
                   <h3 className="text-sm text-main-m dark:text-main-dark-m">
                     Procesando

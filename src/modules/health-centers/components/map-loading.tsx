@@ -4,13 +4,13 @@ import { SpinnerIcon } from "@/modules/icons/status";
 
 const MapLoading = () => {
   return (
-    <div className="absolute inset-0 size-full before:!duration-1000 md:rounded-3xl bg-white dark:bg-full-dark border border-gray-200 dark:border-dark z-50">
-      <div className="flex flex-col items-center justify-center absolute inset-0 gap-2">
+    <div className="absolute inset-0 z-50 size-full border border-gray-200 bg-white before:!duration-1000 dark:border-dark dark:bg-full-dark md:rounded-3xl">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
         <SpinnerIcon
           className="size-8 text-main-m dark:text-main-dark-m"
           aria-hidden="true"
         />
-        <h3 className="text-2xl font-semibold text-center text-main dark:text-main-dark">
+        <h3 className="text-center text-2xl font-semibold text-main dark:text-main-dark">
           {"Cargando mapa".split("").map((character, index) => (
             <motion.span
               key={index}

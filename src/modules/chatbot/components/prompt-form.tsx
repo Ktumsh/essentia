@@ -31,7 +31,7 @@ interface PromptFormProps {
     event?: {
       preventDefault?: () => void;
     },
-    chatRequestOptions?: ChatRequestOptions
+    chatRequestOptions?: ChatRequestOptions,
   ) => void;
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
@@ -69,7 +69,7 @@ const PromptForm: FC<PromptFormProps> = ({
 
       setAttachments([]);
     },
-    [attachments, handleSubmit, setAttachments]
+    [attachments, handleSubmit, setAttachments],
   );
 
   const uploadFile = async (file: File) => {
@@ -110,7 +110,7 @@ const PromptForm: FC<PromptFormProps> = ({
         const uploadPromises = files.map((file) => uploadFile(file));
         const uploadedAttachments = await Promise.all(uploadPromises);
         const successfullyUploadedAttachments = uploadedAttachments.filter(
-          (attachment) => attachment !== undefined
+          (attachment) => attachment !== undefined,
         );
 
         setAttachments((currentAttachments) => [
@@ -127,7 +127,7 @@ const PromptForm: FC<PromptFormProps> = ({
         setUploadQueue([]);
       }
     },
-    [setAttachments, setUploadQueue]
+    [setAttachments, setUploadQueue],
   );
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -136,7 +136,7 @@ const PromptForm: FC<PromptFormProps> = ({
 
   return (
     <form ref={formRef} onSubmit={submitForm}>
-      <div className="relative flex flex-col grow max-h-60 w-full px-8 sm:px-12 bg-white dark:bg-transparent sm:dark:bg-dark/50 sm:border border-gray-200 dark:border-dark sm:rounded-md overflow-hidden">
+      <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden border-gray-200 bg-white px-8 dark:border-dark dark:bg-transparent sm:rounded-md sm:border sm:px-12 sm:dark:bg-dark/50">
         <Tooltip
           content="Adjuntar imagen"
           delay={800}
@@ -152,7 +152,7 @@ const PromptForm: FC<PromptFormProps> = ({
             variant="light"
             isDisabled={isLoading}
             onPress={() => fileInputRef.current?.click()}
-            className="absolute left-0 sm:left-4 top-[13px] !size-9 text-main dark:text-main-dark border border-gray-300 dark:border-[#123a6f] sm:dark:border-[] dark:data-[hover=true]:bg-dark sm:dark:data-[hover=true]:bg-full-dark"
+            className="dark:border-accent-dark absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:text-main-dark dark:data-[hover=true]:bg-dark sm:left-4 sm:dark:border-[] sm:dark:data-[hover=true]:bg-full-dark"
           >
             <PaperclipIcon className="size-3.5" />
           </Button>
@@ -160,7 +160,7 @@ const PromptForm: FC<PromptFormProps> = ({
 
         <input
           type="file"
-          className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
+          className="pointer-events-none fixed -left-4 -top-4 size-0.5 opacity-0"
           accept="image/jpeg,image/jpg,image/png,image/webp"
           ref={fileInputRef}
           multiple
@@ -182,7 +182,7 @@ const PromptForm: FC<PromptFormProps> = ({
           placeholder="Escribe tu mensaje."
           onChange={handleInput}
           onKeyDown={onKeyDown}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none text-main dark:text-main-dark"
+          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] text-main focus-within:outline-none dark:text-main-dark"
         />
 
         {isLoading ? (
@@ -200,7 +200,7 @@ const PromptForm: FC<PromptFormProps> = ({
               radius="full"
               color="danger"
               onPress={stop}
-              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-main-dark"
+              className="absolute right-0 top-[13px] !size-9 text-white disabled:pointer-events-none disabled:opacity-60 dark:text-main-dark sm:right-4"
             >
               <StopIcon className="size-4" />
             </Button>
@@ -223,7 +223,7 @@ const PromptForm: FC<PromptFormProps> = ({
                 input.length === 0 || uploadQueue.length > 0 || !isPremium
               }
               onPress={() => handleSubmit()}
-              className="absolute right-0 sm:right-4 top-[13px] !size-9 disabled:opacity-60 disabled:pointer-events-none text-white dark:text-main-dark"
+              className="absolute right-0 top-[13px] !size-9 text-white disabled:pointer-events-none disabled:opacity-60 dark:text-main-dark sm:right-4"
             >
               <ArrowUpIcon className="size-4" />
             </Button>

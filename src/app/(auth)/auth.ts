@@ -29,7 +29,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const saltedPassword = encoder.encode(password + user.salt);
           const hashedPasswordBuffer = await crypto.subtle.digest(
             "SHA-256",
-            saltedPassword
+            saltedPassword,
           );
           const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
 

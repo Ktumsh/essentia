@@ -1,6 +1,6 @@
 const Copyright = () => {
   return (
-    <div className="flex justify-center items-center text-xs text-center p-3 bg-white dark:bg-full-dark text-main dark:text-main-dark">
+    <div className="flex items-center justify-center bg-white p-3 text-center text-xs text-main dark:bg-full-dark dark:text-main-dark">
       <span>© 2024 Essentia®️ - Todos los derechos reservados</span>
     </div>
   );

@@ -20,7 +20,7 @@ export function formatCreatedAt(createdAt: Date): string {
 }
 
 export const formatInitialDate = (
-  birthdate: string | DateValue | undefined
+  birthdate: string | DateValue | undefined,
 ): DateValue | null => {
   if (typeof birthdate === "string") {
     return convertToDateValue(birthdate);
@@ -30,7 +30,7 @@ export const formatInitialDate = (
     return new CalendarDate(
       birthdate.getFullYear(),
       birthdate.getMonth() + 1,
-      birthdate.getDate()
+      birthdate.getDate(),
     );
   }
 
@@ -44,7 +44,7 @@ export async function uploadFile(
   userId: string,
   hasToast: boolean = false,
   toastMessage?: string,
-  toastErrorMessage?: string
+  toastErrorMessage?: string,
 ) {
   const formData = new FormData();
   formData.append("file", file);
@@ -73,7 +73,7 @@ export async function uploadFile(
 
 export async function validateProfileForm(
   tempFormData: any,
-  setErrors: (errors: { [key: string]: string | null }) => void
+  setErrors: (errors: { [key: string]: string | null }) => void,
 ): Promise<boolean> {
   let isValid = true;
   const newErrors: { [key: string]: string | null } = {

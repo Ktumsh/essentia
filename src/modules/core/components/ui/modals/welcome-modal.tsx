@@ -46,8 +46,8 @@ const WelcomeModal = () => {
         <ModalContent>
           <>
             <ModalHeader>
-              <div className="absolute top-[-826px] -left-1/2 -translate-x-32 size-[900px] bg-gray-200 dark:bg-dark border-4 border-bittersweet-400 dark:border-cerise-red-600 rounded-full -z-10"></div>
-              <h1 className="text-main dark:text-main-dark font-motivasans text-2xl font-bold">
+              <div className="absolute -left-1/2 top-[-826px] -z-10 size-[900px] -translate-x-32 rounded-full border-4 border-bittersweet-400 bg-gray-200 dark:border-cerise-red-600 dark:bg-dark"></div>
+              <h1 className="font-motivasans text-2xl font-bold text-main dark:text-main-dark">
                 ¡Bienvenid@!
               </h1>
             </ModalHeader>
@@ -79,7 +79,7 @@ const WelcomeModal = () => {
                 fullWidth
                 size="sm"
                 radius="full"
-                className="text-sm bg-gray-200 dark:bg-white/10"
+                className="bg-gray-200 text-sm dark:bg-white/10"
               >
                 Inicia sesión
               </Button>
@@ -90,7 +90,7 @@ const WelcomeModal = () => {
                 fullWidth
                 size="sm"
                 radius="full"
-                className="text-sm bg-light-gradient dark:bg-gradient-to-r from-cerise-red-600 to-cerise-red-800"
+                className="bg-light-gradient from-cerise-red-600 to-cerise-red-800 text-sm dark:bg-gradient-to-r"
               >
                 Crea una cuenta
               </Button>

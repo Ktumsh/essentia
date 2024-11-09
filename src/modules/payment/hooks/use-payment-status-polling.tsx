@@ -15,7 +15,7 @@ export const usePaymentStatusPolling = () => {
   const startPolling = async (
     onSuccess?: () => void,
     maxAttempts = 10,
-    interval = 1000
+    interval = 1000,
   ) => {
     setIsPolling(true);
     let attempts = 0;

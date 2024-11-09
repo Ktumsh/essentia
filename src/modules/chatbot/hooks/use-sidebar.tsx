@@ -11,7 +11,7 @@ interface SidebarContext {
 }
 
 const SidebarContext = React.createContext<SidebarContext | undefined>(
-  undefined
+  undefined,
 );
 
 export function useSidebar() {

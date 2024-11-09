@@ -43,7 +43,7 @@ const ChatShareModal: FC<ChatShareModalProps> = ({
       onCopy();
       toast.success("Enlace copiado");
     },
-    [copyToClipboard, onCopy]
+    [copyToClipboard, onCopy],
   );
   return (
     <Modal
@@ -68,7 +68,7 @@ const ChatShareModal: FC<ChatShareModalProps> = ({
               <p className="text-sm text-main-m dark:text-main-dark-m">
                 Cualquier persona que tenga la URL podrá ver el chat compartido.
               </p>
-              <div className="p-4 space-y-1 text-sm border border-gray-200 dark:border-dark rounded-md">
+              <div className="space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-dark">
                 <div className="font-medium">{chat.title}</div>
                 <div className="text-main-m dark:text-main-dark-m">
                   {chat.messages.length} mensajes

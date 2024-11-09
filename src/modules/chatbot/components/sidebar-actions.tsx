@@ -55,7 +55,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
         loading: "Eliminando chat...",
         success: "Chat eliminado",
         error: "Error al eliminar chat",
-      }
+      },
     );
 
     await deletePromise;
@@ -71,7 +71,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           disableRipple
           size="sm"
           radius="sm"
-          className="!size-7 min-w-0 text-main dark:text-main-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-full-dark pointer-events-auto"
+          className="pointer-events-auto !size-7 min-w-0 text-main data-[hover=true]:bg-white dark:text-main-dark dark:data-[hover=true]:bg-full-dark"
           aria-haspopup="menu"
           onPress={() => setShareModalOpen(true)}
         >
@@ -85,7 +85,7 @@ const SidebarActions: FC<SidebarActionsProps> = ({
           disableRipple
           size="sm"
           radius="sm"
-          className="!size-7 min-w-0 text-main dark:text-main-dark data-[hover=true]:bg-white dark:data-[hover=true]:bg-full-dark pointer-events-auto"
+          className="pointer-events-auto !size-7 min-w-0 text-main data-[hover=true]:bg-white dark:text-main-dark dark:data-[hover=true]:bg-full-dark"
           aria-haspopup="menu"
           isDisabled={isLoading}
           onPress={onOpen}

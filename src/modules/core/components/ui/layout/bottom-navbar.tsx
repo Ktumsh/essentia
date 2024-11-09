@@ -46,7 +46,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
       },
       ...pages.slice(1),
     ],
-    [pages]
+    [pages],
   );
 
   return (
@@ -59,11 +59,11 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (
-            <li className="relative flex items-center justify-center size-full">
+            <li className="relative flex size-full items-center justify-center">
               <MainSearch isPremium={is_premium} />
             </li>
           ) : (
-            <li className="relative flex items-center justify-center size-full">
+            <li className="relative flex size-full items-center justify-center">
               <Button
                 as={Link}
                 href={item.href}
@@ -73,9 +73,9 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
                 variant="light"
                 color="danger"
                 className={cn(
-                  "!h-full text-gray-500 dark:text-gray-400 data-[hover=true]:text-bittersweet-400 dark:dark:data-[hover=true]:text-cerise-red-600 min-w-0",
+                  "!h-full min-w-0 text-gray-500 data-[hover=true]:text-bittersweet-400 dark:text-gray-400 dark:dark:data-[hover=true]:text-cerise-red-600",
                   item.active &&
-                    "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600 bg-transparent dark:bg-transparent"
+                    "rounded-t-none bg-transparent text-bittersweet-400 dark:bg-transparent dark:text-cerise-red-600",
                 )}
               >
                 {item.active ? (
@@ -87,7 +87,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
                 ) : null}
               </Button>
               {item.active && (
-                <hr className="absolute bottom-3 h-0.5 w-1.5 rounded-full bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out border-none" />
+                <hr className="absolute bottom-3 h-0.5 w-1.5 rounded-full border-none bg-bittersweet-400 transition-all duration-300 ease-in-out dark:bg-cerise-red-600" />
               )}
             </li>
           )}

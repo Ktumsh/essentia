@@ -20,7 +20,7 @@ const useAnimateOnScroll = (refs: RefObject<HTMLElement>[]) => {
 
     const observer = new IntersectionObserver(
       observerCallback,
-      observerOptions
+      observerOptions,
     );
 
     refs.forEach((ref) => {

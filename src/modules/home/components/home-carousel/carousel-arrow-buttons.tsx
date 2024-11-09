@@ -15,7 +15,7 @@ type UsePrevNextButtonsType = {
 
 export const usePrevNextButtons = (
   emblaApi: EmblaCarouselType | undefined,
-  onButtonClick?: (emblaApi: EmblaCarouselType) => void
+  onButtonClick?: (emblaApi: EmblaCarouselType) => void,
 ): UsePrevNextButtonsType => {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
@@ -58,12 +58,12 @@ export const PrevButton: React.FC<PropType> = (props) => {
   const { children, ...restProps } = props;
 
   return (
-    <div className="absolute top-0 left-0 z-30 hidden md:flex items-end justify-center h-full p-2 sm:p-4 pointer-events-none">
+    <div className="pointer-events-none absolute left-0 top-0 z-30 hidden h-full items-end justify-center p-2 sm:p-4 md:flex">
       <Button
         {...restProps}
         variant="flat"
         radius="full"
-        className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-full bg-black/10 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30 pointer-events-auto"
+        className="pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-full bg-black/10 px-0 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30"
       >
         <CarouselArrowIcon className="size-6 text-white" />
         {children}
@@ -76,14 +76,14 @@ export const NextButton: React.FC<PropType> = (props) => {
   const { children, ...restProps } = props;
 
   return (
-    <div className="absolute top-0 right-0 z-30 hidden md:flex items-end justify-center h-full p-4 sm:p-4 pointer-events-none">
+    <div className="pointer-events-none absolute right-0 top-0 z-30 hidden h-full items-end justify-center p-4 sm:p-4 md:flex">
       <Button
         {...restProps}
         variant="flat"
         radius="full"
-        className="inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-full bg-black/10 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30 pointer-events-auto"
+        className="pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-full bg-black/10 px-0 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30"
       >
-        <CarouselArrowIcon className="size-6 text-white rotate-180" />
+        <CarouselArrowIcon className="size-6 rotate-180 text-white" />
         {children}
       </Button>
     </div>

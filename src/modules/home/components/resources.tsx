@@ -10,7 +10,7 @@ const Resources = () => {
       quote,
       image,
       href: `/${resource}`,
-    })
+    }),
   );
   return (
     <div className="flex size-full">
@@ -24,7 +24,7 @@ const Resources = () => {
             img={item.image}
             href={item.href}
           >
-            <q className="absolute top-5 left-5 max-w-[calc(100%-40px)] text-base sm:text-sm xl:text-base text-main dark:text-white font-normal dark:font-extralight opacity-0 lg:group-hover:opacity-100 invisible lg:group-hover:visible transition-opacity delay-200 duration-500">
+            <q className="invisible absolute left-5 top-5 max-w-[calc(100%-40px)] text-base font-normal text-main opacity-0 transition-opacity delay-200 duration-500 dark:font-extralight dark:text-white sm:text-sm lg:group-hover:visible lg:group-hover:opacity-100 xl:text-base">
               {item.quote}
             </q>
           </ResourcesItem>

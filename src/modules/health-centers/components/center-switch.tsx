@@ -27,13 +27,13 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
       }
       placement="top-start"
     >
-      <div className="flex flex-col gap-2 bg-base md:min-w-48">
+      <div className="bg-base flex flex-col gap-2 md:min-w-48">
         <Switch
           size="lg"
           isSelected={isSelected}
           onValueChange={handleSwitchChange}
           thumbIcon={isSelected ? <HospitalIcon /> : <PharmacyIcon />}
-          className="flex flex-col justify-center sm:flex-row z-10 gap-2 sm:gap-0 pointer-events-auto"
+          className="pointer-events-auto z-10 flex flex-col justify-center gap-2 sm:flex-row sm:gap-0"
           classNames={{
             label:
               "text-xs sm:text-base text-white md:text-main-h md:dark:text-main-dark",
@@ -46,7 +46,7 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
           <span className="hidden sm:block">
             {isSelected ? "Centros de salud" : "Farmacias"}
           </span>
-          <span className="sm:hidden block self-start w-full">
+          <span className="block w-full self-start sm:hidden">
             {isSelected ? "Centros" : "Farmacias"}
           </span>
         </Switch>

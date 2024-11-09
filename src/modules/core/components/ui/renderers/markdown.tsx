@@ -53,7 +53,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={components}
-      className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 !text-main-h dark:!text-main-dark"
+      className="prose break-words !text-main-h dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:!text-main-dark"
     >
       {children}
     </ReactMarkdown>
@@ -62,5 +62,5 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
 
 export const Markdown = memo(
   NonMemoizedMarkdown,
-  (prevProps, nextProps) => prevProps.children === nextProps.children
+  (prevProps, nextProps) => prevProps.children === nextProps.children,
 );

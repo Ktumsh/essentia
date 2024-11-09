@@ -61,7 +61,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
   const fileExtension = programmingLanguages[language] || ".file";
   const suggestedFileName = `essentia-ai-${generateRandomString(
     3,
-    true
+    true,
   )}${fileExtension}`;
 
   const downloadAsFile = () => {
@@ -88,8 +88,8 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
   };
 
   return (
-    <div className="relative w-full font-sans codeblock bg-gray-950 border border-gray-50 dark:border-white/10">
-      <div className="flex items-center justify-between w-full px-6 py-2 pr-4 text-main-dark-h border-b border-white/10">
+    <div className="codeblock relative w-full border border-gray-50 bg-gray-950 font-sans dark:border-white/10">
+      <div className="flex w-full items-center justify-between border-b border-white/10 px-6 py-2 pr-4 text-main-dark-h">
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">
           <Button

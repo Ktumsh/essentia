@@ -11,15 +11,15 @@ interface Props {
 
 const LinkList = ({ href, title, links }: Props) => {
   return (
-    <div className="flex flex-col mb-6">
+    <div className="mb-6 flex flex-col">
       <div>
         {title === "Más" ? (
-          <div className="border-b inline-block border-transparent text-md mb-2 font-bold">
+          <div className="text-md mb-2 inline-block border-b border-transparent font-bold">
             {title}
           </div>
         ) : (
           <Link
-            className="border-b inline-block border-transparent text-md mb-2 font-bold"
+            className="text-md mb-2 inline-block border-b border-transparent font-bold"
             href={href || "#"}
           >
             {title}
@@ -29,7 +29,7 @@ const LinkList = ({ href, title, links }: Props) => {
       {links.map((link, index) => (
         <div key={index}>
           <Link
-            className="border-b inline-block border-transparent text-sm hover:border-current dark:text-main-dark"
+            className="inline-block border-b border-transparent text-sm hover:border-current dark:text-main-dark"
             href={link.href}
           >
             {link.text}

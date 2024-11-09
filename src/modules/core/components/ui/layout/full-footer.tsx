@@ -13,10 +13,10 @@ const FullFooter = () => {
   return (
     <div
       id="footer"
-      className="w-full static bg-gray-100 dark:bg-dark text-main dark:text-white font-light"
+      className="static w-full bg-gray-100 font-light text-main dark:bg-dark dark:text-white"
     >
-      <footer className="flex flex-col max-w-[1250px] py-10 px-5 mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-8 max-w-7xl mb-10">
+      <footer className="mx-auto flex max-w-[1250px] flex-col px-5 py-10">
+        <div className="mb-10 grid max-w-7xl grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-3 xl:grid-cols-4">
           <Logo />
           <LinkList href="/recursos" title="Recursos" links={resources} />
           <LinkList

@@ -1,6 +1,5 @@
 "use server";
 
-
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { sql } from "@vercel/postgres";
@@ -52,7 +51,7 @@ const registerSchema = z.object({
     },
     {
       message: ResultCode.INVALID_BIRTHDATE,
-    }
+    },
   ),
 });
 
@@ -144,11 +143,11 @@ interface Result {
 
 export async function signup(
   _prevState: Result | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<Result | undefined> {
   const entries = formData.entries();
   const parsedCredentials = registerSchema.safeParse(
-    Object.fromEntries(entries)
+    Object.fromEntries(entries),
   );
 
   if (parsedCredentials.success) {
@@ -168,7 +167,7 @@ export async function signup(
     const saltedPassword = encoder.encode(password + salt);
     const hashedPasswordBuffer = await crypto.subtle.digest(
       "SHA-256",
-      saltedPassword
+      saltedPassword,
     );
     const hashedPassword = getStringFromBuffer(hashedPasswordBuffer);
 

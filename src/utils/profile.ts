@@ -6,7 +6,7 @@ import { Session, UserProfileData } from "@/types/session";
 
 export async function getUserProfileData(
   session?: Session,
-  username?: string
+  username?: string,
 ): Promise<UserProfileData> {
   let userProfile;
 

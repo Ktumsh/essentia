@@ -5,7 +5,7 @@ interface UseSearchBoxProps {
   searchRef: MutableRefObject<HTMLInputElement | null>;
   createMarker: (
     place: google.maps.places.PlaceResult,
-    infoWindow: google.maps.InfoWindow
+    infoWindow: google.maps.InfoWindow,
   ) => void;
   clearMarkers: () => void;
   infoWindow: google.maps.InfoWindow;
@@ -23,7 +23,7 @@ const useSearchBox = ({
 
     const searchBox = new google.maps.places.SearchBox(searchRef.current);
     mapInstance.controls[google.maps.ControlPosition.TOP_LEFT].push(
-      searchRef.current
+      searchRef.current,
     );
 
     searchBox.addListener("places_changed", () => {

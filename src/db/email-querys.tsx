@@ -11,7 +11,7 @@ const pool = createPool({
 
 export async function insertEmailVerificationToken(
   userId: string,
-  token: string
+  token: string,
 ): Promise<void> {
   const expiresAt = new Date();
   expiresAt.setHours(expiresAt.getHours() + 24);
@@ -41,7 +41,7 @@ export async function resendEmailVerification(userId: string, email: string) {
 
     if (result.rowCount === 0) {
       throw new Error(
-        "No se pudo actualizar el token de verificación para el usuario."
+        "No se pudo actualizar el token de verificación para el usuario.",
       );
     }
 

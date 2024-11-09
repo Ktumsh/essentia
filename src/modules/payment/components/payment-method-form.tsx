@@ -46,7 +46,7 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
       try {
         await updatePaymentMethod(
           customerId,
-          setupIntent.payment_method as string
+          setupIntent.payment_method as string,
         );
         setIsLoading(false);
         toast.success("Método de pago actualizado correctamente.");
@@ -58,10 +58,10 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
       }
     } else {
       toast.error(
-        "No se obtuvo un método de pago después de confirmar el SetupIntent."
+        "No se obtuvo un método de pago después de confirmar el SetupIntent.",
       );
       console.error(
-        "No se obtuvo un método de pago después de confirmar el SetupIntent."
+        "No se obtuvo un método de pago después de confirmar el SetupIntent.",
       );
       setIsLoading(false);
     }
@@ -73,10 +73,10 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
       animate={{ opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 0.3 }}
       onSubmit={handleSubmit}
-      className="flex flex-1 flex-col h-full space-y-4"
+      className="flex h-full flex-1 flex-col space-y-4"
     >
       <PaymentElement />
-      <div className="inline-flex flex-1 items-end justify-between w-full pt-3 md:pt-6 !mt-0">
+      <div className="!mt-0 inline-flex w-full flex-1 items-end justify-between pt-3 md:pt-6">
         <Button
           onPress={onClose}
           isDisabled={isLoading}

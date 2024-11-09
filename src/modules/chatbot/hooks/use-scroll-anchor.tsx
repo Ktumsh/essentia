@@ -65,7 +65,7 @@ export const useScrollAnchor = () => {
         },
         {
           rootMargin: "0px 0px -150px 0px",
-        }
+        },
       );
 
       observer.observe(visibilityRef.current);

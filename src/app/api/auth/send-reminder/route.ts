@@ -16,11 +16,11 @@ export async function GET(request: Request) {
   }
 
   const day1Start = new Date(
-    Date.now() - 2 * 24 * 60 * 60 * 1000
+    Date.now() - 2 * 24 * 60 * 60 * 1000,
   ).toISOString();
   const day1End = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString();
   const day3Start = new Date(
-    Date.now() - 4 * 24 * 60 * 60 * 1000
+    Date.now() - 4 * 24 * 60 * 60 * 1000,
   ).toISOString();
   const day3End = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   `;
 
   console.log(
-    `Usuarios encontrados para el recordatorio de día 1: ${usersDay1.rowCount}`
+    `Usuarios encontrados para el recordatorio de día 1: ${usersDay1.rowCount}`,
   );
 
   for (const user of usersDay1.rows) {
@@ -47,7 +47,7 @@ export async function GET(request: Request) {
     } else {
       console.error(
         `Error al enviar recordatorio a ${user.email} (día 1):`,
-        result.error
+        result.error,
       );
     }
   }
@@ -60,7 +60,7 @@ export async function GET(request: Request) {
   `;
 
   console.log(
-    `Usuarios encontrados para el recordatorio de día 3: ${usersDay3.rowCount}`
+    `Usuarios encontrados para el recordatorio de día 3: ${usersDay3.rowCount}`,
   );
 
   for (const user of usersDay3.rows) {
@@ -72,7 +72,7 @@ export async function GET(request: Request) {
     } else {
       console.error(
         `Error al enviar recordatorio a ${user.email} (día 3):`,
-        result.error
+        result.error,
       );
     }
   }

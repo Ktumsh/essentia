@@ -9,7 +9,7 @@ export const useModalHash = (
   isOpen: boolean,
   onOpen: () => void,
   setActiveVideo?: (video: Video | null) => void,
-  video?: Video | null
+  video?: Video | null,
 ) => {
   useEffect(() => {
     const handleHashChange = () => {

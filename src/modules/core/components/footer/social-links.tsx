@@ -5,25 +5,25 @@ import { InstagramIcon, TwitterIcon, GithubIcon } from "@/modules/icons/media";
 
 const SocialLinks = () => {
   return (
-    <div className="flex flex-row justify-center items-center mt-8">
+    <div className="mt-8 flex flex-row items-center justify-center">
       <div className="flex flex-row items-center gap-6">
         <span className="mr-3 text-center font-medium">Síguenos</span>
         <Link
-          className="hover:scale-125 transition-all"
+          className="transition-all hover:scale-125"
           href={siteConfig.links.instagram}
           target="_blank"
         >
           <InstagramIcon className="size-6" />
         </Link>
         <Link
-          className="hover:scale-125 transition-all"
+          className="transition-all hover:scale-125"
           href={siteConfig.links.twitter}
           target="_blank"
         >
           <TwitterIcon className="size-6" />
         </Link>
         <Link
-          className="hover:scale-125 transition-all"
+          className="transition-all hover:scale-125"
           href={siteConfig.links.github}
           target="_blank"
         >

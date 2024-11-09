@@ -28,7 +28,7 @@ export async function getUserByEmail(email: string): Promise<User | null> {
 }
 
 export async function getUserByUsername(
-  username: string
+  username: string,
 ): Promise<User | null> {
   const result = await pool.sql<User>`
       SELECT * FROM users WHERE username = ${username} LIMIT 1;
@@ -37,7 +37,7 @@ export async function getUserByUsername(
 }
 
 export async function getPasswordAndSaltById(
-  userId: string
+  userId: string,
 ): Promise<{ password: string | null; salt: string | null }> {
   const result = await pool.sql`
     SELECT password_hash, salt FROM users WHERE id = ${userId};
@@ -54,7 +54,7 @@ export async function getPasswordAndSaltById(
 export async function updatePasswordAndSaltById(
   userId: string,
   password: string,
-  salt: string
+  salt: string,
 ) {
   const result = await pool.sql`
     UPDATE users
@@ -66,7 +66,7 @@ export async function updatePasswordAndSaltById(
 }
 
 export async function getUserBySubscriptionId(
-  subscriptionId: string
+  subscriptionId: string,
 ): Promise<User | null> {
   const result = await pool.sql<User>`
     SELECT * FROM users WHERE subscription_id = ${subscriptionId} LIMIT 1;

@@ -18,7 +18,7 @@ const MenuButton: React.FC<Props> = ({ profileData }) => {
       {profileData ? (
         <>
           {profile_image ? (
-            <div className="size-8 bg-white dark:bg-full-dark md:border-2 border-gray-200 dark:border-dark rounded-full overflow-hidden">
+            <div className="size-8 overflow-hidden rounded-full border-gray-200 bg-white dark:border-dark dark:bg-full-dark md:border-2">
               <Image
                 priority
                 quality={50}
@@ -26,7 +26,7 @@ const MenuButton: React.FC<Props> = ({ profileData }) => {
                 height={32}
                 src={profile_image}
                 alt="Avatar del usuario"
-                className="object-cover object-center rounded-full"
+                className="rounded-full object-cover object-center"
               />
             </div>
           ) : (

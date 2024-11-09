@@ -18,8 +18,8 @@ export const PreviewAttachment = ({
   const { name, url, contentType } = attachment;
 
   return (
-    <div className="group/preview flex flex-col gap-2 max-w-16">
-      <div className="size-16 bg-gray-100 dark:bg-dark rounded-md relative flex flex-col items-center justify-center">
+    <div className="group/preview flex max-w-16 flex-col gap-2">
+      <div className="relative flex size-16 flex-col items-center justify-center rounded-md bg-gray-100 dark:bg-dark">
         {contentType ? (
           contentType.startsWith("image") ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -27,7 +27,7 @@ export const PreviewAttachment = ({
               key={url}
               src={url}
               alt={name ?? "An image attachment"}
-              className="rounded-md size-full object-cover aspect-square animate-fade-in"
+              className="animate-fade-in aspect-square size-full rounded-md object-cover"
             />
           ) : (
             <div className=""></div>
@@ -45,7 +45,7 @@ export const PreviewAttachment = ({
         {!isUploading && !!onRemove && (
           <button
             onClick={onRemove}
-            className="absolute -top-1.5 -right-1.5 bg-white dark:bg-full-dark border border-gray-300 dark:border-[#123a6f] rounded-full p-1 flex items-center justify-center md:opacity-0 group-hover/preview:opacity-100 transition-opacity"
+            className="dark:border-accent-dark absolute -right-1.5 -top-1.5 flex items-center justify-center rounded-full border border-gray-300 bg-white p-1 transition-opacity group-hover/preview:opacity-100 dark:bg-full-dark md:opacity-0"
           >
             <CloseIcon className="size-3 text-main dark:text-white" />
           </button>

@@ -37,20 +37,20 @@ const CancelPlanModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="p-3 md:p-6 items-center">
+            <ModalHeader className="items-center p-3 md:p-6">
               <div className="flex-col">
-                <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
+                <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
                   Seleccionaste el plan Gratis
                 </h2>
-                <p className="font-normal text-sm text-main-h dark:text-main-dark-h">
+                <p className="text-sm font-normal text-main-h dark:text-main-dark-h">
                   Al continuar, tu plan se cancelará y perderás acceso a todas
                   las funcionalidades Premium a partir de la fecha de
                   vencimiento de tu suscripción actual.
                 </p>
               </div>
             </ModalHeader>
-            <ModalBody className="!pt-0 p-3 md:p-6">
-              <div className="inline-flex justify-between w-full">
+            <ModalBody className="p-3 !pt-0 md:p-6">
+              <div className="inline-flex w-full justify-between">
                 <Button
                   variant="light"
                   onPress={onClose}

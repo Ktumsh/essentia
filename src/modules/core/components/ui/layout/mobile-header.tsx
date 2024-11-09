@@ -39,7 +39,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
     fetcher,
     {
       fallbackData: [],
-    }
+    },
   );
 
   useEffect(() => {
@@ -80,12 +80,12 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
           </SidebarMobile>
         )}
         <Link
-          className="relative size-8 active:scale-95 transition-transform rounded-full"
+          className="relative size-8 rounded-full transition-transform active:scale-95"
           href="/"
           aria-label="Página de inicio"
         >
           <Image
-            className="h-8 w-auto aspect-auto transition-all ease-in-out"
+            className="aspect-auto h-8 w-auto transition-all ease-in-out"
             width={32}
             height={32}
             quality={100}

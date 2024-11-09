@@ -32,7 +32,7 @@ const useBubbleAnimation = (bubbles: RefObject<HTMLImageElement>[]) => {
         root: null,
         rootMargin: "0px",
         threshold: 0.1,
-      }
+      },
     );
 
     bubbles.forEach((bubbleRef) => {

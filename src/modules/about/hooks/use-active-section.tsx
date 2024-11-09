@@ -19,7 +19,7 @@ export const useActiveSection = (sections: Section[]) => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     sections.forEach((section) => {

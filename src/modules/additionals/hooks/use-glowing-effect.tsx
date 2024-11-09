@@ -6,7 +6,7 @@ type UseGlowingEffectReturnType = {
   setRef: (el: HTMLDivElement | null, index?: number) => void;
   handleMouseMove: (
     e: React.MouseEvent<HTMLDivElement>,
-    index?: number
+    index?: number,
   ) => void;
 };
 
@@ -15,7 +15,7 @@ export function useGlowingEffect(): UseGlowingEffectReturnType {
 
   const handleMouseMove = (
     e: React.MouseEvent<HTMLDivElement>,
-    index?: number
+    index?: number,
   ): void => {
     if (index !== undefined) {
       const element = elementRefs.current[index];

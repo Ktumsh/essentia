@@ -17,7 +17,7 @@ const Logo = ({ width, height, className }: LogoProps) => {
         alt="Logo Essentia"
         width={width || 10.66}
         height={height || 16}
-        className={cn("w-auto h-4", className)}
+        className={cn("h-4 w-auto", className)}
       />
     </Link>
   );

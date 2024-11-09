@@ -54,14 +54,14 @@ const Carousel = React.forwardRef<
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
       },
-      plugins
+      plugins,
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -92,7 +92,7 @@ const Carousel = React.forwardRef<
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext]
+      [scrollPrev, scrollNext],
     );
 
     React.useEffect(() => {
@@ -140,7 +140,7 @@ const Carousel = React.forwardRef<
         </div>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 Carousel.displayName = "Carousel";
 
@@ -151,13 +151,13 @@ const CarouselContent = React.forwardRef<
   const { carouselRef, orientation } = useCarousel();
 
   return (
-    <div ref={carouselRef} className="overflow-hidden h-[410px]">
+    <div ref={carouselRef} className="h-[410px] overflow-hidden">
       <div
         ref={ref}
         className={cn(
           "flex",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          className
+          className,
         )}
         {...props}
       />
@@ -180,7 +180,7 @@ const CarouselItem = React.forwardRef<
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
-        className
+        className,
       )}
       {...props}
     />
@@ -201,9 +201,9 @@ const CarouselPrevious = React.forwardRef<
       size={size}
       aria-label="Previous slide"
       className={cn(
-        "inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-lg bg-black/10 hover:bg-black/20 active:bg-black/30 pointer-events-auto",
+        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-lg bg-black/10 px-0 hover:bg-black/20 active:bg-black/30",
         orientation === "horizontal" ? "" : "rotate-90",
-        className
+        className,
       )}
       disabled={!canScrollPrev}
       onPress={scrollPrev}
@@ -229,15 +229,15 @@ const CarouselNext = React.forwardRef<
       size={size}
       aria-label="Next slide"
       className={cn(
-        "inline-flex items-center justify-center px-0 min-w-0 max-w-[48px] max-h-[48px] !size-12 rounded-lg bg-black/10 hover:bg-black/20 active:bg-black/30 pointer-events-auto",
+        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-lg bg-black/10 px-0 hover:bg-black/20 active:bg-black/30",
         orientation === "horizontal" ? "" : "rotate-90",
-        className
+        className,
       )}
       disabled={!canScrollNext}
       onPress={scrollNext}
       {...props}
     >
-      <CarouselArrowIcon className="size-6 text-white rotate-180" />
+      <CarouselArrowIcon className="size-6 rotate-180 text-white" />
       <span className="sr-only">Next slide</span>
     </Button>
   );

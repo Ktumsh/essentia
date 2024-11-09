@@ -34,13 +34,13 @@ export interface ChatPanelProps {
   scrollToBottom: () => void;
   append: (
     message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions
+    chatRequestOptions?: ChatRequestOptions,
   ) => Promise<string | null | undefined>;
   handleSubmit: (
     event?: {
       preventDefault?: () => void;
     },
-    chatRequestOptions?: ChatRequestOptions
+    chatRequestOptions?: ChatRequestOptions,
   ) => void;
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
@@ -105,8 +105,8 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   return (
     <>
-      <div className="w-full fixed inset-x-0 bottom-14 md:bottom-0 peer-[[data-state=open]]:group-[]:md:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px] transition-[padding] z-10 pointer-events-none">
-        <div className="relative mx-auto max-w-2xl sm:px-4 pointer-events-auto">
+      <div className="pointer-events-none fixed inset-x-0 bottom-14 z-10 w-full transition-[padding] md:bottom-0 peer-[[data-state=open]]:group-[]:md:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
+        <div className="pointer-events-auto relative mx-auto max-w-2xl sm:px-4">
           <ButtonToBottom
             isAtBottom={isAtBottom}
             scrollToBottom={scrollToBottom}
@@ -118,7 +118,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 initial={{ opacity: 1 }}
                 animate={!isPremium ? { opacity: 0 } : { opacity: 1 }}
                 transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
-                className="mb-4 flex sm:grid grid-cols-2 gap-2 px-4 sm:px-0 overflow-x-auto scrollbar-hide"
+                className="mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 scrollbar-hide sm:grid sm:px-0"
               >
                 {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
                   <motion.div
@@ -139,7 +139,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                         />
                       }
                       className={cn(
-                        "flex-col min-w-60 sm:min-w-0 h-auto gap-0 p-4 items-start text-start bg-white dark:bg-full-dark hover:bg-gray-100 border border-gray-200 dark:border-dark text-main dark:text-main-dark data-[disabled=true]:opacity-100"
+                        "h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main hover:bg-gray-100 data-[disabled=true]:opacity-100 dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0",
                       )}
                       onPress={async () => {
                         append({
@@ -151,7 +151,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                       <div className="text-sm font-semibold">
                         {suggestedAction.heading}
                       </div>
-                      <div className="text-sm text-main-m dark:text-main-dark-m text-wrap">
+                      <div className="text-wrap text-sm text-main-m dark:text-main-dark-m">
                         {suggestedAction.subheading}
                       </div>
                     </Button>
@@ -159,7 +159,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 ))}
               </motion.div>
             )}
-          <div className="relative md:-ml-1 border-t bg-white dark:bg-full-dark px-4 py-2 sm:rounded-t-xl sm:border sm:py-4 border-gray-200 dark:border-dark">
+          <div className="relative border-t border-gray-200 bg-white px-4 py-2 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4 md:-ml-1">
             <motion.div
               initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={
@@ -182,7 +182,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                       attachment={attachment}
                       onRemove={() => {
                         setAttachments((prevAttachments) =>
-                          prevAttachments.filter((_, i) => i !== index)
+                          prevAttachments.filter((_, i) => i !== index),
                         );
                       }}
                     />
@@ -233,7 +233,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     ? { ease: "easeInOut", duration: 1, delay: 0.3 }
                     : { ease: "easeInOut", duration: 0.5, delay: 0.3 }
                 }
-                className="absolute inset-3 flex items-center justify-center gap-2 md:gap-4 p-2 md:p-4 rounded-xl shadow-lg bg-white dark:bg-full-dark border border-gray-200 dark:border-dark text-xs md:text-base text-main dark:text-main-dark"
+                className="absolute inset-3 flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white p-2 text-xs text-main shadow-lg dark:border-dark dark:bg-full-dark dark:text-main-dark md:gap-4 md:p-4 md:text-base"
               >
                 <span className="inline-flex items-center gap-2">
                   <WarningCircledIcon className="size-5 text-main-m dark:text-main-dark-m" />
@@ -250,12 +250,12 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     startContent={
                       <StarsIcon
                         aria-hidden="true"
-                        className="size-5 stars-icon focus:outline-none"
+                        className="stars-icon size-5 focus:outline-none"
                       />
                     }
-                    className="shrink-0 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-md before:z-[-1]"
+                    className="shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
                   >
-                    <span className="text-transparent bg-clip-text bg-light-gradient-v2 dark:bg-dark-gradient-v2 font-sans font-extrabold">
+                    <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
                       Hazte premium
                     </span>
                   </Button>
@@ -264,7 +264,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     as={Link}
                     href="/login"
                     size="sm"
-                    className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:text-white !duration-150"
+                    className="rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
                   >
                     Iniciar sesión
                   </Button>

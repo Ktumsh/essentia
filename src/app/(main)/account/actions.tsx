@@ -51,10 +51,10 @@ export async function changePasswordAction(input: ChangePasswordInput) {
     const saltedCurrentPassword = encoder.encode(currentPassword + salt);
     const hashedCurrentPasswordBuffer = await crypto.subtle.digest(
       "SHA-256",
-      saltedCurrentPassword
+      saltedCurrentPassword,
     );
     const hashedCurrentPassword = getStringFromBuffer(
-      hashedCurrentPasswordBuffer
+      hashedCurrentPasswordBuffer,
     );
 
     if (hashedCurrentPassword !== storedHashedPassword) {
@@ -72,14 +72,14 @@ export async function changePasswordAction(input: ChangePasswordInput) {
     const saltedNewPassword = encoder.encode(newPassword + newSalt);
     const hashedNewPasswordBuffer = await crypto.subtle.digest(
       "SHA-256",
-      saltedNewPassword
+      saltedNewPassword,
     );
     const hashedNewPassword = getStringFromBuffer(hashedNewPasswordBuffer);
 
     const updateResult = await updatePasswordAndSaltById(
       userId,
       hashedNewPassword,
-      newSalt
+      newSalt,
     );
 
     if (updateResult.rowCount === 0) {

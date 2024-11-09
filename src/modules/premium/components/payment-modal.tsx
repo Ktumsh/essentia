@@ -34,7 +34,7 @@ interface PricingCardProps {
 }
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string,
 );
 
 const PaymentModal = ({
@@ -51,7 +51,7 @@ const PaymentModal = ({
   const handleProceedToPayment = async () => {
     if (!selectedPlan || !cardholderName) {
       toast.error(
-        "Selecciona un plan y proporciona el nombre del titular de la suscripción"
+        "Selecciona un plan y proporciona el nombre del titular de la suscripción",
       );
       return;
     }
@@ -96,16 +96,16 @@ const PaymentModal = ({
               <>
                 <ModalHeader className="p-3 md:p-6">
                   <div className="flex-col">
-                    <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
+                    <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
                       Seleccionaste el plan {title}
                     </h2>
-                    <p className="font-normal text-sm text-main-h dark:text-main-dark-h">
+                    <p className="text-sm font-normal text-main-h dark:text-main-dark-h">
                       Para continuar con la suscripción, proporciona el nombre
                       del titular de la suscripción.
                     </p>
                   </div>
                 </ModalHeader>
-                <ModalBody className="!pt-0 p-3 md:p-6">
+                <ModalBody className="p-3 !pt-0 md:p-6">
                   <div>
                     <label
                       htmlFor="cardholderName"
@@ -121,15 +121,15 @@ const PaymentModal = ({
                       placeholder="Ingresa el nombre del titular de la suscripción"
                       onChange={(e) => setCardholderName(e.target.value)}
                       className={cn(
-                        "mt-1 block w-full p-3 pr-[26px] text-sm leading-none bg-gray-100 dark:bg-dark border border-gray-300 dark:border-[#123a6f] rounded-md shadow-sm focus:outline-none",
+                        "dark:border-accent-dark mt-1 block w-full rounded-md border border-gray-300 bg-gray-100 p-3 pr-[26px] text-sm leading-none shadow-sm focus:outline-none dark:bg-dark",
                         "focus:border-[hsla(6,_93%,_71%,_50%)] focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(6,_93%,_71%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]",
-                        "focus:dark:border-[hsla(343,_58%,_50%,_50%)] focus:dark:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(343,_58%,_50%,_25%),_0_1px_1px_0_rgba(255,_255,_255,_0.12))]"
+                        "focus:dark:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(343,_58%,_50%,_25%),_0_1px_1px_0_rgba(255,_255,_255,_0.12))] focus:dark:border-[hsla(343,_58%,_50%,_50%)]",
                       )}
                     />
                   </div>
                 </ModalBody>
 
-                <ModalFooter className="!pt-0 p-3 md:p-6 justify-between md:justify-end">
+                <ModalFooter className="justify-between p-3 !pt-0 md:justify-end md:p-6">
                   <Button
                     onPress={onClose}
                     variant="light"
@@ -154,8 +154,8 @@ const PaymentModal = ({
               </>
             ) : (
               <>
-                <ModalHeader className="p-3 md:p-6 items-center">
-                  <h2 className="text-lg font-semibold md:text-xl text-main dark:text-white">
+                <ModalHeader className="items-center p-3 md:p-6">
+                  <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
                     Suscribirse a Premium
                   </h2>
                   <Popover
@@ -218,9 +218,9 @@ const PaymentModal = ({
                     </PopoverContent>
                   </Popover>
                 </ModalHeader>
-                <ModalBody className="!pt-0 p-3 md:p-6">
+                <ModalBody className="p-3 !pt-0 md:p-6">
                   {!selectedPlan || !cardholderName || !clientSecret ? (
-                    <div className="flex flex-col flex-1 justify-center items-center h-full gap-2">
+                    <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
                       <SpinnerIcon className="size-6" />
                       <h3 className="text-sm text-main-m dark:text-main-dark-m">
                         Procesando

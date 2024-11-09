@@ -34,7 +34,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
 
   return (
     <>
-      <div role="banner" className="z-[100] fixed top-0 w-full hidden md:block">
+      <div role="banner" className="fixed top-0 z-[100] hidden w-full md:block">
         <Navbar
           maxWidth="sm"
           classNames={{
@@ -46,17 +46,17 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
             <NavbarLinks pages={pages} />
           </NavbarContent>
         </Navbar>
-        <div className="z-40 fixed top-0 left-0">
-          <div className="flex items-center justify-center w-full px-4 h-14 gap-5">
-            <div className="flex items-center gap-2 shrink-0">
+        <div className="fixed left-0 top-0 z-40">
+          <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
+            <div className="flex shrink-0 items-center gap-2">
               {essentiaAi && profileData && <SidebarToggle />}
               <Link
-                className="relative hidden sm:flex items-center justify-center h-10 shrink-0 active:scale-95 transition-transform rounded-full"
+                className="relative hidden h-10 shrink-0 items-center justify-center rounded-full transition-transform active:scale-95 sm:flex"
                 href="/"
                 aria-label="Página de inicio"
               >
                 <Image
-                  className="h-10 w-auto aspect-auto transition-all ease-in-out"
+                  className="aspect-auto h-10 w-auto transition-all ease-in-out"
                   width={40}
                   height={40}
                   quality={100}
@@ -66,7 +66,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
               </Link>
               <Link
                 href="/"
-                className="hidden xl:block font-grotesk text-main dark:text-white/95"
+                className="hidden font-grotesk text-main dark:text-white/95 xl:block"
               >
                 Essentia®️
               </Link>
@@ -74,19 +74,19 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
             <MainSearch isPremium={is_premium} />
           </div>
         </div>
-        <div className="z-40 h-14 fixed top-0 right-0">
-          <div className="flex justify-center items-center size-full text-sm font-normal text-gray-500 dark:text-main-dark-h ">
+        <div className="fixed right-0 top-0 z-40 h-14">
+          <div className="flex size-full items-center justify-center text-sm font-normal text-gray-500 dark:text-main-dark-h">
             {!profileData && (
               <Button
                 as={Link}
                 href="/login"
                 size="sm"
-                className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:text-white !duration-150"
+                className="rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
               >
                 Iniciar sesión
               </Button>
             )}
-            <div className="flex items-center justify-center h-full px-6">
+            <div className="flex h-full items-center justify-center px-6">
               <AvatarDropdown profileData={profileData} />
             </div>
           </div>

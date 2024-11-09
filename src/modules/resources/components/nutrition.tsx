@@ -14,15 +14,15 @@ const Loading = () => {
   const windowSize = useWindowSize();
   const width = windowSize.width;
   return (
-    <div className="flex flex-1 space-x-8 ml-5 overflow-hidden">
+    <div className="ml-5 flex flex-1 space-x-8 overflow-hidden">
       {Array.from({ length: width < 1024 ? 1 : 3 }).map((_, i) => (
         <div
           key={i}
-          className="flex flex-col gap-4 w-full lg:w-[306.66px] h-96 p-5 rounded shrink-0 animate-pulse bg-gray-100 dark:bg-dark"
+          className="flex h-96 w-full shrink-0 animate-pulse flex-col gap-4 rounded bg-gray-100 p-5 dark:bg-dark lg:w-[306.66px]"
         >
-          <div className="w-full h-64 shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
-          <div className="w-4/5 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
-          <div className="w-1/2 h-4 rounded-full shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
+          <div className="h-64 w-full shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
+          <div className="h-4 w-4/5 shrink-0 animate-pulse rounded-full bg-gray-200 dark:bg-full-dark"></div>
+          <div className="h-4 w-1/2 shrink-0 animate-pulse rounded-full bg-gray-200 dark:bg-full-dark"></div>
         </div>
       ))}
     </div>
@@ -41,8 +41,8 @@ const Nutrition = () => {
   return (
     <>
       <section className="-ml-3 py-4 md:py-0">
-        <div className="w-full px-8 md:px-6 mb-8">
-          <h3 className="drop-shadow-md text-main dark:text-white">
+        <div className="mb-8 w-full px-8 md:px-6">
+          <h3 className="text-main drop-shadow-md dark:text-white">
             <Button
               as={Link}
               id="recetas-saludables"
@@ -53,11 +53,11 @@ const Nutrition = () => {
               radius="none"
               variant="flat"
               endContent={
-                <HashIcon className="size-5 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
               }
-              className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
+              className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
             >
-              <span className="px-2 mr-1 bg-orient-700 dark:bg-cerise-red-400 text-white dark:text-black">
+              <span className="mr-1 bg-orient-700 px-2 text-white dark:bg-cerise-red-400 dark:text-black">
                 Recetas
               </span>
               Saludable
@@ -65,8 +65,8 @@ const Nutrition = () => {
           </h3>
         </div>
         <section className="mb-24">
-          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-main dark:text-white">
-            <h4 className="drop-shadow-md text-main dark:text-white">
+          <div className="mb-4 flex flex-col space-y-3 px-8 text-main dark:text-white md:px-3">
+            <h4 className="text-main drop-shadow-md dark:text-white">
               <Button
                 as={Link}
                 id="desayunos-saludables"
@@ -77,9 +77,9 @@ const Nutrition = () => {
                 radius="none"
                 variant="flat"
                 endContent={
-                  <HashIcon className="size-4 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+                  <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
                 }
-                className="gap-0 text-lg w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 data-[pressed=true]:scale-100"
+                className="h-auto w-fit gap-0 bg-transparent p-0 text-lg data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
               >
                 Desayunos Saludables
               </Button>
@@ -97,8 +97,8 @@ const Nutrition = () => {
           />
         </section>
         <section className="mb-24" ref={secondCarousel.ref}>
-          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-main dark:text-white">
-            <h4 className="drop-shadow-md text-main dark:text-white">
+          <div className="mb-4 flex flex-col space-y-3 px-8 text-main dark:text-white md:px-3">
+            <h4 className="text-main drop-shadow-md dark:text-white">
               <Button
                 as={Link}
                 id="almuerzos-y-cenas-saludables"
@@ -109,9 +109,9 @@ const Nutrition = () => {
                 radius="none"
                 variant="flat"
                 endContent={
-                  <HashIcon className="size-4 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+                  <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
                 }
-                className="gap-0 text-lg w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 data-[pressed=true]:scale-100"
+                className="h-auto w-fit gap-0 bg-transparent p-0 text-lg data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
               >
                 Almuerzos y Cenas Saludables
               </Button>
@@ -133,8 +133,8 @@ const Nutrition = () => {
           )}
         </section>
         <section className="mb-24" ref={thirdCarousel.ref}>
-          <div className="flex flex-col px-8 md:px-3 space-y-3 mb-4 text-main dark:text-white">
-            <h4 className="drop-shadow-md text-main dark:text-white">
+          <div className="mb-4 flex flex-col space-y-3 px-8 text-main dark:text-white md:px-3">
+            <h4 className="text-main drop-shadow-md dark:text-white">
               <Button
                 as={Link}
                 id="onces-saludables"
@@ -145,9 +145,9 @@ const Nutrition = () => {
                 radius="none"
                 variant="flat"
                 endContent={
-                  <HashIcon className="size-4 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+                  <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
                 }
-                className="gap-0 text-lg w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 data-[pressed=true]:scale-100"
+                className="h-auto w-fit gap-0 bg-transparent p-0 text-lg data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
               >
                 Onces Saludables
               </Button>

@@ -58,7 +58,7 @@ const VideoCard: FC<VideoCardProps> = ({
         shadow="sm"
       >
         <CardBody>
-          <div className="grid grid-cols-12 h-full items-center justify-center">
+          <div className="grid h-full grid-cols-12 items-center justify-center">
             <div className="relative col-span-5 size-full">
               <Card
                 isPressable
@@ -79,11 +79,11 @@ const VideoCard: FC<VideoCardProps> = ({
                     img: "object-cover h-full rounded-md",
                   }}
                 />
-                <PlayIcon className="group size-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
+                <PlayIcon className="group absolute left-1/2 top-1/2 z-10 size-12 -translate-x-1/2 -translate-y-1/2" />
               </Card>
             </div>
-            <div className="flex flex-col justify-center h-full col-span-7 p-3">
-              <p className="line-clamp-4 text-xs sm:text-sm text-main-h dark:text-main-dark">
+            <div className="col-span-7 flex h-full flex-col justify-center p-3">
+              <p className="line-clamp-4 text-xs text-main-h dark:text-main-dark sm:text-sm">
                 {video.description}
               </p>
             </div>

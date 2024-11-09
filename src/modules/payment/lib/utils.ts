@@ -3,7 +3,7 @@ import { es } from "date-fns/locale";
 
 export function formatDate(
   dateInput: string | Date | null | undefined,
-  dateFormat: string = "dd MMMM yyyy"
+  dateFormat: string = "dd MMMM yyyy",
 ): string | null {
   if (!dateInput) return null;
 

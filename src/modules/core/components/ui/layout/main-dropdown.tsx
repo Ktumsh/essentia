@@ -67,10 +67,10 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               </p>
               <p className="text-xs">@{profileData.username}</p>
               <TooltipCTN content="Cuenta Premium">
-                <div className="absolute top-1/2 -translate-y-1/2 right-0 p-1 mr-2">
+                <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
                   <StarsIcon
                     aria-hidden="true"
-                    className="size-6 stars-icon v2 focus:outline-none"
+                    className="stars-icon v2 size-6 focus:outline-none"
                   />
                 </div>
               </TooltipCTN>
@@ -185,13 +185,13 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
               startContent={
                 <StarsIcon
                   aria-hidden="true"
-                  className="size-4 [&_*]:fill-white focus:outline-none"
+                  className="size-4 focus:outline-none [&_*]:fill-white"
                 />
               }
               classNames={{
                 title: "flex-none",
               }}
-              className="justify-center rounded-md text-sm bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:opacity-hover data-[hover=true]:text-white data-[hover=true]:transition"
+              className="justify-center rounded-md bg-light-gradient-v2 text-sm text-white data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
             >
               Hazte premium
             </DropdownItem>
@@ -402,7 +402,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ profileData }) => {
                 isIconOnly
                 disableRipple
                 variant="light"
-                className="dark:data-[hover=true]:bg-white/5 text-main dark:text-main-dark"
+                className="text-main dark:text-main-dark dark:data-[hover=true]:bg-white/5"
               >
                 <MenuIcon className="size-6" />
               </Button>

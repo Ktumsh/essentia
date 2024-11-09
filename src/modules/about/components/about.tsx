@@ -49,10 +49,10 @@ const About = ({ session }: AboutProps) => {
   useBubbleAnimation(allBubbleRefs);
 
   return (
-    <article className="size-full bg-white break-words font-normal text-main z-40 text-clip">
-      <div className="relative flex flex-col items-center justify-center px-5 pt-24 sm:pt-56 max-w-screen-xl mx-auto">
-        <div className="flex flex-col items-center pl-6 sm:pl-0 text-center space-y-6">
-          <h1 className="font-semibold tracking-tight text-4xl sm:text-5xl md:text-7xl max-w-4xl">
+    <article className="z-40 size-full text-clip break-words bg-white font-normal text-main">
+      <div className="relative mx-auto flex max-w-screen-xl flex-col items-center justify-center px-5 pt-24 sm:pt-56">
+        <div className="flex flex-col items-center space-y-6 pl-6 text-center sm:pl-0">
+          <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-7xl">
             La Información de Salud Esencial para tu Bienestar
           </h1>
           <p className="max-w-md text-center text-lg text-main-h dark:text-main-dark-h md:max-w-[850px] md:text-2xl">
@@ -69,7 +69,7 @@ const About = ({ session }: AboutProps) => {
             onPress={scrollToSection}
             className="btn_mktg border border-gray-200"
             endContent={
-              <ArrowAnimateIcon className="size-4 inline-block arrow-symbol-mktg" />
+              <ArrowAnimateIcon className="arrow-symbol-mktg inline-block size-4" />
             }
           >
             Comenzar
@@ -77,9 +77,9 @@ const About = ({ session }: AboutProps) => {
         </div>
       </div>
 
-      <article className="relative size-full break-words font-normal text-main dark:text-main-dark-h bg-[url('/extras/essentia-bg-page.png')] bg-center bg-no-repeat">
-        <div className="abolute w-full top-0 left-0 overflow-hidden">
-          <AboutCrop className="absolute block w-full h-28 z-10" />
+      <article className="relative size-full break-words bg-[url('/extras/essentia-bg-page.png')] bg-center bg-no-repeat font-normal text-main dark:text-main-dark-h">
+        <div className="abolute left-0 top-0 w-full overflow-hidden">
+          <AboutCrop className="absolute z-10 block h-28 w-full" />
           {sections.map((section) => (
             <Section
               key={section.sectionId}
@@ -109,28 +109,28 @@ const About = ({ session }: AboutProps) => {
           ))}
           <section
             id="premium"
-            className="relative size-full px-5 sm:px-10 py-28 pb-64 lg:pb-80 lg:py-40"
+            className="relative size-full px-5 py-28 pb-64 sm:px-10 lg:py-40 lg:pb-80"
           >
-            <div className="size-full max-w-[1250px] mx-auto">
-              <div className="flex flex-col items-center max-w-xs sm:max-w-4xl mx-auto mb-20">
-                <h2 className="flex flex-col text-lg sm:text-3xl font-black tracking-wider uppercase text-center text-main">
+            <div className="mx-auto size-full max-w-[1250px]">
+              <div className="mx-auto mb-20 flex max-w-xs flex-col items-center sm:max-w-4xl">
+                <h2 className="flex flex-col text-center text-lg font-black uppercase tracking-wider text-main sm:text-3xl">
                   <span>Aprovecha al máximo las posibilidades con </span>
-                  <span className="mt-8 text-3xl sm:text-6xl text-transparent bg-clip-text bg-dark-gradient-v2">
+                  <span className="mt-8 bg-dark-gradient-v2 bg-clip-text text-3xl text-transparent sm:text-6xl">
                     Essentia Premium
                   </span>
                 </h2>
               </div>
-              <div className="flex flex-col items-center justify-center w-full sm:w-96 mx-auto gap-6 text-center">
+              <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 text-center sm:w-96">
                 <Link
                   type="button"
                   aria-label="Autenticar usuario"
-                  className="relative inline-flex items-center justify-center overflow-hidden w-full h-14 px-4 sm:px-8 font-medium text-lg rounded-full bg-light-gradient hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:transition-none active:shadow-none active:brightness-90 text-white transition"
+                  className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
                   href="/premium"
                 >
                   <span className="mr-2">
                     <StarsIcon
                       aria-hidden="true"
-                      className="size-5 [&_*]:fill-white focus:outline-none"
+                      className="size-5 focus:outline-none [&_*]:fill-white"
                     />
                   </span>
                   Hazte premium
@@ -139,7 +139,7 @@ const About = ({ session }: AboutProps) => {
                   <Link
                     type="button"
                     aria-label="Autenticar usuario"
-                    className="relative inline-flex items-center justify-center overflow-hidden w-full h-14 px-4 sm:px-8 font-medium text-lg rounded-full bg-dark/40 hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:transition-none active:shadow-none active:brightness-90 text-white transition"
+                    className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-dark/40 px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
                     href="/login"
                   >
                     Inicia sesión
@@ -148,7 +148,7 @@ const About = ({ session }: AboutProps) => {
               </div>
             </div>
           </section>
-          <AboutCrop className="absolute block w-full h-28 bottom-0 rotate-180" />
+          <AboutCrop className="absolute bottom-0 block h-28 w-full rotate-180" />
         </div>
       </article>
       <AboutFooter />

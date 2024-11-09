@@ -42,7 +42,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
                   <button
                     aria-label="Ayuda"
                     type="button"
-                    className="flex items-center justify-center size-3 bg-bittersweet-300 dark:bg-cerise-red-600 rounded-full"
+                    className="flex size-3 items-center justify-center rounded-full bg-bittersweet-300 dark:bg-cerise-red-600"
                   >
                     <QuestionIcon className="size-2 text-white" />
                   </button>
@@ -71,7 +71,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
               !formData.profile_image && "text-main dark:text-main-dark",
-              "px-0"
+              "px-0",
             )}
           >
             Añade una foto de perfil
@@ -84,7 +84,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
               !formData.banner_image && "text-main dark:text-main-dark",
-              "px-0"
+              "px-0",
             )}
           >
             Añade una foto de portada
@@ -97,7 +97,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
               !formData.bio && "text-main dark:text-main-dark",
-              "px-0"
+              "px-0",
             )}
           >
             Añade una biografía
@@ -109,7 +109,7 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
             startContent={<CheckCircledIcon className="size-5" />}
             className={cn(
               !formData.location && "text-main dark:text-main-dark",
-              "px-0"
+              "px-0",
             )}
           >
             Añade tu ubicación

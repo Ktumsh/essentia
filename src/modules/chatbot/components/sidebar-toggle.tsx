@@ -29,7 +29,7 @@ const SidebarToggle = () => {
         onClick={() => {
           toggleSidebar();
         }}
-        className="h-10 rounded-lg px-2 text-main-h dark:text-main-dark-h hover:bg-gray-200 dark:hover:bg-full-dark transition-colors duration-150"
+        className="h-10 rounded-lg px-2 text-main-h transition-colors duration-150 hover:bg-gray-200 dark:text-main-dark-h dark:hover:bg-full-dark"
       >
         {isSidebarOpen ? (
           <SidebarFillIcon aria-hidden="true" />

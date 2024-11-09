@@ -10,12 +10,12 @@ export function cn(...inputs: ClassValue[]) {
 
 export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-  7
+  7,
 ); // 7-character random string
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<JSON> {
   const res = await fetch(input, init);
 
@@ -36,7 +36,7 @@ export async function fetcher<JSON = any>(
 }
 
 export const runAsyncFnWithoutBlocking = (
-  fn: (...args: any) => Promise<any>
+  fn: (...args: any) => Promise<any>,
 ) => {
   fn();
 };
@@ -50,13 +50,13 @@ export const getStringFromBuffer = (buffer: ArrayBuffer) =>
     .join("");
 
 export const getFirstNameAndLastName = (
-  fullName: string | undefined | null
+  fullName: string | undefined | null,
 ) => {
   if (!fullName) return "Usuario";
   const nameParts = fullName.toLowerCase().split(" ");
   if (nameParts.length < 3) return capitalize(fullName);
   return `${capitalize(nameParts[0])} ${capitalize(
-    nameParts[nameParts.length - 2]
+    nameParts[nameParts.length - 2],
   )}`;
 };
 

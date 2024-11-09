@@ -4,23 +4,23 @@ import MoreSectonItem from "./more-section-item";
 
 const MoreSection = () => {
   return (
-    <section id="todo_y_mas" className="relative flex flex-col mx-auto w-full">
-      <div className="bg-noise bg-repeat bg-[length:100px] pointer-events-none absolute inset-0 opacity-5"></div>
-      <div className="w-max max-w-full mx-auto mt-20 md:mt-32">
+    <section id="todo_y_mas" className="relative mx-auto flex w-full flex-col">
+      <div className="pointer-events-none absolute inset-0 bg-noise bg-[length:100px] bg-repeat opacity-5"></div>
+      <div className="mx-auto mt-20 w-max max-w-full md:mt-32">
         <div className="mx-auto">
-          <div className="flex justify-start lg:justify-center px-5 md:px-24">
+          <div className="flex justify-start px-5 md:px-24 lg:justify-center">
             <div>
-              <h2 className="font-grotesk font-semibold text-3xl sm:text-5xl w-full">
+              <h2 className="w-full font-grotesk text-3xl font-semibold sm:text-5xl">
                 ¡Descúbrelo todo y mucho más!
               </h2>
             </div>
           </div>
         </div>
         <div className="box-border max-w-full overflow-x-auto">
-          <div className="flex flex-nowrap flex-col sm:flex-row items-start justify-center h-full mx-auto pt-8 px-5 md:px-24 pb-20 md:pb-28 mb-20 md:mb-28 gap-6">
-            <div className="relative shrink w-[416px] max-w-full sm:min-h-full p-6 bg-bento-gradient backdrop-blur-2xl shadow-bento-shadow rounded-2xl">
-              <div className="bg-noise bg-repeat bg-[length:100px] pointer-events-none absolute inset-0 opacity-5 rounded-2xl z-10"></div>
-              <article className="flex flex-col h-full">
+          <div className="mx-auto mb-20 flex h-full flex-col flex-nowrap items-start justify-center gap-6 px-5 pb-20 pt-8 sm:flex-row md:mb-28 md:px-24 md:pb-28">
+            <div className="relative w-[416px] max-w-full shrink rounded-2xl bg-bento-gradient p-6 shadow-bento-shadow backdrop-blur-2xl sm:min-h-full">
+              <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl bg-noise bg-[length:100px] bg-repeat opacity-5"></div>
+              <article className="flex h-full flex-col">
                 <header className="pb-6">
                   <h3 className="text-start text-3xl font-semibold leading-10">
                     Essentia gratis
@@ -28,7 +28,7 @@ const MoreSection = () => {
                 </header>
                 <div className="relative grow self-stretch overflow-hidden">
                   <div>
-                    <span className="text-main font-medium leading-9">
+                    <span className="font-medium leading-9 text-main">
                       Accede a todas estas funciones:
                     </span>
                     <ul className="grid justify-items-start gap-2">
@@ -49,12 +49,12 @@ const MoreSection = () => {
                   </div>
                 </div>
               </article>
-              <div className="relative flex flex-col -mx-6 px-6">
-                <div className="w-full mt-6">
+              <div className="relative -mx-6 flex flex-col px-6">
+                <div className="mt-6 w-full">
                   <Link
                     type="button"
                     aria-label="Registrar usuario"
-                    className="relative inline-flex items-center justify-center overflow-hidden h-10 w-full py-3 px-4 sm:px-8 font-medium text-lg rounded-full bg-light-gradient hover:brightness-90 active:scale-[.98] text-white shadow-md transition"
+                    className="relative inline-flex h-10 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 py-3 text-lg font-medium text-white shadow-md transition hover:brightness-90 active:scale-[.98] sm:px-8"
                     href="/signup"
                   >
                     Comenzar

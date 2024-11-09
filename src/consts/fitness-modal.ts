@@ -244,5 +244,5 @@ export const FITNESS_MODAL_DATA: ModalData[] = videos.map(
     modalTitle: generateModalTitle(video.id),
     modalImage: `/modal/fitness-article-0${index + 1}.webp`,
     modalBody: generateModalBody(video.id, video.title),
-  })
+  }),
 );

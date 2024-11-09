@@ -13,16 +13,16 @@ const AuthHeader = () => {
     return null;
   }
   return (
-    <div role="banner" className="z-[100] fixed top-0 w-full">
-      <div className="flex items-center justify-between w-full px-6 h-14 gap-5">
+    <div role="banner" className="fixed top-0 z-[100] w-full">
+      <div className="flex h-14 w-full items-center justify-between gap-5 px-6">
         <div className="flex items-center gap-2">
           <Link
-            className="relative size-8 active:scale-95 transition-transform rounded-full"
+            className="relative size-8 rounded-full transition-transform active:scale-95"
             href="/"
             aria-label="Página de inicio"
           >
             <Image
-              className="h-8 w-auto aspect-auto transition-all ease-in-out"
+              className="aspect-auto h-8 w-auto transition-all ease-in-out"
               width={32}
               height={32}
               quality={100}
@@ -33,7 +33,7 @@ const AuthHeader = () => {
           </Link>
           <Link
             href="/"
-            className="hidden md:block font-grotesk text-main dark:text-white/95"
+            className="hidden font-grotesk text-main dark:text-white/95 md:block"
           >
             Essentia®️
           </Link>
@@ -43,7 +43,7 @@ const AuthHeader = () => {
           href={isRegister ? "/login" : "/signup"}
           variant="light"
           radius="sm"
-          className="bg-white dark:bg-full-dark data-[hover=true]:bg-gray-100 data-[hover=true]:dark:bg-dark md:border border-gray-200 dark:border-dark text-main dark:text-main-dark"
+          className="border-gray-200 bg-white text-main data-[hover=true]:bg-gray-100 dark:border-dark dark:bg-full-dark dark:text-main-dark data-[hover=true]:dark:bg-dark md:border"
         >
           {isRegister ? "Inicia sesión" : "Regístrate"}
         </Button>

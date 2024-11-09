@@ -37,9 +37,9 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
 
   return (
     <div className="relative size-full">
-      <div className="flex items-center justify-center w-full min-h-dvh sm:min-h-dvh">
+      <div className="flex min-h-dvh w-full items-center justify-center sm:min-h-dvh">
         <div className="max-w-2xl">
-          <div className="flex relative justify-center items-center md:p-8 px-6 mb-9 rounded-xl bg-transparent md:bg-white md:dark:bg-full-dark text-main dark:text-main-dark">
+          <div className="relative mb-9 flex items-center justify-center rounded-xl bg-transparent px-6 text-main dark:text-main-dark md:bg-white md:p-8 md:dark:bg-full-dark">
             <div className="flex flex-col items-center space-y-8">
               <div className="flex flex-col items-center">
                 <Image
@@ -63,7 +63,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
                   puedes reenviarlo.
                 </p>
               </div>
-              <div className="flex flex-col items-center w-full space-y-4">
+              <div className="flex w-full flex-col items-center space-y-4">
                 <Button
                   radius="sm"
                   variant="light"
@@ -74,7 +74,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
                       <SpinnerIcon className="size-4 animate-spin" />
                     ) : null
                   }
-                  className="md:border border-bittersweet-400 dark:border-cerise-red-600 bg-bittersweet-400 dark:bg-cerise-red-600 md:bg-transparent dark:md:bg-transparent data-[hover=true]:bg-bittersweet-400 data-[hover=true]:dark:bg-cerise-red-600 data-[hover=true]:text-white"
+                  className="border-bittersweet-400 bg-bittersweet-400 data-[hover=true]:bg-bittersweet-400 data-[hover=true]:text-white dark:border-cerise-red-600 dark:bg-cerise-red-600 data-[hover=true]:dark:bg-cerise-red-600 md:border md:bg-transparent dark:md:bg-transparent"
                 >
                   {!isSending ? "Reenviar correo" : "Reenviando..."}
                 </Button>

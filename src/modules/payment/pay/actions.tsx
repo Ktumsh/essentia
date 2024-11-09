@@ -32,7 +32,7 @@ export async function createSetupIntent(customerId: string) {
 }
 
 export async function verifyPaymentIntent(
-  paymentIntentId: string
+  paymentIntentId: string,
 ): Promise<VerifyPaymentIntentResponse> {
   try {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
@@ -70,14 +70,14 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const user = await getUserBySubscriptionId(subscriptionId);
   if (!user) {
     console.error(
-      `Usuario no encontrado para la suscripción: ${subscriptionId}`
+      `Usuario no encontrado para la suscripción: ${subscriptionId}`,
     );
     return;
   }
 
   if (!currentPeriodEnd) {
     console.error(
-      `current_period_end no está definido para la suscripción: ${subscriptionId}`
+      `current_period_end no está definido para la suscripción: ${subscriptionId}`,
     );
     return;
   }
@@ -88,7 +88,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 
   if (invoice.payment_intent) {
     const paymentIntent = await stripe.paymentIntents.retrieve(
-      invoice.payment_intent as string
+      invoice.payment_intent as string,
     );
 
     const paymentMethodId = paymentIntent.payment_method as string;
@@ -103,7 +103,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
         });
         console.log(
           "Método de pago predeterminado actualizado:",
-          paymentMethodId
+          paymentMethodId,
         );
       }
     }
@@ -121,7 +121,7 @@ interface CreateSubscriptionResponse {
 }
 
 export async function createSubscription(
-  params: CreateSubscriptionParams
+  params: CreateSubscriptionParams,
 ): Promise<CreateSubscriptionResponse> {
   const { cardholderName, priceId } = params;
   const session = (await auth()) as Session;
@@ -165,7 +165,7 @@ export async function createSubscription(
       user.id,
       subscription.id,
       status,
-      currentPeriodEnd
+      currentPeriodEnd,
     );
 
     const paymentMethodId = paymentIntent.payment_method as string;
@@ -177,7 +177,7 @@ export async function createSubscription(
       });
       console.log(
         "Método de pago predeterminado actualizado:",
-        paymentMethodId
+        paymentMethodId,
       );
     }
 
@@ -188,7 +188,7 @@ export async function createSubscription(
     } else {
       console.log(
         "Método de pago predeterminado:",
-        customer.invoice_settings.default_payment_method
+        customer.invoice_settings.default_payment_method,
       );
     }
 
@@ -217,7 +217,7 @@ export async function checkPaymentStatus() {
  * @param subscription - Objeto Stripe.Subscription
  */
 export async function handleSubscriptionDeleted(
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
@@ -226,7 +226,7 @@ export async function handleSubscriptionDeleted(
   const user = await getUserBySubscriptionId(subscriptionId);
   if (!user) {
     console.error(
-      `Usuario no encontrado para la suscripción: ${subscriptionId}`
+      `Usuario no encontrado para la suscripción: ${subscriptionId}`,
     );
     return;
   }
@@ -244,11 +244,11 @@ export async function handleSubscriptionDeleted(
       user.id,
       activeSubscription.id,
       activeSubscription.status,
-      activeSubscription.current_period_end
+      activeSubscription.current_period_end,
     );
 
     console.log(
-      `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`
+      `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`,
     );
     return;
   }
@@ -263,7 +263,7 @@ export async function handleSubscriptionDeleted(
  * @param subscription - Objeto Stripe.Subscription
  */
 export async function handleSubscriptionUpdated(
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
@@ -272,7 +272,7 @@ export async function handleSubscriptionUpdated(
   const user = await getUserBySubscriptionId(subscriptionId);
   if (!user) {
     console.error(
-      `Usuario no encontrado para la suscripción: ${subscriptionId}`
+      `Usuario no encontrado para la suscripción: ${subscriptionId}`,
     );
     return;
   }
@@ -294,7 +294,7 @@ export async function handleCustomerDeleted(customer: Stripe.Customer) {
   await deleteUserStripeCustomer(user.id);
 
   console.log(
-    `Cliente eliminado y datos actualizados en la base de datos: ${customerId}`
+    `Cliente eliminado y datos actualizados en la base de datos: ${customerId}`,
   );
 }
 
@@ -302,28 +302,28 @@ export async function handleInvoiceFinalized(finalizedSubscriptionId: string) {
   if (finalizedSubscriptionId) {
     try {
       const subscription = await stripe.subscriptions.retrieve(
-        finalizedSubscriptionId
+        finalizedSubscriptionId,
       );
 
       if (subscription.status === "incomplete") {
         console.log(
-          `Deleting incomplete subscription: ${finalizedSubscriptionId}`
+          `Deleting incomplete subscription: ${finalizedSubscriptionId}`,
         );
 
         await stripe.subscriptions.cancel(finalizedSubscriptionId);
 
         console.log(
-          `Subscription ${finalizedSubscriptionId} deleted successfully.`
+          `Subscription ${finalizedSubscriptionId} deleted successfully.`,
         );
       } else {
         console.log(
-          `Subscription ${finalizedSubscriptionId} is not incomplete. Current status: ${subscription.status}`
+          `Subscription ${finalizedSubscriptionId} is not incomplete. Current status: ${subscription.status}`,
         );
       }
     } catch (error) {
       console.error(
         `Error retrieving or deleting subscription ${finalizedSubscriptionId}:`,
-        error
+        error,
       );
     }
   } else {
@@ -366,7 +366,7 @@ export async function getUserCurrentPlan(session: Session): Promise<string> {
 export async function setUserPlan(
   session: Session,
   priceId: string,
-  cancelReason?: string
+  cancelReason?: string,
 ): Promise<{ success: boolean; message: string }> {
   if (!session || !session.user.id) {
     return { success: false, message: "Usuario no autenticado." };
@@ -388,12 +388,12 @@ export async function setUserPlan(
         });
 
         console.log(
-          `Suscripción ${subscriptionId} marcada para cancelar al final del período.`
+          `Suscripción ${subscriptionId} marcada para cancelar al final del período.`,
         );
       } catch (error: any) {
         console.error(
           "Error al marcar la suscripción para cancelación:",
-          error
+          error,
         );
         return {
           success: false,
@@ -445,7 +445,7 @@ export async function getUserBillingDetails(stripeCustomerId: string | null) {
   }
 
   const activeSubscription = subscriptions.data.find(
-    (sub: { status: string }) => sub.status === "active"
+    (sub: { status: string }) => sub.status === "active",
   );
 
   const subscriptionToUse = activeSubscription || subscriptions.data[0];
@@ -453,7 +453,7 @@ export async function getUserBillingDetails(stripeCustomerId: string | null) {
   let paymentMethod = null;
   if (customer.invoice_settings.default_payment_method) {
     paymentMethod = await stripe.paymentMethods.retrieve(
-      customer.invoice_settings.default_payment_method as string
+      customer.invoice_settings.default_payment_method as string,
     );
   }
 
@@ -480,7 +480,7 @@ export async function getUserBillingDetails(stripeCustomerId: string | null) {
 
 export async function updatePaymentMethod(
   customerId: string,
-  paymentMethodId: string
+  paymentMethodId: string,
 ): Promise<void> {
   try {
     await stripe.customers.update(customerId, {

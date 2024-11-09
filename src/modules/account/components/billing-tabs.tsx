@@ -27,7 +27,7 @@ const BillingTabs = ({
   useEffect(() => {
     if (tabListRef.current) {
       const activeTab = tabListRef.current.querySelector(
-        `[data-key="${pathname}"]`
+        `[data-key="${pathname}"]`,
       );
       if (activeTab) {
         activeTab.scrollIntoView({ behavior: "smooth", block: "nearest" });

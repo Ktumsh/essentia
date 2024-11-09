@@ -38,11 +38,11 @@ const Section = ({
   useAnimateOnScroll([slideLeftRef, slideRightRef]);
 
   return (
-    <section id={sectionId} className="relative flex flex-col mx-auto w-full">
+    <section id={sectionId} className="relative mx-auto flex w-full flex-col">
       {children}
       <div className={cn(classSection, "lg:max-h-[1030px]")}>
         <div className="px-5 sm:px-10">
-          <div className="relative w-full mx-auto max-w-7xl">
+          <div className="relative mx-auto w-full max-w-7xl">
             <SectionItem
               wrapper={wrapper}
               inner={inner}

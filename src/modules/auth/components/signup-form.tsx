@@ -127,7 +127,7 @@ const SignupForm = () => {
       layout
       style={{ height: "auto" }}
       transition={{ ease: "easeInOut", duration: 0.5 }}
-      className="flex relative justify-center items-center md:p-8 px-6 mb-9 sm:w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-full-dark text-left font-normal text-main-m dark:text-main-dark-m overflow-hidden"
+      className="relative mb-9 flex items-center justify-center overflow-hidden rounded-xl bg-transparent px-6 text-left font-normal text-main-m dark:text-main-dark-m sm:w-[500px] sm:bg-white sm:dark:bg-full-dark md:p-8"
     >
       <AnimatePresence mode="popLayout">
         {step === 1 ? (
@@ -139,10 +139,10 @@ const SignupForm = () => {
             exit="exit"
             variants={variants}
             transition={{ ease: "easeInOut", duration: 0.5 }}
-            className="flex flex-col items-start justify-center w-full select-none"
+            className="flex w-full select-none flex-col items-start justify-center"
             onSubmit={handleEmailSubmit}
           >
-            <div className="w-full text-sm text-main-h dark:text-main-dark-h mb-5">
+            <div className="mb-5 w-full text-sm text-main-h dark:text-main-dark-h">
               <p>Continúa con tu correo para comenzar a crear tu cuenta.</p>
             </div>
             <Input
@@ -169,7 +169,7 @@ const SignupForm = () => {
               type="submit"
               radius="full"
               fullWidth
-              className="bg-light-gradient dark:bg-dark-gradient-v2 text-base text-white mt-4"
+              className="mt-4 bg-light-gradient text-base text-white dark:bg-dark-gradient-v2"
               isDisabled={isPending}
               startContent={
                 isPending ? (
@@ -179,11 +179,11 @@ const SignupForm = () => {
             >
               Continuar
             </Button>
-            <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-inherit">
+            <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-inherit">
               <p>
                 ¿Ya tienes una cuenta?{" "}
                 <Link
-                  className="font-bold sm:font-medium text-orient-700"
+                  className="font-bold text-orient-700 sm:font-medium"
                   href="/login"
                   aria-label="Inicia sesión"
                 >
@@ -202,7 +202,7 @@ const SignupForm = () => {
             variants={variants}
             transition={{ ease: "easeInOut", duration: 0.5 }}
             onSubmit={handleSubmit}
-            className="flex flex-col items-start justify-center w-full select-none"
+            className="flex w-full select-none flex-col items-start justify-center"
           >
             <div className="flex flex-col gap-5">
               <div className="flex gap-5">
@@ -300,7 +300,7 @@ const SignupForm = () => {
                   }}
                 >
                   <PopoverTrigger>
-                    <div className="absolute top-2.5 left-3">
+                    <div className="absolute left-3 top-2.5">
                       <Tooltip
                         content="Haz click para obtener más información"
                         placement="top"
@@ -313,7 +313,7 @@ const SignupForm = () => {
                         <button
                           aria-label="Ayuda"
                           type="button"
-                          className="flex items-center justify-center size-3 bg-bittersweet-300 dark:bg-cerise-red-600 rounded-full"
+                          className="flex size-3 items-center justify-center rounded-full bg-bittersweet-300 dark:bg-cerise-red-600"
                         >
                           <QuestionIcon className="size-2 text-white" />
                         </button>
@@ -395,11 +395,11 @@ const SignupForm = () => {
                     "placeholder:text-main-l dark:placeholder:text-main-dark-l",
                 }}
               />
-              <div className="flex mb-6 relative w-full text-[13px] leading-snug select-text text-main-h dark:text-main-dark-h">
+              <div className="relative mb-6 flex w-full select-text text-[13px] leading-snug text-main-h dark:text-main-dark-h">
                 <p className="text-center md:text-start">
                   Al registrarte, estás aceptando los{" "}
                   <Link
-                    className="hover:underline underline-offset-2 font-bold text-orient-700 sm:font-medium"
+                    className="font-bold text-orient-700 underline-offset-2 hover:underline sm:font-medium"
                     href="#"
                     aria-label="Términos y condiciones de uso"
                   >
@@ -407,7 +407,7 @@ const SignupForm = () => {
                   </Link>
                   y la{" "}
                   <Link
-                    className="hover:underline underline-offset-2 font-bold text-orient-700 sm:font-medium"
+                    className="font-bold text-orient-700 underline-offset-2 hover:underline sm:font-medium"
                     href="#"
                     aria-label="Política de privacidad"
                   >
@@ -420,7 +420,7 @@ const SignupForm = () => {
               type="submit"
               radius="full"
               fullWidth
-              className="bg-light-gradient dark:bg-dark-gradient-v2 text-base text-white"
+              className="bg-light-gradient text-base text-white dark:bg-dark-gradient-v2"
               isDisabled={isPending}
               startContent={
                 isPending ? (
@@ -430,12 +430,12 @@ const SignupForm = () => {
             >
               Crear cuenta
             </Button>
-            <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-main-h dark:text-main-dark-h">
+            <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-main-h dark:text-main-dark-h">
               <p>
                 ¿Ya tienes una cuenta?{" "}
                 <Link
                   id="login-base-color"
-                  className="login-base-color font-bold sm:font-medium text-orient-700"
+                  className="login-base-color font-bold text-orient-700 sm:font-medium"
                   href="/login"
                   aria-label="Inicia sesión"
                 >

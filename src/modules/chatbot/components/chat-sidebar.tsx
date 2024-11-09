@@ -37,7 +37,7 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
   if (!session?.user) return null;
 
   return (
-    <Sidebar className="peer absolute inset-y-0 pt-14 z-30 hidden md:flex w-[250px] xl:w-[300px] -translate-x-full border-r border-gray-200 dark:border-dark bg-white dark:bg-full-dark duration-300 ease-in-out data-[state=open]:translate-x-0">
+    <Sidebar className="peer absolute inset-y-0 z-30 hidden w-[250px] -translate-x-full border-r border-gray-200 bg-white pt-14 duration-300 ease-in-out data-[state=open]:translate-x-0 dark:border-dark dark:bg-full-dark md:flex xl:w-[300px]">
       {isLoading ? (
         <HistoryLoading />
       ) : (

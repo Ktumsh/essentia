@@ -9,17 +9,23 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
 
 import { RESOURCES } from "@/consts/resources";
+import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
+import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { PlayIcon2 } from "@/modules/icons/action";
 import { StarIcon } from "@/modules/icons/common";
+import { TouchIcon } from "@/modules/icons/interface";
+import { NextArrowIcon } from "@/modules/icons/navigation";
 import { tooltipStyles } from "@/styles/tooltip-styles";
+import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
 
 interface Props {
@@ -39,6 +45,9 @@ interface ResourceData {
 const ResourceWrapper: FC<Props> = ({ params }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeVideo, setActiveVideo] = useState<ResourceData | null>(null);
+  const [showIntro, setShowIntro] = useState(true);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const windowSize = useWindowSize();
 
   const resource = params.resource;
 
@@ -48,6 +57,8 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
 
   const {
     title,
+    intro,
+    description,
     quote,
     videoTitle,
     videoLink,
@@ -62,103 +73,187 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
     setActiveVideo(video);
     onOpen();
   };
+
+  const scrollToEnd = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollTo({
+        left: sectionRef.current.scrollWidth,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
-      <div className="relative flex justify-center size-full">
-        <div className="relative flex flex-col min-h-[calc(100dvh-80px)] w-full md:min-w-[768px] max-w-5xl pb-16 md:pb-0 pt-14 shrink items-stretch grow">
-          <div className="container mx-auto lg:px-5 md:pb-5 select-none">
-            <div className="flex flex-col w-full mx-auto">
-              <section
-                id={`introduccion-a-${formatedTitle}`}
-                data-id={`introduccion-a-${formatedTitle}`}
-                data-name={`Introducción a ${title}`}
-                className="relative flex mb-5 border border-gray-100 dark:border-dark shadow-md lg:rounded-b-3xl overflow-hidden"
-              >
-                <div className="absolute p-5 top-0 right-0 z-20">
-                  <Tooltip
-                    content="Contenido recomendado"
-                    delay={800}
-                    closeDelay={0}
-                    classNames={{
-                      content: tooltipStyles.content,
-                    }}
+      <div className="flex min-h-dvh w-full flex-col pt-14">
+        <div className="flex-1">
+          <div className="mx-auto size-full max-w-8xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
+            <div className="select-none md:pb-6 lg:px-6">
+              <div className="mx-auto flex w-full flex-col">
+                <div className="flex flex-col overflow-hidden md:flex-row md:overflow-visible">
+                  <section
+                    id={`introduccion-a-${formatedTitle}`}
+                    data-id={`introduccion-a-${formatedTitle}`}
+                    data-name={`Introducción a ${title}`}
+                    className="relative z-10 flex aspect-[908/384] flex-1 overflow-hidden border !border-t-0 border-white shadow-md dark:border-accent-dark md:mb-5 lg:rounded-b-3xl"
                   >
-                    <Chip
-                      variant="shadow"
-                      classNames={{
-                        base: "w-12 max-w-full justify-center bg-light-gradient dark:bg-dark-gradient-v2 cursor-help",
-                        content: "flex justify-center",
-                      }}
-                    >
-                      <StarIcon className="w-4 text-white" />
-                    </Chip>
-                  </Tooltip>
-                </div>
-                <div className="group relative flex flex-col justify-center w-full h-52 lg:h-96 text-main overflow-hidden">
-                  <div className="flex flex-col items-start justify-start absolute w-full shrink-0 top-1 px-5 pt-3 z-10 group-active:opacity-0 lg:group-hover:opacity-0 transition-opacity duration-500">
-                    <span className="font-bold uppercase text-white/60 font-motivasans">
-                      Introducción a
-                    </span>
-                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
-                      {title}
-                    </h2>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center size-full opacity-0 group-active:backdrop-blur-lg group-active:opacity-100 lg:group-hover:backdrop-blur-lg lg:group-hover:opacity-100 transition duration-500 z-10">
-                    <div className="relative flex flex-col items-center justify-center max-w-60 lg:max-w-2xl z-10 before:bg-black/40 before:absolute before:inset-0 before:blur-xl before:rounded-full before:z-[-1] group-active:scale-110 lg:group-hover:scale-110 transition duration-500">
-                      <q className="text-center lg:text-2xl text-white font-medium drop-shadow-sm">
-                        {quote}
-                      </q>
+                    <div className="absolute right-0 top-0 z-20 p-5">
+                      <Tooltip
+                        content="Contenido recomendado"
+                        delay={800}
+                        closeDelay={0}
+                        classNames={{
+                          content: tooltipStyles.content,
+                        }}
+                      >
+                        <Chip
+                          variant="shadow"
+                          classNames={{
+                            base: "w-12 max-w-full justify-center bg-light-gradient dark:bg-dark-gradient-v2 cursor-help",
+                            content: "flex justify-center",
+                          }}
+                        >
+                          <StarIcon className="w-4 text-white" />
+                        </Chip>
+                      </Tooltip>
                     </div>
-                  </div>
-                  <ImageUI
-                    priority
-                    as={Image}
-                    width={982}
-                    height={384}
-                    quality={90}
-                    src={imageFull}
-                    alt={title}
-                    classNames={{
-                      wrapper: "!max-w-full",
-                      img: "relative rounded-none brightness-95 object-cover object-center z-0",
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
-                </div>
-                <div className="absolute right-0 bottom-0 px-5 py-3 z-20">
-                  <Tooltip
-                    content={videoTitle}
-                    delay={800}
-                    closeDelay={0}
-                    classNames={{
-                      content: tooltipStyles.content,
-                    }}
-                  >
-                    <Button
-                      variant="flat"
-                      className="h-8 min-w-16 z-10 data-[hover=true]:bg-black/60 bg-black/40 backdrop-blur-sm backdrop-saturate-150"
-                      onPress={() =>
-                        handleOpenModal({
-                          title,
-                          quote,
-                          videoTitle,
-                          videoLink,
-                          videoImage,
-                          imageFull,
-                          component: ContentComponent,
-                        })
-                      }
+                    <div className="group relative flex w-full flex-col justify-center overflow-hidden text-main">
+                      <div className="absolute top-1 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3 transition-opacity duration-500 group-active:opacity-0 lg:group-hover:opacity-0">
+                        <span className="font-motivasans font-bold uppercase text-white/60">
+                          Introducción a
+                        </span>
+                        <h2 className="text-2xl font-bold text-white md:text-3xl lg:text-4xl">
+                          {title}
+                        </h2>
+                      </div>
+                      <div className="absolute inset-0 z-10 flex size-full items-center justify-center opacity-0 transition duration-500 group-active:opacity-100 group-active:backdrop-blur-lg lg:group-hover:opacity-100 lg:group-hover:backdrop-blur-lg">
+                        <div className="relative z-10 flex max-w-60 flex-col items-center justify-center transition duration-500 before:absolute before:inset-0 before:z-[-1] before:rounded-full before:bg-black/40 before:blur-xl group-active:scale-110 lg:max-w-2xl lg:group-hover:scale-110">
+                          <q className="text-center font-medium text-white drop-shadow-sm lg:text-2xl">
+                            {quote}
+                          </q>
+                        </div>
+                      </div>
+                      <ImageUI
+                        priority
+                        as={Image}
+                        width={908}
+                        height={384}
+                        quality={90}
+                        src={imageFull}
+                        alt={title}
+                        classNames={{
+                          wrapper: "!max-w-full",
+                          img: "relative rounded-none brightness-95 object-cover object-center z-0",
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
+                    </div>
+                    <div className="absolute bottom-0 right-0 z-20 px-5 py-3">
+                      <Tooltip
+                        content={videoTitle}
+                        delay={800}
+                        closeDelay={0}
+                        classNames={{
+                          content: tooltipStyles.content,
+                        }}
+                      >
+                        <Button
+                          variant="flat"
+                          className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 data-[hover=true]:bg-black/60"
+                          onPress={() =>
+                            handleOpenModal({
+                              title,
+                              quote,
+                              videoTitle,
+                              videoLink,
+                              videoImage,
+                              imageFull,
+                              component: ContentComponent,
+                            })
+                          }
+                        >
+                          <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  </section>
+                  {windowSize.width > 768 ? (
+                    <section
+                      onMouseEnter={() => setShowIntro(false)}
+                      onMouseLeave={() => setShowIntro(true)}
+                      className="group flex items-center md:max-w-md"
                     >
-                      <PlayIcon2 className="group size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white z-10" />
-                    </Button>
-                  </Tooltip>
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={showIntro ? "intro" : "description"}
+                          initial={{
+                            x: showIntro ? "0%" : "-100%",
+                            opacity: 0,
+                          }}
+                          animate={{ x: "0%", opacity: 1 }}
+                          exit={{
+                            x: showIntro ? "0%" : "-100%",
+                            opacity: 0,
+                          }}
+                          transition={{
+                            x: { ease: "easeInOut", duration: 0.3 },
+                            opacity: { ease: "linear", duration: 0.3 },
+                          }}
+                          className={cn(
+                            "relative w-full p-6",
+                            !showIntro &&
+                              "rounded-r-lg border border-gray-200 bg-gray-100 dark:border-dark dark:bg-dark/50",
+                          )}
+                        >
+                          {showIntro && (
+                            <div
+                              aria-hidden="true"
+                              className="absolute -right-1 top-1 text-main-l dark:text-main-dark-m"
+                            >
+                              <TouchIcon className="animate-bounce-rotate size-10" />
+                            </div>
+                          )}
+                          <div className="prose text-main dark:prose-invert dark:text-main-dark">
+                            {showIntro ? (
+                              <Markdown>{intro}</Markdown>
+                            ) : (
+                              <>
+                                <h3>¿Qué es {title}?</h3>
+                                <Markdown>{description}</Markdown>
+                              </>
+                            )}
+                          </div>
+                        </motion.div>
+                      </AnimatePresence>
+                    </section>
+                  ) : (
+                    <section
+                      ref={sectionRef}
+                      className="custom-scroll v2 group relative inline-flex flex-1 overflow-x-auto md:max-w-md"
+                    >
+                      <div className="prose max-w-full shrink-0 p-6 text-main dark:prose-invert dark:text-main-dark">
+                        <Markdown>{intro}</Markdown>
+                        <button
+                          aria-label="Ir al final"
+                          className="absolute bottom-0 right-0 p-6"
+                          onClick={scrollToEnd}
+                        >
+                          <NextArrowIcon className="size-8 text-main-m dark:text-main-dark-m" />
+                        </button>
+                      </div>
+                      <div className="prose max-w-full shrink-0 p-6 text-main dark:prose-invert dark:text-main-dark">
+                        <h3>¿Qué es {title}?</h3>
+                        <Markdown>{description}</Markdown>
+                      </div>
+                    </section>
+                  )}
                 </div>
-              </section>
-              <div
-                id="content"
-                className="relative text-main dark:text-main-dark"
-              >
-                <ContentComponent />
+                <div
+                  id="content"
+                  className="relative text-main dark:text-main-dark"
+                >
+                  <ContentComponent />
+                </div>
               </div>
             </div>
           </div>

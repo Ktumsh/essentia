@@ -14,7 +14,7 @@ interface FooterProps {
 const Footer = ({ isMobile }: FooterProps) => {
   const links = siteConfig.desktopFooterLinks.more;
   return (
-    <div className={cn(!isMobile ? "p-4 hidden lg:block" : undefined)}>
+    <div className={cn(!isMobile ? "hidden p-4 lg:block" : undefined)}>
       {!isMobile && (
         <TooltipCTN content="Reportar un error">
           <Button
@@ -24,7 +24,7 @@ const Footer = ({ isMobile }: FooterProps) => {
             variant="flat"
             size="sm"
             isIconOnly
-            className="min-w-0 mb-2 !size-7 bg-black/10 dark:bg-white/10 text-main-h dark:text-main-dark-h"
+            className="mb-2 !size-7 min-w-0 bg-black/10 text-main-h dark:bg-white/10 dark:text-main-dark-h"
           >
             <span className="sr-only">Reportar un error</span>
             <BugIcon className="size-5" />

@@ -98,23 +98,23 @@ const PricingCard: FC<PricingCardProps> = ({
     <>
       <Card
         className={cn(
-          "relative bg-white dark:bg-full-dark rounded-xl shadow-lg",
+          "relative rounded-xl bg-white shadow-lg dark:bg-full-dark",
           !isRecommended &&
             !isAnual &&
-            "border border-gray-300 dark:border-[#123a6f]",
+            "dark:border-accent-dark border border-gray-300",
           isRecommended &&
-            "z-10 dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:dark:bg-full-dark/40",
+            "z-10 bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
           isAnual &&
-            "z-0 dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-[12px] after:bg-white after:dark:bg-full-dark"
+            "z-0 bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
         )}
       >
         <CardHeader
           className={cn(
-            "relative flex-col items-stretch p-3 md:p-6 gap-3 text-main dark:text-white after:border-b after:border-gray-300 after:dark:border-[#123a6f] z-10",
+            "after:dark:border-accent-dark relative z-10 flex-col items-stretch gap-3 p-3 text-main after:border-b after:border-gray-300 dark:text-white md:p-6",
             !isRecommended && !isAnual && "after:!inset-0",
             isRecommended
-              ? "after:content-[''] after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:dark:bg-full-dark/80 after:dark:border-full-dark after:z-[-1]"
-              : "after:content-[''] after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:dark:bg-dark/50 after:z-[-1]"
+              ? "after:absolute after:inset-px after:bottom-0 after:z-[-1] after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:content-[''] after:dark:border-full-dark after:dark:bg-full-dark/80"
+              : "after:absolute after:inset-px after:bottom-0 after:z-[-1] after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:content-[''] after:dark:bg-dark/50",
           )}
         >
           <div className="inline-flex items-center gap-2">
@@ -122,21 +122,21 @@ const PricingCard: FC<PricingCardProps> = ({
             {subtitle && (
               <div
                 className={cn(
-                  "relative inline-flex shrink-0 items-center justify-center h-5 gap-1 px-2.5 text-xs rounded-full text-main-h dark:text-main-dark",
+                  "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs text-main-h dark:text-main-dark",
                   isRecommended
-                    ? "bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-px after:rounded-full after:bg-white after:dark:bg-full-dark after:z-0"
-                    : "bg-white dark:bg-full-dark border border-gray-300 dark:border-[#123a6f]"
+                    ? "bg-light-gradient-v2 after:absolute after:inset-px after:z-0 after:rounded-full after:bg-white after:content-[''] dark:bg-dark-gradient-v2 after:dark:bg-full-dark"
+                    : "dark:border-accent-dark border border-gray-300 bg-white dark:bg-full-dark",
                 )}
               >
                 <span className="z-10">{subtitle}</span>
               </div>
             )}
           </div>
-          <p className="min-h-[40px] lg:min-h-[60px] text-sm text-main-h dark:text-main-dark-h">
+          <p className="min-h-[40px] text-sm text-main-h dark:text-main-dark-h lg:min-h-[60px]">
             {description}
           </p>
           <p className="inline-block whitespace-nowrap leading-none">
-            <span className="text-2xl font-semibold tracking-tight font-sans">
+            <span className="font-sans text-2xl font-semibold tracking-tight">
               ${price.toLocaleString("es-CL")}
             </span>
             <span className="ml-0.5 text-sm text-main-m dark:text-main-dark-h">
@@ -148,10 +148,10 @@ const PricingCard: FC<PricingCardProps> = ({
             isDisabled={isCurrentPlan}
             onPress={() => handlePlanSelect(priceId)}
             className={cn(
-              "z-10 text-sm dark:bg-full-dark/80 border border-gray-300 dark:border-[#123a6f]",
+              "dark:border-accent-dark z-10 border border-gray-300 text-sm dark:bg-full-dark/80",
               isRecommended &&
                 "border-none bg-light-gradient-v2 dark:bg-dark-gradient-v2",
-              isAnual && "bg-white dark:bg-full-dark"
+              isAnual && "bg-white dark:bg-full-dark",
             )}
           >
             {session ? (
@@ -169,12 +169,12 @@ const PricingCard: FC<PricingCardProps> = ({
             )}
           </Button>
         </CardHeader>
-        <CardBody className="p-3 md:p-6 z-10">
+        <CardBody className="z-10 p-3 md:p-6">
           <ul role="list" className="grid gap-3">
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
                 <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
-                  <CheckCircledIcon className="inline-flex shrink-0 size-5 text-teal-400" />
+                  <CheckCircledIcon className="inline-flex size-5 shrink-0 text-teal-400" />
                   <span className="text-left text-main-h dark:text-white/90">
                     {feature}
                   </span>

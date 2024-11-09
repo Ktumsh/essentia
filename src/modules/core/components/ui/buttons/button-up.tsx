@@ -45,19 +45,19 @@ const ButtonUp = () => {
     <div
       id="button-up"
       className={cn(
-        "fixed bottom-16 md:bottom-2 right-2 transition-opacity z-50",
+        "fixed bottom-16 right-2 z-50 transition-opacity md:bottom-2",
         isVisible ? "opacity-100" : "opacity-0",
-        essentiaAI && "hidden"
+        essentiaAI && "hidden",
       )}
     >
       <Button
         id="scroll-to-top"
         aria-label="Volver al inicio de la página"
         disableRipple
-        className="group flex items-center justify-center !size-9 min-w-0 px-0 rounded-md shadow-md hover:shadow-lg text-main dark:text-main-dark data-[hover=true]:text-bittersweet-400 bg-white dark:bg-dark dark:data-[hover=true]:bg-full-dark border border-gray-200 dark:border-white/10 data-[hover=true]:border-bittersweet-400 data-[hover=true]:scale-105 data-[hover=true]:!opacity-100 motion-safe:transition transition cursor-pointer"
+        className="group flex !size-9 min-w-0 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white px-0 text-main shadow-md transition hover:shadow-lg data-[hover=true]:scale-105 data-[hover=true]:border-bittersweet-400 data-[hover=true]:text-bittersweet-400 data-[hover=true]:!opacity-100 motion-safe:transition dark:border-white/10 dark:bg-dark dark:text-main-dark dark:data-[hover=true]:bg-full-dark"
         onClick={scrollToTop}
       >
-        <ArrowUpIcon className="size-4 rotate-0 md:rotate-45 group-data-[hover=true]:rotate-0 transition-transform" />
+        <ArrowUpIcon className="size-4 rotate-0 transition-transform group-data-[hover=true]:rotate-0 md:rotate-45" />
       </Button>
     </div>
   );

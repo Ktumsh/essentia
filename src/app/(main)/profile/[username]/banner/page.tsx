@@ -38,7 +38,7 @@ export default async function BannerPage({ params }: Props) {
   return (
     <PhotoModal>
       {profileData.banner_image && (
-        <div className="size-full flex items-center justify-center">
+        <div className="flex size-full items-center justify-center">
           <ImageUI
             as={Image}
             width={1080}

@@ -24,10 +24,10 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             isPressable
             isBlurred
             shadow="none"
-            className="col-span-2 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition"
+            className="col-span-2 bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
           >
-            <CardBody className="flex-row items-center justify-center h-16 gap-4">
-              <AIFillIcon className="text-white size-7" />
+            <CardBody className="h-16 flex-row items-center justify-center gap-4">
+              <AIFillIcon className="size-7 text-white" />
               <h2 className="text-2xl font-extrabold leading-none text-white">
                 Essentia AI
               </h2>
@@ -40,12 +40,12 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             isPressable
             isBlurred
             shadow="none"
-            className="col-span-2 bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition"
+            className="col-span-2 bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
           >
-            <CardBody className="flex-row items-center justify-center h-16 gap-4">
+            <CardBody className="h-16 flex-row items-center justify-center gap-4">
               <StarsIcon
                 aria-hidden="true"
-                className="size-7 [&_*]:fill-white focus:outline-none"
+                className="size-7 focus:outline-none [&_*]:fill-white"
               />
               <h2 className="text-2xl font-extrabold leading-none text-white">
                 Hazte Premium
@@ -59,9 +59,9 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           isPressable
           isBlurred
           shadow="none"
-          className="bg-gray-100 border border-gray-300 dark:bg-dark/50 dark:border-dark"
+          className="border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
         >
-          <CardBody className="items-center justify-between h-20 text-main-h dark:text-main-dark">
+          <CardBody className="h-20 items-center justify-between text-main-h dark:text-main-dark">
             <HealthCentersFillIcon className="size-7" />
             <h2 className="text-sm">Centros de Salud</h2>
           </CardBody>
@@ -72,9 +72,9 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           isPressable
           isBlurred
           shadow="none"
-          className="bg-gray-100 border border-gray-300 dark:bg-dark/50 dark:border-dark"
+          className="border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
         >
-          <CardBody className="items-center justify-between h-20 text-main-h dark:text-main-dark">
+          <CardBody className="h-20 items-center justify-between text-main-h dark:text-main-dark">
             <AdditionalFillIcon className="size-7" />
             <h2 className="text-sm">Recursos Adicionales</h2>
           </CardBody>

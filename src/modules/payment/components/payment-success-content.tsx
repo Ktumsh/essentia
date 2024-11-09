@@ -69,8 +69,8 @@ const PaymentSuccessContent = ({
     titleStatus === "success" ? "text-success" : "text-red-600";
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 space-y-6 text-main dark:text-main-dark">
-      <div className="relative flex items-center justify-center size-[120px]">
+    <div className="flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
+      <div className="relative flex size-[120px] items-center justify-center">
         {circles.map((circle, index) => (
           <motion.div
             key={index}
@@ -84,7 +84,7 @@ const PaymentSuccessContent = ({
               duration: 0.6,
               delay: circle.delay,
             }}
-            className={`${circle.color} rounded-full absolute flex items-center justify-center`}
+            className={`${circle.color} absolute flex items-center justify-center rounded-full`}
             style={{
               width: `${circle.size}px`,
               height: `${circle.size}px`,
@@ -97,7 +97,7 @@ const PaymentSuccessContent = ({
                   titleStatus === "success"
                     ? "text-green-600 dark:text-success"
                     : "text-red-600",
-                  "size-12 scale-125"
+                  "size-12 scale-125",
                 )}
               />
             )}
@@ -134,18 +134,18 @@ const PaymentSuccessContent = ({
       </h1>
 
       {titleStatus === "success" && message && (
-        <p className="font-semibold text-xl text-center">{message}</p>
+        <p className="text-center text-xl font-semibold">{message}</p>
       )}
 
       <p className="text-center text-main-h dark:text-main-dark-h">{status}</p>
 
       {paymentDetails && (
         <div className="w-full max-w-lg">
-          <h2 className="text-sm uppercase font-bold px-5 lg:px-0 ml-3 text-main-h dark:text-main-dark">
+          <h2 className="ml-3 px-5 text-sm font-bold uppercase text-main-h dark:text-main-dark lg:px-0">
             Detalles del Pago
           </h2>
           <Card fullWidth shadow="none" className="bg-gray-200 dark:bg-dark">
-            <CardBody className="p-3 md:p-6 space-y-4">
+            <CardBody className="space-y-4 p-3 md:p-6">
               <div className="inline-flex justify-between">
                 <span>Plan premium</span>{" "}
                 <span>
@@ -165,10 +165,10 @@ const PaymentSuccessContent = ({
             <div className="px-6">
               <Divider className="bg-black/10 dark:bg-white/10" />
             </div>
-            <CardFooter className="p-3 md:p-6 flex-col">
-              <div className="inline-flex justify-between w-full">
-                <span className="font-semibold text-lg">Total</span>{" "}
-                <span className="font-semibold font-sans text-lg">
+            <CardFooter className="flex-col p-3 md:p-6">
+              <div className="inline-flex w-full justify-between">
+                <span className="text-lg font-semibold">Total</span>{" "}
+                <span className="font-sans text-lg font-semibold">
                   ${paymentDetails.amount.toLocaleString("es-CL")}{" "}
                   {paymentDetails.currency.toUpperCase()}
                 </span>

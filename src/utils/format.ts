@@ -3,7 +3,7 @@ import { es } from "date-fns/locale";
 
 export function formatDate(
   input: string | number | Date,
-  formatStr: string = "dd/MM/yyyy"
+  formatStr: string = "dd/MM/yyyy",
 ): string {
   const date = new Date(input);
 

@@ -411,7 +411,7 @@ export const FAQ_FIRST_AID = [
     ],
   },
   {
-    title: "Cómo actuar durante una reacción alérgica severa (anafilaxia)",
+    title: "Cómo actuar durante una reacción alérgica severa",
     steps: [
       {
         step: 1,

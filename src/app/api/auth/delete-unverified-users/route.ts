@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   `;
 
   console.log(
-    `Se eliminaron ${deleteResult.rowCount} usuarios no verificados.`
+    `Se eliminaron ${deleteResult.rowCount} usuarios no verificados.`,
   );
 
   return NextResponse.json({ message: "Usuarios no verificados eliminados" });

@@ -76,16 +76,16 @@ export const ModalComponent: FC<Props> = ({
           onOpen();
           history.replaceState(null, "", `#${formatedTitle}`);
         }}
-        className="grid grid-cols-12 md:flex flex-row md:flex-col group text-main-h dark:text-main-dark bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 md:border-gray-100 dark:border-dark md:dark:border-dark shadow-none md:shadow-md !transition text-clip"
+        className="group grid grid-cols-12 flex-row text-clip border border-gray-200 bg-gray-100 text-main-h shadow-none !transition dark:border-dark dark:bg-dark/50 dark:text-main-dark md:flex md:flex-col"
       >
-        <CardHeader className="hidden md:flex absolute z-10 top-1 flex-col !items-start opacity-0 group-hover:opacity-100 group-hover:px-6 transition-all">
-          <EyeIcon className="size-6 drop-shadow-md text-white/60 group-hover:text-white transition" />
+        <CardHeader className="absolute top-1 z-10 hidden flex-col !items-start opacity-0 transition-all group-hover:px-6 group-hover:opacity-100 md:flex">
+          <EyeIcon className="size-6 text-white/60 drop-shadow-md transition group-hover:text-white" />
         </CardHeader>
-        <div className="flex justify-center md:w-full h-28 md:h-52 p-2 col-span-5">
+        <div className="col-span-5 flex h-28 justify-center p-2 md:h-52 md:w-full">
           <ImageUI
             as={Image}
-            width={305}
-            height={208}
+            width={310}
+            height={192}
             quality={90}
             alt={modalTitle}
             radius="sm"
@@ -96,8 +96,8 @@ export const ModalComponent: FC<Props> = ({
             src={modalImage}
           />
         </div>
-        <CardFooter className="col-span-7 size-full md:h-auto text-small bg-transparent">
-          <p className="font-semibold text-start group-hover:text-black dark:group-hover:text-white transition-colors">
+        <CardFooter className="col-span-7 size-full bg-transparent text-small md:h-auto">
+          <p className="text-start font-semibold transition-colors group-hover:text-black dark:group-hover:text-white">
             {modalTitle}
           </p>
         </CardFooter>
@@ -115,8 +115,8 @@ export const ModalComponent: FC<Props> = ({
           wrapper: "overflow-hidden z-[102]",
           body: "py-6",
           base: "bg-white dark:bg-full-dark max-h-[calc(100%_-_10rem)] lg:max-h-[calc(100%_-_7.5rem)]",
-          header: "border-b-1 border-gray-200 dark:border-base-color-m",
-          footer: "border-t-1 border-gray-200 dark:border-base-color-m",
+          header: "border-b-1 border-gray-200 dark:border-dark",
+          footer: "border-t-1 border-gray-200 dark:border-dark",
           closeButton:
             "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
         }}
@@ -124,7 +124,7 @@ export const ModalComponent: FC<Props> = ({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-main dark:text-main-dark font-grotesk font-bold text-xl">
+              <ModalHeader className="flex flex-col gap-1 font-grotesk text-xl font-bold text-main dark:text-main-dark">
                 <q>{modalTitle}</q>
               </ModalHeader>
               <ScrollShadow className="custom-scroll v2" size={80}>

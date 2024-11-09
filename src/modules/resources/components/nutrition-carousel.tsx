@@ -13,7 +13,7 @@ import { ModalData } from "@/types/common";
 
 const NutritionCarouselItem = dynamic(
   () => import("./nutrition-carousel-item"),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface Props {
@@ -32,7 +32,7 @@ const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
   return (
     <>
       <Carousel
-        className="px-5 md:px-0 w-full"
+        className="w-full px-5 md:px-0"
         opts={{ slidesToScroll, loop: true }}
       >
         <CarouselContent className="-ml-5">

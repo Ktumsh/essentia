@@ -39,7 +39,7 @@ const ProfilePage = async ({ params }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col min-h-dvh w-full max-w-5xl pb-16 md:pb-0 pt-14 shrink items-stretch grow">
+      <div className="flex min-h-dvh w-full max-w-5xl shrink grow flex-col items-stretch pb-16 pt-14 md:pb-0">
         <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />
       </div>
     </>

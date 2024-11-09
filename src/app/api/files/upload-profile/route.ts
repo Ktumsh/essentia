@@ -14,11 +14,11 @@ const FileSchema = z.object({
     .refine(
       (file) =>
         ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
-          file.type
+          file.type,
         ),
       {
         message: "Los archivos permitidos son JPEG, PNG o WEBP",
-      }
+      },
     ),
 });
 
@@ -41,7 +41,7 @@ export const POST = async (req: NextRequest) => {
           success: false,
           error: "ID de usuario y tipo de imagen son requeridos",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -54,7 +54,7 @@ export const POST = async (req: NextRequest) => {
 
       return NextResponse.json(
         { success: false, error: errorMessage },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -69,7 +69,7 @@ export const POST = async (req: NextRequest) => {
           success: false,
           error: "Tipo de imagen no válido",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -101,7 +101,7 @@ export const POST = async (req: NextRequest) => {
             success: false,
             error: updateResult.error,
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -121,7 +121,7 @@ export const POST = async (req: NextRequest) => {
           success: false,
           error: "Error al subir la imagen",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (error) {
@@ -131,7 +131,7 @@ export const POST = async (req: NextRequest) => {
         success: false,
         error: "Error interno del servidor",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };

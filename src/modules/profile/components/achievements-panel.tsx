@@ -106,7 +106,7 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
     <>
       <Divider className="bg-gray-200 dark:bg-dark" />
       <div>
-        <h3 className="mb-2 font-semibold md:text-lg text-bittersweet dark:text-orient">
+        <h3 className="text-bittersweet dark:text-orient mb-2 font-semibold md:text-lg">
           {isOwnProfile ? "Mis insignias" : "Insignias"}
         </h3>
 
@@ -140,11 +140,11 @@ const AchievementsPanel = ({ isOwnProfile }: AchievementPanelProps) => {
                   />
                 </PopoverTrigger>
                 <PopoverContent>
-                  <div className="flex flex-col items-center justify-center space-y-2 py-4 px-6 text-white">
-                    <div className="text-sm font-semibold font-spacemono text-nowrap">
+                  <div className="flex flex-col items-center justify-center space-y-2 px-6 py-4 text-white">
+                    <div className="text-nowrap font-spacemono text-sm font-semibold">
                       {achievement.name}
                     </div>
-                    <div className="inline-flex items-center justify-center gap-2 text-xs text-nowrap">
+                    <div className="inline-flex items-center justify-center gap-2 text-nowrap text-xs">
                       <TrophyIcon className="size-3.5" />
                       <span>¡Insignia desbloqueado!</span>
                     </div>

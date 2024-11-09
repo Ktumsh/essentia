@@ -30,7 +30,7 @@ const MessageActions = ({ content }: { content?: string }) => {
   return (
     <>
       {windowSize.width > 768 ? (
-        <div className="flex p-1 opacity-0 group-hover/message:opacity-100 transition-opacity border border-black/10 dark:border-white/10 w-fit rounded-xl overflow-hidden">
+        <div className="flex w-fit overflow-hidden rounded-xl border border-black/10 p-1 opacity-0 transition-opacity group-hover/message:opacity-100 dark:border-white/10">
           <TooltipCTN content="Reportar un error" delay={0}>
             <Button
               aria-label="Reportar un error"
@@ -40,7 +40,7 @@ const MessageActions = ({ content }: { content?: string }) => {
               variant="light"
               size="sm"
               isIconOnly
-              className="rounded-lg min-w-0 !size-7 data-[hover=true]:bg-black/10 data-[hover=true]:dark:bg-white/10 text-main-h dark:text-main-dark-h"
+              className="!size-7 min-w-0 rounded-lg text-main-h data-[hover=true]:bg-black/10 dark:text-main-dark-h data-[hover=true]:dark:bg-white/10"
             >
               <BugIcon className="size-5" />
               <span className="sr-only">Reportar un error</span>
@@ -53,7 +53,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                 size="sm"
                 isIconOnly
                 variant="light"
-                className="rounded-lg min-w-0 !size-7 data-[hover=true]:bg-black/10 data-[hover=true]:dark:bg-white/10 text-main-h dark:text-main-dark-h"
+                className="!size-7 min-w-0 rounded-lg text-main-h data-[hover=true]:bg-black/10 dark:text-main-dark-h data-[hover=true]:dark:bg-white/10"
                 onPress={onCopy}
               >
                 {isCopied ? (
@@ -67,7 +67,7 @@ const MessageActions = ({ content }: { content?: string }) => {
           )}
         </div>
       ) : (
-        <div className="relative flex p-1 border border-black/10 dark:border-white/10 w-fit rounded-xl overflow-hidden">
+        <div className="relative flex w-fit overflow-hidden rounded-xl border border-black/10 p-1 dark:border-white/10">
           <Popover
             classNames={{
               base: tooltipStyles.arrow,
@@ -80,7 +80,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                 variant="light"
                 size="sm"
                 isIconOnly
-                className="min-w-0 !size-7 text-main-m dark:text-main-dark-m"
+                className="!size-7 min-w-0 text-main-m dark:text-main-dark-m"
               >
                 <span className="sr-only">Reportar un error</span>
                 <BugIcon className="size-5" />
@@ -115,7 +115,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                   size="sm"
                   variant="light"
                   isIconOnly
-                  className="min-w-0 !size-7 text-main-m dark:text-main-dark-m"
+                  className="!size-7 min-w-0 text-main-m dark:text-main-dark-m"
                 >
                   {isCopied ? (
                     <CheckIcon className="size-4" />

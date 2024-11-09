@@ -11,7 +11,7 @@ const useMarkers = (mapInstance: google.maps.Map | null) => {
   const createMarker = useCallback(
     (
       place: google.maps.places.PlaceResult,
-      infoWindow: google.maps.InfoWindow
+      infoWindow: google.maps.InfoWindow,
     ) => {
       if (!mapInstance || !place.geometry || !place.geometry.location) return;
 
@@ -42,18 +42,18 @@ const useMarkers = (mapInstance: google.maps.Map | null) => {
               placeDetails
             ) {
               const contentString = renderToString(
-                <InfoWindowContent placeDetails={placeDetails} />
+                <InfoWindowContent placeDetails={placeDetails} />,
               );
               infoWindow.setContent(contentString);
               infoWindow.open(mapInstance, marker);
             }
-          }
+          },
         );
       });
 
       markersRef.current.push(marker);
     },
-    [mapInstance]
+    [mapInstance],
   );
 
   const clearMarkers = useCallback(() => {

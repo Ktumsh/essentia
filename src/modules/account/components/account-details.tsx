@@ -24,14 +24,14 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
       <div className="flex w-full flex-col gap-4">
         <Card
           shadow="none"
-          className="rounded-lg bg-white dark:bg-full-dark border border-gray-200 dark:border-dark"
+          className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
         >
-          <div className="px-5 py-4 text-main dark:text-main-dark">
-            <h3 className="pb-4 text-main font-semibold">
+          <div className="px-5 py-4 text-main dark:text-white">
+            <h3 className="pb-4 text-base font-semibold">
               Información de tu Cuenta
             </h3>
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-dark px-4 py-3">
-              <div className="grid grid-cols md:grid-cols-4 flex-1 gap-4">
+            <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+              <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
                 <span className="flex flex-col">
                   <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
                     Nombre
@@ -68,11 +68,11 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
         </Card>
         <Card
           shadow="none"
-          className="rounded-lg bg-white dark:bg-full-dark border border-gray-200 dark:border-dark"
+          className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
         >
-          <div className="px-5 py-4 text-main dark:text-main-dark">
-            <h3 className="pb-4 text-main font-semibold">Contraseña</h3>
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-dark px-4 py-3">
+          <div className="px-5 py-4 text-main dark:text-white">
+            <h3 className="pb-4 text-base font-semibold">Contraseña</h3>
+            <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
               <span className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <span className="text-xs">••••••••••••</span>
@@ -80,13 +80,13 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
               </span>
             </div>
           </div>
-          <CardFooter className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 gap-4 rounded-none bg-gray-100 dark:bg-dark/50 border-t border-gray-200 dark:border-dark">
-            <div className="flex flex-col w-full md:w-fit gap-2 sm:ml-auto sm:flex-row">
+          <CardFooter className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+            <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               <Button
                 radius="sm"
                 size="sm"
                 onPress={onOpen}
-                className="w-full md:w-fit shadow-sm bg-white dark:bg-full-dark border border-gray-200 dark:border-dark font-medium text-sm text-main dark:text-main-dark"
+                className="w-full border border-gray-200 bg-white text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-white md:w-fit"
               >
                 Cambiar contraseña
               </Button>

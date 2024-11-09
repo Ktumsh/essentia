@@ -54,6 +54,7 @@ const config: Config = {
         "full-dark/30": "var(--background-dark-f-30)",
         "full-dark/20": "var(--background-dark-f-20)",
         "full-dark/10": "var(--background-dark-f-10)",
+        "accent-dark": "var(--background-accent-dark)",
         "radical-red": {
           50: "#ffeff1",
           100: "#ffe0e6",
@@ -163,6 +164,9 @@ const config: Config = {
           "0%": { transform: "skew(-12deg) translateX(-100%)" },
           "100%": { transform: "skew(-12deg) translateX(100%)" },
         },
+      },
+      maxWidth: {
+        "8xl": "88rem",
       },
     },
   },

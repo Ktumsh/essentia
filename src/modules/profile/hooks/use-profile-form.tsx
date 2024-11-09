@@ -81,7 +81,7 @@ function reducer(state: State, action: Action): State {
 
 export const useProfileForm = (initialData: UserProfileData | null) => {
   const formattedDate: DateValue | null = formatInitialDate(
-    initialData?.birthdate
+    initialData?.birthdate,
   );
 
   const initialState: State = {
@@ -115,24 +115,24 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const [previewProfileImage, setPreviewProfileImage] = useState<string | null>(
-    initialData?.profile_image ?? ""
+    initialData?.profile_image ?? "",
   );
   const [previewBannerImage, setPreviewBannerImage] = useState<string | null>(
-    initialData?.banner_image ?? ""
+    initialData?.banner_image ?? "",
   );
 
   const setFieldValue = useCallback(
     (field: keyof State["tempFormData"], value: any) => {
       dispatch({ type: "SET_FIELD", field, value });
     },
-    []
+    [],
   );
 
   const setImage = useCallback(
     (
       imageType: "profile" | "banner",
       file: File | null,
-      image: string | null
+      image: string | null,
     ) => {
       dispatch({
         type: "SET_IMAGE",
@@ -141,7 +141,7 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
         image,
       });
     },
-    []
+    [],
   );
 
   const handleInputChange = useCallback(
@@ -149,14 +149,14 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
       const { name, value } = e.target;
       setFieldValue(name as keyof State["tempFormData"], value);
     },
-    [setFieldValue]
+    [setFieldValue],
   );
 
   const handleDateChange = useCallback(
     (date: DateValue | null) => {
       setFieldValue("birthdate", date);
     },
-    [setFieldValue]
+    [setFieldValue],
   );
 
   const handleFileChange = useCallback(
@@ -166,7 +166,7 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
         setImage(type, file, URL.createObjectURL(file));
       }
     },
-    [setImage]
+    [setImage],
   );
 
   const handleFilePreview = useCallback(
@@ -181,7 +181,7 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
       };
       reader.readAsDataURL(file);
     },
-    []
+    [],
   );
 
   const resetPreviewsImages = useCallback(() => {

@@ -15,7 +15,7 @@ export function useVisibilityObserver(rootMargin: string = "100px") {
           }
         });
       },
-      { rootMargin }
+      { rootMargin },
     );
 
     const element = ref.current;

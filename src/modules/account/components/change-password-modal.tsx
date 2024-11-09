@@ -125,7 +125,7 @@ const ChangePasswordModal = ({
       }
       onOpenChange();
     },
-    [onOpenChange]
+    [onOpenChange],
   );
 
   useEffect(() => {
@@ -279,7 +279,7 @@ const ChangePasswordModal = ({
                 variant="bordered"
                 disabled={isPending}
                 onPress={() => handleOpenChange(false)}
-                className="rounded-md border border-gray-200 dark:border-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark"
+                className="rounded-md border border-gray-200 data-[hover=true]:bg-gray-200 dark:border-dark dark:data-[hover=true]:bg-dark"
               >
                 Cancelar
               </Button>

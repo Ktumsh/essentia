@@ -12,7 +12,9 @@ export const RESOURCES: Resources[] = [
     id: 1,
     title: "Salud y Bienestar",
     subtitle: "Para tu salud",
-    intro: `Encuentra una amplia variedad de consejos sobre <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">hábitos saludables</strong> hasta métodos para <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">potenciar tu salud mental y emocional</strong>, encontrarás recursos variados para impulsar tu bienestar en todos los aspectos de la vida.`,
+    intro: `Encuentra una amplia variedad de consejos sobre **hábitos saludables** hasta métodos para **potenciar tu salud mental y emocional**, encontrarás recursos variados para impulsar tu bienestar en todos los aspectos de la vida.`,
+    description:
+      "Salud y bienestar se refiere a la **condición general del cuerpo y la mente**, en la que una persona está libre de enfermedad y se siente **satisfecha y funcional en su vida diaria**. Esto incluye la **práctica de hábitos saludables** y el mantenimiento de un **equilibrio físico, mental y emocional**.",
     quote:
       "El mayor tesoro es la salud, y el conocimiento es la llave para preservarla.",
     videoTitle: "¿Qué es Salud y Bienestar?",
@@ -27,7 +29,9 @@ export const RESOURCES: Resources[] = [
     id: 2,
     title: "Ejercicios y Fitness",
     subtitle: "Para tu físico",
-    intro: `Aprende a abordar nuevos deportes, <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">trabajar en tu propio físico</strong> y llevar una vida más activa, adaptada a tus necesidades. Mejorarás tu rendimiento en las actividades diarias y <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">te sentirás más enérgico</strong>.`,
+    intro: `Aprende a abordar nuevos deportes, **trabajar en tu propio físico** y llevar una vida más activa, adaptada a tus necesidades. Mejorarás tu rendimiento en las actividades diarias y **te sentirás más enérgico**.`,
+    description:
+      "Ejercicios y fitness implica la **actividad física realizada de manera planificada y regular** para mejorar o mantener la **condición física**, la **fuerza**, la **flexibilidad** y la **salud cardiovascular**. Incluye ejercicios aeróbicos, entrenamiento de fuerza y otras actividades físicas.",
     quote:
       "El movimiento es una medicina para crear el cambio físico, emocional y mental.",
     videoTitle: "¿Cómo Mejorar tu Condición Física?",
@@ -42,7 +46,9 @@ export const RESOURCES: Resources[] = [
     id: 3,
     title: "Nutrición y Alimentación",
     subtitle: "Para tu dieta",
-    intro: `Te brindamos soluciones para una <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">alimentación equilibrada</strong> que te permitirán alcanzar tus objetivos, promoviendo un estilo de vida más <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">saludable y sostenible</strong> a largo plazo.`,
+    intro: `Te brindamos soluciones para una **alimentación equilibrada** que te permitirán alcanzar tus objetivos, promoviendo un estilo de vida más **saludable y sostenible** a largo plazo.`,
+    description:
+      "Nutrición se refiere al **proceso de obtención y utilización de alimentos** para el **funcionamiento óptimo del cuerpo**. Involucra la **ingesta de macronutrientes y micronutrientes esenciales** para la **salud**, el **crecimiento** y la **prevención de enfermedades**.",
     quote: "Que tu alimento sea tu medicina y que tu medicina sea tu alimento.",
     videoTitle: "¿Qué es una Alimentación Saludable?",
     videoLink: "Hrk9ivVbuso",
@@ -56,7 +62,9 @@ export const RESOURCES: Resources[] = [
     id: 4,
     title: "Bienestar Emocional",
     subtitle: "Para tu mente",
-    intro: `En esta sección encontrarás consejos, métodos para <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">manejar el estrés</strong> y <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">mejorar la salud mental</strong>, promoviendo así la armonía emocional en tu día a día.`,
+    intro: `En esta sección encontrarás consejos, métodos para **manejar el estrés** y **mejorar la salud mental**, promoviendo así la armonía emocional en tu día a día.`,
+    description:
+      "Bienestar emocional se refiere a la **capacidad de una persona para manejar sus emociones** y mantener una **perspectiva positiva y equilibrada en la vida**. Implica el **desarrollo de habilidades para gestionar el estrés** y promover **relaciones saludables**.",
     quote:
       "La paz interior comienza en el momento en que eliges no permitir que otra persona o evento controle tus emociones.",
     videoTitle: "¿Cómo Mejorar Tu Bienestar Emocional?",
@@ -71,7 +79,9 @@ export const RESOURCES: Resources[] = [
     id: 5,
     title: "Salud y Educación Sexual",
     subtitle: "Para tu sexualidad",
-    intro: `Proveemos información y recursos educativos sobre sexualidad, incluyendo métodos anticonceptivos y <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">consejos de cuidado</strong>, para fomentar el entendimiento y <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">cuidado de la diversidad y salud sexual</strong>.`,
+    intro: `Proveemos información y recursos educativos sobre sexualidad, incluyendo métodos anticonceptivos y **consejos de cuidado**, para fomentar el entendimiento y **cuidado de la diversidad y salud sexual**.`,
+    description:
+      "Salud y educación sexual abordan el **conocimiento y las prácticas necesarias** para **mantener la salud reproductiva** y **prevenir enfermedades de transmisión sexual**. Incluye educación sobre **anatomía, relaciones, consentimiento y protección**.",
     quote:
       "La educación es el arma más poderosa para cambiar el mundo, incluida nuestra comprensión de la salud sexual.",
     videoTitle: "¿Qué es la Salud Sexual?",
@@ -86,7 +96,9 @@ export const RESOURCES: Resources[] = [
     id: 6,
     title: "Salud para Todas las Edades",
     subtitle: "Para ti y tus seres queridos",
-    intro: `Desde la infancia hasta la vejez, nuestra sección <strong class="text-cerise-red-800 dark:text-cerise-red-300 font-medium">Salud para Todas las Edades</strong> ofrece información relevante y específica para cada etapa de la vida. Encuentra consejos útiles y recursos para cuidar la salud en todas las etapas del desarrollo.`,
+    intro: `Desde la infancia hasta la vejez, nuestra sección **Salud para Todas las Edades** ofrece información relevante y específica para cada etapa de la vida. Encuentra consejos útiles y recursos para cuidar la salud en todas las etapas del desarrollo.`,
+    description:
+      "Salud para todas las edades se refiere a la **promoción de la salud y el bienestar** adaptados a cada etapa de la vida, desde la **niñez hasta la vejez**. Reconoce las **necesidades cambiantes** en cada fase y fomenta una **vida saludable en todas ellas**.",
     quote:
       "La salud es un regalo, y mantenerla es una de las mayores recompensas que podemos dar a nosotros mismos en cada etapa de la vida.",
     videoTitle: "¿Cómo Cuidar Tu Salud a Cualquier Edad?",

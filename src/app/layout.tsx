@@ -102,13 +102,13 @@ export default async function RootLayout({
       <head />
       <body
         className={cn(
-          "bg-white dark:bg-full-dark isolate antialiased",
+          "isolate bg-white antialiased dark:bg-full-dark",
           fontMotiva.variable,
           spaceGrotesk.variable,
           spaceMono.variable,
           dmSans.variable,
           GeistSans.variable,
-          "font-dmsans"
+          "font-dmsans",
         )}
       >
         <PreloadResources />
@@ -120,7 +120,7 @@ export default async function RootLayout({
           }}
         />
         <Providers currentPlan={currentPlan} disableTransitionOnChange>
-          <div className="min-h-dvh size-full relative">{children}</div>
+          <div className="relative size-full min-h-dvh">{children}</div>
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />

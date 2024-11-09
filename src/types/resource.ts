@@ -17,7 +17,7 @@ export interface Resources {
   videoTitle: string;
   videoLink: string;
   videoImage: string;
-  description?: string;
+  description: string;
   image: string;
   imageFull: string;
   resource: string;

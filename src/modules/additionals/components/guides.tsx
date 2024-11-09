@@ -7,17 +7,17 @@ import { StarIcon } from "@/modules/icons/common";
 
 export default function Guides() {
   return (
-    <section className="flex flex-col items-center py-5 md:py-0 mt-12 md:my-0">
-      <div className="w-full grid grid-cols-12 gap-4 px-2 md:px-0">
+    <section className="flex flex-col items-center pb-5 md:p-0">
+      <div className="grid w-full grid-cols-12 gap-4">
         {GUIDES.map((guide, index) => (
           <Card
             key={index}
             radius="sm"
             shadow="none"
-            className="group col-span-12 sm:col-span-6 lg:col-span-4 bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 dark:border-dark md:dark:border-dark text-main dark:text-main-dark"
+            className="group col-span-12 border border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-white sm:col-span-6 md:dark:border-dark lg:col-span-4"
           >
             <CardBody className="z-10">
-              <div className="relative inline-flex items-center justify-between w-full mb-3">
+              <div className="relative mb-3 inline-flex w-full items-center justify-between">
                 <h2 className="text-xl font-semibold">{guide.title}</h2>
                 <TooltipCTN content="Contenido recomendado">
                   {guide.recommended && (
@@ -33,19 +33,19 @@ export default function Guides() {
                   )}
                 </TooltipCTN>
               </div>
-              <p className="text-sm text-main-h dark:text-main-dark-h">
+              <p className="text-sm text-main-h dark:text-main-dark">
                 {guide.description}
               </p>
             </CardBody>
-            <CardFooter className="justify-end z-10 bg-gray-100 dark:bg-dark/50 border-t border-gray-200 dark:border-dark rounded-none">
+            <CardFooter className="z-10 justify-end rounded-none border-t border-gray-200 bg-gray-100 dark:border-dark dark:bg-dark/50">
               <Button
                 as={"a"}
                 download={guide.downloadTitle || undefined}
                 href={guide.link}
                 radius="sm"
                 size="sm"
-                endContent={<DownloadIcon className="size-4 " />}
-                className="shadow-sm bg-white dark:bg-full-dark border border-gray-200 dark:border-dark font-medium text-sm text-main dark:text-main-dark"
+                endContent={<DownloadIcon className="size-4" />}
+                className="border border-gray-200 bg-white text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-white"
               >
                 Descargar
               </Button>

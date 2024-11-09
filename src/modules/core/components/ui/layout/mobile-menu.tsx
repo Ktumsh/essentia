@@ -42,22 +42,22 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
       <div
         id={MOBILE_MENU_CONTENT_ID}
         role="menu"
-        className="flex w-screen max-w-[300px] h-full flex-col items-center bg-white dark:bg-full-dark lg:hidden px-8 overflow-y-hidden"
+        className="flex h-full w-screen max-w-[300px] flex-col items-center overflow-y-hidden bg-white px-8 dark:bg-full-dark lg:hidden"
       >
         <nav className="size-full">
-          <div className="flex flex-col justify-between size-full max-h-dvh">
-            <div className="flex flex-col size-full text-main-h dark:text-main-dark-h overflow-y-hidden">
-              <div className="flex w-full h-auto py-5 border-b-1 border-gray-200 dark:border-dark">
+          <div className="flex size-full max-h-dvh flex-col justify-between">
+            <div className="flex size-full flex-col overflow-y-hidden text-main-h dark:text-main-dark-h">
+              <div className="flex h-auto w-full border-b-1 border-gray-200 py-5 dark:border-dark">
                 {profileData && (
-                  <div className="relative inline-flex items-start gap-2 w-full">
+                  <div className="relative inline-flex w-full items-start gap-2">
                     {profile_image ? (
                       <Link
                         href={`/profile/${username}`}
                         aria-label="Perfil de usuario"
-                        className="size-12 bg-white dark:bg-full-dark border-2 border-gray-200 dark:border-dark rounded-full overflow-hidden"
+                        className="size-12 overflow-hidden rounded-full border-2 border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
                       >
                         <Image
-                          className="object-cover object-center rounded-full"
+                          className="rounded-full object-cover object-center"
                           width={44}
                           height={44}
                           src={profile_image}
@@ -79,20 +79,20 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                       />
                     )}
                     <Link
-                      className="inline-flex flex-col items-start active:bg-gray-200 dark:active:bg-dark transition-colors duration-100"
+                      className="inline-flex flex-col items-start transition-colors duration-100 active:bg-gray-200 dark:active:bg-dark"
                       href={`/profile/${username}`}
                     >
-                      <span className="font-medium text-inherit transition-none capitalize">
+                      <span className="font-medium capitalize text-inherit transition-none">
                         {`${first_name} ${last_name}`}
                       </span>
-                      <span className="text-sm text-main-m dark:text-main-dark-l transition-none">
+                      <span className="text-sm text-main-m transition-none dark:text-main-dark-l">
                         @{username}
                       </span>
                       {is_premium && (
-                        <div className="absolute top-1/2 -translate-y-1/2 right-0 p-1 mr-2">
+                        <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
                           <StarsIcon
                             aria-hidden="true"
-                            className="size-6 stars-icon v2 focus:outline-none"
+                            className="stars-icon v2 size-6 focus:outline-none"
                           />
                         </div>
                       )}
@@ -102,34 +102,34 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                 {!profileData && (
                   <Link
                     href="/login"
-                    className="rounded-md text-sm px-5 bg-light-gradient-v2 dark:bg-dark-gradient text-white active:scale-[0.97] inline-flex items-center justify-center min-w-16 h-8 gap-2 w-full box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent transition-transform-colors-opacity motion-reduce:transition-none"
+                    className="box-border inline-flex h-8 w-full min-w-16 select-none appearance-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-light-gradient-v2 px-5 text-sm font-normal text-white subpixel-antialiased tap-highlight-transparent transition-transform-colors-opacity active:scale-[0.97] motion-reduce:transition-none dark:bg-dark-gradient"
                   >
                     Iniciar sesión
                   </Link>
                 )}
               </div>
               <div className="relative size-full overflow-y-scroll scrollbar-hide">
-                <div className="flex flex-col justify-between h-full py-5">
+                <div className="flex h-full flex-col justify-between py-5">
                   <div role="group">
                     <div className="group flex">
-                      <div className="text-main-h dark:text-main-dark-h justify-between px-0 text-base font-medium bg-transparent data-[hover=true]:bg-transparent data-[pressed=true]:scale-100">
+                      <div className="justify-between bg-transparent px-0 text-base font-medium text-main-h data-[pressed=true]:scale-100 data-[hover=true]:bg-transparent dark:text-main-dark-h">
                         Recursos
                       </div>
                     </div>
-                    <div className="overflow-hidden transition-all pt-3">
+                    <div className="overflow-hidden pt-3 transition-all">
                       <div
                         aria-label="Recursos"
-                        className="w-full flex flex-col outline-none gap-3"
+                        className="flex w-full flex-col gap-3 outline-none"
                       >
                         {resourceLinks.map((link) => (
                           <Link
                             key={link.name}
                             href={link.link}
                             className={cn(
-                              "inline-flex gap-2 items-center text-sm px-0 py-1.5",
+                              "inline-flex items-center gap-2 px-0 py-1.5 text-sm",
                               currentPath === link.link
                                 ? "text-bittersweet-400 dark:text-cerise-red-400"
-                                : "text-main-h dark:text-main-dark-h"
+                                : "text-main-h dark:text-main-dark-h",
                             )}
                           >
                             <link.icon
@@ -149,34 +149,34 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                   <div role="group">
                     <footer className="flex flex-col justify-end gap-3 text-main-m dark:text-main-dark-m">
                       <Link
-                        className="relative flex items-center w-full py-1.5 text-sm"
+                        className="relative flex w-full items-center py-1.5 text-sm"
                         href="/account"
                       >
                         <AccountFillIcon className="mr-3 size-3.5" />
                         Cuenta
                       </Link>
                       <Link
-                        className="relative flex items-center w-full py-1.5 text-sm"
+                        className="relative flex w-full items-center py-1.5 text-sm"
                         href="/premium"
                       >
                         <PricingFillIcon className="mr-3 size-3.5" />
                         Premium
                       </Link>
                       <Link
-                        className="relative flex items-center w-full py-1.5 text-sm"
+                        className="relative flex w-full items-center py-1.5 text-sm"
                         href=""
                       >
                         <SettingsIcon className="mr-3 size-3.5" />
                         Configuración
                       </Link>
                       <Link
-                        className="relative flex items-center w-full py-1.5 text-sm"
+                        className="relative flex w-full items-center py-1.5 text-sm"
                         href=""
                       >
                         <HelpIcon className="mr-3 size-3.5" />
                         Centro de ayuda
                       </Link>
-                      <div className="w-full flex items-center justify-between py-1.5">
+                      <div className="flex w-full items-center justify-between py-1.5">
                         <div className="flex flex-row items-center">
                           <ThemeIcon className="mr-3 size-3.5" />
                           <span className="text-sm">Tema</span>
@@ -186,7 +186,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                       {profileData ? (
                         <button
                           id="logout"
-                          className="relative flex items-center w-full py-1.5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"
+                          className="relative flex w-full items-center py-1.5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"
                           onClick={() => signOut({ callbackUrl: "/logout" })}
                         >
                           <LogoutIcon className="mr-3 size-3.5" />

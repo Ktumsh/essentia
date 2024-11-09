@@ -28,7 +28,7 @@ const SidebarMobile = ({
     <>
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
-          <button className="focus-visible:outline-none h-10 rounded-lg px-2 text-main-h dark:text-main-dark-h hover:bg-gray-200 dark:hover:bg-full-dark transition-colors duration-150">
+          <button className="h-10 rounded-lg px-2 text-main-h transition-colors duration-150 hover:bg-gray-200 focus-visible:outline-none dark:text-main-dark-h dark:hover:bg-full-dark">
             <SidebarIcon />
             <span className="sr-only">Alternar barra lateral</span>
           </button>

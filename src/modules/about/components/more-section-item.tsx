@@ -9,15 +9,15 @@ const MoreSectionItem = ({
 }) => {
   return (
     <li className="flex text-start text-main">
-      <div className="flex-[0_0_auto] min-w-0 box-border">
+      <div className="box-border min-w-0 flex-[0_0_auto]">
         <span
           aria-hidden="true"
-          className="pt-3 inline-flex box-border items-center size-4 text-bittersweet-400"
+          className="box-border inline-flex size-4 items-center pt-3 text-bittersweet-400"
         >
           <StarIcon width="24" height="24" />
         </span>
       </div>
-      <div className="flex-[1_1] min-w-0 pl-4 box-border">
+      <div className="box-border min-w-0 flex-[1_1] pl-4">
         <span>
           {text}
           {children}

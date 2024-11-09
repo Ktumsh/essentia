@@ -62,11 +62,11 @@ export function Chat({
 
   return (
     <div
-      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px] transition-[padding]"
+      className="group w-full overflow-auto pl-0 transition-[padding] peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
       <div
-        className={cn("pb-32 lg:pb-48 pt-4 md:pt-10", className)}
+        className={cn("pb-32 pt-4 md:pt-10 lg:pb-48", className)}
         ref={messagesRef}
       >
         {messages.length ? (
@@ -80,7 +80,7 @@ export function Chat({
         ) : (
           <EmptyScreen />
         )}
-        <div className="w-full h-px" ref={visibilityRef} />
+        <div className="h-px w-full" ref={visibilityRef} />
       </div>
 
       <ChatPanel

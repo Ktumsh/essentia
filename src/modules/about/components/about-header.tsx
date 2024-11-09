@@ -51,7 +51,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
       scrollToNuestroMetodo,
       scrollToEssentiaAI,
       scrollToTodoYMas,
-    ]
+    ],
   );
 
   const vh = typeof window !== "undefined" ? window.innerHeight / 1.4 : 0;
@@ -62,25 +62,25 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
     <header
       ref={headerRef}
       id="header"
-      className="static md:fixed top-0 inset-x-0 w-full z-50 transition-transform duration-300 ease-in-out"
+      className="static inset-x-0 top-0 z-50 w-full transition-transform duration-300 ease-in-out md:fixed"
     >
       <nav
         id="nav"
         className={cn(
-          "px-5 shadow-md items-center flex justify-between text-main z-50 transition-all duration-300 ease-in-out",
+          "z-50 flex items-center justify-between px-5 text-main shadow-md transition-all duration-300 ease-in-out",
           isChanged
-            ? "bg-white/50 backdrop-blur-2xl text-main-h"
-            : "bg-white sm:mx-5 sm:my-2 sm:rounded-lg"
+            ? "bg-white/50 text-main-h backdrop-blur-2xl"
+            : "bg-white sm:mx-5 sm:my-2 sm:rounded-lg",
         )}
       >
         <div
-          className={`flex items-center w-full h-16 gap-0 sm:gap-3 ${
+          className={`flex h-16 w-full items-center gap-0 sm:gap-3 ${
             isChanged ? "justify-center md:justify-between" : "justify-between"
           }`}
         >
           <div
             id="nav_links"
-            className={`flex text-main font-light whitespace-nowrap transition-opacity duration-150 ${
+            className={`flex whitespace-nowrap font-light text-main transition-opacity duration-150 ${
               isChanging ? "opacity-0" : "opacity-100"
             }`}
           >
@@ -94,8 +94,8 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
                     section.scrollTo();
                   }}
                   className={cn(
-                    "nav_link font-medium hover:text-transparent after:hover:bg-transparent hover:bg-light-gradient bg-clip-text hover:scale-105 after:hover:bg-light-gradient mr-5 px-2 transition-transform duration-100",
-                    activeSection === section.id && "active"
+                    "nav_link mr-5 bg-clip-text px-2 font-medium transition-transform duration-100 hover:scale-105 hover:bg-light-gradient hover:text-transparent after:hover:bg-transparent after:hover:bg-light-gradient",
+                    activeSection === section.id && "active",
                   )}
                 >
                   {section.label}
@@ -104,12 +104,12 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
             ) : (
               <div className="flex items-center gap-2">
                 <Link
-                  className="relative size-8 active:scale-95 transition-transform rounded-full"
+                  className="relative size-8 rounded-full transition-transform active:scale-95"
                   href="/"
                   aria-label="Página de inicio"
                 >
                   <Image
-                    className="h-8 w-auto aspect-auto transition-all ease-in-out"
+                    className="aspect-auto h-8 w-auto transition-all ease-in-out"
                     width={32}
                     height={32}
                     quality={100}
@@ -120,7 +120,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
                 </Link>
                 <Link
                   href="/"
-                  className="hidden md:block font-grotesk text-main dark:text-white/95"
+                  className="hidden font-grotesk text-main dark:text-white/95 md:block"
                 >
                   Essentia®️
                 </Link>
@@ -130,10 +130,10 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
           <div
             id="nav_btns"
             className={cn(
-              "items-center text-main font-normal inline-flex gap-4 transition-opacity duration-150",
+              "inline-flex items-center gap-4 font-normal text-main transition-opacity duration-150",
               isChanging || isChanged
-                ? "opacity-0 pointer-events-none"
-                : "opacity-100"
+                ? "pointer-events-none opacity-0"
+                : "opacity-100",
             )}
           >
             {!session && (
@@ -142,7 +142,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
                 href="/login"
                 variant="light"
                 radius="sm"
-                className="bg-white dark:bg-full-dark data-[hover=true]:bg-gray-100 data-[hover=true]:dark:bg-dark border border-gray-200 dark:border-dark text-main"
+                className="border border-gray-200 bg-white text-main data-[hover=true]:bg-gray-100 dark:border-dark dark:bg-full-dark data-[hover=true]:dark:bg-dark"
               >
                 Inicia sesión
               </Button>
@@ -153,10 +153,10 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
               startContent={
                 <StarsIcon
                   aria-hidden="true"
-                  className="size-4 [&_*]:fill-white focus:outline-none"
+                  className="size-4 focus:outline-none [&_*]:fill-white"
                 />
               }
-              className="rounded-md text-sm bg-light-gradient-v2 dark:bg-dark-gradient text-white data-[hover=true]:text-white !duration-150"
+              className="rounded-md bg-light-gradient-v2 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
             >
               Hazte premium
             </Button>

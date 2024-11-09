@@ -21,7 +21,7 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-8 px-3 py-10 md:gap-12 md:py-20 lg:px-6 xl:px-0">
-      <div className="grid justify-items-center gap-3 md:gap-4 z-10">
+      <div className="z-10 grid justify-items-center gap-3 md:gap-4">
         <h1 className="text-center text-2xl font-semibold tracking-tight md:text-5xl">
           Precios
         </h1>
@@ -41,7 +41,7 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
                 title="Gratis"
                 subtitle={getSubtitle(
                   siteConfig.planPrices.free,
-                  "Predeterminado"
+                  "Predeterminado",
                 )}
                 description="Plan básico con acceso limitado a funcionalidades."
                 buttonTitle="Escoger Gratis"
@@ -61,7 +61,7 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
                 title="Premium"
                 subtitle={getSubtitle(
                   siteConfig.planPrices.premium,
-                  "Recomendado"
+                  "Recomendado",
                 )}
                 description="Plan mensual que incluye acceso completo a todas las funcionalidades de Essentia AI."
                 buttonTitle="Escoger Premium"
@@ -86,7 +86,7 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
                 title="Premium Plus"
                 subtitle={getSubtitle(
                   siteConfig.planPrices.premiumPlus,
-                  "Ahorra más"
+                  "Ahorra más",
                 )}
                 description="Plan anual con todas las funcionalidades de Essentia AI y algunos beneficios adicionales."
                 buttonTitle="Escoger Premium Plus"

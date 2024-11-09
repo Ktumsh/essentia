@@ -19,23 +19,23 @@ const AsideTabs = () => {
   return (
     <>
       {!pathnameToIgnore && (
-        <aside className="hidden 2xl:block w-full max-w-96 max-h-dvh sticky left-0 top-0 pt-14 select-none">
-          <div className="relative flex w-72 h-full float-end">
-            <div className="flex flex-col items-center lg:justify-between w-full p-2 pb-0">
-              <div className="flex flex-col size-full">
-                <div className="pt-3 mb-2 ml-3">
-                  <h3 className="text-sm uppercase font-bold text-main-h dark:text-main-dark">
+        <aside className="sticky left-0 top-0 hidden max-h-dvh w-full max-w-96 select-none pt-14 2xl:block">
+          <div className="relative float-end flex h-full w-72">
+            <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
+              <div className="flex size-full flex-col">
+                <div className="mb-2 ml-3 pt-3">
+                  <h3 className="text-sm font-bold uppercase text-main-h dark:text-main-dark">
                     Consejos del día
                   </h3>
                 </div>
-                <section className="flex flex-col h-full">
+                <section className="flex h-full flex-col">
                   <HealthFactsCard facts={facts} setFacts={setFacts} />
                   <Button
                     aria-label="Ver más consejos"
                     variant="flat"
                     radius="sm"
                     onPress={() => setFacts(getRandomFacts(2))}
-                    className="bg-black/5 dark:bg-white/5 text-main dark:text-main-dark"
+                    className="bg-black/5 text-main dark:bg-white/5 dark:text-main-dark"
                   >
                     Ver más consejos
                   </Button>

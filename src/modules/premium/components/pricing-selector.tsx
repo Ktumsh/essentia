@@ -26,16 +26,16 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           onSelectionChange={setValue}
           classNames={{
             trigger:
-              "bg-white dark:bg-full-dark rounded-md border border-gray-300 dark:border-[#123a6f]",
+              "bg-white dark:bg-full-dark rounded-md border border-gray-300 dark:border-accent-dark",
             popoverContent:
-              "rounded-md bg-white dark:bg-full-dark border border-gray-300 dark:border-[#123a6f] shadow-md",
+              "rounded-md bg-white dark:bg-full-dark border border-gray-300 dark:border-accent-dark shadow-md",
             listbox: "p-0",
           }}
         >
           <SelectItem
             key="basic_plan"
             textValue="Gratis"
-            className="data-[selected=true]:bg-gray-200 dark:data-[selected=true]:bg-dark data-[selectable=true]:focus:bg-gray-200 dark:data-[selectable=true]:focus:bg-dark rounded"
+            className="rounded data-[selected=true]:bg-gray-200 data-[selectable=true]:focus:bg-gray-200 dark:data-[selected=true]:bg-dark dark:data-[selectable=true]:focus:bg-dark"
           >
             <div className="flex items-center gap-2">
               <span>Gratis</span>
@@ -47,7 +47,7 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           <SelectItem
             key="premium_plan"
             textValue="Premium"
-            className="data-[selected=true]:bg-gray-200 dark:data-[selected=true]:bg-dark data-[selectable=true]:focus:bg-gray-200 dark:data-[selectable=true]:focus:bg-dark rounded"
+            className="rounded data-[selected=true]:bg-gray-200 data-[selectable=true]:focus:bg-gray-200 dark:data-[selected=true]:bg-dark dark:data-[selectable=true]:focus:bg-dark"
           >
             <div className="flex items-center gap-2">
               <span>Premium</span>
@@ -59,7 +59,7 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           <SelectItem
             key="premium_plus_plan"
             textValue="Premium Plus"
-            className="data-[selected=true]:bg-gray-200 dark:data-[selected=true]:bg-dark data-[selectable=true]:focus:bg-gray-200 dark:data-[selectable=true]:focus:bg-dark rounded"
+            className="rounded data-[selected=true]:bg-gray-200 data-[selectable=true]:focus:bg-gray-200 dark:data-[selected=true]:bg-dark dark:data-[selectable=true]:focus:bg-dark"
           >
             <div className="flex items-center gap-2">
               <span>Premium Plus</span>

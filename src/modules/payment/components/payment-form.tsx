@@ -97,7 +97,7 @@ const PaymentForm = ({
             "dd 'de' MMMM 'de' yyyy",
             {
               locale: es,
-            }
+            },
           )}`,
         };
 
@@ -107,7 +107,7 @@ const PaymentForm = ({
       animate={{ opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 0.3 }}
       onSubmit={handleSubmit}
-      className="flex flex-1 flex-col h-full space-y-4"
+      className="flex h-full flex-1 flex-col space-y-4"
     >
       <PaymentElement options={paymentElementOptions} />
       <p className="flex-1 text-sm text-main-m dark:text-main-dark-m">
@@ -123,7 +123,7 @@ const PaymentForm = ({
         </span>
         .
       </p>
-      <div className="inline-flex flex-1 items-end justify-between w-full pt-3 md:pt-6 !mt-0">
+      <div className="!mt-0 inline-flex w-full flex-1 items-end justify-between pt-3 md:pt-6">
         <Button
           onPress={onClose}
           isDisabled={isLoading || isPolling}

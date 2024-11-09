@@ -25,7 +25,7 @@ const SidebarList = ({ chats, mutate }: SidebarListProps) => {
     return (
       <div className="sticky top-0 z-20 bg-white dark:bg-full-dark">
         <span className="flex items-center">
-          <h3 className="p-2 text-xs break-all truncate text-main-m dark:text-main-dark-m">
+          <h3 className="truncate break-all p-2 text-xs text-main-m dark:text-main-dark-m">
             {day}
           </h3>
         </span>
@@ -35,7 +35,7 @@ const SidebarList = ({ chats, mutate }: SidebarListProps) => {
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
-      <div className="relative flex-1 overflow-auto custom-scroll v2">
+      <div className="custom-scroll v2 relative flex-1 overflow-auto">
         {chats?.length ? (
           <div className="space-y-5 px-2">
             {todayChats.length > 0 && (

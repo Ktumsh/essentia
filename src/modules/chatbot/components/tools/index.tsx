@@ -7,7 +7,7 @@ export const ExerciseRoutineStock = dynamic(
   {
     ssr: false,
     loading: () => <ToolSkeleton />,
-  }
+  },
 );
 
 export const HealthRiskStock = dynamic(
@@ -15,7 +15,7 @@ export const HealthRiskStock = dynamic(
   {
     ssr: false,
     loading: () => <ToolSkeleton />,
-  }
+  },
 );
 
 export const NutritionPlanStock = dynamic(
@@ -23,7 +23,7 @@ export const NutritionPlanStock = dynamic(
   {
     ssr: false,
     loading: () => <ToolSkeleton />,
-  }
+  },
 );
 
 export const MoodTrackingStock = dynamic(
@@ -31,5 +31,5 @@ export const MoodTrackingStock = dynamic(
   {
     ssr: false,
     loading: () => <ToolSkeleton />,
-  }
+  },
 );

@@ -22,11 +22,11 @@ interface ProfileImageDropdownProps {
   handleMenuAction: (
     fileInputRef: RefObject<HTMLInputElement>,
     key: string,
-    type: "profile" | "banner"
+    type: "profile" | "banner",
   ) => void;
   handleFileChange: (
     e: ChangeEvent<HTMLInputElement>,
-    type: "profile" | "banner"
+    type: "profile" | "banner",
   ) => void;
 }
 
@@ -52,9 +52,9 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
               aria-label="Agregar foto de portada"
               radius="full"
               isIconOnly
-              className="!size-8 md:!size-10 min-w-0 md:min-w-10 bg-black/60 pointer-events-auto z-10"
+              className="pointer-events-auto z-10 !size-8 min-w-0 bg-black/60 md:!size-10 md:min-w-10"
             >
-              <AddPhotoIcon className="size-4 md:size-5 text-white" />
+              <AddPhotoIcon className="size-4 text-white md:size-5" />
             </Button>
           ) : (
             <Button
@@ -65,8 +65,8 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
               className={cn(
                 windowSize.width > 768
                   ? "bg-black/60"
-                  : "absolute -bottom-11 -right-11 inline-flex md:hidden bg-white dark:bg-full-dark border-2 border-gray-200 dark:border-dark",
-                "pointer-events-auto z-10"
+                  : "absolute -bottom-11 -right-11 inline-flex border-2 border-gray-200 bg-white dark:border-dark dark:bg-full-dark md:hidden",
+                "pointer-events-auto z-10",
               )}
             >
               {windowSize.width > 768 ? (
@@ -88,7 +88,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
           <DropdownItem
             key="upload"
             startContent={<UploadIcon className="size-4" />}
-            className="rounded-md data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark text-main-h dark:text-main-dark-h"
+            className="rounded-md text-main-h data-[hover=true]:bg-gray-200 dark:text-main-dark-h dark:data-[hover=true]:bg-dark"
           >
             Subir foto de {type === "profile" ? "perfil" : "portada"}
           </DropdownItem>
@@ -96,7 +96,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
             key="delete"
             color="danger"
             startContent={<DeleteIcon className="size-4" />}
-            className="rounded-md text-main-h dark:text-main-dark-h data-[hover=true]:text-bittersweet-400 dark:data-[hover=true]:text-cerise-red-600"
+            className="rounded-md text-main-h data-[hover=true]:text-bittersweet-400 dark:text-main-dark-h dark:data-[hover=true]:text-cerise-red-600"
           >
             Eliminar
           </DropdownItem>
@@ -108,7 +108,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
         accept="image/jpeg,image/png,image/webp"
         type="file"
         onChange={(e) => handleFileChange(e, type)}
-        className="absolute size-[0.1px] opacity-0 pointer-events-auto bg-transparent"
+        className="pointer-events-auto absolute size-[0.1px] bg-transparent opacity-0"
       />
     </>
   );

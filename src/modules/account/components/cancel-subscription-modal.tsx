@@ -48,7 +48,7 @@ const CancelSubscriptionModal = ({
   const renewalDate = format(
     new Date(subscription.current_period_end * 1000),
     "dd 'de' MMM, yyyy",
-    { locale: es }
+    { locale: es },
   );
 
   const handleSetFreePlan = async () => {
@@ -60,7 +60,7 @@ const CancelSubscriptionModal = ({
         const result = await setUserPlan(
           session as Session,
           siteConfig.planPrices.free,
-          combinedReasons
+          combinedReasons,
         );
 
         if (result.success) {
@@ -94,15 +94,15 @@ const CancelSubscriptionModal = ({
       <ModalContent className="gap-6">
         {(onClose) => (
           <>
-            <ModalHeader className="p-6 items-center border-b border-gray-200 dark:border-dark">
+            <ModalHeader className="items-center border-b border-gray-200 p-6 dark:border-dark">
               <div className="flex-col">
-                <h2 className="whitespace-nowrap font-semibold tracking-tight w-full text-left text-xl sm:text-2xl text-main dark:text-white">
+                <h2 className="w-full whitespace-nowrap text-left text-xl font-semibold tracking-tight text-main dark:text-white sm:text-2xl">
                   ¿Estás seguro que quieres cancelar?
                 </h2>
               </div>
             </ModalHeader>
             <div className="px-6 text-main-m dark:text-main-dark-m">
-              <div className="flex w-full justify-between rounded-lg border border-gray-200 dark:border-dark bg-gray-50 dark:bg-dark/50 p-4">
+              <div className="flex w-full justify-between rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-dark dark:bg-dark/50">
                 <span>
                   <span className="text-sm font-medium text-main dark:text-main-dark">
                     Plan {planType}
@@ -114,7 +114,7 @@ const CancelSubscriptionModal = ({
                 </span>
               </div>
             </div>
-            <ModalBody className="!pt-0 p-6">
+            <ModalBody className="p-6 !pt-0">
               <p className="text-sm text-main-h dark:text-main-dark-h">
                 Tu plan permanecerá activo hasta el final de tu período de
                 facturación actual, {renewalDate}. Después de esa fecha, tu plan
@@ -139,7 +139,7 @@ const CancelSubscriptionModal = ({
                   }}
                 />
               </div>
-              <div className="inline-flex justify-between w-full">
+              <div className="inline-flex w-full justify-between">
                 <Button
                   variant="light"
                   onPress={onClose}

@@ -67,7 +67,7 @@ const GoogleMaps = () => {
         });
       });
     },
-    [mapInstance, clearMarkers, createMarker]
+    [mapInstance, clearMarkers, createMarker],
   );
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const GoogleMaps = () => {
           searchNearby(["hospital", "doctor", "clinic"], pos);
         },
         infoWindowRef.current,
-        mapInstance
+        mapInstance,
       );
     }
   }, [mapInstance, getCurrentPosition, searchNearby]);
@@ -114,7 +114,7 @@ const GoogleMaps = () => {
           mapInstance.panTo(pos);
         },
         infoWindowRef.current,
-        mapInstance
+        mapInstance,
       );
     }
   };
@@ -125,11 +125,11 @@ const GoogleMaps = () => {
         (pos) => {
           searchNearby(
             selected ? ["hospital", "doctor", "clinic"] : ["pharmacy"],
-            pos
+            pos,
           );
         },
         infoWindowRef.current,
-        mapInstance
+        mapInstance,
       );
     }
   };
@@ -155,11 +155,11 @@ const GoogleMaps = () => {
   };
 
   return (
-    <div className="md:relative h-full max-h-[calc(100%+32px)] z-10">
+    <div className="z-10 h-full max-h-[calc(100%+32px)] md:relative">
       <MapHeader>
         <CenterSwitch onSwitchChange={handleSwitchChange} />
       </MapHeader>
-      <div className="md:relative h-[calc(100%-40px)]">
+      <div className="h-[calc(100%-40px)] md:relative">
         {isLoading && <MapLoading />}
 
         <motion.div
@@ -167,15 +167,15 @@ const GoogleMaps = () => {
           animate={!isLoading && { opacity: 1 }}
           transition={{ ease: "easeInOut", duration: 0.5 }}
           ref={mapRef}
-          className="!absolute inset-0 size-full bg-white dark:bg-full-dark md:rounded-3xl overflow-hidden shadow-medium focus:[&_*]:!outline-0 [&_*]:!border-none [&_>_div]:!bg-transparent"
+          className="!absolute inset-0 size-full overflow-hidden bg-white shadow-medium dark:bg-full-dark md:rounded-3xl [&_*]:!border-none focus:[&_*]:!outline-0 [&_>_div]:!bg-transparent"
         >
           <input
             ref={searchRef}
             type="text"
             placeholder="Buscar por nombre o ubicación"
-            className="!left-0 !top-0 w-56 sm:w-80 h-10 px-4 p-2 mt-2 ml-2 bg-white dark:bg-full-dark font-sans placeholder:text-xs lg:placeholder:text-sm placeholder:text-main-m dark:placeholder:text-main-dark-m text-sm text-main dark:text-main-dark rounded-full outline-none ring-0 border-0 shadow-small transition"
+            className="!left-0 !top-0 ml-2 mt-2 h-10 w-56 rounded-full border-0 bg-white p-2 px-4 font-sans text-sm text-main shadow-small outline-none ring-0 transition placeholder:text-xs placeholder:text-main-m dark:bg-full-dark dark:text-main-dark dark:placeholder:text-main-dark-m sm:w-80 lg:placeholder:text-sm"
           />
-          <div ref={markerRef} className="bg-white rounded-full p-px">
+          <div ref={markerRef} className="rounded-full bg-white p-px">
             <LocationSelfIcon className="size-7 text-sky-500" />
           </div>
         </motion.div>

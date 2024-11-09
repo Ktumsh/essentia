@@ -1,5 +1,5 @@
 .yt-wrap {
-  @apply contain-content relative block bg-center bg-cover aspect-video w-full h-auto rounded-xl transition-all duration-300;
+  @apply relative block aspect-video h-auto w-full rounded-xl bg-cover bg-center transition-all duration-300 contain-content;
 }
 
 /* gradient */

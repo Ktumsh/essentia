@@ -150,8 +150,8 @@ const SexualityEmergencyCard = () => {
   };
 
   return (
-    <section className="flex flex-col w-full mt-5 text-main-h dark:text-main-dark">
-      <div className="self-start mb-2">
+    <section className="mt-5 flex w-full flex-col text-main-h dark:text-main-dark">
+      <div className="mb-2 self-start">
         <Button
           as={Link}
           id="emergencias-de-salud-sexual"
@@ -162,35 +162,36 @@ const SexualityEmergencyCard = () => {
           radius="none"
           variant="flat"
           endContent={
-            <HashIcon className="size-5 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+            <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
           }
-          className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
+          className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
         >
           <Chip
             color="danger"
-            startContent={<ExclamationTriangleIcon className="size-3 ml-2" />}
+            startContent={<ExclamationTriangleIcon className="ml-2 size-3" />}
           >
             <h3>Emergencias de salud sexual</h3>
           </Chip>
         </Button>
       </div>
-      <div className="flex w-full">
+      <div className="flex max-h-[700px] w-full">
         {info.map((cardInfo, index) => (
           <Card
             key={index}
             radius="sm"
-            className="shadow-none md:shadow-md bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 md:border-gray-200 dark:border-dark md:dark:border-dark text-main-h dark:text-main-dark"
+            shadow="none"
+            className="border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-main-dark md:bg-white md:dark:border-dark md:dark:bg-full-dark"
           >
-            <CardBody className="z-10">
-              <div className="inline-flex items-center justify-between w-full">
-                <h3 className="text-lg md:text-xl font-semibold">
+            <CardBody className="z-10 overflow-hidden">
+              <div className="inline-flex w-full items-center justify-between">
+                <h3 className="text-lg font-semibold md:text-xl">
                   Emergencias de Salud Sexual
                 </h3>
               </div>
-              <Divider className="bg-gray-300 md:bg-gray-200 dark:bg-dark my-3" />
-              <ol className="flex flex-col space-y-4">
+              <Divider className="my-3 bg-gray-300 dark:bg-dark md:bg-gray-200" />
+              <ol className="custom-scroll flex flex-col space-y-4 overflow-y-auto hover:scrollbar-default md:scrollbar-hide">
                 {cardInfo.steps.map((step, stepIndex) => (
-                  <li key={stepIndex} className="text-sm space-y-1.5">
+                  <li key={stepIndex} className="space-y-1.5 text-sm">
                     <ul className="inline-flex">
                       <Chip
                         size="sm"
@@ -199,19 +200,18 @@ const SexualityEmergencyCard = () => {
                           base: [
                             chipColors.card,
                             "shadow-cerise-red-400/40",
-                            "!size-6 min-w-0 max-w-full justify-center mr-2 bg-gradient-to-br border border-black/10 dark:border-white/10",
+                            "!size-6 min-w-0 max-w-full justify-center mr-2 bg-cyan-500 border border-black/10 dark:border-white/10",
                           ],
-                          content:
-                            "drop-shadow shadow-black text-white font-bold",
+                          content: "text-white font-bold",
                         }}
                       >
                         {step.step}
                       </Chip>
-                      <li className="text-base font-semibold mr-2 text-nowrap">
+                      <li className="mr-2 text-nowrap text-base font-semibold">
                         {step.title}
                       </li>
                     </ul>
-                    <ul className="ml-8 text-main-h dark:text-main-dark-h space-y-1.5">
+                    <ul className="ml-8 space-y-1.5 text-main-h dark:text-main-dark-h">
                       {step.description.map((desc, i) => (
                         <li key={i}>
                           {desc.type === "bold" ? (

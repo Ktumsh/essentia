@@ -20,7 +20,7 @@ const LogoutPage = () => {
       animate={{ opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 1 }}
       aria-hidden="true"
-      className="flex flex-col items-center justify-center min-h-dvh gap-2"
+      className="flex min-h-dvh flex-col items-center justify-center gap-2"
     >
       <span>
         <SpinnerIcon
@@ -28,7 +28,7 @@ const LogoutPage = () => {
           aria-hidden="true"
         />
       </span>
-      <h1 className="text-2xl font-semibold text-center text-main dark:text-main-dark">
+      <h1 className="text-center text-2xl font-semibold text-main dark:text-main-dark">
         Cerrando sesión
       </h1>
     </motion.div>

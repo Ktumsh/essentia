@@ -46,8 +46,8 @@ export default async function SharePage({ params }: SharePageProps) {
 
   return (
     <>
-      <div className="flex-1 space-y-6 mt-14">
-        <div className="border-b border-gray-50 dark:border-white/10 px-4 py-6 md:px-6 md:py-8">
+      <div className="mt-14 flex-1 space-y-6">
+        <div className="border-b border-gray-50 px-4 py-6 dark:border-white/10 md:px-6 md:py-8">
           <div className="mx-auto max-w-2xl">
             <div className="space-y-1 md:-mx-8">
               <h1 className="text-2xl font-bold text-main dark:text-main-dark">

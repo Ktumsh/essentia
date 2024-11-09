@@ -10,7 +10,7 @@ const apiInstance = new brevo.TransactionalEmailsApi();
 
 apiInstance.setApiKey(
   brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY as string
+  process.env.BREVO_API_KEY as string,
 );
 
 const smtpEmail = new brevo.SendSmtpEmail();
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     if (!email || !token) {
       return NextResponse.json(
         { error: "Email and token are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const templatePath = path.join(
       process.cwd(),
-      "src/modules/auth/lib/mail-template.html"
+      "src/modules/auth/lib/mail-template.html",
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
@@ -43,11 +43,11 @@ export async function POST(req: NextRequest) {
       .replace("{{username}}", username)
       .replace(
         "{{verificationLink}}",
-        `${baseUrl}/api/auth/verify-email?token=${token}`
+        `${baseUrl}/api/auth/verify-email?token=${token}`,
       )
       .replace(
         "{{logoUrl}}",
-        `https://raw.githubusercontent.com/Ktumsh/essentia/main/public/essentia_x512.png`
+        `https://raw.githubusercontent.com/Ktumsh/essentia/main/public/essentia_x512.png`,
       );
 
     smtpEmail.subject = "Verifica tu correo electrónico";
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         error: "Failed to send email",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

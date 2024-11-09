@@ -23,8 +23,8 @@ const ButtonToBottom: FC<ButtonToBottomProps> = ({
       disableRipple
       radius="full"
       className={cn(
-        "flex items-center justify-center !size-9 min-w-0 px-0 absolute -top-10 right-4 md:right-1/2 md:translate-x-1/2 data-[hover=true]:shadow-md text-main dark:text-main-dark data-[hover=true]:text-bittersweet-400 bg-white dark:bg-dark dark:data-[hover=true]:bg-full-dark border border-gray-300 dark:border-dark data-[hover=true]:border-bittersweet-400 data-[hover=true]:!opacity-100 !transition",
-        isAtBottom ? "opacity-0" : "opacity-100"
+        "absolute -top-10 right-4 flex !size-9 min-w-0 items-center justify-center border border-gray-300 bg-white px-0 text-main !transition data-[hover=true]:border-bittersweet-400 data-[hover=true]:text-bittersweet-400 data-[hover=true]:!opacity-100 data-[hover=true]:shadow-md dark:border-dark dark:bg-dark dark:text-main-dark dark:data-[hover=true]:bg-full-dark md:right-1/2 md:translate-x-1/2",
+        isAtBottom ? "opacity-0" : "opacity-100",
       )}
       onPress={() => scrollToBottom()}
       {...props}

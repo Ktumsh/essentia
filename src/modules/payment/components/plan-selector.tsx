@@ -44,7 +44,7 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
   const isCurrentPlan = (priceId: string) => currentPlan === priceId;
 
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(
-    siteConfig.planPrices.premium
+    siteConfig.planPrices.premium,
   );
 
   const handleSelect = (priceId: string) => {
@@ -64,15 +64,15 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
             shadow={selectedPlanId === plan.id ? "md" : "none"}
             onPress={() => handleSelect(plan.id)}
             className={cn(
-              "relative flex flex-col gap-2 rounded-xl p-4 text-sm font-normal text-main dark:text-white bg-white dark:bg-full-dark data-[disabled=true]:opacity-100 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default",
+              "relative flex flex-col gap-2 rounded-xl bg-white p-4 text-sm font-normal text-main data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-default data-[disabled=true]:opacity-100 dark:bg-full-dark dark:text-white",
               index === 0
                 ? "border border-gray-200 dark:border-dark"
-                : "dark:text-white bg-light-gradient-v2 dark:bg-dark-gradient-v2 after:content-[''] after:absolute after:inset-[2px] after:rounded-[10px] after:bg-white after:dark:bg-full-dark",
+                : "bg-light-gradient-v2 after:absolute after:inset-[2px] after:rounded-[10px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
               selectedPlanId === plan.id &&
-                "after:bg-white/70 dark:after:bg-full-dark/70 backdrop-blur backdrop-saturate-150"
+                "backdrop-blur backdrop-saturate-150 after:bg-white/70 dark:after:bg-full-dark/70",
             )}
           >
-            <div className="flex justify-between w-full z-10">
+            <div className="z-10 flex w-full justify-between">
               <div className="flex items-center gap-1.5">
                 <h3 className="font-medium">{plan.name}</h3>
                 {isCurrentPlan(plan.id) && (
@@ -80,19 +80,19 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                     className={cn(
                       index === 1 &&
                         "bg-light-gradient-v2 dark:bg-dark-gradient-v2",
-                      "inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-white text-xs rounded-full"
+                      "inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-1.5 text-xs font-medium text-white",
                     )}
                   >
                     Plan Actual
                   </div>
                 )}
                 {index === 0 && !isCurrentPlan(plan.id) && (
-                  <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 bg-gray-200 dark:bg-dark font-medium text-main dark:text-main-dark text-xs rounded-full">
+                  <div className="inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full bg-gray-200 px-1.5 text-xs font-medium text-main dark:bg-dark dark:text-main-dark">
                     Predeterminado
                   </div>
                 )}
                 {index === 1 && !isCurrentPlan(plan.id) && (
-                  <div className="inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-white text-xs bg-light-gradient-v2 dark:bg-dark-gradient-v2 rounded-full">
+                  <div className="inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full bg-light-gradient-v2 px-1.5 text-xs font-medium text-white dark:bg-dark-gradient-v2">
                     Recomendado
                   </div>
                 )}
@@ -102,7 +102,7 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                       selectedPlanId === plan.id
                         ? "bg-white dark:bg-full-dark"
                         : "bg-gray-200 dark:bg-dark",
-                      "inline-flex shrink-0 items-center justify-center h-5 gap-1 px-1.5 font-medium text-main dark:text-main-dark text-xs rounded-full"
+                      "inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-1.5 text-xs font-medium text-main dark:text-main-dark",
                     )}
                   >
                     Ahorra más
@@ -110,7 +110,7 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                 )}
               </div>
               <div>
-                <span className="text-base font-medium font-sans">
+                <span className="font-sans text-base font-medium">
                   ${plan.amount.toLocaleString("es-CL")}
                 </span>
                 <span className="text-main-m dark:text-main-dark-m">
@@ -118,7 +118,7 @@ export const PlanSelector = ({ onSelect }: PlanSelectorProps) => {
                 </span>
               </div>
             </div>
-            <p className="text-start text-main-h dark:text-main-dark-h z-10">
+            <p className="z-10 text-start text-main-h dark:text-main-dark-h">
               {plan.description}
             </p>
           </Card>

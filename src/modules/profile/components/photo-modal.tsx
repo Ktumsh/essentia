@@ -36,7 +36,7 @@ const ProfilePhotoModal: FC<ProfilePhotoModalProps> = ({ children }) => {
           "z-10 pointer-events-auto text-white m-5 bg-white/5 hover:bg-white/10 active:bg-white/20 transition-colors duration-150",
       }}
     >
-      <ModalContent className="max-h-full shadow-none pointer-events-none">
+      <ModalContent className="pointer-events-none max-h-full shadow-none">
         {children}
       </ModalContent>
     </Modal>

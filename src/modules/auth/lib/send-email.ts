@@ -17,7 +17,7 @@ export async function sendEmail(email: string, token: string) {
     const data = JSON.parse(responseText);
     if (!res.ok) {
       throw new Error(
-        data.error || "Error al enviar el correo de verificación"
+        data.error || "Error al enviar el correo de verificación",
       );
     }
     return data;

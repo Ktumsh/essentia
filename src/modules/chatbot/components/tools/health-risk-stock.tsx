@@ -70,7 +70,7 @@ const AssesHealthRiskStock = ({
 
   const getTotalRiskLevel = (
     generalRiskLevel: string,
-    generalRiskLevelPercentage: number
+    generalRiskLevelPercentage: number,
   ) => {
     const riskLevels = [
       {
@@ -143,9 +143,12 @@ const AssesHealthRiskStock = ({
     () =>
       getTotalRiskLevel(
         riskAssessment.generalRiskLevel,
-        riskAssessment.generalRiskLevelPercentage
+        riskAssessment.generalRiskLevelPercentage,
       ),
-    [riskAssessment.generalRiskLevel, riskAssessment.generalRiskLevelPercentage]
+    [
+      riskAssessment.generalRiskLevel,
+      riskAssessment.generalRiskLevelPercentage,
+    ],
   );
 
   const assessmentDate = useMemo(() => {
@@ -157,9 +160,9 @@ const AssesHealthRiskStock = ({
       ref={ref}
       radius="md"
       shadow="none"
-      className="bg-white group/card dark:bg-full-dark"
+      className="group/card bg-white dark:bg-full-dark"
     >
-      <CardHeader className="relative z-0 p-0 rounded-none">
+      <CardHeader className="relative z-0 rounded-none p-0">
         <ImageUI
           as={Image}
           width={639}
@@ -174,8 +177,8 @@ const AssesHealthRiskStock = ({
             img: "!h-auto object-cover object-top",
           }}
         />
-        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="absolute inset-x-0 top-0 z-10 flex justify-between w-full p-2 md:p-8">
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
+        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-8">
           <Chip color="danger" className="shadow-md">
             Tu riesgo de salud
           </Chip>
@@ -184,7 +187,7 @@ const AssesHealthRiskStock = ({
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className="text-white opacity-0 group-hover/card:opacity-100 bg-black/10"
+              className="bg-black/10 text-white opacity-0 group-hover/card:opacity-100"
             >
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -192,7 +195,7 @@ const AssesHealthRiskStock = ({
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="justify-around p-2 space-y-2 md:flex-row md:p-8 md:space-y-4 text-main-h dark:text-main-dark">
+      <CardBody className="justify-around space-y-2 p-2 text-main-h dark:text-main-dark md:flex-row md:space-y-4 md:p-8">
         <div className="flex flex-col items-center justify-between">
           <div className="flex flex-col items-center">
             <CircularProgress
@@ -214,7 +217,7 @@ const AssesHealthRiskStock = ({
                 {riskAssessment.generalRiskLevel}
               </span>
             </div>
-            <div className="text-sm text-center">{riskInfo.message}</div>
+            <div className="text-center text-sm">{riskInfo.message}</div>
           </div>
           {riskAssessment.assessmentDate && (
             <Chip
@@ -231,10 +234,10 @@ const AssesHealthRiskStock = ({
             </Chip>
           )}
         </div>
-        <Divider className="w-auto mx-4 bg-gray-200 md:hidden md:mx-8 dark:bg-dark" />
+        <Divider className="mx-4 w-auto bg-gray-200 dark:bg-dark md:mx-8 md:hidden" />
         <div className="flex flex-col justify-center space-y-2">
           <div className="flex justify-between gap-2">
-            <div className="flex flex-col space-y-2 mt-7">
+            <div className="mt-7 flex flex-col space-y-2">
               {[
                 { id: 1, label: "Diabetes", dot: "bg-[hsl(var(--chart-1))]" },
                 {
@@ -281,7 +284,7 @@ const AssesHealthRiskStock = ({
                   </th>
                 </tr>
               </thead>
-              <tbody className="flex flex-col space-y-2 [&_tr]:h-7 [&_tr]:flex [&_tr]:justify-between">
+              <tbody className="flex flex-col space-y-2 [&_tr]:flex [&_tr]:h-7 [&_tr]:justify-between">
                 {[
                   { id: 1, value: riskAssessment.diabetes },
                   { id: 2, value: riskAssessment.heartDisease },
@@ -301,10 +304,10 @@ const AssesHealthRiskStock = ({
           </div>
         </div>
       </CardBody>
-      <Divider className="w-auto mx-4 bg-gray-200 md:mx-8 dark:bg-dark" />
+      <Divider className="mx-4 w-auto bg-gray-200 dark:bg-dark md:mx-8" />
       <CardFooter className="items-center justify-center p-2 pt-4 md:p-8">
         <div className="flex flex-col-reverse items-center justify-center gap-2 md:flex-row md:gap-4">
-          <div className="p-3 text-sm bg-gray-100 rounded-lg dark:bg-dark text-main-h dark:text-white">
+          <div className="rounded-lg bg-gray-100 p-3 text-sm text-main-h dark:bg-dark dark:text-white">
             <h3 className="font-sans text-xl font-extrabold uppercase">
               Recomendación
             </h3>
@@ -318,7 +321,7 @@ const AssesHealthRiskStock = ({
               color="danger"
               shape="circle"
               size="lg"
-              content={<HeartbeatIcon className="text-white size-5" />}
+              content={<HeartbeatIcon className="size-5 text-white" />}
               placement="top-right"
               classNames={{
                 base: [
@@ -329,7 +332,7 @@ const AssesHealthRiskStock = ({
                   "!size-7 top-[5%] right-[5%] border-white dark:border-full-dark",
               }}
             >
-              <div className="flex flex-col z-[1]">
+              <div className="z-[1] flex flex-col">
                 <h3 className="text-lg font-medium text-main-h dark:text-main-dark">
                   IMC
                 </h3>
@@ -340,10 +343,10 @@ const AssesHealthRiskStock = ({
                 </TooltipCTN>
               </div>
             </Badge>
-            <div className="py-1.5 px-3 bg-gray-100 dark:bg-dark rounded-lg">
+            <div className="rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-dark">
               <p
                 className={cn(
-                  "text-xs text-center first-letter:uppercase text-main-h dark:text-main-dark"
+                  "text-center text-xs text-main-h first-letter:uppercase dark:text-main-dark",
                 )}
               >
                 {riskAssessment.bmiLevel}

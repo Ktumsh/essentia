@@ -6,8 +6,8 @@ import { HashIcon } from "@/modules/icons/common";
 
 const Medicines = () => {
   return (
-    <section className="flex flex-col mt-5 text-main-h dark:text-main-dark">
-      <div className="self-start mb-2">
+    <section className="mt-5 flex flex-col text-main-h dark:text-main-dark">
+      <div className="mb-2 self-start">
         <Button
           as={Link}
           id="medicamentos-para-un-botiquin-de-primeros-auxilios"
@@ -18,13 +18,13 @@ const Medicines = () => {
           radius="none"
           variant="flat"
           endContent={
-            <HashIcon className="size-5 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+            <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
           }
-          className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
+          className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
         >
           <Chip
             color="danger"
-            startContent={<ExclamationTriangleIcon className="size-3 ml-2" />}
+            startContent={<ExclamationTriangleIcon className="ml-2 size-3" />}
           >
             <h3>Medicamentos para un botiquín</h3>
           </Chip>
@@ -33,27 +33,28 @@ const Medicines = () => {
       <div className="flex w-full">
         <Card
           radius="sm"
-          className="shadow-none md:shadow-md mt-2 bg-gray-100 md:bg-white dark:bg-dark/50 md:dark:bg-full-dark border border-gray-300 md:border-gray-200 dark:border-dark md:dark:border-dark text-main-h dark:text-main-dark"
+          shadow="none"
+          className="mt-2 border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-main-dark"
         >
-          <CardBody className="flex-row gap-6 overflow-x-auto scrollbar-hide z-10">
-            <ul className="space-y-2 min-w-[90%] md:min-w-0">
+          <CardBody className="z-10 flex-row gap-6 overflow-x-auto scrollbar-hide">
+            <ul className="min-w-[90%] space-y-2 md:min-w-0">
               <li>
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Analgésicos y Antiinflamatorios
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[70px] md:mb-7 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[70px] h-auto bg-gray-300 dark:bg-dark md:mb-7"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
-                    <Divider className="mb-9 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
-                    <Divider className="mb-[70px] md:mb-7 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
+                    <Divider className="mb-9 bg-gray-300 dark:bg-dark" />
+                    <Divider className="mb-[70px] bg-gray-300 dark:bg-dark md:mb-7" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -78,18 +79,18 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Antihistamínicos
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[90px] md:mb-12 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[90px] h-auto bg-gray-300 dark:bg-dark md:mb-12 md:bg-gray-200"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
-                    <Divider className="mb-[90px] md:mb-12 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
+                    <Divider className="mb-[90px] bg-gray-300 dark:bg-dark md:mb-12" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -110,17 +111,17 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Antidiarreicos
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-8 md:mb-4 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-8 h-auto bg-gray-300 dark:bg-dark md:mb-4"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -135,18 +136,18 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Antieméticos
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[70px] md:mb-12 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[70px] h-auto bg-gray-300 dark:bg-dark md:mb-12"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
-                    <Divider className="mb-[70px] md:mb-12 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
+                    <Divider className="mb-[70px] bg-gray-300 dark:bg-dark md:mb-12" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -165,18 +166,18 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Antiácidos y Tratamientos para Reflujo Ácido
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-12 md:mb-7 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-12 h-auto bg-gray-300 dark:bg-dark md:mb-7"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
-                    <Divider className="mb-12 md:mb-7 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
+                    <Divider className="mb-12 bg-gray-300 dark:bg-dark md:mb-7" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -195,22 +196,22 @@ const Medicines = () => {
                 </div>
               </li>
             </ul>
-            <ul className="space-y-2 min-w-[90%] md:min-w-0">
+            <ul className="min-w-[90%] space-y-2 md:min-w-0">
               <li>
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Antibióticos Tópicos
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[72px] md:mb-8 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[72px] h-auto bg-gray-300 dark:bg-dark md:mb-8"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -228,17 +229,17 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Crema de Hidrocortisona
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[72px] md:mb-8 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[72px] h-auto bg-gray-300 dark:bg-dark md:mb-8"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -254,17 +255,17 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Solución Salina Estéril
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-8 md:mb-4 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-8 h-auto bg-gray-300 dark:bg-dark md:mb-4"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -279,17 +280,17 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Epinefrina (EpiPen)
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[72px] md:mb-8 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[72px] h-auto bg-gray-300 dark:bg-dark md:mb-8"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>
@@ -305,17 +306,17 @@ const Medicines = () => {
                 <Chip
                   variant="dot"
                   color="danger"
-                  className="border border-gray-300 md:border-gray-200 dark:border-dark"
+                  className="border border-gray-300 dark:border-dark"
                 >
                   Carbón Activado
                 </Chip>
                 <div className="ml-3 flex">
                   <Divider
                     orientation="vertical"
-                    className="mb-[72px] md:mb-8 h-auto bg-gray-300 md:bg-gray-200 dark:bg-dark"
+                    className="mb-[72px] h-auto bg-gray-300 dark:bg-dark md:mb-8"
                   />
-                  <div className="flex flex-col justify-between w-4">
-                    <Divider className="my-4 bg-gray-300 md:bg-gray-200 dark:bg-dark" />
+                  <div className="flex w-4 flex-col justify-between">
+                    <Divider className="my-4 bg-gray-300 dark:bg-dark" />
                   </div>
                   <ul className="ml-2 mt-2 space-y-2 text-sm">
                     <li>

@@ -31,7 +31,7 @@ export const routineSchema = z.object({
           .string()
           .optional()
           .describe("Modificaciones para distintos niveles o limitaciones"),
-      })
+      }),
     ),
     durationWeeks: z.number().describe("Número de semanas de la rutina"),
     goal: z.string().describe("Objetivo principal del usuario"),
@@ -52,7 +52,7 @@ export const routineSchema = z.object({
           exercises: z
             .array(z.string())
             .describe("Ejercicios programados para el día"),
-        })
+        }),
       )
       .optional()
       .describe("Programa semanal de ejercicios"),
@@ -102,7 +102,7 @@ export const riskAssessmentSchema = z.object({
         .string()
         .optional()
         .describe(
-          "Acciones recomendadas para reducir el riesgo de hipertensión"
+          "Acciones recomendadas para reducir el riesgo de hipertensión",
         ),
     }),
     lungDisease: z.object({
@@ -156,7 +156,7 @@ export const nutritionalPlanSchema = z.object({
           quantity: z.string().describe("Cantidad o porción"),
           calories: z.number().describe("Calorías del alimento o plato"),
           time: z.string().describe("Horario sugerido"),
-        })
+        }),
       )
       .optional(),
     lunch: z
@@ -167,7 +167,7 @@ export const nutritionalPlanSchema = z.object({
           quantity: z.string().describe("Cantidad o porción"),
           calories: z.number().describe("Calorías del alimento o plato"),
           time: z.string().describe("Horario sugerido"),
-        })
+        }),
       )
       .optional(),
     snack: z
@@ -178,7 +178,7 @@ export const nutritionalPlanSchema = z.object({
           quantity: z.string().describe("Cantidad o porción"),
           calories: z.number().describe("Calorías del alimento o plato"),
           time: z.string().describe("Horario sugerido"),
-        })
+        }),
       )
       .optional(),
     dinner: z
@@ -189,7 +189,7 @@ export const nutritionalPlanSchema = z.object({
           quantity: z.string().describe("Cantidad o porción"),
           calories: z.number().describe("Calorías del alimento o plato"),
           time: z.string().describe("Horario sugerido"),
-        })
+        }),
       )
       .optional(),
     additional: z
@@ -200,7 +200,7 @@ export const nutritionalPlanSchema = z.object({
           quantity: z.string().describe("Cantidad o porción"),
           calories: z.number().describe("Calorías del alimento o plato"),
           time: z.string().describe("Horario sugerido"),
-        })
+        }),
       )
       .optional(),
     totalCalories: z.number().optional().describe("Calorías totales diarias"),
@@ -225,7 +225,7 @@ export const moodTrackingSchema = z.object({
         description: z
           .string()
           .describe("Descripción detallada de la actividad"),
-      })
+      }),
     ),
     suggestion: z
       .string()

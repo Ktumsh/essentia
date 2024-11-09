@@ -55,18 +55,18 @@ const ResourceTabs = () => {
   ];
   return (
     <aside className="w-auto">
-      <div className="relative flex w-fit h-full bg-white/50 bg-bento-gradient dark:bg-none dark:bg-full-dark/50 backdrop-blur backdrop-saturate-150">
-        <div className="bg-noise bg-repeat bg-[length:100px] pointer-events-none absolute inset-0 opacity-5 lg:rounded-xl -z-10"></div>
-        <div className="flex flex-col items-center lg:justify-between w-full p-2 pb-0">
-          <div className="flex items-center gap-5 lg:w-full mb-2 lg:px-3 lg:py-2 rounded-xl lg:bg-white lg:dark:bg-dark lg:border lg:border-gray-200 lg:dark:border-full-dark">
+      <div className="relative flex h-full w-fit bg-white/50 bg-bento-gradient backdrop-blur backdrop-saturate-150 dark:bg-full-dark/50 dark:bg-none">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-noise bg-[length:100px] bg-repeat opacity-5 lg:rounded-xl"></div>
+        <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
+          <div className="mb-2 flex items-center gap-5 rounded-xl lg:w-full lg:border lg:border-gray-200 lg:bg-white lg:px-3 lg:py-2 lg:dark:border-full-dark lg:dark:bg-dark">
             <Link href="/recursos" className="h-10">
               <Button variant="flat" color="danger" isIconOnly size="md">
                 <BackIcon className="size-7" />
               </Button>
             </Link>
-            <h3 className="hidden lg:block font-medium uppercase">Recursos</h3>
+            <h3 className="hidden font-medium uppercase lg:block">Recursos</h3>
           </div>
-          <div className="flex flex-col w-full">
+          <div className="flex w-full flex-col">
             <ul>
               {asideLinks.map((link, index) => (
                 <li key={index} className="w-fit lg:w-full">
@@ -81,18 +81,18 @@ const ResourceTabs = () => {
                         <link.icon
                           className={`size-5 transition-colors ${
                             currentPath === link.link
-                              ? "text-bittersweet-400 dark:text-cerise-red-400 group-hover:text-bittersweet-500 dark:group-hover:text-cerise-red-500"
-                              : "text-main-h dark:text-main-dark group-hover:text-main dark:group-hover:text-white"
+                              ? "text-bittersweet-400 group-hover:text-bittersweet-500 dark:text-cerise-red-400 dark:group-hover:text-cerise-red-500"
+                              : "text-main-h group-hover:text-main dark:text-main-dark dark:group-hover:text-white"
                           }`}
                         />
                       }
-                      className="w-fit lg:w-full min-w-fit lg:min-w-24 h-auto lg:h-[50px] justify-start text-left p-3 mb-2 data-[hover=true]:bg-white dark:hover:bg-dark !duration-150"
+                      className="mb-2 h-auto w-fit min-w-fit justify-start p-3 text-left !duration-150 data-[hover=true]:bg-white dark:hover:bg-dark lg:h-[50px] lg:w-full lg:min-w-24"
                     >
                       <span
-                        className={`hidden lg:block text-sm mr-4 transition-colors ${
+                        className={`mr-4 hidden text-sm transition-colors lg:block ${
                           currentPath === link.link
-                            ? "text-bittersweet-400 dark:text-cerise-red-400 group-hover:text-bittersweet-500 dark:group-hover:text-cerise-red-500"
-                            : "text-main-h dark:text-main-dark group-hover:text-main dark:group-hover:text-white"
+                            ? "text-bittersweet-400 group-hover:text-bittersweet-500 dark:text-cerise-red-400 dark:group-hover:text-cerise-red-500"
+                            : "text-main-h group-hover:text-main dark:text-main-dark dark:group-hover:text-white"
                         }`}
                       >
                         {link.name}

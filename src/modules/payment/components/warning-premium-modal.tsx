@@ -57,12 +57,12 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="p-3 flex-col text-center justify-center text-main dark:text-white md:p-6 bg-light-gradient-v2 dark:bg-dark-gradient-v2 rounded-3xl">
-                <h2 className="text-2xl leading-normal font-extrabold uppercase tracking-widest text-white font-sans">
+              <ModalHeader className="flex-col justify-center rounded-3xl bg-light-gradient-v2 p-3 text-center text-main dark:bg-dark-gradient-v2 dark:text-white md:p-6">
+                <h2 className="font-sans text-2xl font-extrabold uppercase leading-normal tracking-widest text-white">
                   Essentia Premium
                 </h2>
               </ModalHeader>
-              <ModalBody className="p-3 md:p-6 text-main dark:text-main-dark text-center">
+              <ModalBody className="p-3 text-center text-main dark:text-main-dark md:p-6">
                 <p className="font-medium">
                   Para acceder a todas las funcionalidades de Essentia AI, es
                   necesario tener un plan premium.
@@ -72,7 +72,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
                   funcionalidades de Essentia AI.
                 </p>
               </ModalBody>
-              <ModalFooter className="justify-center !pt-0 p-3 md:p-6">
+              <ModalFooter className="justify-center p-3 !pt-0 md:p-6">
                 <Button
                   radius="full"
                   fullWidth
@@ -84,12 +84,12 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
                   startContent={
                     <StarsIcon
                       aria-hidden="true"
-                      className="size-5 stars-icon focus:outline-none [&_*]:group-data-[hover=true]:fill-white [&_*]:transition"
+                      className="stars-icon size-5 focus:outline-none [&_*]:transition [&_*]:group-data-[hover=true]:fill-white"
                     />
                   }
-                  className="bg-light-gradient-v2 dark:bg-dark-gradient-v2 data-[hover=true]:saturate-200 data-[hover=true]:scale-105 data-[hover=true]:shadow-lg !transition before:bg-white before:dark:bg-full-dark before:content-[''] before:absolute before:inset-[2px] before:rounded-full before:z-[-1] data-[hover=true]:before:opacity-0 before:transition"
+                  className="bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:transition before:content-[''] data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 data-[hover=true]:before:opacity-0 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
                 >
-                  <span className="text-transparent bg-clip-text bg-light-gradient-v2 dark:bg-dark-gradient-v2 font-extrabold tracking-widest group-data-[hover=true]:text-white transition-colors">
+                  <span className="bg-light-gradient-v2 bg-clip-text font-extrabold tracking-widest text-transparent transition-colors group-data-[hover=true]:text-white dark:bg-dark-gradient-v2">
                     Hazte premium
                   </span>
                 </Button>

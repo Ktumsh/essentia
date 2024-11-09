@@ -15,7 +15,7 @@ interface Result {
 
 export async function authenticate(
   _prevState: Result | undefined,
-  formData: FormData
+  formData: FormData,
 ): Promise<Result | undefined> {
   try {
     const email = formData.get("email") as string;

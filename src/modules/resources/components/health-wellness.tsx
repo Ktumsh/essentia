@@ -10,9 +10,9 @@ import { HashIcon } from "@/modules/icons/common";
 
 const HealthWellness = () => {
   return (
-    <section className="px-2 md:p-0 py-4">
-      <div className="w-full px-3 mb-4">
-        <h3 className="drop-shadow-md text-main dark:text-white">
+    <section className="px-2 py-4 md:p-0">
+      <div className="mb-4 w-full px-3">
+        <h3 className="text-main drop-shadow-md dark:text-white">
           <Button
             as={Link}
             id="articulos-interesantes"
@@ -23,18 +23,18 @@ const HealthWellness = () => {
             radius="none"
             variant="flat"
             endContent={
-              <HashIcon className="size-5 ml-1 opacity-0 group-data-[hover=true]:opacity-100 transition-opacity" />
+              <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
             }
-            className="gap-0 text-xl w-fit p-0 bg-transparent h-auto data-[hover=true]:opacity-80 font-semibold data-[pressed=true]:scale-100"
+            className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
           >
-            <span className="px-2 mr-1 bg-orient-700 dark:bg-cerise-red-400 text-white dark:text-black">
+            <span className="mr-1 bg-orient-700 px-2 text-white dark:bg-cerise-red-400 dark:text-black">
               Artículos
             </span>
             Interesantes
           </Button>
         </h3>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {HEALTH_MODAL_DATA.map((modal, index) => (
           <ModalComponent
             key={index}

@@ -67,7 +67,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
             } actualizada`,
             `Hubo un error al subir tu ${
               modalType === "banner" ? "foto de portada" : "foto de perfil"
-            }`
+            }`,
           );
 
           if (modalType === "banner") {
@@ -81,7 +81,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           toast.error(
             `Hubo un error al subir tu ${
               modalType === "banner" ? "foto de portada" : "foto de perfil"
-            }`
+            }`,
           );
         }
       });
@@ -97,7 +97,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           toast.success(
             `${
               modalType === "banner" ? "Foto de portada" : "Foto de perfil"
-            } eliminada`
+            } eliminada`,
           );
 
           if (modalType === "profile") {
@@ -117,14 +117,14 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           toast.error(
             `Hubo un error al eliminar tu ${
               modalType === "banner" ? "foto de portada" : "foto de perfil"
-            }`
+            }`,
           );
         }
       } catch {
         toast.error(
           `Hubo un error al eliminar tu ${
             modalType === "banner" ? "foto de portada" : "foto de perfil"
-          }`
+          }`,
         );
       }
     });
@@ -143,7 +143,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
   const handleMenuAction = (
     inputRef: RefObject<HTMLInputElement>,
     key: string,
-    type: "banner" | "profile"
+    type: "banner" | "profile",
   ) => {
     setModalType(type);
 
@@ -161,13 +161,13 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
 
   return (
     <>
-      <section className="flex flex-col items-stretch shrink w-full">
-        <div className="relative flex flex-col min-h-[calc(100dvh-112px)] md:min-h-[calc(100dvh-56px)] bg-white dark:bg-full-dark border border-gray-200 dark:border-dark">
+      <section className="flex w-full shrink flex-col items-stretch">
+        <div className="relative flex min-h-[calc(100dvh-112px)] flex-col border-gray-200 bg-white dark:border-dark dark:bg-full-dark md:min-h-[calc(100dvh-56px)] md:border">
           <div className="group relative">
             {previewBannerImage ? (
               <Link
                 href={`/profile/${profileData.username}/banner`}
-                className="relative flex h-44 md:h-60 bg-black/30 transition-colors z-0 overflow-hidden"
+                className="relative z-0 flex h-44 overflow-hidden bg-black/30 transition-colors md:h-60"
               >
                 <ImageUI
                   removeWrapper
@@ -187,12 +187,12 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
             ) : (
               <div
                 aria-hidden="true"
-                className="relative flex h-44 md:h-60 bg-black/30 transition-colors"
+                className="relative flex h-44 bg-black/30 transition-colors md:h-60"
               ></div>
             )}
 
             {isOwnProfile && (
-              <div className="flex items-center justify-center absolute right-0 bottom-0 m-5 opacity-75 md:opacity-0 group-hover:opacity-75 transition-opacity">
+              <div className="absolute bottom-0 right-0 m-5 flex items-center justify-center opacity-75 transition-opacity group-hover:opacity-75 md:opacity-0">
                 <div className="relative flex items-center justify-center">
                   <ProfileImageDropdown
                     type="banner"
@@ -212,12 +212,12 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
           </div>
           <ProfileInfo profileData={profileData} isOwnProfile={isOwnProfile}>
             {/* Avatar */}
-            <div className="group absolute -top-9 md:-top-14 left-0 md:left-6">
-              <div className="z-0 size-full bg-gray-200 dark:bg-dark border-5 border-white dark:border-full-dark rounded-full overflow-hidden">
+            <div className="group absolute -top-9 left-0 md:-top-14 md:left-6">
+              <div className="z-0 size-full overflow-hidden rounded-full border-5 border-white bg-gray-200 dark:border-full-dark dark:bg-dark">
                 {previewProfileImage ? (
                   <Link
                     href={`/profile/${username}/photo`}
-                    className="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-32"
+                    className="relative flex size-20 shrink-0 overflow-hidden rounded-full md:size-32"
                   >
                     <Image
                       width={120}
@@ -229,7 +229,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                     />
                   </Link>
                 ) : (
-                  <div className="relative flex shrink-0 overflow-hidden rounded-full size-20 md:size-32">
+                  <div className="relative flex size-20 shrink-0 overflow-hidden rounded-full md:size-32">
                     <Avatar
                       showFallback
                       icon={<AvatarIcon className="size-3/5" />}
@@ -242,7 +242,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                   </div>
                 )}
                 {isOwnProfile && (
-                  <div className="flex items-center justify-center absolute inset-[5px] rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-75 md:group-hover:bg-black/50 transition pointer-events-none">
+                  <div className="pointer-events-none absolute inset-[5px] flex items-center justify-center rounded-full opacity-100 transition md:opacity-0 md:group-hover:bg-black/50 md:group-hover:opacity-75">
                     <div className="relative flex items-center justify-center">
                       <ProfileImageDropdown
                         type="profile"
@@ -284,21 +284,21 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                 "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
             }}
           >
-            <ModalContent className="p-4 gap-4">
-              <div className="flex items-center justify-between w-full">
-                <div className="inline-flex items-center text-main md:text-white dark:text-white">
-                  <QuestionMarkCircledIcon className="size-4 mr-3" />
+            <ModalContent className="gap-4 p-4">
+              <div className="flex w-full items-center justify-between">
+                <div className="inline-flex items-center text-main dark:text-white md:text-white">
+                  <QuestionMarkCircledIcon className="mr-3 size-4" />
                   <p className="text-sm">
                     {`¿Deseas guardar la nueva foto de ${
                       modalType === "banner" ? "portada" : "perfil"
                     }?`}
                   </p>
                 </div>
-                <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
+                <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-2">
                   <Button
                     onPress={handleCancel}
                     variant="bordered"
-                    className="text-main md:text-white dark:text-white rounded-md border border-gray-200 md:border-white dark:border-dark md:dark:border-full-dark "
+                    className="rounded-md border border-gray-200 text-main dark:border-dark dark:text-white md:border-white md:text-white md:dark:border-full-dark"
                   >
                     Cancelar
                   </Button>
@@ -337,7 +337,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                 "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
             }}
           >
-            <ModalContent className="p-6 gap-4">
+            <ModalContent className="gap-4 p-6">
               <div className="flex flex-col space-y-2 text-center sm:text-left">
                 <h2 className="text-lg text-main dark:text-main-dark">
                   {`¿Deseas eliminar tu foto de ${
@@ -348,11 +348,11 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
                   No te preocupes, siempre puedes volver a subir una nueva foto.
                 </p>
               </div>
-              <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2">
+              <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-2">
                 <Button
                   onPress={() => setShowDeleteModal(false)}
                   variant="bordered"
-                  className="rounded-md border border-gray-200 dark:border-dark data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark"
+                  className="rounded-md border border-gray-200 data-[hover=true]:bg-gray-200 dark:border-dark dark:data-[hover=true]:bg-dark"
                 >
                   Cancelar
                 </Button>

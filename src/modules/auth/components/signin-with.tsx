@@ -10,12 +10,12 @@ const SignInWith = () => {
         id="loginWithGoogle"
         fullWidth
         variant="light"
-        className="text-sm rounded text-white sm:text-main-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
+        className="rounded border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
         onClick={async () =>
           await signIn("google", { callbackUrl: "/", redirect: false })
         }
       >
-        <div className="flex justify-center items-center shrink-0">
+        <div className="flex shrink-0 items-center justify-center">
           <GoogleIcon className="size-[18px]" />
         </div>
       </Button>
@@ -23,12 +23,12 @@ const SignInWith = () => {
         id="loginWithFacebook"
         fullWidth
         variant="light"
-        className="text-sm rounded text-white sm:text-main-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
+        className="rounded border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
         onClick={async () =>
           await signIn("facebook", { callbackUrl: "/", redirect: false })
         }
       >
-        <div className="flex justify-center items-center shrink-0">
+        <div className="flex shrink-0 items-center justify-center">
           <FacebookIcon className="size-[18px]" />
         </div>
       </Button>
@@ -36,12 +36,12 @@ const SignInWith = () => {
         id="loginWithX"
         fullWidth
         variant="light"
-        className="text-sm rounded text-white sm:text-main-h border border-gray-200/30 sm:border-gray-200 bg-black/30 sm:bg-transparent"
+        className="rounded border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
         onClick={async () =>
           await signIn("twitter", { callbackUrl: "/", redirect: false })
         }
       >
-        <div className="flex justify-center items-center shrink-0">
+        <div className="flex shrink-0 items-center justify-center">
           <TwitterIcon className="size-4" />
         </div>
       </Button>

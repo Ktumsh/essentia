@@ -4,14 +4,14 @@ import { NewIcon } from "@/modules/icons/action";
 
 const HistoryLoading = ({ hideHeader }: { hideHeader?: boolean }) => {
   return (
-    <div className="flex flex-col h-full text-main dark:text-main-dark">
+    <div className="flex h-full flex-col text-main dark:text-main-dark">
       {!hideHeader && (
         <>
-          <div className="flex items-center p-4 gap-2">
+          <div className="flex items-center gap-2 p-4">
             <h4 className="text-sm font-medium">Historial de chat</h4>
           </div>
           <div className="mb-2 px-2">
-            <div className="inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium font-motivasans focus-visible:outline-none border border-gray-200 dark:border-dark hover:text-main dark:hover:text-white py-2 h-10 w-full justify-start bg-gray-50 px-4 shadow-none transition-colors hover:bg-gray-100 dark:bg-dark/50 dark:hover:bg-dark">
+            <div className="inline-flex h-10 w-full items-center justify-start whitespace-nowrap rounded-md border border-gray-200 bg-gray-50 px-4 py-2 font-motivasans text-sm font-medium shadow-none transition-colors hover:bg-gray-100 hover:text-main focus-visible:outline-none dark:border-dark dark:bg-dark/50 dark:hover:bg-dark dark:hover:text-white">
               <NewIcon className="size-4 -translate-x-2 stroke-2" />
               Nuevo chat
             </div>
@@ -19,22 +19,22 @@ const HistoryLoading = ({ hideHeader }: { hideHeader?: boolean }) => {
         </>
       )}
       <div className="flex flex-1 flex-col overflow-hidden">
-        <div className="relative flex-1 overflow-auto custom-scroll v2">
-          <div className="px-2 space-y-2">
+        <div className="custom-scroll v2 relative flex-1 overflow-auto">
+          <div className="space-y-2 px-2">
             {Array.from({ length: 10 }).map((_, i) => (
               <div
                 key={i}
-                className="w-full h-9 rounded-md shrink-0 animate-pulse bg-gray-100 dark:bg-dark"
+                className="h-9 w-full shrink-0 animate-pulse rounded-md bg-gray-100 dark:bg-dark"
               />
             ))}
           </div>
         </div>
         <div className="flex items-center justify-between p-4">
-          <div className="flex items-center justify-end w-full h-10 mt-4">
+          <div className="mt-4 flex h-10 w-full items-center justify-end">
             <Button
               variant="light"
               isDisabled
-              className="h-10 rounded-xl px-3 font-medium text-sm text-main-h dark:text-main-dark-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent"
+              className="h-10 rounded-xl px-3 text-sm font-medium text-main-h disabled:pointer-events-none disabled:opacity-50 data-[hover=true]:bg-transparent dark:text-main-dark-h"
             >
               Limpiar historial
             </Button>

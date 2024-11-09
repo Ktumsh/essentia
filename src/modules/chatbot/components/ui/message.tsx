@@ -44,12 +44,12 @@ export const Message = ({
       className={
         role === "assistant"
           ? "group relative flex items-start md:-ml-10"
-          : "group relative flex items-start md:-mr-8 self-end flex-row-reverse"
+          : "group relative flex flex-row-reverse items-start self-end md:-mr-8"
       }
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
     >
-      <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-lg bg-white dark:bg-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+      <div className="flex size-[25px] shrink-0 select-none items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-white/10 dark:bg-dark">
         {role === "assistant" ? (
           <BotAvatar />
         ) : (
@@ -60,9 +60,9 @@ export const Message = ({
       <div
         className={cn(
           role === "assistant"
-            ? "group/message flex-1 ml-2 md:ml-4 sm:mr-6 space-y-2 overflow-hidden"
-            : "ml-4 mr-2 space-y-2 max-w-[70%] rounded-ee-xl rounded-s-xl px-5 py-2.5 bg-white dark:bg-full-dark overflow-hidden",
-          toolInvocations?.length && "!mr-0"
+            ? "group/message ml-2 flex-1 space-y-2 overflow-hidden sm:mr-6 md:ml-4"
+            : "ml-4 mr-2 max-w-[70%] space-y-2 overflow-hidden rounded-s-xl rounded-ee-xl bg-white px-5 py-2.5 dark:bg-full-dark",
+          toolInvocations?.length && "!mr-0",
         )}
       >
         {content && typeof content === "string" && (

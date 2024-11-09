@@ -70,7 +70,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
       <hr
         aria-hidden="true"
         style={underlineStyle}
-        className="absolute bottom-0 h-1 bg-bittersweet-400 dark:bg-cerise-red-600 transition-all duration-300 ease-in-out border-none"
+        className="absolute bottom-0 h-1 border-none bg-bittersweet-400 transition-all duration-300 ease-in-out dark:bg-cerise-red-600"
       />
       {pages.map(
         ({ name, href, icon: Icon, fillIcon: FillIcon, active }, key) => (
@@ -87,7 +87,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
               ref={(el) => {
                 linkRefs.current[key] = el;
               }}
-              className="relative flex items-center justify-center h-full w-20 lg:w-28 py-1"
+              className="relative flex h-full w-20 items-center justify-center py-1 lg:w-28"
             >
               <Button
                 as={Link}
@@ -100,10 +100,10 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
                 href={href}
                 onPress={() => handleNavItemClick}
                 className={cn(
-                  "!h-full max-h-12 data-[hover=true]:bg-gray-200 dark:data-[hover=true]:bg-dark text-gray-500 dark:text-gray-400 max-w-[112px]",
-                  "px-3 pointer-events-auto hover:text-bittersweet-400 dark:hover:text-cerise-red-600",
+                  "!h-full max-h-12 max-w-[112px] text-gray-500 data-[hover=true]:bg-gray-200 dark:text-gray-400 dark:data-[hover=true]:bg-dark",
+                  "pointer-events-auto px-3 hover:text-bittersweet-400 dark:hover:text-cerise-red-600",
                   active &&
-                    "rounded-b-none text-bittersweet-400 dark:text-cerise-red-600 data-[hover=true]:bg-transparent dark:data-[hover=true]:bg-transparent"
+                    "rounded-b-none text-bittersweet-400 data-[hover=true]:bg-transparent dark:text-cerise-red-600 dark:data-[hover=true]:bg-transparent",
                 )}
               >
                 {active ? (
@@ -114,7 +114,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
               </Button>
             </li>
           </Tooltip>
-        )
+        ),
       )}
     </>
   );

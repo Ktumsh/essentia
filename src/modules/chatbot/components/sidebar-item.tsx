@@ -51,12 +51,12 @@ export function SidebarItem({
         {chat.share_path ? (
           <TooltipCTN content="Este es un chat compartido">
             <span>
-              <UsersIcon className="size-4 mr-2 mt-1 text-main-m dark:text-main-dark-m" />
+              <UsersIcon className="mr-2 mt-1 size-4 text-main-m dark:text-main-dark-m" />
             </span>
           </TooltipCTN>
         ) : (
           <span>
-            <ChatIcon className="size-4 mr-2 mt-2 text-main-l dark:text-main-dark-l" />
+            <ChatIcon className="mr-2 mt-2 size-4 text-main-l dark:text-main-dark-l" />
           </span>
         )}
       </div>
@@ -64,8 +64,8 @@ export function SidebarItem({
       <Link
         href={chat.path}
         className={cn(
-          "inline-flex flex-col justify-center w-full text-sm px-8 py-2 pr-16 whitespace-nowrap font-semibold text-main-h dark:text-main-dark-h group-hover:text-main dark:group-hover:text-white group-hover:bg-gray-100 dark:group-hover:bg-dark rounded-md transition-colors duration-150",
-          isActive && "bg-gray-100 dark:bg-dark"
+          "inline-flex w-full flex-col justify-center whitespace-nowrap rounded-md px-8 py-2 pr-16 text-sm font-semibold text-main-h transition-colors duration-150 group-hover:bg-gray-100 group-hover:text-main dark:text-main-dark-h dark:group-hover:bg-dark dark:group-hover:text-white",
+          isActive && "bg-gray-100 dark:bg-dark",
         )}
       >
         <div className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all">
@@ -111,7 +111,7 @@ export function SidebarItem({
         <div
           className={cn(
             isActive ? "opacity-100" : "opacity-0",
-            "group-hover:opacity-100 transition-opacity absolute right-2 top-1"
+            "absolute right-2 top-1 transition-opacity group-hover:opacity-100",
           )}
         >
           {children}

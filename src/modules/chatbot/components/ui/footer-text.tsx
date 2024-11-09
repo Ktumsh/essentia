@@ -7,8 +7,8 @@ const FooterText = ({ className }: { className?: string }) => {
   return (
     <p
       className={cn(
-        "text-main-l dark:text-main-dark-l px-2 text-center text-xs leading-normal font-dmsans",
-        className
+        "px-2 text-center font-dmsans text-xs leading-normal text-main-l dark:text-main-dark-l",
+        className,
       )}
     >
       Essentia AI impulsado por{" "}

@@ -5,13 +5,13 @@ import { AvatarIcon } from "@/modules/icons/miscellaneus";
 
 export const BotAvatar = () => {
   return (
-    <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-lg bg-white dark:bg-dark border border-gray-200 dark:border-white/10 shadow-md overflow-hidden">
+    <div className="flex size-[25px] shrink-0 select-none items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-white/10 dark:bg-dark">
       <Image
         width={15}
         height={15}
         src="/logo-essentia.webp"
         alt="Avatar de Essentia AI"
-        className="object-cover object-center aspect-auto self-center align-middle mr-px"
+        className="mr-px aspect-auto self-center object-cover object-center align-middle"
       />
     </div>
   );

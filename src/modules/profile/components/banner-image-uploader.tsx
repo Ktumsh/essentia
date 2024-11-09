@@ -1,4 +1,4 @@
-import { Button, Tooltip , Image as ImageUI } from "@nextui-org/react";
+import { Button, Tooltip, Image as ImageUI } from "@nextui-org/react";
 import Image from "next/image";
 import { FC, ChangeEvent, useRef } from "react";
 
@@ -8,7 +8,7 @@ interface BannerImageUploaderProps {
   bannerImage: string | null;
   onFileChange: (
     e: ChangeEvent<HTMLInputElement>,
-    type: "photo" | "banner"
+    type: "photo" | "banner",
   ) => void;
 }
 
@@ -24,7 +24,7 @@ const BannerImageUploader: FC<BannerImageUploaderProps> = ({
 
   return (
     <div className="relative flex min-h-56 overflow-hidden">
-      <div className="absolute inset-0 size-full bg-black/30 z-0">
+      <div className="absolute inset-0 z-0 size-full bg-black/30">
         {bannerImage ? (
           <div
             aria-hidden="true"
@@ -53,7 +53,7 @@ const BannerImageUploader: FC<BannerImageUploaderProps> = ({
         )}
       </div>
       <div className="absolute top-0 size-full bg-black/50"></div>
-      <div className="flex items-center justify-center absolute inset-0 size-full opacity-75">
+      <div className="absolute inset-0 flex size-full items-center justify-center opacity-75">
         <div className="relative flex items-center justify-center">
           <Tooltip
             offset={2}
@@ -66,7 +66,7 @@ const BannerImageUploader: FC<BannerImageUploaderProps> = ({
               aria-label="Agregar foto de banner"
               isIconOnly
               radius="full"
-              className="bg-white/30 dark:bg-black/60 backdrop-blur-sm size-11"
+              className="size-11 bg-white/30 backdrop-blur-sm dark:bg-black/60"
               onPress={selectFile}
             >
               <AddPhotoIcon className="size-5 text-white" />
@@ -77,7 +77,7 @@ const BannerImageUploader: FC<BannerImageUploaderProps> = ({
             accept="image/jpeg,image/png,image/webp"
             type="file"
             onChange={(e) => onFileChange(e, "banner")}
-            className="absolute size-[0.1px] opacity-0 pointer-events-auto bg-transparent"
+            className="pointer-events-auto absolute size-[0.1px] bg-transparent opacity-0"
           />
         </div>
       </div>

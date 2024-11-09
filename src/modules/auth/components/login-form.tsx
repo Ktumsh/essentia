@@ -99,13 +99,13 @@ const LoginForm = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="flex flex-col relative justify-center items-center md:p-8 px-6 size-full sm:min-w-[500px] rounded-xl bg-transparent sm:bg-white sm:dark:bg-full-dark text-left font-normal text-main-m dark:text-main-dark-m overflow-hidden">
+    <div className="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-xl bg-transparent px-6 text-left font-normal text-main-m dark:text-main-dark-m sm:min-w-[500px] sm:bg-white sm:dark:bg-full-dark md:p-8">
       <form
-        className="flex flex-col items-start justify-center size-full gap-5 mb-4 select-none"
+        className="mb-4 flex size-full select-none flex-col items-start justify-center gap-5"
         onSubmit={handleSubmit}
       >
         <div>
-          <h2 className="text-xl sm:text-2xl text-main-h dark:text-main-dark font-extrabold font-sans">
+          <h2 className="font-sans text-xl font-extrabold text-main-h dark:text-main-dark sm:text-2xl">
             Bienvenid@,
           </h2>
           <div className="w-full text-sm text-main-h dark:text-main-dark-h">
@@ -157,7 +157,7 @@ const LoginForm = () => {
           }}
         />
 
-        <div className="flex w-full mt-[-15px] mx-0 justify-between text-[13px] text-main-h dark:text-main-dark-h">
+        <div className="mx-0 mt-[-15px] flex w-full justify-between text-[13px] text-main-h dark:text-main-dark-h">
           <Checkbox
             isSelected={isSelected}
             onValueChange={setIsSelected}
@@ -173,7 +173,7 @@ const LoginForm = () => {
           </Checkbox>
           <Link
             href="#"
-            className="hover:underline underline-offset-2"
+            className="underline-offset-2 hover:underline"
             aria-label="¿Olvidaste tu contraseña?"
           >
             ¿Olvidaste tu contraseña?
@@ -183,7 +183,7 @@ const LoginForm = () => {
           type="submit"
           radius="full"
           fullWidth
-          className="bg-light-gradient dark:bg-dark-gradient-v2 text-base text-white"
+          className="bg-light-gradient text-base text-white dark:bg-dark-gradient-v2"
           isDisabled={isPending}
           aria-disabled={isPending}
           startContent={
@@ -201,12 +201,12 @@ const LoginForm = () => {
         <hr className="flex-1 h-px border-gray-200" />
       </div>
       <SignInWith /> */}
-      <div className="flex items-center justify-center text-[13px] text-center self-center mt-2 text-main-h dark:text-main-dark-h">
+      <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-main-h dark:text-main-dark-h">
         <p>
           ¿No tienes una cuenta?{" "}
           <Link
             id="register-base-color"
-            className="register-base-color font-bold sm:font-medium text-orient-700"
+            className="register-base-color font-bold text-orient-700 sm:font-medium"
             href="/signup"
             aria-label="Regístrate"
           >

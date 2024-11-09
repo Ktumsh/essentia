@@ -10,24 +10,24 @@ const NotFoundWrapper = () => {
     <>
       <div
         aria-hidden="true"
-        className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       >
         <div
           className={cn(
             "z-[-1]",
-            "before:absolute before:top-0 before:left-1/2 before:h-[800px] before:w-full sm:before:w-[1080px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-tr from-gray-50 to-[#c0c6e6] before:blur-[80px] before:content-['']",
+            "from-gray-50 to-[#c0c6e6] before:absolute before:left-1/2 before:top-0 before:h-[800px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-tr before:blur-[80px] before:content-[''] sm:before:w-[1080px]",
             "before:dark:h-[600px] before:dark:w-[980px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-[#ff7373] before:dark:opacity-20",
-            "after:absolute after:top-[10%] after:left-[20%] after:z-10 after:h-[580px] after:w-full sm:after:w-[540px] after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:blur-[80px] after:content-[''] after:rounded-full after:opacity-50",
-            "after:dark:top-1/4 after:dark:left-2/3 after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-full-dark after:dark:via-[#ff7373] after:dark:opacity-50 after:dark:blur-3xl after:dark:rounded-none"
+            "after:absolute after:left-[20%] after:top-[10%] after:z-10 after:h-[580px] after:w-full after:rounded-full after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-50 after:blur-[80px] after:content-[''] sm:after:w-[540px]",
+            "after:dark:left-2/3 after:dark:top-1/4 after:dark:h-[180px] after:dark:w-[260px] after:dark:rounded-none after:dark:bg-gradient-to-br after:dark:from-full-dark after:dark:via-[#ff7373] after:dark:opacity-50 after:dark:blur-3xl",
           )}
         ></div>
       </div>
-      <div className="relative flex flex-col items-center md:justify-center min-h-dvh px-5 md:px-40 gap-5 text-main dark:text-white overflow-hidden">
-        <div className="md:absolute top-52 left-1/4 flex flex-col justify-center max-w-xl space-y-5">
-          <div className="flex flex-col gap-4 text-center md:text-start h-full md:h-auto">
-            <h1 className="text-3xl md:text-6xl font-extrabold font-sans text-wrap">
+      <div className="relative flex min-h-dvh flex-col items-center gap-5 overflow-hidden px-5 text-main dark:text-white md:justify-center md:px-40">
+        <div className="left-1/4 top-52 flex max-w-xl flex-col justify-center space-y-5 md:absolute">
+          <div className="flex h-full flex-col gap-4 text-center md:h-auto md:text-start">
+            <h1 className="text-wrap font-sans text-3xl font-extrabold md:text-6xl">
               Parece que esta página ha perdido su{" "}
-              <span className="drop-shadow bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-300 bg-clip-text text-transparent drop-shadow">
                 esencia
               </span>
               .
@@ -38,21 +38,21 @@ const NotFoundWrapper = () => {
             </p>
           </div>
 
-          <div className="fixed bottom-0 inset-x-0 md:static flex w-full justify-between p-5 md:p-0">
+          <div className="fixed inset-x-0 bottom-0 flex w-full justify-between p-5 md:static md:p-0">
             <Button
               as={Link}
               href="/"
               disableRipple
               variant="solid"
               startContent={<ArrowLeftIcon className="size-5" />}
-              className="w-full md:w-auto rounded-full md:rounded-lg h-14 md:h-10 text-main md:text-sm bg-white dark:bg-dark shadow-medium border border-gray-200 dark:border-white/10"
+              className="h-14 w-full rounded-full border border-gray-200 bg-white text-main shadow-medium dark:border-white/10 dark:bg-dark md:h-10 md:w-auto md:rounded-lg md:text-sm"
             >
               Recuperar mi esencia
             </Button>
           </div>
         </div>
 
-        <div className="-order-1 md:order-none md:absolute left-20 -bottom-20 mt-20 md:mt-0 -z-10 pointer-events-none">
+        <div className="pointer-events-none -bottom-20 left-20 -z-10 -order-1 mt-20 md:absolute md:order-none md:mt-0">
           <Image
             width={1132}
             height={1132}
@@ -61,7 +61,7 @@ const NotFoundWrapper = () => {
             src="/logo-essentia.webp"
             alt="Logo Essentia"
             aria-hidden="true"
-            className="h-64 md:h-[1132px] w-auto md:opacity-30 [mask-image:linear-gradient(to_bottom,_rgba(0,_0,_0,_1)_0%,_transparent_90%)]"
+            className="h-64 w-auto [mask-image:linear-gradient(to_bottom,_rgba(0,_0,_0,_1)_0%,_transparent_90%)] md:h-[1132px] md:opacity-30"
           />
         </div>
       </div>

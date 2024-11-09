@@ -53,9 +53,9 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
   const mealTime = mealDetails[0].time;
   return (
     <>
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <div className="inline-flex items-center gap-2">
-          <h3 className="text-lg font-medium capitalize md:text-xl text-main dark:text-white">
+          <h3 className="text-lg font-medium capitalize text-main dark:text-white md:text-xl">
             {mealType}
           </h3>
           <TooltipCTN content="Horario">
@@ -94,7 +94,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
             >
               {detail.name}
             </Chip>
-            <div className="inline-flex items-center gap-2 ml-3 text-main-m dark:text-main-dark-m">
+            <div className="ml-3 inline-flex items-center gap-2 text-main-m dark:text-main-dark-m">
               <div className="inline-flex items-center gap-1">
                 <TooltipCTN content="Cantidad">
                   <div aria-hidden="true">
@@ -139,9 +139,9 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
       ref={ref}
       radius="md"
       shadow="none"
-      className="bg-white group/card dark:bg-full-dark"
+      className="group/card bg-white dark:bg-full-dark"
     >
-      <CardHeader className="relative z-0 p-0 rounded-none">
+      <CardHeader className="relative z-0 rounded-none p-0">
         <ImageUI
           as={Image}
           width={639}
@@ -155,8 +155,8 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
             img: "!h-auto object-cover object-top",
           }}
         />
-        <div className="z-10 pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="absolute inset-x-0 top-0 z-10 flex justify-between w-full p-2 md:p-8">
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
+        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-8">
           <Chip color="danger" className="shadow-md">
             Plan nutricional
           </Chip>
@@ -165,7 +165,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
               isIconOnly
               size="sm"
               onPress={downloadImage}
-              className="text-white opacity-0 group-hover/card:opacity-100 bg-black/10"
+              className="bg-black/10 text-white opacity-0 group-hover/card:opacity-100"
             >
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -173,15 +173,15 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
           </TooltipCTN>
         </div>
       </CardHeader>
-      <CardBody className="p-2 space-y-2 md:p-8 md:space-y-4 text-main-h dark:text-main-dark">
+      <CardBody className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-8">
         <div className="flex flex-wrap items-center justify-center gap-2">
-          <div className="flex flex-col flex-1 p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+          <div className="flex flex-1 flex-col rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
             <h3 className="font-sans font-extrabold uppercase">Proteínas</h3>
             <p className="dark:text-main-dark-h">
               {plan.macronutrients.proteins} g
             </p>
           </div>
-          <div className="flex flex-col flex-1 order-3 p-3 text-xs bg-gray-100 rounded-lg md:order-none md:text-sm dark:bg-dark text-main-h dark:text-white">
+          <div className="order-3 flex flex-1 flex-col rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:order-none md:text-sm">
             <h3 className="font-sans font-extrabold uppercase">
               Carbohidratos
             </h3>
@@ -189,7 +189,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
               {plan.macronutrients.carbohydrates} g
             </p>
           </div>
-          <div className="flex flex-col flex-1 p-3 text-xs bg-gray-100 rounded-lg md:text-sm dark:bg-dark text-main-h dark:text-white">
+          <div className="flex flex-1 flex-col rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
             <h3 className="font-sans font-extrabold uppercase">Grasas</h3>
             <p className="dark:text-main-dark-h">
               {plan.macronutrients.fats} g
@@ -203,7 +203,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
         {renderMealDetails(plan.additional, additional)}
         <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
           {plan.recommendations && (
-            <div className="p-3 text-sm bg-gray-100 rounded-lg dark:bg-dark text-main-h dark:text-white">
+            <div className="rounded-lg bg-gray-100 p-3 text-sm text-main-h dark:bg-dark dark:text-white">
               <h3 className="font-sans text-xl font-extrabold uppercase">
                 Recomendaciones
               </h3>
@@ -217,7 +217,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
             color="danger"
             shape="circle"
             size="lg"
-            content={<CaloriesIcon className="text-white size-5" />}
+            content={<CaloriesIcon className="size-5 text-white" />}
             placement="top-right"
             classNames={{
               base: [
@@ -228,7 +228,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
                 "!size-7 top-[5%] right-[5%] border-white dark:border-full-dark",
             }}
           >
-            <div className="flex flex-col z-[1]">
+            <div className="z-[1] flex flex-col">
               <h3 className="text-main-h dark:text-main-dark">
                 Total aproximado
               </h3>
