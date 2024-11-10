@@ -49,7 +49,7 @@ const SexualityEmergencyCard = () => {
                   Emergencias de Salud Sexual
                 </h3>
               </div>
-              <Divider className="my-3 bg-gray-300 dark:bg-accent-dark" />
+              <Divider className="my-3 bg-gray-200 dark:bg-dark" />
               <ol className="custom-scroll flex flex-col space-y-4 overflow-y-auto hover:scrollbar-default md:scrollbar-hide">
                 {cardInfo.steps.map((step, stepIndex) => (
                   <li key={stepIndex} className="space-y-1.5 text-sm">

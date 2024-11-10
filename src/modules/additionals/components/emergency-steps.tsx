@@ -34,7 +34,7 @@ const EmergencySteps = () => {
                   {card.title}
                 </h3>
               </div>
-              <Divider className="my-3 bg-gray-300 dark:bg-accent-dark" />
+              <Divider className="my-3 bg-gray-200 dark:bg-dark" />
               <ol className="flex flex-col space-y-4">
                 {card.steps.map((step, stepIndex) => (
                   <li key={stepIndex} className="text-sm">

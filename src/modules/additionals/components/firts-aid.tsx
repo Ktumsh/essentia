@@ -102,7 +102,7 @@ const FirstAid = () => {
                 }}
                 transition={{ duration: 0.25 }}
               >
-                <Divider className="my-3 bg-gray-300 dark:bg-accent-dark" />
+                <Divider className="my-3 bg-gray-200 dark:bg-dark" />
               </motion.div>
               <ol
                 className={cn(
