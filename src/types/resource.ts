@@ -35,3 +35,15 @@ export interface ResourcesVideos {
   section: string;
   videos: Video[];
 }
+
+export type MedicineItem = {
+  name: string;
+  description: string;
+};
+
+export type MedicineCategory = {
+  category: string;
+  verticalDividerClasses: string;
+  innerDividersClasses: string[];
+  items: MedicineItem[];
+};

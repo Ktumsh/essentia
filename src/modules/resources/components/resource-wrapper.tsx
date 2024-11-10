@@ -85,7 +85,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
 
   return (
     <>
-      <div className="flex min-h-dvh w-full flex-col pt-14">
+      <div className="flex min-h-dvh w-full flex-col pb-16 pt-14">
         <div className="flex-1">
           <div className="mx-auto size-full max-w-8xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
             <div className="select-none md:pb-6 lg:px-6">
@@ -229,9 +229,9 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                   ) : (
                     <section
                       ref={sectionRef}
-                      className="custom-scroll v2 group relative inline-flex flex-1 overflow-x-auto md:max-w-md"
+                      className="custom-scroll v2 group relative inline-flex flex-1 snap-x snap-mandatory overflow-x-auto md:max-w-md"
                     >
-                      <div className="prose max-w-full shrink-0 p-6 text-main dark:prose-invert dark:text-main-dark">
+                      <div className="prose max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
                         <Markdown>{intro}</Markdown>
                         <button
                           aria-label="Ir al final"
@@ -241,7 +241,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                           <NextArrowIcon className="size-8 text-main-m dark:text-main-dark-m" />
                         </button>
                       </div>
-                      <div className="prose max-w-full shrink-0 p-6 text-main dark:prose-invert dark:text-main-dark">
+                      <div className="prose max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
                         <h3>¿Qué es {title}?</h3>
                         <Markdown>{description}</Markdown>
                       </div>

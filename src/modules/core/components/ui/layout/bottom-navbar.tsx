@@ -52,7 +52,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
   return (
     <Navbar
       classNames={{
-        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-full-dark z-50 rounded-t-3xl overflow-hidden",
+        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-full-dark z-50 rounded-t-3xl overflow-hidden shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]",
         wrapper: "h-16 justify-center gap-0 px-0",
       }}
     >

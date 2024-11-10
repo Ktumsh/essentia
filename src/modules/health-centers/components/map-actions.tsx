@@ -40,10 +40,10 @@ const MapActions: FC<MapActionsProps> = (props) => {
             radius="full"
             isIconOnly
             onPress={centerLocation}
-            className="!size-12 bg-white text-main-h dark:bg-full-dark dark:text-main-dark md:!size-9"
+            className="!size-11 bg-white text-main-h dark:bg-full-dark dark:text-main-dark md:!size-9"
           >
             <span className="sr-only">Centrar ubicación</span>
-            <CenterLocationIcon className="size-7 md:size-5" />
+            <CenterLocationIcon className="size-6 md:size-5" />
           </Button>
         </TooltipCTN>
         <TooltipCTN content="Aumentar" placement="left">
@@ -53,10 +53,10 @@ const MapActions: FC<MapActionsProps> = (props) => {
             radius="full"
             isIconOnly
             onPress={handleZoomIn}
-            className="!size-12 bg-white text-main-h dark:bg-full-dark dark:text-main-dark md:!size-9"
+            className="!size-11 bg-white text-main-h dark:bg-full-dark dark:text-main-dark md:!size-9"
           >
             <span className="sr-only">Aumentar</span>
-            <ZoomInIcon className="size-7 md:size-5" />
+            <ZoomInIcon className="size-6 md:size-5" />
           </Button>
         </TooltipCTN>
         <TooltipCTN content="Alejar" placement="left">
@@ -66,10 +66,10 @@ const MapActions: FC<MapActionsProps> = (props) => {
             radius="full"
             isIconOnly
             onPress={handleZoomOut}
-            className="!size-12 bg-white text-main-h dark:bg-full-dark dark:text-main-dark md:!size-9"
+            className="!size-11 bg-white text-main-h dark:bg-full-dark dark:text-main-dark md:!size-9"
           >
             <span className="sr-only">Alejar</span>
-            <ZoomOutIcon className="size-7 md:size-5" />
+            <ZoomOutIcon className="size-6 md:size-5" />
           </Button>
         </TooltipCTN>
       </div>

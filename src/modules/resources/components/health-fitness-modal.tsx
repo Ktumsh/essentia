@@ -17,13 +17,14 @@ import {
 import Image from "next/image";
 import { useRef, useEffect, FC } from "react";
 
+import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { HeartIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon } from "@/modules/icons/status";
 import { useModalHash } from "@/modules/resources/hooks/use-modal-hash";
 import { formatTitle } from "@/utils/format";
 
 interface Props {
-  modalSize?: string;
+  modalSize?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
   modalTitle: string;
   modalImage: string;
   modalBody: string;
@@ -40,6 +41,8 @@ export const ModalComponent: FC<Props> = ({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const formatedTitle = formatTitle(modalTitle);
   const componentRef = useRef<HTMLDivElement>(null);
+
+  const windowSize = useWindowSize();
 
   useEffect(() => {
     if (isOpen && componentId) {
@@ -105,7 +108,7 @@ export const ModalComponent: FC<Props> = ({
       <Modal
         placement="center"
         scrollBehavior="inside"
-        size={modalSize as any}
+        size={windowSize.width > 768 ? modalSize : "full"}
         backdrop="blur"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -128,8 +131,11 @@ export const ModalComponent: FC<Props> = ({
                 <q>{modalTitle}</q>
               </ModalHeader>
               <ScrollShadow className="custom-scroll v2" size={80}>
-                <ModalBody className="text-main-h dark:text-main-dark-h">
-                  <div dangerouslySetInnerHTML={{ __html: modalBody }} />
+                <ModalBody>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: modalBody }}
+                    className="prose text-main dark:prose-invert dark:text-main-dark"
+                  />
                   <div ref={componentRef}></div>
                 </ModalBody>
               </ScrollShadow>

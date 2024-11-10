@@ -33,7 +33,7 @@ const AsideTabs = () => {
                   <Button
                     aria-label="Ver más consejos"
                     variant="flat"
-                    radius="sm"
+                    radius="full"
                     onPress={() => setFacts(getRandomFacts(2))}
                     className="bg-black/5 text-main dark:bg-white/5 dark:text-main-dark"
                   >

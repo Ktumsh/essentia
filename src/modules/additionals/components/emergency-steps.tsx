@@ -57,13 +57,13 @@ const EmergencySteps = () => {
   ];
 
   return (
-    <section className="flex w-full max-w-6xl items-center justify-between overflow-x-scroll scrollbar-hide md:mx-0">
+    <section className="flex w-full max-w-6xl snap-x snap-mandatory items-center justify-between overflow-x-scroll scrollbar-hide md:mx-0">
       {info.map((card, index) => (
         <Fragment key={index}>
           <Card
             radius="sm"
             shadow="none"
-            className="h-full min-w-[87%] max-w-lg border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-white md:min-w-0 md:dark:border-dark md:dark:bg-full-dark"
+            className="h-full min-w-[87%] max-w-lg snap-center border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-white md:min-w-0 md:dark:border-dark md:dark:bg-full-dark"
           >
             <CardBody className="z-10">
               <div className="inline-flex w-full items-center justify-between">

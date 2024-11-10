@@ -300,7 +300,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
       </Button>
 
       <Modal
-        placement={width > 768 ? "center" : "top"}
+        placement="center"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         hideCloseButton

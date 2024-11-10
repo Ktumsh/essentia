@@ -57,7 +57,7 @@ export default function AdditionalsTabs() {
           href="/adicionales/guias"
           title={
             <div className="flex items-center space-x-2">
-              <GuidesIcon className="size-5" />
+              <GuidesIcon className="size-5 text-main-m group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-m dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Guías</span>
             </div>
           }
@@ -70,7 +70,7 @@ export default function AdditionalsTabs() {
           href="/adicionales/enlaces"
           title={
             <div className="flex items-center space-x-2">
-              <LinksIcon className="size-5" />
+              <LinksIcon className="size-5 text-main-m group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-m dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Enlaces</span>
             </div>
           }
@@ -83,7 +83,7 @@ export default function AdditionalsTabs() {
           href="/adicionales/recomendaciones"
           title={
             <div className="flex items-center space-x-2">
-              <RecommendationsIcon className="size-5" />
+              <RecommendationsIcon className="size-5 text-main-m group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-m dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Recomendaciones</span>
             </div>
           }
@@ -96,7 +96,7 @@ export default function AdditionalsTabs() {
           href="/adicionales/emergencias"
           title={
             <div className="flex items-center space-x-2">
-              <EmergenciesIcon className="size-5" />
+              <EmergenciesIcon className="size-5 text-main-m group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-m dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Emergencias</span>
             </div>
           }

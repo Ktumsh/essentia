@@ -5,8 +5,9 @@ import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
 import { FITNESS_MODAL_DATA } from "@/consts/fitness-modal";
 import RESOURCES_VIDEOS from "@/consts/resources-videos";
-import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitness-modal";
 import { HashIcon } from "@/modules/icons/common";
+
+import { ModalComponent } from "./health-fitness-modal";
 
 const videos =
   RESOURCES_VIDEOS.find((section) => section.section === "ExerciseFitness")

@@ -5,8 +5,9 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
-import { ModalComponent } from "@/modules/core/components/ui/modals/health-fitness-modal";
 import { HashIcon } from "@/modules/icons/common";
+
+import { ModalComponent } from "./health-fitness-modal";
 
 const HealthWellness = () => {
   return (
