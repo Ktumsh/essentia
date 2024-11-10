@@ -3,8 +3,8 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 import {
-  medicinesDataGroup1,
-  medicinesDataGroup2,
+  MEDICINES_DATA_GROUP_1,
+  MEDICINES_DATA_GROUP_2,
 } from "@/consts/medicines-data";
 import { HashIcon } from "@/modules/icons/common";
 
@@ -44,7 +44,7 @@ const Medicines = () => {
         >
           <CardBody className="z-10 snap-x snap-mandatory flex-row gap-6 overflow-x-auto scrollbar-hide">
             <ul className="min-w-[90%] snap-center space-y-2 md:min-w-0">
-              {medicinesDataGroup1.map((category, index) => (
+              {MEDICINES_DATA_GROUP_1.map((category, index) => (
                 <MedicineCategory
                   key={index}
                   category={category.category}
@@ -56,7 +56,7 @@ const Medicines = () => {
             </ul>
 
             <ul className="min-w-[90%] snap-center space-y-2 md:min-w-0">
-              {medicinesDataGroup2.map((category, index) => (
+              {MEDICINES_DATA_GROUP_2.map((category, index) => (
                 <MedicineCategory
                   key={index}
                   category={category.category}

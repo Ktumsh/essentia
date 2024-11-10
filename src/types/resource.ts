@@ -47,3 +47,31 @@ export type MedicineCategory = {
   innerDividersClasses: string[];
   items: MedicineItem[];
 };
+
+type Step = {
+  step: number;
+  title: string;
+  description: string;
+  color: string;
+};
+
+export type EmergencySteps = {
+  title: string;
+  steps: Step[];
+};
+
+type Description = {
+  type: "bold" | "text";
+  content: string;
+};
+
+type SexualityStep = {
+  step: number;
+  title: string;
+  description: Description[];
+};
+
+export type SexualEmergency = {
+  title: string;
+  steps: SexualityStep[];
+};

@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 
-import { FAQ_FIRST_AID } from "@/consts/faq-firts-aid";
+import { FIRST_AID } from "@/consts/firts-aid";
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { HashIcon } from "@/modules/icons/common";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
 
 const FirstAid = () => {
-  const info = FAQ_FIRST_AID;
+  const info = FIRST_AID;
 
   const [openCard, setOpenCard] = useState<number | null>(0);
 
@@ -65,7 +65,7 @@ const FirstAid = () => {
             radius="sm"
             shadow="none"
             onPress={() => toggleShow(index)}
-            className="min-h-[74px] border border-gray-200 bg-gray-100 text-main-h data-[pressed=true]:scale-100 dark:border-dark dark:bg-dark/50 dark:text-white md:min-h-[54px]"
+            className="min-h-[74px] border border-gray-200 bg-gray-100 text-main data-[pressed=true]:scale-100 dark:border-dark dark:bg-dark/50 dark:text-white md:min-h-[54px]"
           >
             <CardBody className="z-10 overflow-hidden">
               <div className="inline-flex w-full items-center justify-between">
@@ -82,7 +82,7 @@ const FirstAid = () => {
                   <Chip
                     size="sm"
                     variant="bordered"
-                    className="dark:border-accent-dark border border-gray-300 text-main-m dark:text-main-dark-h"
+                    className="border border-gray-300 text-main-m dark:border-accent-dark dark:text-main-dark-h"
                   >
                     <QuestionIcon className="size-3" />
                   </Chip>
@@ -102,7 +102,7 @@ const FirstAid = () => {
                 }}
                 transition={{ duration: 0.25 }}
               >
-                <Divider className="my-3 bg-gray-300 dark:bg-dark md:bg-gray-200" />
+                <Divider className="my-3 bg-gray-300 dark:bg-accent-dark" />
               </motion.div>
               <ol
                 className={cn(
@@ -154,7 +154,9 @@ const FirstAid = () => {
                         className="ml-8 space-y-1.5 text-main-h dark:text-main-dark"
                       >
                         {desc.type === "bold" ? (
-                          <strong className="mr-2">{desc.content}</strong>
+                          <strong className="mr-2 text-main dark:text-white">
+                            {desc.content}
+                          </strong>
                         ) : (
                           desc.content
                         )}

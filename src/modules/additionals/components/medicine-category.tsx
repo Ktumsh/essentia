@@ -19,7 +19,7 @@ const MedicineCategory = ({
     <Chip
       variant="dot"
       color="danger"
-      className="border border-gray-300 dark:border-dark"
+      className="border border-gray-300 bg-white text-main dark:border-accent-dark dark:bg-full-dark dark:text-white"
     >
       {category}
     </Chip>

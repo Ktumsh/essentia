@@ -1,4 +1,4 @@
-export const FAQ_FIRST_AID = [
+export const FIRST_AID = [
   {
     title: "Cómo actuar durante un paro cardíaco",
     steps: [
