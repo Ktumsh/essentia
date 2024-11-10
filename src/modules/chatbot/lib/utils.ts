@@ -51,7 +51,7 @@ export function groupChatsByDate(chats: Chat[] | undefined) {
     ) {
       last30DaysChats.push(chat);
     } else {
-      const monthYear = format(createdAt, "MMMM yyyy");
+      const monthYear = format(createdAt, "MMMM yyyy", { locale: es });
       if (!olderChats[monthYear]) {
         olderChats[monthYear] = [];
       }

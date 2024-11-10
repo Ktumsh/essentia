@@ -34,8 +34,9 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSheetChatOpen, setIsSheetChatOpen] = useState(false);
+  const isChat = pathname.startsWith("/essentia-ai");
   const { data: history, mutate } = useSWR<Array<Chat>>(
-    profileData ? "/api/chat/history" : null,
+    profileData && isChat ? "/api/chat/history" : null,
     fetcher,
     {
       fallbackData: [],
