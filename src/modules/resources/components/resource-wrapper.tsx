@@ -242,7 +242,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                         </button>
                       </div>
                       <div className="prose-sm max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
-                        <h3 className="font-medium text-[#111827] dark:text-white">
+                        <h3 className="font-semibold text-[#111827] dark:text-white">
                           ¿Qué es {title}?
                         </h3>
                         <Markdown prose="prose-sm">{description}</Markdown>
