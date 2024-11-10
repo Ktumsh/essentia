@@ -127,34 +127,34 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
         </p>
         <ul>
           <li><strong>Alimentación Equilibrada</strong>
-            <p>
+            <div>
               Consume una variedad de alimentos como frutas, verduras, proteínas y grasas saludables. Esto te proporcionará los nutrientes necesarios para mantenerte enérgico y saludable.
-            </p>
+            </div>
           </li>
           <li><strong>Actividad Física Regular</strong>
-            <p>
+            <div>
               Realiza ejercicios moderados al menos 150 minutos por semana. Esto puede incluir caminar, correr o bailar, lo cual ayuda a mantener tu cuerpo en forma y tu mente activa.
-            </p>
+            </div>
           </li>
           <li><strong>Dormir Bien</strong>
-            <p>
+            <div>
               Dormir adecuadamente mejora la memoria, el sistema inmunitario y reduce el estrés. Asegúrate de tener un sueño reparador para recargar energías.
-            </p>
+            </div>
           </li>
           <li><strong>Control del Estrés</strong>
-            <p>
+            <div>
               Identifica y maneja las causas del estrés mediante técnicas de relajación, como la meditación, y mantén una actitud positiva. El estrés prolongado puede afectar tu salud física y mental.
-            </p>
+            </div>
           </li>
           <li><strong>Actividades Sociales</strong>
-            <p>
+            <div>
               Participa en actividades sociales y mantén contacto con amigos y familiares. Las relaciones sociales saludables son cruciales para el bienestar emocional.
-            </p>
+            </div>
           </li>
           <li><strong>Mantener un Peso Saludable</strong>
-            <p>
+            <div>
               Combina una dieta balanceada con ejercicio regular y un buen descanso. Mantener un peso adecuado es importante para la salud general y la prevención de enfermedades.
-            </p>
+            </div>
           </li>
         </ul>
         <p class="text-sm">
@@ -177,44 +177,44 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
         </p>
         <ul>
           <li><strong>Come Sano e Inteligente</strong>
-            <p>
+            <div>
               Incluye una variedad de alimentos nutritivos y evita el exceso de sal y azúcar. Opta por frutas, verduras, proteínas magras y granos enteros para una dieta equilibrada.
-            </p>
+            </div>
           </li>
           <li><strong>Evita el Alcohol</strong>
-            <p>
+            <div>
               Reduce su consumo para proteger tu salud física y mental. El consumo excesivo de alcohol puede llevar a diversos problemas de salud.
-            </p>
+            </div>
           </li>
           <li><strong>Duerme Bien</strong>
-            <p>
+            <div>
               Asegúrate de dormir 7-8 horas diarias. Un buen descanso es crucial para el funcionamiento óptimo del cuerpo y la mente.
-            </p>
+            </div>
           </li>
           <li><strong>Deja de Fumar</strong>
-            <p>
+            <div>
               El tabaco perjudica gravemente la salud. Dejar de fumar mejora la salud cardiovascular y reduce el riesgo de enfermedades graves.
-            </p>
+            </div>
           </li>
           <li><strong>Mantén Buena Higiene</strong>
-            <p>
+            <div>
               Mantén tu entorno limpio y sigue una rutina de higiene personal. Esto incluye lavarse las manos regularmente y mantener una buena higiene dental.
-            </p>
+            </div>
           </li>
           <li><strong>Haz lo que te Hace Feliz</strong>
-            <p>
+            <div>
               Realiza actividades que disfrutes y te hagan feliz. Participar en hobbies y actividades recreativas puede mejorar tu estado de ánimo y bienestar general.
-            </p>
+            </div>
           </li>
           <li><strong>Sonríe</strong>
-            <p>
+            <div>
               Las emociones positivas mejoran el bienestar mental. Sonreír y mantener una actitud positiva puede reducir el estrés y aumentar la felicidad.
-            </p>
+            </div>
           </li>
           <li><strong>Toma el Sol</strong>
-            <p>
+            <div>
               Disfruta de la luz solar para obtener vitamina D, que es esencial para la salud ósea y el sistema inmunológico.
-            </p>
+            </div>
           </li>
         </ul>
         <p class="text-sm">
@@ -236,90 +236,39 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
           Aquí hay algunos consejos clave para mejorar tu bienestar físico y emocional:
         </p>
         <ul>
-          <li><strong>Reconocer Sentimientos</strong>
-            <p>
-              Identifica cómo te sientes y respira profundamente para calmarte.
-            </p>
+          <li><strong>Reconocer Sentimientos:</strong> Identifica cómo te sientes y respira profundamente para calmarte.
           </li>
-          <li><strong>Búsqueda del Tesoro</strong>
-            <p>
-              Hazlo mientras caminas para reflexionar y despejar la mente.
-            </p>
+          <li><strong>Búsqueda del Tesoro:</strong> Hazlo mientras caminas para reflexionar y despejar la mente.
           </li>
-          <li><strong>Habla</strong>
-            <p>
-              Comparte tus problemas con alguien de confianza para aliviarlos.
-            </p>
+          <li><strong>Habla:</strong> Comparte tus problemas con alguien de confianza para aliviarlos.
           </li>
-          <li><strong>Duerme Bien</strong>
-            <p>
-              Desconéctate de las pantallas antes de dormir y escribe tus pensamientos.
-            </p>
+          <li><strong>Duerme Bien:</strong> Desconéctate de las pantallas antes de dormir y escribe tus pensamientos.
           </li>
-          <li><strong>Alimentación Saludable</strong>
-            <p>
-              Opta por una dieta balanceada con frutas y verduras.
-            </p>
+          <li><strong>Alimentación Saludable:</strong> Opta por una dieta balanceada con frutas y verduras.
           </li>
-          <li><strong>Prácticas Meditativas</strong>
-            <p>
-              La meditación y la oración pueden reducir el estrés.
-            </p>
+          <li><strong>Prácticas Meditativas:</strong> La meditación y la oración pueden reducir el estrés.
           </li>
-          <li><strong>Ejercicio Regular</strong>
-            <p>
-              El ejercicio mejora tanto el cuerpo como la mente.
-            </p>
+          <li><strong>Ejercicio Regular:</strong> El ejercicio mejora tanto el cuerpo como la mente.
           </li>
-          <li><strong>Conexiones Sociales</strong>
-            <p>
-              Mantén relaciones cercanas con amigos y familiares.
-            </p>
+          <li><strong>Conexiones Sociales:</strong> Mantén relaciones cercanas con amigos y familiares.
           </li>
-          <li><strong>Higiene y Salud Personal</strong>
-            <p>
-              Cuida tu higiene personal y mantén tu entorno limpio.
-            </p>
+          <li><strong>Higiene y Salud Personal:</strong> Cuida tu higiene personal y mantén tu entorno limpio.
           </li>
-          <li><strong>Autocuidado</strong>
-            <p>
-              Realiza actividades que disfrutes y te hagan feliz.
-            </p>
+          <li><strong>Autocuidado:</strong> Realiza actividades que disfrutes y te hagan feliz.
           </li>
-          <li><strong>Toma de Sol</strong>
-            <p>
-              Disfruta de la luz solar para obtener vitamina D.
-            </p>
+          <li><strong>Toma de Sol:</strong> Disfruta de la luz solar para obtener vitamina D.
           </li>
-          <li><strong>Diversión y Recreación</strong>
-            <p>
-              Incluye tiempo para hobbies y actividades recreativas.
-            </p>
+          <li><strong>Diversión y Recreación:</strong> Incluye tiempo para hobbies y actividades recreativas.
           </li>
-          <li><strong>Rutina y Organización</strong>
-            <p>
-              Mantén una rutina diaria y organiza tus tareas.
-            </p>
+          <li><strong>Rutina y Organización:</strong> Mantén una rutina diaria y organiza tus tareas.
           </li>
-          <li><strong>Actitud Positiva</strong>
-            <p>
-              Mantén una actitud positiva para mejorar tu bienestar emocional.
-            </p>
+          <li><strong>Actitud Positiva:</strong> Mantén una actitud positiva para mejorar tu bienestar emocional.
           </li>
-          <li><strong>Desarrollo Personal</strong>
-            <p>
-              Busca oportunidades de aprendizaje y crecimiento personal.
-            </p>
+          <li><strong>Desarrollo Personal:</strong> Busca oportunidades de aprendizaje y crecimiento personal.
           </li>
-          <li><strong>Hidratación</strong>
-            <p>
-              Bebe suficiente agua durante el día.
-            </p>
+          <li><strong>Hidratación:</strong> Bebe suficiente agua durante el día.
           </li>
-          <li><strong>Consumo Responsable</strong>
-            <p>
-              Evita el consumo excesivo de alcohol y deja de fumar.
-            </p>
+          <li><strong>Consumo Responsable:</strong> Evita el consumo excesivo de alcohol y deja de fumar.
           </li>
         </ul>
         <p class="text-sm">
