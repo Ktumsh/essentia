@@ -231,19 +231,21 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                       ref={sectionRef}
                       className="custom-scroll v2 group relative inline-flex flex-1 snap-x snap-mandatory overflow-x-auto md:max-w-md"
                     >
-                      <div className="prose max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
-                        <Markdown>{intro}</Markdown>
+                      <div className="prose-sm max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
+                        <Markdown prose="prose-sm">{intro}</Markdown>
                         <button
                           aria-label="Ir al final"
                           className="absolute bottom-0 right-0 p-6"
                           onClick={scrollToEnd}
                         >
-                          <NextArrowIcon className="size-8 text-main-m dark:text-main-dark-m" />
+                          <NextArrowIcon className="size-8 text-main-l dark:text-main-dark-l" />
                         </button>
                       </div>
-                      <div className="prose max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
-                        <h3>¿Qué es {title}?</h3>
-                        <Markdown>{description}</Markdown>
+                      <div className="prose-sm max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
+                        <h3 className="font-medium text-[#111827] dark:text-white">
+                          ¿Qué es {title}?
+                        </h3>
+                        <Markdown prose="prose-sm">{description}</Markdown>
                       </div>
                     </section>
                   )}
