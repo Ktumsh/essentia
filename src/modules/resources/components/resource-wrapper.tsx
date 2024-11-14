@@ -25,9 +25,9 @@ import { StarIcon } from "@/modules/icons/common";
 import { TouchIcon } from "@/modules/icons/interface";
 import { NextArrowIcon } from "@/modules/icons/navigation";
 import { tooltipStyles } from "@/styles/tooltip-styles";
+import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
-import { UserProfileData } from "@/types/session";
 
 interface ResourceWrapperProps {
   params: { resource: string };

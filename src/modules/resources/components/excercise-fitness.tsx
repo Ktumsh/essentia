@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { HashIcon, StarsIcon } from "@/modules/icons/common";
+import { UserProfileData } from "@/types/session";
 
 import CardList from "./card-list";
-import { UserProfileData } from "@/types/session";
 
 interface ExerciseFitnessProps {
   profileData?: UserProfileData | null;

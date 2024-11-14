@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
-import ResourceWrapper from "@/modules/resources/components/resource-wrapper";
 import { auth } from "@/app/(auth)/auth";
+import ResourceWrapper from "@/modules/resources/components/resource-wrapper";
 import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
