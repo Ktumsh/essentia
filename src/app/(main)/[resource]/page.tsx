@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 
+import { auth } from "@/app/(auth)/auth";
 import ResourceWrapper from "@/modules/resources/components/resource-wrapper";
+import { Session } from "@/types/session";
+import { getUserProfileData } from "@/utils/profile";
 
 type Props = {
   params: { resource: string };
@@ -18,7 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const ResourcePage = async ({ params }: Props) => {
-  return <ResourceWrapper params={params} />;
+  const session = (await auth()) as Session;
+  const profileData = session ? await getUserProfileData(session) : null;
+  return <ResourceWrapper params={params} profileData={profileData} />;
 };
 
 export default ResourcePage;

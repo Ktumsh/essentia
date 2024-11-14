@@ -1,78 +1,75 @@
+"use client";
+
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
-import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import { useRouter } from "next/navigation";
 
-import { FITNESS_MODAL_DATA } from "@/consts/fitness-modal";
-import RESOURCES_VIDEOS from "@/consts/resources-videos";
-import { HashIcon } from "@/modules/icons/common";
+import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import { HashIcon, StarsIcon } from "@/modules/icons/common";
+import { UserProfileData } from "@/types/session";
 
-import { ModalComponent } from "./health-fitness-modal";
+import CardList from "./card-list";
 
-const videos =
-  RESOURCES_VIDEOS.find((section) => section.section === "ExerciseFitness")
-    ?.videos || [];
+interface ExerciseFitnessProps {
+  profileData?: UserProfileData | null;
+}
 
-const ExcerciseFitness = () => {
+const ExcerciseFitness = ({ profileData }: ExerciseFitnessProps) => {
+  const router = useRouter();
+
+  const { is_premium } = profileData || {};
+
+  const searchTerm = INITIAL_CHAT_MESSAGES[1].action;
+
+  const onCreateRoutine = () => {
+    if (is_premium) {
+      router.push(`/essentia-ai?search=${encodeURIComponent(searchTerm)}`);
+    } else {
+      router.push("/premium");
+    }
+  };
+
   return (
-    <>
-      <section className="px-2 py-4 md:p-0">
-        <div className="mb-4 w-full px-3">
-          <h3 className="text-main drop-shadow-md dark:text-white">
-            <Button
-              as={Link}
-              id="rutinas-de-ejercicios"
-              data-id="rutinas-de-ejercicios"
-              data-name="Rutinas de Ejercicios"
-              href="#rutinas-de-ejercicios"
-              disableRipple
-              radius="none"
-              variant="flat"
-              endContent={
-                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-              }
-              className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
-            >
-              <span className="mr-1 bg-orient-700 px-2 text-white dark:bg-cerise-red-400 dark:text-black">
-                Rutinas
-              </span>
-              de Ejercicios
-            </Button>
-          </h3>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          {FITNESS_MODAL_DATA.map((modal, index) => (
-            <ModalComponent
-              key={index}
-              modalSize="5xl"
-              modalTitle={modal.modalTitle}
-              modalImage={modal.modalImage}
-              modalBody={modal.modalBody}
-              componentId={`component-${modal.id}`}
+    <section className="px-6 py-4 md:p-0">
+      <div className="relative flex w-full select-none justify-between">
+        <h3 className="text-main-h dark:text-main-dark">
+          <Button
+            as={Link}
+            id="rutinas-de-ejercicios"
+            data-id="rutinas-de-ejercicios"
+            data-name="Rutinas de Ejercicios"
+            href="#rutinas-de-ejercicios"
+            disableRipple
+            radius="none"
+            variant="flat"
+            endContent={
+              <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
+            }
+            className="mb-2 ml-3 h-auto w-fit gap-0 bg-transparent p-0 px-2 text-2xl font-medium normal-case tracking-tight data-[pressed=true]:scale-100 data-[hover=true]:opacity-80 md:text-sm md:font-bold md:uppercase lg:px-0"
+          >
+            Rutinas de Ejercicios
+          </Button>
+        </h3>
+        <Button
+          radius="full"
+          size="sm"
+          onPress={onCreateRoutine}
+          startContent={
+            <StarsIcon
+              aria-hidden="true"
+              className="stars-icon size-3.5 focus:outline-none"
             />
-          ))}
-        </div>
-      </section>
-
-      {/* Contenedores ocultos para los components de React*/}
-      <div id="components" style={{ display: "none" }}>
-        {FITNESS_MODAL_DATA.map((modal, index) => (
-          <div key={index} id={`component-${modal.id}`}>
-            <LiteYouTubeEmbed
-              id={videos[index]?.link}
-              title={videos[index]?.title}
-              poster="maxresdefault"
-              wrapperClass="yt-wrap"
-              playerClass="yt-player"
-              activatedClass="yt-activated"
-              aspectHeight={9}
-              aspectWidth={16}
-              webp
-            />
-          </div>
-        ))}
+          }
+          className="absolute -top-3 right-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+        >
+          <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
+            Crea tu rutina
+          </span>
+        </Button>
       </div>
-    </>
+      <CardList type="routine" resource="ejercicios-y-fitness" />
+    </section>
   );
 };
 

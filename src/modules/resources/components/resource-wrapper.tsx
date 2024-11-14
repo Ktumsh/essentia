@@ -25,16 +25,16 @@ import { StarIcon } from "@/modules/icons/common";
 import { TouchIcon } from "@/modules/icons/interface";
 import { NextArrowIcon } from "@/modules/icons/navigation";
 import { tooltipStyles } from "@/styles/tooltip-styles";
+import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
 
-interface Props {
+interface ResourceWrapperProps {
   params: { resource: string };
+  profileData: UserProfileData | null;
 }
 
 interface ResourceData {
-  title: string;
-  quote: string;
   videoTitle: string;
   videoLink: string;
   videoImage: string;
@@ -42,14 +42,14 @@ interface ResourceData {
   component: FC;
 }
 
-const ResourceWrapper: FC<Props> = ({ params }) => {
+const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeVideo, setActiveVideo] = useState<ResourceData | null>(null);
   const [showIntro, setShowIntro] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
   const windowSize = useWindowSize();
 
-  const resource = params.resource;
+  const { resource } = params;
 
   const resourceData = RESOURCES.find((item) => item.resource === resource);
 
@@ -61,8 +61,6 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
     description,
     quote,
     videoTitle,
-    videoLink,
-    videoImage,
     imageFull,
     component: ContentComponent,
   } = resourceData;
@@ -85,7 +83,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
 
   return (
     <>
-      <div className="flex min-h-dvh w-full flex-col pb-16 pt-14">
+      <div className="flex min-h-dvh w-full flex-col pb-16 pt-14 md:pb-0">
         <div className="flex-1">
           <div className="mx-auto size-full max-w-8xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
             <div className="select-none md:pb-6 lg:px-6">
@@ -142,8 +140,9 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                         src={imageFull}
                         alt={title}
                         classNames={{
-                          wrapper: "!max-w-full",
-                          img: "relative rounded-none brightness-95 object-cover object-center z-0",
+                          wrapper:
+                            "flex items-center justify-center !max-w-full aspect-[908/384]",
+                          img: "aspect-[908/384] relative rounded-none brightness-95 object-cover object-center z-0",
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
@@ -160,17 +159,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                         <Button
                           variant="flat"
                           className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 data-[hover=true]:bg-black/60"
-                          onPress={() =>
-                            handleOpenModal({
-                              title,
-                              quote,
-                              videoTitle,
-                              videoLink,
-                              videoImage,
-                              imageFull,
-                              component: ContentComponent,
-                            })
-                          }
+                          onPress={() => handleOpenModal({ ...resourceData })}
                         >
                           <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
                         </Button>
@@ -254,7 +243,7 @@ const ResourceWrapper: FC<Props> = ({ params }) => {
                   id="content"
                   className="relative text-main dark:text-main-dark"
                 >
-                  <ContentComponent />
+                  <ContentComponent profileData={profileData} />
                 </div>
               </div>
             </div>

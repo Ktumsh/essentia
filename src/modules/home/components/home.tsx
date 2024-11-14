@@ -33,7 +33,7 @@ const Home = ({ profileData }: HomeProps) => {
             </section>
           </div>
         )}
-        <div className="relative mt-5 rounded-t-3xl bg-gray-100 pb-16 dark:bg-dark md:rounded-none md:bg-transparent md:dark:bg-transparent lg:pb-0">
+        <div className="relative mt-5 rounded-t-3xl bg-gray-100 pb-16 dark:bg-dark/50 md:rounded-none md:bg-transparent md:dark:bg-transparent lg:pb-0">
           <div className="flex w-full select-none flex-col py-4 md:py-0">
             <h2 className="mb-2 ml-3 px-8 text-2xl font-medium normal-case tracking-tight text-main-h dark:text-main-dark md:text-sm md:font-bold md:uppercase lg:px-0">
               Recursos

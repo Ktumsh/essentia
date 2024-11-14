@@ -24,10 +24,11 @@ interface Props {
 
 const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
   const windowSize = useWindowSize();
+  const { width } = windowSize;
 
   const itemsGroup = data.slice(startIndex, startIndex + totalItems);
 
-  const slidesToScroll = windowSize.width < 1024 ? 1 : 3;
+  const slidesToScroll = width > 1280 ? 4 : width > 1024 ? 3 : 1;
 
   return (
     <>
@@ -39,7 +40,7 @@ const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
           {itemsGroup.map((item, index) => (
             <CarouselItem
               key={index}
-              className="pl-8 sm:basis-1/2 lg:basis-1/3"
+              className="pl-8 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
             >
               <NutritionCarouselItem
                 modalTitle={item.modalTitle}

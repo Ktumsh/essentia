@@ -89,9 +89,9 @@
   );
   --light-gradient-v2: linear-gradient(
     68.4deg,
-    rgb(248, 182, 204) 0.5%,
+    rgb(248, 160, 204) 0.5%,
     rgb(192, 198, 230) 49%,
-    rgb(225, 246, 240) 99.8%
+    rgb(191, 245, 230) 99.8%
   );
 
   --dark-gradient: linear-gradient(
@@ -111,6 +111,13 @@
     inset 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
+@media (preferes-reduced-motion: no-preference) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 .dark {
   --chart-1: 220 70% 50%;
   --chart-2: 340 75% 55%;
@@ -121,7 +128,11 @@
 
 html.dark {
   .custom-scroll::-webkit-scrollbar {
-    width: 3px !important;
+    width: 3px;
+  }
+
+  .custom-scroll::-webkit-scrollbar:hover {
+    width: 6px;
   }
 
   .custom-scroll::-webkit-scrollbar-track {
@@ -133,7 +144,7 @@ html.dark {
   }
 
   .custom-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    @apply bg-accent-dark;
   }
 
   .card::before {
@@ -144,19 +155,19 @@ html.dark {
     background: var(--background-dark-f-80);
   }
 
-  .dark svg.stars-icon path {
+  svg.stars-icon path {
     fill: url(#dark-gradient-v2);
   }
 
-  .dark svg.stars-icon.v2 path {
+  svg.stars-icon.v2 path {
     fill: url(#dark-gradient);
   }
 
-  .dark svg.ai-gradient-icon path {
+  svg.ai-gradient-icon path {
     fill: url(#ai-dark-gradient-v2);
   }
 
-  .dark svg.ai-gradient-icon.v2 path {
+  svg.ai-gradient-icon.v2 path {
     fill: url(#ai-dark-gradient);
   }
 }
@@ -228,7 +239,11 @@ html.dark {
 }
 
 .custom-scroll::-webkit-scrollbar {
-  width: 3px !important;
+  width: 3px;
+}
+
+.custom-scroll::-webkit-scrollbar:hover {
+  width: 6px;
 }
 
 .custom-scroll::-webkit-scrollbar-track {
@@ -236,7 +251,7 @@ html.dark {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  @apply bg-gray-300;
 }
 
 .build-in-animate {
@@ -447,15 +462,4 @@ html.dark {
 
 .nav_link:hover::after {
   transform: scaleX(1);
-}
-
-.dark svg.ai-gradient-icon.v2 path,
-.dark svg.ai-gradient-icon path,
-.dark svg.stars-icon.v2 path,
-.dark svg.stars-icon path {
-  fill: url(#ai-dark-gradient);
-}
-
-.dark svg.ai-gradient-icon.v2 path {
-  fill: url(#ai-dark-gradient);
 }
