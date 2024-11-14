@@ -98,3 +98,16 @@ export interface AboutSection {
   imgAlt: string;
   bubbles: BubbleData[];
 }
+
+export type ModalSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "full"
+  | undefined;

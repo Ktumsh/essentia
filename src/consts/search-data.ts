@@ -21,9 +21,9 @@ import { IconSvgProps } from "@/types/common";
 import { Video } from "@/types/resource";
 import { formatTitle } from "@/utils/format";
 
-import { FITNESS_MODAL_DATA } from "./fitness-modal";
 import { NUTRITION_MODAL_DATA } from "./nutrition-modal";
 import RESOURCES_VIDEOS from "./resources-videos";
+import { ROUTINES } from "./routines-data";
 
 export interface SearchResult {
   content: string;
@@ -347,19 +347,17 @@ const healthModalSearchData: SearchResult[] = HEALTH_MODAL_DATA.map((data) => ({
   },
 }));
 
-const fitnessModalSearchData: SearchResult[] = FITNESS_MODAL_DATA.map(
-  (data) => ({
-    content: data.modalTitle,
-    objectID: nanoid(),
-    type: "lvl3",
-    url: `/ejercicios-y-fitness#${formatTitle(data.modalTitle)}`,
-    hierarchy: {
-      lvl1: "Ejercicios y Fitness",
-      lvl2: "Rutinas de Ejercicios",
-      lvl3: data.modalTitle,
-    },
-  }),
-);
+const fitnessModalSearchData: SearchResult[] = ROUTINES.map((data) => ({
+  content: data.title,
+  objectID: nanoid(),
+  type: "lvl3",
+  url: `/ejercicios-y-fitness#${formatTitle(data.title)}`,
+  hierarchy: {
+    lvl1: "Ejercicios y Fitness",
+    lvl2: "Rutinas de Ejercicios",
+    lvl3: data.title,
+  },
+}));
 
 const nutritionModalSearchData: SearchResult[] = NUTRITION_MODAL_DATA.map(
   (data) => ({

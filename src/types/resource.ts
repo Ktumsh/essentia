@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { UserProfileData } from "./session";
 
 export interface MaincapResources {
   id: number;
@@ -21,13 +22,14 @@ export interface Resources {
   image: string;
   imageFull: string;
   resource: string;
-  component: FC;
+  component: FC<{ profileData?: UserProfileData | null }>;
 }
 
 export interface Video {
   id: number;
   title: string;
   link: string;
+  channel?: string;
   description?: string;
 }
 
@@ -75,3 +77,11 @@ export type SexualEmergency = {
   title: string;
   steps: SexualityStep[];
 };
+
+export interface ResourceCard {
+  id: string;
+  title: string;
+  image: string;
+  category: string;
+  body: string;
+}

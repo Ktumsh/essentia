@@ -39,7 +39,6 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   const isShare = pathname.startsWith("/share");
   const isAIorShare = isEssentiaAI || isShare;
 
-  // Backgrounds
   const backgroundClasses = useMemo(() => {
     if (!isPremium && !isProfile && !isAccount) {
       return cn(
@@ -62,7 +61,6 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
     }
   }, [isPremium, isProfile, isAccount, isAIorShare]);
 
-  // Motion classes
   const motionContainerClasses = cn(
     "fixed inset-0 z-0 overflow-hidden pointer-events-none",
     isPremium && "absolute inset-0",
