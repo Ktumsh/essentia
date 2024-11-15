@@ -55,6 +55,9 @@ const config: Config = {
         "full-dark/20": "var(--background-dark-f-20)",
         "full-dark/10": "var(--background-dark-f-10)",
         "accent-dark": "var(--background-accent-dark)",
+        altern: "var(--background-alternative)",
+        "altern-light": "var(--background-alternative-light)",
+        "altern-accent": "var(--background-alternative-accent)",
         "radical-red": {
           50: "#ffeff1",
           100: "#ffe0e6",
@@ -140,6 +143,9 @@ const config: Config = {
         spacemono: ["var(--font-space-mono)", ...fontFamily.mono],
         dmsans: ["var(--font-dm-sans)", ...fontFamily.sans],
         sans: ["var(--font-geist-sans)"],
+      },
+      fontSize: {
+        xxs: "0.625rem",
       },
       backgroundImage: {
         noise: "url(/extras/noise.webp)",

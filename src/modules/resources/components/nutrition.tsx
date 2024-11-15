@@ -3,16 +3,19 @@
 import { Button } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { NUTRITION_MODAL_DATA } from "@/consts/nutrition-modal";
+import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import { RECIPES } from "@/consts/recipes-data";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
-import { HashIcon } from "@/modules/icons/common";
+import { HashIcon, StarsIcon } from "@/modules/icons/common";
 
 import { useVisibilityObserver } from "../hooks/use-visibility-obs";
 
 const Loading = () => {
   const windowSize = useWindowSize();
-  const width = windowSize.width;
+  const { width } = windowSize;
+
   return (
     <div className="ml-5 flex flex-1 space-x-8 overflow-hidden">
       {Array.from({ length: width < 1024 ? 1 : 3 }).map((_, i) => (
@@ -34,39 +37,72 @@ const NutritionCarousel = dynamic(() => import("./nutrition-carousel"), {
   ssr: false,
 });
 
-const Nutrition = () => {
+interface NutritionProps {
+  isPremium?: boolean | null;
+}
+
+const Nutrition = ({ isPremium }: NutritionProps) => {
+  const router = useRouter();
   const secondCarousel = useVisibilityObserver();
   const thirdCarousel = useVisibilityObserver();
 
+  const windowSize = useWindowSize();
+  const { width } = windowSize;
+
+  const searchTerm = INITIAL_CHAT_MESSAGES[4].action;
+
+  const onCreatePlan = () => {
+    if (isPremium) {
+      router.push(`/essentia-ai?search=${encodeURIComponent(searchTerm)}`);
+    } else {
+      router.push("/premium");
+    }
+  };
+
   return (
     <>
-      <section className="-ml-3 py-4 md:py-0">
-        <div className="mb-8 w-full px-8 md:px-6">
-          <h3 className="text-main drop-shadow-md dark:text-white">
+      <section className="px-6 py-4 lg:p-0">
+        <div className="relative flex w-full select-none justify-between">
+          <h3 className="mb-4 ml-3 text-main-h dark:text-main-dark">
             <Button
               as={Link}
-              id="recetas-saludables"
-              data-id="recetas-saludables"
-              data-name="Recetas Saludables"
-              href="#recetas-saludables"
+              id="recetas"
+              data-id="recetas"
+              data-name="Recetas"
+              href="#recetas"
               disableRipple
               radius="none"
               variant="flat"
               endContent={
                 <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
               }
-              className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+              className="h-auto w-fit gap-0 bg-transparent p-0 px-2 text-xl font-semibold tracking-tight data-[pressed=true]:scale-100 data-[hover=true]:opacity-80 lg:px-0"
             >
-              <span className="mr-1 bg-orient-700 px-2 text-white dark:bg-cerise-red-400 dark:text-black">
-                Recetas
-              </span>
-              Saludable
+              Recetas
             </Button>
           </h3>
+          {width > 768 && (
+            <Button
+              radius="full"
+              size="sm"
+              onPress={onCreatePlan}
+              startContent={
+                <StarsIcon
+                  aria-hidden="true"
+                  className="stars-icon size-3.5 focus:outline-none"
+                />
+              }
+              className="absolute right-0 top-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+            >
+              <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
+                Crea tu plan nutricional
+              </span>
+            </Button>
+          )}
         </div>
-        <section className="mb-24">
-          <div className="mb-4 flex flex-col space-y-3 px-8 text-main dark:text-white md:px-3">
-            <h4 className="text-main drop-shadow-md dark:text-white">
+        <section className="mb-16">
+          <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
+            <h4 className="text-main dark:text-white">
               <Button
                 as={Link}
                 id="desayunos-saludables"
@@ -79,7 +115,7 @@ const Nutrition = () => {
                 endContent={
                   <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
                 }
-                className="h-auto w-fit gap-0 bg-transparent p-0 text-lg data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+                className="h-auto w-fit gap-0 bg-transparent p-0 text-sm font-semibold uppercase data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
               >
                 Desayunos Saludables
               </Button>
@@ -90,15 +126,11 @@ const Nutrition = () => {
               o Yogurt con berries.
             </p>
           </div>
-          <NutritionCarousel
-            data={NUTRITION_MODAL_DATA}
-            startIndex={18}
-            totalItems={15}
-          />
+          <NutritionCarousel data={RECIPES} startIndex={18} totalItems={15} />
         </section>
-        <section className="mb-24" ref={secondCarousel.ref}>
-          <div className="mb-4 flex flex-col space-y-3 px-8 text-main dark:text-white md:px-3">
-            <h4 className="text-main drop-shadow-md dark:text-white">
+        <section className="mb-16" ref={secondCarousel.ref}>
+          <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
+            <h4 className="text-main dark:text-white">
               <Button
                 as={Link}
                 id="almuerzos-y-cenas-saludables"
@@ -111,7 +143,7 @@ const Nutrition = () => {
                 endContent={
                   <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
                 }
-                className="h-auto w-fit gap-0 bg-transparent p-0 text-lg data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+                className="h-auto w-fit gap-0 bg-transparent p-0 text-sm font-semibold uppercase data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
               >
                 Almuerzos y Cenas Saludables
               </Button>
@@ -123,18 +155,14 @@ const Nutrition = () => {
             </p>
           </div>
           {secondCarousel.isVisible ? (
-            <NutritionCarousel
-              data={NUTRITION_MODAL_DATA}
-              startIndex={0}
-              totalItems={18}
-            />
+            <NutritionCarousel data={RECIPES} startIndex={0} totalItems={18} />
           ) : (
             <Loading />
           )}
         </section>
-        <section className="mb-24" ref={thirdCarousel.ref}>
-          <div className="mb-4 flex flex-col space-y-3 px-8 text-main dark:text-white md:px-3">
-            <h4 className="text-main drop-shadow-md dark:text-white">
+        <section className="mb-16" ref={thirdCarousel.ref}>
+          <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
+            <h4 className="text-main dark:text-white">
               <Button
                 as={Link}
                 id="onces-saludables"
@@ -147,7 +175,7 @@ const Nutrition = () => {
                 endContent={
                   <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
                 }
-                className="h-auto w-fit gap-0 bg-transparent p-0 text-lg data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+                className="h-auto w-fit gap-0 bg-transparent p-0 text-sm font-semibold uppercase data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
               >
                 Onces Saludables
               </Button>
@@ -159,11 +187,7 @@ const Nutrition = () => {
             </p>
           </div>
           {thirdCarousel.isVisible ? (
-            <NutritionCarousel
-              data={NUTRITION_MODAL_DATA}
-              startIndex={33}
-              totalItems={15}
-            />
+            <NutritionCarousel data={RECIPES} startIndex={33} totalItems={15} />
           ) : (
             <Loading />
           )}

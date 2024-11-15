@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/modules/core/components/ui/carousels/carousel-sheet";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
-import { ModalData } from "@/types/common";
+import { ResourceCard } from "@/types/resource";
 
 const NutritionCarouselItem = dynamic(
   () => import("./nutrition-carousel-item"),
@@ -17,7 +17,7 @@ const NutritionCarouselItem = dynamic(
 );
 
 interface Props {
-  data: Array<ModalData>;
+  data: Array<ResourceCard>;
   startIndex: number;
   totalItems: number;
 }
@@ -32,22 +32,14 @@ const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
 
   return (
     <>
-      <Carousel
-        className="w-full px-5 md:px-0"
-        opts={{ slidesToScroll, loop: true }}
-      >
-        <CarouselContent className="-ml-5">
+      <Carousel className="w-full" opts={{ slidesToScroll, loop: true }}>
+        <CarouselContent className="-ml-6">
           {itemsGroup.map((item, index) => (
             <CarouselItem
               key={index}
-              className="pl-8 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+              className="pl-6 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
             >
-              <NutritionCarouselItem
-                modalTitle={item.modalTitle}
-                modalImage={item.modalImage}
-                modalBody={item.modalBody}
-                index={index}
-              />
+              <NutritionCarouselItem item={item} index={index} />
             </CarouselItem>
           ))}
         </CarouselContent>

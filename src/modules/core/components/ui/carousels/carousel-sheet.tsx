@@ -200,8 +200,9 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       aria-label="Previous slide"
+      radius="full"
       className={cn(
-        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-lg bg-black/10 px-0 hover:bg-black/20 active:bg-black/30",
+        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center bg-gray-100 px-0 data-[hover=true]:bg-gray-200 data-[pressed=true]:bg-gray-300 dark:bg-dark/50 dark:data-[hover=true]:bg-dark dark:data-[pressed=true]:bg-accent-dark",
         orientation === "horizontal" ? "" : "rotate-90",
         className,
       )}
@@ -209,7 +210,7 @@ const CarouselPrevious = React.forwardRef<
       onPress={scrollPrev}
       {...props}
     >
-      <CarouselArrowIcon className="size-6 text-white" />
+      <CarouselArrowIcon className="size-6 text-main dark:text-white" />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -228,8 +229,9 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       aria-label="Next slide"
+      radius="full"
       className={cn(
-        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-lg bg-black/10 px-0 hover:bg-black/20 active:bg-black/30",
+        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center bg-gray-100 px-0 data-[hover=true]:bg-gray-200 data-[pressed=true]:bg-gray-300 dark:bg-dark/50 dark:data-[hover=true]:bg-dark dark:data-[pressed=true]:bg-accent-dark",
         orientation === "horizontal" ? "" : "rotate-90",
         className,
       )}
@@ -237,7 +239,7 @@ const CarouselNext = React.forwardRef<
       onPress={scrollNext}
       {...props}
     >
-      <CarouselArrowIcon className="size-6 rotate-180 text-white" />
+      <CarouselArrowIcon className="size-6 rotate-180 text-main dark:text-white" />
       <span className="sr-only">Next slide</span>
     </Button>
   );

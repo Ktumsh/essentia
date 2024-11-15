@@ -2,7 +2,8 @@ import { ResourceCard } from "@/types/resource";
 
 export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
   {
-    id: "mas-alla-de-la-felicidad-y-la-satisfaccion",
+    id: 1,
+    slug: "mas-alla-de-la-felicidad-y-la-satisfaccion",
     title: "Más Allá de la Felicidad y la Satisfacción",
     image: "/modal/salud-article-01.webp",
     category: "Bienestar Psicológico",
@@ -30,7 +31,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
       `,
   },
   {
-    id: "las-8-dimensiones-del-bienestar",
+    id: 2,
+    slug: "las-8-dimensiones-del-bienestar",
     title: "Las 8 Dimensiones del Bienestar",
     image: "/modal/salud-article-02.webp",
     category: "Bienestar Integral",
@@ -63,7 +65,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
       `,
   },
   {
-    id: "la-atencion-plena-para-tu-salud",
+    id: 3,
+    slug: "la-atencion-plena-para-tu-salud",
     title: "La Atención Plena para Tu Salud",
     image: "/modal/salud-article-03.webp",
     category: "Mindfulness",
@@ -90,7 +93,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
       `,
   },
   {
-    id: "como-lograr-un-estilo-de-vida-saludable",
+    id: 4,
+    slug: "como-lograr-un-estilo-de-vida-saludable",
     title: "Cómo Lograr un Estilo de Vida Saludable",
     image: "/modal/salud-article-04.webp",
     category: "Estilo de Vida Saludable",
@@ -125,7 +129,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
       `,
   },
   {
-    id: "8-consejos-para-mejorar-tu-bienestar-fisico-y-emocional",
+    id: 5,
+    slug: "8-consejos-para-mejorar-tu-bienestar-fisico-y-emocional",
     title: "8 Consejos para Mejorar tu Bienestar Físico y Emocional",
     image: "/modal/salud-article-05.webp",
     category: "Consejos de Bienestar",
@@ -168,7 +173,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
       `,
   },
   {
-    id: "consejos-de-bienestar-diario",
+    id: 6,
+    slug: "consejos-de-bienestar-diario",
     title: "Consejos de Bienestar Diario",
     image: "/modal/salud-article-06.webp",
     category: "Bienestar Diario",
@@ -213,7 +219,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
       `,
   },
   {
-    id: "12-consejos-de-la-oms-para-cuidarse",
+    id: 7,
+    slug: "12-consejos-de-la-oms-para-cuidarse",
     title: "12 Consejos de la OMS para Cuidarse",
     image: "/modal/salud-article-07.webp",
     category: "Salud y Bienestar",
@@ -241,7 +248,8 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
     `,
   },
   {
-    id: "el-sueno-la-clave-para-preservar-el-equilibrio",
+    id: 8,
+    slug: "el-sueno-la-clave-para-preservar-el-equilibrio",
     title: "El Sueño, la Clave para Preservar el Equilibrio",
     image: "/modal/salud-article-08.webp",
     category: "Salud Mental",

@@ -20,7 +20,7 @@ const Home = ({ profileData }: HomeProps) => {
         {windowSize.width > 768 ? (
           <div className="relative mb-2 hidden w-full flex-row gap-2 md:flex">
             <section className="flex w-full flex-1 flex-col">
-              <h2 className="mb-2 ml-3 px-5 text-sm font-bold uppercase text-main-h dark:text-main-dark lg:px-0">
+              <h2 className="mb-2 ml-3 px-5 text-sm font-semibold uppercase text-main dark:text-main-dark lg:px-0">
                 Recomendaciones
               </h2>
               <Carousel />
@@ -35,7 +35,7 @@ const Home = ({ profileData }: HomeProps) => {
         )}
         <div className="relative mt-5 rounded-t-3xl bg-gray-100 pb-16 dark:bg-dark/50 md:rounded-none md:bg-transparent md:dark:bg-transparent lg:pb-0">
           <div className="flex w-full select-none flex-col py-4 md:py-0">
-            <h2 className="mb-2 ml-3 px-8 text-2xl font-medium normal-case tracking-tight text-main-h dark:text-main-dark md:text-sm md:font-bold md:uppercase lg:px-0">
+            <h2 className="mb-2 ml-3 px-8 text-xl font-semibold normal-case tracking-tight text-main dark:text-main-dark md:text-sm md:font-semibold md:uppercase md:tracking-normal lg:px-0">
               Recursos
             </h2>
             <section className="flex w-full flex-col px-6 lg:px-0">

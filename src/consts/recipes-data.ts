@@ -1,17 +1,11 @@
-import type { ModalData } from "@/types/common";
+import { ResourceCard } from "@/types/resource";
 
 const timeSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12h-8V4Q8.65 4 6.325 6.325T4 12t2.325 5.675T12 20"/></svg>`;
 const quantitySVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M117.25 157.92a60 60 0 1 0-66.5 0a95.83 95.83 0 0 0-47.22 37.71a8 8 0 1 0 13.4 8.74a80 80 0 0 1 134.14 0a8 8 0 0 0 13.4-8.74a95.83 95.83 0 0 0-47.22-37.71M40 108a44 44 0 1 1 44 44a44.05 44.05 0 0 1-44-44m210.14 98.7a8 8 0 0 1-11.07-2.33A79.83 79.83 0 0 0 172 168a8 8 0 0 1 0-16a44 44 0 1 0-16.34-84.87a8 8 0 1 1-5.94-14.85a60 60 0 0 1 55.53 105.64a95.83 95.83 0 0 1 47.22 37.71a8 8 0 0 1-2.33 11.07"/></svg>`;
 const ingredientsSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><path fill="currentColor" d="M240 112a56.06 56.06 0 0 0-56-56c-1.77 0-3.54.1-5.29.26a56 56 0 0 0-101.42 0C75.54 56.1 73.77 56 72 56a56 56 0 0 0-24 106.59V208a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-45.41A56.09 56.09 0 0 0 240 112m-48 96H64v-40.58a55.5 55.5 0 0 0 8 .58h112a55.5 55.5 0 0 0 8-.58Zm-8-56h-13.75l5.51-22.06a8 8 0 0 0-15.52-3.88L153.75 152H136v-24a8 8 0 0 0-16 0v24h-17.75l-6.49-25.94a8 8 0 1 0-15.52 3.88L85.75 152H72a40 40 0 0 1 0-80h.58a55 55 0 0 0-.58 8a8 8 0 0 0 16 0a40 40 0 0 1 80 0a8 8 0 0 0 16 0a55 55 0 0 0-.58-8h.58a40 40 0 0 1 0 80"/></svg>`;
 const toolsSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 4v17M4 4v3a3 3 0 1 0 6 0V4m4 4a3 4 0 1 0 6 0a3 4 0 1 0-6 0m3 4v9"/></svg>`;
 
-const ModalHeader = ({
-  time,
-  quantity,
-}: {
-  time: string;
-  quantity: string;
-}) => `
+const Header = ({ time, quantity }: { time: string; quantity: string }) => `
   <div class="flex items-center gap-4">
     <div class="flex items-center gap-3">
       ${timeSVG}
@@ -80,15 +74,15 @@ const Preparation = ({
   </ul>
 `;
 
-export const NUTRITION_MODAL_DATA: ModalData[] = [
+export const RECIPES: ResourceCard[] = [
   {
     id: 1,
-    modalTitle: "Salmón a la Plancha",
-    modalImage: "/modal/nutricion-article-01.webp",
-    modalBody: `
-    <section>
+    slug: "salmon-a-la-plancha",
+    title: "Salmón a la Plancha",
+    image: "/modal/nutricion-article-01.webp",
+    body: `
       <div class="flex flex-col w-full space-y-6">
-        ${ModalHeader({ time: "25 minutos", quantity: "3 personas" })}
+        ${Header({ time: "25 minutos", quantity: "3 personas" })}
         <p>
           El salmón a la plancha es una de las recetas con pescado más fáciles que pueden existir. Básicamente es cocinar a fuego alto con un toque de aceite, sal y limón. No necesitas más nada. Cualquier ingrediente y paso extra son simplemente para personalizar esta receta. Y por supuesto, eso es genial.
         </p>
@@ -145,17 +139,17 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
           El salmón contiene omega 3 que favorece la disminución de factores de riesgo cardiovascular.
         </p>
       </div>
-    </section>
   `,
   },
   {
     id: 2,
-    modalTitle: "Ensalada Cobb",
-    modalImage: "/modal/nutricion-article-02.webp",
-    modalBody: `
-      <section>
+    slug: "ensalada-cobb",
+    title: "Ensalada Cobb",
+    image: "/modal/nutricion-article-02.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "45 minutos", quantity: "2 personas" })}
+          ${Header({ time: "45 minutos", quantity: "2 personas" })}
           <p>
             La ensalada Cobb es una receta americana muy conocida que, con el paso de los años, se ha versionado en todo el mundo.
           </p>
@@ -224,17 +218,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La ensalada Cobb es una ensalada americana que se originó en el restaurante Brown Derby de Hollywood, en California, en 1937. La receta original fue creada por Robert H. Cobb, el propietario del restaurante y primo del jugador de béisbol Ty Cobb.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 3,
-    modalTitle: "Ensalada de Pasta con Salsa de Ajo Tostado",
-    modalImage: "/modal/nutricion-article-03.webp",
-    modalBody: `
-      <section>
+    slug: "ensalada-de-pasta-con-salsa-de-ajo-tostado",
+    title: "Ensalada de Pasta con Salsa de Ajo Tostado",
+    image: "/modal/nutricion-article-03.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "4 personas" })}
+          ${Header({ time: "30 minutos", quantity: "4 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -263,17 +258,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Las pastas son una buena fuente de energía, sobre todo, para personas que realizan alta actividad física. Contienen fibra que ayuda al tránsito intestinal.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 4,
-    modalTitle: "Zapallo Spaghetti con Tomate Cherry y Albahaca",
-    modalImage: "/modal/nutricion-article-04.webp",
-    modalBody: `
-      <section>
+    slug: "ensalada-de-pasta-con-salsa-de-ajo-tostado",
+    title: "Zapallo Spaghetti con Tomate Cherry y Albahaca",
+    image: "/modal/nutricion-article-04.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "60 minutos", quantity: "2 personas" })}
+          ${Header({ time: "60 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -302,17 +298,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El zapallo spaghetti es bajo en calorías y colesterol, por lo que bueno para controlar el peso. Buena fuente de fibra y ácido fólico. Tiene propiedades antioxidantes que ayudan a prevenir el cáncer.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 5,
-    modalTitle: "Pescado Frito con Papas al Ajo y al Romero",
-    modalImage: "/modal/nutricion-article-05.webp",
-    modalBody: `
-      <section>
+    slug: "zapallo-spaghetti-con-tomate-cherry-y-albahaca",
+    title: "Pescado Frito con Papas al Ajo y al Romero",
+    image: "/modal/nutricion-article-05.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "40 minutos", quantity: "5 personas" })}
+          ${Header({ time: "40 minutos", quantity: "5 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -339,17 +336,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pescado es rico en ácidos grasos omega 3, que favorecen la salud cardiovascular, reducen los niveles de colesterol y triglicéridos en la sangre. Contiene vitaminas y minerales esenciales para el organismo, vitamina D, B12, fósforo, yodo y zinc. Tiene bajos niveles de grasas saturadas, ideal para personas que llevan una dieta saludable. Se puede comer asado, frito, horneado, a la plancha o incluso crudo en un ceviche.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 6,
-    modalTitle: "Pollo en Salsa Inglesa",
-    modalImage: "/modal/nutricion-article-06.webp",
-    modalBody: `
-      <section>
+    title: "Pollo en Salsa Inglesa",
+    slug: "pollo-en-salsa-inglesa",
+    image: "/modal/nutricion-article-06.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "80 minutos", quantity: "6 a 8 personas" })}
+          ${Header({ time: "80 minutos", quantity: "6 a 8 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -377,17 +375,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pollo tiene un alto contenido de proteínas importantes para el crecimiento y desarrollo muscular y la reparación de tejidos. Es bajo en grasas, ideal para una dieta saludable. Contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad y angustia.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 7,
-    modalTitle: "Tortilla de Zapallo Italiano",
-    modalImage: "/modal/nutricion-article-07.webp",
-    modalBody: `
-      <section>
+    title: "Tortilla de Zapallo Italiano",
+    slug: "tortilla-de-zapallo-italiano",
+    image: "/modal/nutricion-article-07.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "4 a 6 personas" })}
+          ${Header({ time: "30 minutos", quantity: "4 a 6 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -423,17 +422,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El zapallo italiano es un alimento muy nutritivo, con un bajo contenido calórico y grasas. Es una buena fuente de vitaminas, minerales y antioxidantes.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 8,
-    modalTitle: "Quiche de Pollo",
-    modalImage: "/modal/nutricion-article-08.webp",
-    modalBody: `
-      <section>
+    slug: "quiche-de-pollo",
+    title: "Quiche de Pollo",
+    image: "/modal/nutricion-article-08.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "90 minutos", quantity: "8 personas" })}
+          ${Header({ time: "90 minutos", quantity: "8 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para la masa:",
@@ -492,17 +492,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 9,
-    modalTitle: "Shawarma de Pollo con Salsa de Ajo Tostado",
-    modalImage: "/modal/nutricion-article-09.webp",
-    modalBody: `
-      <section>
+    slug: "shawarma-de-pollo-con-salsa-de-ajo-tostado",
+    title: "Shawarma de Pollo con Salsa de Ajo Tostado",
+    image: "/modal/nutricion-article-09.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({
+          ${Header({
             time: "Marinar una noche + 25 minutos",
             quantity: "3 personas",
           })}
@@ -565,17 +566,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 10,
-    modalTitle: "Gohan de Salmón con Salsa Acevichada",
-    modalImage: "/modal/nutricion-article-10.webp",
-    modalBody: `
-      <section>
+    title: "Gohan de Salmón con Salsa Acevichada",
+    slug: "gohan-de-salmon-con-salsa-acevichada",
+    image: "/modal/nutricion-article-10.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "35 minutos", quantity: "3 personas" })}
+          ${Header({ time: "35 minutos", quantity: "3 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el arroz pegajoso:",
@@ -618,17 +620,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El salmón contiene omega 3 que favorece la disminución de factores de riesgo cardiovascular.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 11,
-    modalTitle: "Brochetas de Camarón con Salsa Ají Chipotle",
-    modalImage: "/modal/nutricion-article-11.webp",
-    modalBody: `
-      <section>
+    slug: "brochetas-de-camaron-con-salsa-aji-chipotle",
+    title: "Brochetas de Camarón con Salsa Ají Chipotle",
+    image: "/modal/nutricion-article-11.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "4 personas" })}
+          ${Header({ time: "30 minutos", quantity: "4 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para los camarones:",
@@ -680,17 +683,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Los camarones son bajos en grasas y calorías. Son altos en proteína y omega 3, contienen vitaminas D y B12.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 12,
-    modalTitle: "Curry de Garbanzos",
-    modalImage: "/modal/nutricion-article-12.webp",
-    modalBody: `
-      <section>
+    slug: "curry-de-garbanzos",
+    title: "Curry de Garbanzos",
+    image: "/modal/nutricion-article-12.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "45 minutos", quantity: "2 personas" })}
+          ${Header({ time: "45 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el curry de garbanzos:",
@@ -745,17 +749,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Los garbanzos destacan por su alto contenido en fibra, importante para reducir los niveles de colesterol.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 13,
-    modalTitle: "Berenjena Rellena",
-    modalImage: "/modal/nutricion-article-13.webp",
-    modalBody: `
-      <section>
+    slug: "berenjena-rellena",
+    title: "Berenjena Rellena",
+    image: "/modal/nutricion-article-13.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "35 minutos", quantity: "2 personas" })}
+          ${Header({ time: "35 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para las berenjenas con pisto:",
@@ -811,17 +816,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Las berenjenas contienen vitaminas B1, B6 y potasio. Buena fuente de fibra, antioxidantes y minerales, ayudan a bajar el colesterol y controlar el peso.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 14,
-    modalTitle: "Camote Relleno",
-    modalImage: "/modal/nutricion-article-14.webp",
-    modalBody: `
-      <section>
+    slug: "camote-relleno",
+    title: "Camote Relleno",
+    image: "/modal/nutricion-article-14.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "70 minutos", quantity: "2 personas" })}
+          ${Header({ time: "70 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para los camotes rellenos:",
@@ -858,17 +864,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El camote posee propiedades anti cancerígenas, anti diabéticas y anti envejecimiento. Previene el daño cardiaco, ya que tiene vitamina B6. Rico en fibra, vitaminas B, A y C.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 15,
-    modalTitle: "Pollo al Horno",
-    modalImage: "/modal/nutricion-article-15.webp",
-    modalBody: `
-      <section>
+    slug: "pollo-al-horno",
+    title: "Pollo al Horno",
+    image: "/modal/nutricion-article-15.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "50 minutos", quantity: "4 a 5 personas" })}
+          ${Header({ time: "50 minutos", quantity: "4 a 5 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -898,17 +905,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 16,
-    modalTitle: "Tortilla de Acelga",
-    modalImage: "/modal/nutricion-article-16.webp",
-    modalBody: `
-      <section>
+    slug: "tortilla-de-acelga",
+    title: "Tortilla de Acelga",
+    image: "/modal/nutricion-article-16.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "4 a 5 personas" })}
+          ${Header({ time: "30 minutos", quantity: "4 a 5 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -937,17 +945,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 17,
-    modalTitle: "Merluza a la Pimienta Limón",
-    modalImage: "/modal/nutricion-article-17.webp",
-    modalBody: `
-      <section>
+    slug: "merluza-a-la-pimienta-limon",
+    title: "Merluza a la Pimienta Limón",
+    image: "/modal/nutricion-article-17.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "50 minutos", quantity: "4 a 5 personas" })}
+          ${Header({ time: "50 minutos", quantity: "4 a 5 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -977,17 +986,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 18,
-    modalTitle: "Sandwich en Pan Pita con Pollo",
-    modalImage: "/modal/nutricion-article-18.webp",
-    modalBody: `
-      <section>
+    slug: "sandwich-en-pan-pita-con-pollo",
+    title: "Sandwich en Pan Pita con Pollo",
+    image: "/modal/nutricion-article-18.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "3 personas" })}
+          ${Header({ time: "30 minutos", quantity: "3 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1028,17 +1038,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 19,
-    modalTitle: "Yogurt con Granola y Frutas",
-    modalImage: "/modal/nutricion-article-19.webp",
-    modalBody: `
-      <section>
+    slug: "yogurt-con-granola-y-frutas",
+    title: "Yogurt con Granola y Frutas",
+    image: "/modal/nutricion-article-19.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "10 minutos", quantity: "2 personas" })}
+          ${Header({ time: "10 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1060,17 +1071,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La granola es un alimento elaborado a base de avena, frutos secos, semillas y miel. Es un alimento muy completo y saludable, con una gran variedad de propiedades beneficiosas para la salud.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 20,
-    modalTitle: "Batido de Arándanos en Bowl",
-    modalImage: "/modal/nutricion-article-20.webp",
-    modalBody: `
-      <section>
+    slug: "batido-de-arandanos-en-bowl",
+    title: "Batido de Arándanos en Bowl",
+    image: "/modal/nutricion-article-20.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "10 minutos", quantity: "2 personas" })}
+          ${Header({ time: "10 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el smoothie bowl:",
@@ -1102,17 +1114,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Los arándanos contienen antioxidantes. Estos ayudan a proteger el deterioro celular y la oxidación.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 21,
-    modalTitle: "Pan con Mantequilla de Maní y Plátano",
-    modalImage: "/modal/nutricion-article-21.webp",
-    modalBody: `
-      <section>
+    slug: "pan-con-mantequilla-de-mani-y-platano",
+    title: "Pan con Mantequilla de Maní y Plátano",
+    image: "/modal/nutricion-article-21.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "5 minutos", quantity: "2 personas" })}
+          ${Header({ time: "5 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1137,17 +1150,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La mantequilla de maní es un alimento elaborado a partir de maní molido. Es una fuente importante de proteínas, fibra, grasas saludables, vitaminas y minerales.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 22,
-    modalTitle: "Avena Remojada u Overnight Oats",
-    modalImage: "/modal/nutricion-article-22.webp",
-    modalBody: `
-      <section>
+    slug: "avena-remojada-u-overnight-oats",
+    title: "Avena Remojada u Overnight Oats",
+    image: "/modal/nutricion-article-22.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({
+          ${Header({
             time: "10 minutos + Noche de Remojo",
             quantity: "3 personas",
           })}
@@ -1181,17 +1195,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La avena es buena fuente de fibra, reduce los niveles de colesterol, controla los niveles de glucosa, aporta vitaminas y minerales como magnesio, cobre, hierro, zinc y vitamina B1. Además aumenta la sensación de saciedad.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 23,
-    modalTitle: "Huevos Turcos",
-    modalImage: "/modal/nutricion-article-23.webp",
-    modalBody: `
-      <section>
+    slug: "huevos-turcos",
+    title: "Huevos Turcos",
+    image: "/modal/nutricion-article-23.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "25 minutos", quantity: "2 porciones" })}
+          ${Header({ time: "25 minutos", quantity: "2 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el yogur:",
@@ -1244,17 +1259,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Los huevos son uno de los alimentos más nutritivos, ya que contienen vitaminas A, B, D y E, minerales que ayudan al funcionamiento del cuerpo. Ayudan al desarrollo y a la regeneración celular.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 24,
-    modalTitle: "Pan de Avena Rápido",
-    modalImage: "/modal/nutricion-article-24.webp",
-    modalBody: `
-      <section>
+    slug: "pan-de-avena-rapido",
+    title: "Pan de Avena Rápido",
+    image: "/modal/nutricion-article-24.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "50 minutos", quantity: "6 porciones" })}
+          ${Header({ time: "50 minutos", quantity: "6 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1282,17 +1298,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La avena es buena fuente de fibra, reduce los niveles de colesterol, controla los niveles de glucosa, aporta vitaminas y minerales como magnesio, cobre, hierro, zinc y vitamina B1. Además aumenta la sensación de saciedad.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 25,
-    modalTitle: "Granola",
-    modalImage: "/modal/nutricion-article-25.webp",
-    modalBody: `
-      <section>
+    slug: "granola",
+    title: "Granola",
+    image: "/modal/nutricion-article-25.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "25 minutos", quantity: "" })}
+          ${Header({ time: "25 minutos", quantity: "" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1320,17 +1337,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 26,
-    modalTitle: "Leche Dorada",
-    modalImage: "/modal/nutricion-article-26.webp",
-    modalBody: `
-      <section>
+    slug: "leche-dorada",
+    title: "Leche Dorada",
+    image: "/modal/nutricion-article-26.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "10 minutos", quantity: "" })}
+          ${Header({ time: "10 minutos", quantity: "" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para la pasta (10 a 12 porciones):",
@@ -1369,17 +1387,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 27,
-    modalTitle: "Queque de Zanahoria Vegano",
-    modalImage: "/modal/nutricion-article-27.webp",
-    modalBody: `
-      <section>
+    slug: "queque-de-zanahoria-vegano",
+    title: "Queque de Zanahoria Vegano",
+    image: "/modal/nutricion-article-27.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({
+          ${Header({
             time: "45 minutos + 6 horas de remojo de las castañas cajú",
             quantity: "6 personas",
           })}
@@ -1428,17 +1447,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 28,
-    modalTitle: "Manjar de Dátiles",
-    modalImage: "/modal/nutricion-article-28.webp",
-    modalBody: `
-      <section>
+    slug: "manjar-de-datiles",
+    title: "Manjar de Dátiles",
+    image: "/modal/nutricion-article-28.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({
+          ${Header({
             time: "10 minutos + tiempo de remojo de los dátiles",
             quantity: "1 1/4 taza aprox.",
           })}
@@ -1463,17 +1483,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 29,
-    modalTitle: "Pudín de Chía",
-    modalImage: "/modal/nutricion-article-29.webp",
-    modalBody: `
-      <section>
+    slug: "pudin-de-chia",
+    title: "Pudín de Chía",
+    image: "/modal/nutricion-article-29.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({
+          ${Header({
             time: "10 minutos + 6 horas refrigeración",
             quantity: "4 vasos",
           })}
@@ -1502,17 +1523,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 30,
-    modalTitle: "Panqueques de Avena y Plátano",
-    modalImage: "/modal/nutricion-article-30.webp",
-    modalBody: `
-      <section>
+    slug: "panqueques-de-avena-y-platano",
+    title: "Panqueques de Avena y Plátano",
+    image: "/modal/nutricion-article-30.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "20 minutos", quantity: "2 personas" })}
+          ${Header({ time: "20 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1538,17 +1560,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 31,
-    modalTitle: "Batido de Frutas",
-    modalImage: "/modal/nutricion-article-31.webp",
-    modalBody: `
-      <section>
+    slug: "batido-de-frutas",
+    title: "Batido de Frutas",
+    image: "/modal/nutricion-article-31.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({
+          ${Header({
             time: "5 minutos + 4 horas para congelar el plátano",
             quantity: "2 a 3 personas",
           })}
@@ -1577,17 +1600,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Las frutas contiene antioxidantes. Estos ayudan a proteger el deterioro celular y la oxidación.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 32,
-    modalTitle: "Batido de Dos Colores",
-    modalImage: "/modal/nutricion-article-32.webp",
-    modalBody: `
-      <section>
+    slug: "batido-de-dos-colores",
+    title: "Batido de Dos Colores",
+    image: "/modal/nutricion-article-32.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "20 minutos", quantity: "4 porciones" })}
+          ${Header({ time: "20 minutos", quantity: "4 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1612,17 +1636,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La fruta contiene antioxidantes. Estos ayudan a proteger el deterioro celular y la oxidación.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 33,
-    modalTitle: "Rollitos Pan de Molde",
-    modalImage: "/modal/nutricion-article-33.webp",
-    modalBody: `
-      <section>
+    slug: "rollitos-pan-de-molde",
+    title: "Rollitos Pan de Molde",
+    image: "/modal/nutricion-article-33.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "10 minutos", quantity: "12 unidades" })}
+          ${Header({ time: "10 minutos", quantity: "12 unidades" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1646,17 +1671,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 34,
-    modalTitle: "Tostadas de Masa Madre",
-    modalImage: "/modal/nutricion-article-34.webp",
-    modalBody: `
-      <section>
+    slug: "tostadas-de-masa-madre",
+    title: "Tostadas de Masa Madre",
+    image: "/modal/nutricion-article-34.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "20 minutos", quantity: "2 personas" })}
+          ${Header({ time: "20 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el queso batido:",
@@ -1687,17 +1713,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 35,
-    modalTitle: "Pasta de Salame",
-    modalImage: "/modal/nutricion-article-35.webp",
-    modalBody: `
-      <section>
+    slug: "pasta-de-salame",
+    title: "Pasta de Salame",
+    image: "/modal/nutricion-article-35.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "10 minutos", quantity: "4 porciones" })}
+          ${Header({ time: "10 minutos", quantity: "4 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1716,17 +1743,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 36,
-    modalTitle: "Pasta de Pollo Pimentón",
-    modalImage: "/modal/nutricion-article-36.webp",
-    modalBody: `
-      <section>
+    slug: "pasta-de-pollo-pimenton",
+    title: "Pasta de Pollo Pimentón",
+    image: "/modal/nutricion-article-36.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "35 minutos", quantity: "4 porciones" })}
+          ${Header({ time: "35 minutos", quantity: "4 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1754,17 +1782,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 37,
-    modalTitle: "Pizza de Coliflor",
-    modalImage: "/modal/nutricion-article-37.webp",
-    modalBody: `
-      <section>
+    slug: "pizza-de-coliflor",
+    title: "Pizza de Coliflor",
+    image: "/modal/nutricion-article-37.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "75 minutos", quantity: "2 pizzas medianas" })}
+          ${Header({ time: "75 minutos", quantity: "2 pizzas medianas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para la masa:",
@@ -1801,17 +1830,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             La coliflor es una hortaliza baja en grasas. Importante fuente de fibra y antioxidantes, contiene potasio y fósforo que ayudan a reponerse ante esfuerzos físicos.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 38,
-    modalTitle: "Sandwich Capresse Saludable",
-    modalImage: "/modal/nutricion-article-38.webp",
-    modalBody: `
-      <section>
+    slug: "sandwich-capresse-saludable",
+    title: "Sandwich Capresse Saludable",
+    image: "/modal/nutricion-article-38.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "10 minutos", quantity: "2 personas" })}
+          ${Header({ time: "10 minutos", quantity: "2 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1837,17 +1867,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 39,
-    modalTitle: "Sandwich en Pan Pita con Pollo",
-    modalImage: "/modal/nutricion-article-39.webp",
-    modalBody: `
-      <section>
+    slug: "sandwich-en-pan-pita-con-pollo",
+    title: "Sandwich en Pan Pita con Pollo",
+    image: "/modal/nutricion-article-39.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "3 personas" })}
+          ${Header({ time: "30 minutos", quantity: "3 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el relleno:",
@@ -1888,17 +1919,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 40,
-    modalTitle: "Pan Rápido sin Levadura",
-    modalImage: "/modal/nutricion-article-40.webp",
-    modalBody: `
-      <section>
+    slug: "pan-rapido-sin-levadura",
+    title: "Pan Rápido sin Levadura",
+    image: "/modal/nutricion-article-40.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "15 minutos", quantity: "6 panes planos" })}
+          ${Header({ time: "15 minutos", quantity: "6 panes planos" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1919,17 +1951,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 41,
-    modalTitle: "Pan Integral",
-    modalImage: "/modal/nutricion-article-41.webp",
-    modalBody: `
-      <section>
+    slug: "pan-integral",
+    title: "Pan Integral",
+    image: "/modal/nutricion-article-41.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "12 horas", quantity: "1 pan mediano" })}
+          ${Header({ time: "12 horas", quantity: "1 pan mediano" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para el fermento:",
@@ -1963,17 +1996,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 42,
-    modalTitle: "Pan Pita Integral",
-    modalImage: "/modal/nutricion-article-42.webp",
-    modalBody: `
-      <section>
+    slug: "pan-pita-integral",
+    title: "Pan Pita Integral",
+    image: "/modal/nutricion-article-42.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "1 hora 15 minutos", quantity: "14 panes" })}
+          ${Header({ time: "1 hora 15 minutos", quantity: "14 panes" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -1997,17 +2031,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 43,
-    modalTitle: "Galletas de Avena",
-    modalImage: "/modal/nutricion-article-43.webp",
-    modalBody: `
-      <section>
+    slug: "galletas-de-avena",
+    title: "Galletas de Avena",
+    image: "/modal/nutricion-article-43.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "50 minutos", quantity: "30 galletas" })}
+          ${Header({ time: "50 minutos", quantity: "30 galletas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -2035,17 +2070,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 44,
-    modalTitle: "Panqueques de Avena",
-    modalImage: "/modal/nutricion-article-44.webp",
-    modalBody: `
-      <section>
+    slug: "panqueques-de-avena",
+    title: "Panqueques de Avena",
+    image: "/modal/nutricion-article-44.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "12 panqueques" })}
+          ${Header({ time: "30 minutos", quantity: "12 panqueques" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -2071,17 +2107,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 45,
-    modalTitle: "Hamburguesas de Lentejas",
-    modalImage: "/modal/nutricion-article-45.webp",
-    modalBody: `
-      <section>
+    slug: "hamburguesas-de-lentejas",
+    title: "Hamburguesas de Lentejas",
+    image: "/modal/nutricion-article-45.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "1 hora", quantity: "6 personas" })}
+          ${Header({ time: "1 hora", quantity: "6 personas" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "Para las hamburguesas:",
@@ -2148,17 +2185,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             Las lentejas son buena fuente de energía, ayudan al sistema nervioso, regulan los niveles de glucosa en la sangre y casi no contienen grasa.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 46,
-    modalTitle: "Sandwich Vegetariano",
-    modalImage: "/modal/nutricion-article-46.webp",
-    modalBody: `
-      <section>
+    slug: "sandwich-vegetariano",
+    title: "Sandwich Vegetariano",
+    image: "/modal/nutricion-article-46.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "45 minutos", quantity: "2 porciones" })}
+          ${Header({ time: "45 minutos", quantity: "2 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -2203,17 +2241,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             ],
           })}
         </div>
-      </section>
+
     `,
   },
   {
     id: 47,
-    modalTitle: "Hamburguesa de Pavo",
-    modalImage: "/modal/nutricion-article-47.webp",
-    modalBody: `
-      <section>
+    slug: "hamburguesa-de-pavo",
+    title: "Hamburguesa de Pavo",
+    image: "/modal/nutricion-article-47.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "30 minutos", quantity: "4 porciones" })}
+          ${Header({ time: "30 minutos", quantity: "4 porciones" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -2248,17 +2287,18 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pavo es una buena fuente de minerales, entre los que destacan de mayor a menor proporción selenio, fósforo, zinc y potasio.
           </p>
         </div>
-      </section>
+
     `,
   },
   {
     id: 48,
-    modalTitle: "Jamón de Pavo Acaramelado con Clavos de Olor",
-    modalImage: "/modal/nutricion-article-48.webp",
-    modalBody: `
-      <section>
+    slug: "jamon-de-pavo-acaramelado-con-clavos-de-olor",
+    title: "Jamón de Pavo Acaramelado con Clavos de Olor",
+    image: "/modal/nutricion-article-48.webp",
+    body: `
+
         <div class="flex flex-col w-full space-y-6">
-          ${ModalHeader({ time: "60 minutos", quantity: "4 unidades" })}
+          ${Header({ time: "60 minutos", quantity: "4 unidades" })}
           ${Ingredients({
             title: "Ingredientes",
             subtitle: "",
@@ -2289,7 +2329,7 @@ export const NUTRITION_MODAL_DATA: ModalData[] = [
             El pavo es una buena fuente de minerales, entre los que destacan de mayor a menor proporción selenio, fósforo, zinc y potasio.
           </p>
         </div>
-      </section>
+
     `,
   },
 ];

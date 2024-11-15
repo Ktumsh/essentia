@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid";
 
-import { HEALTH_MODAL_DATA } from "@/consts/health-modal";
 import {
   HealthIcon,
   ExcerciseIcon,
@@ -18,31 +17,26 @@ import {
   RecommendationsIcon,
 } from "@/modules/icons/miscellaneus";
 import { IconSvgProps } from "@/types/common";
-import { Video } from "@/types/resource";
-import { formatTitle } from "@/utils/format";
 
-import { NUTRITION_MODAL_DATA } from "./nutrition-modal";
-import RESOURCES_VIDEOS from "./resources-videos";
+import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
+import { RECIPES } from "./recipes-data";
 import { ROUTINES } from "./routines-data";
+
+type Hierarchy = {
+  lvl1: string | null;
+  lvl2?: string | null;
+  lvl3?: string | null;
+};
 
 export interface SearchResult {
   content: string;
   objectID: string;
   type: string;
   url: string;
-  hierarchy?: {
-    lvl1: string | null;
-    lvl2?: string | null;
-    lvl3?: string | null;
-  };
+  hierarchy?: Hierarchy;
   icon?: (props: IconSvgProps) => JSX.Element;
 }
 
-const healthVideos: Video[] =
-  RESOURCES_VIDEOS.find((section) => section.section === "HealthWellness")
-    ?.videos || [];
-
-// Datos estáticos
 const healthCentersSearchData: SearchResult[] = [
   {
     content: "Centros de Salud",
@@ -63,7 +57,7 @@ const healthSearchData: SearchResult[] = [
     content: "Introducción a Salud y Bienestar",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/salud-y-bienestar#introduccion-a-salud-y-bienestar",
+    url: "/salud-y-bienestar#¿que-es-salud-y-bienestar?",
     hierarchy: {
       lvl1: "Salud y Bienestar",
       lvl2: null,
@@ -89,7 +83,7 @@ const fitnessSearchData: SearchResult[] = [
     content: "Introducción a Ejercicios y Fitness",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/ejercicios-y-fitness#introduccion-a-ejercicios-y-fitness",
+    url: "/ejercicios-y-fitness#¿como-mejorar-tu-condicion-fisica?",
     hierarchy: {
       lvl1: "Ejercicios y Fitness",
       lvl2: null,
@@ -115,7 +109,7 @@ const nutritionSearchData: SearchResult[] = [
     content: "Introducción a Nutrición y Alimentación",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/nutricion-y-alimentacion#introduccion-a-nutricion-y-alimentacion",
+    url: "/nutricion-y-alimentacion#¿que-es-una-alimentacion-saludable?",
     hierarchy: {
       lvl1: "Nutrición y Alimentación",
       lvl2: null,
@@ -124,13 +118,13 @@ const nutritionSearchData: SearchResult[] = [
     icon: NutritionIcon,
   },
   {
-    content: "Recetas Saludables",
+    content: "Recetas",
     objectID: nanoid(),
     type: "lvl2",
-    url: "/nutricion-y-alimentacion#recetas-saludables",
+    url: "/nutricion-y-alimentacion#recetas",
     hierarchy: {
       lvl1: "Nutrición y Alimentación",
-      lvl2: "Recetas Saludables",
+      lvl2: "Recetas",
       lvl3: null,
     },
   },
@@ -174,7 +168,7 @@ const wellbeingSearchData: SearchResult[] = [
     content: "Introducción a Bienestar Emocional",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/bienestar-emocional#introduccion-a-bienestar-emocional",
+    url: "/bienestar-emocional#¿como-mejorar-tu-bienestar-emocional?",
     hierarchy: {
       lvl1: "Bienestar Emocional",
       lvl2: null,
@@ -189,7 +183,7 @@ const sexEducationSearchData: SearchResult[] = [
     content: "Introducción a Salud y Educación Sexual",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/salud-y-educacion-sexual#introduccion-a-salud-y-educacion-sexual",
+    url: "/salud-y-educacion-sexual#¿que-es-la-salud-sexual?",
     hierarchy: {
       lvl1: "Salud y Educación Sexual",
       lvl2: null,
@@ -204,7 +198,7 @@ const forAllAgesSearchData: SearchResult[] = [
     content: "Introducción a Salud para Todas las Edades",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/salud-para-todas-las-edades#introduccion-a-salud-para-todas-las-edades",
+    url: "/salud-para-todas-las-edades#¿como-cuidar-tu-salud-a-cualquier-edad?",
     hierarchy: {
       lvl1: "Salud para todas las edades",
       lvl2: null,
@@ -321,37 +315,25 @@ const additionalsSearchData: SearchResult[] = [
   },
 ];
 
-// Datos de video modales
-const videoHealthSearchData: SearchResult[] = healthVideos.map((video) => ({
-  content: video.title,
-  objectID: nanoid(),
-  type: "lvl3",
-  url: `/salud-y-bienestar#${formatTitle(video.title)}`,
-  hierarchy: {
-    lvl1: "Salud y Bienestar",
-    lvl2: "Videos Recomendados",
-    lvl3: video.title,
-  },
-}));
-
-// Datos de modal
-const healthModalSearchData: SearchResult[] = HEALTH_MODAL_DATA.map((data) => ({
-  content: data.modalTitle,
-  objectID: nanoid(),
-  type: "lvl3",
-  url: `/salud-y-bienestar#${formatTitle(data.modalTitle)}`,
-  hierarchy: {
-    lvl1: "Salud y Bienestar",
-    lvl2: "Artículos Interesantes",
-    lvl3: data.modalTitle,
-  },
-}));
+const healthModalSearchData: SearchResult[] = HEALTH_WELLNESS_ARTICLES.map(
+  (data) => ({
+    content: data.title,
+    objectID: nanoid(),
+    type: "lvl3",
+    url: `/salud-y-bienestar#${data.slug}`,
+    hierarchy: {
+      lvl1: "Salud y Bienestar",
+      lvl2: "Artículos Interesantes",
+      lvl3: data.title,
+    },
+  }),
+);
 
 const fitnessModalSearchData: SearchResult[] = ROUTINES.map((data) => ({
   content: data.title,
   objectID: nanoid(),
   type: "lvl3",
-  url: `/ejercicios-y-fitness#${formatTitle(data.title)}`,
+  url: `/ejercicios-y-fitness#${data.slug}`,
   hierarchy: {
     lvl1: "Ejercicios y Fitness",
     lvl2: "Rutinas de Ejercicios",
@@ -359,21 +341,18 @@ const fitnessModalSearchData: SearchResult[] = ROUTINES.map((data) => ({
   },
 }));
 
-const nutritionModalSearchData: SearchResult[] = NUTRITION_MODAL_DATA.map(
-  (data) => ({
-    content: data.modalTitle,
-    objectID: nanoid(),
-    type: "lvl3",
-    url: `/nutricion-y-alimentacion#${formatTitle(data.modalTitle)}`,
-    hierarchy: {
-      lvl1: "Nutrición y alimentación",
-      lvl2: "Recetas Saludables",
-      lvl3: data.modalTitle,
-    },
-  }),
-);
+const nutritionModalSearchData: SearchResult[] = RECIPES.map((data) => ({
+  content: data.title,
+  objectID: nanoid(),
+  type: "lvl3",
+  url: `/nutricion-y-alimentacion#${data.slug}`,
+  hierarchy: {
+    lvl1: "Nutrición y alimentación",
+    lvl2: "Recetas Saludables",
+    lvl3: data.title,
+  },
+}));
 
-// Combinación de arrays
 export const searchData: SearchResult[] = [
   ...healthCentersSearchData,
   ...healthSearchData,
@@ -385,6 +364,5 @@ export const searchData: SearchResult[] = [
   ...healthModalSearchData,
   ...fitnessModalSearchData,
   ...nutritionModalSearchData,
-  ...videoHealthSearchData,
   ...additionalsSearchData,
 ];

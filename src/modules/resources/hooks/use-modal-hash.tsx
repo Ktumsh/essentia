@@ -11,9 +11,13 @@ export const useModalHash = (
   setActiveVideo?: (video: Video | null) => void,
   video?: Video | null,
 ) => {
+  const getDecodedHash = () =>
+    decodeURIComponent(window.location.hash.slice(1));
+
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.slice(1);
+      const hash = getDecodedHash();
+
       if (hash === formatedTitle) {
         if (setActiveVideo && video) {
           setActiveVideo(video);
@@ -31,10 +35,11 @@ export const useModalHash = (
   }, [formatedTitle, onOpen, setActiveVideo, video]);
 
   useEffect(() => {
+    const hash = getDecodedHash();
     if (isOpen) {
       history.replaceState(null, "", `#${formatedTitle}`);
     } else {
-      if (window.location.hash.slice(1) === formatedTitle) {
+      if (hash === formatedTitle) {
         history.replaceState(null, "", window.location.pathname);
       }
     }

@@ -7,7 +7,6 @@ import Image from "next/image";
 import { EyeIcon } from "@/modules/icons/status";
 import { ModalSize } from "@/types/common";
 import { ResourceCard } from "@/types/resource";
-import { formatTitle } from "@/utils/format";
 
 const CardModal = dynamic(() => import("./card-modal"), { ssr: false });
 
@@ -24,26 +23,8 @@ interface CardItemProps {
 
 const CardItem = ({ item, type }: CardItemProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const {
-    id,
-    title,
-    category,
-    image,
-    body,
-    videoTitle,
-    videoLink,
-    videoChannel,
-  } = item;
-
-  const formatedTitle = formatTitle(title);
-
-  const card = {
-    id,
-    title,
-    category,
-    image,
-    body,
-  };
+  const { slug, title, category, image, videoTitle, videoLink, videoChannel } =
+    item;
 
   const video = {
     videoTitle,
@@ -60,14 +41,10 @@ const CardItem = ({ item, type }: CardItemProps) => {
 
   return (
     <>
-      <li
-        id={formatedTitle}
-        data-id={formatedTitle}
-        className="group relative flex h-32 md:h-52"
-      >
+      <li id={slug} data-id={slug} className="group relative flex h-32 md:h-52">
         <div className="pointer-events-none block size-full">
           <div className="size-full">
-            <div className="relative mx-auto size-full overflow-hidden rounded-lg">
+            <div className="relative mx-auto size-full overflow-hidden rounded-2xl md:rounded-lg">
               <div
                 aria-hidden="true"
                 className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 to-transparent md:to-70%"
@@ -99,7 +76,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
         <button
           onClick={() => {
             onOpen();
-            history.replaceState(null, "", `#${formatedTitle}`);
+            history.replaceState(null, "", `#${slug}`);
           }}
           className="absolute inset-0"
         />
@@ -107,7 +84,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
       <CardModal
         props={{
           type,
-          card,
+          card: item,
           video,
           modal,
         }}
