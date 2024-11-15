@@ -81,20 +81,18 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       </motion.div>
 
       {/* Main content */}
-      <main className="relative w-full text-clip">
-        <div className="flex min-h-screen w-full">
-          {!hideAside && windowSize.width > 768 && <AsideMenu />}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ ease: "easeInOut", duration: 0.3 }}
-            className="flex w-full grow flex-col items-center"
-          >
-            {children}
-          </motion.div>
-          {isHome && windowSize.width > 768 && <AsideTabs />}
-        </div>
-      </main>
+      <div className="flex min-h-screen w-full text-clip">
+        {!hideAside && windowSize.width > 768 && <AsideMenu />}
+        <motion.main
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 0.3 }}
+          className="flex w-full grow flex-col items-center"
+        >
+          {children}
+        </motion.main>
+        {isHome && windowSize.width > 768 && <AsideTabs />}
+      </div>
 
       {/* Button Up */}
       {!hideButtonUp && windowSize.width > 768 && <ButtonUp />}

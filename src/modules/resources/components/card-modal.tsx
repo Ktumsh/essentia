@@ -14,7 +14,6 @@ import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { ModalSize } from "@/types/common";
 import { ResourceCard } from "@/types/resource";
-import { formatTitle } from "@/utils/format";
 
 import { useModalHash } from "../hooks/use-modal-hash";
 
@@ -40,32 +39,31 @@ interface Props {
 
 const CardModal = ({ props }: { props: Props }) => {
   const { type } = props;
-  const { title, category, image, body } = props.card;
+  const { slug, title, category, image, body } = props.card;
   const { videoTitle, videoLink, videoChannel } = props.video;
   const { isOpen, onOpen, onOpenChange, modalSize } = props.modal;
 
   const windowSize = useWindowSize();
 
+  const { width } = windowSize;
+
   const isRoutine = type === "routine";
 
-  const formatedTitle = formatTitle(title);
-
-  useModalHash(formatedTitle, isOpen, onOpen);
+  useModalHash(slug, isOpen, onOpen);
 
   return (
     <>
       <Modal
         placement="center"
         scrollBehavior="inside"
-        size={windowSize.width > 768 ? modalSize : "full"}
+        size={width > 1280 ? modalSize : width > 768 ? "5xl" : "full"}
         backdrop="blur"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         classNames={{
           backdrop: "z-[101] bg-white/50 dark:bg-black/80",
           wrapper: "overflow-hidden z-[102]",
-          body: "py-6",
-          base: "bg-white dark:bg-full-dark max-h-[calc(100%_-_10rem)] lg:max-h-[calc(100%_-_7.5rem)] md:rounded-3xl overflow-hidden",
+          base: "bg-white dark:bg-full-dark max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)] md:rounded-3xl overflow-hidden",
           closeButton:
             "text-white/80 hover:bg-black/10 active:bg-black/15 dark:hover:bg-white/10 dark:active:bg-white/15 transition-colors z-10",
         }}
@@ -73,7 +71,7 @@ const CardModal = ({ props }: { props: Props }) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <header className="animate-header visible relative h-52 w-full shrink-0">
+              <header className="visible relative h-52 w-full shrink-0">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent to-70%" />
                 <Image
                   width={768}

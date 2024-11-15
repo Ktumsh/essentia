@@ -32,7 +32,7 @@ const AsideMenu = () => {
                 </div>
               </div>
               <div className="hidden h-12 items-center gap-5 px-4 lg:flex lg:w-full">
-                <h3 className="text-sm font-bold uppercase text-main-h dark:text-main-dark">
+                <h3 className="text-sm font-semibold uppercase text-main-h dark:text-main-dark">
                   Recursos
                 </h3>
               </div>

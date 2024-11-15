@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const ResourcePage = async ({ params }: Props) => {
   const session = (await auth()) as Session;
   const profileData = session ? await getUserProfileData(session) : null;
-  return <ResourceWrapper params={params} profileData={profileData} />;
+  const { is_premium } = profileData ?? {};
+  return <ResourceWrapper params={params} isPremium={is_premium} />;
 };
 
 export default ResourcePage;

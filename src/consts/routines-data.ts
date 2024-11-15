@@ -2,7 +2,8 @@ import { ResourceCard } from "@/types/resource";
 
 export const ROUTINES: ResourceCard[] = [
   {
-    id: "rutina-cardio",
+    id: 1,
+    slug: "rutina-cardio",
     title: "Rutina de Cardio",
     image: "/modal/fitness-article-01.webp",
     category: "Cardio",
@@ -16,7 +17,8 @@ Mantén un ritmo constante al correr y asegúrate de mantener una buena postura 
     `,
   },
   {
-    id: "rutina-fuerza-principiantes",
+    id: 2,
+    slug: "rutina-fuerza-principiantes",
     title: "Rutina de Fuerza para Principiantes",
     image: "/modal/fitness-article-02.webp",
     category: "Fuerza",
@@ -30,7 +32,8 @@ No sobrecargues el peso al principio; aumenta gradualmente según tu capacidad.
     `,
   },
   {
-    id: "rutina-alta-intensidad-hiit",
+    id: 3,
+    slug: "rutina-de-alta-intensidad-hiit",
     title: "Rutina de Alta Intensidad (HIIT)",
     image: "/modal/fitness-article-03.webp",
     category: "Alta Intensidad",
@@ -46,7 +49,8 @@ Mantén una buena hidratación antes y después del ejercicio.
     `,
   },
   {
-    id: "rutina-core-abdominales",
+    id: 4,
+    slug: "rutina-core-abdominales",
     title: "Rutina de Core y Abdominales",
     image: "/modal/fitness-article-04.webp",
     category: "Core",
@@ -60,7 +64,8 @@ Realiza los ejercicios lentamente para maximizar el trabajo muscular.
     `,
   },
   {
-    id: "rutina-movilidad-equilibrio",
+    id: 5,
+    slug: "rutina-movilidad-equilibrio",
     title: "Rutina de Movilidad y Equilibrio",
     image: "/modal/fitness-article-05.webp",
     category: "Movilidad",
@@ -74,7 +79,8 @@ Realiza los ejercicios en una superficie estable para evitar caídas.
     `,
   },
   {
-    id: "rutina-piernas-gluteos",
+    id: 6,
+    slug: "rutina-piernas-gluteos",
     title: "Rutina de Piernas y Glúteos",
     image: "/modal/fitness-article-06.webp",
     category: "Piernas y Glúteos",
@@ -88,7 +94,8 @@ No permitas que la rodilla delantera pase la punta del pie en las zancadas.
     `,
   },
   {
-    id: "rutina-espalda-biceps",
+    id: 7,
+    slug: "rutina-espalda-biceps",
     title: "Rutina de Espalda y Bíceps",
     image: "/modal/fitness-article-07.webp",
     category: "Espalda y Bíceps",
@@ -102,7 +109,8 @@ Mantén la espalda recta y evita encorvarte durante los ejercicios.
     `,
   },
   {
-    id: "rutina-pecho-triceps",
+    id: 8,
+    slug: "rutina-pecho-triceps",
     title: "Rutina de Pecho y Tríceps",
     image: "/modal/fitness-article-08.webp",
     category: "Pecho y Tríceps",
@@ -116,7 +124,8 @@ Controla el movimiento y evita rebotes bruscos para prevenir lesiones.
     `,
   },
   {
-    id: "rutina-flexibilidad",
+    id: 9,
+    slug: "rutina-flexibilidad",
     title: "Rutina de Flexibilidad",
     image: "/modal/fitness-article-09.webp",
     category: "Flexibilidad",
@@ -130,7 +139,8 @@ No fuerces los estiramientos, hazlos de manera suave y gradual.
     `,
   },
   {
-    id: "rutina-yoga-principiantes",
+    id: 10,
+    slug: "rutina-yoga-principiantes",
     title: "Rutina de Yoga para Principiantes",
     image: "/modal/fitness-article-10.webp",
     category: "Yoga",
@@ -144,7 +154,8 @@ Una sesión suave para mejorar la flexibilidad y la calma mental.
     `,
   },
   {
-    id: "rutina-resistencia-avanzada",
+    id: 11,
+    slug: "rutina-resistencia-avanzada",
     title: "Rutina de Resistencia Avanzada",
     image: "/modal/fitness-article-11.webp",
     category: "Resistencia",
@@ -158,7 +169,8 @@ Una rutina desafiante para mejorar la resistencia y fuerza.
     `,
   },
   {
-    id: "rutina-relajacion",
+    id: 12,
+    slug: "rutina-relajacion",
     title: "Rutina de Relajación y Estiramiento",
     image: "/modal/fitness-article-12.webp",
     category: "Relajación",

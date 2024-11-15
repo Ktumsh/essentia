@@ -3,25 +3,14 @@
 import {
   Button,
   Input,
-  Kbd,
   Modal,
   ModalContent,
-  ModalHeader,
-  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
 import { useLocalStorage } from "@rehooks/local-storage";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useMemo,
-  FC,
-  useId,
-} from "react";
+import { useState, useEffect, useCallback, useMemo, FC, useId } from "react";
 
 import {
   MATCH_KEYS,
@@ -31,16 +20,10 @@ import {
 } from "@/consts/search-constants";
 import { searchData, SearchResult } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
-import {
-  DeleteHistoryIcon,
-  SearchAIIcon,
-  SearchIcon,
-} from "@/modules/icons/action";
+import { SearchAIIcon, SearchIcon } from "@/modules/icons/action";
 import { CloseIcon, HashFillIcon } from "@/modules/icons/common";
 import { Chevron } from "@/modules/icons/navigation";
 import { searchStyles } from "@/styles/search-styles";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import { cn } from "@/utils/common";
 import { formatText } from "@/utils/format";
 
@@ -52,11 +35,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const id = useId();
-
   const router = useRouter();
-
-  const windowSize = useWindowSize();
-  const width = windowSize.width;
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recentSearches, setRecentSearches] = useLocalStorage<SearchResult[]>(
@@ -64,26 +43,20 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
     [],
   );
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [activeItem, setActiveItem] = useState(0);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 150);
 
-  const eventRef = useRef<"mouse" | "keyboard">();
-  const listRef = useRef<HTMLDivElement>(null);
-  const menuNodes = useRef(new Map<number, HTMLButtonElement>()).current;
+  const recommendedItems = useMemo(() => {
+    const lvl1WithIntroduction = searchData.filter(
+      (item) => item.type === "lvl1" && item.content.includes("Introducción"),
+    );
 
-  const items = useMemo(() => {
-    if (debouncedSearchTerm.length < 2) return recentSearches;
-    const normalizedValue = formatText(debouncedSearchTerm);
-    const results = matchSorter(searchData, normalizedValue, {
-      keys: MATCH_KEYS,
-      sorter: (matches) =>
-        matches.sort((a, b) =>
-          a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0,
-        ),
-    }).slice(0, MAX_RESULTS);
-    return results.length > 0 ? results : recentSearches;
-  }, [debouncedSearchTerm, recentSearches]);
+    const otherLvl1 = searchData.filter(
+      (item) => item.type === "lvl1" && !item.content.includes("Introducción"),
+    );
+
+    return [...lvl1WithIntroduction, ...otherLvl1];
+  }, []);
 
   useEffect(() => {
     if (debouncedSearchTerm.length < 2) {
@@ -125,151 +98,72 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
     [router, saveRecentSearch, onClose],
   );
 
-  const clearRecentSearches = useCallback(() => {
-    setRecentSearches([]);
-  }, [setRecentSearches]);
-
-  const onItemSelect = useCallback(
-    (item: SearchResult) => {
-      onClose();
-      router.push(item.url);
-      saveRecentSearch(item);
-    },
-    [onClose, router, saveRecentSearch],
-  );
-
-  const onInputKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      eventRef.current = "keyboard";
-      switch (e.key) {
-        case "ArrowDown":
-          e.preventDefault();
-          setActiveItem((prev) => Math.min(prev + 1, items.length - 1));
-          break;
-        case "ArrowUp":
-          e.preventDefault();
-          setActiveItem((prev) => Math.max(prev - 1, 0));
-          break;
-        case "Enter":
-          if (items.length > 0) {
-            onItemSelect(items[activeItem]);
-          }
-          break;
-        default:
-          break;
-      }
-    },
-    [activeItem, items, onItemSelect],
-  );
-
-  useEffect(() => {
-    if (eventRef.current === "mouse" || !listRef.current) return;
-    const node = menuNodes.get(activeItem);
-    if (node) {
-      node.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-  }, [activeItem, menuNodes]);
-
   const renderItem = useCallback(
-    (item: SearchResult, index: number, isRecent = false) => {
+    (item: SearchResult, isRecent = false) => {
       const isLvl1 = item.type === "lvl1";
       const isLvl2 = item.type === "lvl2";
+
       const mainIcon = isRecent ? (
-        <SearchIcon
-          className={cn(
-            searchStyles.iconColor,
-            "group-data-[hover=true]:text-white",
-            "group-data-[focus=true]:text-white",
-            "group-data-[active=true]:text-white",
-          )}
-        />
+        <SearchIcon className={cn(searchStyles.icon, searchStyles.dataText)} />
       ) : (isLvl1 && item.icon) || (isLvl2 && item.icon) ? (
-        <item.icon
-          className={cn(
-            searchStyles.iconColor,
-            "group-data-[hover=true]:text-white",
-            "group-data-[focus=true]:text-white",
-            "group-data-[active=true]:text-white",
-          )}
-        />
+        <item.icon className={cn(searchStyles.icon, searchStyles.dataText)} />
       ) : (
         <HashFillIcon
-          className={cn(
-            searchStyles.iconColor,
-            "group-data-[hover=true]:text-white",
-            "group-data-[focus=true]:text-white",
-            "group-data-[active=true]:text-white",
-          )}
+          className={cn(searchStyles.icon, searchStyles.dataText)}
         />
       );
 
       return (
         <Button
           key={item.objectID}
-          ref={(el) => {
-            if (el) menuNodes.set(index, el);
-            else menuNodes.delete(index);
-          }}
           role="option"
           data-value={item.content}
-          data-active={width > 768 ? activeItem === index : undefined}
           fullWidth
           size="lg"
-          radius="lg"
           variant="light"
           disableAnimation
           startContent={mainIcon}
           endContent={
             <Chevron
-              className={cn(
-                "size-5 rotate-180",
-                "group-data-[hover=true]:text-white",
-                "group-data-[focus=true]:text-white",
-                "group-data-[active=true]:text-white",
-              )}
+              className={cn("size-5 rotate-180", searchStyles.dataText)}
             />
           }
           className={cn(
             searchStyles.buttonCommon,
-            "data-[hover=true]:bg-bittersweet-400",
-            "dark:data-[hover=true]:bg-cerise-red-600",
-            "data-[focus=true]:bg-bittersweet-400",
-            "dark:data-[focus=true]:bg-cerise-red-600",
-            "data-[active=true]:bg-bittersweet-400",
-            "dark:data-[active=true]:bg-cerise-red-600",
             searchStyles.buttonTextColor,
           )}
           onPress={() => handleSearchSelect(item)}
         >
-          <div className="flex w-full max-w-[80%] flex-col justify-center">
-            {!isLvl1 && (
+          <div
+            className={cn(
+              "flex w-full flex-col justify-center",
+              !isLvl1 && "py-2",
+            )}
+          >
+            {!isLvl1 && item.hierarchy && (
               <span
                 className={cn(
                   "flex select-none items-center text-xs",
-                  "group-data-[hover=true]:text-white",
-                  "group-data-[focus=true]:text-white",
-                  "group-data-[active=true]:text-white",
+                  searchStyles.dataText,
                 )}
               >
-                {item.hierarchy?.lvl1}
-                {item.hierarchy?.lvl3 ? ` > ${item.hierarchy?.lvl2}` : ""}
+                {item.hierarchy.lvl1}
+                {item.hierarchy.lvl3 ? ` > ${item.hierarchy.lvl2}` : ""}
               </span>
             )}
-            <p
+            <h3
               className={cn(
-                "select-none truncate text-main-h dark:text-main-dark-h",
-                "group-data-[hover=true]:text-white",
-                "group-data-[focus=true]:text-white",
-                "group-data-[active=true]:text-white",
+                "select-none truncate text-sm text-main-h dark:text-main-dark-h",
+                searchStyles.dataText,
               )}
             >
               {item.content}
-            </p>
+            </h3>
           </div>
         </Button>
       );
     },
-    [activeItem, menuNodes, handleSearchSelect, width],
+    [handleSearchSelect],
   );
 
   return (
@@ -300,23 +194,20 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
       </Button>
 
       <Modal
-        placement="center"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         hideCloseButton
         scrollBehavior="inside"
         size="xl"
-        radius="sm"
         classNames={{
           backdrop: "z-[101] bg-black/80",
           wrapper: "z-[102]",
-          base: "mx-0 bg-white dark:bg-full-dark border border-gray-200 dark:border-dark text-main dark:text-main-dark",
-          header: "p-0 border-b border-gray-200 dark:border-dark",
+          base: "m-0 bg-white dark:bg-full-dark text-main dark:text-main-dark overflow-hidden rounded-t-2xl rounded-b-none md:rounded-2xl",
         }}
       >
         <ModalContent>
           <>
-            <ModalHeader>
+            <header className="border-b border-gray-200 dark:border-dark">
               <div className={cn(searchStyles.modalHeader)}>
                 <Input
                   role="combobox"
@@ -329,91 +220,80 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                   aria-controls={id}
                   aria-labelledby={id}
                   isClearable
+                  radius="none"
                   size="lg"
                   placeholder="Explora nuestros recursos..."
                   value={searchTerm}
-                  onKeyDown={onInputKeyDown}
                   onValueChange={handleSearchChange}
                   startContent={<SearchIcon className="mr-1 size-7" />}
                   endContent={<CloseIcon className="size-3.5" />}
                   classNames={{
                     clearButton:
                       "border border-gray-200 dark:border-dark hover:bg-gray-100 dark:hover:bg-dark/50 transition-colors duration-150",
-                    inputWrapper: cn(
-                      searchStyles.inputWrapper,
-                      "data-[hover=true]:bg-transparent",
-                      "group-data-[focus=true]:bg-transparent",
-                      "group-data-[focus-visible=true]:ring-0",
-                      "group-data-[focus-visible=true]:ring-offset-0",
-                    ),
+                    inputWrapper: cn(searchStyles.inputWrapper),
                     input: cn(searchStyles.input),
                   }}
                 />
-                <Kbd
-                  classNames={{
-                    abbr: "hidden",
-                    base: "hidden lg:block py-1 px-2 ml-2 font-medium text-[0.7rem] leading-snug bg-gray-200 dark:bg-dark text-main dark:text-main-dark",
-                  }}
+                <button
+                  onClick={onClose}
+                  className="ml-2 hidden rounded-md border border-gray-200 px-2 py-1 text-xxs font-medium transition-colors hover:bg-gray-100 dark:border-dark dark:hover:bg-dark/50 md:block"
                 >
                   ESC
-                </Kbd>
+                </button>
               </div>
-            </ModalHeader>
+            </header>
             <div
               role="listbox"
               aria-label="Sugerencias"
               aria-labelledby={id}
               id={id}
-              ref={listRef}
               className={cn(
                 searchStyles.modalContent,
-                "custom-scroll v2 max-h-[50vh] md:scrollbar-default",
+                "max-h-[50vh] md:scrollbar-default",
               )}
             >
-              {/* Búsquedas recientes */}
-              {searchTerm.length < 1 && recentSearches.length > 0 && (
-                <div role="presentation" data-value="recent">
-                  <div id={id} aria-hidden="true">
-                    <div className="flex items-center justify-between">
-                      <p>Recientes</p>
+              {/* Búsquedas recientes y recomendaciones */}
+              {searchTerm.length < 1 &&
+                recentSearches.length > 0 &&
+                recommendedItems.length > 0 && (
+                  <div
+                    role="presentation"
+                    data-value="recent"
+                    className="antialiased will-change-transform"
+                  >
+                    <div id={id}>
+                      <div className="flex h-10 items-center justify-between px-2">
+                        <span className="text-sm text-main-m dark:text-main-dark-m">
+                          Recientes
+                        </span>
+                      </div>
+                    </div>
+                    <div role="group" aria-labelledby={id}>
+                      {recentSearches.map((search) => renderItem(search, true))}
+                    </div>
+                    <div id={id}>
+                      <div className="flex h-10 items-center justify-between px-2">
+                        <span className="text-sm text-main-m dark:text-main-dark-m">
+                          Recomendados
+                        </span>
+                      </div>
+                    </div>
+                    <div role="group" aria-labelledby={id}>
+                      {recommendedItems.map((item) => renderItem(item))}
                     </div>
                   </div>
-                  <div role="group" aria-labelledby={id}>
-                    {recentSearches.map((search, index) =>
-                      renderItem(search, index, true),
-                    )}
-                    <Tooltip
-                      content="Limpiar historial de búsquedas"
-                      delay={800}
-                      closeDelay={0}
-                      classNames={{
-                        content: tooltipStyles.content,
-                      }}
-                    >
-                      <Button
-                        isIconOnly
-                        radius="sm"
-                        size="sm"
-                        variant="light"
-                        onPress={clearRecentSearches}
-                        startContent={<DeleteHistoryIcon className="size-5" />}
-                        className="float-end mt-2 text-danger data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark/50"
-                      ></Button>
-                    </Tooltip>
-                  </div>
-                </div>
-              )}
+                )}
               {/* No results found */}
               {searchTerm.length >= 1 && searchResults.length === 0 && (
                 <div role="presentation" data-value="no-results">
                   <div className={cn(searchStyles.noResults)}>
                     <div className="space-y-4">
-                      <div>
+                      <div className="text-sm antialiased will-change-transform">
                         <p>No hay resultados para &quot;{searchTerm}&quot;</p>
                         <p className="text-main-l dark:text-main-dark-l">
                           {searchTerm.length < 6
-                            ? "Intente agregar más caracteres a su término de búsqueda."
-                            : "Intente buscar otra cosa."}
+                            ? "Intenta agregar más caracteres al término de búsqueda."
+                            : "Intenta buscar otra cosa o prueba buscando con Essentia AI."}
                         </p>
                       </div>
                       {isPremium && (
@@ -433,7 +313,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
                               className="size-5 text-white"
                             />
                           }
-                          className="justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
+                          className="justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white antialiased will-change-transform data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
                         >
                           Buscar con Essentia AI
                         </Button>
@@ -445,22 +325,30 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
               {/* Search Results */}
               {searchResults.length > 0 && (
                 <div role="presentation" data-value="search">
-                  {searchResults.map((result, index) =>
-                    renderItem(result, index),
-                  )}
+                  {searchResults.map((result) => renderItem(result))}
                 </div>
               )}
               {/* Sin búsquedas recientes */}
               {searchTerm.length < 1 && recentSearches.length === 0 && (
                 <div role="presentation" data-value="no-recent">
                   <div className={cn(searchStyles.noResults)}>
-                    <p className="text-main-l dark:text-main-dark-l">
+                    <p className="text-main-l antialiased will-change-transform dark:text-main-dark-l">
                       Sin búsquedas recientes
                     </p>
                   </div>
                 </div>
               )}
             </div>
+            <footer className="flex flex-row justify-end gap-2 border-t-1 border-gray-200 px-6 py-4 text-main dark:border-dark md:hidden">
+              <Button
+                radius="sm"
+                size="sm"
+                onPress={onClose}
+                className="w-full border border-gray-200 bg-gray-100 text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-dark dark:text-white md:w-fit md:bg-white dark:md:bg-full-dark"
+              >
+                Cerrar
+              </Button>
+            </footer>
           </>
         </ModalContent>
       </Modal>

@@ -4,15 +4,12 @@ import {
   Button,
   Chip,
   Image as ImageUI,
-  Modal,
-  ModalContent,
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
-import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
@@ -25,26 +22,18 @@ import { StarIcon } from "@/modules/icons/common";
 import { TouchIcon } from "@/modules/icons/interface";
 import { NextArrowIcon } from "@/modules/icons/navigation";
 import { tooltipStyles } from "@/styles/tooltip-styles";
-import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
 
+import VideoModal from "./video-modal";
+
 interface ResourceWrapperProps {
   params: { resource: string };
-  profileData: UserProfileData | null;
+  isPremium?: boolean | null;
 }
 
-interface ResourceData {
-  videoTitle: string;
-  videoLink: string;
-  videoImage: string;
-  imageFull: string;
-  component: FC;
-}
-
-const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
+const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [activeVideo, setActiveVideo] = useState<ResourceData | null>(null);
   const [showIntro, setShowIntro] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
   const windowSize = useWindowSize();
@@ -61,34 +50,61 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
     description,
     quote,
     videoTitle,
+    videoLink,
     imageFull,
     component: ContentComponent,
   } = resourceData;
 
   const formatedTitle = formatTitle(title);
 
-  const handleOpenModal = (video: ResourceData) => {
-    setActiveVideo(video);
-    onOpen();
-  };
-
-  const scrollToEnd = () => {
+  const scrollTo = ({ to }: { to: "start" | "end" }) => {
     if (sectionRef.current) {
       sectionRef.current.scrollTo({
-        left: sectionRef.current.scrollWidth,
+        left: to === "start" ? 0 : sectionRef.current.scrollWidth,
         behavior: "smooth",
       });
     }
   };
 
+  const video = {
+    videoTitle,
+    videoLink,
+  };
+
+  const modal = {
+    isOpen,
+    onOpen,
+    onOpenChange,
+  };
+
+  const animationVariants: Variants = {
+    initial: (showIntro: boolean) => ({
+      x: showIntro ? "0%" : "-100%",
+      opacity: 0,
+    }),
+    animate: {
+      x: "0%",
+      opacity: 1,
+    },
+    exit: (showIntro: boolean) => ({
+      x: showIntro ? "0%" : "-100%",
+      opacity: 0,
+    }),
+  };
+
+  const transitionSettings = {
+    x: { ease: "easeInOut", duration: 0.3 },
+    opacity: { ease: "linear", duration: 0.3 },
+  };
+
   return (
     <>
-      <div className="flex min-h-dvh w-full flex-col pb-16 pt-14 md:pb-0">
+      <div className="flex min-h-dvh w-full flex-col overflow-hidden pb-16 pt-14 md:pb-0">
         <div className="flex-1">
           <div className="mx-auto size-full max-w-8xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
-            <div className="select-none md:pb-6 lg:px-6">
+            <div className="select-none lg:px-6 lg:pb-6">
               <div className="mx-auto flex w-full flex-col">
-                <div className="flex flex-col overflow-hidden md:flex-row md:overflow-visible">
+                <div className="flex flex-col overflow-hidden md:overflow-visible lg:flex-row">
                   <section
                     id={`introduccion-a-${formatedTitle}`}
                     data-id={`introduccion-a-${formatedTitle}`}
@@ -142,7 +158,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
                         classNames={{
                           wrapper:
                             "flex items-center justify-center !max-w-full aspect-[908/384]",
-                          img: "aspect-[908/384] relative rounded-none brightness-95 object-cover object-center z-0",
+                          img: "aspect-[908/384] !size-full relative rounded-none brightness-95 object-cover object-center z-0",
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
@@ -159,14 +175,14 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
                         <Button
                           variant="flat"
                           className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 data-[hover=true]:bg-black/60"
-                          onPress={() => handleOpenModal({ ...resourceData })}
+                          onPress={onOpen}
                         >
                           <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
                         </Button>
                       </Tooltip>
                     </div>
                   </section>
-                  {windowSize.width > 768 ? (
+                  {windowSize.width > 1024 ? (
                     <section
                       onMouseEnter={() => setShowIntro(false)}
                       onMouseLeave={() => setShowIntro(true)}
@@ -175,19 +191,12 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
                       <AnimatePresence mode="wait">
                         <motion.div
                           key={showIntro ? "intro" : "description"}
-                          initial={{
-                            x: showIntro ? "0%" : "-100%",
-                            opacity: 0,
-                          }}
-                          animate={{ x: "0%", opacity: 1 }}
-                          exit={{
-                            x: showIntro ? "0%" : "-100%",
-                            opacity: 0,
-                          }}
-                          transition={{
-                            x: { ease: "easeInOut", duration: 0.3 },
-                            opacity: { ease: "linear", duration: 0.3 },
-                          }}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          custom={showIntro}
+                          variants={animationVariants}
+                          transition={transitionSettings}
                           className={cn(
                             "relative w-full p-6",
                             !showIntro &&
@@ -202,7 +211,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
                               <TouchIcon className="animate-bounce-rotate size-10" />
                             </div>
                           )}
-                          <div className="prose text-main dark:prose-invert dark:text-main-dark">
+                          <div className="prose text-main antialiased will-change-transform dark:prose-invert dark:text-main-dark">
                             {showIntro ? (
                               <Markdown>{intro}</Markdown>
                             ) : (
@@ -218,23 +227,32 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
                   ) : (
                     <section
                       ref={sectionRef}
-                      className="custom-scroll v2 group relative inline-flex flex-1 snap-x snap-mandatory overflow-x-auto md:max-w-md"
+                      className="custom-scroll v2 group inline-flex flex-1 snap-x snap-mandatory overflow-x-auto"
                     >
-                      <div className="prose-sm max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
+                      <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
                         <Markdown prose="prose-sm">{intro}</Markdown>
-                        <button
-                          aria-label="Ir al final"
-                          className="absolute bottom-0 right-0 p-6"
-                          onClick={scrollToEnd}
-                        >
-                          <NextArrowIcon className="size-8 text-main-l dark:text-main-dark-l" />
-                        </button>
+                        <div className="mt-2 flex w-full justify-end">
+                          <button
+                            aria-label="Ir al final"
+                            onClick={() => scrollTo({ to: "end" })}
+                          >
+                            <NextArrowIcon className="size-8 text-main-l dark:text-main-dark-l" />
+                          </button>
+                        </div>
                       </div>
-                      <div className="prose-sm max-w-full shrink-0 snap-center p-6 text-main dark:prose-invert dark:text-main-dark">
+                      <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
                         <h3 className="font-semibold text-[#111827] dark:text-white">
                           ¿Qué es {title}?
                         </h3>
                         <Markdown prose="prose-sm">{description}</Markdown>
+                        <div className="mt-2 flex w-full justify-end">
+                          <button
+                            aria-label="Ir al final"
+                            onClick={() => scrollTo({ to: "start" })}
+                          >
+                            <NextArrowIcon className="size-8 rotate-180 text-main-l dark:text-main-dark-l" />
+                          </button>
+                        </div>
                       </div>
                     </section>
                   )}
@@ -243,43 +261,14 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, profileData }) => {
                   id="content"
                   className="relative text-main dark:text-main-dark"
                 >
-                  <ContentComponent profileData={profileData} />
+                  <ContentComponent isPremium={isPremium} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <Modal
-        backdrop="blur"
-        radius="none"
-        size="5xl"
-        placement="center"
-        scrollBehavior="inside"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        classNames={{
-          backdrop: "z-[101] bg-white/50 dark:bg-black/80",
-          wrapper: "z-[102]",
-          closeButton:
-            "z-10 hover:bg-black/5 active:bg-black/10 text-white transition-colors duration-150",
-        }}
-      >
-        <ModalContent>
-          {activeVideo && (
-            <LiteYouTubeEmbed
-              id={activeVideo.videoLink}
-              title={activeVideo.videoTitle}
-              wrapperClass="yt-wrap !rounded-none"
-              playerClass="yt-player"
-              activatedClass="yt-activated"
-              poster="maxresdefault"
-              webp
-            />
-          )}
-        </ModalContent>
-      </Modal>
+      <VideoModal video={video} modal={modal} />
     </>
   );
 };

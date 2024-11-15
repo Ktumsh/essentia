@@ -55,13 +55,12 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       isPressable={windowSize.width > 768 ? false : true}
       className={cn(
         itemsSpan(),
-        "col-span-12 sm:col-span-6",
         "group relative flex flex-col",
         "text-foreground outline-none",
         "shadow-none md:shadow-md",
         "hover:shadow-lg",
         "border border-white dark:border-full-dark",
-        "rounded-large transition-all md:rounded-xl md:hover:z-50",
+        "transition-all md:hover:z-50",
         "h-32 duration-500 motion-reduce:transition-none sm:h-64",
       )}
     >
@@ -90,9 +89,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         height={width > 768 ? 254 : 256}
         src={img}
         alt={`Enlace al recurso de ${title}`}
-        className="relative z-0 size-full rounded-large object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
+        className="relative z-0 size-full rounded-2xl object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
       />
-      <div className="absolute inset-0 rounded-large bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
+      <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
       <div className="absolute bottom-0 z-10 flex h-auto w-full items-center justify-end rounded-b-xl border-gray-100/50 bg-transparent p-3 text-inherit subpixel-antialiased transition-all duration-500 dark:border-full-dark/50 md:border-t-1 md:bg-white/30 md:backdrop-blur md:backdrop-saturate-150 md:dark:bg-full-dark/40 lg:group-hover:rounded-xl lg:group-hover:bg-white/50 lg:group-hover:pt-[211px] dark:lg:group-hover:bg-full-dark/40">
         {children}
         {width > 768 ? (

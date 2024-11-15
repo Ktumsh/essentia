@@ -24,7 +24,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             isPressable
             isBlurred
             shadow="none"
-            className="col-span-2 bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
+            className="col-span-2 rounded-2xl bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
           >
             <CardBody className="h-16 flex-row items-center justify-center gap-4">
               <AIFillIcon className="size-7 text-white" />
@@ -40,7 +40,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             isPressable
             isBlurred
             shadow="none"
-            className="col-span-2 bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
+            className="col-span-2 rounded-2xl bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
           >
             <CardBody className="h-16 flex-row items-center justify-center gap-4">
               <StarsIcon
@@ -59,7 +59,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           isPressable
           isBlurred
           shadow="none"
-          className="border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
+          className="rounded-2xl border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
         >
           <CardBody className="h-20 items-center justify-between text-main-h dark:text-main-dark">
             <HealthCentersFillIcon className="size-7" />
@@ -72,7 +72,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           isPressable
           isBlurred
           shadow="none"
-          className="border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
+          className="rounded-2xl border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
         >
           <CardBody className="h-20 items-center justify-between text-main-h dark:text-main-dark">
             <AdditionalFillIcon className="size-7" />

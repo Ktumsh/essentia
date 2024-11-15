@@ -42,6 +42,10 @@
 
   --background-accent-dark: #123a6f;
 
+  --background-alternative: #e6d5bc;
+  --background-alternative-light: #ece3d4;
+  --background-alternative-accent: #c7a26b;
+
   --chart-1: 173 58% 39%;
   --chart-2: 12 76% 61%;
   --chart-3: 197 37% 24%;
@@ -137,10 +141,6 @@ html.dark {
 
   .custom-scroll::-webkit-scrollbar-track {
     @apply bg-white dark:bg-dark;
-  }
-
-  .custom-scroll.v2::-webkit-scrollbar-track {
-    @apply bg-white dark:bg-full-dark;
   }
 
   .custom-scroll::-webkit-scrollbar-thumb {
@@ -246,12 +246,12 @@ html.dark {
   width: 6px;
 }
 
-.custom-scroll::-webkit-scrollbar-track {
-  @apply bg-white dark:bg-dark;
-}
-
 .custom-scroll::-webkit-scrollbar-thumb {
   @apply bg-gray-300;
+}
+
+.custom-scroll.v3::-webkit-scrollbar-thumb {
+  @apply bg-altern-accent;
 }
 
 .build-in-animate {
