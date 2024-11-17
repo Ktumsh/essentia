@@ -13,7 +13,7 @@ import {
   Image as ImageUI,
 } from "@nextui-org/react";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, type JSX } from "react";
 
 import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DownloadIcon } from "@/modules/icons/action";

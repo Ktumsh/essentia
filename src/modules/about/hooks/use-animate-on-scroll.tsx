@@ -2,7 +2,7 @@
 
 import { RefObject, useEffect } from "react";
 
-const useAnimateOnScroll = (refs: RefObject<HTMLElement>[]) => {
+const useAnimateOnScroll = (refs: RefObject<HTMLElement | null>[]) => {
   useEffect(() => {
     const observerOptions = {
       root: null,

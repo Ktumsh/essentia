@@ -11,7 +11,7 @@ interface ChatLayoutProps {
 export default async function ChatLayout({ children }: ChatLayoutProps) {
   const session = (await auth()) as Session;
   return (
-    <div className="mt-14 flex h-[calc(100dvh-112px)] w-full overflow-hidden text-white lg:h-[calc(100dvh-56px)]">
+    <div className="relative flex h-[calc(100dvh-112px)] w-full overflow-hidden text-white lg:h-[calc(100dvh-56px)]">
       <ChatSidebar session={session} />
       {children}
     </div>

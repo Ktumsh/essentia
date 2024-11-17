@@ -1,11 +1,10 @@
 "use client";
 
-import { useDisclosure } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useState } from "react";
 
 import { EyeIcon } from "@/modules/icons/status";
-import { ModalSize } from "@/types/common";
 import { ResourceCard } from "@/types/resource";
 
 const CardModal = dynamic(() => import("./card-modal"), { ssr: false });
@@ -22,7 +21,7 @@ interface CardItemProps {
 }
 
 const CardItem = ({ item, type }: CardItemProps) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const { slug, title, category, image, videoTitle, videoLink, videoChannel } =
     item;
 
@@ -34,9 +33,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
 
   const modal = {
     isOpen,
-    onOpen,
-    onOpenChange,
-    modalSize: "3xl" as ModalSize,
+    setIsOpen,
   };
 
   return (
@@ -75,7 +72,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
         </div>
         <button
           onClick={() => {
-            onOpen();
+            setIsOpen(true);
             history.replaceState(null, "", `#${slug}`);
           }}
           className="absolute inset-0"

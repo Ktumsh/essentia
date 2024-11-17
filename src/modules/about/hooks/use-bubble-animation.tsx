@@ -2,7 +2,7 @@
 
 import { useEffect, RefObject } from "react";
 
-const useBubbleAnimation = (bubbles: RefObject<HTMLImageElement>[]) => {
+const useBubbleAnimation = (bubbles: RefObject<HTMLImageElement | null>[]) => {
   useEffect(() => {
     const inView = new Map<Element, number>();
     const speed = 0.1;

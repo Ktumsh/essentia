@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Chip,
-  Image as ImageUI,
-  Tooltip,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button, Chip, Image as ImageUI, Tooltip } from "@nextui-org/react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
@@ -33,7 +27,7 @@ interface ResourceWrapperProps {
 }
 
 const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
   const windowSize = useWindowSize();
@@ -73,8 +67,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
 
   const modal = {
     isOpen,
-    onOpen,
-    onOpenChange,
+    setIsOpen,
   };
 
   const animationVariants: Variants = {
@@ -99,7 +92,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
 
   return (
     <>
-      <div className="flex min-h-dvh w-full flex-col overflow-hidden pb-16 pt-14 md:pb-0">
+      <div className="flex w-full flex-col overflow-hidden pb-16 md:pb-0">
         <div className="flex-1">
           <div className="mx-auto size-full max-w-8xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
             <div className="select-none lg:px-6 lg:pb-6">
@@ -175,7 +168,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                         <Button
                           variant="flat"
                           className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 data-[hover=true]:bg-black/60"
-                          onPress={onOpen}
+                          onPress={() => setIsOpen(true)}
                         >
                           <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
                         </Button>

@@ -12,14 +12,13 @@ import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 export interface ChatPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params,
-}: ChatPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ChatPageProps): Promise<Metadata> {
+  const params = await props.params;
   const session = (await auth()) as Session;
 
   if (!session?.user) {
@@ -32,7 +31,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function ChatPage({ params }: ChatPageProps) {
+export default async function ChatPage(props: ChatPageProps) {
+  const params = await props.params;
   const { id } = params;
   const session = (await auth()) as Session;
   const missingKeys = await getMissingKeys();

@@ -49,7 +49,7 @@ const Footer = ({ isMobile }: FooterProps) => {
                 )}
               </li>
             ))}
-            <li className="mt-2">© 2024 Essentia®️</li>
+            <li className="mt-2">© 2024 Essentia</li>
           </ul>
         </span>
       </footer>

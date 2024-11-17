@@ -34,9 +34,13 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
 
   return (
     <>
-      <div role="banner" className="fixed top-0 z-[100] hidden w-full md:block">
+      <div
+        role="banner"
+        className="sticky top-0 z-[100] hidden w-full md:block"
+      >
         <Navbar
           maxWidth="sm"
+          position="sticky"
           classNames={{
             base: "bg-white/80 dark:bg-full-dark/80",
             wrapper: "h-14 justify-center",
@@ -46,7 +50,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
             <NavbarLinks pages={pages} />
           </NavbarContent>
         </Navbar>
-        <div className="fixed left-0 top-0 z-40">
+        <div className="absolute left-0 top-0 z-40">
           <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
             <div className="flex shrink-0 items-center gap-2">
               {essentiaAi && profileData && <SidebarToggle />}
@@ -68,13 +72,13 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
                 href="/"
                 className="hidden font-grotesk text-main dark:text-white/95 xl:block"
               >
-                Essentia®️
+                Essentia
               </Link>
             </div>
             <MainSearch isPremium={is_premium} />
           </div>
         </div>
-        <div className="fixed right-0 top-0 z-40 h-14">
+        <div className="absolute right-0 top-0 z-40 h-14">
           <div className="flex size-full items-center justify-center text-sm font-normal text-gray-500 dark:text-main-dark-h">
             {!profileData && (
               <Button

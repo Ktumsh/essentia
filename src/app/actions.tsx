@@ -2,8 +2,8 @@
 
 import { cookies } from "next/headers";
 
-export const getReusableCookie = (cookieName: string) => {
-  const cookieStore = cookies();
+export const getReusableCookie = async (cookieName: string) => {
+  const cookieStore = await cookies();
   const reusableCookie = cookieStore.get(cookieName);
 
   if (reusableCookie) {
@@ -21,7 +21,7 @@ export const setReusableCookie = async (
 
   const updatedData = { ...currentData, ...newData };
 
-  cookies().set(cookieName, JSON.stringify(updatedData), {
+  (await cookies()).set(cookieName, JSON.stringify(updatedData), {
     path: "/",
     httpOnly: true,
     secure: true,
@@ -33,11 +33,11 @@ export const deleteFieldFromCookie = async (
   cookieName: string,
   field: string,
 ) => {
-  const currentData = getReusableCookie(cookieName) || {};
+  const currentData: Record<string, any> = getReusableCookie(cookieName) || {};
 
   if (field in currentData) {
     delete currentData[field];
-    cookies().set(cookieName, JSON.stringify(currentData), {
+    (await cookies()).set(cookieName, JSON.stringify(currentData), {
       path: "/",
       httpOnly: true,
       secure: true,
@@ -47,7 +47,7 @@ export const deleteFieldFromCookie = async (
 };
 
 export const deleteReusableCookie = async (cookieName: string) => {
-  cookies().set(cookieName, "", {
+  (await cookies()).set(cookieName, "", {
     path: "/",
     httpOnly: true,
     secure: true,

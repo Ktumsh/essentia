@@ -1,6 +1,13 @@
 import { Button, Tooltip } from "@nextui-org/react";
 import Link from "next/link";
-import { useEffect, useState, useRef, FC, CSSProperties } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  FC,
+  CSSProperties,
+  type JSX,
+} from "react";
 
 import { tooltipStyles } from "@/styles/tooltip-styles";
 import { IconSvgProps } from "@/types/common";

@@ -11,8 +11,8 @@ type SectionItemProps = {
   description: string;
   img: string;
   imgAlt: string;
-  slideLeftRef?: RefObject<HTMLDivElement>;
-  slideRightRef?: RefObject<HTMLDivElement>;
+  slideLeftRef?: RefObject<HTMLDivElement | null>;
+  slideRightRef?: RefObject<HTMLDivElement | null>;
 };
 
 const SectionItem = ({

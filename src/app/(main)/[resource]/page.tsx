@@ -6,10 +6,11 @@ import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 type Props = {
-  params: { resource: string };
+  params: Promise<{ resource: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const resource = params.resource
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -20,7 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const ResourcePage = async ({ params }: Props) => {
+const ResourcePage = async (props: Props) => {
+  const params = await props.params;
   const session = (await auth()) as Session;
   const profileData = session ? await getUserProfileData(session) : null;
   const { is_premium } = profileData ?? {};

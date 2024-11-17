@@ -6,17 +6,19 @@ import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 type Props = {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const username = params.username;
   return {
     title: `Perfil de ${username}`,
   };
 }
 
-const ProfilePage = async ({ params }: Props) => {
+const ProfilePage = async (props: Props) => {
+  const params = await props.params;
   const { username } = params;
 
   const session = (await auth()) as Session | null;
@@ -39,7 +41,7 @@ const ProfilePage = async ({ params }: Props) => {
 
   return (
     <>
-      <div className="flex min-h-dvh w-full max-w-5xl shrink grow flex-col items-stretch pb-16 pt-14 md:pb-0">
+      <div className="flex min-h-dvh w-full max-w-5xl shrink grow flex-col items-stretch pb-16 md:pb-0">
         <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />
       </div>
     </>

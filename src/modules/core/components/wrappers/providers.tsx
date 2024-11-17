@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ThemeProviderProps } from "next-themes/dist/types";
+import { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 
 import { SidebarProvider } from "@/modules/chatbot/hooks/use-sidebar";

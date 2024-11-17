@@ -1,4 +1,4 @@
-import { FC, SVGProps } from "react";
+import { FC, SVGProps, type JSX } from "react";
 
 declare global {
   interface Window {
@@ -80,7 +80,7 @@ export interface FAQPrincing {
 }
 
 interface BubbleData {
-  ref: React.RefObject<HTMLImageElement> | null;
+  ref: React.RefObject<HTMLImageElement | null> | null;
   src: string;
   className: string;
   alt: string;
