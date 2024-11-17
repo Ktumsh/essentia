@@ -7,7 +7,7 @@ import { Video } from "@/types/resource";
 export const useModalHash = (
   formatedTitle: string,
   isOpen: boolean,
-  onOpen: () => void,
+  setIsOpen: (isOpen: boolean) => void,
   setActiveVideo?: (video: Video | null) => void,
   video?: Video | null,
 ) => {
@@ -22,7 +22,7 @@ export const useModalHash = (
         if (setActiveVideo && video) {
           setActiveVideo(video);
         }
-        onOpen();
+        setIsOpen(true);
       }
     };
 
@@ -32,7 +32,7 @@ export const useModalHash = (
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
     };
-  }, [formatedTitle, onOpen, setActiveVideo, video]);
+  }, [formatedTitle, setIsOpen, setActiveVideo, video]);
 
   useEffect(() => {
     const hash = getDecodedHash();

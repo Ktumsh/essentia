@@ -1,15 +1,19 @@
-import { Modal, ModalContent } from "@nextui-org/react";
-import React from "react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { formatTitle } from "@/utils/format";
 
 import { useModalHash } from "../hooks/use-modal-hash";
 
 type Modal = {
   isOpen: boolean;
-  onOpen: () => void;
-  onOpenChange: () => void;
+  setIsOpen: (isOpen: boolean) => void;
 };
 
 type Video = {
@@ -23,29 +27,21 @@ interface VideoModalProps {
 }
 
 const VideoModal = ({ video, modal }: VideoModalProps) => {
-  const { isOpen, onOpen, onOpenChange } = modal;
+  const { isOpen, setIsOpen } = modal;
   const { videoTitle, videoLink } = video;
 
   const formatedTitle = formatTitle(videoTitle as string);
 
-  useModalHash(formatedTitle, isOpen, onOpen);
+  useModalHash(formatedTitle, isOpen, setIsOpen);
   return (
-    <Modal
-      backdrop="blur"
-      radius="none"
-      size="5xl"
-      placement="center"
-      scrollBehavior="inside"
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      classNames={{
-        backdrop: "z-[101] bg-white/50 dark:bg-black/80",
-        wrapper: "z-[102]",
-        closeButton:
-          "z-10 hover:bg-black/5 active:bg-black/10 text-white transition-colors duration-150",
-      }}
-    >
-      <ModalContent>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent isBlurred className="max-w-5xl rounded-none p-0">
+        <DialogHeader>
+          <DialogTitle className="sr-only">{videoTitle}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Video sobre {videoTitle}
+          </DialogDescription>
+        </DialogHeader>
         {video && (
           <LiteYouTubeEmbed
             id={videoLink || ""}
@@ -57,8 +53,8 @@ const VideoModal = ({ video, modal }: VideoModalProps) => {
             webp
           />
         )}
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
 

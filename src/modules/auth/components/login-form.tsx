@@ -9,8 +9,8 @@ import {
   useEffect,
   useState,
   useTransition,
+  useActionState,
 } from "react";
-import { useFormState } from "react-dom";
 import { toast } from "sonner";
 
 import { authenticate } from "@/app/(auth)/login/actions";
@@ -27,7 +27,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
-  const [result, dispatch] = useFormState(authenticate, undefined);
+  const [result, dispatch] = useActionState(authenticate, undefined);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();

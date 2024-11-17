@@ -22,6 +22,8 @@ import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
 import { RECIPES } from "./recipes-data";
 import { ROUTINES } from "./routines-data";
 
+import type { JSX } from "react";
+
 type Hierarchy = {
   lvl1: string | null;
   lvl2?: string | null;

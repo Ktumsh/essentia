@@ -13,14 +13,15 @@ import { formatDate } from "@/utils/format";
 import { getUserProfileData } from "@/utils/profile";
 
 interface SharePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params,
-}: SharePageProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: SharePageProps,
+): Promise<Metadata> {
+  const params = await props.params;
   const chat = await getSharedChat(params.id);
 
   return {
@@ -28,7 +29,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function SharePage({ params }: SharePageProps) {
+export default async function SharePage(props: SharePageProps) {
+  const params = await props.params;
   const { id } = params;
   const chatFromDb = await getSharedChat(id);
   const chat: Chat = {
@@ -46,7 +48,7 @@ export default async function SharePage({ params }: SharePageProps) {
 
   return (
     <>
-      <div className="mt-14 flex-1 space-y-6">
+      <div className="flex-1 space-y-6">
         <div className="border-b border-gray-50 px-4 py-6 dark:border-white/10 md:px-6 md:py-8">
           <div className="mx-auto max-w-2xl">
             <div className="space-y-1 md:-mx-8">

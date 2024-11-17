@@ -141,7 +141,7 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
   };
 
   const handleMenuAction = (
-    inputRef: RefObject<HTMLInputElement>,
+    inputRef: RefObject<HTMLInputElement | null>,
     key: string,
     type: "banner" | "profile",
   ) => {

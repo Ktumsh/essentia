@@ -8,17 +8,19 @@ import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 type Props = {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const username = params.username;
   return {
     title: `Foto de portada de ${username}`,
   };
 }
 
-export default async function BannerPage({ params }: Props) {
+export default async function BannerPage(props: Props) {
+  const params = await props.params;
   const { username } = params;
 
   const session = ((await auth()) || null) as Session;

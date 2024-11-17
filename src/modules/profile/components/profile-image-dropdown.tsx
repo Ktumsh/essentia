@@ -18,9 +18,9 @@ import { cn } from "@/utils/common";
 
 interface ProfileImageDropdownProps {
   type: "profile" | "banner";
-  fileInputRef: RefObject<HTMLInputElement>;
+  fileInputRef: RefObject<HTMLInputElement | null>;
   handleMenuAction: (
-    fileInputRef: RefObject<HTMLInputElement>,
+    fileInputRef: RefObject<HTMLInputElement | null>,
     key: string,
     type: "profile" | "banner",
   ) => void;

@@ -43,13 +43,15 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
     },
   );
 
+  const isMobile = windowSize.width < 768;
+
   useEffect(() => {
-    if (windowSize.width < 768) {
+    if (isMobile) {
       mutate();
     }
-  }, [windowSize.width, pathname, mutate]);
+  }, [isMobile, pathname, mutate]);
 
-  if (windowSize.width > 768) return null;
+  if (!isMobile) return null;
 
   const essentiaAi = pathname.startsWith("/essentia-ai");
   const sheetSide = "right";
@@ -65,9 +67,8 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
         />
       )}
       <Navbar
-        shouldHideOnScroll
         classNames={{
-          base: "fixed md:hidden bg-white dark:bg-full-dark overflow-hidden border-b border-gray-300 dark:border-dark",
+          base: "fixed md:hidden bg-white/80 dark:bg-full-dark/80 overflow-hidden border-b border-gray-200 dark:border-dark",
           wrapper: "h-14",
         }}
       >
@@ -119,6 +120,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
           </SheetContent>
         </Sheet>
       </Navbar>
+      <div aria-hidden="true" className="pb-14"></div>
     </>
   );
 };

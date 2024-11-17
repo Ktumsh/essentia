@@ -45,7 +45,7 @@ export const PreviewAttachment = ({
         {!isUploading && !!onRemove && (
           <button
             onClick={onRemove}
-            className="dark:border-accent-dark absolute -right-1.5 -top-1.5 flex items-center justify-center rounded-full border border-gray-300 bg-white p-1 transition-opacity group-hover/preview:opacity-100 dark:bg-full-dark md:opacity-0"
+            className="absolute -right-1.5 -top-1.5 flex items-center justify-center rounded-full border border-gray-300 bg-white p-1 transition-opacity group-hover/preview:opacity-100 dark:border-accent-dark dark:bg-full-dark md:opacity-0"
           >
             <CloseIcon className="size-3 text-main dark:text-white" />
           </button>

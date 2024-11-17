@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 interface UseMapInstanceProps {
-  mapRef: React.RefObject<HTMLDivElement>;
+  mapRef: React.RefObject<HTMLDivElement | null>;
   isLoaded: boolean;
 }
 

@@ -1,6 +1,6 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
   font-family: "DM Sans";
@@ -8,204 +8,238 @@
     format("truetype");
 }
 
-:root {
-  --text-main: #212f3d;
-  --text-main-h: rgb(33 47 61 / 87%);
-  --text-main-m: rgb(33 47 61 / 60%);
-  --text-main-l: rgb(33 47 61 / 38%);
+@layer base {
+  :root {
+    --text-main: #212f3d;
+    --text-main-h: rgb(33 47 61 / 87%);
+    --text-main-m: rgb(33 47 61 / 60%);
+    --text-main-l: rgb(33 47 61 / 38%);
 
-  --text-main-dark: #cbd5e1;
-  --text-main-dark-h: rgb(203 213 225 / 87%);
-  --text-main-dark-m: rgb(203 213 225 / 60%);
-  --text-main-dark-l: rgb(203 213 225 / 38%);
+    --text-main-dark: #cbd5e1;
+    --text-main-dark-h: rgb(203 213 225 / 87%);
+    --text-main-dark-m: rgb(203 213 225 / 60%);
+    --text-main-dark-l: rgb(203 213 225 / 38%);
 
-  --background-dark: #061b37;
-  --background-dark-90: rgb(6 27 55 / 90%);
-  --background-dark-80: rgb(6 27 55 / 80%);
-  --background-dark-70: rgb(6 27 55 / 70%);
-  --background-dark-60: rgb(6 27 55 / 60%);
-  --background-dark-50: rgb(6 27 55 / 50%);
-  --background-dark-40: rgb(6 27 55 / 40%);
-  --background-dark-30: rgb(6 27 55 / 30%);
-  --background-dark-20: rgb(6 27 55 / 20%);
-  --background-dark-10: rgb(6 27 55 / 10%);
-  --background-dark-f: #030e1e;
-  --background-dark-f-90: rgb(3 14 30 / 90%);
-  --background-dark-f-80: rgb(3 14 30 / 80%);
-  --background-dark-f-70: rgb(3 14 30 / 70%);
-  --background-dark-f-60: rgb(3 14 30 / 60%);
-  --background-dark-f-50: rgb(3 14 30 / 50%);
-  --background-dark-f-40: rgb(3 14 30 / 40%);
-  --background-dark-f-30: rgb(3 14 30 / 30%);
-  --background-dark-f-20: rgb(3 14 30 / 20%);
-  --background-dark-f-10: rgb(3 14 30 / 10%);
+    --background-dark: #061b37;
+    --background-dark-90: rgb(6 27 55 / 90%);
+    --background-dark-80: rgb(6 27 55 / 80%);
+    --background-dark-70: rgb(6 27 55 / 70%);
+    --background-dark-60: rgb(6 27 55 / 60%);
+    --background-dark-50: rgb(6 27 55 / 50%);
+    --background-dark-40: rgb(6 27 55 / 40%);
+    --background-dark-30: rgb(6 27 55 / 30%);
+    --background-dark-20: rgb(6 27 55 / 20%);
+    --background-dark-10: rgb(6 27 55 / 10%);
+    --background-dark-f: #030e1e;
+    --background-dark-f-90: rgb(3 14 30 / 90%);
+    --background-dark-f-80: rgb(3 14 30 / 80%);
+    --background-dark-f-70: rgb(3 14 30 / 70%);
+    --background-dark-f-60: rgb(3 14 30 / 60%);
+    --background-dark-f-50: rgb(3 14 30 / 50%);
+    --background-dark-f-40: rgb(3 14 30 / 40%);
+    --background-dark-f-30: rgb(3 14 30 / 30%);
+    --background-dark-f-20: rgb(3 14 30 / 20%);
+    --background-dark-f-10: rgb(3 14 30 / 10%);
 
-  --background-accent-dark: #123a6f;
+    --background-accent-dark: #123a6f;
 
-  --background-alternative: #e6d5bc;
-  --background-alternative-light: #ece3d4;
-  --background-alternative-accent: #c7a26b;
+    --background-alternative: #e6d5bc;
+    --background-alternative-light: #ece3d4;
+    --background-alternative-accent: #c7a26b;
 
-  --chart-1: 173 58% 39%;
-  --chart-2: 12 76% 61%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
+    --chart-1: 173 58% 39%;
+    --chart-2: 12 76% 61%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
 
-  --light-radial-gradient: radial-gradient(
-    circle,
-    rgb(242, 112, 156),
-    transparent,
-    transparent
-  );
-  --dark-radial-gradient: radial-gradient(
-    circle,
-    rgb(255, 115, 115),
-    transparent,
-    transparent
-  );
-  --dark-radial-gradient-2: radial-gradient(
-    circle,
-    rgb(255, 175, 123) 0%,
-    transparent 71%
-  );
+    --background: 0 0% 100%;
+    --foreground: 210, 30%, 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 220, 13%, 91%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 221, 83%, 53%;
+    --scrollbar: 220, 13%, 91%;
 
-  --bg-bento-gradient: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.12) 12%,
-    rgba(255, 255, 255, 0.04) 50%,
-    rgba(255, 255, 255, 0.08) 83%,
-    rgba(255, 255, 255, 0.2)
-  );
+    --light-radial-gradient: radial-gradient(
+      circle,
+      rgb(242, 112, 156),
+      transparent,
+      transparent
+    );
+    --dark-radial-gradient: radial-gradient(
+      circle,
+      rgb(255, 115, 115),
+      transparent,
+      transparent
+    );
+    --dark-radial-gradient-2: radial-gradient(
+      circle,
+      rgb(255, 175, 123) 0%,
+      transparent 71%
+    );
 
-  --landing-gradient: linear-gradient(
-    68.4deg,
-    rgb(248, 182, 204) 0.5%,
-    rgb(192, 198, 230) 49%,
-    rgb(225, 246, 240) 99.8%
-  );
+    --bg-bento-gradient: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.12) 12%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(255, 255, 255, 0.08) 83%,
+      rgba(255, 255, 255, 0.2)
+    );
 
-  --light-gradient: linear-gradient(
-    to right,
-    rgb(242, 112, 156),
-    rgb(255, 148, 114)
-  );
-  --light-gradient-v2: linear-gradient(
-    68.4deg,
-    rgb(248, 160, 204) 0.5%,
-    rgb(192, 198, 230) 49%,
-    rgb(191, 245, 230) 99.8%
-  );
+    --landing-gradient: linear-gradient(
+      68.4deg,
+      rgb(248, 182, 204) 0.5%,
+      rgb(192, 198, 230) 49%,
+      rgb(225, 246, 240) 99.8%
+    );
 
-  --dark-gradient: linear-gradient(
-    111.1deg,
-    #061b37 -4.8%,
-    #ff7373 82.7%,
-    #ffaf7b 97.2%
-  );
-  --dark-gradient-v2: linear-gradient(
-    111.1deg,
-    #061b37 -100%,
-    rgb(255, 115, 115) 82.7%,
-    rgb(255, 175, 123) 97.2%
-  );
+    --light-gradient: linear-gradient(
+      to right,
+      rgb(242, 112, 156),
+      rgb(255, 148, 114)
+    );
+    --light-gradient-v2: linear-gradient(
+      68.4deg,
+      rgb(248, 160, 204) 0.5%,
+      rgb(192, 198, 230) 49%,
+      rgb(191, 245, 230) 99.8%
+    );
 
-  --bento-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.2),
-    inset 0 0 0 3px rgba(255, 255, 255, 0.2);
+    --dark-gradient: linear-gradient(
+      111.1deg,
+      #061b37 -4.8%,
+      #ff7373 82.7%,
+      #ffaf7b 97.2%
+    );
+    --dark-gradient-v2: linear-gradient(
+      111.1deg,
+      #061b37 -100%,
+      rgb(255, 115, 115) 82.7%,
+      rgb(255, 175, 123) 97.2%
+    );
+
+    --bento-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 3px rgba(255, 255, 255, 0.2);
+  }
+
+  .dark {
+    --chart-1: 220 70% 50%;
+    --chart-2: 340 75% 55%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 160 60% 45%;
+
+    --background: 214, 80%, 12%;
+    --foreground: 213, 27%, 84%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 214, 80%, 12%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 221, 83%, 53%;
+    --scrollbar: 214, 80%, 12%;
+
+    .custom-scroll::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .custom-scroll::-webkit-scrollbar:hover {
+      width: 6px;
+    }
+
+    .custom-scroll::-webkit-scrollbar-track {
+      @apply bg-white dark:bg-dark;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+      @apply bg-accent-dark;
+    }
+
+    .card::before {
+      background: radial-gradient(var(--clr-dark), transparent, transparent);
+    }
+
+    .card::after {
+      background: var(--background-dark-f-80);
+    }
+
+    svg.stars-icon path {
+      fill: url(#dark-gradient-v2);
+    }
+
+    svg.stars-icon.v2 path {
+      fill: url(#dark-gradient);
+    }
+
+    svg.ai-gradient-icon path {
+      fill: url(#ai-dark-gradient-v2);
+    }
+
+    svg.ai-gradient-icon.v2 path {
+      fill: url(#ai-dark-gradient);
+    }
+  }
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--scrollbar));
+    border-radius: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--scrollbar)) transparent;
+  }
+  .dark .modal {
+    scrollbar-color: var(--background-dark-f) transparent !important;
+  }
+
+  .StripeElement > * {
+    font-family: var(--font-dm-sans) !important;
+  }
 }
 
 @media (preferes-reduced-motion: no-preference) {
   * {
     animation: none !important;
     transition: none !important;
-  }
-}
-
-.dark {
-  --chart-1: 220 70% 50%;
-  --chart-2: 340 75% 55%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 160 60% 45%;
-}
-
-html.dark {
-  .custom-scroll::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  .custom-scroll::-webkit-scrollbar:hover {
-    width: 6px;
-  }
-
-  .custom-scroll::-webkit-scrollbar-track {
-    @apply bg-white dark:bg-dark;
-  }
-
-  .custom-scroll::-webkit-scrollbar-thumb {
-    @apply bg-accent-dark;
-  }
-
-  .card::before {
-    background: radial-gradient(var(--clr-dark), transparent, transparent);
-  }
-
-  .card::after {
-    background: var(--background-dark-f-80);
-  }
-
-  svg.stars-icon path {
-    fill: url(#dark-gradient-v2);
-  }
-
-  svg.stars-icon.v2 path {
-    fill: url(#dark-gradient);
-  }
-
-  svg.ai-gradient-icon path {
-    fill: url(#ai-dark-gradient-v2);
-  }
-
-  svg.ai-gradient-icon.v2 path {
-    fill: url(#ai-dark-gradient);
-  }
-}
-
-.StripeElement > * {
-  font-family: var(--font-dm-sans) !important;
-}
-
-@supports selector(::-webkit-scrollbar) {
-  ::-webkit-scrollbar {
-    @apply size-1.5;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-bittersweet-400/70;
-  }
-
-  ::-webkit-scrollbar-thumb:active {
-    @apply bg-bittersweet-400;
-  }
-
-  .dark ::-webkit-scrollbar {
-    @apply size-1.5 bg-full-dark;
-  }
-
-  .dark ::-webkit-scrollbar-thumb {
-    @apply bg-cerise-red-900/70;
-  }
-
-  .dark ::-webkit-scrollbar-thumb:active {
-    @apply bg-cerise-red-900;
-  }
-
-  @supports not selector(::-webkit-scrollbar) {
-    * {
-      scrollbar-color: transparent;
-      scrollbar-width: thin;
-    }
   }
 }
 

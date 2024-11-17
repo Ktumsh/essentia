@@ -19,11 +19,11 @@ const AsideMenu = () => {
   const asideLinks = siteConfig.asideMenuLinks;
 
   return (
-    <aside className="sticky left-0 top-0 hidden max-h-dvh max-w-96 md:flex md:pt-14 2xl:w-full">
-      <div className="relative flex h-full w-fit lg:w-72">
-        <div className="mt-14 flex w-full flex-col items-center p-2 pb-0 md:mt-0 md:space-y-4">
-          <div className="flex size-full flex-col">
-            <div className="mb-2 flex w-full flex-col gap-2">
+    <aside className="fixed hidden h-full max-h-[calc(100dvh-56px)] max-w-96 md:flex 2xl:w-full">
+      <div className="relative flex w-fit lg:w-72">
+        <div className="flex flex-col p-2 pb-0 md:mt-0 md:space-y-4">
+          <div className="h-full">
+            <div className="mb-2 space-y-2">
               <div className="hidden h-12 w-full items-center justify-center rounded-lg bg-gray-200 px-5 dark:bg-dark lg:flex">
                 <div className="flex w-full items-center">
                   <h2 className="font-semibold text-main-h dark:text-white">

@@ -15,7 +15,7 @@ const Home = ({ profileData }: HomeProps) => {
   const windowSize = useWindowSize();
 
   return (
-    <div className="flex w-full shrink grow items-stretch justify-center pt-14 md:pb-0 lg:px-8">
+    <div className="flex w-full shrink grow items-stretch justify-center md:pb-0 lg:px-8">
       <div className="flex size-full max-w-5xl shrink grow flex-col items-stretch py-5 lg:px-5 lg:pb-5">
         {windowSize.width > 768 ? (
           <div className="relative mb-2 hidden w-full flex-row gap-2 md:flex">

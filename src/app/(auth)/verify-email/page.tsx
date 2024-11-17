@@ -4,10 +4,11 @@ import { getUserByEmail } from "@/db/user-querys";
 import VerifyEmail from "@/modules/auth/components/verify-email";
 
 type Props = {
-  searchParams: { email?: string };
+  searchParams: Promise<{ email?: string }>;
 };
 
-const VerifyEmailPage = async ({ searchParams }: Props) => {
+const VerifyEmailPage = async (props: Props) => {
+  const searchParams = await props.searchParams;
   const { email } = searchParams;
 
   if (!email) {
