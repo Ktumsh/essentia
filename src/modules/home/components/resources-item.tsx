@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Card } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
+import { siteConfig } from "@/config/site";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { cn } from "@/utils/common";
 
@@ -21,15 +21,18 @@ type ResoucesItemProps = {
 
 const ResourcesItem = (props: ResoucesItemProps) => {
   const windowSize = useWindowSize();
-  const [isMounted, setIsMounted] = useState(false);
   const { index, title, subtitle, img, href, children } = props;
-  const { width } = windowSize;
+  const isMobile = windowSize.width < 768;
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const resources = siteConfig.asideMenuLinks;
 
-  const itemsSpan = () => {
+  const resource = resources.find(
+    (resource) =>
+      resource.name.toLocaleLowerCase().normalize("NFD") ===
+      title.toLocaleLowerCase().normalize("NFD"),
+  );
+
+  const itemSpan = useMemo(() => {
     switch (true) {
       case index === 0 || index === 4:
         return "md:col-span-4";
@@ -42,84 +45,119 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       default:
         return "";
     }
-  };
+  }, [index]);
 
-  if (!isMounted) {
-    return null;
-  }
+  const itemColor = useMemo(() => {
+    switch (true) {
+      case index === 0:
+        return "from-emerald-600 to-emerald-500";
 
-  return (
-    <Card
-      as={windowSize.width > 768 ? undefined : Link}
-      href={windowSize.width > 768 ? undefined : href}
-      isPressable={windowSize.width > 768 ? false : true}
-      className={cn(
-        itemsSpan(),
-        "group relative flex flex-col",
-        "text-foreground outline-none",
-        "shadow-none md:shadow-md",
-        "hover:shadow-lg",
-        "border border-white dark:border-full-dark",
-        "transition-all md:hover:z-50",
-        "h-32 duration-500 motion-reduce:transition-none sm:h-64",
-      )}
-    >
-      <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
-        <span className="text-tiny font-bold uppercase text-white/60 transition-opacity lg:group-hover:opacity-0">
-          {subtitle}
-        </span>
-        <h3 className="text-2xl font-medium text-white transition-opacity sm:text-xl lg:group-hover:opacity-0 2xl:text-2xl">
-          {title}
-        </h3>
-      </div>
-      <Image
-        priority
-        quality={80}
-        width={
-          width > 768
-            ? index === 0 || index === 4
-              ? 321
-              : index === 1 || index === 5
-                ? 403
-                : index === 2 || index === 3
-                  ? 238
-                  : 254
-            : 343
-        }
-        height={width > 768 ? 254 : 256}
-        src={img}
-        alt={`Enlace al recurso de ${title}`}
-        className="relative z-0 size-full rounded-2xl object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
-      />
-      <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
-      <div className="absolute bottom-0 z-10 flex h-auto w-full items-center justify-end rounded-b-xl border-gray-100/50 bg-transparent p-3 text-inherit subpixel-antialiased transition-all duration-500 dark:border-full-dark/50 md:border-t-1 md:bg-white/30 md:backdrop-blur md:backdrop-saturate-150 md:dark:bg-full-dark/40 lg:group-hover:rounded-xl lg:group-hover:bg-white/50 lg:group-hover:pt-[211px] dark:lg:group-hover:bg-full-dark/40">
-        {children}
-        {width > 768 ? (
-          <Button
-            as={Link}
-            href={href}
+      case index === 1:
+        return "from-sky-600 to-sky-500";
+
+      case index === 2:
+        return "from-yellow-600 to-yellow-500";
+
+      case index === 3:
+        return "from-fuchsia-600 to-fuchsia-500";
+
+      case index === 4:
+        return "from-rose-600 to-rose-500 ";
+
+      default:
+        return "from-cyan-600 to-cyan-500";
+    }
+  }, [index]);
+
+  const imageWidth = useMemo(() => {
+    switch (true) {
+      case index === 0 || index === 4:
+        return 363;
+
+      case index === 1 || index === 5:
+        return 457;
+
+      case index === 2 || index === 3:
+        return 270;
+
+      default:
+        return 254;
+    }
+  }, [index]);
+
+  if (isMobile) {
+    return (
+      <Link
+        href={href}
+        className={cn(
+          itemColor,
+          "relative h-32 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64",
+        )}
+      >
+        <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
+          <span className="text-xs font-bold uppercase text-white/60">
+            {subtitle}
+          </span>
+          <h3 className="text-xl font-semibold text-white sm:text-xl">
+            {title}
+          </h3>
+        </div>
+        <div className="absolute inset-x-5 bottom-5 flex items-end justify-between">
+          <div>
+            {resource && <resource.icon className="size-7 text-white" />}
+          </div>
+          <div className="inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-medium dark:bg-full-dark">
+            <div className="text-sm font-normal text-main dark:text-white">
+              <ArrowRightV2Icon className="size-5" />
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
+  } else {
+    return (
+      <Link
+        href={href}
+        className={cn(
+          itemSpan,
+          "group relative flex h-64 flex-col overflow-hidden rounded-xl border border-white text-main transition-all duration-500 motion-reduce:transition-none dark:border-full-dark dark:text-main-dark",
+        )}
+      >
+        <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
+          <span className="text-xs font-bold uppercase text-white/60 transition-opacity group-hover:opacity-0">
+            {subtitle}
+          </span>
+          <h3 className="font-medium text-white transition-opacity group-hover:opacity-0 sm:text-xl 2xl:text-2xl">
+            {title}
+          </h3>
+        </div>
+        <Image
+          priority
+          quality={80}
+          width={imageWidth}
+          height={254}
+          src={img}
+          alt={`Enlace al recurso de ${title}`}
+          className="relative z-0 size-full object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
+        />
+        <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
+        <div className="absolute bottom-0 z-10 flex h-auto w-full items-center justify-end rounded-b-xl border-gray-100/50 bg-transparent p-3 text-inherit subpixel-antialiased transition-all duration-500 dark:border-full-dark/50 md:border-t-1 md:bg-white/30 md:backdrop-blur md:backdrop-saturate-150 md:dark:bg-full-dark/40 lg:group-hover:rounded-xl lg:group-hover:bg-white/50 lg:group-hover:pt-[211px] dark:lg:group-hover:bg-full-dark/40">
+          {children}
+          <div
             aria-label="Ver"
-            radius="full"
-            variant="light"
-            className="h-8 w-12 min-w-0 bg-light-gradient text-white shadow-medium !transition-all group-hover:w-20 data-[hover=true]:brightness-90 dark:bg-dark-gradient-v2"
+            className="relative inline-flex h-8 w-12 min-w-0 items-center justify-center rounded-full bg-light-gradient px-4 text-white shadow-medium !transition-all group-hover:w-20 data-[hover=true]:brightness-90 dark:bg-dark-gradient-v2"
           >
-            <div className="inline-flex whitespace-nowrap opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
+            <div className="inline-flex whitespace-nowrap text-sm opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
               Ver
             </div>
             <div className="absolute right-3.5">
               <ArrowRightV2Icon className="size-5" />
             </div>
-          </Button>
-        ) : (
-          <div className="relative inline-flex h-8 w-12 items-center justify-center overflow-hidden rounded-full bg-light-gradient text-sm font-normal text-white shadow-medium dark:bg-dark-gradient-v2">
-            <div className="absolute right-3.5">
-              <ArrowRightV2Icon className="size-5" />
-            </div>
           </div>
-        )}
-      </div>
-    </Card>
-  );
+        </div>
+      </Link>
+    );
+  }
 };
 
 export default ResourcesItem;

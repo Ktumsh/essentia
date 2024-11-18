@@ -1,18 +1,13 @@
 "use client";
 
-import { Navbar } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC, useEffect, useState } from "react";
-import useSWR from "swr";
+import { useState } from "react";
 
-import ChatHistory from "@/modules/chatbot/components/chat-history";
-import SidebarMobile from "@/modules/chatbot/components/sidebar-mobile";
+import SidebarToggle from "@/modules/core/components/ui/sidebar/sidebar-toggle";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
-import { Chat } from "@/types/chat";
 import { UserProfileData } from "@/types/session";
-import { fetcher } from "@/utils/common";
 
 import {
   Sheet,
@@ -29,58 +24,19 @@ interface MobileHeaderProps {
   profileData: UserProfileData | null;
 }
 
-const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
-  const windowSize = useWindowSize();
+const MobileHeader = ({ profileData }: MobileHeaderProps) => {
   const pathname = usePathname();
+  const windowSize = useWindowSize();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [isSheetChatOpen, setIsSheetChatOpen] = useState(false);
-  const isChat = pathname.startsWith("/essentia-ai");
-  const { data: history, mutate } = useSWR<Array<Chat>>(
-    profileData && isChat ? "/api/chat/history" : null,
-    fetcher,
-    {
-      fallbackData: [],
-    },
-  );
 
   const isMobile = windowSize.width < 768;
-
-  useEffect(() => {
-    if (isMobile) {
-      mutate();
-    }
-  }, [isMobile, pathname, mutate]);
-
-  if (!isMobile) return null;
-
-  const essentiaAi = pathname.startsWith("/essentia-ai");
-  const sheetSide = "right";
-  const sheetSideChat = "left";
+  const isAIPage = pathname.startsWith("/essentia-ai");
 
   return (
     <>
-      <SheetEdgeDragArea onOpen={() => setIsSheetOpen(true)} side={sheetSide} />
-      {essentiaAi && profileData && (
-        <SheetEdgeDragArea
-          onOpen={() => setIsSheetChatOpen(true)}
-          side={sheetSideChat}
-        />
-      )}
-      <Navbar
-        classNames={{
-          base: "fixed md:hidden bg-white/80 dark:bg-full-dark/80 overflow-hidden border-b border-gray-200 dark:border-dark",
-          wrapper: "h-14",
-        }}
-      >
-        {essentiaAi && profileData && (
-          <SidebarMobile
-            isSheetOpen={isSheetChatOpen}
-            setIsSheetOpen={setIsSheetChatOpen}
-            sheetSide={sheetSideChat}
-          >
-            <ChatHistory chats={history} mutate={mutate} />
-          </SidebarMobile>
-        )}
+      <SheetEdgeDragArea onOpen={() => setIsSheetOpen(true)} />
+      <nav className="sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden border-b border-gray-200 bg-white/80 px-6 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80 md:hidden">
+        {(!isMobile || isAIPage) && <SidebarToggle />}
         <Link
           className="relative size-8 rounded-full transition-transform active:scale-95"
           href="/"
@@ -102,7 +58,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
           </SheetTrigger>
           <SheetContent
             aria-labelledby="dialog-description"
-            side={sheetSide}
+            side="right"
             hideCloseButton
             open={isSheetOpen}
             onOpenChange={setIsSheetOpen}
@@ -119,8 +75,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ profileData }) => {
             <MobileMenu profileData={profileData} />
           </SheetContent>
         </Sheet>
-      </Navbar>
-      <div aria-hidden="true" className="pb-14"></div>
+      </nav>
     </>
   );
 };

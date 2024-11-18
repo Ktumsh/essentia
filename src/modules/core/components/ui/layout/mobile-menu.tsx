@@ -132,7 +132,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                                 : "text-main-h dark:text-main-dark-h",
                             )}
                           >
-                            <link.icon
+                            <link.activeIcon
                               className={`size-5 transition-colors ${
                                 currentPath === link.link
                                   ? "text-bittersweet-400 dark:text-cerise-red-400"

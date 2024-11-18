@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 import { useMemo, type JSX } from "react";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { DownloadIcon } from "@/modules/icons/action";
 import {
   HeartbeatIcon,
@@ -182,7 +182,7 @@ const AssesHealthRiskStock = ({
           <Chip color="danger" className="shadow-md">
             Tu riesgo de salud
           </Chip>
-          <TooltipCTN content="Descargar como imagen">
+          <BetterTooltip content="Descargar como imagen">
             <Button
               isIconOnly
               size="sm"
@@ -192,7 +192,7 @@ const AssesHealthRiskStock = ({
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
-          </TooltipCTN>
+          </BetterTooltip>
         </div>
       </CardHeader>
       <CardBody className="justify-around space-y-2 p-2 text-main-h dark:text-main-dark md:flex-row md:space-y-4 md:p-8">
@@ -294,9 +294,7 @@ const AssesHealthRiskStock = ({
                 ].map(({ id, value }) => (
                   <tr key={id}>
                     <td>{value.percentage}%</td>
-                    <TooltipCTN content={value.level} placement="right">
-                      <td>{getRiskIcon(value.level)}</td>
-                    </TooltipCTN>
+                    <td>{getRiskIcon(value.level)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -336,11 +334,11 @@ const AssesHealthRiskStock = ({
                 <h3 className="text-lg font-medium text-main-h dark:text-main-dark">
                   IMC
                 </h3>
-                <TooltipCTN content="Índice de masa corporal">
+                <BetterTooltip content="Índice de masa corporal">
                   <p className="font-sans text-4xl font-extrabold uppercase">
                     {riskAssessment.bmi}
                   </p>
-                </TooltipCTN>
+                </BetterTooltip>
               </div>
             </Badge>
             <div className="rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-dark">

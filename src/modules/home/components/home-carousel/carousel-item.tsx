@@ -78,13 +78,13 @@ const CarouselItem = (props: CarouselProps) => {
                 </div>
               </Link>
 
-              <div className="flex h-52 w-fit items-center overflow-hidden md:rounded-3xl">
+              <div className="flex h-56 w-fit items-center overflow-hidden md:rounded-3xl">
                 <Image
                   priority={index < 2}
                   loading={index > 1 ? "lazy" : "eager"}
                   quality={90}
-                  width={index === 1 ? 982 : index === 3 ? 1080 : 992}
-                  height={index === 1 ? 561 : index === 3 ? 549 : 558}
+                  width={1110}
+                  height={index === 0 || index === 2 ? 624 : 635}
                   src={img}
                   alt={title}
                   className="aspect-auto !h-auto object-cover object-center"

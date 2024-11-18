@@ -44,7 +44,7 @@ export const searchStyles = {
     "transition-colors duration-150",
   ],
   modalHeader: ["flex", "items-center", "w-full", "pl-2", "pr-4", "!mt-0"],
-  modalContent: ["p-2", "overflow-y-auto", "modal", "max-h-[50vh]"],
+  modalContent: ["p-2", "overflow-y-auto", "modal", "md:max-h-[50vh]"],
   noResults: [
     "flex",
     "flex-col",

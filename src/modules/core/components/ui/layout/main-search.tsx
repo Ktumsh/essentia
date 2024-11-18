@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -39,9 +40,10 @@ import { formatText } from "@/utils/format";
 
 interface MainSearchProps {
   isPremium?: boolean;
+  children?: React.ReactNode;
 }
 
-const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
+const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const id = useId();
@@ -321,7 +323,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
             <SearchIcon className="!size-6" aria-hidden="true" />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="min-h-[560px]">
+        <DrawerContent className="max-h-[50dvh] min-h-[560px]">
           <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
             <DrawerTitle>Buscar</DrawerTitle>
             <Search />
@@ -333,19 +335,13 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium }) => {
   } else {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button
-            aria-label="Busca rápida"
-            radius="full"
-            className="hidden w-10 min-w-0 px-0 text-main-m dark:bg-dark dark:text-main-dark-m md:inline-flex lg:min-w-40 lg:justify-start lg:px-4 xl:w-full"
-          >
-            <SearchIcon className="size-5" />
-            <span className="hidden lg:block">Busca rápida</span>
-          </Button>
-        </DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent closeButton={false} className="gap-0 p-0">
           <DialogHeader className="border-b border-gray-200 dark:border-full-dark">
-            <DialogTitle className="sr-only">Buscar</DialogTitle>
+            <DialogTitle className="sr-only">Busca rápida</DialogTitle>
+            <DialogDescription className="sr-only">
+              Busca rápida
+            </DialogDescription>
             <Search />
           </DialogHeader>
           <SearchContent />

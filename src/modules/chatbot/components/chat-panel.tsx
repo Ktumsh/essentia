@@ -105,7 +105,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-x-0 bottom-14 z-10 w-full transition-[padding] md:bottom-0 peer-[[data-state=open]]:group-[]:md:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
+      <div className="pointer-events-none sticky bottom-0 z-10 w-full transition-[padding] peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:bottom-0 md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow">
         <div className="pointer-events-auto relative mx-auto max-w-2xl sm:px-4">
           <ButtonToBottom
             isAtBottom={isAtBottom}

@@ -61,12 +61,12 @@ export function Chat({
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
   return (
-    <div
-      className="group w-full overflow-auto pl-0 transition-[padding] peer-[[data-state=open]]:md:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
-      ref={scrollRef}
-    >
+    <div className="group flex w-full flex-col overflow-y-auto" ref={scrollRef}>
       <div
-        className={cn("pb-32 pt-4 md:pt-10 lg:pb-48", className)}
+        className={cn(
+          "flex flex-1 flex-col pb-32 pt-4 md:pt-10 lg:pb-48",
+          className,
+        )}
         ref={messagesRef}
       >
         {messages.length ? (

@@ -3,7 +3,7 @@
 import { Switch } from "@nextui-org/react";
 import { useState } from "react";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { HospitalIcon, PharmacyIcon } from "@/modules/icons/miscellaneus";
 
 interface Props {
@@ -19,13 +19,14 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
   };
 
   return (
-    <TooltipCTN
+    <BetterTooltip
       content={
         isSelected
           ? "Buscar farmacias cercanas"
           : "Buscar centros de salud cercanos"
       }
-      placement="top-start"
+      side="bottom"
+      align="end"
     >
       <div className="bg-base flex flex-col gap-2 md:min-w-48">
         <Switch
@@ -51,7 +52,7 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
           </span>
         </Switch>
       </div>
-    </TooltipCTN>
+    </BetterTooltip>
   );
 };
 

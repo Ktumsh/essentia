@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import {
   HealthIcon,
-  ExcerciseIcon,
+  ExerciseIcon,
   NutritionIcon,
   WellbeingIcon,
   SexualityIcon,
@@ -30,7 +30,7 @@ const ResourceTabs = () => {
     {
       name: "Ejercicios y fitness",
       link: "/recursos/ejercicios-y-fitness",
-      icon: ExcerciseIcon,
+      icon: ExerciseIcon,
     },
     {
       name: "Nutrición y alimentación",

@@ -16,10 +16,10 @@ import Image from "next/image";
 import { Fragment } from "react";
 import { toast } from "sonner";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { DownloadIcon } from "@/modules/icons/action";
 import { CheckCircledIcon, WarningCircledIcon } from "@/modules/icons/common";
-import { ExcerciseIcon } from "@/modules/icons/interface";
+import { ExerciseIcon } from "@/modules/icons/interface";
 import {
   EquipmentIcon,
   ItineraryIcon,
@@ -79,7 +79,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
         <Tab
           key="exercise"
           aria-label="Ejercicio"
-          title={<ExcerciseIcon aria-hidden="true" className="size-4" />}
+          title={<ExerciseIcon aria-hidden="true" className="size-4" />}
         >
           <h3 className="font-medium text-main dark:text-white md:text-lg">
             {exercise.name}
@@ -100,51 +100,51 @@ const renderExerciseDetails = (exercise: Exercise) => {
             </div>
             {exercise.duration && (
               <div className="inline-flex items-center gap-1">
-                <TooltipCTN placement="left" content="Duración">
+                <BetterTooltip side="left" content="Duración">
                   <div aria-hidden="true">
                     <ClockIcon className="size-3" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{exercise.duration}</span>
               </div>
             )}
             {exercise.rest && (
               <div className="inline-flex items-center gap-1">
-                <TooltipCTN placement="left" content="Descanso">
+                <BetterTooltip side="left" content="Descanso">
                   <div aria-hidden="true">
                     <RestIcon className="size-3" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{exercise.rest}</span>
               </div>
             )}
             {exercise.equipment && (
               <div className="inline-flex items-center gap-1">
-                <TooltipCTN placement="left" content="Equipamiento">
+                <BetterTooltip side="left" content="Equipamiento">
                   <div aria-hidden="true">
                     <EquipmentIcon className="size-3" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{exercise.equipment}</span>
               </div>
             )}
             {exercise.progression && (
               <div className="inline-flex gap-1 md:items-center">
-                <TooltipCTN placement="left" content="Progresión">
+                <BetterTooltip side="left" content="Progresión">
                   <div aria-hidden="true" className="mt-1 md:mt-0">
                     <ProgressionIcon className="size-3" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{exercise.progression}</span>
               </div>
             )}
             {exercise.modifications && (
               <div className="inline-flex items-center gap-1">
-                <TooltipCTN placement="left" content="Modificaciones">
+                <BetterTooltip side="left" content="Modificaciones">
                   <div aria-hidden="true">
                     <ItineraryIcon className="size-3" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{exercise.modifications}</span>
               </div>
             )}
@@ -212,7 +212,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           <Chip color="danger" className="shadow-md">
             Rutina de Ejercicios
           </Chip>
-          <TooltipCTN content="Descargar como imagen">
+          <BetterTooltip content="Descargar como imagen">
             <Button
               isIconOnly
               size="sm"
@@ -222,7 +222,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
-          </TooltipCTN>
+          </BetterTooltip>
         </div>
       </CardHeader>
       <CardBody className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-8">
@@ -241,7 +241,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
             <div className="flex w-full flex-wrap gap-4">
               <div className="inline-flex items-center gap-1.5">
                 <div aria-hidden="true">
-                  <ExcerciseIcon className="size-4" />
+                  <ExerciseIcon className="size-4" />
                 </div>
                 <span>Ejercicio</span>
               </div>

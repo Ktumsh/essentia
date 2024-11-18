@@ -3,6 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 // eslint-disable-next-line import/no-unresolved
 import { GeistSans } from "geist/font/sans";
 import { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import Script from "next/script";
 import { Toaster } from "sonner";
 
@@ -94,7 +95,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = (await auth()) as Session;
+  const [session, cookieStore] = await Promise.all([
+    auth() as Promise<Session>,
+    cookies(),
+  ]);
+  const isCollapsed = cookieStore.get("sidebar:state")?.value !== "true";
   const currentPlan = session ? await getUserCurrentPlan(session) : null;
 
   return (
@@ -119,7 +124,7 @@ export default async function RootLayout({
               "bg-white dark:bg-full-dark border-gray-200 dark:border-dark text-main dark:text-main-dark",
           }}
         />
-        <Providers currentPlan={currentPlan} disableTransitionOnChange>
+        <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
           <div className="relative size-full min-h-dvh">{children}</div>
           <TailwindIndicator />
         </Providers>

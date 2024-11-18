@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { FIRST_AID } from "@/consts/firts-aid";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { HashIcon } from "@/modules/icons/common";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
@@ -72,7 +72,7 @@ const FirstAid = () => {
                 <h3 className="text-lg font-semibold md:text-xl">
                   {cardInfo.title}
                 </h3>
-                <TooltipCTN
+                <BetterTooltip
                   content={
                     openCard === index
                       ? "Toca para ocultar"
@@ -86,7 +86,7 @@ const FirstAid = () => {
                   >
                     <QuestionIcon className="size-3" />
                   </Chip>
-                </TooltipCTN>
+                </BetterTooltip>
               </div>
               <motion.div
                 initial={false}

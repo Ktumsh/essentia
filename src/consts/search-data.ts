@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 
 import {
   HealthIcon,
-  ExcerciseIcon,
+  ExerciseIcon,
   NutritionIcon,
   WellbeingIcon,
   SexualityIcon,
@@ -91,7 +91,7 @@ const fitnessSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: ExcerciseIcon,
+    icon: ExerciseIcon,
   },
   {
     content: "Rutinas de Ejercicios",

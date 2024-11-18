@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import {
   useEffect,
@@ -7,9 +7,10 @@ import {
   FC,
   CSSProperties,
   type JSX,
+  ComponentRef,
 } from "react";
 
-import { tooltipStyles } from "@/styles/tooltip-styles";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { IconSvgProps } from "@/types/common";
 import { cn } from "@/utils/common";
 
@@ -17,7 +18,7 @@ interface Page {
   name: string;
   href: string;
   icon: (props: IconSvgProps) => JSX.Element;
-  fillIcon: (props: IconSvgProps) => JSX.Element;
+  activeIcon: (props: IconSvgProps) => JSX.Element;
   active: boolean;
 }
 
@@ -31,7 +32,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
     left: 0,
   });
 
-  const linkRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const linkRefs = useRef<(ComponentRef<"li"> | null)[]>([]);
 
   useEffect(() => {
     const activePageIndex = pages.findIndex((page) => page.active);
@@ -80,16 +81,8 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
         className="absolute bottom-0 h-1 border-none bg-bittersweet-400 transition-all duration-300 ease-in-out dark:bg-cerise-red-600"
       />
       {pages.map(
-        ({ name, href, icon: Icon, fillIcon: FillIcon, active }, key) => (
-          <Tooltip
-            key={key}
-            content={name}
-            delay={500}
-            closeDelay={0}
-            classNames={{
-              content: tooltipStyles.content,
-            }}
-          >
+        ({ name, href, icon: Icon, activeIcon: ActiveIcon, active }, key) => (
+          <BetterTooltip key={key} content={name}>
             <li
               ref={(el) => {
                 linkRefs.current[key] = el;
@@ -114,13 +107,13 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
                 )}
               >
                 {active ? (
-                  <FillIcon className="size-6" aria-hidden="true" />
+                  <ActiveIcon className="size-6" aria-hidden="true" />
                 ) : (
                   <Icon className="size-6" aria-hidden="true" />
                 )}
               </Button>
             </li>
-          </Tooltip>
+          </BetterTooltip>
         ),
       )}
     </>

@@ -20,10 +20,13 @@ export default async function MainLayout({
   return (
     <>
       {/* Header */}
-      <Header profileData={profileData} />
       {/* Mobile Header */}
       <MobileHeader profileData={profileData} />
-      <LayoutWrapper>{children}</LayoutWrapper>
+      <LayoutWrapper session={session} user={profileData}>
+        <Header profileData={profileData} />
+
+        {children}
+      </LayoutWrapper>
       {/* Bottom Mobile Navbar */}
       <BottomNav profileData={profileData} />
       {!session && <WelcomeModal />}

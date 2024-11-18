@@ -21,8 +21,8 @@ import {
 } from "react";
 import { toast } from "sonner";
 
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { updateUserProfile } from "@/db/profile-querys";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { SpinnerIcon, StarsIcon } from "@/modules/icons/common";
 import {
   CalendarFillIcon,
@@ -119,12 +119,12 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
               <div className="inline-flex items-center gap-2">
                 <h2 className="font-bold text-main dark:text-main-dark md:text-xl">{`${formData.first_name} ${formData.last_name}`}</h2>
                 {is_premium && (
-                  <TooltipCTN content="Cuenta Premium">
+                  <BetterTooltip content="Cuenta Premium">
                     <div className="relative inline-flex shrink-0 items-center justify-center gap-1 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
                       <StarsIcon className="size-3.5 [&_*]:fill-white" />
                       <span className="sr-only">Cuenta Premium</span>
                     </div>
-                  </TooltipCTN>
+                  </BetterTooltip>
                 )}
               </div>
               <span className="text-xs text-main-m dark:text-main-dark-m md:text-sm">
