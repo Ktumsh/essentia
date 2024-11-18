@@ -6,7 +6,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { SidebarFillIcon, SidebarIcon } from "@/modules/icons/navigation";
 
-const SidebarToggle = () => {
+const AppSidebarToggle = () => {
   const pathname = usePathname();
   const { open: isOpen, toggleSidebar } = useSidebar();
   const isAiPage = pathname.startsWith("/essentia-ai");
@@ -40,4 +40,4 @@ const SidebarToggle = () => {
   );
 };
 
-export default SidebarToggle;
+export default AppSidebarToggle;

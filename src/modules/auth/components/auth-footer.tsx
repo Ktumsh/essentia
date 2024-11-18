@@ -30,7 +30,7 @@ const AuthFooter = () => {
                 />
               </Link>
               <p className="text-center text-sm antialiased">
-                <span>© 2024 Essentia®️</span>
+                <span>© 2024 Essentia</span>
               </p>
             </div>
             <ThemeToggle />

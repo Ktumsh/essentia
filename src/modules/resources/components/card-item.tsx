@@ -53,7 +53,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
                 <EyeIcon className="size-6 text-white/60 drop-shadow-md transition group-hover:text-white" />
               </div>
               <Image
-                width={328}
+                width={296}
                 height={208}
                 alt={title}
                 src={image}

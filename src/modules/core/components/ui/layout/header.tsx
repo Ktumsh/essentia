@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
-import SidebarToggle from "@/modules/core/components/ui/sidebar/sidebar-toggle";
+import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
 import { UserProfileData } from "@/types/session";
 import { formatPathName } from "@/utils/format";
 
@@ -44,7 +44,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         </Navbar>
         <div className="absolute left-0 top-0 z-40">
           <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
-            <SidebarToggle />
+            <AppSidebarToggle />
           </div>
         </div>
         <div className="absolute right-0 top-0 z-40 h-14 px-6">

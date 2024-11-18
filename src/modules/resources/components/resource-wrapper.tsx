@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Chip, Image as ImageUI, Tooltip } from "@nextui-org/react";
+import { Chip, Image as ImageUI } from "@nextui-org/react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
@@ -8,6 +8,8 @@ import { FC, useRef, useState } from "react";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
 
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { RESOURCES } from "@/consts/resources";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
@@ -15,7 +17,6 @@ import { PlayIcon2 } from "@/modules/icons/action";
 import { StarIcon } from "@/modules/icons/common";
 import { TouchIcon } from "@/modules/icons/interface";
 import { NextArrowIcon } from "@/modules/icons/navigation";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
 
@@ -93,7 +94,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
   return (
     <>
       <div className="flex w-full flex-col overflow-hidden pb-16 md:pb-0">
-        <div className="mx-auto size-full min-h-[calc(100dvh-56px)] max-w-8xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
+        <div className="mx-auto size-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
           <div className="select-none lg:px-6 lg:pb-6">
             <div className="mx-auto flex w-full flex-col">
               <div className="flex flex-col overflow-hidden md:overflow-visible lg:flex-row">
@@ -104,14 +105,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                   className="relative z-10 flex aspect-[908/384] flex-1 overflow-hidden border !border-t-0 border-white shadow-md dark:border-accent-dark md:mb-5 lg:rounded-b-3xl"
                 >
                   <div className="absolute right-0 top-0 z-20 p-5">
-                    <Tooltip
-                      content="Contenido recomendado"
-                      delay={800}
-                      closeDelay={0}
-                      classNames={{
-                        content: tooltipStyles.content,
-                      }}
-                    >
+                    <BetterTooltip side="right" content="Contenido recomendado">
                       <Chip
                         variant="shadow"
                         classNames={{
@@ -121,7 +115,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                       >
                         <StarIcon className="w-4 text-white" />
                       </Chip>
-                    </Tooltip>
+                    </BetterTooltip>
                   </div>
                   <div className="group relative flex w-full flex-col justify-center overflow-hidden text-main">
                     <div className="absolute top-1 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3 transition-opacity duration-500 group-active:opacity-0 lg:group-hover:opacity-0">
@@ -142,8 +136,8 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                     <ImageUI
                       priority
                       as={Image}
-                      width={908}
-                      height={384}
+                      width={780}
+                      height={330}
                       quality={90}
                       src={imageFull}
                       alt={title}
@@ -156,22 +150,16 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                     <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
                   </div>
                   <div className="absolute bottom-0 right-0 z-20 px-5 py-3">
-                    <Tooltip
-                      content={videoTitle}
-                      delay={800}
-                      closeDelay={0}
-                      classNames={{
-                        content: tooltipStyles.content,
-                      }}
-                    >
+                    <BetterTooltip content={videoTitle}>
                       <Button
-                        variant="flat"
-                        className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 data-[hover=true]:bg-black/60"
-                        onPress={() => setIsOpen(true)}
+                        variant="ghost"
+                        radius="lg"
+                        className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 hover:bg-black/60"
+                        onClick={() => setIsOpen(true)}
                       >
                         <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
                       </Button>
-                    </Tooltip>
+                    </BetterTooltip>
                   </div>
                 </section>
                 {windowSize.width > 1024 ? (

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import SidebarToggle from "@/modules/core/components/ui/sidebar/sidebar-toggle";
+import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { UserProfileData } from "@/types/session";
 
@@ -36,7 +36,7 @@ const MobileHeader = ({ profileData }: MobileHeaderProps) => {
     <>
       <SheetEdgeDragArea onOpen={() => setIsSheetOpen(true)} />
       <nav className="sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden border-b border-gray-200 bg-white/80 px-6 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80 md:hidden">
-        {(!isMobile || isAIPage) && <SidebarToggle />}
+        {(!isMobile || isAIPage) && <AppSidebarToggle />}
         <Link
           className="relative size-8 rounded-full transition-transform active:scale-95"
           href="/"

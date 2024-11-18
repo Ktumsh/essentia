@@ -122,7 +122,7 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
                   href="/"
                   className="hidden font-grotesk text-main dark:text-white/95 md:block"
                 >
-                  Essentia®️
+                  Essentia
                 </Link>
               </div>
             )}

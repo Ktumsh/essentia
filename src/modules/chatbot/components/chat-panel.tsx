@@ -105,7 +105,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   return (
     <>
-      <div className="pointer-events-none sticky bottom-0 z-10 w-full transition-[padding] peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:bottom-0 md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow">
+      <div className="pointer-events-none sticky bottom-0 z-10 w-full overflow-hidden md:bottom-0">
         <div className="pointer-events-auto relative mx-auto max-w-2xl sm:px-4">
           <ButtonToBottom
             isAtBottom={isAtBottom}
@@ -159,7 +159,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 ))}
               </motion.div>
             )}
-          <div className="relative border-t border-gray-200 bg-white px-4 py-2 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4 md:-ml-1">
+          <div className="relative border-t border-gray-200 bg-white px-4 py-2 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4 md:-ml-1">
             <motion.div
               initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={

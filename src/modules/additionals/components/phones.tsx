@@ -40,7 +40,7 @@ const Phones = () => {
             radius="sm"
             shadow="none"
             className={cn(
-              "group max-w-[90%] shrink-0 snap-start border border-gray-200 bg-white text-main-h dark:border-dark dark:bg-full-dark dark:text-white sm:col-span-4 md:dark:border-dark",
+              "group max-w-[90%] shrink-0 snap-start border border-gray-200 bg-white text-main-h dark:border-dark dark:bg-full-dark dark:text-white sm:col-span-4 md:max-w-full md:dark:border-dark",
             )}
           >
             <CardBody className="z-10">
