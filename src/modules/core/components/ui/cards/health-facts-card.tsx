@@ -1,26 +1,17 @@
-"use client";
-
 import { Image as ImageUI } from "@nextui-org/react";
 import Image from "next/image";
-import { FC, useEffect } from "react";
+import { memo } from "react";
 
 import { HealthFact } from "@/types/common";
 
-import { getRandomFacts } from "../../../lib/utils";
-
 interface HealthFactsCardProps {
-  facts: HealthFact[];
-  setFacts: (facts: HealthFact[]) => void;
+  facts: HealthFact[] | null;
 }
 
-const HealthFactsCard: FC<HealthFactsCardProps> = ({ facts, setFacts }) => {
-  useEffect(() => {
-    setFacts(getRandomFacts(4));
-  }, [setFacts]);
-
+const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
   return (
     <>
-      {facts.map((fact, index) => (
+      {facts?.map((fact, index) => (
         <article
           key={index}
           className="relative mb-5 size-full max-h-[190px] overflow-hidden rounded-xl border border-white bg-white/50 bg-bento-gradient shadow-md backdrop-blur backdrop-saturate-150 dark:border-full-dark dark:bg-transparent dark:bg-none dark:backdrop-saturate-100"
@@ -49,4 +40,4 @@ const HealthFactsCard: FC<HealthFactsCardProps> = ({ facts, setFacts }) => {
   );
 };
 
-export default HealthFactsCard;
+export default memo(HealthFactsCard);

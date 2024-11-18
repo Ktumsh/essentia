@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 
+import { getRandomFacts } from "@/modules/core/lib/utils";
+
 export const getReusableCookie = async (cookieName: string) => {
   const cookieStore = await cookies();
   const reusableCookie = cookieStore.get(cookieName);
@@ -53,4 +55,30 @@ export const deleteReusableCookie = async (cookieName: string) => {
     secure: true,
     maxAge: 0,
   });
+};
+
+export const dailyFacts = async () => {
+  const cookieStore = await cookies();
+  const today = new Date().toISOString().split("T")[0];
+
+  const savedData = cookieStore.get("dailyHealthFacts");
+
+  if (!savedData || JSON.parse(savedData.value).date !== today) {
+    const newFacts = getRandomFacts(4);
+
+    cookieStore.set(
+      "dailyHealthFacts",
+      JSON.stringify({ date: today, facts: newFacts }),
+      {
+        path: "/",
+        httpOnly: true,
+        secure: true,
+        maxAge: 86400,
+      },
+    );
+
+    return newFacts;
+  }
+
+  return JSON.parse(savedData.value).facts;
 };

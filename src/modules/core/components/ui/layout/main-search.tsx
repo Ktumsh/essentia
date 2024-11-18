@@ -6,6 +6,7 @@ import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, FC, useId } from "react";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,7 +31,6 @@ import {
 } from "@/consts/search-constants";
 import { searchData, SearchResult } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { SearchAIIcon, SearchIcon } from "@/modules/icons/action";
 import { CloseIcon, HashFillIcon } from "@/modules/icons/common";
 import { Chevron } from "@/modules/icons/navigation";
@@ -49,9 +49,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
   const id = useId();
   const router = useRouter();
 
-  const windowSize = useWindowSize();
-
-  const isMobile = windowSize.width < 768;
+  const isMobile = useIsMobile();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recentSearches, setRecentSearches] = useLocalStorage<SearchResult[]>(

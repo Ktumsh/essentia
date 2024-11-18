@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { siteConfig } from "@/config/site";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { cn } from "@/utils/common";
 
 import { ArrowRightV2Icon } from "../../icons/navigation";
@@ -20,9 +20,8 @@ type ResoucesItemProps = {
 };
 
 const ResourcesItem = (props: ResoucesItemProps) => {
-  const windowSize = useWindowSize();
   const { index, title, subtitle, img, href, children } = props;
-  const isMobile = windowSize.width < 768;
+  const isMobile = useIsMobile();
 
   const resources = siteConfig.asideMenuLinks;
 
@@ -91,7 +90,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         href={href}
         className={cn(
           itemColor,
-          "relative h-32 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64",
+          "relative aspect-auto h-32 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64",
         )}
       >
         <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
@@ -104,9 +103,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         </div>
         <div className="absolute inset-x-5 bottom-5 flex items-end justify-between">
           <div>
-            {resource && <resource.icon className="size-7 text-white" />}
+            {resource && <resource.activeIcon className="size-7 text-white" />}
           </div>
-          <div className="inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-medium dark:bg-full-dark">
+          <div className="inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-md dark:bg-full-dark">
             <div className="text-sm font-normal text-main dark:text-white">
               <ArrowRightV2Icon className="size-5" />
             </div>
