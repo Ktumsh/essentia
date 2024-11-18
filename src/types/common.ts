@@ -54,13 +54,14 @@ export type SiteConfig = {
     name: string;
     href: string;
     icon: (props: IconSvgProps) => JSX.Element;
-    fillIcon: (props: IconSvgProps) => JSX.Element;
+    activeIcon: (props: IconSvgProps) => JSX.Element;
     isSearch?: boolean;
   }[];
   asideMenuLinks: {
     name: string;
     link: string;
     icon: (props: any) => JSX.Element;
+    activeIcon: (props: any) => JSX.Element;
   }[];
   footerLinks: {
     resources: { href: string; text: string }[];

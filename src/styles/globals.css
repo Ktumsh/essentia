@@ -74,6 +74,15 @@
     --ring: 221, 83%, 53%;
     --scrollbar: 220, 13%, 91%;
 
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 210, 30%, 18%, 0.87;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 220, 14%, 96%;
+    --sidebar-accent-foreground: 210, 30%, 18%;
+    --sidebar-border: 220, 13%, 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
     --light-radial-gradient: radial-gradient(
       circle,
       rgb(242, 112, 156),
@@ -164,6 +173,15 @@
     --input: 240 3.7% 15.9%;
     --ring: 221, 83%, 53%;
     --scrollbar: 214, 80%, 12%;
+
+    --sidebar-background: 216, 82%, 6%;
+    --sidebar-foreground: 213, 27%, 84%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214, 80%, 12%;
+    --sidebar-accent-foreground: 0, 0%, 100%;
+    --sidebar-border: 214, 80%, 12%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
 
     .custom-scroll::-webkit-scrollbar {
       width: 3px;

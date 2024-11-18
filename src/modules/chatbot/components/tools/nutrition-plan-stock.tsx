@@ -13,7 +13,7 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { DownloadIcon } from "@/modules/icons/action";
 import {
   CaloriesIcon,
@@ -58,7 +58,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
           <h3 className="text-lg font-medium capitalize text-main dark:text-white md:text-xl">
             {mealType}
           </h3>
-          <TooltipCTN content="Horario">
+          <BetterTooltip content="Horario">
             <Chip
               size="sm"
               variant="bordered"
@@ -71,7 +71,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
               <ClockIcon className="size-3" />
               <span className="text-xs">{mealTime}</span>
             </Chip>
-          </TooltipCTN>
+          </BetterTooltip>
         </div>
         <Chip size="sm" variant="flat" className="bg-gray-100 dark:bg-dark/80">
           <MealIcon className="size-4 text-main-l dark:text-main-dark-l" />
@@ -96,19 +96,19 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
             </Chip>
             <div className="ml-3 inline-flex items-center gap-2 text-main-m dark:text-main-dark-m">
               <div className="inline-flex items-center gap-1">
-                <TooltipCTN content="Cantidad">
+                <BetterTooltip content="Cantidad">
                   <div aria-hidden="true">
                     <QuantityIcon className="size-3" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{detail.quantity}</span>
               </div>
               <div className="inline-flex items-center gap-1">
-                <TooltipCTN content="Calorías">
+                <BetterTooltip content="Calorías">
                   <div aria-hidden="true">
                     <CaloriesIcon className="size-4" />
                   </div>
-                </TooltipCTN>
+                </BetterTooltip>
                 <span>{detail.calories}</span>
               </div>
             </div>
@@ -160,7 +160,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
           <Chip color="danger" className="shadow-md">
             Plan nutricional
           </Chip>
-          <TooltipCTN content="Descargar como imagen">
+          <BetterTooltip content="Descargar como imagen">
             <Button
               isIconOnly
               size="sm"
@@ -170,7 +170,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
-          </TooltipCTN>
+          </BetterTooltip>
         </div>
       </CardHeader>
       <CardBody className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-8">

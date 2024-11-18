@@ -65,6 +65,19 @@ export default function AdditionalsTabs() {
           <Guides />
         </Tab>
         <Tab
+          key="/adicionales/emergencias"
+          as={Link}
+          href="/adicionales/emergencias"
+          title={
+            <div className="flex items-center space-x-2">
+              <EmergenciesIcon className="size-5 text-main-m group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-m dark:group-data-[selected=true]:text-cerise-red-600" />
+              <span>Emergencias</span>
+            </div>
+          }
+        >
+          <Emergencies />
+        </Tab>
+        <Tab
           key="/adicionales/enlaces"
           as={Link}
           href="/adicionales/enlaces"
@@ -89,19 +102,6 @@ export default function AdditionalsTabs() {
           }
         >
           <Recommendations />
-        </Tab>
-        <Tab
-          key="/adicionales/emergencias"
-          as={Link}
-          href="/adicionales/emergencias"
-          title={
-            <div className="flex items-center space-x-2">
-              <EmergenciesIcon className="size-5 text-main-m group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-m dark:group-data-[selected=true]:text-cerise-red-600" />
-              <span>Emergencias</span>
-            </div>
-          }
-        >
-          <Emergencies />
         </Tab>
       </Tabs>
     </div>

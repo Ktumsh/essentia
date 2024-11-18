@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { BugIcon, CopyIcon } from "@/modules/icons/action";
@@ -31,7 +31,7 @@ const MessageActions = ({ content }: { content?: string }) => {
     <>
       {windowSize.width > 768 ? (
         <div className="flex w-fit overflow-hidden rounded-xl border border-black/10 p-1 opacity-0 transition-opacity group-hover/message:opacity-100 dark:border-white/10">
-          <TooltipCTN content="Reportar un error" delay={0}>
+          <BetterTooltip content="Reportar un error">
             <Button
               aria-label="Reportar un error"
               as={Link}
@@ -45,9 +45,9 @@ const MessageActions = ({ content }: { content?: string }) => {
               <BugIcon className="size-5" />
               <span className="sr-only">Reportar un error</span>
             </Button>
-          </TooltipCTN>
+          </BetterTooltip>
           {content && (
-            <TooltipCTN content="Copiar" delay={0}>
+            <BetterTooltip content="Copiar">
               <Button
                 aria-label="Copiar texto"
                 size="sm"
@@ -63,7 +63,7 @@ const MessageActions = ({ content }: { content?: string }) => {
                 )}
                 <span className="sr-only">Copiar texto</span>
               </Button>
-            </TooltipCTN>
+            </BetterTooltip>
           )}
         </div>
       ) : (

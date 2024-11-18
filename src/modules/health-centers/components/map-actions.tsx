@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react";
 import { FC } from "react";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import {
   FullscreenIcon,
   ZoomInIcon,
@@ -21,7 +21,7 @@ const MapActions: FC<MapActionsProps> = (props) => {
     props;
   return (
     <>
-      <TooltipCTN content="Pantalla completa" placement="left">
+      <BetterTooltip content="Pantalla completa" side="left">
         <Button
           aria-label="Pantalla completa"
           isIconOnly
@@ -31,9 +31,9 @@ const MapActions: FC<MapActionsProps> = (props) => {
           <span className="sr-only">Pantalla completa</span>
           <FullscreenIcon className="size-6" />
         </Button>
-      </TooltipCTN>
+      </BetterTooltip>
       <div className="absolute bottom-28 right-2 z-40 flex h-fit flex-col space-y-4 md:top-1/2 md:-translate-y-1/2 md:space-y-2">
-        <TooltipCTN content="Centrar ubicación" placement="left">
+        <BetterTooltip content="Centrar ubicación" side="left">
           <Button
             aria-label="Centrar ubicación"
             size="sm"
@@ -45,8 +45,8 @@ const MapActions: FC<MapActionsProps> = (props) => {
             <span className="sr-only">Centrar ubicación</span>
             <CenterLocationIcon className="size-6 md:size-5" />
           </Button>
-        </TooltipCTN>
-        <TooltipCTN content="Aumentar" placement="left">
+        </BetterTooltip>
+        <BetterTooltip content="Aumentar" side="left">
           <Button
             aria-label="Aumentar"
             size="sm"
@@ -58,8 +58,8 @@ const MapActions: FC<MapActionsProps> = (props) => {
             <span className="sr-only">Aumentar</span>
             <ZoomInIcon className="size-6 md:size-5" />
           </Button>
-        </TooltipCTN>
-        <TooltipCTN content="Alejar" placement="left">
+        </BetterTooltip>
+        <BetterTooltip content="Alejar" side="left">
           <Button
             aria-label="Alejar"
             size="sm"
@@ -71,7 +71,7 @@ const MapActions: FC<MapActionsProps> = (props) => {
             <span className="sr-only">Alejar</span>
             <ZoomOutIcon className="size-6 md:size-5" />
           </Button>
-        </TooltipCTN>
+        </BetterTooltip>
       </div>
     </>
   );

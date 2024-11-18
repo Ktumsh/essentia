@@ -4,35 +4,29 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import React, { FC, useMemo } from "react";
 
+import { SidebarInset } from "@/components/ui/sidebar";
+import { Session, UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
 import useWindowSize from "../../hooks/use-window-size";
 import { startsWithAny } from "../../lib/utils";
 import ButtonUp from "../ui/buttons/button-up";
-import AsideMenu from "../ui/layout/aside-menu";
-import AsideTabs from "../ui/layout/aside.tabs";
+import { AppSidebar } from "../ui/sidebar/app-sidebar";
 
-const HIDDEN_ASIDE_PATHS = [
-  "/essentia-ai",
-  "/share",
-  "/premium",
-  "/profile",
-  "/account",
-];
 const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];
 
 interface LayoutWrapperProps {
+  session: Session;
+  user: UserProfileData | null;
   children: React.ReactNode;
 }
 
-const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
+const LayoutWrapper: FC<LayoutWrapperProps> = ({ session, user, children }) => {
   const pathname = usePathname();
   const windowSize = useWindowSize();
   const isMobile = windowSize.width < 768;
 
-  const hideAside = startsWithAny(pathname, HIDDEN_ASIDE_PATHS);
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
-  const isHome = pathname === "/";
   const isProfile = pathname.startsWith("/profile");
   const isAccount = pathname.startsWith("/account");
   const isPremium = pathname.startsWith("/premium");
@@ -55,7 +49,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   }, [isPremium, isProfile, isAccount, isAIorShare]);
 
   const motionContainerClasses = cn(
-    "fixed inset-0 -z-10 overflow-hidden pointer-events-none",
+    "fixed inset-0 z-0 overflow-hidden pointer-events-none",
     isPremium && "absolute inset-0",
   );
 
@@ -75,19 +69,8 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
 
       {/* Main content */}
       <div className="flex w-full text-clip">
-        {!hideAside && !isMobile && <AsideMenu />}
-        <motion.main
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.3 }}
-          className={cn(
-            "flex w-full grow flex-col items-center",
-            !hideAside && "md:pl-96",
-          )}
-        >
-          {children}
-        </motion.main>
-        {isHome && !isMobile && <AsideTabs />}
+        <AppSidebar session={session} user={user} />
+        <SidebarInset>{children}</SidebarInset>
       </div>
 
       {/* Button Up */}

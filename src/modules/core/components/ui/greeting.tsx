@@ -7,11 +7,11 @@ const getCurrentGreeting = () => {
   const currentHour = currentTime.getHours();
 
   if (currentHour >= 5 && currentHour < 12) {
-    return "Buenos días";
+    return "Buenos días!";
   } else if (currentHour >= 12 && currentHour < 18) {
-    return "Buenas tardes";
+    return "Buenas tardes!";
   } else {
-    return "Buenas noches";
+    return "Buenas noches!";
   }
 };
 
@@ -25,7 +25,7 @@ const Greeting = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <>{greeting} 😊</>;
+  return greeting;
 };
 
 export default Greeting;

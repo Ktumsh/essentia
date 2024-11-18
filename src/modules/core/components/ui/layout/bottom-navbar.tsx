@@ -40,7 +40,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
         name: "Search",
         href: "#",
         icon: () => null,
-        fillIcon: () => null,
+        activeIcon: () => null,
         active: false,
         isSearch: true,
       },
@@ -79,8 +79,8 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
                 )}
               >
                 {item.active ? (
-                  item.fillIcon ? (
-                    <item.fillIcon className="size-6" aria-hidden="true" />
+                  item.activeIcon ? (
+                    <item.activeIcon className="size-6" aria-hidden="true" />
                   ) : null
                 ) : item.icon ? (
                   <item.icon className="size-6" aria-hidden="true" />

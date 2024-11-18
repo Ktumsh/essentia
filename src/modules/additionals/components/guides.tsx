@@ -1,7 +1,7 @@
 import { Button, Card, CardBody, CardFooter, Chip } from "@nextui-org/react";
 
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { GUIDES } from "@/consts/guides";
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
 import { DownloadIcon } from "@/modules/icons/action";
 import { StarIcon } from "@/modules/icons/common";
 
@@ -19,7 +19,7 @@ export default function Guides() {
             <CardBody className="z-10">
               <div className="relative mb-3 inline-flex w-full items-center justify-between">
                 <h2 className="text-xl font-semibold">{guide.title}</h2>
-                <TooltipCTN content="Contenido recomendado">
+                <BetterTooltip content="Contenido recomendado">
                   {guide.recommended && (
                     <Chip
                       size="sm"
@@ -31,7 +31,7 @@ export default function Guides() {
                       <StarIcon className="w-3 text-white" />
                     </Chip>
                   )}
-                </TooltipCTN>
+                </BetterTooltip>
               </div>
               <p className="text-sm text-main-h dark:text-main-dark">
                 {guide.description}

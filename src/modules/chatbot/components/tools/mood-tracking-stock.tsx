@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 
-import TooltipCTN from "@/modules/core/components/ui/utils/tooltip-ctn";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { DownloadIcon } from "@/modules/icons/action";
 import { QuoteLeftIcon } from "@/modules/icons/common";
 import { HeartIcon, ListIcon } from "@/modules/icons/miscellaneus";
@@ -72,7 +72,7 @@ const MoodTrackingStock = ({
           <Chip color="danger" className="shadow-md">
             Actividades de Bienestar
           </Chip>
-          <TooltipCTN content="Descargar como imagen">
+          <BetterTooltip content="Descargar como imagen">
             <Button
               isIconOnly
               size="sm"
@@ -82,7 +82,7 @@ const MoodTrackingStock = ({
               <DownloadIcon className="size-4" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
-          </TooltipCTN>
+          </BetterTooltip>
         </div>
       </CardHeader>
       <CardBody className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-8">

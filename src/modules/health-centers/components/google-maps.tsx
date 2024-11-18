@@ -155,11 +155,11 @@ const GoogleMaps = () => {
   };
 
   return (
-    <div className="z-10 h-full max-h-[calc(100%+32px)] md:relative">
+    <div className="z-10 h-full min-h-[calc(100dvh-56px)] md:relative md:min-h-full">
       <MapHeader>
         <CenterSwitch onSwitchChange={handleSwitchChange} />
       </MapHeader>
-      <div className="h-[calc(100%-40px)] md:relative">
+      <div className="h-[calc(100%-56px)] md:relative">
         {isLoading && <MapLoading />}
 
         <motion.div

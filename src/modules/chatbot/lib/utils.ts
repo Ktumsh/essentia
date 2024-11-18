@@ -4,8 +4,8 @@ import {
   format,
   isToday,
   isYesterday,
-  isWithinInterval,
-  subDays,
+  subWeeks,
+  subMonths,
 } from "date-fns";
 import { es } from "date-fns/locale";
 import { nanoid } from "nanoid";
@@ -22,50 +22,45 @@ export function getFormattedDate(date: string | null): string {
   }
 }
 
+type GroupedChats = {
+  today: Chat[];
+  yesterday: Chat[];
+  lastWeek: Chat[];
+  lastMonth: Chat[];
+  older: Chat[];
+};
+
 export function groupChatsByDate(chats: Chat[] | undefined) {
-  const todayChats: Chat[] = [];
-  const yesterdayChats: Chat[] = [];
-  const last7DaysChats: Chat[] = [];
-  const last30DaysChats: Chat[] = [];
-  const olderChats: { [key: string]: Chat[] } = {};
+  const now = new Date();
+  const oneWeekAgo = subWeeks(now, 1);
+  const oneMonthAgo = subMonths(now, 1);
 
-  chats?.forEach((chat) => {
-    const createdAt = new Date(chat.created_at);
+  return chats?.reduce(
+    (groups, chat) => {
+      const chatDate = new Date(chat.created_at);
 
-    if (isToday(createdAt)) {
-      todayChats.push(chat);
-    } else if (isYesterday(createdAt)) {
-      yesterdayChats.push(chat);
-    } else if (
-      isWithinInterval(createdAt, {
-        start: subDays(new Date(), 7),
-        end: new Date(),
-      })
-    ) {
-      last7DaysChats.push(chat);
-    } else if (
-      isWithinInterval(createdAt, {
-        start: subDays(new Date(), 30),
-        end: new Date(),
-      })
-    ) {
-      last30DaysChats.push(chat);
-    } else {
-      const monthYear = format(createdAt, "MMMM yyyy", { locale: es });
-      if (!olderChats[monthYear]) {
-        olderChats[monthYear] = [];
+      if (isToday(chatDate)) {
+        groups.today.push(chat);
+      } else if (isYesterday(chatDate)) {
+        groups.yesterday.push(chat);
+      } else if (chatDate > oneWeekAgo) {
+        groups.lastWeek.push(chat);
+      } else if (chatDate > oneMonthAgo) {
+        groups.lastMonth.push(chat);
+      } else {
+        groups.older.push(chat);
       }
-      olderChats[monthYear].push(chat);
-    }
-  });
 
-  return {
-    todayChats,
-    yesterdayChats,
-    last7DaysChats,
-    last30DaysChats,
-    olderChats,
-  };
+      return groups;
+    },
+    {
+      today: [],
+      yesterday: [],
+      lastWeek: [],
+      lastMonth: [],
+      older: [],
+    } as GroupedChats,
+  );
 }
 
 function addToolMessageToChat({

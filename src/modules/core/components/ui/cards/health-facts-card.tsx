@@ -15,7 +15,7 @@ interface HealthFactsCardProps {
 
 const HealthFactsCard: FC<HealthFactsCardProps> = ({ facts, setFacts }) => {
   useEffect(() => {
-    setFacts(getRandomFacts(2));
+    setFacts(getRandomFacts(4));
   }, [setFacts]);
 
   return (

@@ -2,8 +2,8 @@ import { siteConfig } from "@/config/site";
 
 import Copyright from "../../footer/copyright";
 import LinkList from "../../footer/link-list";
-import Logo from "../../footer/logo";
 import SocialLinks from "../../footer/social-links";
+import Logo from "../utils/logo";
 
 const FullFooter = () => {
   const resources = siteConfig.footerLinks.resources;
