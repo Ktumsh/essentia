@@ -1,8 +1,11 @@
-import { Card, CardBody, Chip, Divider } from "@nextui-org/react";
 import { Fragment, useRef } from "react";
 
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { EMERGENCY_STEPS } from "@/consts/emergency-steps";
 import { Chevron } from "@/modules/icons/navigation";
+import { cn } from "@/utils/common";
 
 const EmergencySteps = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -23,34 +26,25 @@ const EmergencySteps = () => {
     >
       {EMERGENCY_STEPS.map((card, index) => (
         <Fragment key={index}>
-          <Card
-            radius="sm"
-            shadow="none"
-            className="h-full min-w-[87%] max-w-lg snap-center border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-white md:min-w-0"
-          >
-            <CardBody className="z-10">
+          <Card className="h-full min-w-[87%] max-w-lg snap-center border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-white md:min-w-0">
+            <CardContent className="z-10 flex flex-col p-3">
               <div className="inline-flex w-full items-center justify-between">
                 <h3 className="text-lg font-semibold md:text-xl">
                   {card.title}
                 </h3>
               </div>
-              <Divider className="my-3 bg-gray-200 dark:bg-dark" />
+              <Separator className="my-3 bg-gray-200 dark:bg-dark" />
               <ol className="flex flex-col space-y-4">
                 {card.steps.map((step, stepIndex) => (
                   <li key={stepIndex} className="text-sm">
-                    <Chip
-                      size="sm"
-                      color="danger"
-                      classNames={{
-                        base: [
-                          "!size-6 min-w-0 max-w-full justify-center mr-2",
-                          step.color,
-                        ],
-                        content: "flex justify-center text-white font-bold",
-                      }}
+                    <Badge
+                      className={cn(
+                        "mr-2 size-6 min-w-0 max-w-full justify-center !text-white",
+                        step.color,
+                      )}
                     >
                       {step.step}
-                    </Chip>
+                    </Badge>
                     <span className="mr-4 text-nowrap font-semibold">
                       {step.title}
                     </span>
@@ -61,7 +55,7 @@ const EmergencySteps = () => {
                   </li>
                 ))}
               </ol>
-            </CardBody>
+            </CardContent>
           </Card>
           {index < EMERGENCY_STEPS.length - 1 && (
             <button

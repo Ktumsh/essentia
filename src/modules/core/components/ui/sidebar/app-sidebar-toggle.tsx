@@ -22,9 +22,7 @@ const AppSidebarToggle = () => {
   return (
     <BetterTooltip content={tooltipContent}>
       <button
-        onClick={() => {
-          toggleSidebar();
-        }}
+        onClick={() => toggleSidebar()}
         className="h-10 rounded-lg px-2 text-main-h transition-colors duration-150 hover:bg-gray-200 dark:text-main-dark-h dark:hover:bg-dark"
       >
         {isOpen ? (

@@ -39,13 +39,7 @@ const ProfilePage = async (props: Props) => {
     profileData = await getUserProfileData(undefined, username);
   }
 
-  return (
-    <>
-      <div className="flex min-h-dvh w-full max-w-5xl shrink grow flex-col items-stretch pb-16 md:pb-0">
-        <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />
-      </div>
-    </>
-  );
+  return <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />;
 };
 
 export default ProfilePage;

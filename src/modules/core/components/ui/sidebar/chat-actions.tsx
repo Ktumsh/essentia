@@ -1,12 +1,13 @@
 "use client";
 
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
-import { MoreHorizontalIcon } from "lucide-react";
+import { MessageSquareShare, MoreHorizontalIcon, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { toast } from "sonner";
 import { KeyedMutator } from "swr";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +17,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,8 +34,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuAction } from "@/components/ui/sidebar";
-import ChatShareModal from "@/modules/chatbot/components/chat-share-modal";
-import { DeleteIcon, ShareIcon } from "@/modules/icons/action";
+import ChatShareModal from "@/modules/core/components/ui/sidebar/chat-share-action";
 import { type Chat, ServerActionResult } from "@/types/chat";
 
 interface ChatActionsProps {
@@ -45,6 +55,8 @@ const ChatActions: FC<ChatActionsProps> = ({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
+  const isMobile = useIsMobile();
+
   const deleteId = chat.id;
 
   const handleDelete = async () => {
@@ -60,7 +72,7 @@ const ChatActions: FC<ChatActionsProps> = ({
             return history.filter((h) => h.id !== id);
           }
         });
-        return "Chat eliminado exitosamente";
+        return "Chat eliminado!";
       },
       error: "Error al eliminar el chat",
     });
@@ -68,7 +80,7 @@ const ChatActions: FC<ChatActionsProps> = ({
     setShowDeleteDialog(false);
 
     if (deleteId === id) {
-      router.push("/");
+      router.push("/essentia-ai");
     }
   };
 
@@ -83,8 +95,8 @@ const ChatActions: FC<ChatActionsProps> = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="start">
           <DropdownMenuItem onSelect={() => setShareModalOpen(true)}>
-            <ShareIcon className="size-4" />
-            <span>Compartir</span>
+            <MessageSquareShare strokeWidth={1.5} />
+            Compartir
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => {
@@ -92,8 +104,8 @@ const ChatActions: FC<ChatActionsProps> = ({
             }}
             className="text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500 dark:focus:bg-red-500/15 dark:focus:text-red-400"
           >
-            <DeleteIcon className="size-4" />
-            <span>Borrar</span>
+            <Trash2 strokeWidth={1.5} />
+            Borrar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -101,27 +113,59 @@ const ChatActions: FC<ChatActionsProps> = ({
       <ChatShareModal
         chat={chat}
         shareChat={shareChat}
-        open={shareModalOpen}
-        onOpenChange={setShareModalOpen}
+        isOpen={shareModalOpen}
+        setIsOpen={setShareModalOpen}
         onCopy={() => setShareModalOpen(false)}
       />
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
-          </AlertDialogHeader>
-          <AlertDialogDescription>
-            Esto eliminará permanentemente su mensaje de chat y eliminará sus
-            datos de nuestros servidores.
-          </AlertDialogDescription>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>
-              Continuar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
+      {isMobile ? (
+        <Drawer open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Eliminar chat</DrawerTitle>
+              <DrawerDescription className="text-balance px-4">
+                Esto eliminará permanentemente su mensaje de chat y eliminará
+                sus datos de nuestros servidores.
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button className="dark:bg-full-dark">Cancelar</Button>
+              </DrawerClose>
+              <Button variant="destructive" onClick={handleDelete}>
+                Continuar
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              Esto eliminará permanentemente su mensaje de chat y eliminará sus
+              datos de nuestros servidores.
+            </AlertDialogDescription>
+            <AlertDialogFooter>
+              <AlertDialogCancel asChild>
+                <Button
+                  variant="ghost"
+                  className="border-none hover:bg-gray-100 dark:hover:bg-full-dark"
+                >
+                  Cancelar
+                </Button>
+              </AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button variant="destructive" onClick={handleDelete}>
+                  Continuar
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </>
   );
 };

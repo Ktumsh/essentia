@@ -1,7 +1,8 @@
-import { Button, Card, CardBody, Chip } from "@nextui-org/react";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
 
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   MEDICINES_DATA_GROUP_1,
   MEDICINES_DATA_GROUP_2,
@@ -14,35 +15,23 @@ const Medicines = () => {
   return (
     <section className="mt-5 flex flex-col text-main-h dark:text-main-dark">
       <div className="mb-2 self-start">
-        <Button
-          as={Link}
+        <Link
           id="medicamentos-para-un-botiquin-de-primeros-auxilios"
           data-id="medicamentos-para-un-botiquin-de-primeros-auxilios"
           data-name="Medicamentos para un botiquín de primeros auxilios"
           href="#medicamentos-para-un-botiquin-de-primeros-auxilios"
-          disableRipple
-          radius="none"
-          variant="flat"
-          endContent={
-            <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-          }
-          className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+          className="group flex h-auto w-fit items-center p-0 text-xl font-semibold transition active:scale-100"
         >
-          <Chip
-            color="danger"
-            startContent={<ExclamationTriangleIcon className="ml-2 size-3" />}
-          >
+          <Badge variant="primary" className="gap-1 py-1">
+            <TriangleAlert className="size-3.5" />
             <h3>Medicamentos para un botiquín</h3>
-          </Chip>
-        </Button>
+          </Badge>
+          <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+        </Link>
       </div>
       <div className="flex w-full">
-        <Card
-          radius="sm"
-          shadow="none"
-          className="mt-2 border border-gray-200 bg-gray-100 text-main-h dark:border-dark dark:bg-dark/50 dark:text-main-dark"
-        >
-          <CardBody className="z-10 snap-x snap-mandatory flex-row gap-6 overflow-x-auto scrollbar-hide">
+        <Card className="relative mt-2 box-border flex h-auto flex-col overflow-hidden rounded-lg border border-gray-200 bg-gray-100 text-main-h outline-none data-[focus-visible=true]:z-10 dark:border-dark dark:bg-dark/50 dark:text-main-dark">
+          <CardContent className="relative z-10 flex h-auto w-full flex-auto snap-x snap-mandatory flex-row gap-6 overflow-auto break-words p-3 text-left scrollbar-hide">
             <ul className="min-w-[90%] snap-center space-y-2 md:min-w-0">
               {MEDICINES_DATA_GROUP_1.map((category, index) => (
                 <MedicineCategory
@@ -66,7 +55,7 @@ const Medicines = () => {
                 />
               ))}
             </ul>
-          </CardBody>
+          </CardContent>
         </Card>
       </div>
     </section>

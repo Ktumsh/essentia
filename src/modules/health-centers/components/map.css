@@ -19,7 +19,7 @@
 }
 
 .pac-container {
-  @apply mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-medium dark:bg-full-dark;
+  @apply mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-md dark:bg-full-dark;
 
   & .pac-item {
     @apply rounded-lg border-t-0 text-main-m dark:!text-main-dark-m;
@@ -39,7 +39,7 @@
 }
 
 .gm-style .gm-style-iw-c {
-  @apply rounded-xl bg-white !p-4 text-main-h shadow-medium dark:bg-full-dark dark:text-main-dark-h;
+  @apply rounded-xl bg-white !p-4 text-main-h shadow-md dark:bg-full-dark dark:text-main-dark-h;
 
   & .gm-style-iw-chr {
     @apply absolute right-0 top-0;

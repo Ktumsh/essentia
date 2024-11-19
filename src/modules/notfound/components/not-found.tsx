@@ -47,7 +47,7 @@ const NotFoundWrapper = () => {
               disableRipple
               variant="solid"
               startContent={<ArrowLeftIcon className="size-5" />}
-              className="h-14 w-full rounded-full border border-gray-200 bg-white text-main shadow-medium dark:border-white/10 dark:bg-dark md:h-10 md:w-auto md:rounded-lg md:text-sm"
+              className="h-14 w-full rounded-full border border-gray-200 bg-white text-main shadow-md dark:border-white/10 dark:bg-dark md:h-10 md:w-auto md:rounded-lg md:text-sm"
             >
               Recuperar mi esencia
             </Button>

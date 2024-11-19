@@ -1,6 +1,5 @@
 "use client";
 
-import { Chip, Image as ImageUI } from "@nextui-org/react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
@@ -8,11 +7,11 @@ import { FC, useRef, useState } from "react";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { RESOURCES } from "@/consts/resources";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { PlayIcon2 } from "@/modules/icons/action";
 import { StarIcon } from "@/modules/icons/common";
 import { TouchIcon } from "@/modules/icons/interface";
@@ -31,8 +30,6 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const windowSize = useWindowSize();
-
   const { resource } = params;
 
   const resourceData = RESOURCES.find((item) => item.resource === resource);
@@ -94,7 +91,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
   return (
     <>
       <div className="flex w-full flex-col overflow-hidden pb-16 md:pb-0">
-        <div className="mx-auto size-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
+        <div className="mx-auto size-full min-h-[calc(100dvh-120px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:min-h-[calc(100dvh-56px)] md:border md:border-y-0">
           <div className="select-none lg:px-6 lg:pb-6">
             <div className="mx-auto flex w-full flex-col">
               <div className="flex flex-col overflow-hidden md:overflow-visible lg:flex-row">
@@ -106,15 +103,9 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                 >
                   <div className="absolute right-0 top-0 z-20 p-5">
                     <BetterTooltip side="right" content="Contenido recomendado">
-                      <Chip
-                        variant="shadow"
-                        classNames={{
-                          base: "w-12 max-w-full justify-center bg-light-gradient dark:bg-dark-gradient-v2 cursor-help",
-                          content: "flex justify-center",
-                        }}
-                      >
+                      <Badge className="w-12 max-w-full cursor-help justify-center bg-light-gradient shadow-md dark:bg-dark-gradient-v2">
                         <StarIcon className="w-4 text-white" />
-                      </Chip>
+                      </Badge>
                     </BetterTooltip>
                   </div>
                   <div className="group relative flex w-full flex-col justify-center overflow-hidden text-main">
@@ -133,19 +124,14 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                         </q>
                       </div>
                     </div>
-                    <ImageUI
+                    <Image
                       priority
-                      as={Image}
                       width={780}
                       height={330}
                       quality={90}
                       src={imageFull}
                       alt={title}
-                      classNames={{
-                        wrapper:
-                          "flex items-center justify-center !max-w-full aspect-[908/384]",
-                        img: "aspect-[908/384] !size-full relative rounded-none brightness-95 object-cover object-center z-0",
-                      }}
+                      className="relative z-0 flex aspect-[908/384] size-full !max-w-full items-center justify-center rounded-none object-cover object-center brightness-95"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
                   </div>
@@ -162,80 +148,77 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                     </BetterTooltip>
                   </div>
                 </section>
-                {windowSize.width > 1024 ? (
-                  <section
-                    onMouseEnter={() => setShowIntro(false)}
-                    onMouseLeave={() => setShowIntro(true)}
-                    className="group flex items-center md:max-w-md"
-                  >
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={showIntro ? "intro" : "description"}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        custom={showIntro}
-                        variants={animationVariants}
-                        transition={transitionSettings}
-                        className={cn(
-                          "relative w-full p-6",
-                          !showIntro &&
-                            "rounded-r-lg border border-gray-200 bg-gray-100 dark:border-dark dark:bg-dark/50",
-                        )}
-                      >
-                        {showIntro && (
-                          <div
-                            aria-hidden="true"
-                            className="absolute -right-1 top-1 text-main-l dark:text-main-dark-m"
-                          >
-                            <TouchIcon className="animate-bounce-rotate size-10" />
-                          </div>
-                        )}
-                        <div className="prose text-main antialiased will-change-transform dark:prose-invert dark:text-main-dark">
-                          {showIntro ? (
-                            <Markdown>{intro}</Markdown>
-                          ) : (
-                            <>
-                              <h3>¿Qué es {title}?</h3>
-                              <Markdown>{description}</Markdown>
-                            </>
-                          )}
+                <section
+                  onMouseEnter={() => setShowIntro(false)}
+                  onMouseLeave={() => setShowIntro(true)}
+                  className="group hidden items-center md:max-w-md lg:flex"
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={showIntro ? "intro" : "description"}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      custom={showIntro}
+                      variants={animationVariants}
+                      transition={transitionSettings}
+                      className={cn(
+                        "relative w-full p-6",
+                        !showIntro &&
+                          "rounded-r-lg border border-gray-200 bg-gray-100 dark:border-dark dark:bg-dark/50",
+                      )}
+                    >
+                      {showIntro && (
+                        <div
+                          aria-hidden="true"
+                          className="absolute -right-1 top-1 text-main-l dark:text-main-dark-m"
+                        >
+                          <TouchIcon className="animate-bounce-rotate size-10" />
                         </div>
-                      </motion.div>
-                    </AnimatePresence>
-                  </section>
-                ) : (
-                  <section
-                    ref={sectionRef}
-                    className="custom-scroll v2 group inline-flex flex-1 snap-x snap-mandatory overflow-x-auto"
-                  >
-                    <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
-                      <Markdown prose="prose-sm">{intro}</Markdown>
-                      <div className="mt-2 flex w-full justify-end">
-                        <button
-                          aria-label="Ir al final"
-                          onClick={() => scrollTo({ to: "end" })}
-                        >
-                          <NextArrowIcon className="size-8 text-main-l dark:text-main-dark-l" />
-                        </button>
+                      )}
+                      <div className="prose text-main antialiased will-change-transform dark:prose-invert dark:text-main-dark">
+                        {showIntro ? (
+                          <Markdown>{intro}</Markdown>
+                        ) : (
+                          <>
+                            <h3>¿Qué es {title}?</h3>
+                            <Markdown>{description}</Markdown>
+                          </>
+                        )}
                       </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </section>
+                <section
+                  ref={sectionRef}
+                  className="custom-scroll v2 group inline-flex flex-1 snap-x snap-mandatory overflow-x-auto lg:hidden"
+                >
+                  <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
+                    <Markdown prose="prose-sm">{intro}</Markdown>
+                    <div className="mt-2 flex w-full justify-end">
+                      <button
+                        aria-label="Ir al final"
+                        onClick={() => scrollTo({ to: "end" })}
+                      >
+                        <NextArrowIcon className="size-8 text-main-l dark:text-main-dark-l" />
+                      </button>
                     </div>
-                    <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
-                      <h3 className="font-semibold text-[#111827] dark:text-white">
-                        ¿Qué es {title}?
-                      </h3>
-                      <Markdown prose="prose-sm">{description}</Markdown>
-                      <div className="mt-2 flex w-full justify-end">
-                        <button
-                          aria-label="Ir al final"
-                          onClick={() => scrollTo({ to: "start" })}
-                        >
-                          <NextArrowIcon className="size-8 rotate-180 text-main-l dark:text-main-dark-l" />
-                        </button>
-                      </div>
+                  </div>
+                  <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
+                    <h3 className="font-semibold text-[#111827] dark:text-white">
+                      ¿Qué es {title}?
+                    </h3>
+                    <Markdown prose="prose-sm">{description}</Markdown>
+                    <div className="mt-2 flex w-full justify-end">
+                      <button
+                        aria-label="Ir al final"
+                        onClick={() => scrollTo({ to: "start" })}
+                      >
+                        <NextArrowIcon className="size-8 rotate-180 text-main-l dark:text-main-dark-l" />
+                      </button>
                     </div>
-                  </section>
-                )}
+                  </div>
+                </section>
               </div>
               <div
                 id="content"

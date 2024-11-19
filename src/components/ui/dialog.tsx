@@ -43,31 +43,49 @@ const DialogContent = React.forwardRef<
   Omit<
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
       closeButton?: boolean;
+      closeButtonClass?: string;
       isBlurred?: boolean;
     },
     "ref"
   >
->(({ className, children, closeButton = true, isBlurred, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay className={overlayVariants({ isBlurred })} />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed left-1/2 top-1/2 z-[102] flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center overflow-hidden rounded-xl bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:mx-6 md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      {closeButton && (
-        <DialogPrimitive.Close className="absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 tap-highlight-transparent hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-black/10 dark:text-main-dark-h dark:hover:bg-white/5 dark:active:bg-white/10">
-          <X className="size-4" />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
-      )}
-    </DialogPrimitive.Content>
-  </DialogPortal>
-));
+>(
+  (
+    {
+      className,
+      children,
+      closeButton = true,
+      closeButtonClass,
+      isBlurred,
+      ...props
+    },
+    ref,
+  ) => (
+    <DialogPortal>
+      <DialogOverlay className={overlayVariants({ isBlurred })} />
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          "fixed left-1/2 top-1/2 z-[102] flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center overflow-hidden rounded-xl bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:mx-6 md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+        {closeButton && (
+          <DialogPrimitive.Close
+            className={cn(
+              "absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 tap-highlight-transparent hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-black/10 dark:text-main-dark-h dark:hover:bg-white/5 dark:active:bg-white/10",
+              closeButtonClass,
+            )}
+          >
+            <X className="size-4" />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  ),
+);
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({
@@ -116,7 +134,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-muted-foreground text-sm", className)}
+    className={cn("text-sm text-muted-foreground", className)}
     {...props}
   />
 ));

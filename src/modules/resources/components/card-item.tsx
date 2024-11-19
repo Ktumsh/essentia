@@ -57,7 +57,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
                 height={208}
                 alt={title}
                 src={image}
-                className="size-full object-cover transition-transform duration-1000 motion-safe:group-hover:scale-105"
+                className="aspect-auto size-full object-cover transition-transform duration-1000 motion-safe:group-hover:scale-105"
               />
             </div>
             <div className="absolute left-0 top-0 z-10 px-5 pt-3">

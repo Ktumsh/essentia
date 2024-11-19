@@ -1,4 +1,3 @@
-import { Image as ImageUI } from "@nextui-org/react";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -42,17 +41,13 @@ export default async function PhotoPage(props: Props) {
       {profileData.profile_image && (
         <div className="flex size-full items-center justify-center">
           <div className="overflow-hidden rounded-full bg-gray-200 dark:bg-dark">
-            <ImageUI
-              as={Image}
+            <Image
               width={320}
               height={320}
               quality={100}
               src={profileData.profile_image}
               alt={"Foto de perfil de " + profileData.username}
-              classNames={{
-                wrapper: "flex items-center justify-center",
-                img: "!size-48 md:!size-80 object-cover object-center",
-              }}
+              className="aspect-square !size-48 object-cover object-center md:!size-80"
             />
           </div>
         </div>

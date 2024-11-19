@@ -5,8 +5,8 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { HashIcon, StarsIcon } from "@/modules/icons/common";
 
 import CardList from "./card-list";
@@ -20,9 +20,7 @@ const ExcerciseFitness = ({ isPremium }: ExerciseFitnessProps) => {
 
   const searchTerm = INITIAL_CHAT_MESSAGES[1].action;
 
-  const windowSize = useWindowSize();
-
-  const { width } = windowSize;
+  const isMobile = useIsMobile();
 
   const onCreateRoutine = () => {
     if (isPremium) {
@@ -35,25 +33,19 @@ const ExcerciseFitness = ({ isPremium }: ExerciseFitnessProps) => {
   return (
     <section className="px-6 py-4 lg:p-0">
       <div className="relative flex w-full select-none justify-between">
-        <h3 className="mb-2 ml-3 text-main-h dark:text-main-dark">
-          <Button
-            as={Link}
+        <h3 className="text-main-h dark:text-main-dark">
+          <Link
             id="rutinas-de-ejercicios"
             data-id="rutinas-de-ejercicios"
             data-name="Rutinas de Ejercicios"
             href="#rutinas-de-ejercicios"
-            disableRipple
-            radius="none"
-            variant="flat"
-            endContent={
-              <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-            }
-            className="h-auto w-fit gap-0 bg-transparent p-0 px-2 text-xl font-semibold tracking-tight data-[pressed=true]:scale-100 data-[hover=true]:opacity-80 lg:px-0"
+            className="group mb-2 ml-3 inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 px-2 text-xl font-semibold tracking-tight transition hover:opacity-80 lg:px-0"
           >
             Rutinas de Ejercicios
-          </Button>
+            <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+          </Link>
         </h3>
-        {width > 768 && (
+        {!isMobile && (
           <Button
             radius="full"
             size="sm"

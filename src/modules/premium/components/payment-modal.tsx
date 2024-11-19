@@ -121,7 +121,7 @@ const PaymentModal = ({
                       placeholder="Ingresa el nombre del titular de la suscripción"
                       onChange={(e) => setCardholderName(e.target.value)}
                       className={cn(
-                        "dark:border-accent-dark mt-1 block w-full rounded-md border border-gray-300 bg-gray-100 p-3 pr-[26px] text-sm leading-none shadow-sm focus:outline-none dark:bg-dark",
+                        "mt-1 block w-full rounded-md border border-gray-300 bg-gray-100 p-3 pr-[26px] text-sm leading-none shadow-sm focus:outline-none dark:border-accent-dark dark:bg-dark",
                         "focus:border-[hsla(6,_93%,_71%,_50%)] focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(6,_93%,_71%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]",
                         "focus:dark:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(343,_58%,_50%,_25%),_0_1px_1px_0_rgba(255,_255,_255,_0.12))] focus:dark:border-[hsla(343,_58%,_50%,_50%)]",
                       )}
@@ -180,7 +180,7 @@ const PaymentModal = ({
                     </PopoverTrigger>
                     <PopoverContent>
                       <div className="px-1 py-2">
-                        <div className="text-small font-bold dark:text-main-dark">
+                        <div className="text-sm font-bold dark:text-main-dark">
                           Pago simulado
                         </div>
                         <div className="text-xs text-main-h dark:text-main-dark-h">

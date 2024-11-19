@@ -206,7 +206,7 @@ const PaymentModal = ({ isOpen, onOpenChange }: PaymentModalProps) => {
                     </PopoverTrigger>
                     <PopoverContent>
                       <div className="px-1 py-2">
-                        <div className="text-small font-bold dark:text-main-dark">
+                        <div className="text-sm font-bold dark:text-main-dark">
                           Pago simulado
                         </div>
                         <div className="text-xs text-main-h dark:text-main-dark-h">
