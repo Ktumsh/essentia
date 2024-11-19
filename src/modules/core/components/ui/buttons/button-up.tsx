@@ -1,44 +1,61 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
-const ButtonUp = () => {
-  const [isVisible, setIsVisible] = useState(false);
+interface ButtonUpProps {
+  scrollRef?: React.RefObject<HTMLElement | null>;
+}
 
+const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
+  const [isVisible, setIsVisible] = useState(false);
   const pathname = usePathname();
   const essentiaAI = pathname === "/essentia-ai";
 
+  const defaultScrollRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
+    const scrollElement =
+      scrollRef?.current ||
+      defaultScrollRef.current ||
+      document.documentElement;
+
+    if (!scrollElement) return;
+
     let timeout = 0;
 
     const handleScroll = () => {
       if (!timeout) {
         timeout = requestAnimationFrame(() => {
-          const scrollTop =
-            document.body.scrollTop || document.documentElement.scrollTop;
+          const scrollTop = scrollElement.scrollTop;
           setIsVisible(scrollTop > 20);
           timeout = 0;
         });
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    scrollElement.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      scrollElement.removeEventListener("scroll", handleScroll);
       if (timeout) {
         cancelAnimationFrame(timeout);
       }
     };
-  }, []);
+  }, [scrollRef]);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const scrollElement =
+      scrollRef?.current ||
+      defaultScrollRef.current ||
+      document.documentElement;
+    if (scrollElement) {
+      scrollElement.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -53,11 +70,14 @@ const ButtonUp = () => {
       <Button
         id="scroll-to-top"
         aria-label="Volver al inicio de la página"
-        disableRipple
-        className="group flex !size-9 min-w-0 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white px-0 text-main shadow-md transition hover:shadow-lg data-[hover=true]:scale-105 data-[hover=true]:border-bittersweet-400 data-[hover=true]:text-bittersweet-400 data-[hover=true]:!opacity-100 motion-safe:transition dark:border-white/10 dark:bg-dark dark:text-main-dark dark:data-[hover=true]:bg-full-dark"
+        size="icon"
+        className={cn(
+          "group flex !size-9 min-w-0 items-center justify-center rounded-md border border-gray-200 bg-white px-0 text-main shadow-md transition hover:scale-105 hover:border-bittersweet-400 hover:bg-white hover:text-bittersweet-400 hover:!opacity-100 hover:shadow-lg motion-safe:transition dark:border-white/10 dark:bg-dark dark:text-main-dark dark:hover:bg-full-dark",
+          isVisible ? "cursor-pointer" : "cursor-default",
+        )}
         onClick={scrollToTop}
       >
-        <ArrowUpIcon className="size-4 rotate-0 transition-transform group-data-[hover=true]:rotate-0 md:rotate-45" />
+        <ArrowUpIcon className="size-4 rotate-0 transition-transform group-hover:rotate-0 md:rotate-45" />
       </Button>
     </div>
   );

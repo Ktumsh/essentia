@@ -7,12 +7,11 @@ import { toast } from "sonner";
 
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { Session, UserProfileData } from "@/types/session";
-import { cn } from "@/utils/common";
 
-import ChatList from "./chat-list";
 import ChatPanel from "./chat-panel";
-import EmptyScreen from "./empty-screen";
-import { useScrollAnchor } from "../hooks/use-scroll-anchor";
+import Overview from "./overview";
+import { Message as PreviewMessage } from "../components/ui/message";
+import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 
 export interface ChatProps extends ComponentProps<"div"> {
   id: string;
@@ -25,7 +24,6 @@ export interface ChatProps extends ComponentProps<"div"> {
 
 export function Chat({
   id,
-  className,
   session,
   missingKeys,
   profileData,
@@ -55,34 +53,29 @@ export function Chat({
     });
   }, [missingKeys]);
 
-  const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
-    useScrollAnchor();
+  const { scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
+    useScrollToBottom();
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
   return (
-    <div
-      className="group flex h-[calc(100dvh-56px)] w-full min-w-0 flex-col overflow-y-auto"
-      ref={scrollRef}
-    >
+    <>
       <div
-        className={cn(
-          "flex flex-1 flex-col pb-32 pt-4 md:pt-10 lg:pb-48",
-          className,
-        )}
-        ref={messagesRef}
+        className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-4"
+        ref={scrollRef}
       >
-        {messages.length ? (
-          <ChatList
-            id={id}
-            messages={messages}
-            isShared={false}
-            session={session}
+        {messages.length === 0 && <Overview />}
+
+        {messages.map((message, index) => (
+          <PreviewMessage
+            key={`${message.id}-${index}`}
+            role={message.role}
+            content={message.content}
+            toolInvocations={message.toolInvocations}
+            attachments={message.experimental_attachments}
             profileData={profileData}
           />
-        ) : (
-          <EmptyScreen />
-        )}
+        ))}
         <div className="h-px w-full" ref={visibilityRef} />
       </div>
 
@@ -90,17 +83,17 @@ export function Chat({
         input={input}
         setInput={setInput}
         stop={stop}
-        scrollToBottom={scrollToBottom}
         append={append}
         handleSubmit={handleSubmit}
         attachments={attachments}
         setAttachments={setAttachments}
         messages={messages}
-        isAtBottom={isAtBottom}
         isLoading={isLoading}
         isPremium={isPremium}
         session={session}
+        scrollToBottom={scrollToBottom}
+        isAtBottom={isAtBottom}
       />
-    </div>
+    </>
   );
 }

@@ -18,14 +18,17 @@ import MainSearch from "../layout/main-search";
 
 interface MainNavMainProps {
   items: SiteConfig["navLinks"];
+  isCollapsed?: boolean;
 }
 
-const MainNavMain = ({ items }: MainNavMainProps) => {
+const MainNavMain = ({ items, isCollapsed }: MainNavMainProps) => {
   const pathname = usePathname();
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Principal</SidebarGroupLabel>
+      <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
+        Principal
+      </SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem>
           <MainSearch>
@@ -34,12 +37,13 @@ const MainNavMain = ({ items }: MainNavMainProps) => {
               <span>Busca rápida</span>
             </SidebarMenuButton>
           </MainSearch>
-          {items.map((item, index) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(item.href + "/");
-            return (
+        </SidebarMenuItem>
+        {items.map((item, index) => {
+          const isActive =
+            pathname === item.href || pathname.startsWith(item.href + "/");
+          return (
+            <SidebarMenuItem key={index}>
               <SidebarMenuButton
-                key={index}
                 asChild
                 isActive={isActive}
                 tooltip={item.name}
@@ -49,9 +53,9 @@ const MainNavMain = ({ items }: MainNavMainProps) => {
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>
-            );
-          })}
-        </SidebarMenuItem>
+            </SidebarMenuItem>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

@@ -29,7 +29,10 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
 
   return (
     <>
-      <div role="banner" className="sticky top-0 z-50 hidden w-full md:block">
+      <header
+        role="banner"
+        className="sticky inset-x-0 top-0 z-50 hidden md:block"
+      >
         <Navbar
           maxWidth="sm"
           position="sticky"
@@ -61,7 +64,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
             )}
           </div>
         </div>
-      </div>
+      </header>
     </>
   );
 };

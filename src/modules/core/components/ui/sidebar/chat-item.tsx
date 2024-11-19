@@ -9,10 +9,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { BetterTooltip } from "@/components/ui/tooltip";
 import { shareChat } from "@/db/chat-querys";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
-import { ChatIcon, UsersIcon } from "@/modules/icons/miscellaneus";
 import { type Chat } from "@/types/chat";
 
 import ChatActions from "./chat-actions";
@@ -53,15 +51,6 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
       >
         <SidebarMenuButton asChild isActive={isActive}>
           <Link href={chat.path} onClick={() => setOpenMobile(false)}>
-            {chat.share_path ? (
-              <BetterTooltip content="Este es un chat compartido">
-                <UsersIcon className="!size-4 text-main-m dark:text-main-dark-m" />
-              </BetterTooltip>
-            ) : (
-              <span>
-                <ChatIcon className="!size-4 text-main-m dark:text-main-dark-m" />
-              </span>
-            )}
             <span className="whitespace-nowrap">
               {shouldAnimate ? (
                 chat.title.split("").map((character, index) => (

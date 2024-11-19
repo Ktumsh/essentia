@@ -17,7 +17,7 @@ export default function Guides() {
   };
 
   return (
-    <section className="flex flex-col items-center pb-5 md:p-0">
+    <section className="flex flex-col items-center">
       <div className="grid w-full grid-cols-12 gap-4">
         {GUIDES.map((guide, index) => (
           <Card

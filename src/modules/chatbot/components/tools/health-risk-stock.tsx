@@ -10,7 +10,6 @@ import {
   Chip,
   CircularProgress,
   Divider,
-  Image as ImageUI,
 } from "@nextui-org/react";
 import Image from "next/image";
 import { useMemo, type JSX } from "react";
@@ -163,20 +162,16 @@ const AssesHealthRiskStock = ({
       className="group/card bg-white dark:bg-full-dark"
     >
       <CardHeader className="relative z-0 rounded-none p-0">
-        <ImageUI
-          as={Image}
-          width={639}
-          height={307}
-          quality={100}
-          priority
-          radius="none"
-          src="/extras/health-risk-banner.jpg"
-          alt="Health Risk Banner"
-          classNames={{
-            wrapper: "h-36 md:h-[200px] overflow-hidden",
-            img: "!h-auto object-cover object-top",
-          }}
-        />
+        <div className="h-52 overflow-hidden">
+          <Image
+            width={696}
+            height={334}
+            quality={100}
+            src="/extras/health-risk-banner.jpg"
+            alt="Health Risk Banner"
+            className="aspect-auto object-cover object-top"
+          />
+        </div>
         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
         <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-8">
           <Chip color="danger" className="shadow-md">

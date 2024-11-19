@@ -35,7 +35,7 @@ const Home = ({ profileData }: HomeProps) => {
             </section>
           </div>
           <div className="relative rounded-t-3xl bg-gray-100 pb-16 dark:bg-dark/50 md:rounded-none md:bg-transparent md:pb-0 md:dark:bg-transparent lg:pb-0">
-            <div className="flex w-full select-none flex-col py-4 md:py-0">
+            <div className="flex w-full select-none flex-col py-6 md:py-0">
               <h2 className="mb-2 ml-3 px-8 text-xl font-semibold normal-case tracking-tight text-main dark:text-main-dark md:text-sm md:font-semibold md:uppercase md:tracking-normal lg:px-0">
                 Recursos
               </h2>

@@ -28,11 +28,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { ServerActionResult } from "@/types/chat";
 
 interface ChatClearHistoryProps {
@@ -74,14 +70,12 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton disabled={!isEnabled}>
-                <MessageCircleX strokeWidth={1.5} />
-                Limpiar historial
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton disabled={!isEnabled}>
+              <MessageCircleX strokeWidth={1.5} />
+              Limpiar historial
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -106,14 +100,15 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
     return (
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton disabled={!isEnabled}>
-                <MessageCircleX strokeWidth={1.5} />
-                Limpiar historial
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              disabled={!isEnabled}
+              tooltip="Eliminar historial de chat"
+            >
+              <MessageCircleX strokeWidth={1.5} />
+              <span>Eliminar historial de chat</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader className="flex flex-col gap-1">

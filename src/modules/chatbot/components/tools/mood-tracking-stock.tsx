@@ -6,7 +6,6 @@ import {
   CardBody,
   CardHeader,
   Chip,
-  Image as ImageUI,
   Divider,
 } from "@nextui-org/react";
 import Image from "next/image";
@@ -54,19 +53,16 @@ const MoodTrackingStock = ({
       className="group/card bg-white dark:bg-full-dark"
     >
       <CardHeader className="relative z-0 rounded-none p-0">
-        <ImageUI
-          as={Image}
-          width={640}
-          height={320}
-          quality={100}
-          radius="none"
-          src="/extras/mood-tracking-top.webp"
-          alt="Mood Tracking Banner"
-          classNames={{
-            wrapper: "h-36 md:h-[200px] overflow-hidden",
-            img: "!h-auto object-cover object-top",
-          }}
-        />
+        <div className="flex h-52 items-center overflow-hidden">
+          <Image
+            width={696}
+            height={348}
+            quality={100}
+            src="/extras/mood-tracking-top.webp"
+            alt="Mood Tracking Banner"
+            className="aspect-auto object-cover object-top"
+          />
+        </div>
         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
         <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-8">
           <Chip color="danger" className="shadow-md">

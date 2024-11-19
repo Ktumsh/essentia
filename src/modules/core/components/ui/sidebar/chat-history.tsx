@@ -23,7 +23,7 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
 
   const ChatDateTitle = ({ day }: { day: string }) => {
     return (
-      <SidebarGroupLabel className="sticky top-0 z-10 mt-4 bg-white p-2 first:mt-0 dark:bg-full-dark">
+      <SidebarGroupLabel className="sticky top-0 z-10 mt-4 text-nowrap bg-white p-2 first:mt-0 group-data-[collapsible=icon]:mt-4 first:group-data-[collapsible=icon]:mt-0 dark:bg-full-dark">
         {day}
       </SidebarGroupLabel>
     );
@@ -45,7 +45,7 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
     return (
       <SidebarGroup>
         <SidebarGroupContent>
-          <SidebarMenu className="gap-0">
+          <SidebarMenu>
             {history &&
               (() => {
                 const groupedChats = groupChatsByDate(history);

@@ -6,7 +6,6 @@ import {
   CardBody,
   CardHeader,
   Chip,
-  Image as ImageUI,
   Divider,
   CardFooter,
   Tabs,
@@ -194,19 +193,16 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
       className="group/card bg-white dark:bg-full-dark"
     >
       <CardHeader className="relative z-0 rounded-none p-0">
-        <ImageUI
-          as={Image}
-          width={639}
-          height={360}
-          quality={100}
-          src="/extras/exercise-routine-banner.jpg"
-          alt="Exercise Routine Banner"
-          radius="none"
-          classNames={{
-            wrapper: "h-36 md:h-[200px] overflow-hidden",
-            img: "!h-auto object-cover object-top",
-          }}
-        />
+        <div className="flex h-52 items-center overflow-hidden">
+          <Image
+            width={696}
+            height={392}
+            quality={100}
+            src="/extras/exercise-routine-banner.jpg"
+            alt="Exercise Routine Banner"
+            className="aspect-auto object-cover object-top"
+          />
+        </div>
         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
         <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-4 md:p-8">
           <Chip color="danger" className="shadow-md">

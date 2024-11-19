@@ -41,21 +41,20 @@ export const Message = ({
   const { profile_image, username } = profileData || {};
   return (
     <motion.div
-      className={
+      className={cn(
+        "mx-auto w-full max-w-3xl px-4",
         role === "assistant"
-          ? "group relative flex items-start md:-ml-10"
-          : "group relative flex flex-row-reverse items-start self-end md:-mr-8"
-      }
+          ? "group relative flex items-start"
+          : "group relative flex flex-row-reverse items-start self-end",
+      )}
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
     >
-      <div className="flex size-[25px] shrink-0 select-none items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md dark:border-white/10 dark:bg-dark">
-        {role === "assistant" ? (
-          <BotAvatar />
-        ) : (
-          <UserAvatar profileImage={profile_image} username={username} />
-        )}
-      </div>
+      {role === "assistant" ? (
+        <BotAvatar />
+      ) : (
+        <UserAvatar profileImage={profile_image} username={username} />
+      )}
 
       <div
         className={cn(

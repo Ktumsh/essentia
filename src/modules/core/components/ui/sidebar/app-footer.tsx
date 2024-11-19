@@ -6,10 +6,11 @@ import MainNavUser from "./main-nav-user";
 
 interface AppFooterProps {
   user: UserProfileData | null;
+  isCollapsed?: boolean;
 }
 
-const AppFooter = ({ user }: AppFooterProps) => {
-  return <MainNavUser user={user} />;
+const AppFooter = ({ user, isCollapsed }: AppFooterProps) => {
+  return <MainNavUser user={user} isCollapsed={isCollapsed} />;
 };
 
 export default AppFooter;

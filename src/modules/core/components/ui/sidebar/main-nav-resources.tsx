@@ -13,13 +13,16 @@ import { SiteConfig } from "@/types/common";
 
 interface MainNavResourcesProps {
   items: SiteConfig["asideMenuLinks"];
+  isCollapsed?: boolean;
 }
 
-const MainNavResources = ({ items }: MainNavResourcesProps) => {
+const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
   const pathname = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Recursos</SidebarGroupLabel>
+      <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
+        Recursos
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item, index) => {
           const isActive = pathname === item.link;

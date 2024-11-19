@@ -31,7 +31,6 @@ export interface ChatPanelProps {
   input: string;
   setInput: (value: string) => void;
   stop: () => void;
-  scrollToBottom: () => void;
   append: (
     message: Message | CreateMessage,
     chatRequestOptions?: ChatRequestOptions,
@@ -46,25 +45,26 @@ export interface ChatPanelProps {
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
   messages: Array<Message>;
   isLoading: boolean;
-  isAtBottom: boolean;
   isPremium: boolean | null;
   session: Session | undefined;
+  scrollToBottom: () => void;
+  isAtBottom: boolean;
 }
 
 const ChatPanel: FC<ChatPanelProps> = ({
   input,
   setInput,
   stop,
-  scrollToBottom,
   append,
   handleSubmit,
   attachments,
   setAttachments,
   messages,
   isLoading,
-  isAtBottom,
   isPremium,
   session,
+  scrollToBottom,
+  isAtBottom,
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { isWarningModalOpen, handleOpenPaymentModal } =
@@ -105,12 +105,12 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   return (
     <>
-      <div className="pointer-events-none sticky bottom-0 z-10 w-full overflow-hidden md:bottom-0">
-        <div className="pointer-events-auto relative mx-auto max-w-2xl sm:px-4">
-          <ButtonToBottom
-            isAtBottom={isAtBottom}
-            scrollToBottom={scrollToBottom}
-          />
+      <div className="relative mx-auto flex w-full gap-2 md:max-w-3xl md:px-4">
+        <ButtonToBottom
+          isAtBottom={isAtBottom}
+          scrollToBottom={scrollToBottom}
+        />
+        <div className="relative flex w-full flex-col">
           {messages.length === 0 &&
             attachments.length === 0 &&
             uploadQueue.length === 0 && (
@@ -159,7 +159,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 ))}
               </motion.div>
             )}
-          <div className="relative border-t border-gray-200 bg-white px-4 py-2 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4 md:-ml-1">
+          <div className="relative border-t border-gray-200 bg-white px-4 py-2 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4">
             <motion.div
               initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={
