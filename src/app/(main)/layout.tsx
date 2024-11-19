@@ -24,7 +24,6 @@ export default async function MainLayout({
       <MobileHeader profileData={profileData} />
       <LayoutWrapper session={session} user={profileData}>
         <Header profileData={profileData} />
-
         {children}
       </LayoutWrapper>
       {/* Bottom Mobile Navbar */}

@@ -6,6 +6,8 @@ import { type JSX } from "react";
 
 import { cn } from "@/utils/common";
 
+import { useIsMobile } from "../hooks/use-mobile";
+
 const TooltipProvider = TooltipPrimitive.Provider;
 
 const Tooltip = TooltipPrimitive.Root;
@@ -21,7 +23,7 @@ const TooltipContent = React.forwardRef<
     sideOffset={sideOffset}
     side={side}
     className={cn(
-      "z-[99] hidden overflow-hidden rounded-full border border-gray-200 bg-white px-2 py-1 text-xs text-main shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-dark dark:bg-dark dark:text-main-dark md:block",
+      "z-50 overflow-hidden rounded-full border border-gray-200 bg-white px-2 py-1 text-xs text-main shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-dark dark:bg-dark dark:text-main-dark",
       className,
     )}
     {...props}
@@ -44,11 +46,18 @@ export const BetterTooltip = ({
   side?: "top" | "right" | "bottom" | "left";
   className?: string;
 }) => {
+  const isMobile = useIsMobile();
+
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip {...props}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent align={align} side={side} className={className}>
+        <TooltipContent
+          align={align}
+          side={side}
+          className={className}
+          hidden={isMobile}
+        >
           {content}
         </TooltipContent>
       </Tooltip>

@@ -11,12 +11,20 @@ import {
 import Greeting from "../greeting";
 import Logo from "../utils/logo";
 
-const AppHeader = () => {
+interface AppHeaderProps {
+  isCollapsed?: boolean;
+}
+
+const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
   return (
     <SidebarHeader className="mb-2 space-y-2">
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton size="lg" asChild>
+          <SidebarMenuButton
+            size="lg"
+            asChild
+            className={isCollapsed ? "!size-8 p-0" : ""}
+          >
             <Link href="/">
               <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb]">
                 <Logo width={16} height={16} className="h-4" />

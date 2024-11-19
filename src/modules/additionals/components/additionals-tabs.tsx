@@ -48,7 +48,7 @@ export default function AdditionalsTabs() {
           tab: "max-w-fit px-0 h-12",
           tabContent:
             "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
-          panel: "w-full px-6 pt-10 pb-14 md:pb-6 bg-white dark:bg-full-dark",
+          panel: "w-full px-6 pt-10 pb-6 bg-white dark:bg-full-dark",
         }}
       >
         <Tab

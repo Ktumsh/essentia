@@ -58,7 +58,7 @@ const FirstAid = () => {
           >
             <CardContent className="flex flex-col overflow-hidden p-3">
               <div className="inline-flex w-full items-center justify-between">
-                <h3 className="text-lg font-semibold md:text-xl">
+                <h3 className="text-start text-lg font-semibold">
                   {cardInfo.title}
                 </h3>
                 <BetterTooltip

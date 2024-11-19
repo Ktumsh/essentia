@@ -38,19 +38,26 @@ import { ThemeToggle } from "../buttons/theme-toggle";
 
 interface MainNavUserProps {
   user: UserProfileData | null;
+  isCollapsed?: boolean;
 }
 
-const MainNavUser = ({ user }: MainNavUserProps) => {
+const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
   const { username, email, profile_image, is_premium } = user || {};
 
   const { isMobile } = useSidebar();
+
+  if (isMobile) return null;
   return (
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton size="lg">
+              <SidebarMenuButton
+                size="lg"
+                tooltip="Perfil"
+                className={isCollapsed ? "!size-8 p-0" : ""}
+              >
                 <>
                   <Avatar className="size-8 rounded-lg">
                     <AvatarImage src={profile_image || ""} alt={username} />
@@ -74,7 +81,7 @@ const MainNavUser = ({ user }: MainNavUserProps) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-              side={isMobile ? "bottom" : "right"}
+              side="right"
               align="end"
               sideOffset={4}
             >

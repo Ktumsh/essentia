@@ -33,7 +33,7 @@ const SexualityEmergencyCard = () => {
           >
             <CardContent className="flex flex-col overflow-hidden p-3">
               <div className="inline-flex w-full items-center justify-between">
-                <h3 className="text-lg font-semibold md:text-xl">
+                <h3 className="text-lg font-semibold">
                   Emergencias de Salud Sexual
                 </h3>
               </div>

@@ -20,17 +20,20 @@ import { SiteConfig } from "@/types/common";
 
 interface MainNavInfoProps {
   items: SiteConfig["footerLinks"]["more"];
+  isCollapsed?: boolean;
 }
 
-const MainNavInfo = ({ items }: MainNavInfoProps) => {
+const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Extras</SidebarGroupLabel>
+      <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
+        Extras
+      </SidebarGroupLabel>
       <SidebarMenu>
         <Collapsible asChild className="group/collapsible">
           <SidebarMenuItem>
             <CollapsibleTrigger asChild>
-              <SidebarMenuButton tooltip="Acerca de">
+              <SidebarMenuButton tooltip="Información">
                 <Info strokeWidth={1.5} />
                 <span>Información</span>
                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

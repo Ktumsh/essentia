@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
-import { Sidebar } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import ChatSidebar from "@/modules/core/components/ui/sidebar/chat-sidebar";
 import { Session, UserProfileData } from "@/types/session";
 
@@ -23,21 +23,56 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
 
   const isAIPage = pathname.startsWith("/essentia-ai");
 
-  if (isAIPage) {
+  const isCollapsed = isAIPage;
+
+  if (isMobile)
     return (
       <Sidebar>
         <AppHeader />
-        <ChatSidebar session={session} />
+        <SidebarContent>
+          <ChatSidebar session={session} />
+        </SidebarContent>
         <AppFooter user={user} />
       </Sidebar>
     );
-  } else if (!isMobile && !isAIPage) {
-    return (
-      <Sidebar collapsible="icon">
-        <AppHeader />
-        <MainSidebar />
-        <AppFooter user={user} />
-      </Sidebar>
-    );
-  }
+
+  return (
+    <Sidebar
+      collapsible="icon"
+      className={
+        isCollapsed ? "overflow-hidden [&>[data-sidebar=sidebar]]:flex-row" : ""
+      }
+    >
+      {!isAIPage ? (
+        <>
+          <AppHeader />
+          <SidebarContent>
+            <MainSidebar />
+          </SidebarContent>
+          <AppFooter user={user} />
+        </>
+      ) : (
+        <>
+          <Sidebar
+            collapsible="none"
+            className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r border-gray-200 dark:border-dark"
+          >
+            <AppHeader isCollapsed />
+            <SidebarContent>
+              <MainSidebar isCollapsed />
+            </SidebarContent>
+            <AppFooter user={user} isCollapsed />
+          </Sidebar>
+          <Sidebar
+            collapsible="none"
+            className="flex w-[calc(var(--sidebar-width-icon)_+_1px)] flex-1"
+          >
+            <SidebarContent>
+              <ChatSidebar session={session} />
+            </SidebarContent>
+          </Sidebar>
+        </>
+      )}
+    </Sidebar>
+  );
 }

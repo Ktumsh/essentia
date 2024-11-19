@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useRef } from "react";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { Session, UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
-import useWindowSize from "../../hooks/use-window-size";
 import { startsWithAny } from "../../lib/utils";
 import ButtonUp from "../ui/buttons/button-up";
 import { AppSidebar } from "../ui/sidebar/app-sidebar";
@@ -23,8 +23,9 @@ interface LayoutWrapperProps {
 
 const LayoutWrapper: FC<LayoutWrapperProps> = ({ session, user, children }) => {
   const pathname = usePathname();
-  const windowSize = useWindowSize();
-  const isMobile = windowSize.width < 768;
+  const isMobile = useIsMobile();
+
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
   const isProfile = pathname.startsWith("/profile");
@@ -70,11 +71,24 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ session, user, children }) => {
       {/* Main content */}
       <div className="flex w-full text-clip">
         <AppSidebar session={session} user={user} />
-        <SidebarInset>{children}</SidebarInset>
+        <SidebarInset>
+          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
+            {isEssentiaAI ? (
+              <>{children}</>
+            ) : (
+              <div
+                ref={scrollRef}
+                className="w-full flex-1 overflow-y-auto pb-16 md:pb-0"
+              >
+                {children}
+              </div>
+            )}
+          </div>
+        </SidebarInset>
       </div>
 
       {/* Button Up */}
-      {!hideButtonUp && !isMobile && <ButtonUp />}
+      {!hideButtonUp && !isMobile && <ButtonUp scrollRef={scrollRef} />}
     </>
   );
 };
