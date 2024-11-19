@@ -161,8 +161,8 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
 
   return (
     <>
-      <section className="flex w-full shrink flex-col items-stretch">
-        <div className="relative flex min-h-[calc(100dvh-112px)] flex-col border-gray-200 bg-white dark:border-dark dark:bg-full-dark md:min-h-[calc(100dvh-56px)] md:border">
+      <section className="flex w-full flex-col overflow-hidden pb-16 md:pb-0">
+        <div className="mx-auto size-full min-h-[calc(100dvh-120px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:min-h-[calc(100dvh-56px)] md:border md:border-y-0">
           <div className="group relative">
             {previewBannerImage ? (
               <Link

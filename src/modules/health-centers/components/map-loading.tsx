@@ -4,7 +4,7 @@ import { SpinnerIcon } from "@/modules/icons/status";
 
 const MapLoading = () => {
   return (
-    <div className="absolute inset-0 z-50 size-full border border-gray-200 bg-white before:!duration-1000 dark:border-dark dark:bg-full-dark md:rounded-3xl">
+    <div className="absolute inset-0 z-50 size-full bg-white before:!duration-1000 dark:bg-full-dark">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
         <SpinnerIcon
           className="size-8 text-main-m dark:text-main-dark-m"

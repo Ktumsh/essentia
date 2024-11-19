@@ -11,7 +11,7 @@ const badgeVariants = cva(
         default:
           "bg-gray-100 text-main hover:bg-gray-100/80 dark:bg-dark dark:text-main-dark dark:hover:bg-dark/80",
         primary:
-          "bg-bittersweet-400 hover:bg-bittersweet-400/80 dark:bg-cerise-red-600 dark:hover:bg-cerise-red-600/80",
+          "bg-bittersweet-400 hover:bg-bittersweet-400/80 dark:bg-cerise-red-600 dark:hover:bg-cerise-red-600/80 text-white",
         secondary:
           "bg-white text-main hover:bg-white/80 dark:bg-full-dark dark:text-main-dark dark:hover:bg-full-dark/80",
         destructive:

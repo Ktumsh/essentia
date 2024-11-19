@@ -14,7 +14,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { clearChats } from "@/db/chat-querys";
-import ClearHistory from "@/modules/chatbot/components/clear-history";
 import HistoryLoading from "@/modules/chatbot/components/ui/history-loading";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { NewIcon } from "@/modules/icons/action";
@@ -22,6 +21,7 @@ import { Chat } from "@/types/chat";
 import { Session } from "@/types/session";
 import { fetcher } from "@/utils/common";
 
+import ChatClearHistory from "./chat-clear-history";
 import ChatHistory from "./chat-history";
 
 interface ChatSidebarProps {
@@ -78,8 +78,8 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
         </SidebarGroup>
         <ChatHistory history={history} mutate={mutate} />
       </SidebarContent>
-      <SidebarFooter>
-        <ClearHistory
+      <SidebarFooter className="pb-0">
+        <ChatClearHistory
           clearChats={clearChats}
           isEnabled={history ? history.length > 0 : false}
         />

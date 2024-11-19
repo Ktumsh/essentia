@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Button,
-  Textarea,
-  DateInput,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Textarea, DateInput } from "@nextui-org/react";
 import {
   FC,
   useCallback,
@@ -21,6 +11,22 @@ import {
 } from "react";
 import { toast } from "sonner";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { updateUserProfile } from "@/db/profile-querys";
 import { SpinnerIcon, StarsIcon } from "@/modules/icons/common";
@@ -47,7 +53,8 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
   children,
   isOwnProfile,
 }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({
     first_name: null,
@@ -95,18 +102,92 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
 
         toast.success("Tu perfil ha sido actualizado.");
         saveFormData();
-        onOpenChange();
+        setIsOpen(false);
       } catch (error) {
         console.error("Error al actualizar el perfil", error);
         toast.error("Error al actualizar el perfil.");
       }
     });
-  }, [tempFormData, saveFormData, onOpenChange]);
+  }, [tempFormData, saveFormData, setIsOpen]);
 
   const onCancel = useCallback(() => {
     resetTempData();
-    onOpenChange();
-  }, [onOpenChange, resetTempData]);
+    setIsOpen(false);
+  }, [setIsOpen, resetTempData]);
+
+  const Content = useCallback(() => {
+    return (
+      <div className="w-full space-y-3 p-6 md:p-0 md:pt-6">
+        <FormInput
+          name="first_name"
+          label="Nombre"
+          value={tempFormData.first_name}
+          onChange={handleInputChange}
+          errorMessage={errors.first_name}
+          isInvalid={!!errors.first_name}
+        />
+        <FormInput
+          name="last_name"
+          label="Apellido"
+          value={tempFormData.last_name}
+          onChange={handleInputChange}
+          errorMessage={errors.last_name}
+          isInvalid={!!errors.last_name}
+        />
+        <FormInput
+          name="username"
+          label="Nombre de usuario"
+          value={tempFormData.username}
+          onChange={handleInputChange}
+          errorMessage={errors.username}
+          isInvalid={!!errors.username}
+        />
+        <Textarea
+          name="bio"
+          label="Biografía"
+          maxLength={160}
+          value={tempFormData.bio ?? ""}
+          onChange={handleInputChange}
+          description="Máximo 160 caracteres"
+          variant="bordered"
+          color="danger"
+          radius="sm"
+          classNames={{
+            input: "text-main dark:text-main-dark",
+            inputWrapper:
+              "border-gray-200 data-[hover=true]:border-gray-200 dark:border-full-dark dark:data-[hover=true]:border-full-dark",
+          }}
+        />
+        <FormInput
+          name="location"
+          label="Ubicación"
+          maxLength={30}
+          value={tempFormData.location ?? ""}
+          onChange={handleInputChange}
+          description="Máximo 30 caracteres"
+        />
+        <DateInput
+          id="birthdate"
+          description={"Este es mi cumpleaños"}
+          errorMessage="Por favor, ingresa una fecha válida"
+          label={"Fecha de nacimiento"}
+          value={tempFormData.birthdate}
+          onChange={handleDateChange}
+          color="danger"
+          variant="bordered"
+          startContent={<CalendarFillIcon className="size-4" />}
+          classNames={{
+            label: "text-xs text-bittersweet-400 dark:text-cerise-red-600",
+            segment:
+              "data-[editable=true]:text-main dark:data-[editable=true]:text-main-dark data-[editable=true]:data-[placeholder=true]:text-main-m dark:data-[editable=true]:data-[placeholder=true]:text-main-dark-m",
+            inputWrapper:
+              "border-gray-200 dark:border-full-dark hover:border-gray-200 dark:hover:border-full-dark",
+            innerWrapper: "text-main-m dark:text-main-dark-m",
+          }}
+        />
+      </div>
+    );
+  }, [tempFormData, errors, handleInputChange, handleDateChange]);
 
   return (
     <>
@@ -132,13 +213,7 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
               </span>
             </div>
             {isOwnProfile && (
-              <Button
-                variant="ghost"
-                color="default"
-                radius="sm"
-                onPress={onOpen}
-                className="border-gray-200 font-bold text-main hover:!bg-gray-200 dark:border-dark dark:text-main-dark dark:hover:!bg-dark"
-              >
+              <Button variant="outline" onClick={() => setIsOpen(true)}>
                 Editar perfil
               </Button>
             )}
@@ -184,126 +259,50 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
         {/* <AchievementsPanel isOwnProfile={isOwnProfile} /> */}
       </div>
 
-      {/* Modal de edición */}
-      {isOwnProfile && (
-        <Modal
-          placement="center"
-          scrollBehavior="inside"
-          size="xl"
-          isOpen={isOpen}
-          onOpenChange={onCancel}
-          radius="sm"
-          classNames={{
-            backdrop: "z-[101] bg-black/80",
-            wrapper: "z-[102]",
-            base: "bg-white dark:bg-full-dark",
-            body: "gap-0 px-0 py-0 custom-scroll v2",
-            closeButton:
-              "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-          }}
-        >
-          <ModalContent>
-            <>
-              <ModalHeader>Editar perfil</ModalHeader>
-              <ModalBody>
-                <FormInput
-                  name="first_name"
-                  label="Nombre"
-                  value={tempFormData.first_name}
-                  onChange={handleInputChange}
-                  errorMessage={errors.first_name}
-                  isInvalid={!!errors.first_name}
-                />
-                <FormInput
-                  name="last_name"
-                  label="Apellido"
-                  value={tempFormData.last_name}
-                  onChange={handleInputChange}
-                  errorMessage={errors.last_name}
-                  isInvalid={!!errors.last_name}
-                />
-                <FormInput
-                  name="username"
-                  label="Nombre de usuario"
-                  value={tempFormData.username}
-                  onChange={handleInputChange}
-                  errorMessage={errors.username}
-                  isInvalid={!!errors.username}
-                />
-                <Textarea
-                  name="bio"
-                  label="Biografía"
-                  maxLength={160}
-                  value={tempFormData.bio ?? ""}
-                  onChange={handleInputChange}
-                  description="Máximo 160 caracteres"
-                  variant="bordered"
-                  color="danger"
-                  radius="sm"
-                  classNames={{
-                    base: "px-4 py-3",
-                    input: "text-main dark:text-main-dark",
-                    inputWrapper:
-                      "border-gray-200 data-[hover=true]:border-gray-200 dark:border-dark dark:data-[hover=true]:border-dark",
-                  }}
-                />
-                <FormInput
-                  name="location"
-                  label="Ubicación"
-                  maxLength={30}
-                  value={tempFormData.location ?? ""}
-                  onChange={handleInputChange}
-                  description="Máximo 30 caracteres"
-                />
-                <DateInput
-                  id="birthdate"
-                  description={"Este es mi cumpleaños"}
-                  errorMessage="Por favor, ingresa una fecha válida"
-                  label={"Fecha de nacimiento"}
-                  value={tempFormData.birthdate}
-                  onChange={handleDateChange}
-                  color="danger"
-                  variant="bordered"
-                  startContent={<CalendarFillIcon className="size-4" />}
-                  classNames={{
-                    base: "px-4 py-3",
-                    label:
-                      "text-xs text-bittersweet-400 dark:text-cerise-red-600",
-                    segment:
-                      "data-[editable=true]:text-main dark:data-[editable=true]:text-main-dark data-[editable=true]:data-[placeholder=true]:text-main-m dark:data-[editable=true]:data-[placeholder=true]:text-main-dark-m",
-                    inputWrapper:
-                      "border-gray-200 dark:border-dark hover:border-gray-200 dark:hover:border-dark",
-                    innerWrapper: "text-main-m dark:text-main-dark-m",
-                  }}
-                />
-              </ModalBody>
-              <ModalFooter>
+      {isOwnProfile &&
+        (isMobile ? (
+          <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <DrawerContent>
+              <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
+                <DrawerTitle>Editar perfil</DrawerTitle>
+              </DrawerHeader>
+              <Content />
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Dialog open={isOpen} onOpenChange={onCancel}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Editar perfil</DialogTitle>
+                <DialogDescription className="sr-only">
+                  Editar perfil
+                </DialogDescription>
+              </DialogHeader>
+              <Content />
+              <DialogFooter>
                 <Button
-                  onPress={onCancel}
-                  variant="bordered"
-                  className="rounded-md border border-gray-200 data-[hover=true]:bg-gray-200 dark:border-dark dark:data-[hover=true]:bg-dark"
+                  variant="ghost"
+                  onClick={onCancel}
+                  className="dark:hover:bg-full-dark"
                 >
                   Cancelar
                 </Button>
                 <Button
                   color="danger"
-                  onPress={onSubmit}
-                  className="rounded-md"
-                  isDisabled={isPending}
+                  onClick={onSubmit}
+                  variant="destructive"
+                  disabled={isPending}
                   aria-disabled={isPending}
-                  startContent={
-                    isPending ? (
-                      <SpinnerIcon className="size-4 animate-spin" />
-                    ) : null
-                  }
                 >
+                  {isPending ? (
+                    <SpinnerIcon className="size-4 animate-spin" />
+                  ) : null}
                   {isPending ? "Guardando..." : "Guardar"}
                 </Button>
-              </ModalFooter>
-            </>
-          </ModalContent>
-        </Modal>
-      )}
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        ))}
     </>
   );
 };

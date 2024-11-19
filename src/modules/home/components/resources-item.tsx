@@ -84,13 +84,13 @@ const ResourcesItem = (props: ResoucesItemProps) => {
     }
   }, [index]);
 
-  if (isMobile) {
-    return (
+  return (
+    <>
       <Link
         href={href}
         className={cn(
           itemColor,
-          "relative aspect-auto h-32 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64",
+          "relative aspect-auto h-32 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64 md:hidden",
         )}
       >
         <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
@@ -112,51 +112,51 @@ const ResourcesItem = (props: ResoucesItemProps) => {
           </div>
         </div>
       </Link>
-    );
-  } else {
-    return (
-      <Link
-        href={href}
-        className={cn(
-          itemSpan,
-          "group relative flex h-64 flex-col overflow-hidden rounded-xl border border-white text-main transition-all duration-500 motion-reduce:transition-none dark:border-full-dark dark:text-main-dark",
-        )}
-      >
-        <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
-          <span className="text-xs font-bold uppercase text-white/60 transition-opacity group-hover:opacity-0">
-            {subtitle}
-          </span>
-          <h3 className="font-medium text-white transition-opacity group-hover:opacity-0 sm:text-xl 2xl:text-2xl">
-            {title}
-          </h3>
-        </div>
-        <Image
-          priority
-          quality={80}
-          width={imageWidth}
-          height={254}
-          src={img}
-          alt={`Enlace al recurso de ${title}`}
-          className="relative z-0 size-full object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
-        />
-        <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
-        <div className="absolute bottom-0 z-10 flex h-auto w-full items-center justify-end rounded-b-xl border-gray-100/50 bg-transparent p-3 text-inherit subpixel-antialiased transition-all duration-500 dark:border-full-dark/50 md:border-t-1 md:bg-white/30 md:backdrop-blur md:backdrop-saturate-150 md:dark:bg-full-dark/40 lg:group-hover:rounded-xl lg:group-hover:bg-white/50 lg:group-hover:pt-[211px] dark:lg:group-hover:bg-full-dark/40">
-          {children}
-          <div
-            aria-label="Ver"
-            className="relative inline-flex h-8 w-12 min-w-0 items-center justify-center rounded-full bg-light-gradient px-4 text-white shadow-medium !transition-all group-hover:w-20 data-[hover=true]:brightness-90 dark:bg-dark-gradient-v2"
-          >
-            <div className="inline-flex whitespace-nowrap text-sm opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
-              Ver
-            </div>
-            <div className="absolute right-3.5">
-              <ArrowRightV2Icon className="size-5" />
+
+      {!isMobile && (
+        <Link
+          href={href}
+          className={cn(
+            itemSpan,
+            "group relative hidden h-64 flex-col overflow-hidden rounded-xl border border-white text-main transition-all duration-500 motion-reduce:transition-none dark:border-full-dark dark:text-main-dark md:flex",
+          )}
+        >
+          <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
+            <span className="text-xs font-bold uppercase text-white/60 transition-opacity group-hover:opacity-0">
+              {subtitle}
+            </span>
+            <h3 className="font-medium text-white transition-opacity group-hover:opacity-0 sm:text-xl 2xl:text-2xl">
+              {title}
+            </h3>
+          </div>
+          <Image
+            priority
+            quality={80}
+            width={imageWidth}
+            height={254}
+            src={img}
+            alt={`Enlace al recurso de ${title}`}
+            className="relative z-0 aspect-auto h-full object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
+          />
+          <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
+          <div className="absolute bottom-0 z-10 flex h-auto w-full items-center justify-end rounded-b-xl border-gray-100/50 bg-transparent p-3 text-inherit subpixel-antialiased transition-all duration-500 dark:border-full-dark/50 md:border-t-1 md:bg-white/30 md:backdrop-blur md:backdrop-saturate-150 md:dark:bg-full-dark/40 lg:group-hover:rounded-xl lg:group-hover:bg-white/50 lg:group-hover:pt-[211px] dark:lg:group-hover:bg-full-dark/40">
+            {children}
+            <div
+              aria-label="Ver"
+              className="relative inline-flex h-8 w-12 min-w-0 items-center justify-center rounded-full bg-light-gradient px-4 text-white shadow-md !transition-all group-hover:w-20 data-[hover=true]:brightness-90 dark:bg-dark-gradient-v2"
+            >
+              <div className="inline-flex whitespace-nowrap text-sm opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
+                Ver
+              </div>
+              <div className="absolute right-3.5">
+                <ArrowRightV2Icon className="size-5" />
+              </div>
             </div>
           </div>
-        </div>
-      </Link>
-    );
-  }
+        </Link>
+      )}
+    </>
+  );
 };
 
 export default ResourcesItem;

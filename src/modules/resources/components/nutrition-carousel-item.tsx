@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const NutritionCarouselItem = ({ item, index }: Props) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [rating, setRating] = useState(0);
 
@@ -39,9 +39,9 @@ const NutritionCarouselItem = ({ item, index }: Props) => {
         id={slug}
         data-id={slug}
         data-name={title}
-        className="border-altern bg-altern-light group block h-96 w-full select-none text-clip rounded-md border px-3 py-2.5 text-main-h dark:border-dark dark:bg-dark/50 dark:text-main-dark"
+        className="group block h-96 w-full select-none text-clip rounded-md border border-altern bg-altern-light px-3 py-2.5 text-main-h dark:border-dark dark:bg-dark/50 dark:text-main-dark"
       >
-        <div className="bg-altern border-altern-accent h-full rounded border p-2.5 dark:border-accent-dark dark:bg-dark">
+        <div className="h-full rounded border border-altern-accent bg-altern p-2.5 dark:border-accent-dark dark:bg-dark">
           <div className="relative overflow-hidden rounded">
             <Image
               priority={index < 3}
@@ -76,7 +76,7 @@ const NutritionCarouselItem = ({ item, index }: Props) => {
                     radius="none"
                     size="lg"
                     onPress={() => {
-                      onOpen();
+                      setIsOpen(true);
                       history.replaceState(null, "", `#${slug}`);
                     }}
                     className="border border-main font-spacemono font-medium uppercase text-main data-[hover=true]:!bg-main data-[hover=true]:text-white dark:border-white dark:text-white dark:data-[hover=true]:!bg-white dark:data-[hover=true]:text-main"
@@ -106,14 +106,14 @@ const NutritionCarouselItem = ({ item, index }: Props) => {
               </div>
             </div>
           </div>
-          <footer className="bg-transparent px-0 py-3 text-small">
-            <h3 className="text-start font-spacemono text-base uppercase text-[#4a381c] antialiased transition-colors group-hover:text-black dark:text-main-dark-h dark:group-hover:text-white">
+          <footer className="bg-transparent px-0 py-3">
+            <h3 className="text-start font-spacemono uppercase text-[#4a381c] antialiased transition-colors group-hover:text-black dark:text-main-dark-h dark:group-hover:text-white">
               {title}
             </h3>
           </footer>
         </div>
       </div>
-      <NutritionModal item={item} modal={{ isOpen, onOpen, onOpenChange }} />
+      <NutritionModal item={item} modal={{ isOpen, setIsOpen }} />
     </>
   );
 };

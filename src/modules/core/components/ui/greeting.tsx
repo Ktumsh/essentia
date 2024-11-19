@@ -6,9 +6,9 @@ const getCurrentGreeting = () => {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
 
-  if (currentHour >= 5 && currentHour < 12) {
+  if (currentHour >= 6 && currentHour < 12) {
     return "Buenos días!";
-  } else if (currentHour >= 12 && currentHour < 18) {
+  } else if (currentHour >= 12 && currentHour < 20) {
     return "Buenas tardes!";
   } else {
     return "Buenas noches!";

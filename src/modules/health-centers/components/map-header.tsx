@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 
 const MapHeader = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="pointer-events-none absolute left-0 top-0 z-10 my-2 flex w-full items-center px-2 md:static md:z-0 md:mt-0">
-      <div className="flex w-full items-end justify-end md:justify-between">
-        <h2 className="ml-3 hidden px-5 text-sm font-bold uppercase text-main dark:text-white md:block lg:px-0">
+    <div className="pointer-events-none absolute left-1/2 top-0 z-10 my-2 flex w-full -translate-x-1/2 items-end justify-end px-2 md:items-center md:justify-center">
+      <div className="flex h-10 items-center justify-between gap-4 rounded-full md:bg-white md:px-4 md:py-2 dark:md:bg-full-dark">
+        <h2 className="hidden px-5 text-sm text-main dark:text-white md:block lg:px-0">
           Centros de salud o farmacias cercanas
         </h2>
         {children}

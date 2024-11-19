@@ -1,6 +1,5 @@
 "use client";
 
-import { Button, Navbar } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, Fragment, useMemo } from "react";
@@ -50,12 +49,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
   );
 
   return (
-    <Navbar
-      classNames={{
-        base: "fixed md:hidden bottom-0 top-auto bg-white dark:bg-full-dark z-50 rounded-t-3xl overflow-hidden shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]",
-        wrapper: "h-16 justify-center gap-0 px-0",
-      }}
-    >
+    <nav className="fixed inset-x-0 bottom-0 top-auto z-50 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl bg-white px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] dark:bg-full-dark dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)] md:hidden">
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (
@@ -64,18 +58,13 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
             </li>
           ) : (
             <li className="relative flex size-full items-center justify-center">
-              <Button
-                as={Link}
+              <Link
                 href={item.href}
                 id={`navbar_link_${index}`}
-                fullWidth
-                radius="none"
-                variant="light"
-                color="danger"
                 className={cn(
-                  "!h-full min-w-0 text-gray-500 data-[hover=true]:text-bittersweet-400 dark:text-gray-400 dark:dark:data-[hover=true]:text-cerise-red-600",
+                  "flex size-full min-w-0 items-center justify-center text-main-m active:bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:bg-dark/50",
                   item.active &&
-                    "rounded-t-none bg-transparent text-bittersweet-400 dark:bg-transparent dark:text-cerise-red-600",
+                    "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600",
                 )}
               >
                 {item.active ? (
@@ -85,7 +74,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
                 ) : item.icon ? (
                   <item.icon className="size-6" aria-hidden="true" />
                 ) : null}
-              </Button>
+              </Link>
               {item.active && (
                 <hr className="absolute bottom-3 h-0.5 w-1.5 rounded-full border-none bg-bittersweet-400 transition-all duration-300 ease-in-out dark:bg-cerise-red-600" />
               )}
@@ -93,7 +82,7 @@ const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
           )}
         </Fragment>
       ))}
-    </Navbar>
+    </nav>
   );
 };
 

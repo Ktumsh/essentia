@@ -1,8 +1,8 @@
 "use client";
 
-import { Switch } from "@nextui-org/react";
 import { useState } from "react";
 
+import { Switch } from "@/components/ui/switch";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { HospitalIcon, PharmacyIcon } from "@/modules/icons/miscellaneus";
 
@@ -20,37 +20,21 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
 
   return (
     <BetterTooltip
-      content={
-        isSelected
-          ? "Buscar farmacias cercanas"
-          : "Buscar centros de salud cercanos"
-      }
+      content={isSelected ? "Buscar farmacias" : "Buscar centros"}
       side="bottom"
-      align="end"
     >
-      <div className="bg-base flex flex-col gap-2 md:min-w-48">
+      <div className="bg-base flex min-w-20 flex-col items-center justify-center gap-1 text-xs md:min-w-0 md:flex-row md:justify-start md:gap-2 md:text-sm">
         <Switch
-          size="lg"
-          isSelected={isSelected}
-          onValueChange={handleSwitchChange}
-          thumbIcon={isSelected ? <HospitalIcon /> : <PharmacyIcon />}
-          className="pointer-events-auto z-10 flex flex-col justify-center gap-2 sm:flex-row sm:gap-0"
-          classNames={{
-            label:
-              "text-xs sm:text-base text-white md:text-main-h md:dark:text-main-dark",
-            wrapper:
-              "group-data-[selected=true]:bg-white bg-white dark:group-data-[selected=true]:bg-full-dark dark:bg-full-dark border border-gray-200 dark:border-dark shadow-small mr-0 sm:mr-2",
-            thumb: "bg-bittersweet-400 dark:bg-cerise-red-600",
-            thumbIcon: "text-white",
-          }}
+          checked={isSelected}
+          onCheckedChange={handleSwitchChange}
+          className="pointer-events-auto data-[state=checked]:bg-white data-[state=unchecked]:bg-white dark:data-[state=checked]:bg-full-dark dark:data-[state=unchecked]:bg-full-dark md:data-[state=checked]:bg-main md:data-[state=unchecked]:bg-main dark:md:data-[state=checked]:bg-main-dark dark:md:data-[state=unchecked]:bg-main-dark"
+          thumbClass="bg-main md:bg-white text-main-dark dark:bg-main-dark dark:md:bg-full-dark dark:text-main md:text-main dark:md:text-main-dark"
         >
-          <span className="hidden sm:block">
-            {isSelected ? "Centros de salud" : "Farmacias"}
-          </span>
-          <span className="block w-full self-start sm:hidden">
-            {isSelected ? "Centros" : "Farmacias"}
-          </span>
+          {isSelected ? <HospitalIcon /> : <PharmacyIcon />}
         </Switch>
+        <span className="w-full self-start text-center text-main-dark sm:hidden">
+          {isSelected ? "Centros" : "Farmacias"}
+        </span>
       </div>
     </BetterTooltip>
   );

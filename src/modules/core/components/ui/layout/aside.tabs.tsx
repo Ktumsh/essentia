@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { dailyFacts } from "@/app/actions";
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import Loading from "@/modules/home/loading";
 import { HealthFact } from "@/types/common";
 
@@ -11,21 +12,26 @@ import HealthFactsCard from "../cards/health-facts-card";
 const AsideTabs = () => {
   const [facts, setFacts] = useState<HealthFact[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const fetchFacts = async () => {
-      try {
-        const data = await dailyFacts();
-        setFacts(data);
-      } catch (err) {
-        console.error("Error al obtener los facts:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!isMobile) {
+      const fetchFacts = async () => {
+        try {
+          const data = await dailyFacts();
+          setFacts(data);
+        } catch (err) {
+          console.error("Error al obtener los facts:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchFacts();
-  }, []);
+      fetchFacts();
+    }
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <aside className="sticky right-0 top-0 hidden max-h-dvh w-full max-w-72 select-none 2xl:block">

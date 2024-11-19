@@ -1,9 +1,11 @@
-import { Button, Card, CardBody, Chip, Divider } from "@nextui-org/react";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
+import { CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { FIRST_AID } from "@/consts/firts-aid";
 import { HashIcon } from "@/modules/icons/common";
@@ -33,41 +35,28 @@ const FirstAid = () => {
   return (
     <section className="mt-5 flex w-full flex-col text-main-h dark:text-main-dark">
       <div className="mb-2 self-start">
-        <Button
-          as={Link}
+        <Link
           id="primeros-auxilios"
           data-id="primeros-auxilios"
           data-name="Primeros auxilios"
           href="#primeros-auxilios"
-          disableRipple
-          radius="none"
-          variant="flat"
-          endContent={
-            <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-          }
-          className="h-auto w-fit gap-0 bg-transparent p-0 text-xl font-semibold data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+          className="group flex h-auto w-fit items-center p-0 text-xl font-semibold transition active:scale-100"
         >
-          <Chip
-            color="danger"
-            startContent={<ExclamationTriangleIcon className="ml-2 size-3" />}
-          >
+          <Badge variant="primary" className="gap-1 py-1">
+            <TriangleAlert className="size-3.5" />
             <h3>Primeros auxilios</h3>
-          </Chip>
-        </Button>
+          </Badge>
+          <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+        </Link>
       </div>
       <div className="flex max-h-[1000px] flex-col space-y-2 md:max-h-[700px] md:px-0">
         {info.map((cardInfo, index) => (
-          <Card
+          <button
             key={index}
-            isPressable
-            disableRipple
-            fullWidth
-            radius="sm"
-            shadow="none"
-            onPress={() => toggleShow(index)}
-            className="min-h-[74px] border border-gray-200 bg-gray-100 text-main data-[pressed=true]:scale-100 dark:border-dark dark:bg-dark/50 dark:text-white md:min-h-[54px]"
+            onClick={() => toggleShow(index)}
+            className="relative box-border flex h-auto min-h-[74px] w-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-gray-100 text-main outline-none transition-transform-background focus-visible:outline-offset-2 focus-visible:outline-focus data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 motion-reduce:transition-none dark:border-dark dark:bg-dark/50 dark:text-white md:min-h-[54px]"
           >
-            <CardBody className="z-10 overflow-hidden">
+            <CardContent className="flex flex-col overflow-hidden p-3">
               <div className="inline-flex w-full items-center justify-between">
                 <h3 className="text-lg font-semibold md:text-xl">
                   {cardInfo.title}
@@ -79,13 +68,9 @@ const FirstAid = () => {
                       : "Toca para mostrar"
                   }
                 >
-                  <Chip
-                    size="sm"
-                    variant="bordered"
-                    className="border border-gray-300 text-main-m dark:border-accent-dark dark:text-main-dark-h"
-                  >
+                  <Badge className="border border-gray-300 py-1 text-main-m dark:border-accent-dark dark:text-main-dark-h">
                     <QuestionIcon className="size-3" />
-                  </Chip>
+                  </Badge>
                 </BetterTooltip>
               </div>
               <motion.div
@@ -102,28 +87,27 @@ const FirstAid = () => {
                 }}
                 transition={{ duration: 0.25 }}
               >
-                <Divider className="my-3 bg-gray-200 dark:bg-dark" />
+                <Separator className="my-3 bg-gray-200 dark:bg-dark" />
               </motion.div>
               <ol
                 className={cn(
-                  "custom-scroll h-0 flex-wrap space-y-4 overflow-y-auto opacity-0 transition-all hover:scrollbar-default md:scrollbar-hide",
+                  "modal h-0 flex-wrap space-y-4 overflow-y-auto opacity-0 transition-all",
                   openCard === index &&
                     "h-[1000px] opacity-100 [interpolate-size:allow-keywords]",
                 )}
               >
                 {cardInfo.steps.map((step, stepIndex) => (
-                  <li key={stepIndex} className="space-y-1.5 text-sm">
+                  <li
+                    key={stepIndex}
+                    className="space-y-1.5 text-start text-sm"
+                  >
                     <ul className="flex">
-                      <Chip
-                        size="sm"
-                        color="danger"
-                        classNames={{
-                          base: "shrink-0 !size-6 min-w-0 max-w-full justify-center mr-2",
-                          content: "flex justify-center text-white font-bold",
-                        }}
+                      <Badge
+                        variant="primary"
+                        className="mr-2 flex size-6 items-center justify-center font-bold text-white"
                       >
                         {step.step}
-                      </Chip>
+                      </Badge>
                       {Array.isArray(step.title) ? (
                         <li className="mr-2 text-sm font-semibold md:text-base">
                           {step.title.map((part, i) =>
@@ -165,8 +149,8 @@ const FirstAid = () => {
                   </li>
                 ))}
               </ol>
-            </CardBody>
-          </Card>
+            </CardContent>
+          </button>
         ))}
       </div>
     </section>
