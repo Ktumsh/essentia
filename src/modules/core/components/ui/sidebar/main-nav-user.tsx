@@ -210,7 +210,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onSelect={() => signOut({ callbackUrl: "/logout" })}
+                    onSelect={() => signOut({ redirectTo: "/logout" })}
                   >
                     <LogOut strokeWidth={1.5} />
                     Cerrar sesión
