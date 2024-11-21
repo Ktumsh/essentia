@@ -1,5 +1,8 @@
-import { Card, CardFooter, Button, useDisclosure } from "@nextui-org/react";
+"use client";
 
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import { UserProfileData } from "@/types/session";
 import { formatDate } from "@/utils/format";
 
@@ -10,7 +13,7 @@ interface AccountDetailsProps {
 }
 
 const AccountDetails = ({ profileData }: AccountDetailsProps) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!profileData) {
     return null;
@@ -22,10 +25,7 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
   return (
     <>
       <div className="flex w-full flex-col gap-4">
-        <Card
-          shadow="none"
-          className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
-        >
+        <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
           <div className="px-5 py-4 text-main dark:text-white">
             <h3 className="pb-4 text-base font-semibold">
               Información de tu Cuenta
@@ -65,11 +65,8 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
               </div>
             </div>
           </div>
-        </Card>
-        <Card
-          shadow="none"
-          className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
-        >
+        </div>
+        <footer className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
           <div className="px-5 py-4 text-main dark:text-white">
             <h3 className="pb-4 text-base font-semibold">Contraseña</h3>
             <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
@@ -80,21 +77,20 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
               </span>
             </div>
           </div>
-          <CardFooter className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+          <div className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               <Button
-                radius="sm"
-                size="sm"
-                onPress={onOpen}
-                className="w-full border border-gray-200 bg-white text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-white md:w-fit"
+                radius="lg"
+                variant="outline"
+                onClick={() => setIsOpen(true)}
               >
                 Cambiar contraseña
               </Button>
             </div>
-          </CardFooter>
-        </Card>
+          </div>
+        </footer>
       </div>
-      <ChangePasswordModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <ChangePasswordModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };

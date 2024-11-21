@@ -42,7 +42,10 @@ interface MainNavUserProps {
 }
 
 const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
-  const { username, email, profile_image, is_premium } = user || {};
+  const { first_name, last_name, username, profile_image, is_premium } =
+    user || {};
+
+  const fullName = `${first_name} ${last_name}`;
 
   const { isMobile } = useSidebar();
 
@@ -67,11 +70,13 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                      {username || "Invitado"}
+                      {fullName !== "undefined undefined"
+                        ? fullName
+                        : "Invitado"}
                     </span>
-                    {email && (
+                    {username && (
                       <span className="truncate text-xs text-main-m dark:text-main-dark-m">
-                        {email}
+                        @{username}
                       </span>
                     )}
                   </div>
@@ -98,11 +103,13 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
-                        {username || "Invitado"}
+                        {fullName !== "undefined undefined"
+                          ? fullName
+                          : "Invitado"}
                       </span>
-                      {email && (
+                      {username && (
                         <span className="truncate text-xs text-main-m dark:text-main-dark-m">
-                          {email}
+                          @{username}
                         </span>
                       )}
                     </div>

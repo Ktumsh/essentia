@@ -1,7 +1,13 @@
-import { convertToCoreMessages, Message, streamText } from "ai";
+import {
+  convertToCoreMessages,
+  CoreUserMessage,
+  Message,
+  streamText,
+} from "ai";
 import { z } from "zod";
 
 import { auth } from "@/app/(auth)/auth";
+import { generateTitleFromUserMessage } from "@/app/(main)/essentia-ai/chat/actions";
 import { createSystemPrompt } from "@/config/chatbot-prompt";
 import { removeChat, saveChat } from "@/db/chat-querys";
 import { getUserById } from "@/db/user-querys";
@@ -12,6 +18,7 @@ import {
   generateNutritionalPlan,
   generateRiskAssessment,
 } from "@/modules/chatbot/ai/actions";
+import { getMostRecentUserMessage } from "@/modules/chatbot/lib/utils";
 import { calculateAge } from "@/modules/core/lib/utils";
 import { formatDate } from "@/modules/payment/lib/utils";
 import { Session } from "@/types/session";
@@ -179,8 +186,11 @@ export async function POST(request: Request) {
           const createdAt = new Date();
           const userId = session.user.id;
           const path = `/essentia-ai/chat/${id}`;
-          const firstMessageContent = messages[0].content;
-          const title = firstMessageContent.substring(0, 100);
+
+          const userMessage = getMostRecentUserMessage(coreMessages);
+          const title = await generateTitleFromUserMessage({
+            message: userMessage as CoreUserMessage,
+          });
 
           const chat: any = {
             id,

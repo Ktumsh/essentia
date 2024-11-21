@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useMemo } from "react";
@@ -137,29 +136,23 @@ const AboutHeader = ({ session }: AboutHeaderProps) => {
             )}
           >
             {!session && (
-              <Button
-                as={Link}
+              <Link
                 href="/login"
-                variant="light"
-                radius="sm"
-                className="border border-gray-200 bg-white text-main data-[hover=true]:bg-gray-100 dark:border-dark dark:bg-full-dark data-[hover=true]:dark:bg-dark"
+                className="inline-flex h-10 min-w-20 items-center justify-center gap-2 border border-gray-200 bg-white px-4 text-main hover:bg-gray-100 hover:opacity-80 dark:border-dark dark:bg-full-dark hover:dark:bg-dark"
               >
                 Inicia sesión
-              </Button>
+              </Link>
             )}
-            <Button
-              as={Link}
+            <Link
               href="/premium"
-              startContent={
-                <StarsIcon
-                  aria-hidden="true"
-                  className="size-4 focus:outline-none [&_*]:fill-white"
-                />
-              }
-              className="rounded-md bg-light-gradient-v2 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
+              className="inline-flex h-10 min-w-20 items-center justify-center gap-2 rounded-md bg-light-gradient-v2 px-4 text-sm text-white !duration-150 hover:text-white hover:opacity-80 dark:bg-dark-gradient"
             >
+              <StarsIcon
+                aria-hidden="true"
+                className="size-4 focus:outline-none [&_*]:fill-white"
+              />
               Hazte premium
-            </Button>
+            </Link>
           </div>
         </div>
       </nav>

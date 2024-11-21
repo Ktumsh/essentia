@@ -38,5 +38,5 @@ export async function GET(req: NextRequest) {
 
   await deleteVerificationToken(token);
 
-  redirect(`/login?verified=true&id=${userId}`);
+  redirect(`/login?verified=true&email=${user?.email}`);
 }

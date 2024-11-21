@@ -14,7 +14,7 @@ import { getStringFromBuffer } from "@/utils/common";
 
 type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
 
-export async function changePasswordAction(input: ChangePasswordInput) {
+export async function changePassword(input: ChangePasswordInput) {
   const parseResult = changePasswordSchema.safeParse(input);
   if (!parseResult.success) {
     return {

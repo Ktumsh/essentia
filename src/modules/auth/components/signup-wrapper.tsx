@@ -8,7 +8,7 @@ const SignupWrapper = () => {
   return (
     <div className="relative size-full">
       <div className="w-100 z-40 min-h-dvh sm:min-h-dvh">
-        <div className="flex min-h-dvh w-full items-center justify-center sm:min-h-[calc(100dvh-72px)]">
+        <div className="flex min-h-dvh w-full items-center justify-center">
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}

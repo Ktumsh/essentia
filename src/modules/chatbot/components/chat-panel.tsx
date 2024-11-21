@@ -1,6 +1,5 @@
 "use client";
 
-import { Button, useDisclosure } from "@nextui-org/react";
 import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -14,6 +13,7 @@ import {
   useState,
 } from "react";
 
+import { Button } from "@/components/ui/button";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
@@ -66,7 +66,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
   scrollToBottom,
   isAtBottom,
 }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const { isWarningModalOpen, handleOpenPaymentModal } =
     useWarningModal(isPremium);
 
@@ -130,24 +130,20 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     className="w-full"
                   >
                     <Button
-                      radius="sm"
-                      isDisabled={!isPremium}
+                      disabled={!isPremium}
                       fullWidth
-                      startContent={
-                        <suggestedAction.icon
-                          className={cn("size-4", suggestedAction.iconColor)}
-                        />
-                      }
-                      className={cn(
-                        "h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main hover:bg-gray-100 data-[disabled=true]:opacity-100 dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0",
-                      )}
-                      onPress={async () => {
+                      radius="lg"
+                      className="h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main shadow-none hover:bg-gray-100 active:scale-[.97] dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0"
+                      onClick={async () => {
                         append({
                           role: "user",
                           content: suggestedAction.action,
                         });
                       }}
                     >
+                      <suggestedAction.icon
+                        className={cn("size-4", suggestedAction.iconColor)}
+                      />
                       <div className="text-sm font-semibold">
                         {suggestedAction.heading}
                       </div>
@@ -246,28 +242,24 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 {session ? (
                   <Button
                     radius="sm"
-                    onPress={() => handleOpenPaymentModal(onOpen)}
-                    startContent={
-                      <StarsIcon
-                        aria-hidden="true"
-                        className="stars-icon size-5 focus:outline-none"
-                      />
-                    }
-                    className="shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+                    onClick={() => handleOpenPaymentModal(setIsOpen)}
+                    className="inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
                   >
+                    <StarsIcon
+                      aria-hidden="true"
+                      className="stars-icon !size-5 focus:outline-none"
+                    />
                     <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
                       Hazte premium
                     </span>
                   </Button>
                 ) : (
-                  <Button
-                    as={Link}
+                  <Link
                     href="/login"
-                    size="sm"
-                    className="rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
+                    className="inline-flex h-8 min-w-10 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
                   >
                     Iniciar sesión
-                  </Button>
+                  </Link>
                 )}
               </motion.div>
             )}
@@ -280,7 +272,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
       )}
       {/* Modal de Pago */}
       {!isPremium && session && (
-        <PaymentModal isOpen={isOpen} onOpenChange={onOpenChange} />
+        <PaymentModal isOpen={isOpen} setIsOpen={setIsOpen} />
       )}
     </>
   );

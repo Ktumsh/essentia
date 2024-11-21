@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
-import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
 import ChatSidebar from "@/modules/core/components/ui/sidebar/chat-sidebar";
 import { Session, UserProfileData } from "@/types/session";
 
@@ -73,6 +73,7 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
           </Sidebar>
         </>
       )}
+      <SidebarRail />
     </Sidebar>
   );
 }

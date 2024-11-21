@@ -1,6 +1,5 @@
 "use client";
 
-import { Button, Tooltip } from "@nextui-org/react";
 import { Attachment, ChatRequestOptions } from "ai";
 import {
   ChangeEvent,
@@ -14,10 +13,11 @@ import {
 import Textarea from "react-textarea-autosize";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { StopIcon } from "@/modules/icons/action";
 import { PaperclipIcon } from "@/modules/icons/common";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 
 import { useEnterSubmit } from "../hooks/use-enter-submit";
 
@@ -137,26 +137,18 @@ const PromptForm: FC<PromptFormProps> = ({
   return (
     <form ref={formRef} onSubmit={submitForm}>
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden border-gray-200 bg-white px-8 dark:border-dark dark:bg-transparent sm:rounded-md sm:border sm:px-12 sm:dark:bg-dark/50">
-        <Tooltip
-          content="Adjuntar imagen"
-          delay={800}
-          closeDelay={0}
-          classNames={{
-            content: tooltipStyles.content,
-          }}
-        >
+        <BetterTooltip content="Adjuntar imagen">
           <Button
-            isIconOnly
-            size="sm"
+            size="icon"
             radius="full"
-            variant="light"
-            isDisabled={isLoading}
-            onPress={() => fileInputRef.current?.click()}
-            className="dark:border-accent-dark absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:text-main-dark dark:data-[hover=true]:bg-dark sm:left-4 sm:dark:border-[] sm:dark:data-[hover=true]:bg-full-dark"
+            variant="ghost"
+            disabled={isLoading}
+            onClick={() => fileInputRef.current?.click()}
+            className="absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:border-accent-dark dark:text-main-dark sm:left-4"
           >
             <PaperclipIcon className="size-3.5" />
           </Button>
-        </Tooltip>
+        </BetterTooltip>
 
         <input
           type="file"
@@ -186,48 +178,32 @@ const PromptForm: FC<PromptFormProps> = ({
         />
 
         {isLoading ? (
-          <Tooltip
-            content="Detener"
-            delay={800}
-            closeDelay={0}
-            classNames={{
-              content: tooltipStyles.content,
-            }}
-          >
+          <BetterTooltip content="Detener">
             <Button
-              isIconOnly
-              size="sm"
+              size="icon"
               radius="full"
-              color="danger"
-              onPress={stop}
-              className="absolute right-0 top-[13px] !size-9 text-white disabled:pointer-events-none disabled:opacity-60 dark:text-main-dark sm:right-4"
+              variant="destructive"
+              onClick={stop}
+              className="absolute right-0 top-[13px] size-9 sm:right-4"
             >
               <StopIcon className="size-4" />
             </Button>
-          </Tooltip>
+          </BetterTooltip>
         ) : (
-          <Tooltip
-            content="Enviar mensaje"
-            delay={800}
-            closeDelay={0}
-            classNames={{
-              content: tooltipStyles.content,
-            }}
-          >
+          <BetterTooltip content="Enviar mensaje">
             <Button
-              isIconOnly
-              size="sm"
+              size="icon"
               radius="full"
-              color="danger"
-              isDisabled={
+              variant="destructive"
+              disabled={
                 input.length === 0 || uploadQueue.length > 0 || !isPremium
               }
-              onPress={() => handleSubmit()}
-              className="absolute right-0 top-[13px] !size-9 text-white disabled:pointer-events-none disabled:opacity-60 dark:text-main-dark sm:right-4"
+              onClick={() => handleSubmit()}
+              className="absolute right-0 top-[13px] size-9 sm:right-4"
             >
               <ArrowUpIcon className="size-4" />
             </Button>
-          </Tooltip>
+          </BetterTooltip>
         )}
       </div>
     </form>

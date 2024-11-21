@@ -6,6 +6,7 @@ import useSWR from "swr";
 
 import {
   SidebarGroup,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -50,12 +51,14 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
   return (
     <>
       <SidebarGroup>
-        <div className="flex items-center p-2">
-          <h4 className="text-nowrap text-sm font-medium text-main dark:text-white">
-            Historial de chats
-          </h4>
-        </div>
         <SidebarMenu>
+          <SidebarHeader>
+            <SidebarMenuItem>
+              <div className="flex-1 text-left text-sm leading-tight">
+                <h4 className="truncate font-semibold">Historial de chats</h4>
+              </div>
+            </SidebarMenuItem>
+          </SidebarHeader>
           <SidebarMenuItem>
             <SidebarMenuButton
               tooltip="Nuevo chat"

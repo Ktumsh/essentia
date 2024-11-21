@@ -1,16 +1,17 @@
 "use server";
 
 import { AuthError } from "next-auth";
-import { z } from "zod";
 
 import { signIn } from "@/app/(auth)/auth";
 import { getUserByEmail } from "@/db/user-querys";
+import { loginSchema } from "@/modules/auth/lib/form";
 import { ResultCode } from "@/utils/code";
 
 interface Result {
   type: string;
   resultCode: ResultCode;
   redirectUrl?: string;
+  errors?: Record<string, string>;
 }
 
 export async function authenticate(
@@ -21,15 +22,11 @@ export async function authenticate(
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const parsedCredentials = z
-      .object({
-        email: z.string().email(),
-        password: z.string().min(6),
-      })
-      .safeParse({ email, password });
+    const parsedCredentials = loginSchema.safeParse({ email, password });
 
     if (parsedCredentials.success) {
       const user = await getUserByEmail(email);
+
       if (!user) {
         return {
           type: "error",
@@ -37,7 +34,7 @@ export async function authenticate(
         };
       }
 
-      if (!user?.email_verified) {
+      if (!user.email_verified) {
         return {
           type: "error",
           resultCode: ResultCode.EMAIL_NOT_VERIFIED,
@@ -63,13 +60,28 @@ export async function authenticate(
         resultCode: ResultCode.USER_LOGGED_IN,
       };
     } else {
+      const fieldErrors: Record<string, string> = {};
+
+      parsedCredentials.error.errors.forEach((issue) => {
+        if (issue.path.length > 0) {
+          fieldErrors[issue.path[0]] = issue.message;
+        }
+      });
+
       return {
         type: "error",
         resultCode: ResultCode.INVALID_CREDENTIALS,
+        errors: fieldErrors,
       };
     }
-  } catch (error) {
-    if (error instanceof AuthError) {
+  } catch (error: any) {
+    if (error.message === "EMAIL_NOT_VERIFIED") {
+      return {
+        type: "error",
+        resultCode: ResultCode.EMAIL_NOT_VERIFIED,
+        redirectUrl: `/verify-email?email=${formData.get("email")}`,
+      };
+    } else if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
           return {

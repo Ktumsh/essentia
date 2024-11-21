@@ -1,4 +1,5 @@
-import { Chip, Divider } from "@nextui-org/react";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 import MedicineItem from "./medicine-item";
 
@@ -16,18 +17,15 @@ const MedicineCategory = ({
   innerDividersClasses,
 }: MedicineCategoryProps) => (
   <li>
-    <Chip
-      variant="dot"
-      color="danger"
-      className="border border-gray-300 bg-white text-main dark:border-accent-dark dark:bg-full-dark dark:text-white"
-    >
-      {category}
-    </Chip>
+    <Badge className="h-7 border border-gray-300 bg-white px-1 text-main dark:border-accent-dark dark:bg-full-dark dark:text-white">
+      <span className="ml-1 size-2 rounded-full bg-danger" />
+      <span className="px-2">{category}</span>
+    </Badge>
     <div className="ml-3 flex">
-      <Divider orientation="vertical" className={verticalDividerClasses} />
+      <Separator orientation="vertical" className={verticalDividerClasses} />
       <div className="flex w-4 flex-col justify-between">
         {innerDividersClasses.map((className, index) => (
-          <Divider key={index} className={className} />
+          <Separator key={index} className={className} />
         ))}
       </div>
       <ul className="ml-2 mt-2 space-y-2 text-sm">

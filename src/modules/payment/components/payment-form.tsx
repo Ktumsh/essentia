@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import {
   PaymentElement,
   useStripe,
@@ -12,13 +11,15 @@ import { motion } from "framer-motion";
 import { useState, FormEvent } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
 import { siteConfig } from "@/config/site";
 import { SpinnerIcon } from "@/modules/icons/common";
 
 import { usePaymentStatusPolling } from "../hooks/use-payment-status-polling";
 
 interface PaymentFormProps {
-  onClose: () => void;
+  onClose: (isOpen: boolean) => void;
   cardholderName: string;
   priceId: string;
 }
@@ -123,29 +124,25 @@ const PaymentForm = ({
         </span>
         .
       </p>
-      <div className="!mt-0 inline-flex w-full flex-1 items-end justify-between pt-3 md:pt-6">
+      <DialogFooter>
         <Button
-          onPress={onClose}
-          isDisabled={isLoading || isPolling}
-          variant="light"
-          className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
+          onClick={() => onClose(false)}
+          disabled={isLoading || isPolling}
+          variant="ghost"
         >
           Cerrar
         </Button>
         <Button
           type="submit"
-          isDisabled={!stripe || isLoading || !elements || isPolling}
-          color="danger"
-          startContent={
-            isLoading || isPolling ? (
-              <SpinnerIcon className="size-4 animate-spin" />
-            ) : null
-          }
-          className="rounded-md"
+          disabled={!stripe || isLoading || !elements || isPolling}
+          variant="destructive"
         >
+          {isLoading || isPolling ? (
+            <SpinnerIcon className="size-4 animate-spin" />
+          ) : null}
           {isLoading || isPolling ? "Procesando..." : "Agregar tarjeta y pagar"}
         </Button>
-      </div>
+      </DialogFooter>
     </motion.form>
   );
 };

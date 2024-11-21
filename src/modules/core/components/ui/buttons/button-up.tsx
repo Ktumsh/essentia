@@ -20,30 +20,34 @@ const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
 
   useEffect(() => {
     const scrollElement =
-      scrollRef?.current ||
-      defaultScrollRef.current ||
-      document.documentElement;
-
-    if (!scrollElement) return;
-
-    let timeout = 0;
+      scrollRef?.current || document.documentElement || document.body;
 
     const handleScroll = () => {
-      if (!timeout) {
-        timeout = requestAnimationFrame(() => {
-          const scrollTop = scrollElement.scrollTop;
-          setIsVisible(scrollTop > 20);
-          timeout = 0;
-        });
-      }
+      const scrollTop =
+        scrollElement === document.documentElement ||
+        scrollElement === document.body
+          ? window.scrollY
+          : scrollElement.scrollTop;
+      setIsVisible(scrollTop > 20);
     };
 
-    scrollElement.addEventListener("scroll", handleScroll);
+    if (
+      scrollElement === document.documentElement ||
+      scrollElement === document.body
+    ) {
+      window.addEventListener("scroll", handleScroll);
+    } else {
+      scrollElement.addEventListener("scroll", handleScroll);
+    }
 
     return () => {
-      scrollElement.removeEventListener("scroll", handleScroll);
-      if (timeout) {
-        cancelAnimationFrame(timeout);
+      if (
+        scrollElement === document.documentElement ||
+        scrollElement === document.body
+      ) {
+        window.removeEventListener("scroll", handleScroll);
+      } else {
+        scrollElement.removeEventListener("scroll", handleScroll);
       }
     };
   }, [scrollRef]);

@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
+import { Button } from "@/components/ui/button";
 import { ABOUT_SECTIONS } from "@/consts/about-sections";
 import { StarsIcon } from "@/modules/icons/common";
 import { AboutCrop } from "@/modules/icons/miscellaneus";
@@ -63,16 +63,13 @@ const About = ({ session }: AboutProps) => {
         <div className="flex py-32">
           <Button
             size="lg"
-            radius="sm"
-            variant="light"
-            disableRipple
-            onPress={scrollToSection}
-            className="btn_mktg border border-gray-200"
-            endContent={
-              <ArrowAnimateIcon className="arrow-symbol-mktg inline-block size-4" />
-            }
+            radius="lg"
+            variant="outline"
+            onClick={scrollToSection}
+            className="text-base"
           >
             Comenzar
+            <ArrowAnimateIcon className="arrow-symbol-mktg inline-block size-4" />
           </Button>
         </div>
       </div>

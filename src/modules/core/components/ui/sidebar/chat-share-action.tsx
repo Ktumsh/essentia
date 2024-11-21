@@ -1,18 +1,18 @@
-import { useCallback } from "react";
+import { Copy } from "lucide-react";
+import { memo, useCallback } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -21,6 +21,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
 import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
 import { type Chat, ServerActionResult } from "@/types/chat";
 
@@ -53,7 +54,7 @@ const ChatShareModal = ({
     [copyToClipboard, onCopy],
   );
 
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     const sharePromise = shareChat(chat.id);
 
     toast.promise(sharePromise, {
@@ -68,7 +69,40 @@ const ChatShareModal = ({
       },
       error: "No se pudo copiar el enlace para compartir",
     });
-  };
+  }, [copyShareLink, shareChat, chat.id]);
+
+  const Content = memo(() => {
+    return (
+      <>
+        <div className="mx-4 mt-4 space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-dark md:m-0">
+          <div className="font-medium">{chat.title}</div>
+          <div className="text-main-m dark:text-main-dark-m">
+            {chat.messages.length} mensajes
+          </div>
+        </div>
+        <div className="flex w-full items-center space-x-2 p-4 pb-0 md:p-0">
+          <Input
+            id="link"
+            defaultValue={
+              window.location.origin + `/essentia-ai/chat/${chat.id}`
+            }
+            readOnly
+          />
+          <Button
+            variant="destructive"
+            size="sm"
+            className="px-3"
+            onClick={() => handleShare()}
+          >
+            <span className="sr-only">Copiar</span>
+            <Copy />
+          </Button>
+        </div>
+      </>
+    );
+  });
+
+  Content.displayName = "Content";
 
   if (isMobile) {
     return (
@@ -77,56 +111,33 @@ const ChatShareModal = ({
           <DrawerHeader>
             <DrawerTitle>Compartir link al chat</DrawerTitle>
           </DrawerHeader>
-          <div className="mx-4 mt-4 space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-full-dark">
-            <div className="font-medium">{chat.title}</div>
-            <div className="text-main-m dark:text-main-dark-m">
-              {chat.messages.length} mensajes
-            </div>
-          </div>
-          <DrawerFooter>
+          <Content />
+          <DrawerFooter className="sm:justify-start">
             <DrawerClose asChild>
-              <Button className="dark:bg-full-dark">Cancelar</Button>
+              <Button variant="secondary">Cancelar</Button>
             </DrawerClose>
-            <Button variant="destructive" onClick={() => handleShare()}>
-              Continuar
-            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     );
   } else {
     return (
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Compartir link al chat</AlertDialogTitle>
-          </AlertDialogHeader>
-          <AlertDialogDescription>
-            Cualquier persona que tenga la URL podrá ver el chat compartido.
-          </AlertDialogDescription>
-          <div className="space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-full-dark">
-            <div className="font-medium">{chat.title}</div>
-            <div className="text-main-m dark:text-main-dark-m">
-              {chat.messages.length} mensajes
-            </div>
-          </div>
-          <AlertDialogFooter>
-            <AlertDialogCancel asChild>
-              <Button
-                variant="ghost"
-                className="border-none hover:bg-gray-100 dark:hover:bg-full-dark"
-              >
-                Cancelar
-              </Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button variant="destructive" onClick={() => handleShare()}>
-                Continuar
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Compartir link al chat</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="sr-only">
+            Compartir link al chat
+          </DialogDescription>
+          <Content />
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button variant="secondary">Cancelar</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     );
   }
 };
