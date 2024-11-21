@@ -16,7 +16,7 @@ const DialogPortal = DialogPrimitive.Portal;
 const DialogClose = DialogPrimitive.Close;
 
 const overlayVariants = cva(
-  "fixed inset-0 z-[101] bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+  "fixed inset-0 z-[101] bg-black/30 dark:bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
   {
     variants: {
       isBlurred: {
@@ -53,6 +53,7 @@ const DialogContent = React.forwardRef<
       closeButtonClass?: string;
       isBlurred?: boolean;
       overlayClassName?: string;
+      isSecondary?: boolean;
     },
     "ref"
   >
@@ -65,6 +66,7 @@ const DialogContent = React.forwardRef<
       closeButtonClass,
       isBlurred,
       overlayClassName,
+      isSecondary,
       ...props
     },
     ref,
@@ -78,6 +80,7 @@ const DialogContent = React.forwardRef<
         className={cn(
           "fixed left-1/2 top-1/2 z-[102] flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden border border-transparent bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] dark:border-dark sm:rounded-lg md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
           className,
+          isSecondary && "gap-0 p-0",
         )}
         {...props}
       >
@@ -101,23 +104,31 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({
   className,
+  isSecondary,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: React.HTMLAttributes<HTMLDivElement> & { isSecondary?: boolean }) => (
   <div
-    className={cn("flex flex-col text-center sm:text-left", className)}
+    className={cn(
+      "flex flex-col text-center sm:text-left",
+      className,
+      isSecondary && "space-y-2 p-6 pb-0",
+    )}
     {...props}
   />
 );
 DialogHeader.displayName = "DialogHeader";
 
 const DialogFooter = ({
+  isSecondary,
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: React.HTMLAttributes<HTMLDivElement> & { isSecondary?: boolean }) => (
   <div
     className={cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className,
+      isSecondary &&
+        "border-t border-gray-300 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50 sm:justify-between",
     )}
     {...props}
   />
@@ -131,7 +142,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
+      "text-xl font-semibold leading-none tracking-tight",
       className,
     )}
     {...props}
@@ -145,7 +156,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-gray-500 dark:text-gray-400", className)}
+    className={cn("text-sm text-main-m dark:text-main-dark-m", className)}
     {...props}
   />
 ));

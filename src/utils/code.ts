@@ -74,7 +74,7 @@ const resultMessages: Record<ResultCode, string> = {
     "Errores de validación en los datos proporcionados",
   [ResultCode.UNAUTHORIZED]: "No estás autenticado",
   [ResultCode.USER_NOT_FOUND]: "Usuario no encontrado",
-  [ResultCode.PASSWORD_CHANGED]: "Contraseña actualizada exitosamente",
+  [ResultCode.PASSWORD_CHANGED]: "¡Contraseña actualizada exitosamente!",
   [ResultCode.INVALID_CURRENT_PASSWORD]: "La contraseña actual es incorrecta",
   [ResultCode.PASSWORD_CHANGE_FAILED]:
     "No se pudo cambiar la contraseña, intenta de nuevo",
