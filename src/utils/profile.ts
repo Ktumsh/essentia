@@ -1,3 +1,5 @@
+import { signOut } from "next-auth/react";
+
 import {
   getUserProfileByEmail,
   getUserProfileByUsername,
@@ -19,6 +21,7 @@ export async function getUserProfileData(
   }
 
   if (!userProfile) {
+    signOut({ callbackUrl: "/logout" });
     throw new Error("Perfil no encontrado para el usuario.");
   }
 
