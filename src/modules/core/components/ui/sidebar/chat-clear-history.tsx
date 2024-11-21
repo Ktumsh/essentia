@@ -73,21 +73,21 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
           <SidebarMenuItem>
             <SidebarMenuButton disabled={!isEnabled}>
               <MessageCircleX strokeWidth={1.5} />
-              Limpiar historial
+              Eliminar historial
             </SidebarMenuButton>
           </SidebarMenuItem>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Eliminar historial de chat</DrawerTitle>
-            <DrawerDescription className="text-balance px-4">
-              Esto eliminará permanentemente su historial de chat y eliminará
-              sus datos de nuestros servidores.
+            <DrawerDescription className="px-4">
+              Esto eliminará permanentemente tu historial de chat. ¿Deseas
+              continuar?
             </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button className="dark:bg-full-dark">Cancelar</Button>
+              <Button variant="secondary">Cancelar</Button>
             </DrawerClose>
             <Button variant="destructive" onClick={handleClearHistory}>
               Continuar
@@ -106,26 +106,21 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
               tooltip="Eliminar historial de chat"
             >
               <MessageCircleX strokeWidth={1.5} />
-              <span>Eliminar historial de chat</span>
+              <span>Eliminar historial</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader className="flex flex-col gap-1">
-            <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
+            <AlertDialogTitle>Eliminar historial de chat</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogDescription>
-            Esto eliminará permanentemente su historial de chat y eliminará sus
-            datos de nuestros servidores.
+            Esto eliminará permanentemente tu historial de chat. ¿Deseas
+            continuar?
           </AlertDialogDescription>
           <AlertDialogFooter>
             <AlertDialogCancel asChild>
-              <Button
-                variant="ghost"
-                className="border-none hover:bg-gray-100 dark:hover:bg-full-dark"
-              >
-                Cancelar
-              </Button>
+              <Button variant="secondary">Cancelar</Button>
             </AlertDialogCancel>
             <AlertDialogAction asChild>
               <Button variant="destructive" onClick={handleClearHistory}>

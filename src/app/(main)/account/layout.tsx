@@ -35,17 +35,13 @@ export default async function AccountLayout({
   const profileData = session ? await getUserProfileData(session) : null;
 
   return (
-    <div className="flex min-h-[calc(100dvh-56px)] w-full flex-col">
-      <div className="flex-1">
-        <div className="mx-auto size-full max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
-          {children}
-          <BillingTabs
-            profileData={profileData}
-            billingDetails={billingDetails}
-            clientSecret={clientSecret as string}
-          />
-        </div>
-      </div>
+    <div className="mx-auto h-full max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:h-auto md:min-h-[calc(100dvh-56px)] md:border md:border-y-0">
+      {children}
+      <BillingTabs
+        profileData={profileData}
+        billingDetails={billingDetails}
+        clientSecret={clientSecret as string}
+      />
     </div>
   );
 }

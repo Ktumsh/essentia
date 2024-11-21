@@ -1,22 +1,22 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import {
   useStripe,
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
 import { SpinnerIcon } from "@/modules/icons/common";
 
 import { updatePaymentMethod } from "../pay/actions";
 
 interface PaymentMethodFormProps {
   customerId: string;
-  onClose: () => void;
+  onClose: (isOpen: boolean) => void;
 }
 
 const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
@@ -50,7 +50,7 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
         );
         setIsLoading(false);
         toast.success("Método de pago actualizado correctamente.");
-        onClose();
+        onClose(false);
       } catch (err) {
         toast.error("Error actualizando el método de pago.");
         console.error("Error actualizando el método de pago en Stripe:", err);
@@ -68,36 +68,29 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
   };
 
   return (
-    <motion.form
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ ease: "easeInOut", duration: 0.3 }}
+    <form
       onSubmit={handleSubmit}
       className="flex h-full flex-1 flex-col space-y-4"
     >
       <PaymentElement />
-      <div className="!mt-0 inline-flex w-full flex-1 items-end justify-between pt-3 md:pt-6">
+      <DialogFooter>
         <Button
-          onPress={onClose}
-          isDisabled={isLoading}
-          variant="light"
-          className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
+          onClick={() => onClose(false)}
+          disabled={isLoading}
+          variant="ghost"
         >
           Cancelar
         </Button>
         <Button
           type="submit"
-          isDisabled={!stripe || isLoading || !elements}
-          color="danger"
-          startContent={
-            isLoading ? <SpinnerIcon className="size-4 animate-spin" /> : null
-          }
-          className="rounded-md"
+          variant="destructive"
+          disabled={!stripe || isLoading || !elements}
         >
+          {isLoading ? <SpinnerIcon className="size-4 animate-spin" /> : null}
           {isLoading ? "Procesando..." : "Agregar tarjeta"}
         </Button>
-      </div>
-    </motion.form>
+      </DialogFooter>
+    </form>
   );
 };
 

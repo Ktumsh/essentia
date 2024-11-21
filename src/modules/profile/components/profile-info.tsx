@@ -288,7 +288,6 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                   Cancelar
                 </Button>
                 <Button
-                  color="danger"
                   onClick={onSubmit}
                   variant="destructive"
                   disabled={isPending}

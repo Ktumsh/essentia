@@ -1,206 +1,241 @@
 "use client";
 
-import { Button, Checkbox, Input } from "@nextui-org/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-  useTransition,
-  useActionState,
-} from "react";
+import { useState, useEffect, useTransition, useCallback } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { authenticate } from "@/app/(auth)/login/actions";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { getProfileNameByEmail } from "@/db/profile-querys";
-import { SpinnerIcon } from "@/modules/icons/common";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
-import { validateEmail } from "../lib/form";
+import { SubmitButton } from "./submit-button";
+import { LoginFormData, loginSchema } from "../lib/form";
 
-const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
-  const [result, dispatch] = useActionState(authenticate, undefined);
+const LoginForm: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
+
+  const [isVisible, setIsVisible] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const redirectUrl = searchParams.get("redirect") || "/";
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      remember: false,
+    },
+  });
+
+  const { handleSubmit, setValue } = form;
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
     if (savedEmail) {
-      setEmail(savedEmail);
-      setIsSelected(true);
+      setValue("email", savedEmail);
+      setValue("remember", true);
     }
-  }, []);
+  }, [setValue]);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSuccess = useCallback(
+    async (data: LoginFormData) => {
+      if (data.remember) {
+        localStorage.setItem("rememberedEmail", data.email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
 
-    const errors = {
-      email: !validateEmail(email) ? ResultCode.REQUIRED_EMAIL : "",
-      password: password.trim() === "" ? ResultCode.REQUIRED_PASSWORD : "",
-    };
+      const userName = await getProfileNameByEmail(data.email);
+      if (userName) {
+        toast.success(`¡Hola de nuevo, ${userName.first_name}!`);
+      } else {
+        toast.success(`¡Hola de nuevo!`);
+      }
+      router.push(redirectUrl);
+    },
+    [router, redirectUrl],
+  );
 
-    if (Object.values(errors).some((error) => error)) {
-      toast.error(errors.email || errors.password);
-      return;
-    }
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+    startTransition(async () => {
+      try {
+        const formData = new FormData();
+        formData.append("email", data.email);
+        formData.append("password", data.password);
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    startTransition(() => {
-      dispatch(formData);
+        const result = await authenticate(undefined, formData);
+
+        if (result?.type === "success") {
+          handleSuccess(data);
+        } else if (result?.type === "error") {
+          switch (result.resultCode) {
+            case ResultCode.EMAIL_NOT_VERIFIED:
+              toast.error(getMessageFromCode(result.resultCode));
+              if (result.redirectUrl) {
+                router.push(result.redirectUrl);
+              }
+              break;
+            case ResultCode.INVALID_CREDENTIALS:
+              toast.error(getMessageFromCode(result.resultCode));
+              break;
+            default:
+              toast.error(getMessageFromCode(result.resultCode));
+              break;
+          }
+        }
+      } catch {
+        toast.error(getMessageFromCode(ResultCode.VALIDATION_ERROR));
+      }
     });
   };
 
-  const fetchUserName = useCallback(async () => {
-    const userName = await getProfileNameByEmail(email);
-    if (userName) {
-      toast.success(`¡Hola de nuevo, ${userName.first_name}!`);
-    } else {
-      toast.success(`¡Hola de nuevo!`);
-    }
-    router.push(redirectUrl);
-  }, [email, router, redirectUrl]);
-
-  useEffect(() => {
-    if (result) {
-      if (result.type === "error") {
-        if (
-          result.resultCode === ResultCode.EMAIL_NOT_VERIFIED &&
-          result.redirectUrl
-        ) {
-          router.push(result.redirectUrl);
-        } else {
-          startTransition(() => {});
-          toast.error(getMessageFromCode(result.resultCode));
-        }
-      } else {
-        if (isSelected) {
-          localStorage.setItem("rememberedEmail", email);
-        } else {
-          localStorage.removeItem("rememberedEmail");
-        }
-        fetchUserName();
-      }
-    }
-  }, [result, router, email, isSelected, fetchUserName]);
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
   return (
-    <div className="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-xl bg-transparent px-6 text-left font-normal text-main-m dark:text-main-dark-m sm:min-w-[500px] sm:bg-white sm:dark:bg-full-dark md:p-8">
-      <form
-        className="mb-4 flex size-full select-none flex-col items-start justify-center gap-5"
-        onSubmit={handleSubmit}
-      >
-        <div>
-          <h2 className="font-sans text-xl font-extrabold text-main-h dark:text-main-dark sm:text-2xl">
-            Bienvenid@,
-          </h2>
-          <div className="w-full text-sm text-main-h dark:text-main-dark-h">
-            <p>
-              Ingresa tus credenciales para acceder a tu cuenta de Essentia.
-            </p>
-          </div>
-        </div>
-        <Input
-          name="email"
-          aria-label="Correo electrónico"
-          type="text"
-          value={email}
-          label="Correo electrónico"
-          placeholder="Ingresa tu correo electrónico"
-          onValueChange={setEmail}
-          endContent={<MailIcon className="size-6" />}
-          classNames={{
-            inputWrapper:
-              "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
-            input: "placeholder:text-main-l dark:placeholder:text-main-dark-l",
-          }}
-        />
-        <Input
-          name="password"
-          aria-label="Contraseña"
-          type={isVisible ? "text" : "password"}
-          value={password}
-          label="Contraseña"
-          placeholder="Ingresa tu contraseña"
-          onValueChange={setPassword}
-          endContent={
-            <button
-              type="button"
-              onClick={toggleVisibility}
-              aria-label="Alternar visibilidad de la contraseña"
-            >
-              {isVisible ? (
-                <EyeOffIcon className="size-6" />
-              ) : (
-                <EyeIcon className="size-6" />
-              )}
-            </button>
-          }
-          classNames={{
-            inputWrapper:
-              "bg-white md:bg-gray-100 dark:!bg-white/5 dark:data-[hover=true]:!bg-white/10 dark:data-[focus=true]:!bg-white/10",
-            input: "placeholder:text-main-l dark:placeholder:text-main-dark-l",
-          }}
-        />
-
-        <div className="mx-0 mt-[-15px] flex w-full justify-between text-[13px] text-main-h dark:text-main-dark-h">
-          <Checkbox
-            isSelected={isSelected}
-            onValueChange={setIsSelected}
-            size="sm"
-            color="danger"
-            classNames={{
-              wrapper:
-                "before:border-base-color-d md:before:border-gray-200 dark:before:border-base-color-dark-d md:dark:before:border-dark",
-              label: "text-[13px] text-inherit",
-            }}
-          >
-            Recordarme
-          </Checkbox>
-          <Link
-            href="#"
-            className="underline-offset-2 hover:underline"
-            aria-label="¿Olvidaste tu contraseña?"
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
-        </div>
-        <Button
-          type="submit"
-          radius="full"
-          fullWidth
-          className="bg-light-gradient text-base text-white dark:bg-dark-gradient-v2"
-          isDisabled={isPending}
-          aria-disabled={isPending}
-          startContent={
-            isPending ? <SpinnerIcon className="size-4 animate-spin" /> : null
-          }
+    <div className="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-xl border-transparent bg-transparent px-6 text-left font-normal dark:border-dark sm:min-w-[500px] sm:bg-white sm:dark:bg-full-dark md:border md:p-8">
+      <Form {...form}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mb-4 flex size-full select-none flex-col items-start justify-center gap-5"
         >
-          {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
-        </Button>
-      </form>
-      {/* <div className="flex flex-row items-center justify-center w-full px-3 my-4">
-        <hr className="flex-1 h-px border-gray-200" />
-        <span className="text-xs text-center mx-2 text-nowrap text-white sm:text-inherit">
-          o
-        </span>
-        <hr className="flex-1 h-px border-gray-200" />
-      </div>
-      <SignInWith /> */}
+          <div>
+            <h2 className="font-sans text-xl font-extrabold text-main dark:text-white sm:text-2xl">
+              Bienvenid@,
+            </h2>
+            <div className="w-full text-sm text-main-h dark:text-main-dark-h">
+              <p>
+                Ingresa tus credenciales para acceder a tu cuenta de Essentia.
+              </p>
+            </div>
+          </div>
+
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="inline-flex w-full flex-col justify-center space-y-2">
+                <FormLabel htmlFor="email" className="text-xs">
+                  Correo electrónico
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      id="email"
+                      type="email"
+                      placeholder="Ingresa tu correo electrónico"
+                      required
+                      autoFocus
+                      isAuth
+                    />
+                    <div className="absolute right-0 top-0 inline-flex h-full items-center justify-center px-3 text-main-m dark:text-main-dark-m">
+                      <MailIcon className="size-5" />
+                    </div>
+                  </div>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          {/* Password */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="inline-flex w-full flex-col justify-center space-y-2">
+                <FormLabel htmlFor="password" className="text-xs">
+                  Contraseña
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      id="password"
+                      type={isVisible ? "text" : "password"}
+                      placeholder="Ingresa tu contraseña"
+                      required
+                      isAuth
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsVisible(!isVisible)}
+                      className="absolute right-0 top-0 h-full px-3 text-main-m hover:!bg-transparent dark:text-main-dark-m dark:hover:!bg-transparent"
+                    >
+                      {isVisible ? (
+                        <EyeOffIcon className="!size-5" />
+                      ) : (
+                        <EyeIcon className="!size-5" />
+                      )}
+                      <span className="sr-only">
+                        {isVisible
+                          ? "Ocultar contraseña"
+                          : "Mostrar contraseña"}
+                      </span>
+                    </Button>
+                  </div>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          {/* Remember Me y Forgot Password */}
+          <div className="mx-0 mt-[-15px] flex w-full justify-between text-xs text-main-h dark:text-main-dark-h">
+            <FormField
+              control={form.control}
+              name="remember"
+              render={({ field }) => (
+                <FormItem className="inline-flex items-center gap-2">
+                  <FormControl>
+                    <Checkbox
+                      id="remember"
+                      checked={field.value}
+                      onCheckedChange={(checked: boolean) =>
+                        field.onChange(checked)
+                      }
+                      className="shadow-none"
+                    />
+                  </FormControl>
+                  <FormLabel
+                    htmlFor="remember"
+                    className="!mt-0 text-xs font-normal text-main-h dark:text-main-dark-h"
+                  >
+                    Recordarme
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            <Link
+              href="#"
+              className="underline-offset-2 hover:underline"
+              aria-label="¿Olvidaste tu contraseña?"
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
+
+          {/* Submit Button */}
+          <SubmitButton isPending={isPending}>Iniciar sesión</SubmitButton>
+        </form>
+      </Form>
+
+      {/* Link a Registro */}
       <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-main-h dark:text-main-dark-h">
         <p>
           ¿No tienes una cuenta?{" "}

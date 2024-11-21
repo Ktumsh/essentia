@@ -137,3 +137,8 @@ export function convertToUIMessages(
     return chatMessages;
   }, []);
 }
+
+export function getMostRecentUserMessage(messages: Array<CoreMessage>) {
+  const userMessages = messages.filter((message) => message.role === "user");
+  return userMessages.at(-1);
+}

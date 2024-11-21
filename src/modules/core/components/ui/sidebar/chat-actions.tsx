@@ -123,14 +123,13 @@ const ChatActions: FC<ChatActionsProps> = ({
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>Eliminar chat</DrawerTitle>
-              <DrawerDescription className="text-balance px-4">
-                Esto eliminará permanentemente su mensaje de chat y eliminará
-                sus datos de nuestros servidores.
+              <DrawerDescription className="px-4">
+                Esto eliminará el chat: {chat.title}. ¿Deseas continuar?
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button className="dark:bg-full-dark">Cancelar</Button>
+                <Button variant="secondary">Cancelar</Button>
               </DrawerClose>
               <Button variant="destructive" onClick={handleDelete}>
                 Continuar
@@ -145,17 +144,11 @@ const ChatActions: FC<ChatActionsProps> = ({
               <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription>
-              Esto eliminará permanentemente su mensaje de chat y eliminará sus
-              datos de nuestros servidores.
+              Esto eliminará el chat: {chat.title}. ¿Deseas continuar?
             </AlertDialogDescription>
             <AlertDialogFooter>
               <AlertDialogCancel asChild>
-                <Button
-                  variant="ghost"
-                  className="border-none hover:bg-gray-100 dark:hover:bg-full-dark"
-                >
-                  Cancelar
-                </Button>
+                <Button variant="secondary">Cancelar</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
                 <Button variant="destructive" onClick={handleDelete}>

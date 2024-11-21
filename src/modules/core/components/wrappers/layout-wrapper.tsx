@@ -72,14 +72,16 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ session, user, children }) => {
       <div className="flex w-full text-clip">
         <AppSidebar session={session} user={user} />
         <SidebarInset>
-          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
+          <div
+            className={cn(
+              "flex min-w-0 flex-col",
+              isEssentiaAI && "h-[calc(100dvh-56px)] md:h-dvh",
+            )}
+          >
             {isEssentiaAI ? (
               <>{children}</>
             ) : (
-              <div
-                ref={scrollRef}
-                className="w-full flex-1 overflow-y-auto pb-16 md:pb-0"
-              >
+              <div ref={scrollRef} className="w-full flex-1 overflow-y-auto">
                 {children}
               </div>
             )}

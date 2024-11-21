@@ -16,7 +16,7 @@ const Home = ({ profileData }: HomeProps) => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="flex h-full flex-1">
+    <div className="flex flex-1">
       <div className="mx-auto flex w-full max-w-6xl shrink grow items-stretch justify-center">
         <div className="flex size-full shrink grow flex-col items-stretch md:pt-5 lg:px-5 lg:pb-5">
           {!isMobile && (

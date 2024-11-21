@@ -65,15 +65,13 @@ const CardModal = ({ props }: { props: Props }) => {
 
   const Content = memo(() => {
     return (
-      <ScrollArea className="modal w-full overflow-y-auto">
+      <ScrollArea className="w-full overflow-y-auto">
         <div className="visible relative p-6 md:p-8">
           <Markdown prose="prose-sm md:prose">{body}</Markdown>
         </div>
         {isRoutine && videoLink && (
           <div className="visible p-8 pt-0">
-            <Badge className="mb-1 dark:bg-full-dark dark:hover:bg-full-dark/80">
-              {videoChannel}
-            </Badge>
+            <Badge className="mb-1">{videoChannel}</Badge>
             <h3 className="mb-3 text-lg font-semibold md:text-xl">
               {videoTitle}
             </h3>
@@ -132,7 +130,10 @@ const CardModal = ({ props }: { props: Props }) => {
   } else {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-3xl overflow-hidden rounded-3xl p-0">
+        <DialogContent
+          closeButtonClass="text-white/80"
+          className="max-w-3xl gap-0 overflow-hidden border-0 p-0 sm:rounded-3xl"
+        >
           <DialogHeader className="relative h-52 w-full shrink-0">
             <DialogTitle className="sr-only">{title}</DialogTitle>
             <DialogDescription className="sr-only">
@@ -158,14 +159,7 @@ const CardModal = ({ props }: { props: Props }) => {
           <Content />
           <DialogFooter className="flex flex-row justify-end gap-2 border-t-1 border-gray-200 px-6 py-4 text-main dark:border-dark">
             <DialogTrigger asChild>
-              <Button
-                size="sm"
-                radius="lg"
-                variant="ghost"
-                className="w-fit border border-gray-200 bg-white text-sm font-medium text-main shadow-sm hover:opacity-80 dark:border-full-dark dark:bg-dark dark:text-white"
-              >
-                Cerrar
-              </Button>
+              <Button>Cerrar</Button>
             </DialogTrigger>
           </DialogFooter>
         </DialogContent>

@@ -46,7 +46,7 @@ export default function Guides() {
                 onClick={() => downloadFile(guide.link)}
                 size="sm"
                 radius="lg"
-                className="border border-gray-200 bg-white text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-white"
+                className="border border-gray-200 bg-white text-sm font-medium text-main shadow-sm hover:bg-white hover:opacity-80 dark:border-dark dark:bg-full-dark dark:text-white"
               >
                 Descargar
                 <DownloadIcon className="size-4" />

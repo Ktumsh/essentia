@@ -36,7 +36,7 @@ const BillingTabs = ({
   }, [pathname]);
 
   return (
-    <div className="flex size-full flex-col">
+    <div className="flex flex-col">
       <Tabs
         ref={tabListRef}
         selectedKey={pathname}

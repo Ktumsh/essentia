@@ -13,7 +13,7 @@ export const usePaymentStatusPolling = () => {
   const startPollingOnChat = pathname.startsWith("/essentia-ai");
 
   const startPolling = async (
-    onSuccess?: () => void,
+    onSuccess?: (isOpen: boolean) => void,
     maxAttempts = 10,
     interval = 1000,
   ) => {
@@ -32,7 +32,7 @@ export const usePaymentStatusPolling = () => {
           }
           setIsPolling(false);
           if (onSuccess) {
-            onSuccess();
+            onSuccess(false);
           }
           return;
         }

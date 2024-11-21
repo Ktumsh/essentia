@@ -1,3 +1,4 @@
+// src/modules/auth/lib/signup.ts
 "use server";
 
 import { createAvatar } from "@dicebear/core";
@@ -5,55 +6,13 @@ import * as icons from "@dicebear/icons";
 import { sql } from "@vercel/postgres";
 import { nanoid } from "nanoid";
 import { AuthError } from "next-auth";
-import { z } from "zod";
 
 import { insertEmailVerificationToken } from "@/db/email-querys";
 import { getUserByEmail, getUserByUsername } from "@/db/user-querys";
+import { registerSchema } from "@/modules/auth/lib/form";
 import { sendEmail } from "@/modules/auth/lib/send-email";
 import { ResultCode } from "@/utils/code";
 import { getStringFromBuffer } from "@/utils/common";
-
-const registerSchema = z.object({
-  email: z.string().email(ResultCode.REQUIRED_EMAIL),
-  password: z
-    .string()
-    .min(8, ResultCode.INVALID_LENGTH_PASSWORD)
-    .regex(/[A-Z]/, ResultCode.INVALID_STRING_PASSWORD)
-    .regex(/[a-z]/, ResultCode.INVALID_STRING_PASSWORD)
-    .regex(/[0-9]/, ResultCode.INVALID_STRING_PASSWORD)
-    .regex(/[^A-Za-z0-9]/, ResultCode.INVALID_STRING_PASSWORD),
-  username: z
-    .string()
-    .min(3, ResultCode.INVALID_LENGTH_USERNAME)
-    .max(20, ResultCode.INVALID_LENGTH_USERNAME)
-    .regex(/^[a-zA-Z0-9_]+$/, ResultCode.INVALID_STRING_USERNAME)
-    .regex(/^[a-zA-Z0-9]/, ResultCode.INVALID_START_USERNAME)
-    .regex(/[a-zA-Z0-9]$/, ResultCode.INVALID_END_USERNAME),
-  name: z.string().min(1, ResultCode.REQUIRED_NAME),
-  lastname: z.string().min(1, ResultCode.REQUIRED_LASTNAME),
-  birthdate: z.string().refine(
-    (date) => {
-      const birthDate = new Date(date);
-      const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
-      const monthDifference = today.getMonth() - birthDate.getMonth();
-      const dayDifference = today.getDate() - birthDate.getDate();
-
-      if (birthDate.getFullYear() < 1900 || birthDate > today) {
-        return false;
-      }
-
-      if (age > 13) return true;
-      if (age === 13 && monthDifference > 0) return true;
-      if (age === 13 && monthDifference === 0 && dayDifference >= 0)
-        return true;
-      return false;
-    },
-    {
-      message: ResultCode.INVALID_BIRTHDATE,
-    },
-  ),
-});
 
 interface CreateUserProps {
   email: string;
@@ -179,7 +138,7 @@ export async function signup(
         username,
         name,
         lastname,
-        birthdate,
+        birthdate: birthdate.toISOString(),
       });
 
       if (result.resultCode === ResultCode.USER_CREATED) {

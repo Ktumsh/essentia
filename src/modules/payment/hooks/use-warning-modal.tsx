@@ -16,9 +16,11 @@ export const useWarningModal = (isPremium: boolean | null) => {
     }
   }, [hasUserInteracted, isPremium]);
 
-  const handleOpenPaymentModal = (openPaymentModal: () => void) => {
+  const handleOpenPaymentModal = (
+    openPaymentModal: (isOpen: boolean) => void,
+  ) => {
     setIsWarningModalOpen(false);
-    openPaymentModal();
+    openPaymentModal(true);
     setHasUserInteracted(true);
   };
 

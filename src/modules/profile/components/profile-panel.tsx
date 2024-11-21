@@ -167,13 +167,13 @@ const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
             {previewBannerImage ? (
               <Link
                 href={`/profile/${profileData.username}/banner`}
-                className="relative z-0 flex h-44 overflow-hidden bg-black/30 transition-colors md:h-60"
+                className="relative z-0 flex h-44 overflow-hidden bg-black/30 transition-colors md:h-72"
               >
                 <ImageUI
                   removeWrapper
                   as={Image}
                   width={984}
-                  height={240}
+                  height={288}
                   quality={100}
                   priority
                   alt="Banner de perfil"

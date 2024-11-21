@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, Card, CardFooter, useDisclosure } from "@nextui-org/react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import Image from "next/image";
+import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
@@ -23,17 +24,10 @@ const BillingDetails = ({
   clientSecret,
   profileData,
 }: BillingDetailsProps) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const {
-    isOpen: isOpenCancelModal,
-    onOpen: onOpenCancelModal,
-    onOpenChange: onOpenChangeCancelModal,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenPaymentModal,
-    onOpen: onOpenPaymentModal,
-    onOpenChange: onOpenChangePaymentModal,
-  } = useDisclosure();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
+  const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
+
   const { is_premium } = profileData || {};
 
   const subscription = billingDetails?.subscription || {};
@@ -73,10 +67,7 @@ const BillingDetails = ({
   return (
     <>
       <div className="flex w-full flex-col gap-4">
-        <Card
-          shadow="none"
-          className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
-        >
+        <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
           <div className="px-5 py-4 text-main dark:text-white">
             <h3 className="flex flex-wrap items-center gap-x-2 pb-4 text-base font-semibold">
               <span>Resumen del Plan</span>
@@ -85,7 +76,7 @@ const BillingDetails = ({
                   "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs",
                   planType === "Premium" || planType === "Premium Plus"
                     ? "bg-light-gradient-v2 text-white dark:bg-dark-gradient-v2"
-                    : "dark:border-accent-dark border border-gray-300 bg-white text-main-h dark:bg-full-dark dark:text-main-dark",
+                    : "border border-gray-300 bg-white text-main-h dark:border-accent-dark dark:bg-full-dark dark:text-main-dark",
                 )}
               >
                 {planType}
@@ -116,24 +107,18 @@ const BillingDetails = ({
               </div>
             </div>
           </div>
-          <CardFooter className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+          <footer className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               {planType !== "Gratis" && !isSubscriptionIncomplete && (
                 <Button
-                  radius="sm"
-                  size="sm"
-                  onPress={onOpenCancelModal}
-                  className="w-full border border-red-500 bg-white text-sm font-medium text-red-500 shadow-sm data-[hover=true]:bg-red-500 data-[hover=true]:text-white dark:border-red-500/80 dark:bg-full-dark dark:text-red-500/80 data-[hover=true]:dark:bg-red-500/80 data-[hover=true]:dark:text-white md:w-fit"
+                  variant="outline"
+                  onClick={() => setIsOpenCancel(true)}
+                  className="border border-red-500 text-red-500 dark:border-red-500 dark:text-red-500"
                 >
                   Cancelar suscripción
                 </Button>
               )}
-              <Button
-                radius="sm"
-                size="sm"
-                onPress={onOpenPaymentModal}
-                className="w-full border border-gray-200 bg-white text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-white md:w-fit"
-              >
+              <Button variant="outline" onClick={() => setIsOpenPayment(true)}>
                 {isSubscriptionCanceled ||
                 isSubscriptionIncomplete ||
                 !is_premium
@@ -141,14 +126,11 @@ const BillingDetails = ({
                   : "Cambiar plan"}
               </Button>
             </div>
-          </CardFooter>
-        </Card>
+          </footer>
+        </div>
 
         {billingDetails && (
-          <Card
-            shadow="none"
-            className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
-          >
+          <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
             <div className="px-5 py-4 text-main dark:text-white">
               <h3 className="pb-4 text-base font-semibold">
                 Administrar Información de Pago
@@ -182,19 +164,14 @@ const BillingDetails = ({
                 </span>
               </div>
             </div>
-            <CardFooter className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+            <footer className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
               <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
-                <Button
-                  radius="sm"
-                  onPress={onOpen}
-                  size="sm"
-                  className="w-full border border-gray-200 bg-white text-sm font-medium text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-white md:w-fit"
-                >
+                <Button variant="outline" onClick={() => setIsOpen(true)}>
                   Cambiar método de pago
                 </Button>
               </div>
-            </CardFooter>
-          </Card>
+            </footer>
+          </div>
         )}
       </div>
 
@@ -202,21 +179,18 @@ const BillingDetails = ({
         <>
           <ChangePaymentModal
             isOpen={isOpen}
-            onOpenChange={onOpenChange}
+            setIsOpen={setIsOpen}
             paymentMethod={billingDetails.paymentMethod.customer}
             clientSecret={clientSecret}
           />
           <CancelSubscriptionModal
-            isOpen={isOpenCancelModal}
-            onOpenChange={onOpenChangeCancelModal}
+            isOpen={isOpenCancel}
+            setIsOpen={setIsOpenCancel}
             billingDetails={billingDetails}
           />
         </>
       )}
-      <PaymentModal
-        isOpen={isOpenPaymentModal}
-        onOpenChange={onOpenChangePaymentModal}
-      />
+      <PaymentModal isOpen={isOpenPayment} setIsOpen={setIsOpenPayment} />
     </>
   );
 };

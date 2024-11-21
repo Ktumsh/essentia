@@ -1,8 +1,14 @@
 "use client";
 
-import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { loadStripe } from "@stripe/stripe-js";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { SpinnerIcon } from "@/modules/icons/common";
 import PaymentMethodForm from "@/modules/payment/components/payment-method-form";
 import StripeWrapper from "@/modules/payment/components/stripe-wrapper";
@@ -11,65 +17,40 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 interface ChangePaymentModalProps {
   isOpen: boolean;
-  onOpenChange: () => void;
+  setIsOpen: (isOpen: boolean) => void;
   paymentMethod: string;
   clientSecret: string;
 }
 
 const ChangePaymentModal = ({
   isOpen,
-  onOpenChange,
+  setIsOpen,
   paymentMethod,
   clientSecret,
 }: ChangePaymentModalProps) => {
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      radius="sm"
-      placement="center"
-      classNames={{
-        backdrop: "z-[101] bg-black/80",
-        wrapper: "z-[102] pointer-events-auto",
-        base: "bg-white dark:bg-full-dark min-h-[381px] md:min-h-[429px]",
-        closeButton:
-          "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-      }}
-    >
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader className="items-center p-3 md:p-6">
-              <div className="flex-col">
-                <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
-                  Cambiar método de pago
-                </h2>
-              </div>
-            </ModalHeader>
-            <ModalBody className="p-3 !pt-0 md:p-6">
-              {!clientSecret || !stripePromise ? (
-                <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
-                  <SpinnerIcon className="size-6 animate-spin" />
-                  <h3 className="text-sm text-main-m dark:text-main-dark-m">
-                    Procesando
-                  </h3>
-                </div>
-              ) : (
-                <StripeWrapper
-                  stripe={stripePromise}
-                  clientSecret={clientSecret}
-                >
-                  <PaymentMethodForm
-                    customerId={paymentMethod}
-                    onClose={onClose}
-                  />
-                </StripeWrapper>
-              )}
-            </ModalBody>
-          </>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent>
+        <DialogHeader className="space-y-1.5">
+          <DialogTitle>Cambiar método de pago</DialogTitle>
+          <DialogDescription className="sr-only">
+            Cambiar método de pago
+          </DialogDescription>
+        </DialogHeader>
+        {!clientSecret || !stripePromise ? (
+          <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
+            <SpinnerIcon className="size-6 animate-spin" />
+            <h3 className="text-sm text-main-m dark:text-main-dark-m">
+              Procesando
+            </h3>
+          </div>
+        ) : (
+          <StripeWrapper stripe={stripePromise} clientSecret={clientSecret}>
+            <PaymentMethodForm customerId={paymentMethod} onClose={setIsOpen} />
+          </StripeWrapper>
         )}
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const reasons = [
   "Solo quería 1 mes",
@@ -15,32 +15,38 @@ interface ReasonCheckboxProps {
 }
 
 const ReasonCheckbox = ({ selectedReasons, onChange }: ReasonCheckboxProps) => {
+  const onCheckedChange = (checked: string | boolean, reason: string) => {
+    onChange(
+      checked
+        ? [...selectedReasons, reason]
+        : selectedReasons.filter((r) => r !== reason),
+    );
+  };
+
   return (
-    <CheckboxGroup
-      value={selectedReasons}
-      onChange={onChange}
-      size="sm"
-      classNames={{
-        base: "w-full",
-        wrapper: "grid grid-cols-2",
-      }}
-    >
+    <div className="grid w-full grid-cols-2 gap-x-2 gap-y-3">
       {reasons.map((reason, index) => (
-        <Checkbox
+        <div
           key={index}
-          aria-label={reason}
-          size="sm"
-          color="danger"
-          value={reason}
-          classNames={{
-            base: "m-0 max-w-full inline-flex items-center py-1.5 gap-0 border border-gray-200 dark:border-dark rounded-md",
-            label: "w-full text-sm md:text-sm text-main dark:text-main-dark",
-          }}
+          className="flex flex-row items-start space-x-2 space-y-0 rounded-md border border-gray-200 px-2 py-1.5 dark:border-dark"
         >
-          {reason}
-        </Checkbox>
+          <Checkbox
+            id={reason}
+            aria-label={reason}
+            value={reason}
+            checked={selectedReasons.includes(reason)}
+            onCheckedChange={(checked) => onCheckedChange(checked, reason)}
+            className="shadow-none"
+          ></Checkbox>
+          <label
+            htmlFor={reason}
+            className="truncate text-nowrap text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {reason}
+          </label>
+        </div>
       ))}
-    </CheckboxGroup>
+    </div>
   );
 };
 

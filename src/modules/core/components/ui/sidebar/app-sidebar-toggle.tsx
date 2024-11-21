@@ -20,7 +20,7 @@ const AppSidebarToggle = () => {
       : "Mostrar barra lateral";
 
   return (
-    <BetterTooltip content={tooltipContent}>
+    <BetterTooltip content={tooltipContent} align="start">
       <button
         onClick={() => toggleSidebar()}
         className="h-10 rounded-lg px-2 text-main-h transition-colors duration-150 hover:bg-gray-200 dark:text-main-dark-h dark:hover:bg-dark"

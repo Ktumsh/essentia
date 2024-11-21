@@ -1,4 +1,3 @@
-import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import {
   useEffect,
@@ -89,21 +88,16 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
               }}
               className="relative flex h-full w-20 items-center justify-center py-1 lg:w-28"
             >
-              <Button
-                as={Link}
+              <Link
                 id={`navbar_link_${key + 1}`}
                 aria-label={"Ir a " + name}
-                variant="light"
                 color="danger"
-                radius="sm"
-                fullWidth
                 href={href}
-                onPress={() => handleNavItemClick}
+                onClick={() => handleNavItemClick}
                 className={cn(
-                  "!h-full max-h-12 max-w-[112px] text-gray-500 data-[hover=true]:bg-gray-200 dark:text-gray-400 dark:data-[hover=true]:bg-dark",
-                  "pointer-events-auto px-3 hover:text-bittersweet-400 dark:hover:text-cerise-red-600",
+                  "pointer-events-auto inline-flex size-full max-h-12 max-w-[112px] items-center justify-center rounded-lg px-3 text-gray-500 transition-colors hover:bg-gray-200 hover:text-bittersweet-400 dark:text-gray-400 dark:hover:bg-dark dark:hover:text-cerise-red-600",
                   active &&
-                    "rounded-b-none text-bittersweet-400 data-[hover=true]:bg-transparent dark:text-cerise-red-600 dark:data-[hover=true]:bg-transparent",
+                    "rounded-b-none text-bittersweet-400 hover:bg-transparent dark:text-cerise-red-600 dark:hover:bg-transparent",
                 )}
               >
                 {active ? (
@@ -111,7 +105,7 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
                 ) : (
                   <Icon className="size-6" aria-hidden="true" />
                 )}
-              </Button>
+              </Link>
             </li>
           </BetterTooltip>
         ),
