@@ -1,21 +1,32 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition, useCallback } from "react";
+import { useState, useCallback, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { changePassword } from "@/app/(main)/account/actions";
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
@@ -25,8 +36,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SpinnerIcon } from "@/modules/icons/common";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
+import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 const formSchema = z
   .object({
@@ -68,8 +79,9 @@ const ChangePasswordModal = ({
   const [isVisibleCurrent, setIsVisibleCurrent] = useState(false);
   const [isVisibleNew, setIsVisibleNew] = useState(false);
   const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
-
   const [isPending, startTransition] = useTransition();
+
+  const isMobile = useIsMobile();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -93,37 +105,39 @@ const ChangePasswordModal = ({
     [setIsOpen, form],
   );
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    startTransition(async () => {
-      try {
-        const response = await changePassword(values);
+  const onSubmit = useCallback(
+    async (values: z.infer<typeof formSchema>) => {
+      startTransition(() => {
+        toast.promise(changePassword(values), {
+          loading: "Cambiando contraseña...",
+          success: async (response) => {
+            if (response.success) {
+              handleOpenChange(false);
+              return getMessageFromCode(response.message);
+            } else {
+              throw new Error(response.message);
+            }
+          },
+          error: (error) => {
+            if (error instanceof Error && error.message) {
+              return getMessageFromCode(error.message as ResultCode);
+            }
+            return "Error inesperado al cambiar la contraseña.";
+          },
+        });
+      });
+    },
+    [handleOpenChange, startTransition],
+  );
 
-        if (response.success) {
-          toast.success("Contraseña cambiada exitosamente.");
-          handleOpenChange(false);
-        } else {
-          toast.error(response.message || "Error al cambiar la contraseña.");
-        }
-      } catch {
-        toast.error("Error inesperado al cambiar la contraseña.");
-      }
-    });
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Cambiar contraseña</DialogTitle>
-          <DialogDescription className="sr-only">
-            Cambiar contraseña
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-8 p-6 md:p-0 md:pt-6"
-          >
+  const Content = useCallback(() => {
+    return (
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full md:space-y-4"
+        >
+          <div className="w-full space-y-6 p-6">
             <FormField
               control={form.control}
               name="currentPassword"
@@ -134,6 +148,7 @@ const ChangePasswordModal = ({
                     <div className="relative">
                       <Input
                         type={isVisibleCurrent ? "text" : "password"}
+                        autoComplete="current-password"
                         {...field}
                       />
                       <Button
@@ -141,7 +156,7 @@ const ChangePasswordModal = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleCurrent(!isVisibleCurrent)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:!bg-transparent dark:hover:!bg-transparent"
                       >
                         {isVisibleCurrent ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -166,6 +181,7 @@ const ChangePasswordModal = ({
                     <div className="relative">
                       <Input
                         type={isVisibleNew ? "text" : "password"}
+                        autoComplete="new-password"
                         {...field}
                       />
                       <Button
@@ -173,7 +189,7 @@ const ChangePasswordModal = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleNew(!isVisibleNew)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:!bg-transparent dark:hover:!bg-transparent"
                       >
                         {isVisibleNew ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -196,6 +212,7 @@ const ChangePasswordModal = ({
                     <div className="relative">
                       <Input
                         type={isVisibleConfirm ? "text" : "password"}
+                        autoComplete="new-password"
                         {...field}
                       />
                       <Button
@@ -203,7 +220,7 @@ const ChangePasswordModal = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleConfirm(!isVisibleConfirm)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:!bg-transparent dark:hover:!bg-transparent"
                       >
                         {isVisibleConfirm ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -216,28 +233,74 @@ const ChangePasswordModal = ({
                 </FormItem>
               )}
             />
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => handleOpenChange(false)}
-                disabled={isPending}
-              >
-                Cancelar
-              </Button>
+          </div>
+          {isMobile ? (
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary" disabled={isPending}>
+                  Cancelar
+                </Button>
+              </DrawerClose>
               <Button type="submit" variant="destructive" disabled={isPending}>
-                {isPending ? (
-                  <SpinnerIcon className="animate-spin" />
-                ) : (
-                  "Guardar"
-                )}
+                Guardar
+              </Button>
+            </DrawerFooter>
+          ) : (
+            <DialogFooter isSecondary>
+              <DialogClose asChild>
+                <Button type="button" variant="outline" disabled={isPending}>
+                  Cancelar
+                </Button>
+              </DialogClose>
+              <Button type="submit" variant="destructive" disabled={isPending}>
+                Guardar
               </Button>
             </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
-  );
+          )}
+        </form>
+      </Form>
+    );
+  }, [
+    form,
+    isPending,
+    isVisibleCurrent,
+    isVisibleNew,
+    isVisibleConfirm,
+    onSubmit,
+    isMobile,
+  ]);
+
+  if (isMobile) {
+    return (
+      <Drawer open={isOpen} onOpenChange={handleOpenChange}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Cambiar contraseña</DrawerTitle>
+            <DrawerDescription className="mt-4 px-6">
+              Actualiza tu contraseña ingresando la información requerida.
+              Asegúrate de usar una contraseña segura.
+            </DrawerDescription>
+          </DrawerHeader>
+          <Content />
+        </DrawerContent>
+      </Drawer>
+    );
+  } else {
+    return (
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        <DialogContent isSecondary>
+          <DialogHeader isSecondary>
+            <DialogTitle>Cambiar contraseña</DialogTitle>
+            <DialogDescription>
+              Actualiza tu contraseña ingresando la información requerida.
+              Asegúrate de usar una contraseña segura.
+            </DialogDescription>
+          </DialogHeader>
+          <Content />
+        </DialogContent>
+      </Dialog>
+    );
+  }
 };
 
 export default ChangePasswordModal;

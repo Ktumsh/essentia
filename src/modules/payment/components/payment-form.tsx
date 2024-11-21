@@ -12,7 +12,7 @@ import { useState, FormEvent } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { siteConfig } from "@/config/site";
 import { SpinnerIcon } from "@/modules/icons/common";
 
@@ -108,30 +108,30 @@ const PaymentForm = ({
       animate={{ opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 0.3 }}
       onSubmit={handleSubmit}
-      className="flex h-full flex-1 flex-col space-y-4"
     >
-      <PaymentElement options={paymentElementOptions} />
-      <p className="flex-1 text-sm text-main-m dark:text-main-dark-m">
-        Al hacer clic en Confirmar comenzará tu suscripción al plan{" "}
-        {planDetails.plan} de{" "}
-        <span className="font-medium text-main dark:text-main-dark">
-          ${planDetails.amount}
-        </span>
-        /{planDetails.frequency}, con fecha de renovación{" "}
-        {planDetails.connector}{" "}
-        <span className="font-medium text-main dark:text-main-dark">
-          {planDetails.renewal}
-        </span>
-        .
-      </p>
-      <DialogFooter>
-        <Button
-          onClick={() => onClose(false)}
-          disabled={isLoading || isPolling}
-          variant="ghost"
-        >
-          Cerrar
-        </Button>
+      <div className="flex h-full flex-1 flex-col space-y-4 p-6">
+        <PaymentElement options={paymentElementOptions} />
+
+        <p className="flex-1 text-sm text-main-m dark:text-main-dark-m">
+          Al hacer clic en Confirmar comenzará tu suscripción al plan{" "}
+          {planDetails.plan} de{" "}
+          <span className="font-medium text-main dark:text-main-dark">
+            ${planDetails.amount}
+          </span>
+          /{planDetails.frequency}, con fecha de renovación{" "}
+          {planDetails.connector}{" "}
+          <span className="font-medium text-main dark:text-main-dark">
+            {planDetails.renewal}
+          </span>
+          .
+        </p>
+      </div>
+      <DialogFooter isSecondary>
+        <DialogClose asChild>
+          <Button disabled={isLoading || isPolling} variant="outline">
+            Cerrar
+          </Button>
+        </DialogClose>
         <Button
           type="submit"
           disabled={!stripe || isLoading || !elements || isPolling}

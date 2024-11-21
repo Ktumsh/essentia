@@ -131,6 +131,7 @@ const CardModal = ({ props }: { props: Props }) => {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
+          isBlurred
           closeButtonClass="text-white/80"
           className="max-w-3xl gap-0 overflow-hidden border-0 p-0 sm:rounded-3xl"
         >
@@ -159,7 +160,7 @@ const CardModal = ({ props }: { props: Props }) => {
           <Content />
           <DialogFooter className="flex flex-row justify-end gap-2 border-t-1 border-gray-200 px-6 py-4 text-main dark:border-dark">
             <DialogTrigger asChild>
-              <Button>Cerrar</Button>
+              <Button variant="outline">Cerrar</Button>
             </DialogTrigger>
           </DialogFooter>
         </DialogContent>

@@ -152,10 +152,8 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel htmlFor="name" className="text-xs">
-                  Nombre
-                </FormLabel>
+              <FormItem>
+                <FormLabel htmlFor="name">Nombre</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -174,10 +172,8 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
             control={form.control}
             name="lastname"
             render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel htmlFor="lastname" className="text-xs">
-                  Apellido
-                </FormLabel>
+              <FormItem>
+                <FormLabel htmlFor="lastname">Apellido</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -199,10 +195,8 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel htmlFor="username" className="text-xs">
-                Nombre de usuario
-              </FormLabel>
+            <FormItem>
+              <FormLabel htmlFor="username">Nombre de usuario</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -224,7 +218,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           control={form.control}
           name="birthdate"
           render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
+            <FormItem>
               <FormLabel className="relative inline-flex items-center gap-2 text-xs">
                 Fecha de nacimiento
                 <Popover>
@@ -245,7 +239,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
                     <div className="text-xs font-bold">
                       Cuando proporcionas tu fecha de nacimiento,
                     </div>
-                    <p className="text-xs">
+                    <p>
                       obtendrás una experiencia en Essentia adecuada para tu
                       edad. Si quieres cambiar quién ve tu fecha de nacimiento,
                       puedes ir a la configuración de tu perfil.
@@ -274,10 +268,8 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel htmlFor="password" className="text-xs">
-                Contraseña
-              </FormLabel>
+            <FormItem>
+              <FormLabel htmlFor="password">Contraseña</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input

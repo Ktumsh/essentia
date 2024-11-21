@@ -35,7 +35,11 @@ const VideoModal = ({ video, modal }: VideoModalProps) => {
   useModalHash(formatedTitle, isOpen, setIsOpen);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent isBlurred className="max-w-5xl rounded-none p-0">
+      <DialogContent
+        isBlurred
+        closeButtonClass="text-white/80"
+        className="max-w-5xl gap-0 rounded-none border-none p-0"
+      >
         <DialogHeader>
           <DialogTitle className="sr-only">{videoTitle}</DialogTitle>
           <DialogDescription className="sr-only">

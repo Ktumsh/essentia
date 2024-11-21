@@ -14,7 +14,7 @@ const badgeVariants = cva(
           "bg-bittersweet-400 hover:bg-bittersweet-400/80 dark:bg-cerise-red-600 dark:hover:bg-cerise-red-600/80 text-white",
         secondary:
           "bg-white text-main hover:bg-white/80 dark:bg-full-dark dark:text-main-dark dark:hover:bg-full-dark/80",
-        destructive: "bg-danger hover:bg-danger/80",
+        destructive: "bg-danger hover:bg-danger/80 text-white",
         outline:
           "text-gray-950 dark:text-gray-50 border border-gray-200 dark:border-dark",
       },

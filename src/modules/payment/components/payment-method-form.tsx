@@ -5,12 +5,14 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
-import { SpinnerIcon } from "@/modules/icons/common";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 
 import { updatePaymentMethod } from "../pay/actions";
 
@@ -23,6 +25,8 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -68,28 +72,44 @@ const PaymentMethodForm = ({ customerId, onClose }: PaymentMethodFormProps) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex h-full flex-1 flex-col space-y-4"
-    >
-      <PaymentElement />
-      <DialogFooter>
-        <Button
-          onClick={() => onClose(false)}
-          disabled={isLoading}
-          variant="ghost"
-        >
-          Cancelar
-        </Button>
-        <Button
-          type="submit"
-          variant="destructive"
-          disabled={!stripe || isLoading || !elements}
-        >
-          {isLoading ? <SpinnerIcon className="size-4 animate-spin" /> : null}
-          {isLoading ? "Procesando..." : "Agregar tarjeta"}
-        </Button>
-      </DialogFooter>
+    <form onSubmit={handleSubmit}>
+      <div className="flex h-full flex-1 flex-col space-y-4 p-6">
+        <PaymentElement />
+      </div>
+
+      {isMobile ? (
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button disabled={isLoading} variant="secondary">
+              Cancelar
+            </Button>
+          </DrawerClose>
+          <Button
+            type="submit"
+            variant="destructive"
+            disabled={!stripe || isLoading || !elements}
+          >
+            {isLoading ? <Loader className="size-4 animate-spin" /> : null}
+            {isLoading ? "Procesando..." : "Agregar tarjeta"}
+          </Button>
+        </DrawerFooter>
+      ) : (
+        <DialogFooter isSecondary>
+          <DialogClose asChild>
+            <Button disabled={isLoading} variant="outline">
+              Cancelar
+            </Button>
+          </DialogClose>
+          <Button
+            type="submit"
+            variant="destructive"
+            disabled={!stripe || isLoading || !elements}
+          >
+            {isLoading ? <Loader className="size-4 animate-spin" /> : null}
+            {isLoading ? "Procesando..." : "Agregar tarjeta"}
+          </Button>
+        </DialogFooter>
+      )}
     </form>
   );
 };

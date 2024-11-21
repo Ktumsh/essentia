@@ -128,10 +128,8 @@ const LoginForm: React.FC = () => {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="inline-flex w-full flex-col justify-center space-y-2">
-                <FormLabel htmlFor="email" className="text-xs">
-                  Correo electrónico
-                </FormLabel>
+              <FormItem>
+                <FormLabel htmlFor="email">Correo electrónico</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
@@ -157,10 +155,8 @@ const LoginForm: React.FC = () => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="inline-flex w-full flex-col justify-center space-y-2">
-                <FormLabel htmlFor="password" className="text-xs">
-                  Contraseña
-                </FormLabel>
+              <FormItem>
+                <FormLabel htmlFor="password">Contraseña</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
@@ -201,7 +197,7 @@ const LoginForm: React.FC = () => {
               control={form.control}
               name="remember"
               render={({ field }) => (
-                <FormItem className="inline-flex items-center gap-2">
+                <FormItem className="inline-flex w-auto flex-row items-center gap-2">
                   <FormControl>
                     <Checkbox
                       id="remember"
@@ -212,10 +208,7 @@ const LoginForm: React.FC = () => {
                       className="shadow-none"
                     />
                   </FormControl>
-                  <FormLabel
-                    htmlFor="remember"
-                    className="!mt-0 text-xs font-normal text-main-h dark:text-main-dark-h"
-                  >
+                  <FormLabel htmlFor="remember" className="!mt-0">
                     Recordarme
                   </FormLabel>
                 </FormItem>

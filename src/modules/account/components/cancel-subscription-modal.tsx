@@ -2,24 +2,35 @@
 
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState, useTransition } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site";
-import { SpinnerIcon } from "@/modules/icons/common";
 import { setUserPlan } from "@/modules/payment/pay/actions";
 import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
 import { Session } from "@/types/session";
@@ -40,6 +51,8 @@ const CancelSubscriptionModal = ({
   const { data: session } = useSession();
   const [cancelReason, setCancelReason] = useState<string>("");
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
+
+  const isMobile = useIsMobile();
 
   const subscription = billingDetails.subscription;
   const subscriptionItems = subscription.items.data[0].price;
@@ -79,58 +92,91 @@ const CancelSubscriptionModal = ({
     }
   };
 
+  const Content = useCallback(() => {
+    return (
+      <div className="space-y-6 p-6">
+        <div className="flex w-full justify-between rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-dark dark:bg-dark/50">
+          <span>
+            <span className="text-sm font-medium text-main dark:text-main-dark">
+              Plan {planType}
+            </span>
+            <span>
+              {" "}
+              - ${price}/{planType === "Premium Plus" ? "año" : "mes"}
+            </span>
+          </span>
+        </div>
+        <div className="mt-4 flex flex-col gap-4 text-main dark:text-main-dark">
+          <Separator />
+          <p className="text-sm">Nos gustaría saber por qué cancelas.</p>
+          <ReasonCheckbox
+            selectedReasons={selectedReasons}
+            onChange={setSelectedReasons}
+          />
+          <Textarea
+            placeholder="Comparte con nosotros cómo podemos mejorar."
+            onChange={(event) => setCancelReason(event.target.value)}
+            className="min-h-[60px] w-full resize-none p-4"
+          />
+        </div>
+      </div>
+    );
+  }, [planType, price, selectedReasons]);
+
+  if (isMobile) {
+    return (
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Cancelar suscripción</DrawerTitle>
+            <DrawerDescription className="mt-4 px-6 text-start">
+              Tu plan permanecerá activo hasta el final de tu período de
+              facturación actual, {renewalDate}. Después de esa fecha, tu plan
+              cambiará a gratuito y perderás acceso a las funcionalidades
+              Premium.
+            </DrawerDescription>
+          </DrawerHeader>
+          <Content />
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button variant="secondary">Cancelar</Button>
+            </DrawerClose>
+            <Button
+              variant="destructive"
+              disabled={isPending}
+              onClick={handleSetFreePlan}
+            >
+              {isPending ? <Loader className="size-4 animate-spin" /> : null}
+              {isPending ? "Cancelando plan" : "Confirmar"}
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="gap-6">
-        <DialogHeader>
-          <DialogTitle>¿Estás seguro que quieres cancelar?</DialogTitle>
-          <DialogDescription className="sr-only">
-            ¿Estás seguro que quieres cancelar?
-          </DialogDescription>
-        </DialogHeader>
-        <div>
-          <div className="flex w-full justify-between rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-dark dark:bg-dark/50">
-            <span>
-              <span className="text-sm font-medium text-main dark:text-main-dark">
-                Plan {planType}
-              </span>
-              <span>
-                {" "}
-                - ${price}/{planType === "Premium Plus" ? "año" : "mes"}
-              </span>
-            </span>
-          </div>
-        </div>
-        <div>
-          <p className="text-sm text-main-h dark:text-main-dark-h">
+      <DialogContent isSecondary>
+        <DialogHeader isSecondary>
+          <DialogTitle>Cancelar suscripción</DialogTitle>
+          <DialogDescription>
             Tu plan permanecerá activo hasta el final de tu período de
             facturación actual, {renewalDate}. Después de esa fecha, tu plan
             cambiará a gratuito y perderás acceso a las funcionalidades Premium.
-          </p>
-          <div className="mt-4 flex flex-col gap-4 text-main dark:text-main-dark">
-            <Separator />
-            <p className="text-sm">Nos gustaría saber por qué cancelas.</p>
-            <ReasonCheckbox
-              selectedReasons={selectedReasons}
-              onChange={setSelectedReasons}
-            />
-            <Textarea
-              placeholder="Comparte con nosotros cómo podemos mejorar."
-              onChange={(event) => setCancelReason(event.target.value)}
-              className="min-h-[60px] w-full resize-none p-4"
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>
-            Cancelar
-          </Button>
+          </DialogDescription>
+        </DialogHeader>
+        <Content />
+        <DialogFooter isSecondary>
+          <DialogClose asChild>
+            <Button variant="outline">Cancelar</Button>
+          </DialogClose>
           <Button
             variant="destructive"
             disabled={isPending}
             onClick={handleSetFreePlan}
           >
-            {isPending ? <SpinnerIcon className="size-4 animate-spin" /> : null}
+            {isPending ? <Loader className="size-4 animate-spin" /> : null}
             {isPending ? "Cancelando plan" : "Confirmar"}
           </Button>
         </DialogFooter>

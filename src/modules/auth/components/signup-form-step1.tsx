@@ -64,10 +64,8 @@ const SignupFormStep1: React.FC<Step1Props> = ({ onSuccess }) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel htmlFor="email" className="text-xs">
-                Correo electrónico
-              </FormLabel>
+            <FormItem>
+              <FormLabel htmlFor="email">Correo electrónico</FormLabel>
               <FormControl>
                 <Input
                   {...field}
