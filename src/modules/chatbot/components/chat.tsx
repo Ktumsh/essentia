@@ -69,7 +69,6 @@ export function Chat({
           <PreviewMessage
             key={`${message.id}-${index}`}
             message={message}
-            toolInvocations={message.toolInvocations}
             profileData={profileData}
             isLoading={isLoading && messages.length - 1 === index}
           />

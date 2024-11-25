@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { auth } from "@/app/(auth)/auth";
 import { getSharedChat } from "@/db/chat-querys";
 import FooterText from "@/modules/chatbot/components/ui/footer-text";
-import { Message as PreviewMessage } from "@/modules/chatbot/components/ui/message";
+import PreviewMessage from "@/modules/chatbot/components/ui/message";
 import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
 import { Chat } from "@/types/chat";
 import { Session } from "@/types/session";
@@ -65,11 +65,9 @@ export default async function SharePage(props: SharePageProps) {
         {chat.messages.map((message, index) => (
           <PreviewMessage
             key={`${message.id}-${index}`}
-            role={message.role}
-            content={message.content}
-            toolInvocations={message.toolInvocations}
-            attachments={message.experimental_attachments}
+            message={message}
             profileData={profileData}
+            isLoading={false}
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Message, ToolInvocation } from "ai";
+import { Message } from "ai";
 import { motion } from "framer-motion";
 
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
@@ -24,7 +24,6 @@ import { Plan } from "../tools/nutrition-plan-stock";
 
 interface MessageProps {
   message: Message;
-  toolInvocations: Array<ToolInvocation> | undefined;
   profileData?: UserProfileData | null;
   isLoading: boolean;
 }

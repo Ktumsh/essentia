@@ -1,13 +1,12 @@
-import { CalendarDate, DateValue } from "@internationalized/date";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { getUserByUsername } from "@/db/user-querys";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
-export const convertToDateValue = (dateString: string): DateValue => {
+export const convertToDateValue = (dateString: string): Date => {
   const [year, month, day] = dateString.split("-").map(Number);
-  return new CalendarDate(year, month, day);
+  return new Date(year, month - 1, day);
 };
 
 export function formatCreatedAt(createdAt: Date): string {
@@ -15,25 +14,22 @@ export function formatCreatedAt(createdAt: Date): string {
     return "Fecha no disponible";
   }
 
-  return new Date(createdAt).toLocaleDateString("es-ES", {
+  // Usamos Date global para formatear
+  return createdAt.toLocaleDateString("es-ES", {
     year: "numeric",
     month: "long",
   });
 }
 
 export const formatInitialDate = (
-  birthdate: string | DateValue | undefined,
-): DateValue | null => {
+  birthdate: string | Date | undefined,
+): Date | null => {
   if (typeof birthdate === "string") {
     return convertToDateValue(birthdate);
   }
 
   if (birthdate instanceof Date) {
-    return new CalendarDate(
-      birthdate.getFullYear(),
-      birthdate.getMonth() + 1,
-      birthdate.getDate(),
-    );
+    return birthdate;
   }
 
   return null;
