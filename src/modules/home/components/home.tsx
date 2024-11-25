@@ -5,6 +5,7 @@ import AsideTabs from "@/modules/core/components/ui/layout/aside.tabs";
 import Carousel from "@/modules/home/components/home-carousel/carousel";
 import { UserProfileData } from "@/types/session";
 
+import DailyTip from "./daily-tip";
 import RecomCard from "./recom-card";
 import Resources from "./resources";
 
@@ -39,9 +40,10 @@ const Home = ({ profileData }: HomeProps) => {
               <h2 className="mb-2 ml-3 px-8 text-xl font-semibold normal-case tracking-tight text-main dark:text-main-dark md:text-sm md:font-semibold md:uppercase md:tracking-normal lg:px-0">
                 Recursos
               </h2>
-              <section className="flex w-full flex-col px-6 md:px-0">
+              <section className="mb-6 flex w-full flex-col px-6 md:mb-0 md:px-0">
                 <Resources />
               </section>
+              <DailyTip />
             </div>
           </div>
         </div>

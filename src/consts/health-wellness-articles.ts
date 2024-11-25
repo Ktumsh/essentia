@@ -97,7 +97,7 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
     slug: "como-lograr-un-estilo-de-vida-saludable",
     title: "Cómo Lograr un Estilo de Vida Saludable",
     image: "/modal/salud-article-04.webp",
-    category: "Estilo de Vida Saludable",
+    category: "Vida Saludable",
     body: `
   Seguir un estilo de vida adecuado implica vivir en armonía y cuidar de la salud para tener un mejor bienestar. Aquí hay **seis factores clave** para lograrlo:
   

@@ -144,12 +144,12 @@ const ChatPanel: FC<ChatPanelProps> = ({
                       <suggestedAction.icon
                         className={cn("size-4", suggestedAction.iconColor)}
                       />
-                      <div className="text-sm font-semibold">
+                      <span className="text-nowrap text-sm font-semibold">
                         {suggestedAction.heading}
-                      </div>
-                      <div className="text-wrap text-sm text-main-m dark:text-main-dark-m">
+                      </span>
+                      <span className="text-nowrap text-sm text-main-m dark:text-main-dark-m">
                         {suggestedAction.subheading}
-                      </div>
+                      </span>
                     </Button>
                   </motion.div>
                 ))}
