@@ -18,7 +18,7 @@ import {
   generateNutritionalPlan,
   generateRiskAssessment,
 } from "@/modules/chatbot/ai/actions";
-import { getMostRecentUserMessage } from "@/modules/chatbot/lib/utils";
+import { getFirstUserMessage } from "@/modules/chatbot/lib/utils";
 import { calculateAge } from "@/modules/core/lib/utils";
 import { formatDate } from "@/modules/payment/lib/utils";
 import { Session } from "@/types/session";
@@ -187,7 +187,7 @@ export async function POST(request: Request) {
           const userId = session.user.id;
           const path = `/essentia-ai/chat/${id}`;
 
-          const userMessage = getMostRecentUserMessage(coreMessages);
+          const userMessage = getFirstUserMessage(coreMessages);
           const title = await generateTitleFromUserMessage({
             message: userMessage as CoreUserMessage,
           });

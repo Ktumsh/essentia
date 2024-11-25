@@ -16,7 +16,7 @@ const PremiumPage = async () => {
   return (
     <div className="flex min-h-dvh w-full flex-col">
       <div className="flex-1">
-        <div className="w-full">
+        <div className="w-full pb-16 md:pb-0">
           <PricingCards session={session} currentPriceId={currentPriceId} />
           <FAQ />
         </div>

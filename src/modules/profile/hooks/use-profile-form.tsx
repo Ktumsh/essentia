@@ -1,4 +1,3 @@
-import { DateValue } from "@internationalized/date";
 import { useReducer, useCallback, useState, ChangeEvent } from "react";
 
 import { UserProfileData } from "@/types/session";
@@ -11,7 +10,7 @@ interface State {
     first_name: string;
     last_name: string;
     username: string;
-    birthdate: DateValue | null;
+    birthdate: Date | null;
     bio: string | null;
     location: string | null;
     profile_image: string | null;
@@ -24,7 +23,7 @@ interface State {
     first_name: string;
     last_name: string;
     username: string;
-    birthdate: DateValue | null;
+    birthdate: Date | null;
     bio: string | null;
     location: string | null;
     profile_image: string | null;
@@ -80,9 +79,7 @@ function reducer(state: State, action: Action): State {
 }
 
 export const useProfileForm = (initialData: UserProfileData | null) => {
-  const formattedDate: DateValue | null = formatInitialDate(
-    initialData?.birthdate,
-  );
+  const formattedDate: Date | null = formatInitialDate(initialData?.birthdate);
 
   const initialState: State = {
     formData: {
@@ -153,7 +150,7 @@ export const useProfileForm = (initialData: UserProfileData | null) => {
   );
 
   const handleDateChange = useCallback(
-    (date: DateValue | null) => {
+    (date: Date | null) => {
       setFieldValue("birthdate", date);
     },
     [setFieldValue],

@@ -90,7 +90,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
 
   return (
     <>
-      <div className="mx-auto min-h-full max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0">
+      <div className="mx-auto min-h-full max-w-7xl flex-1 border-gray-200 bg-white pb-16 text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0 md:pb-0">
         <div className="select-none lg:px-6 lg:pb-6">
           <div className="mx-auto flex w-full flex-col">
             <div className="flex flex-col overflow-hidden md:overflow-visible lg:flex-row">

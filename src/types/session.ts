@@ -1,5 +1,3 @@
-import { DateValue } from "@internationalized/date";
-
 export interface Session {
   user: {
     id: string;
@@ -35,7 +33,7 @@ export interface User extends Record<string, any> {
 export interface UserProfile {
   first_name: string;
   last_name: string;
-  birthdate: DateValue | string | undefined;
+  birthdate: string | Date | undefined;
   profile_image: string | null;
   bio: string | null;
   location: string | null;
@@ -52,7 +50,7 @@ export interface UserProfileData {
   last_name: string;
   username: string;
   profile_image: string | null;
-  birthdate: DateValue | string | undefined;
+  birthdate: string | Date | undefined;
   bio: string | null;
   location: string | null;
   banner_image: string | null;

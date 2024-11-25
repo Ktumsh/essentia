@@ -47,6 +47,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    mode: "onSubmit",
     defaultValues: {
       email: email,
       password: "",
@@ -57,21 +58,13 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
     },
   });
 
-  const { handleSubmit, setError } = form;
-
-  const requiredErrorMessages = [
-    ResultCode.REQUIRED_EMAIL,
-    ResultCode.REQUIRED_NAME,
-    ResultCode.REQUIRED_LASTNAME,
-    ResultCode.REQUIRED_USERNAME,
-    ResultCode.REQUIRED_PASSWORD,
-    ResultCode.REQUIRED_BIRTHDATE,
-  ];
+  const { handleSubmit, formState, setError } = form;
 
   const onError = (errors: FieldErrors<RegisterFormData>) => {
-    const hasRequiredErrors = Object.values(errors).some((error) =>
-      requiredErrorMessages.includes(error.message as ResultCode),
-    );
+    const hasRequiredErrors = Object.values(errors).some((error) => {
+      const errorType = String(error.type);
+      return error.type && ["required", "too_small"].includes(errorType);
+    });
 
     if (hasRequiredErrors) {
       toast.error("Por favor, completa todos los campos");
@@ -115,7 +108,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           }
         }
       } catch {
-        toast.error(ResultCode.ACCOUNT_CREATED_ERROR);
+        toast.error(getMessageFromCode(ResultCode.ACCOUNT_CREATED_ERROR));
       }
     });
   };
@@ -151,7 +144,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           <FormField
             control={form.control}
             name="name"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel htmlFor="name">Nombre</FormLabel>
                 <FormControl>
@@ -164,14 +157,17 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
                     isAuth
                   />
                 </FormControl>
-                {!hasMissingFields && <FormMessage />}
+                {!hasMissingFields &&
+                  (fieldState.isTouched || formState.isSubmitted) && (
+                    <FormMessage />
+                  )}
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="lastname"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel htmlFor="lastname">Apellido</FormLabel>
                 <FormControl>
@@ -184,7 +180,10 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
                     isAuth
                   />
                 </FormControl>
-                {!hasMissingFields && <FormMessage />}
+                {!hasMissingFields &&
+                  (fieldState.isTouched || formState.isSubmitted) && (
+                    <FormMessage />
+                  )}
               </FormItem>
             )}
           />
@@ -194,7 +193,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
         <FormField
           control={form.control}
           name="username"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel htmlFor="username">Nombre de usuario</FormLabel>
               <FormControl>
@@ -208,7 +207,10 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
                   isAuth
                 />
               </FormControl>
-              {!hasMissingFields && <FormMessage />}
+              {!hasMissingFields &&
+                (fieldState.isTouched || formState.isSubmitted) && (
+                  <FormMessage />
+                )}
             </FormItem>
           )}
         />
@@ -217,7 +219,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
         <FormField
           control={form.control}
           name="birthdate"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel className="relative inline-flex items-center gap-2 text-xs">
                 Fecha de nacimiento
@@ -258,7 +260,10 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
                   className="border-none bg-white shadow-none dark:bg-full-dark md:bg-gray-100 dark:md:bg-dark/50"
                 />
               </FormControl>
-              {!hasMissingFields && <FormMessage />}
+              {!hasMissingFields &&
+                (fieldState.isTouched || formState.isSubmitted) && (
+                  <FormMessage />
+                )}
             </FormItem>
           )}
         />
@@ -267,7 +272,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel htmlFor="password">Contraseña</FormLabel>
               <FormControl>
@@ -300,7 +305,10 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
                   </Button>
                 </div>
               </FormControl>
-              {!hasMissingFields && <FormMessage />}
+              {!hasMissingFields &&
+                (fieldState.isTouched || formState.isSubmitted) && (
+                  <FormMessage />
+                )}
             </FormItem>
           )}
         />

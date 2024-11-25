@@ -1,70 +1,76 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  type RefObject,
+} from "react";
 
-export const useScrollToBottom = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const visibilityRef = useRef<HTMLDivElement>(null);
-
+export function useScrollToBottom<T extends HTMLElement>(): [
+  RefObject<T | null>,
+  RefObject<T | null>,
+  () => void,
+  boolean,
+] {
+  const containerRef = useRef<T>(null);
+  const endRef = useRef<T>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+  const isAtBottomRef = useRef(isAtBottom);
+
+  useEffect(() => {
+    isAtBottomRef.current = isAtBottom;
+  }, [isAtBottom]);
 
   const scrollToBottom = useCallback(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth", // Desplazamiento suave
-      });
+    const end = endRef.current;
+    if (end) {
+      end.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, []);
 
   useEffect(() => {
-    const { current } = scrollRef;
+    const container = containerRef.current;
+    const end = endRef.current;
 
-    if (current) {
-      const handleScroll = () => {
-        const offset = 25;
-        const isAtBottom =
-          current.scrollTop + current.clientHeight >=
-          current.scrollHeight - offset;
+    if (!container || !end) return;
 
-        setIsAtBottom(isAtBottom);
-      };
+    const mutationObserver = new MutationObserver(() => {
+      if (isAtBottomRef.current) {
+        scrollToBottom();
+      }
+    });
 
-      current.addEventListener("scroll", handleScroll, {
-        passive: true,
-      });
+    mutationObserver.observe(container, {
+      childList: true,
+      subtree: true,
+      attributes: false,
+      characterData: false,
+    });
 
-      return () => {
-        current.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, []);
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const atBottom = entry.isIntersecting;
+        if (atBottom !== isAtBottomRef.current) {
+          isAtBottomRef.current = atBottom;
+          setIsAtBottom(atBottom);
+        }
+      },
+      {
+        root: container,
+        threshold: 1.0,
+      },
+    );
 
-  useEffect(() => {
-    if (visibilityRef.current) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            setIsVisible(entry.isIntersecting);
-          });
-        },
-        {
-          rootMargin: "0px 0px -150px 0px",
-        },
-      );
+    intersectionObserver.observe(end);
 
-      observer.observe(visibilityRef.current);
+    scrollToBottom();
 
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, []);
+    return () => {
+      mutationObserver.disconnect();
+      intersectionObserver.disconnect();
+    };
+  }, [scrollToBottom]);
 
-  return {
-    scrollRef,
-    visibilityRef,
-    scrollToBottom,
-    isAtBottom,
-    isVisible,
-  };
-};
+  return [containerRef, endRef, scrollToBottom, isAtBottom];
+}

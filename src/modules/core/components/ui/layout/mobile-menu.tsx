@@ -1,11 +1,11 @@
 "use client";
 
-import { Avatar } from "@nextui-org/react";
-import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { FC, useEffect, useState } from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { siteConfig } from "@/config/site";
 import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
 import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
@@ -26,6 +26,7 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
+  const pathname = usePathname();
   const [currentPath, setCurrentPath] = useState("");
   const { first_name, last_name, username, profile_image, is_premium } =
     profileData || {};
@@ -33,8 +34,8 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
   const resourceLinks = siteConfig.asideMenuLinks;
 
   useEffect(() => {
-    setCurrentPath(window.location.pathname);
-  }, []);
+    setCurrentPath(pathname);
+  }, [pathname]);
 
   return (
     <>
@@ -49,39 +50,22 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
             <div className="flex size-full flex-col overflow-y-hidden text-main-h dark:text-main-dark-h">
               <div className="flex h-auto w-full border-b-1 border-gray-200 py-5 dark:border-dark">
                 {profileData && (
-                  <div className="relative inline-flex w-full items-start gap-2">
-                    {profile_image ? (
-                      <Link
-                        href={`/profile/${username}`}
-                        aria-label="Perfil de usuario"
-                        className="size-12 overflow-hidden rounded-full border-2 border-gray-200 bg-white dark:border-dark dark:bg-full-dark"
-                      >
-                        <Image
-                          className="rounded-full object-cover object-center"
-                          width={44}
-                          height={44}
+                  <Link
+                    href={`/profile/${username}`}
+                    className="relative inline-flex w-full items-start gap-2"
+                  >
+                    <Avatar className="size-12">
+                      {profile_image && (
+                        <AvatarImage
                           src={profile_image}
-                          alt="Avatar del usuario"
+                          alt={"Avatar de " + username}
                         />
-                      </Link>
-                    ) : (
-                      <Avatar
-                        as={Link}
-                        href={`/profile/${username}`}
-                        showFallback
-                        size="sm"
-                        icon={<AvatarIcon />}
-                        classNames={{
-                          icon: "text-main-m dark:text-main-dark-m size-[80%]",
-                          base: "bg-gray-300 dark:bg-gray-600",
-                          name: "font-medium text-main-h dark:text-main-dark-h",
-                        }}
-                      />
-                    )}
-                    <Link
-                      className="inline-flex flex-col items-start transition-colors duration-100 active:bg-gray-200 dark:active:bg-dark"
-                      href={`/profile/${username}`}
-                    >
+                      )}
+                      <AvatarFallback>
+                        <AvatarIcon />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="inline-flex flex-col items-start transition-colors duration-100 active:bg-gray-200 dark:active:bg-dark">
                       <span className="font-medium capitalize text-inherit transition-none">
                         {`${first_name} ${last_name}`}
                       </span>
@@ -96,8 +80,8 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                           />
                         </div>
                       )}
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                 )}
                 {!profileData && (
                   <Link
@@ -193,9 +177,6 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                           Cerrar sesión
                         </button>
                       ) : null}
-                      {/* <div className="pb-5">
-                        <Footer isMobile />
-                      </div> */}
                     </footer>
                   </div>
                 </div>

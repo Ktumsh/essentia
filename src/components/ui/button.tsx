@@ -12,15 +12,15 @@ const buttonVariants = cva(
         default:
           "bg-gray-200 shadow hover:bg-gray-200/90 dark:bg-dark dark:hover:bg-dark/90",
         destructive:
-          "!bg-danger !text-white shadow-sm hover:!bg-danger/90 !border-none",
+          "bg-danger text-white shadow-sm hover:bg-danger/90 border-0",
         outline:
           "border border-gray-200 bg-white shadow-sm hover:opacity-80 dark:border-dark dark:bg-full-dark",
         secondary:
-          "!bg-gray-100 shadow-sm hover:!bg-gray-100/80 dark:!bg-dark/50 dark:hover:!bg-dark/30 !border-none",
-        ghost: "hover:!bg-gray-100 dark:hover:!bg-dark !shadow-none",
+          "bg-gray-100 shadow-sm hover:bg-gray-100/80 dark:bg-dark/50 dark:hover:bg-dark/30 border-0",
+        ghost: "hover:bg-gray-100 dark:hover:bg-dark shadow-none",
         link: "text-gray-900 underline-offset-4 hover:underline dark:text-gray-50",
         alternative:
-          "bg-light-gradient dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none !text-white text-base hover:opacity-80",
+          "bg-light-gradient dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white text-base hover:opacity-80",
       },
       radius: {
         default: "rounded-md",
@@ -32,8 +32,8 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
+        sm: "h-8 px-3 text-xs",
+        lg: "h-10 px-8",
         icon: "size-9",
       },
       fullWidth: {

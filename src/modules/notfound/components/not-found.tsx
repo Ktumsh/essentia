@@ -1,13 +1,14 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/common";
 
 const NotFoundWrapper = () => {
+  const router = useRouter();
   return (
     <>
       <div
@@ -42,13 +43,11 @@ const NotFoundWrapper = () => {
 
           <div className="fixed inset-x-0 bottom-0 flex w-full justify-between p-5 md:static md:p-0">
             <Button
-              as={Link}
-              href="/"
-              disableRipple
-              variant="solid"
-              startContent={<ArrowLeftIcon className="size-5" />}
-              className="h-14 w-full rounded-full border border-gray-200 bg-white text-main shadow-md dark:border-white/10 dark:bg-dark md:h-10 md:w-auto md:rounded-lg md:text-sm"
+              variant="ghost"
+              onClick={() => router.back()}
+              className="hover:bg-white dark:hover:bg-full-dark"
             >
+              <ArrowLeftIcon className="size-5" />
               Recuperar mi esencia
             </Button>
           </div>

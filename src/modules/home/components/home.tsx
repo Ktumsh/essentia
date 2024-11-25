@@ -1,7 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react";
-
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import AsideTabs from "@/modules/core/components/ui/layout/aside.tabs";
 import Carousel from "@/modules/home/components/home-carousel/carousel";
@@ -16,10 +14,6 @@ interface HomeProps {
 
 const Home = ({ profileData }: HomeProps) => {
   const isMobile = useIsMobile();
-
-  if (!profileData) {
-    signOut({ redirectTo: "/logout" });
-  }
 
   return (
     <div className="flex flex-1">

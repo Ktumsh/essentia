@@ -1,10 +1,8 @@
-import { DateValue } from "@internationalized/date";
-
 export interface SystemPromptParams {
   userName?: string;
   userLastName?: string;
   userAge?: number;
-  userBirthday?: string | DateValue;
+  userBirthday?: string | Date;
   userLocation?: string | null;
   userBio?: string | null;
   premiumExpiresAt?: string | null;

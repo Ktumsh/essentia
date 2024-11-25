@@ -10,7 +10,7 @@ import { Session, UserProfileData } from "@/types/session";
 
 import ChatPanel from "./chat-panel";
 import Overview from "./overview";
-import { Message as PreviewMessage } from "../components/ui/message";
+import PreviewMessage from "../components/ui/message";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 
 export interface ChatProps extends ComponentProps<"div"> {
@@ -37,7 +37,6 @@ export function Chat({
       id,
       body: { id },
       initialMessages,
-
       onFinish: () => {
         window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);
       },
@@ -53,8 +52,8 @@ export function Chat({
     });
   }, [missingKeys]);
 
-  const { scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
-    useScrollToBottom();
+  const [containerRef, endRef, scrollToBottom, isAtBottom] =
+    useScrollToBottom<HTMLDivElement>();
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
@@ -62,21 +61,19 @@ export function Chat({
     <>
       <div
         className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-4"
-        ref={scrollRef}
+        ref={containerRef}
       >
         {messages.length === 0 && <Overview />}
 
         {messages.map((message, index) => (
           <PreviewMessage
             key={`${message.id}-${index}`}
-            role={message.role}
-            content={message.content}
-            toolInvocations={message.toolInvocations}
-            attachments={message.experimental_attachments}
+            message={message}
             profileData={profileData}
+            isLoading={isLoading && messages.length - 1 === index}
           />
         ))}
-        <div className="h-px w-full" ref={visibilityRef} />
+        <div className="h-px w-full" ref={endRef} />
       </div>
 
       <ChatPanel

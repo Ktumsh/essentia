@@ -1,44 +1,39 @@
+import { Badge } from "@/components/ui/badge";
 import {
-  Chip,
-  Divider,
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Tooltip,
-} from "@nextui-org/react";
-
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { CheckCircledIcon } from "@/modules/icons/common";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 import { cn } from "@/utils/common";
 
-const CompleteProfile = ({ formData }: { formData: any }) => {
+interface CompleteProfileProps {
+  completeProfileData: {
+    profile_image?: string | null;
+    banner_image?: string | null;
+    bio?: string | null;
+    location?: string | null;
+  };
+}
+
+const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
+  const { profile_image, banner_image, bio, location } = completeProfileData;
+
   return (
     <>
-      <Divider className="bg-gray-200 dark:bg-dark" />
+      <Separator />
       <div className="inline-flex flex-col space-y-3">
         <div className="inline-flex items-center gap-2">
           <h3 className="text-lg font-semibold text-main dark:text-main-dark">
             Completa tu perfil
           </h3>
-          <Popover
-            showArrow
-            classNames={{
-              base: ["max-w-80", tooltipStyles.arrow],
-              content: ["items-start", tooltipStyles.content],
-            }}
-          >
-            <PopoverTrigger>
+          <Popover>
+            <PopoverTrigger asChild>
               <div>
-                <Tooltip
-                  content="Haz click para obtener más información"
-                  placement="top"
-                  delay={500}
-                  closeDelay={0}
-                  classNames={{
-                    content: tooltipStyles.content,
-                  }}
-                >
+                <BetterTooltip content="Haz click para obtener más información">
                   <button
                     aria-label="Ayuda"
                     type="button"
@@ -46,74 +41,68 @@ const CompleteProfile = ({ formData }: { formData: any }) => {
                   >
                     <QuestionIcon className="size-2 text-white" />
                   </button>
-                </Tooltip>
+                </BetterTooltip>
               </div>
             </PopoverTrigger>
             <PopoverContent>
-              <div className="px-1 py-2">
-                <div className="text-xs font-bold">
-                  Cuando proporcionas tu información,
-                </div>
-                <p className="text-xs">
-                  nuestra inteligencia artificial la usará para brindarte una
-                  mejor experiencia para ti. Puedes hacer modificaciones en
-                  cualquier momento.
-                </p>
+              <div className="text-xs font-bold">
+                Cuando proporcionas tu información,
               </div>
+              <p className="text-xs">
+                nuestra inteligencia artificial la usará para brindarte una
+                mejor experiencia para ti. Puedes hacer modificaciones en
+                cualquier momento.
+              </p>
             </PopoverContent>
           </Popover>
         </div>
-        <div className="inline-flex flex-wrap gap-2">
-          <Chip
-            variant="light"
-            color={formData.profile_image ? "success" : "default"}
-            isDisabled={!formData.profile_image}
-            startContent={<CheckCircledIcon className="size-5" />}
+        <div className="inline-flex flex-col gap-2 md:flex-row">
+          <Badge
             className={cn(
-              !formData.profile_image && "text-main dark:text-main-dark",
-              "px-0",
+              profile_image
+                ? "text-green-500"
+                : "text-main opacity-50 dark:text-main-dark",
+              "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
             )}
           >
+            <CheckCircledIcon className="size-5" />
             Añade una foto de perfil
-          </Chip>
+          </Badge>
 
-          <Chip
-            variant="light"
-            color={formData.banner_image ? "success" : "default"}
-            isDisabled={!formData.banner_image}
-            startContent={<CheckCircledIcon className="size-5" />}
+          <Badge
             className={cn(
-              !formData.banner_image && "text-main dark:text-main-dark",
-              "px-0",
+              banner_image
+                ? "text-green-500"
+                : "text-main opacity-50 dark:text-main-dark",
+              "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
             )}
           >
+            <CheckCircledIcon className="size-5" />
             Añade una foto de portada
-          </Chip>
+          </Badge>
 
-          <Chip
-            variant="light"
-            color={formData.bio ? "success" : "default"}
-            isDisabled={!formData.bio}
-            startContent={<CheckCircledIcon className="size-5" />}
+          <Badge
             className={cn(
-              !formData.bio && "text-main dark:text-main-dark",
-              "px-0",
+              bio
+                ? "text-green-500"
+                : "text-main opacity-50 dark:text-main-dark",
+              "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
             )}
           >
+            <CheckCircledIcon className="size-5" />
             Añade una biografía
-          </Chip>
-          <Chip
-            variant="light"
-            color={formData.location ? "success" : "default"}
-            isDisabled={!formData.location}
-            startContent={<CheckCircledIcon className="size-5" />}
+          </Badge>
+          <Badge
             className={cn(
-              !formData.location && "text-main dark:text-main-dark",
-              "px-0",
+              location
+                ? "text-green-500"
+                : "text-main opacity-50 dark:text-main-dark",
+              "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
             )}
           >
+            <CheckCircledIcon className="size-5" />
             Añade tu ubicación
-          </Chip>
+          </Badge>
         </div>
       </div>
     </>

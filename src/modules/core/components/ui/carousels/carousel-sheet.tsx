@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { CarouselArrowIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
@@ -191,7 +191,7 @@ CarouselItem.displayName = "CarouselItem";
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, variant = "flat", size = "sm", ...props }, ref) => {
+>(({ className, variant = "secondary", size = "sm", ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -200,17 +200,16 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       aria-label="Previous slide"
-      radius="full"
       className={cn(
-        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center bg-gray-100 px-0 data-[hover=true]:bg-gray-200 data-[pressed=true]:bg-gray-300 dark:bg-dark/50 dark:data-[hover=true]:bg-dark dark:data-[pressed=true]:bg-accent-dark",
+        "size-12 rounded-full dark:hover:!bg-dark",
         orientation === "horizontal" ? "" : "rotate-90",
         className,
       )}
       disabled={!canScrollPrev}
-      onPress={scrollPrev}
+      onClick={scrollPrev}
       {...props}
     >
-      <CarouselArrowIcon className="size-6 text-main dark:text-white" />
+      <CarouselArrowIcon className="!size-5 text-main dark:text-white" />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -220,7 +219,7 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, variant = "flat", size = "sm", ...props }, ref) => {
+>(({ className, variant = "secondary", size = "sm", ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
@@ -229,17 +228,16 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       aria-label="Next slide"
-      radius="full"
       className={cn(
-        "pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center bg-gray-100 px-0 data-[hover=true]:bg-gray-200 data-[pressed=true]:bg-gray-300 dark:bg-dark/50 dark:data-[hover=true]:bg-dark dark:data-[pressed=true]:bg-accent-dark",
+        "size-12 rounded-full dark:hover:!bg-dark",
         orientation === "horizontal" ? "" : "rotate-90",
         className,
       )}
       disabled={!canScrollNext}
-      onPress={scrollNext}
+      onClick={scrollNext}
       {...props}
     >
-      <CarouselArrowIcon className="size-6 rotate-180 text-main dark:text-white" />
+      <CarouselArrowIcon className="!size-5 rotate-180 text-main dark:text-white" />
       <span className="sr-only">Next slide</span>
     </Button>
   );

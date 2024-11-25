@@ -1,29 +1,21 @@
 "use client";
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Chip,
-  Divider,
-  CardFooter,
-  Tabs,
-  Tab,
-} from "@nextui-org/react";
+import { ArrowDownToLine } from "lucide-react";
 import Image from "next/image";
 import { Fragment } from "react";
 import { toast } from "sonner";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { DownloadIcon } from "@/modules/icons/action";
 import { CheckCircledIcon, WarningCircledIcon } from "@/modules/icons/common";
-import { ExerciseIcon } from "@/modules/icons/interface";
 import {
   EquipmentIcon,
   ItineraryIcon,
   ProgressionIcon,
-  QuestionFillIcon,
   RestIcon,
   ZapIcon,
 } from "@/modules/icons/miscellaneus";
@@ -64,116 +56,114 @@ const renderExerciseDetails = (exercise: Exercise) => {
     <>
       <Tabs
         aria-label="Alternar entre instrucciones del ejercicio"
-        isVertical
-        variant="light"
-        classNames={{
-          wrapper: "gap-2 md:gap-4",
-          cursor: "bg-gray-100 dark:bg-dark shadow-none",
-          tabList: "px-0",
-          tabContent:
-            "text-main-m dark:text-main-dark-m group-data-[selected=true]:text-main-h dark:group-data-[selected=true]:text-main-dark",
-          panel: "min-h-[272px] sm:min-h-56 md:min-h-[260px] px-0",
-        }}
+        defaultValue="exercises"
       >
-        <Tab
-          key="exercise"
-          aria-label="Ejercicio"
-          title={<ExerciseIcon aria-hidden="true" className="size-4" />}
+        <TabsList>
+          <TabsTrigger value="exercises">Ejercicio</TabsTrigger>
+          <TabsTrigger value="how-to-do">Instrucciones</TabsTrigger>
+        </TabsList>
+        <TabsContent
+          value="exercises"
+          className="min-h-[272px] px-0 sm:min-h-56 md:min-h-[260px]"
         >
-          <h3 className="font-medium text-main dark:text-white md:text-lg">
-            {exercise.name}
-          </h3>
-          <div className="inline-flex flex-col justify-center gap-2 text-main-h dark:text-main-dark-h">
-            <div className="flex gap-2">
-              {exercise.reps && (
-                <div className="inline-flex items-center gap-1">
-                  <span>{exercise.reps} repeticiones</span>
+          <div className="flex flex-col">
+            <h3 className="font-medium text-main dark:text-white md:text-lg">
+              {exercise.name}
+            </h3>
+            <div className="inline-flex flex-col justify-center gap-2 text-main-h dark:text-main-dark-h">
+              {exercise.reps && exercise.sets && (
+                <div className="flex gap-2">
+                  {exercise.reps && (
+                    <div className="inline-flex items-center gap-1">
+                      <span>{exercise.reps} repeticiones</span>
+                    </div>
+                  )}
+                  {exercise.reps && "-"}
+                  {exercise.sets && (
+                    <div className="inline-flex items-center gap-1">
+                      <span>{exercise.sets} series</span>
+                    </div>
+                  )}
                 </div>
               )}
-              {exercise.reps && "-"}
-              {exercise.sets && (
+              {exercise.duration && (
                 <div className="inline-flex items-center gap-1">
-                  <span>{exercise.sets} series</span>
+                  <BetterTooltip side="left" content="Duración">
+                    <div aria-hidden="true">
+                      <ClockIcon className="size-3" />
+                    </div>
+                  </BetterTooltip>
+                  <span>{exercise.duration}</span>
+                </div>
+              )}
+              {exercise.rest && (
+                <div className="inline-flex items-center gap-1">
+                  <BetterTooltip side="left" content="Descanso">
+                    <div aria-hidden="true">
+                      <RestIcon className="size-3" />
+                    </div>
+                  </BetterTooltip>
+                  <span>{exercise.rest}</span>
+                </div>
+              )}
+              {exercise.equipment && (
+                <div className="inline-flex items-center gap-1">
+                  <BetterTooltip side="left" content="Equipamiento">
+                    <div aria-hidden="true">
+                      <EquipmentIcon className="size-3" />
+                    </div>
+                  </BetterTooltip>
+                  <span>{exercise.equipment}</span>
+                </div>
+              )}
+              {exercise.progression && (
+                <div className="inline-flex gap-1 md:items-center">
+                  <BetterTooltip side="left" content="Progresión">
+                    <div aria-hidden="true" className="mt-1 md:mt-0">
+                      <ProgressionIcon className="size-3" />
+                    </div>
+                  </BetterTooltip>
+                  <span>{exercise.progression}</span>
+                </div>
+              )}
+              {exercise.modifications && (
+                <div className="inline-flex items-center gap-1">
+                  <BetterTooltip side="left" content="Modificaciones">
+                    <div aria-hidden="true">
+                      <ItineraryIcon className="size-3" />
+                    </div>
+                  </BetterTooltip>
+                  <span>{exercise.modifications}</span>
+                </div>
+              )}
+              {exercise.benefits && (
+                <div className="flex w-fit items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
+                  <div className="flex size-8 min-w-8 items-center justify-center rounded-lg bg-white text-warning dark:bg-full-dark md:size-10 md:min-w-10">
+                    <ZapIcon className="size-5 opacity-50 md:size-6" />
+                  </div>
+                  <div className="flex flex-col">
+                    <h3 className="font-sans font-extrabold uppercase">
+                      Beneficios
+                    </h3>
+                    <p className="dark:text-main-dark-h">{exercise.benefits}</p>
+                  </div>
                 </div>
               )}
             </div>
-            {exercise.duration && (
-              <div className="inline-flex items-center gap-1">
-                <BetterTooltip side="left" content="Duración">
-                  <div aria-hidden="true">
-                    <ClockIcon className="size-3" />
-                  </div>
-                </BetterTooltip>
-                <span>{exercise.duration}</span>
-              </div>
-            )}
-            {exercise.rest && (
-              <div className="inline-flex items-center gap-1">
-                <BetterTooltip side="left" content="Descanso">
-                  <div aria-hidden="true">
-                    <RestIcon className="size-3" />
-                  </div>
-                </BetterTooltip>
-                <span>{exercise.rest}</span>
-              </div>
-            )}
-            {exercise.equipment && (
-              <div className="inline-flex items-center gap-1">
-                <BetterTooltip side="left" content="Equipamiento">
-                  <div aria-hidden="true">
-                    <EquipmentIcon className="size-3" />
-                  </div>
-                </BetterTooltip>
-                <span>{exercise.equipment}</span>
-              </div>
-            )}
-            {exercise.progression && (
-              <div className="inline-flex gap-1 md:items-center">
-                <BetterTooltip side="left" content="Progresión">
-                  <div aria-hidden="true" className="mt-1 md:mt-0">
-                    <ProgressionIcon className="size-3" />
-                  </div>
-                </BetterTooltip>
-                <span>{exercise.progression}</span>
-              </div>
-            )}
-            {exercise.modifications && (
-              <div className="inline-flex items-center gap-1">
-                <BetterTooltip side="left" content="Modificaciones">
-                  <div aria-hidden="true">
-                    <ItineraryIcon className="size-3" />
-                  </div>
-                </BetterTooltip>
-                <span>{exercise.modifications}</span>
-              </div>
-            )}
-            {exercise.benefits && (
-              <div className="flex w-fit items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
-                <div className="flex size-8 min-w-8 items-center justify-center rounded-lg bg-white text-warning dark:bg-full-dark md:size-10 md:min-w-10">
-                  <ZapIcon className="size-5 opacity-50 md:size-6" />
-                </div>
-                <div className="flex flex-col">
-                  <h3 className="font-sans font-extrabold uppercase">
-                    Beneficios
-                  </h3>
-                  <p className="dark:text-main-dark-h">{exercise.benefits}</p>
-                </div>
-              </div>
-            )}
           </div>
-        </Tab>
-        <Tab
-          key="how-to-do"
-          aria-label="Instrucciones"
-          title={<QuestionFillIcon aria-hidden="true" className="size-4" />}
+        </TabsContent>
+        <TabsContent
+          value="how-to-do"
+          className="min-h-[272px] px-0 sm:min-h-56 md:min-h-[260px]"
         >
-          <div className="flex h-full flex-col gap-2 md:items-center md:justify-center md:text-center">
-            <h3 className="text-base font-medium text-main dark:text-white md:text-lg">
-              Instrucciones
-            </h3>
-            <p>{exercise.instructions || "No hay instrucciones disponibles"}</p>
+          <div className="flex min-h-[272px] gap-2 sm:min-h-56 md:min-h-[260px] md:items-center md:justify-center">
+            <div className="max-w-sm md:text-center">
+              <p>
+                {exercise.instructions || "No hay instrucciones disponibles"}
+              </p>
+            </div>
           </div>
-        </Tab>
+        </TabsContent>
       </Tabs>
     </>
   );
@@ -186,12 +176,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
     return toast.error("Hubo un error al generar la rutina de ejercicio");
 
   return (
-    <Card
-      ref={ref}
-      radius="md"
-      shadow="none"
-      className="group/card bg-white dark:bg-full-dark"
-    >
+    <Card ref={ref} className="group/card overflow-hidden rounded-xl">
       <CardHeader className="relative z-0 rounded-none p-0">
         <div className="flex h-52 items-center overflow-hidden">
           <Image
@@ -203,50 +188,28 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
             className="aspect-auto object-cover object-top"
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-4 md:p-8">
-          <Chip color="danger" className="shadow-md">
-            Rutina de Ejercicios
-          </Chip>
+        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-6">
+          <Badge className="shadow-md">Rutina de Ejercicios</Badge>
           <BetterTooltip content="Descargar como imagen">
             <Button
-              isIconOnly
-              size="sm"
-              onPress={downloadImage}
-              className="bg-black/10 text-white opacity-0 group-hover/card:opacity-100"
+              size="icon"
+              onClick={downloadImage}
+              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white opacity-0 shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100"
             >
-              <DownloadIcon className="size-4" />
+              <ArrowDownToLine className="!size-3.5" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </BetterTooltip>
         </div>
       </CardHeader>
-      <CardBody className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-8">
+      <div className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-6">
         <div className="flex items-center justify-center">
-          <div className="flex w-full flex-col items-center justify-between space-y-2 text-xs md:flex-row md:space-x-4 md:space-y-0 md:text-sm">
-            <Chip
-              variant="dot"
-              classNames={{
-                base: "border-gray-100 dark:border-white/10",
-                content: "font-semibold",
-                dot: "bg-[hsl(var(--chart-4))]",
-              }}
-            >
-              Diccionario
-            </Chip>
-            <div className="flex w-full flex-wrap gap-4">
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <ExerciseIcon className="size-4" />
-                </div>
-                <span>Ejercicio</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <QuestionFillIcon className="size-4" />
-                </div>
-                <span>Instrucciones</span>
-              </div>
+          <div className="flex w-full flex-1 flex-col items-center justify-between space-y-2 text-xs md:flex-row md:space-y-0 md:text-sm">
+            <Badge variant="outline" className="gap-1">
+              <span className="size-2 rounded-full bg-[hsl(var(--chart-4))]"></span>
+              Diccionario:
+            </Badge>
+            <div className="space-x-4 text-xs">
               <div className="inline-flex items-center gap-1.5">
                 <div aria-hidden="true">
                   <ClockIcon className="size-4" />
@@ -280,7 +243,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 md:!mt-8 md:flex-row">
+        <div className="flex flex-col gap-2 md:mt-6 md:flex-row">
           <div className="flex gap-2 md:w-1/2">
             <div className="flex w-full flex-col rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
               <h3 className="font-sans font-extrabold uppercase">Objetivo</h3>
@@ -302,7 +265,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
         </div>
         {routine.warmUp && (
           <div className="flex w-full items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
-            <WarningCircledIcon className="size-8 min-w-8 text-secondary opacity-50 md:size-10 md:min-w-10" />
+            <WarningCircledIcon className="size-8 min-w-8 text-danger md:size-10 md:min-w-10" />
             <div className="flex flex-col">
               <h3 className="font-sans font-extrabold uppercase">
                 Antes de comenzar
@@ -312,19 +275,19 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           </div>
         )}
 
-        <Divider className="bg-gray-200 dark:bg-dark" />
+        <Separator className="bg-gray-200 dark:bg-dark" />
         <ul className="space-y-2 md:space-y-4">
           {routine.exercises.map((exercise, index) => (
             <Fragment key={index}>
               <li className="flex flex-col justify-center gap-2 text-xs md:text-sm">
                 {renderExerciseDetails(exercise)}
               </li>
-              <Divider className="bg-gray-200 last:hidden dark:bg-dark" />
+              <Separator className="bg-gray-200 last:hidden dark:bg-dark" />
             </Fragment>
           ))}
         </ul>
-        <Divider className="w-auto bg-gray-200 dark:bg-dark" />
-      </CardBody>
+        <Separator className="w-auto bg-gray-200 dark:bg-dark" />
+      </div>
       <CardFooter className="flex-col items-center justify-center space-y-2 p-2 !pt-0 md:space-y-4 md:p-8">
         {routine.coolDown && (
           <div className="flex w-full items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
