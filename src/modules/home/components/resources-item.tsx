@@ -90,18 +90,18 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         href={href}
         className={cn(
           itemColor,
-          "relative aspect-auto h-32 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64 md:hidden",
+          "relative aspect-auto h-44 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64 md:hidden",
         )}
       >
-        <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
-          <span className="text-xs font-bold uppercase text-white/60">
+        <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
+          <span className="text-xxs font-bold uppercase text-white/60">
             {subtitle}
           </span>
-          <h3 className="text-xl font-semibold text-white sm:text-xl">
+          <h3 className="text-lg font-semibold text-white sm:text-xl">
             {title}
           </h3>
         </div>
-        <div className="absolute inset-x-5 bottom-5 flex items-end justify-between">
+        <div className="absolute inset-x-4 bottom-3 flex items-end justify-between sm:inset-x-5 sm:bottom-5">
           <div>
             {resource && <resource.activeIcon className="size-7 text-white" />}
           </div>

@@ -14,10 +14,28 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
   return (
     <div className="flex size-full">
       <div className="grid w-full grid-cols-2 gap-4 md:gap-2">
+        <Link
+          href="/centros-de-salud"
+          className="flex items-center justify-center rounded-2xl border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
+        >
+          <div className="inline-flex h-20 flex-col items-center justify-between p-3 text-main-h dark:text-main-dark">
+            <HealthCentersFillIcon className="size-7" />
+            <h2 className="text-xs font-semibold">Centros de Salud</h2>
+          </div>
+        </Link>
+        <Link
+          href="/adicionales"
+          className="flex items-center justify-center rounded-2xl border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
+        >
+          <div className="inline-flex h-20 flex-col items-center justify-between p-3 text-main-h dark:text-main-dark">
+            <AdditionalFillIcon className="size-7" />
+            <h2 className="text-xs font-semibold">Recursos Adicionales</h2>
+          </div>
+        </Link>
         {is_premium ? (
           <Link
             href="/essentia-ai"
-            className="col-span-2 flex items-center justify-center rounded-2xl bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
+            className="relative col-span-2 flex items-center justify-center rounded-2xl border border-white bg-light-gradient-v2 transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:border-full-dark dark:bg-dark-gradient-v2"
           >
             <div className="inline-flex h-16 items-center justify-center gap-4">
               <AIFillIcon className="size-7 text-white" />
@@ -25,11 +43,12 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
                 Essentia AI
               </h2>
             </div>
+            <div className="absolute inset-0 -z-10 scale-95 rounded-2xl bg-light-gradient-v2 blur-md dark:bg-dark-gradient-v2"></div>
           </Link>
         ) : (
           <Link
             href="/premium"
-            className="col-span-2 flex items-center justify-center rounded-2xl bg-light-gradient-v2 !transition data-[hover=true]:scale-105 data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2"
+            className="col-span-2 flex items-center justify-center rounded-2xl bg-light-gradient-v2 transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2"
           >
             <div className="inline-flex h-16 items-center justify-center gap-4">
               <StarsIcon
@@ -42,24 +61,6 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             </div>
           </Link>
         )}
-        <Link
-          href="/centros-de-salud"
-          className="flex items-center justify-center rounded-2xl border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
-        >
-          <div className="inline-flex h-20 flex-col items-center justify-between p-3 text-main-h dark:text-main-dark">
-            <HealthCentersFillIcon className="size-7" />
-            <h2 className="text-sm">Centros de Salud</h2>
-          </div>
-        </Link>
-        <Link
-          href="/adicionales"
-          className="rounded-2xl border border-gray-300 bg-gray-100 dark:border-dark dark:bg-dark/50"
-        >
-          <div className="inline-flex h-20 flex-col items-center justify-between p-3 text-main-h dark:text-main-dark">
-            <AdditionalFillIcon className="size-7" />
-            <h2 className="text-sm">Recursos Adicionales</h2>
-          </div>
-        </Link>
       </div>
     </div>
   );
