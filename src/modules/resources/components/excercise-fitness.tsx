@@ -1,11 +1,11 @@
 "use client";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { HashIcon, StarsIcon } from "@/modules/icons/common";
 
@@ -49,15 +49,13 @@ const ExcerciseFitness = ({ isPremium }: ExerciseFitnessProps) => {
           <Button
             radius="full"
             size="sm"
-            onPress={onCreateRoutine}
-            startContent={
-              <StarsIcon
-                aria-hidden="true"
-                className="stars-icon size-3.5 focus:outline-none"
-              />
-            }
-            className="absolute -top-3 right-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+            onClick={onCreateRoutine}
+            className="absolute -top-3 right-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
           >
+            <StarsIcon
+              aria-hidden="true"
+              className="stars-icon !size-3.5 focus:outline-none"
+            />
             <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
               Crea tu rutina
             </span>
@@ -67,15 +65,13 @@ const ExcerciseFitness = ({ isPremium }: ExerciseFitnessProps) => {
 
       <Button
         fullWidth
-        onPress={onCreateRoutine}
-        startContent={
-          <StarsIcon
-            aria-hidden="true"
-            className="stars-icon size-5 focus:outline-none"
-          />
-        }
-        className="mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] data-[pressed=true]:shadow-lg data-[pressed=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
+        onClick={onCreateRoutine}
+        className="mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
       >
+        <StarsIcon
+          aria-hidden="true"
+          className="stars-icon !size-5 focus:outline-none"
+        />
         <span className="bg-light-gradient-v2 bg-clip-text text-lg font-extrabold text-transparent dark:bg-dark-gradient-v2">
           Crea tu rutina
         </span>

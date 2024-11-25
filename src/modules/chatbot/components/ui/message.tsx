@@ -1,8 +1,7 @@
 "use client";
 
-import { Attachment, ToolInvocation } from "ai";
+import { Message, ToolInvocation } from "ai";
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
 
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import { UserProfileData } from "@/types/session";
@@ -24,31 +23,27 @@ import { MoodTracking } from "../tools/mood-tracking-stock";
 import { Plan } from "../tools/nutrition-plan-stock";
 
 interface MessageProps {
-  role: string;
-  content: string | ReactNode;
+  message: Message;
   toolInvocations: Array<ToolInvocation> | undefined;
-  attachments?: Array<Attachment>;
   profileData?: UserProfileData | null;
+  isLoading: boolean;
 }
 
-export const Message = ({
-  role,
-  content,
-  toolInvocations,
-  attachments,
-  profileData,
-}: MessageProps) => {
+const PreviewMessage = ({ message, profileData, isLoading }: MessageProps) => {
+  const { id, role, content, toolInvocations, experimental_attachments } =
+    message;
   const { profile_image, username } = profileData || {};
   return (
     <motion.div
+      initial={{ y: 5, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      data-role={role}
       className={cn(
         "mx-auto w-full max-w-3xl px-4",
         role === "assistant"
           ? "group relative flex items-start"
           : "group relative flex flex-row-reverse items-start self-end",
       )}
-      initial={{ y: 5, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
     >
       {role === "assistant" ? (
         <BotAvatar />
@@ -97,18 +92,22 @@ export const Message = ({
             }
           })}
 
-        {attachments && (
+        {experimental_attachments && (
           <div className="flex flex-row gap-2">
-            {attachments.map((attachment) => (
+            {experimental_attachments.map((attachment) => (
               <PreviewAttachment key={attachment.url} attachment={attachment} />
             ))}
           </div>
         )}
 
-        {role === "assistant" && !toolInvocations?.length && (
-          <MessageActions content={content as string} />
-        )}
+        <MessageActions
+          key={`action-${id}`}
+          message={message}
+          isLoading={isLoading}
+        />
       </div>
     </motion.div>
   );
 };
+
+export default PreviewMessage;

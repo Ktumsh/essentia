@@ -26,7 +26,7 @@ export const PreviewAttachment = ({
             <img
               key={url}
               src={url}
-              alt={name ?? "An image attachment"}
+              alt={name ?? "Una imagen adjunta"}
               className="animate-fade-in aspect-square size-full rounded-md object-cover"
             />
           ) : (

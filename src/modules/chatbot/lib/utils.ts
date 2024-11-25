@@ -138,7 +138,7 @@ export function convertToUIMessages(
   }, []);
 }
 
-export function getMostRecentUserMessage(messages: Array<CoreMessage>) {
+export function getFirstUserMessage(messages: Array<CoreMessage>) {
   const userMessages = messages.filter((message) => message.role === "user");
-  return userMessages.at(-1);
+  return userMessages[0];
 }

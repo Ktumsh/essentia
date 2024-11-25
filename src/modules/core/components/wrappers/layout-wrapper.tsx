@@ -72,12 +72,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ session, user, children }) => {
       <div className="flex w-full text-clip">
         <AppSidebar session={session} user={user} />
         <SidebarInset>
-          <div
-            className={cn(
-              "flex min-w-0 flex-col",
-              isEssentiaAI && "h-[calc(100dvh-56px)] md:h-dvh",
-            )}
-          >
+          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
             {isEssentiaAI ? (
               <>{children}</>
             ) : (

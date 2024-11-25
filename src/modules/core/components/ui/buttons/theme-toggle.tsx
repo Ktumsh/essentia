@@ -38,7 +38,7 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onClick={() => handleThemeChange("system")}
           className={cn(
-            "min-w-6 !bg-transparent text-main-h dark:text-gray-400",
+            "min-w-6 !bg-transparent text-main-h !shadow-none dark:text-gray-400",
             theme === "system" && "!bg-gray-100 dark:!bg-dark",
             className,
           )}
@@ -57,7 +57,7 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onClick={() => handleThemeChange("light")}
           className={cn(
-            "min-w-6 !bg-transparent text-main-h dark:text-gray-400",
+            "min-w-6 !bg-transparent text-main-h !shadow-none dark:text-gray-400",
             theme === "light" && "!bg-gray-100 dark:!bg-dark",
             className,
           )}
@@ -76,7 +76,7 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onClick={() => handleThemeChange("dark")}
           className={cn(
-            "min-w-6 !bg-transparent text-main-h dark:text-gray-400",
+            "min-w-6 !bg-transparent text-main-h !shadow-none dark:text-gray-400",
             theme === "dark" && "!bg-gray-100 dark:!bg-dark",
             className,
           )}

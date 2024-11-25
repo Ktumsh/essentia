@@ -15,6 +15,8 @@ export enum ResultCode {
   INVALID_LENGTH_PASSWORD = "INVALID_LENGTH_PASSWORD",
   INVALID_STRING_PASSWORD = "INVALID_STRING_PASSWORD",
   INVALID_BIRTHDATE = "INVALID_BIRTHDATE",
+  INVALID_LENGTH_BIO = "INVALID_LENGTH_BIO",
+  INVALID_LENGTH_LOCATION = "INVALID_LENGTH_LOCATION",
   INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
   EMAIL_NOT_VERIFIED = "EMAIL_NOT_VERIFIED",
   EMAIL_AVAILABLE = "EMAIL_AVAILABLE",
@@ -59,6 +61,10 @@ const resultMessages: Record<ResultCode, string> = {
     "Tu contraseña debe incluir una letra mayúscula, una letra minúscula, un número y un carácter especial",
   [ResultCode.INVALID_BIRTHDATE]:
     "Debes tener al menos 13 años y la fecha debe ser realista",
+  [ResultCode.INVALID_LENGTH_BIO]:
+    "Tu biografía debe tener menos de 160 caracteres",
+  [ResultCode.INVALID_LENGTH_LOCATION]:
+    "Tu ubicación debe tener menos de 50 caracteres",
   [ResultCode.INVALID_CREDENTIALS]: "¡Credenciales inválidas!",
   [ResultCode.EMAIL_NOT_VERIFIED]:
     "Correo no verificado, revisa tu bandeja de entrada",

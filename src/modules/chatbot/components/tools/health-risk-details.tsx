@@ -1,14 +1,11 @@
 import {
   Popover,
-  PopoverTrigger,
-  Tooltip,
   PopoverContent,
-  Tabs,
-  Tab,
-} from "@nextui-org/react";
-
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
-import { tooltipStyles } from "@/styles/tooltip-styles";
 
 import { RiskAssessment, RiskValue } from "./health-risk-stock";
 
@@ -19,24 +16,13 @@ const HealthRiskDetails = ({
 }) => {
   return (
     <div className="inline-flex justify-center">
-      <Popover
-        showArrow
-        placement="right"
-        classNames={{
-          base: ["max-w-80", tooltipStyles.arrow],
-          content: ["items-start", tooltipStyles.content],
-        }}
-      >
-        <PopoverTrigger>
+      <Popover>
+        <PopoverTrigger asChild>
           <div className="ml-1">
-            <Tooltip
+            <BetterTooltip
               content="Haz click para obtener más información"
-              placement="top"
-              delay={500}
-              closeDelay={0}
-              classNames={{
-                content: tooltipStyles.content,
-              }}
+              side="top"
+              className="font-normal"
             >
               <button
                 aria-label="Ayuda"
@@ -45,23 +31,16 @@ const HealthRiskDetails = ({
               >
                 <QuestionIcon className="size-2 text-white" />
               </button>
-            </Tooltip>
+            </BetterTooltip>
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <Tabs
-            aria-label="Alternar entre interpretación y acciones recomendadas"
-            variant="light"
-            classNames={{
-              wrapper: "gap-2 md:gap-4",
-              cursor: "rounded-md bg-gray-100 dark:bg-full-dark shadow-none",
-              tabList: "px-0 rounded-none",
-              tabContent:
-                "text-main-m dark:text-main-dark-m group-data-[selected=true]:text-main-h dark:group-data-[selected=true]:text-main-dark",
-              panel: "px-0 space-y-3",
-            }}
-          >
-            <Tab key="interpretation" title="Interpretación">
+          <Tabs aria-label="Alternar entre interpretación y acciones recomendadas">
+            <TabsList>
+              <TabsTrigger value="interpretation">Interpretación</TabsTrigger>
+              <TabsTrigger value="actions">Acciones</TabsTrigger>
+            </TabsList>
+            <TabsContent value="interpretation" className="space-y-2">
               {[
                 { key: "diabetes", label: "Diabetes" },
                 { key: "heartDisease", label: "Enfermedad Cardíaca" },
@@ -79,8 +58,8 @@ const HealthRiskDetails = ({
                   </div>
                 );
               })}
-            </Tab>
-            <Tab key="actions" title="Acciones recomendadas">
+            </TabsContent>
+            <TabsContent value="actions" className="space-y-2">
               {[
                 { key: "diabetes", label: "Diabetes" },
                 { key: "heartDisease", label: "Enfermedad Cardíaca" },
@@ -100,7 +79,7 @@ const HealthRiskDetails = ({
                   </div>
                 );
               })}
-            </Tab>
+            </TabsContent>
           </Tabs>
         </PopoverContent>
       </Popover>

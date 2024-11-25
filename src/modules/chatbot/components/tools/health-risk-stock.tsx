@@ -1,28 +1,21 @@
 "use client";
 
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Chip,
-  CircularProgress,
-  Divider,
-} from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
+import { ArrowDownToLine, Calendar } from "lucide-react";
 import Image from "next/image";
 import { useMemo, type JSX } from "react";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { DownloadIcon } from "@/modules/icons/action";
 import {
   HeartbeatIcon,
   HighLevelIcon,
   LowLevelIcon,
   MediumLevelIcon,
 } from "@/modules/icons/miscellaneus";
-import { CalendarFillIcon } from "@/modules/icons/status";
 import { cn } from "@/utils/common";
 
 import HealthRiskDetails from "./health-risk-details";
@@ -155,12 +148,7 @@ const AssesHealthRiskStock = ({
   }, [riskAssessment.assessmentDate]);
 
   return (
-    <Card
-      ref={ref}
-      radius="md"
-      shadow="none"
-      className="group/card bg-white dark:bg-full-dark"
-    >
+    <Card ref={ref} className="group/card overflow-hidden rounded-xl">
       <CardHeader className="relative z-0 rounded-none p-0">
         <div className="h-52 overflow-hidden">
           <Image
@@ -172,25 +160,22 @@ const AssesHealthRiskStock = ({
             className="aspect-auto object-cover object-top"
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/30 to-transparent to-70%"></div>
-        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-8">
-          <Chip color="danger" className="shadow-md">
-            Tu riesgo de salud
-          </Chip>
+        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-6">
+          <Badge className="shadow-md">Tu riesgo de salud</Badge>
+
           <BetterTooltip content="Descargar como imagen">
             <Button
-              isIconOnly
-              size="sm"
-              onPress={downloadImage}
-              className="bg-black/10 text-white opacity-0 group-hover/card:opacity-100"
+              size="icon"
+              onClick={downloadImage}
+              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white opacity-0 shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100"
             >
-              <DownloadIcon className="size-4" />
+              <ArrowDownToLine className="!size-3.5" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </BetterTooltip>
         </div>
       </CardHeader>
-      <CardBody className="justify-around space-y-2 p-2 text-main-h dark:text-main-dark md:flex-row md:space-y-4 md:p-8">
+      <div className="flex flex-col justify-around gap-x-6 space-y-2 p-2 text-main-h dark:text-main-dark md:flex-row md:space-y-4 md:p-6">
         <div className="flex flex-col items-center justify-between">
           <div className="flex flex-col items-center">
             <CircularProgress
@@ -215,21 +200,13 @@ const AssesHealthRiskStock = ({
             <div className="text-center text-sm">{riskInfo.message}</div>
           </div>
           {riskAssessment.assessmentDate && (
-            <Chip
-              startContent={
-                <CalendarFillIcon className="size-4 text-main-m dark:text-main-dark-m" />
-              }
-              variant="flat"
-              radius="sm"
-              classNames={{
-                base: "mt-2 md:mt-4 px-3 h-10 bg-gray-100 dark:bg-dark text-main-h dark:text-main-dark",
-              }}
-            >
+            <Badge className="mt-2 h-6 gap-1.5 bg-gray-100 px-3 text-main-h dark:bg-dark dark:text-main-dark md:mt-4">
+              <Calendar className="size-3.5 text-main-m dark:text-main-dark-m" />
               Evaluación {assessmentDate}
-            </Chip>
+            </Badge>
           )}
         </div>
-        <Divider className="mx-4 w-auto bg-gray-200 dark:bg-dark md:mx-8 md:hidden" />
+        <Separator className="mx-4 w-auto md:mx-6 md:hidden" />
         <div className="flex flex-col justify-center space-y-2">
           <div className="flex justify-between gap-2">
             <div className="mt-7 flex flex-col space-y-2">
@@ -256,18 +233,15 @@ const AssesHealthRiskStock = ({
                   dot: "bg-[hsl(var(--chart-5))]",
                 },
               ].map(({ id, label, dot }) => (
-                <Chip
+                <Badge
                   key={id}
-                  variant="dot"
-                  classNames={{
-                    base: "max-w-none border-none p-0",
-                    content:
-                      "flex justify-between text-sm text-main-h dark:text-main-dark font-semibold",
-                    dot: dot,
-                  }}
+                  className="h-7 gap-2 text-nowrap bg-transparent pl-0 text-sm hover:!bg-inherit dark:bg-transparent"
                 >
-                  <span>{label}</span>
-                </Chip>
+                  <span
+                    className={cn("ml-1 h-2 w-2 rounded-full bg-danger", dot)}
+                  ></span>
+                  {label}
+                </Badge>
               ))}
             </div>
             <table className="flex flex-col items-center space-y-2 text-sm">
@@ -289,16 +263,20 @@ const AssesHealthRiskStock = ({
                 ].map(({ id, value }) => (
                   <tr key={id}>
                     <td>{value.percentage}%</td>
-                    <td>{getRiskIcon(value.level)}</td>
+                    <td>
+                      <BetterTooltip content={value.level} side="right">
+                        {getRiskIcon(value.level)}
+                      </BetterTooltip>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
-      </CardBody>
-      <Divider className="mx-4 w-auto bg-gray-200 dark:bg-dark md:mx-8" />
-      <CardFooter className="items-center justify-center p-2 pt-4 md:p-8">
+      </div>
+      <Separator className="mx-4 w-auto md:mx-6" />
+      <CardFooter className="items-center justify-center p-2 pt-4 md:p-6">
         <div className="flex flex-col-reverse items-center justify-center gap-2 md:flex-row md:gap-4">
           <div className="rounded-lg bg-gray-100 p-3 text-sm text-main-h dark:bg-dark dark:text-white">
             <h3 className="font-sans text-xl font-extrabold uppercase">
@@ -309,33 +287,21 @@ const AssesHealthRiskStock = ({
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <Badge
-              isOneChar
-              color="danger"
-              shape="circle"
-              size="lg"
-              content={<HeartbeatIcon className="size-5 text-white" />}
-              placement="top-right"
-              classNames={{
-                base: [
-                  "flex-col gap-1 w-fit p-3 text-sm bg-gradient-to-bl from-gray-200 to-white to-50% dark:from-dark dark:to-full-dark text-main-h dark:text-white rounded-xl",
-                  "before:content-[''] before:absolute before:inset-0.5 before:bg-white before:dark:bg-full-dark before:rounded-[10px] before:z-0",
-                ],
-                badge:
-                  "!size-7 top-[5%] right-[5%] border-white dark:border-full-dark",
-              }}
-            >
-              <div className="z-[1] flex flex-col">
+            <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-gradient-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white before:dark:bg-full-dark">
+              <span className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white bg-danger dark:border-full-dark">
+                <HeartbeatIcon className="size-5 text-white" />
+              </span>
+              <div className="z-10 flex flex-col">
                 <h3 className="text-lg font-medium text-main-h dark:text-main-dark">
                   IMC
                 </h3>
                 <BetterTooltip content="Índice de masa corporal">
-                  <p className="font-sans text-4xl font-extrabold uppercase">
+                  <span className="font-sans text-4xl font-extrabold uppercase">
                     {riskAssessment.bmi}
-                  </p>
+                  </span>
                 </BetterTooltip>
               </div>
-            </Badge>
+            </div>
             <div className="rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-dark">
               <p
                 className={cn(

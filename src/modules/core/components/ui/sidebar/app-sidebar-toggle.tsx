@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { SidebarFillIcon, SidebarIcon } from "@/modules/icons/navigation";
@@ -21,19 +22,20 @@ const AppSidebarToggle = () => {
 
   return (
     <BetterTooltip content={tooltipContent} align="start">
-      <button
+      <Button
+        variant="ghost"
         onClick={() => toggleSidebar()}
-        className="h-10 rounded-lg px-2 text-main-h transition-colors duration-150 hover:bg-gray-200 dark:text-main-dark-h dark:hover:bg-dark"
+        className="size-10 text-main-h dark:text-main-dark-h"
       >
         {isOpen ? (
-          <SidebarFillIcon aria-hidden="true" />
+          <SidebarFillIcon aria-hidden="true" className="!size-5" />
         ) : (
-          <SidebarIcon aria-hidden="true" />
+          <SidebarIcon aria-hidden="true" className="!size-5" />
         )}
         <span className="sr-only">
           {isOpen ? "Ocultar historial de chat" : "Mostrar historial de chat"}
         </span>
-      </button>
+      </Button>
     </BetterTooltip>
   );
 };

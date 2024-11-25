@@ -1,7 +1,9 @@
 import { CalendarDate, DateValue } from "@internationalized/date";
 import { toast } from "sonner";
+import { z } from "zod";
 
 import { getUserByUsername } from "@/db/user-querys";
+import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 export const convertToDateValue = (dateString: string): DateValue => {
   const [year, month, day] = dateString.split("-").map(Number);
@@ -37,7 +39,6 @@ export const formatInitialDate = (
   return null;
 };
 
-// Subir un archivo al servidor
 export async function uploadFile(
   file: File,
   imageType: "profile" | "banner",
@@ -51,24 +52,36 @@ export async function uploadFile(
   formData.append("imageType", imageType);
   formData.append("userId", userId);
 
-  const response = await fetch("/api/files/upload-profile", {
+  const uploadPromise = fetch("/api/files/upload-profile", {
     method: "POST",
     body: formData,
   });
 
-  const result = await response.json();
+  if (hasToast) {
+    return toast.promise(uploadPromise, {
+      loading: `Subiendo ${imageType === "banner" ? "foto de portada" : "foto de perfil"}...`,
+      success: async () => {
+        const response = await uploadPromise;
+        const result = await response.json();
 
-  if (!result.success) {
-    throw new Error(result.error || "Error al subir la imagen");
-  }
+        if (!result.success) {
+          throw new Error(result.error || "Error al subir la imagen");
+        }
 
-  if (result.success && hasToast) {
-    toast.success(toastMessage);
+        return toastMessage || "Archivo subido exitosamente";
+      },
+      error: toastErrorMessage || "Error al subir el archivo",
+    });
   } else {
-    if (hasToast) toast.error(toastErrorMessage);
-  }
+    const response = await uploadPromise;
+    const result = await response.json();
 
-  return result[`${imageType}_image`];
+    if (!result.success) {
+      throw new Error(result.error || "Error al subir la imagen");
+    }
+
+    return result[`${imageType}_image`];
+  }
 }
 
 export async function validateProfileForm(
@@ -139,3 +152,55 @@ export async function validateProfileForm(
   setErrors(newErrors);
   return isValid;
 }
+
+export const profileSchema = z.object({
+  first_name: z
+    .string()
+    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
+  last_name: z
+    .string()
+    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
+  username: z
+    .string()
+    .min(3, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME) })
+    .max(20, {
+      message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME),
+    })
+    .regex(/^[a-zA-Z0-9_]+$/, {
+      message: getMessageFromCode(ResultCode.INVALID_STRING_USERNAME),
+    }),
+  bio: z
+    .string()
+    .max(160, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_BIO) })
+    .optional(),
+  location: z
+    .string()
+    .max(50, {
+      message: getMessageFromCode(ResultCode.INVALID_LENGTH_LOCATION),
+    })
+    .optional(),
+  birthdate: z.coerce.date().refine(
+    (date) => {
+      const today = new Date();
+      const age = today.getFullYear() - date.getFullYear();
+      const monthDifference = today.getMonth() - date.getMonth();
+      const dayDifference = today.getDate() - date.getDate();
+
+      if (date.getFullYear() < 1900 || date > today) {
+        return false;
+      }
+
+      if (age > 13) return true;
+      if (age === 13 && monthDifference > 0) return true;
+      if (age === 13 && monthDifference === 0 && dayDifference >= 0) {
+        return true;
+      }
+      return false;
+    },
+    {
+      message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
+    },
+  ),
+});
+
+export type ProfileFormData = z.infer<typeof profileSchema>;

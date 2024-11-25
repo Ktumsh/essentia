@@ -116,7 +116,7 @@ const CancelSubscriptionModal = ({
           <Textarea
             placeholder="Comparte con nosotros cómo podemos mejorar."
             onChange={(event) => setCancelReason(event.target.value)}
-            className="min-h-[60px] w-full resize-none p-4"
+            className="min-h-20 w-full resize-none"
           />
         </div>
       </div>
@@ -146,7 +146,7 @@ const CancelSubscriptionModal = ({
               disabled={isPending}
               onClick={handleSetFreePlan}
             >
-              {isPending ? <Loader className="size-4 animate-spin" /> : null}
+              {isPending && <Loader className="size-4 animate-spin" />}
               {isPending ? "Cancelando plan" : "Confirmar"}
             </Button>
           </DrawerFooter>
@@ -176,7 +176,7 @@ const CancelSubscriptionModal = ({
             disabled={isPending}
             onClick={handleSetFreePlan}
           >
-            {isPending ? <Loader className="size-4 animate-spin" /> : null}
+            {isPending && <Loader className="size-4 animate-spin" />}
             {isPending ? "Cancelando plan" : "Confirmar"}
           </Button>
         </DialogFooter>

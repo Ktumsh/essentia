@@ -1,6 +1,5 @@
 "use client";
 
-import { Button, Navbar, NavbarContent } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -33,18 +32,11 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         role="banner"
         className="sticky inset-x-0 top-0 z-50 hidden md:block"
       >
-        <Navbar
-          maxWidth="sm"
-          position="sticky"
-          classNames={{
-            base: "bg-white/80 dark:bg-full-dark/80",
-            wrapper: "h-14 justify-center",
-          }}
-        >
-          <NavbarContent justify="center">
+        <nav className="sticky inset-x-0 top-0 z-40 flex h-auto w-full items-center justify-center bg-white/80 backdrop-blur-lg backdrop-saturate-150 dark:bg-full-dark/80">
+          <div className="relative z-40 flex h-14 w-full max-w-screen-sm flex-row flex-nowrap items-center justify-center gap-4 px-6">
             <NavbarLinks pages={pages} />
-          </NavbarContent>
-        </Navbar>
+          </div>
+        </nav>
         <div className="absolute left-0 top-0 z-40">
           <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
             <AppSidebarToggle />
@@ -53,14 +45,12 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         <div className="absolute right-0 top-0 z-40 h-14 px-6">
           <div className="flex size-full items-center justify-center text-sm font-normal text-gray-500 dark:text-main-dark-h">
             {!profileData && (
-              <Button
-                as={Link}
+              <Link
                 href="/login"
-                size="sm"
-                className="rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
+                className="inline-flex h-8 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white transition-opacity hover:opacity-80 dark:bg-dark-gradient"
               >
                 Inicia sesión
-              </Button>
+              </Link>
             )}
           </div>
         </div>

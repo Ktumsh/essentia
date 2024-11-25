@@ -1,10 +1,11 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { RECIPES } from "@/consts/recipes-data";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
@@ -46,8 +47,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
   const secondCarousel = useVisibilityObserver();
   const thirdCarousel = useVisibilityObserver();
 
-  const windowSize = useWindowSize();
-  const { width } = windowSize;
+  const isMobile = useIsMobile();
 
   const searchTerm = INITIAL_CHAT_MESSAGES[4].action;
 
@@ -75,19 +75,17 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
               <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
             </Link>
           </h3>
-          {width > 768 && (
+          {!isMobile && (
             <Button
               radius="full"
               size="sm"
-              onPress={onCreatePlan}
-              startContent={
-                <StarsIcon
-                  aria-hidden="true"
-                  className="stars-icon size-3.5 focus:outline-none"
-                />
-              }
-              className="absolute right-0 top-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] data-[hover=true]:shadow-lg data-[hover=true]:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              onClick={onCreatePlan}
+              className="absolute right-0 top-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
             >
+              <StarsIcon
+                aria-hidden="true"
+                className="stars-icon size-3.5 focus:outline-none"
+              />
               <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
                 Crea tu plan nutricional
               </span>
@@ -95,24 +93,31 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
           )}
         </div>
         <section className="mb-16">
+          <Button
+            fullWidth
+            onClick={onCreatePlan}
+            className="mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
+          >
+            <StarsIcon
+              aria-hidden="true"
+              className="stars-icon !size-5 focus:outline-none"
+            />
+            <span className="bg-light-gradient-v2 bg-clip-text text-lg font-extrabold text-transparent dark:bg-dark-gradient-v2">
+              Crea tu plan nutricional
+            </span>
+          </Button>
           <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
             <h4 className="text-main dark:text-white">
-              <Button
-                as={Link}
+              <Link
                 id="desayunos-saludables"
                 data-id="desayunos-saludables"
                 data-name="Desayunos Saludables"
                 href="#desayunos-saludables"
-                disableRipple
-                radius="none"
-                variant="flat"
-                endContent={
-                  <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-                }
-                className="h-auto w-fit gap-0 bg-transparent p-0 text-sm font-semibold uppercase data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+                className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80 lg:px-0"
               >
                 Desayunos Saludables
-              </Button>
+                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+              </Link>
             </h4>
             <p className="text-sm text-main-h dark:text-main-dark">
               En Essentia te damos las mejores recetas de desayuno saludable
@@ -125,22 +130,16 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
         <section className="mb-16" ref={secondCarousel.ref}>
           <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
             <h4 className="text-main dark:text-white">
-              <Button
-                as={Link}
+              <Link
                 id="almuerzos-y-cenas-saludables"
                 data-id="almuerzos-y-cenas-saludables"
                 data-name="Almuerzos y Cenas Saludables"
                 href="#almuerzos-y-cenas-saludables"
-                disableRipple
-                radius="none"
-                variant="flat"
-                endContent={
-                  <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-                }
-                className="h-auto w-fit gap-0 bg-transparent p-0 text-sm font-semibold uppercase data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+                className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80"
               >
                 Almuerzos y Cenas Saludables
-              </Button>
+                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+              </Link>
             </h4>
             <p className="text-sm text-main-h dark:text-main-dark">
               Prepara tu almuerzo o cena de forma saludable con nuestras
@@ -157,22 +156,16 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
         <section className="mb-16" ref={thirdCarousel.ref}>
           <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
             <h4 className="text-main dark:text-white">
-              <Button
-                as={Link}
+              <Link
                 id="onces-saludables"
                 data-id="onces-saludables"
                 data-name="Onces Saludables"
                 href="#onces-saludables"
-                disableRipple
-                radius="none"
-                variant="flat"
-                endContent={
-                  <HashIcon className="ml-1 size-4 opacity-0 transition-opacity group-data-[hover=true]:opacity-100" />
-                }
-                className="h-auto w-fit gap-0 bg-transparent p-0 text-sm font-semibold uppercase data-[pressed=true]:scale-100 data-[hover=true]:opacity-80"
+                className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80"
               >
                 Onces Saludables
-              </Button>
+                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+              </Link>
             </h4>
             <p className="text-sm text-main-h dark:text-main-dark">
               Prepara tu once saludable o la hora del té con alguna de estas
