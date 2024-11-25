@@ -38,7 +38,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
 
   return (
     <>
-      <li id={slug} data-id={slug} className="group relative flex h-32 md:h-52">
+      <li id={slug} data-id={slug} className="group relative flex h-44 md:h-52">
         <div className="pointer-events-none block size-full">
           <div className="size-full">
             <div className="relative mx-auto size-full overflow-hidden rounded-2xl md:rounded-lg">
@@ -60,13 +60,11 @@ const CardItem = ({ item, type }: CardItemProps) => {
                 className="aspect-auto size-full object-cover transition-transform duration-1000 motion-safe:group-hover:scale-105"
               />
             </div>
-            <div className="absolute left-0 top-0 z-10 px-5 pt-3">
-              <span className="text-tiny font-bold uppercase text-white/60">
+            <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
+              <span className="text-xxs font-bold uppercase text-white/60 sm:text-xs">
                 {category}
               </span>
-              <h2 className="text-lg font-semibold text-white md:text-xl">
-                {title}
-              </h2>
+              <h2 className="font-semibold text-white md:text-xl">{title}</h2>
             </div>
           </div>
         </div>

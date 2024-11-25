@@ -64,7 +64,7 @@ export const dailyFacts = async () => {
   const savedData = cookieStore.get("dailyHealthFacts");
 
   if (!savedData || JSON.parse(savedData.value).date !== today) {
-    const newFacts = getRandomFacts(4);
+    const newFacts = getRandomFacts(1);
 
     cookieStore.set(
       "dailyHealthFacts",

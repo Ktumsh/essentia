@@ -40,7 +40,7 @@ const AsideTabs = () => {
           <div className="flex size-full flex-col">
             <div className="mb-2 ml-3 pt-3">
               <h3 className="mb-2 ml-3 px-5 text-sm font-semibold uppercase text-main dark:text-main-dark lg:px-0">
-                Consejos del día
+                Consejo del día
               </h3>
             </div>
             <section className="flex h-full flex-col">

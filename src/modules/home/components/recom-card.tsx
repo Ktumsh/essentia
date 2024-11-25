@@ -11,6 +11,7 @@ interface RecomCardProps {
 
 const RecomCard = ({ profileData }: RecomCardProps) => {
   const { is_premium } = profileData || {};
+
   return (
     <div className="flex size-full">
       <div className="grid w-full grid-cols-2 gap-4 md:gap-2">
