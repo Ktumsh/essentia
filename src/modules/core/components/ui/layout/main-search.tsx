@@ -298,7 +298,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         />
         <button
           onClick={() => setIsOpen(false)}
-          className="ml-2 hidden rounded-md border border-gray-200 px-2 py-1 text-xxs font-medium transition-colors hover:bg-gray-100 dark:border-full-dark dark:hover:bg-full-dark/50 md:block"
+          className="ml-2 hidden rounded-md border border-gray-200 px-2 py-1 text-xxs font-medium transition-colors hover:bg-gray-100 dark:border-dark dark:hover:bg-dark/50 md:block"
         >
           ESC
         </button>

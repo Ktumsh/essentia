@@ -1,18 +1,18 @@
 import { nanoid } from "nanoid";
 
 import {
-  HealthIcon,
-  ExerciseIcon,
-  NutritionIcon,
-  WellbeingIcon,
-  SexualityIcon,
-  ForAllAgesIcon,
-  AdditionalIcon,
+  HealthFillIcon,
+  ExerciseFillIcon,
+  NutritionFillIcon,
+  WellbeingFillIcon,
+  SexualityFillIcon,
+  ForAllAgesFillIcon,
+  AdditionalFillIcon,
 } from "@/modules/icons/interface";
 import {
   EmergenciesIcon,
   GuidesIcon,
-  HealthCentersIcon,
+  HealthCentersFillIcon,
   LinksIcon,
   RecommendationsIcon,
 } from "@/modules/icons/miscellaneus";
@@ -50,7 +50,7 @@ const healthCentersSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: HealthCentersIcon,
+    icon: HealthCentersFillIcon,
   },
 ];
 
@@ -65,7 +65,7 @@ const healthSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: HealthIcon,
+    icon: HealthFillIcon,
   },
   {
     content: "Artículos Interesantes",
@@ -91,7 +91,7 @@ const fitnessSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: ExerciseIcon,
+    icon: ExerciseFillIcon,
   },
   {
     content: "Rutinas de Ejercicios",
@@ -117,7 +117,7 @@ const nutritionSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: NutritionIcon,
+    icon: NutritionFillIcon,
   },
   {
     content: "Recetas",
@@ -176,7 +176,7 @@ const wellbeingSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: WellbeingIcon,
+    icon: WellbeingFillIcon,
   },
 ];
 
@@ -191,7 +191,7 @@ const sexEducationSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: SexualityIcon,
+    icon: SexualityFillIcon,
   },
 ];
 
@@ -206,7 +206,7 @@ const forAllAgesSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: ForAllAgesIcon,
+    icon: ForAllAgesFillIcon,
   },
 ];
 
@@ -221,7 +221,7 @@ const additionalsSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: AdditionalIcon,
+    icon: AdditionalFillIcon,
   },
   {
     content: "Guías",
