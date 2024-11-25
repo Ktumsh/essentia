@@ -69,7 +69,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ session, user, children }) => {
       </motion.div>
 
       {/* Main content */}
-      <div className="flex w-full text-clip">
+      <div className="flex w-full">
         <AppSidebar session={session} user={user} />
         <SidebarInset>
           <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
