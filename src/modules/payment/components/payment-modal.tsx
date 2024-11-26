@@ -2,6 +2,7 @@
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Loader } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
@@ -26,23 +27,25 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { BetterTooltip } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
 import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
 import { usePlan } from "@/modules/core/hooks/use-current-plan";
-import { CopyIcon } from "@/modules/icons/action";
+import { CopyIcon, LinkIcon } from "@/modules/icons/action";
 import { WarningCircledIcon } from "@/modules/icons/common";
-import { cn } from "@/utils/common";
 
 import PaymentForm from "./payment-form";
 import { PlanSelector } from "./plan-selector";
 import StripeWrapper from "./stripe-wrapper";
 import { useSteps } from "../../chatbot/hooks/use-steps";
+import { getPlanName } from "../lib/utils";
 import { createSubscription } from "../pay/actions";
 
 const stripePromise = loadStripe(
@@ -59,10 +62,10 @@ interface PaymentModalProps {
 const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
   const { currentPlan } = usePlan();
   const { currentStep, nextStep } = useSteps();
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(
+  const [selectedPlan, setSelectedPlan] = useState<string>(
     currentPlan === siteConfig.planPrices.free
       ? siteConfig.planPrices.premium
-      : null,
+      : currentPlan || siteConfig.planPrices.free,
   );
 
   const [cardholderName, setCardholderName] = useState<string>("");
@@ -73,11 +76,12 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
 
   const { copyToClipboard } = useCopyToClipboard({ timeout: 1000 });
 
-  const handlePlanSelect = (priceId: string) => {
-    setSelectedPlan(priceId);
-  };
-
   const handleProceedToPayment = useCallback(async () => {
+    if (selectedPlan === currentPlan) {
+      toast.info("Ya tienes seleccionado tu plan actual.");
+      return;
+    }
+
     if (selectedPlan === siteConfig.planPrices.free) {
       toast.error(
         "Para seleccionar un plan gratuito debes cancelar tu suscripción actual.",
@@ -104,7 +108,7 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [cardholderName, nextStep, selectedPlan]);
+  }, [cardholderName, nextStep, selectedPlan, currentPlan]);
 
   const handleCopy = useCallback(() => {
     copyToClipboard(CARD_NUMBER);
@@ -129,27 +133,34 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
                 </DialogDescription>
               </DialogHeader>
             )}
-            <div className="space-y-4 p-6">
-              <PlanSelector onSelect={handlePlanSelect} />
-              <label
-                htmlFor="cardholderName"
-                className="text-sm text-main dark:text-main-dark"
-              >
-                Nombre del titular de la suscripción
-              </label>
-              <input
-                type="text"
-                id="cardholderName"
-                required
-                value={cardholderName}
-                placeholder="Ingresa el nombre del titular de la suscripción"
-                onChange={(e) => setCardholderName(e.target.value)}
-                className={cn(
-                  "mt-1 block w-full rounded-md border border-gray-300 bg-gray-100 p-3 pr-[26px] text-sm leading-none shadow-sm focus:outline-none dark:border-accent-dark dark:bg-dark",
-                  "focus:border-[hsla(6,_93%,_71%,_50%)] focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(6,_93%,_71%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]",
-                  "focus:dark:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(343,_58%,_50%,_25%),_0_1px_1px_0_rgba(255,_255,_255,_0.12))] focus:dark:border-[hsla(343,_58%,_50%,_50%)]",
-                )}
+            <div className="p-6">
+              <PlanSelector
+                onSelect={setSelectedPlan}
+                selectedPlanId={selectedPlan}
               />
+              <p className="mt-3 flex gap-1 text-center text-sm text-main-m dark:text-main-dark-m">
+                Mira más detalles sobre los planes en nuestra
+                <Link
+                  className="flex items-center gap-x-1 text-orient-700"
+                  href="/premium"
+                >
+                  página de precios <LinkIcon />
+                </Link>
+              </p>
+              <Separator className="mt-6" />
+              <div className="mt-6 flex w-full flex-col space-y-2">
+                <Label htmlFor="cardholderName">
+                  Nombre del titular de la suscripción
+                </Label>
+                <Input
+                  name="cardholderName"
+                  type="text"
+                  required
+                  value={cardholderName}
+                  placeholder="Ingresa el nombre del titular de la suscripción"
+                  onChange={(e) => setCardholderName(e.target.value)}
+                />
+              </div>
             </div>
 
             {isMobile ? (
@@ -160,12 +171,20 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
                 <Button
                   variant="destructive"
                   onClick={handleProceedToPayment}
-                  disabled={!selectedPlan || !cardholderName || isLoading}
+                  disabled={
+                    !selectedPlan ||
+                    !cardholderName ||
+                    isLoading ||
+                    selectedPlan === currentPlan
+                  }
                 >
                   {isLoading ? (
                     <Loader className="size-4 animate-spin" />
-                  ) : null}
-                  {isLoading ? "Procesando..." : "Mejorar a Premium"}
+                  ) : selectedPlan === currentPlan ? (
+                    "Plan Actual"
+                  ) : (
+                    `Mejorar a ${getPlanName(selectedPlan)}`
+                  )}
                 </Button>
               </DrawerFooter>
             ) : (
@@ -173,28 +192,24 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
                 <DialogClose asChild>
                   <Button variant="outline">Cancelar</Button>
                 </DialogClose>
-                <BetterTooltip
-                  content={
-                    !selectedPlan && !cardholderName
-                      ? "Selecciona un plan y proporciona un titular"
-                      : !selectedPlan
-                        ? "Selecciona un plan"
-                        : !cardholderName
-                          ? "Proporciona un titular"
-                          : ""
+                <Button
+                  variant="destructive"
+                  onClick={handleProceedToPayment}
+                  disabled={
+                    !selectedPlan ||
+                    !cardholderName ||
+                    isLoading ||
+                    selectedPlan === currentPlan
                   }
                 >
-                  <Button
-                    variant="destructive"
-                    onClick={handleProceedToPayment}
-                    disabled={!selectedPlan || !cardholderName || isLoading}
-                  >
-                    {isLoading ? (
-                      <Loader className="size-4 animate-spin" />
-                    ) : null}
-                    {isLoading ? "Procesando..." : "Mejorar a Premium"}
-                  </Button>
-                </BetterTooltip>
+                  {isLoading ? (
+                    <Loader className="size-4 animate-spin" />
+                  ) : selectedPlan === currentPlan ? (
+                    "Plan Actual"
+                  ) : (
+                    `Mejorar a ${getPlanName(selectedPlan)}`
+                  )}
+                </Button>
               </DialogFooter>
             )}
           </>
@@ -285,6 +300,7 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
     isMobile,
     selectedPlan,
     setIsOpen,
+    currentPlan,
   ]);
 
   if (isMobile) {

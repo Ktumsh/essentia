@@ -1,13 +1,12 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
+import { ArrowDownToLine, Check, Copy } from "lucide-react";
 import { FC, memo } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { toast } from "sonner";
 
-import { CopyIcon, DownloadIcon } from "@/modules/icons/action";
-import { CheckIcon } from "@/modules/icons/common";
+import { Button } from "@/components/ui/button";
 
 import { useCopyToClipboard } from "../../../hooks/use-copy-to-clipboard";
 
@@ -93,27 +92,21 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">
           <Button
-            size="sm"
-            isIconOnly
-            variant="light"
-            className="text-xs text-main-dark-h data-[hover=true]:bg-white/5"
-            onPress={downloadAsFile}
+            size="icon"
+            variant="ghost"
+            onClick={downloadAsFile}
+            className="!text-main-dark hover:!bg-white/5"
           >
-            <DownloadIcon className="size-4" />
+            <ArrowDownToLine />
             <span className="sr-only">Descargar</span>
           </Button>
           <Button
-            size="sm"
-            isIconOnly
-            variant="light"
-            className="text-xs text-main-dark-m data-[hover=true]:bg-white/5"
-            onPress={onCopy}
+            size="icon"
+            variant="ghost"
+            onClick={onCopy}
+            className="!text-main-dark hover:!bg-white/5"
           >
-            {isCopied ? (
-              <CheckIcon className="size-4" />
-            ) : (
-              <CopyIcon className="size-4" />
-            )}
+            {isCopied ? <Check /> : <Copy />}
             <span className="sr-only">Copiar código</span>
           </Button>
         </div>

@@ -1,7 +1,9 @@
-"use client";
-
-import { Accordion, AccordionItem } from "@nextui-org/react";
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { FAQPrincing } from "@/types/common";
 
 interface FAQItemProps {
@@ -10,27 +12,20 @@ interface FAQItemProps {
 
 const FAQItems = ({ faqs }: FAQItemProps) => {
   return (
-    <Accordion
-      dividerProps={{
-        className: "bg-gray-300 dark:bg-white/10",
-      }}
-      itemClasses={{
-        base: "py-2 md:py-4",
-        trigger: "py-4 md:px-6 data-[hover=true]:underline underline-offset-2",
-        title: "text-sm font-medium text-main dark:text-main-dark",
-        content: "pb-4 !pt-0",
-      }}
-    >
+    <Accordion type="single" collapsible className="w-full">
       {faqs.map((faq) => (
         <AccordionItem
           key={faq.id}
+          value={`question-${faq.id}`}
           aria-label={faq.question}
-          title={faq.question}
-          HeadingComponent={"h3"}
+          className="py-2 md:py-4"
         >
-          <p className="prose-sm pr-10 text-left text-main-h dark:text-main-dark-h md:px-6 md:pr-12">
+          <AccordionTrigger className="py-4 underline-offset-2 data-[hover=true]:underline md:px-6">
+            {faq.question}
+          </AccordionTrigger>
+          <AccordionContent className="prose-sm !pt-0 pb-4 pr-10 text-left text-main-h dark:text-main-dark-h md:px-6 md:pr-12">
             {faq.answer}
-          </p>
+          </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>

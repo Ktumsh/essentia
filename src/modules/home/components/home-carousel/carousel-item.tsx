@@ -95,12 +95,12 @@ const CarouselItem = (props: CarouselProps) => {
         </div>
 
         <PrevButton
-          onPress={onPrevButtonClick}
+          onClick={onPrevButtonClick}
           disabled={prevBtnDisabled}
           aria-label="Anterior"
         />
         <NextButton
-          onPress={onNextButtonClick}
+          onClick={onNextButtonClick}
           disabled={nextBtnDisabled}
           aria-label="Siguiente"
         />

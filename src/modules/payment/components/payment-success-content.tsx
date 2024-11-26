@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import { Button, Card, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { motion } from "framer-motion";
@@ -192,3 +192,4 @@ const PaymentSuccessContent = ({
 };
 
 export default PaymentSuccessContent;
+ */
