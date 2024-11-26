@@ -185,36 +185,52 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         className={cn(searchStyles.modalContent)}
       >
         {/* Búsquedas recientes y recomendaciones */}
-        {searchTerm.length < 1 &&
-          recentSearches.length > 0 &&
-          recommendedItems.length > 0 && (
-            <div
-              role="presentation"
-              data-value="recent"
-              className="antialiased will-change-transform"
-            >
-              <div id={id}>
-                <div className="flex h-10 items-center justify-between px-2">
-                  <span className="text-sm text-main-m dark:text-main-dark-m">
-                    Recientes
-                  </span>
-                </div>
-              </div>
-              <div role="group" aria-labelledby={id}>
-                {recentSearches.map((search) => renderItem(search, true))}
-              </div>
-              <div id={id}>
-                <div className="flex h-10 items-center justify-between px-2">
-                  <span className="text-sm text-main-m dark:text-main-dark-m">
-                    Recomendados
-                  </span>
-                </div>
-              </div>
-              <div role="group" aria-labelledby={id}>
-                {recommendedItems.map((item) => renderItem(item))}
+        {searchTerm.length < 1 && recentSearches.length > 0 && (
+          <div
+            role="presentation"
+            data-value="recent"
+            className="antialiased will-change-transform"
+          >
+            <div id={id}>
+              <div className="flex h-10 items-center justify-between px-2">
+                <span className="text-sm text-main-m dark:text-main-dark-m">
+                  Recientes
+                </span>
               </div>
             </div>
-          )}
+            <div role="group" aria-labelledby={id}>
+              {recentSearches.map((search) => renderItem(search, true))}
+            </div>
+            <div id={id}>
+              <div className="flex h-10 items-center justify-between px-2">
+                <span className="text-sm text-main-m dark:text-main-dark-m">
+                  Recomendados
+                </span>
+              </div>
+            </div>
+            <div role="group" aria-labelledby={id}>
+              {recommendedItems.map((item) => renderItem(item))}
+            </div>
+          </div>
+        )}
+        {recommendedItems.length > 0 && (
+          <div
+            role="presentation"
+            data-value="recent"
+            className="antialiased will-change-transform"
+          >
+            <div id={id}>
+              <div className="flex h-10 items-center justify-between px-2">
+                <span className="text-sm text-main-m dark:text-main-dark-m">
+                  Recomendados
+                </span>
+              </div>
+            </div>
+            <div role="group" aria-labelledby={id}>
+              {recommendedItems.map((item) => renderItem(item))}
+            </div>
+          </div>
+        )}
         {/* No results found */}
         {searchTerm.length >= 1 && searchResults.length === 0 && (
           <div role="presentation" data-value="no-results">
@@ -253,16 +269,6 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         {searchResults.length > 0 && (
           <div role="presentation" data-value="search">
             {searchResults.map((result) => renderItem(result))}
-          </div>
-        )}
-        {/* Sin búsquedas recientes */}
-        {searchTerm.length < 1 && recentSearches.length === 0 && (
-          <div role="presentation" data-value="no-recent">
-            <div className={cn(searchStyles.noResults)}>
-              <p className="text-main-l antialiased will-change-transform dark:text-main-dark-l">
-                Sin búsquedas recientes
-              </p>
-            </div>
           </div>
         )}
       </div>
