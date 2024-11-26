@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import { EmblaCarouselType } from "embla-carousel";
 import { ComponentPropsWithRef, useCallback, useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { CarouselArrowIcon } from "@/modules/icons/navigation";
 
 type UsePrevNextButtonsType = {
@@ -61,11 +61,11 @@ export const PrevButton: React.FC<PropType> = (props) => {
     <div className="pointer-events-none absolute left-0 top-0 z-30 hidden h-full items-end justify-center p-2 sm:p-4 md:flex">
       <Button
         {...restProps}
-        variant="flat"
+        variant="ghost"
         radius="full"
-        className="pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-full bg-black/10 px-0 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30"
+        className="pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-full !bg-black/20 px-0 hover:!bg-black/30 active:!bg-black/30"
       >
-        <CarouselArrowIcon className="size-6 text-white" />
+        <CarouselArrowIcon className="!size-5 text-white" />
         {children}
       </Button>
     </div>
@@ -79,11 +79,11 @@ export const NextButton: React.FC<PropType> = (props) => {
     <div className="pointer-events-none absolute right-0 top-0 z-30 hidden h-full items-end justify-center p-4 sm:p-4 md:flex">
       <Button
         {...restProps}
-        variant="flat"
+        variant="ghost"
         radius="full"
-        className="pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-full bg-black/10 px-0 data-[hover=true]:bg-black/30 data-[pressed=true]:bg-black/30"
+        className="pointer-events-auto inline-flex !size-12 max-h-[48px] min-w-0 max-w-[48px] items-center justify-center rounded-full !bg-black/20 px-0 hover:!bg-black/30 active:!bg-black/30"
       >
-        <CarouselArrowIcon className="size-6 rotate-180 text-white" />
+        <CarouselArrowIcon className="!size-5 rotate-180 text-white" />
         {children}
       </Button>
     </div>
