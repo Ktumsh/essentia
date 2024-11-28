@@ -95,7 +95,7 @@ export const RESOURCES: Resources[] = [
   {
     id: 6,
     title: "Salud para Todas las Edades",
-    subtitle: "Para ti y para ellos",
+    subtitle: "Para el hoy y el mañana",
     intro: `Desde la infancia hasta la vejez, nuestra sección **Salud para Todas las Edades** ofrece información relevante y específica para cada etapa de la vida. Encuentra consejos útiles y recursos para cuidar la salud en todas las etapas del desarrollo.`,
     description:
       "Salud para todas las edades se refiere a la **promoción de la salud y el bienestar** adaptados a cada etapa de la vida, desde la **niñez hasta la vejez**. Reconoce las **necesidades cambiantes** en cada fase y fomenta una **vida saludable en todas ellas**.",

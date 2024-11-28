@@ -1,13 +1,6 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  useEffect,
-  useState,
-  useRef,
-  FC,
-  CSSProperties,
-  type JSX,
-  ComponentRef,
-} from "react";
+import { FC, type JSX } from "react";
 
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { IconSvgProps } from "@/types/common";
@@ -26,91 +19,53 @@ interface NavbarLinksProps {
 }
 
 const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
-  const [underlineStyle, setUnderlineStyle] = useState<CSSProperties>({
-    width: 0,
-    left: 0,
-  });
-
-  const linkRefs = useRef<(ComponentRef<"li"> | null)[]>([]);
-
-  useEffect(() => {
-    const activePageIndex = pages.findIndex((page) => page.active);
-
-    if (activePageIndex !== -1 && linkRefs.current[activePageIndex]) {
-      const activeElement = linkRefs.current[activePageIndex];
-
-      if (activeElement) {
-        const newStyle = {
-          width: activeElement.clientWidth,
-          left: activeElement.offsetLeft,
-        };
-
-        if (
-          newStyle.width !== underlineStyle.width ||
-          newStyle.left !== underlineStyle.left
-        ) {
-          setUnderlineStyle(newStyle);
-        }
-      }
-    } else {
-      if (underlineStyle.width !== 0 || underlineStyle.left !== 0) {
-        setUnderlineStyle({
-          width: 0,
-          left: 0,
-        });
-      }
-    }
-  }, [pages, underlineStyle]);
-
-  const handleNavItemClick = (index: number) => {
-    const activeElement = linkRefs.current[index];
-    if (activeElement) {
-      setUnderlineStyle({
-        width: activeElement.clientWidth,
-        left: activeElement.offsetLeft,
-      });
-    }
-  };
-
   return (
-    <>
-      <hr
-        aria-hidden="true"
-        style={underlineStyle}
-        className="absolute bottom-0 h-1 border-none bg-bittersweet-400 transition-all duration-300 ease-in-out dark:bg-cerise-red-600"
-      />
-      {pages.map(
-        ({ name, href, icon: Icon, activeIcon: ActiveIcon, active }, key) => (
-          <BetterTooltip key={key} content={name}>
+    <nav
+      className="relative inline-flex items-center justify-center gap-4"
+      role="navigation"
+      aria-label="Main Navigation"
+    >
+      <ul className="relative z-10 flex space-x-4">
+        {pages.map(
+          ({ name, href, icon: Icon, activeIcon: ActiveIcon, active }, key) => (
             <li
-              ref={(el) => {
-                linkRefs.current[key] = el;
-              }}
-              className="relative flex h-full w-20 items-center justify-center py-1 lg:w-28"
+              key={key}
+              className="relative flex w-20 items-center justify-center"
             >
-              <Link
-                id={`navbar_link_${key + 1}`}
-                aria-label={"Ir a " + name}
-                color="danger"
-                href={href}
-                onClick={() => handleNavItemClick}
-                className={cn(
-                  "pointer-events-auto inline-flex size-full max-h-12 max-w-[112px] items-center justify-center rounded-lg px-3 text-gray-500 transition-colors hover:bg-gray-200 hover:text-bittersweet-400 dark:text-gray-400 dark:hover:bg-dark dark:hover:text-cerise-red-600",
-                  active &&
-                    "rounded-b-none text-bittersweet-400 hover:bg-transparent dark:text-cerise-red-600 dark:hover:bg-transparent",
-                )}
-              >
-                {active ? (
-                  <ActiveIcon className="size-6" aria-hidden="true" />
-                ) : (
-                  <Icon className="size-6" aria-hidden="true" />
-                )}
-              </Link>
+              <BetterTooltip content={name}>
+                <Link
+                  id={`navbar_link_${key + 1}`}
+                  aria-label={`Ir a ${name}`}
+                  href={href}
+                  className={cn(
+                    "pointer-events-auto relative inline-flex size-full max-h-12 items-center justify-center rounded-lg px-3 py-2 text-white transition-colors",
+                    !active &&
+                      "text-main-h hover:bg-gray-200 dark:text-main-dark-h dark:hover:bg-dark",
+                  )}
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="navbar-underline"
+                      className="absolute inset-0 z-[-1] rounded-lg bg-danger"
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                  {active ? (
+                    <ActiveIcon className="size-5" aria-hidden="true" />
+                  ) : (
+                    <Icon className="size-5" aria-hidden="true" />
+                  )}
+                </Link>
+              </BetterTooltip>
             </li>
-          </BetterTooltip>
-        ),
-      )}
-    </>
+          ),
+        )}
+      </ul>
+    </nav>
   );
 };
 

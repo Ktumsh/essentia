@@ -1,11 +1,15 @@
-import { FC } from "react";
+import { FC, type JSX } from "react";
+
+import { IconSvgProps } from "./common";
 
 export interface MaincapResources {
   id: number;
   title: string;
   description: string;
-  url: string;
-  img: string;
+  link: string;
+  image?: string;
+  icon: (props: IconSvgProps) => JSX.Element;
+  requiresPremium?: boolean;
 }
 
 export interface Resources {

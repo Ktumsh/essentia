@@ -6,7 +6,6 @@ import React from "react";
 
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -18,17 +17,13 @@ import MainSearch from "../layout/main-search";
 
 interface MainNavMainProps {
   items: SiteConfig["navLinks"];
-  isCollapsed?: boolean;
 }
 
-const MainNavMain = ({ items, isCollapsed }: MainNavMainProps) => {
+const MainNavMain = ({ items }: MainNavMainProps) => {
   const pathname = usePathname();
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
-        Principal
-      </SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem>
           <MainSearch>

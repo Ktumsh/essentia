@@ -8,15 +8,17 @@ const Loading = () => {
       {Array.from({ length: 1 }).map((_, index) => (
         <article
           key={index}
-          className="relative h-44 overflow-hidden rounded-xl border border-white bg-white/50 bg-bento-gradient shadow-md backdrop-blur backdrop-saturate-150 dark:border-full-dark dark:bg-transparent dark:bg-none dark:backdrop-saturate-100 md:mb-5 md:size-full md:max-h-[190px]"
+          className="relative overflow-hidden rounded-2xl bg-white dark:bg-full-dark md:h-52 md:rounded-xl"
         >
-          <div className="relative flex h-full flex-col overflow-hidden">
+          <div className="flex items-center justify-between md:flex-col">
             <div className="flex size-full flex-col items-center justify-between overflow-hidden">
-              <div className="absolute inset-0 z-0 h-44 w-full rounded-xl bg-gray-200 object-cover [mask-image:linear-gradient(to_top,_rgba(0,_0,_0,_1)_0%,_transparent_100%)] dark:bg-dark md:h-[190px] md:w-[270px]" />
-              <div className="z-10 flex w-full flex-col content-center space-y-2.5 p-5">
-                <Skeleton className="h-3 w-2/3 bg-gray-300 dark:bg-accent-dark" />
-                <Skeleton className="h-3 w-full bg-gray-300 dark:bg-accent-dark" />
-                <Skeleton className="h-3 w-1/2 bg-gray-300 dark:bg-accent-dark" />
+              <div className="flex h-24 w-full items-center justify-center overflow-hidden">
+                <Skeleton className="size-full rounded-none" />
+              </div>
+              <div className="flex w-full flex-col content-center space-y-3 p-6">
+                <Skeleton className="h-2.5 w-2/3 bg-gray-300 dark:bg-accent-dark" />
+                <Skeleton className="h-2.5 w-full bg-gray-300 dark:bg-accent-dark" />
+                <Skeleton className="h-2.5 w-1/2 bg-gray-300 dark:bg-accent-dark" />
               </div>
             </div>
           </div>

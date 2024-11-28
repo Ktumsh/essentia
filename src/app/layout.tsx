@@ -107,7 +107,7 @@ export default async function RootLayout({
       <head />
       <body
         className={cn(
-          "isolate bg-white antialiased dark:bg-full-dark",
+          "isolate bg-gray-50 antialiased dark:bg-full-dark",
           fontMotiva.variable,
           spaceGrotesk.variable,
           spaceMono.variable,

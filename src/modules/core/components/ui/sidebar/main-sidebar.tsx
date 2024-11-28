@@ -15,7 +15,7 @@ const MainSidebar = ({ isCollapsed }: MainSidebarProps) => {
 
   return (
     <>
-      <MainNavMain items={mainLinks} isCollapsed={isCollapsed} />
+      <MainNavMain items={mainLinks} />
       <MainNavResources items={resourceLinks} isCollapsed={isCollapsed} />
       <MainNavInfo items={infoLinks} isCollapsed={isCollapsed} />
     </>
