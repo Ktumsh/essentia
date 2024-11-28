@@ -13,27 +13,23 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
       {facts?.map((fact, index) => (
         <article
           key={index}
-          className="relative h-44 overflow-hidden rounded-2xl border-white bg-white/50 bg-bento-gradient shadow-md backdrop-blur backdrop-saturate-150 dark:border-full-dark dark:bg-transparent dark:bg-none dark:backdrop-saturate-100 md:mb-5 md:size-full md:max-h-[190px] md:rounded-xl md:border"
+          className="relative overflow-hidden rounded-2xl bg-white dark:bg-full-dark md:h-52 md:rounded-xl"
         >
-          <div className="relative flex h-full flex-col overflow-hidden">
-            <div className="flex size-full flex-col items-center justify-between overflow-hidden">
+          <div className="flex items-center justify-between md:flex-col">
+            <div className="h-24">
               <Image
                 quality={70}
                 width={270}
-                height={188}
+                height={96}
                 src={fact.image}
                 alt={fact.fact}
-                className="absolute inset-0 z-0 aspect-auto size-full rounded-xl object-cover transition md:[mask-image:linear-gradient(to_top,_rgba(0,_0,_0,_1)_0%,_transparent_100%)]"
+                className="aspect-auto h-full object-cover object-center"
               />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 to-transparent md:hidden md:to-70%"
-              />
-              <div className="z-10 flex w-full flex-col content-center p-5">
-                <h4 className="text-sm font-bold text-white drop-shadow-sm dark:text-white md:text-main-h">
-                  <q>{fact.fact}</q>
-                </h4>
-              </div>
+            </div>
+            <div className="w-full p-6">
+              <p className="text-xs text-main dark:text-main-dark md:text-sm">
+                {fact.fact}
+              </p>
             </div>
           </div>
         </article>

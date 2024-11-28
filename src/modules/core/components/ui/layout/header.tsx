@@ -32,7 +32,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         role="banner"
         className="sticky inset-x-0 top-0 z-50 hidden md:block"
       >
-        <nav className="sticky inset-x-0 top-0 z-40 flex h-auto w-full items-center justify-center bg-white/80 backdrop-blur-lg backdrop-saturate-150 dark:bg-full-dark/80">
+        <nav className="sticky inset-x-0 top-0 z-40 flex h-auto max-h-14 w-full items-center justify-center border-b border-gray-200 bg-white/80 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80">
           <div className="relative z-40 flex h-14 w-full max-w-screen-sm flex-row flex-nowrap items-center justify-center gap-4 px-6">
             <NavbarLinks pages={pages} />
           </div>

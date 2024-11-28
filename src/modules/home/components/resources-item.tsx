@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
+import { Card, CardHeader } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/utils/common";
 
@@ -14,13 +14,12 @@ type ResoucesItemProps = {
   index: number;
   title: string;
   subtitle: string;
-  img: string;
   href: string;
-  children: React.ReactNode;
+  quote: string;
 };
 
 const ResourcesItem = (props: ResoucesItemProps) => {
-  const { index, title, subtitle, img, href, children } = props;
+  const { index, title, subtitle, href, quote } = props;
   const isMobile = useIsMobile();
 
   const resources = siteConfig.asideMenuLinks;
@@ -31,56 +30,54 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       title.toLocaleLowerCase().normalize("NFD"),
   );
 
-  const itemSpan = useMemo(() => {
-    switch (true) {
-      case index === 0 || index === 4:
-        return "md:col-span-4";
-
-      case index === 1 || index === 5:
-        return "md:col-span-5";
-
-      case index === 2 || index === 3:
-        return "md:col-span-3";
-      default:
-        return "";
-    }
-  }, [index]);
-
-  const itemColor = useMemo(() => {
+  const itemGradientColor = useMemo(() => {
     switch (true) {
       case index === 0:
         return "from-emerald-600 to-emerald-500";
-
       case index === 1:
         return "from-sky-600 to-sky-500";
-
       case index === 2:
         return "from-yellow-600 to-yellow-500";
-
       case index === 3:
         return "from-fuchsia-600 to-fuchsia-500";
-
       case index === 4:
         return "from-rose-600 to-rose-500 ";
-
       default:
         return "from-cyan-600 to-cyan-500";
     }
   }, [index]);
 
-  const imageWidth = useMemo(() => {
+  const itemBackgroundColor = useMemo(() => {
     switch (true) {
-      case index === 0 || index === 4:
-        return 363;
-
-      case index === 1 || index === 5:
-        return 457;
-
-      case index === 2 || index === 3:
-        return 270;
-
+      case index === 0:
+        return "bg-emerald-100 dark:bg-emerald-950";
+      case index === 1:
+        return "bg-sky-100 dark:bg-sky-950";
+      case index === 2:
+        return "bg-yellow-100 dark:bg-yellow-950";
+      case index === 3:
+        return "bg-fuchsia-100 dark:bg-fuchsia-950";
+      case index === 4:
+        return "bg-rose-100 dark:bg-rose-950";
       default:
-        return 254;
+        return "bg-cyan-100 dark:bg-cyan-950";
+    }
+  }, [index]);
+
+  const itemTextColor = useMemo(() => {
+    switch (true) {
+      case index === 0:
+        return "text-emerald-600";
+      case index === 1:
+        return "text-sky-600";
+      case index === 2:
+        return "text-yellow-600";
+      case index === 3:
+        return "text-fuchsia-600";
+      case index === 4:
+        return "text-rose-600";
+      default:
+        return "text-cyan-600";
     }
   }, [index]);
 
@@ -89,7 +86,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       <Link
         href={href}
         className={cn(
-          itemColor,
+          itemGradientColor,
           "relative aspect-auto h-44 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64 md:hidden",
         )}
       >
@@ -114,46 +111,32 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       </Link>
 
       {!isMobile && (
-        <Link
-          href={href}
-          className={cn(
-            itemSpan,
-            "group relative hidden h-64 flex-col overflow-hidden rounded-xl border border-white text-main transition-all duration-500 motion-reduce:transition-none dark:border-full-dark dark:text-main-dark md:flex",
-          )}
-        >
-          <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3">
-            <span className="text-xs font-bold uppercase text-white/60 transition-opacity group-hover:opacity-0">
+        <Card className="min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 hover:shadow-md dark:shadow-white/10">
+          <CardHeader className="pb-0">
+            <div
+              className={cn(
+                "flex size-10 items-center justify-center rounded-lg",
+                itemBackgroundColor,
+              )}
+            >
+              {resource && (
+                <resource.activeIcon className={cn("size-5", itemTextColor)} />
+              )}
+            </div>
+            <span className="absolute right-6 top-6 !mt-0 text-xxs font-bold uppercase text-main-m dark:text-main-dark-m">
               {subtitle}
             </span>
-            <h3 className="font-medium text-white transition-opacity group-hover:opacity-0 sm:text-xl 2xl:text-2xl">
+          </CardHeader>
+          <div className="p-6 pt-3">
+            <h3 className="text-lg font-bold text-main dark:text-white">
               {title}
             </h3>
+            <p className="prose-sm text-main-m dark:text-main-dark-h">
+              {quote}
+            </p>
           </div>
-          <Image
-            priority
-            quality={80}
-            width={imageWidth}
-            height={254}
-            src={img}
-            alt={`Enlace al recurso de ${title}`}
-            className="relative z-0 aspect-auto h-full object-cover blur-0 brightness-95 !transition-all md:rounded-xl lg:group-hover:brightness-75 dark:lg:group-hover:blur-lg"
-          />
-          <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_80%)] md:rounded-xl md:bg-[linear-gradient(to_bottom,_rgba(0,_0,_0,_0.4)_0%,_rgba(0,_0,_0,_0)_40%)]"></div>
-          <div className="absolute bottom-0 z-10 flex h-auto w-full items-center justify-end rounded-b-xl border-gray-100/50 bg-transparent p-3 text-inherit subpixel-antialiased transition-all duration-500 dark:border-full-dark/50 md:border-t-1 md:bg-white/30 md:backdrop-blur md:backdrop-saturate-150 md:dark:bg-full-dark/40 lg:group-hover:rounded-xl lg:group-hover:bg-white/50 lg:group-hover:pt-[211px] dark:lg:group-hover:bg-full-dark/40">
-            {children}
-            <div
-              aria-label="Ver"
-              className="relative inline-flex h-8 w-12 min-w-0 items-center justify-center rounded-full bg-light-gradient px-4 text-white shadow-md !transition-all group-hover:w-20 data-[hover=true]:brightness-90 dark:bg-dark-gradient-v2"
-            >
-              <div className="inline-flex whitespace-nowrap text-sm opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
-                Ver
-              </div>
-              <div className="absolute right-3.5">
-                <ArrowRightV2Icon className="size-5" />
-              </div>
-            </div>
-          </div>
-        </Link>
+          <Link href={href} className="absolute inset-0" />
+        </Card>
       )}
     </>
   );

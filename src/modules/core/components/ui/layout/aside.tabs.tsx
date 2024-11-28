@@ -37,12 +37,10 @@ const AsideTabs = () => {
     <aside className="sticky right-0 top-0 hidden max-h-dvh w-full max-w-72 select-none 2xl:block">
       <div className="relative float-end flex h-full w-72">
         <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
-          <div className="flex size-full flex-col">
-            <div className="mb-2 ml-3 pt-3">
-              <h3 className="mb-2 ml-3 px-5 text-sm font-semibold uppercase text-main dark:text-main-dark lg:px-0">
-                Consejo del día
-              </h3>
-            </div>
+          <div className="flex w-full flex-col">
+            <h3 className="mb-2 ml-3 px-5 pt-3 font-semibold text-main dark:text-main-dark lg:px-0">
+              Consejo del día
+            </h3>
             <section className="flex h-full flex-col">
               {loading ? <Loading /> : <HealthFactsCard facts={facts} />}
             </section>
