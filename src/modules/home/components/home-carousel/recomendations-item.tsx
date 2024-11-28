@@ -62,11 +62,12 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
     <Card className="group min-h-52 select-none overflow-hidden rounded-xl border-none !bg-transparent shadow-none">
       {image && (
         <Image
+          priority={index < 2}
           src={image}
           alt={title}
           width={imageWidth}
           height={imageHeight}
-          className="animate-fade-in absolute inset-0 z-[-1] aspect-auto object-cover object-center brightness-75"
+          className="absolute inset-0 z-[-1] aspect-auto object-cover object-center brightness-75"
         />
       )}
       <div className="absolute inset-0 z-[-1] bg-gradient-to-t from-black/30 from-40% to-transparent backdrop-blur-sm transition group-hover:backdrop-blur-0"></div>
@@ -84,7 +85,11 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
         <h3 className="text-lg font-bold text-white">{title}</h3>
         <p className="prose-sm text-gray-300">{description}</p>
       </div>
-      <Link href={link} className="absolute inset-0" />
+      <Link
+        href={link}
+        aria-label="Ir al recurso"
+        className="absolute inset-0"
+      />
     </Card>
   );
 };
