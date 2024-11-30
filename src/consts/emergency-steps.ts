@@ -2,7 +2,7 @@ import { EmergencySteps } from "@/types/resource";
 
 export const EMERGENCY_STEPS: EmergencySteps[] = [
   {
-    title: "¿Qué hacer ante una emergencia?",
+    title: "Antes de una emergencia",
     steps: [
       {
         step: 1,
@@ -27,7 +27,7 @@ export const EMERGENCY_STEPS: EmergencySteps[] = [
     ],
   },
   {
-    title: "Después de la emergencia",
+    title: "Después de una emergencia",
     steps: [
       {
         step: 4,

@@ -96,8 +96,8 @@ export const siteConfig: SiteConfig = {
       activeIcon: SexualityFillIcon,
     },
     {
-      name: "Salud para todas las edades",
-      link: "/salud-para-todas-las-edades",
+      name: "Salud en todas las edades",
+      link: "/salud-en-todas-las-edades",
       icon: ForAllAgesIcon,
       activeIcon: ForAllAgesFillIcon,
     },
@@ -116,8 +116,8 @@ export const siteConfig: SiteConfig = {
         text: "Salud y Educación Sexual",
       },
       {
-        href: "/salud-para-todas-las-edades",
-        text: "Salud para Todas las Edades",
+        href: "/salud-en-todas-las-edades",
+        text: "Salud en Todas las Edades",
       },
     ],
     additionalresources: [

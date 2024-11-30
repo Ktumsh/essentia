@@ -1,12 +1,25 @@
 "use client";
 
-import { Select, SelectItem, Selection } from "@nextui-org/react";
 import { useState } from "react";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { siteConfig } from "@/config/site";
 import { Session } from "@/types/session";
 
 import PricingCard from "./pricing-card";
+import {
+  getPlanDescription,
+  getPlanFeatures,
+  getPlanName,
+  getPlanSubname,
+} from "../lib/utils";
 
 interface PricingSelectorProps {
   session: Session;
@@ -14,121 +27,58 @@ interface PricingSelectorProps {
 }
 
 const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
-  const [value, setValue] = useState<Selection>(new Set(["basic_plan"]));
+  const id = currentPriceId;
+  const { free, premium, premiumPlus } = siteConfig.planPrices;
+  const PLANS = [free, premium, premiumPlus];
+
+  const [selectedPlan, setSelectedPlan] = useState<string>(
+    id === free ? premium : id || free,
+  );
+
+  const isRecommended = selectedPlan === premium;
+  const isAnual = selectedPlan === premiumPlus;
+  const planPrice =
+    selectedPlan === free ? 0 : selectedPlan === premium ? 9500 : 91200;
 
   return (
     <>
       <div className="mb-4">
         <Select
           aria-label="Selecciona un plan"
-          disallowEmptySelection
-          selectedKeys={value}
-          onSelectionChange={setValue}
-          classNames={{
-            trigger:
-              "bg-white dark:bg-full-dark rounded-md border border-gray-300 dark:border-accent-dark",
-            popoverContent:
-              "rounded-md bg-white dark:bg-full-dark border border-gray-300 dark:border-accent-dark shadow-md",
-            listbox: "p-0",
-          }}
+          value={selectedPlan}
+          onValueChange={(value) => setSelectedPlan(value)}
         >
-          <SelectItem
-            key="basic_plan"
-            textValue="Gratis"
-            className="rounded data-[selected=true]:bg-gray-200 data-[selectable=true]:focus:bg-gray-200 dark:data-[selected=true]:bg-dark dark:data-[selectable=true]:focus:bg-dark"
-          >
-            <div className="flex items-center gap-2">
-              <span>Gratis</span>
-              <span className="text-xs font-medium text-main-m dark:text-main-dark-m">
-                Plan Actual
-              </span>
-            </div>
-          </SelectItem>
-          <SelectItem
-            key="premium_plan"
-            textValue="Premium"
-            className="rounded data-[selected=true]:bg-gray-200 data-[selectable=true]:focus:bg-gray-200 dark:data-[selected=true]:bg-dark dark:data-[selectable=true]:focus:bg-dark"
-          >
-            <div className="flex items-center gap-2">
-              <span>Premium</span>
-              <span className="text-xs font-medium text-main-m dark:text-main-dark-m">
-                Recomendado
-              </span>
-            </div>
-          </SelectItem>
-          <SelectItem
-            key="premium_plus_plan"
-            textValue="Premium Plus"
-            className="rounded data-[selected=true]:bg-gray-200 data-[selectable=true]:focus:bg-gray-200 dark:data-[selected=true]:bg-dark dark:data-[selectable=true]:focus:bg-dark"
-          >
-            <div className="flex items-center gap-2">
-              <span>Premium Plus</span>
-              <span className="text-xs font-medium text-main-m dark:text-main-dark-m">
-                Ahorra más
-              </span>
-            </div>
-          </SelectItem>
+          <SelectTrigger>
+            <SelectValue>{getPlanName(selectedPlan)}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {PLANS.map((plan) => (
+                <SelectItem key={plan} value={plan}>
+                  <div className="flex items-center gap-2">
+                    <span>{getPlanName(plan)}</span>
+                    <span className="text-xs font-medium text-main-m dark:text-main-dark-m">
+                      {getPlanSubname(id, plan)}
+                    </span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
         </Select>
       </div>
-      {Array.from(value)[0] === "basic_plan" ? (
-        <PricingCard
-          session={session}
-          title="Gratis"
-          subtitle="Actual"
-          description="Plan básico con acceso limitado a funcionalidades."
-          buttonTitle="Escoger Gratis"
-          priceId={siteConfig.planPrices.free}
-          isCurrentPlan={currentPriceId === siteConfig.planPrices.free}
-          price={0}
-          features={[
-            "Recursos principales",
-            "Buscador de centros de salud",
-            "Recursos adicionales",
-            "Acceso a contenido educativo limitado",
-            "Recomendaciones básicas de salud",
-          ]}
-        />
-      ) : Array.from(value)[0] === "premium_plan" ? (
-        <PricingCard
-          session={session}
-          title="Premium"
-          subtitle="Recomendado"
-          description="Plan mensual que incluye acceso completo a todas las funcionalidades de Essentia AI."
-          buttonTitle="Escoger Premium"
-          priceId={siteConfig.planPrices.premium}
-          isCurrentPlan={currentPriceId === siteConfig.planPrices.premium}
-          price={9500}
-          isRecommended
-          features={[
-            "Todo lo del plan básico +",
-            "Acceso completo a Essentia AI",
-            "Seguimiento de chats",
-            "Interacción personalizada con la IA",
-            "Rutinas de ejercicio personalizadas",
-            "Planes nutricionales adaptados a tus necesidades",
-            "Evaluación detallada de tu nivel de riesgo de salud",
-            "Actividades diseñadas para mejorar tu bienestar",
-            "Recomendaciones personalizadas basadas en tus objetivos",
-          ]}
-        />
-      ) : (
-        <PricingCard
-          session={session}
-          title="Premium Plus"
-          subtitle="Ahorra más"
-          description="Plan anual con todas las funcionalidades de Essentia AI y algunos beneficios adicionales."
-          buttonTitle="Escoger Premium Plus"
-          priceId={siteConfig.planPrices.premiumPlus}
-          isCurrentPlan={currentPriceId === siteConfig.planPrices.premiumPlus}
-          price={91200}
-          isAnual
-          features={[
-            "Todo lo del plan mensual +",
-            "Descuentos en futuras suscripciones",
-            "Prioridad en soporte",
-          ]}
-        />
-      )}
+      <PricingCard
+        session={session}
+        title={getPlanName(selectedPlan)}
+        subtitle={getPlanSubname(id, selectedPlan)}
+        description={getPlanDescription(selectedPlan)}
+        priceId={selectedPlan}
+        isCurrentPlan={id === selectedPlan}
+        price={planPrice}
+        isPremium={isRecommended}
+        isPremiumPlus={isAnual}
+        features={getPlanFeatures(selectedPlan)}
+      />
     </>
   );
 };

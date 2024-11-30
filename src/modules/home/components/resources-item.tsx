@@ -111,7 +111,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       </Link>
 
       {!isMobile && (
-        <Card className="min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 hover:shadow-md dark:shadow-white/10">
+        <Card className="hidden min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 hover:shadow-md dark:shadow-white/10 md:block">
           <CardHeader className="pb-0">
             <div
               className={cn(
@@ -135,7 +135,11 @@ const ResourcesItem = (props: ResoucesItemProps) => {
               {quote}
             </p>
           </div>
-          <Link href={href} className="absolute inset-0" />
+          <Link
+            href={href}
+            aria-label={"Ir al recurso " + title}
+            className="absolute inset-0"
+          />
         </Card>
       )}
     </>

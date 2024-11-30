@@ -70,7 +70,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
           className="absolute inset-0 z-[-1] aspect-auto object-cover object-center brightness-75"
         />
       )}
-      <div className="absolute inset-0 z-[-1] bg-gradient-to-t from-black/30 from-40% to-transparent backdrop-blur-sm transition group-hover:backdrop-blur-0"></div>
+      <div className="absolute inset-0 z-[-1] bg-gradient-to-t from-black/30 from-40% to-transparent backdrop-blur-sm transition duration-500 group-hover:backdrop-blur-0"></div>
       <CardHeader className="pb-0">
         <div
           className={cn(

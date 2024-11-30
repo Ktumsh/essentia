@@ -1,6 +1,6 @@
 "use client";
 
-import { CircularProgress } from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/progress";
 import { ArrowDownToLine, Calendar } from "lucide-react";
 import Image from "next/image";
 import { useMemo, type JSX } from "react";
@@ -238,7 +238,7 @@ const AssesHealthRiskStock = ({
                   className="h-7 gap-2 text-nowrap bg-transparent pl-0 text-sm hover:!bg-inherit dark:bg-transparent"
                 >
                   <span
-                    className={cn("ml-1 h-2 w-2 rounded-full bg-danger", dot)}
+                    className={cn("bg-danger ml-1 h-2 w-2 rounded-full", dot)}
                   ></span>
                   {label}
                 </Badge>
@@ -288,7 +288,7 @@ const AssesHealthRiskStock = ({
           </div>
           <div className="flex flex-col gap-2">
             <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-gradient-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white before:dark:bg-full-dark">
-              <span className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white bg-danger dark:border-full-dark">
+              <span className="bg-danger absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white dark:border-full-dark">
                 <HeartbeatIcon className="size-5 text-white" />
               </span>
               <div className="z-10 flex flex-col">

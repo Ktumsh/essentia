@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Fragment, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
-import { CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { FIRST_AID } from "@/consts/firts-aid";
@@ -51,106 +52,109 @@ const FirstAid = () => {
       </div>
       <div className="flex max-h-[1000px] flex-col space-y-2 md:max-h-[700px] md:px-0">
         {info.map((cardInfo, index) => (
-          <button
+          <Card
             key={index}
             onClick={() => toggleShow(index)}
-            className="relative box-border flex h-auto min-h-[74px] w-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-gray-100 text-main outline-none transition-transform-background focus-visible:outline-offset-2 focus-visible:outline-focus data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 motion-reduce:transition-none dark:border-dark dark:bg-dark/50 dark:text-white md:min-h-[54px]"
+            className="flex h-auto min-h-[74px] cursor-pointer flex-col bg-gray-50 text-main dark:bg-dark/30 dark:text-white md:min-h-[54px]"
           >
-            <CardContent className="flex flex-col overflow-hidden p-3">
-              <div className="inline-flex w-full items-center justify-between">
-                <h3 className="text-start text-lg font-semibold">
-                  {cardInfo.title}
-                </h3>
-                <BetterTooltip
-                  content={
-                    openCard === index
-                      ? "Toca para ocultar"
-                      : "Toca para mostrar"
-                  }
-                >
-                  <Badge className="border border-gray-300 py-1 text-main-m dark:border-accent-dark dark:text-main-dark-h">
-                    <QuestionIcon className="size-3" />
-                  </Badge>
-                </BetterTooltip>
-              </div>
-              <motion.div
-                initial={false}
-                animate={openCard === index ? "open" : "closed"}
-                variants={{
-                  open: { opacity: 1, display: "block" },
-                  closed: {
-                    opacity: 0,
-                    transitionEnd: {
-                      display: "none",
-                    },
+            <CardHeader
+              isSecondary
+              className="inline-flex w-full flex-row items-center justify-between"
+            >
+              <CardTitle className="text-base md:text-lg">
+                {cardInfo.title}
+              </CardTitle>
+              <BetterTooltip
+                content={
+                  openCard === index ? "Toca para ocultar" : "Toca para mostrar"
+                }
+              >
+                <Badge className="cursor-help border border-gray-300 py-1 text-main-m dark:border-accent-dark dark:text-main-dark-h">
+                  <QuestionIcon className="size-3" />
+                </Badge>
+              </BetterTooltip>
+            </CardHeader>
+            <motion.div
+              initial={false}
+              animate={openCard === index ? "open" : "closed"}
+              variants={{
+                open: { opacity: 1, display: "block" },
+                closed: {
+                  opacity: 0,
+                  transitionEnd: {
+                    display: "none",
                   },
-                }}
-                transition={{ duration: 0.25 }}
-              >
-                <Separator className="my-3 bg-gray-200 dark:bg-dark" />
-              </motion.div>
-              <ol
-                className={cn(
-                  "modal h-0 flex-wrap space-y-4 overflow-y-auto opacity-0 transition-all",
-                  openCard === index &&
-                    "h-[1000px] opacity-100 [interpolate-size:allow-keywords]",
-                )}
-              >
-                {cardInfo.steps.map((step, stepIndex) => (
-                  <li
-                    key={stepIndex}
-                    className="space-y-1.5 text-start text-sm"
-                  >
-                    <ul className="flex">
-                      <Badge
-                        variant="primary"
-                        className="mr-2 flex size-6 items-center justify-center font-bold text-white"
-                      >
-                        {step.step}
-                      </Badge>
-                      {Array.isArray(step.title) ? (
-                        <li className="mr-2 text-sm font-semibold md:text-base">
-                          {step.title.map((part, i) =>
-                            part.type === "text" ? (
-                              <Fragment key={i}>{part.content}</Fragment>
-                            ) : (
-                              <strong
-                                key={i}
-                                className={cn(
-                                  part.highlightClass || "",
-                                  "font-semibold",
-                                )}
-                              >
-                                {part.content}
-                              </strong>
-                            ),
-                          )}
-                        </li>
-                      ) : (
-                        <li className="mr-2 text-sm font-semibold md:text-base">
-                          {step.title}
-                        </li>
-                      )}
-                    </ul>
-                    {step.description.map((desc, i) => (
-                      <p
-                        key={i}
-                        className="ml-8 space-y-1.5 text-main-h dark:text-main-dark"
-                      >
-                        {desc.type === "bold" ? (
-                          <strong className="mr-2 text-main dark:text-white">
-                            {desc.content}
-                          </strong>
+                },
+              }}
+              transition={{ duration: 0.25 }}
+              className="w-full"
+            >
+              <Separator />
+            </motion.div>
+            <CardContent className="flex flex-col overflow-hidden p-3">
+              <ScrollArea>
+                <ol
+                  className={cn(
+                    "space-y-4 opacity-0 transition-all [interpolate-size:allow-keywords]",
+                    openCard === index ? "h-auto opacity-100" : "h-0",
+                  )}
+                >
+                  {cardInfo.steps.map((step, stepIndex) => (
+                    <li
+                      key={stepIndex}
+                      className="space-y-1.5 text-start text-sm"
+                    >
+                      <ul className="flex">
+                        <Badge
+                          variant="primary"
+                          className="mr-2 flex size-6 items-center justify-center !bg-cyan-600 font-bold !text-white hover:!bg-cyan-600/80"
+                        >
+                          {step.step}
+                        </Badge>
+                        {Array.isArray(step.title) ? (
+                          <li className="mr-2 text-sm font-semibold md:text-base">
+                            {step.title.map((part, i) =>
+                              part.type === "text" ? (
+                                <Fragment key={i}>{part.content}</Fragment>
+                              ) : (
+                                <strong
+                                  key={i}
+                                  className={cn(
+                                    part.highlightClass,
+                                    "font-semibold",
+                                  )}
+                                >
+                                  {part.content}
+                                </strong>
+                              ),
+                            )}
+                          </li>
                         ) : (
-                          desc.content
+                          <li className="mr-2 text-sm font-semibold md:text-base">
+                            {step.title}
+                          </li>
                         )}
-                      </p>
-                    ))}
-                  </li>
-                ))}
-              </ol>
+                      </ul>
+                      {step.description.map((desc, i) => (
+                        <p
+                          key={i}
+                          className="ml-8 space-y-1.5 text-main-h dark:text-main-dark"
+                        >
+                          {desc.type === "bold" ? (
+                            <strong className="mr-2 font-semibold text-main dark:text-white">
+                              {desc.content}
+                            </strong>
+                          ) : (
+                            desc.content
+                          )}
+                        </p>
+                      ))}
+                    </li>
+                  ))}
+                </ol>
+              </ScrollArea>
             </CardContent>
-          </button>
+          </Card>
         ))}
       </div>
     </section>

@@ -94,7 +94,7 @@ const CancelSubscriptionModal = ({
 
   const Content = useCallback(() => {
     return (
-      <div className="space-y-6 p-6">
+      <div className="space-y-6 p-4 md:p-6">
         <div className="flex w-full justify-between rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-dark dark:bg-dark/50">
           <span>
             <span className="text-sm font-medium text-main dark:text-main-dark">
@@ -129,7 +129,7 @@ const CancelSubscriptionModal = ({
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Cancelar suscripción</DrawerTitle>
-            <DrawerDescription className="mt-4 px-6 text-start">
+            <DrawerDescription className="mt-4 px-4 text-start">
               Tu plan permanecerá activo hasta el final de tu período de
               facturación actual, {renewalDate}. Después de esa fecha, tu plan
               cambiará a gratuito y perderás acceso a las funcionalidades

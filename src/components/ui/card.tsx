@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "relative rounded-lg border border-gray-200 bg-white text-main shadow-sm dark:border-dark dark:bg-full-dark dark:text-main-dark",
+      "relative rounded-lg border border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark",
       className,
     )}
     {...props}
@@ -19,11 +19,15 @@ Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & { isSecondary?: boolean }
+>(({ className, isSecondary, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    className={cn(
+      "flex flex-col space-y-1.5 p-6",
+      className,
+      isSecondary && "flex-1 p-3",
+    )}
     {...props}
   />
 ));
@@ -66,11 +70,16 @@ CardContent.displayName = "CardContent";
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & { isSecondary?: boolean }
+>(({ className, isSecondary, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn(
+      "flex items-center p-6 pt-0",
+      className,
+      isSecondary &&
+        "border-t border-gray-200 bg-gray-100 p-3 dark:border-dark dark:bg-dark/50 sm:justify-between",
+    )}
     {...props}
   />
 ));
