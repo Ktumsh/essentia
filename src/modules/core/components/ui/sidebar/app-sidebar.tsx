@@ -47,7 +47,7 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
         <>
           <AppHeader />
           <SidebarContent>
-            <MainSidebar />
+            <MainSidebar isPremium={user?.is_premium} />
           </SidebarContent>
           <AppFooter user={user} />
         </>

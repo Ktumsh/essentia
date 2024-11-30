@@ -1,7 +1,7 @@
 "use client";
 
-import { Input } from "@nextui-org/input";
 import { useLocalStorage } from "@rehooks/local-storage";
+import { X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, FC, useId } from "react";
@@ -23,6 +23,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
 import {
   MATCH_KEYS,
   RECENT_SEARCHES_KEY,
@@ -32,7 +33,7 @@ import {
 import { searchData, SearchResult } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
 import { SearchAIIcon, SearchIcon } from "@/modules/icons/action";
-import { CloseIcon, HashFillIcon } from "@/modules/icons/common";
+import { HashFillIcon } from "@/modules/icons/common";
 import { Chevron } from "@/modules/icons/navigation";
 import { searchStyles } from "@/styles/search-styles";
 import { cn } from "@/utils/common";
@@ -45,7 +46,6 @@ interface MainSearchProps {
 
 const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const id = useId();
   const router = useRouter();
 
@@ -175,7 +175,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
     [handleSearchSelect],
   );
 
-  const SearchContent = () => {
+  const SearchContent = useCallback(() => {
     return (
       <div
         role="listbox"
@@ -184,7 +184,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         id={id}
         className={cn(searchStyles.modalContent)}
       >
-        {/* Búsquedas recientes y recomendaciones */}
+        {/* Búsquedas recientes */}
         {searchTerm.length < 1 && recentSearches.length > 0 && (
           <div
             role="presentation"
@@ -201,19 +201,10 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
             <div role="group" aria-labelledby={id}>
               {recentSearches.map((search) => renderItem(search, true))}
             </div>
-            <div id={id}>
-              <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-sm text-main-m dark:text-main-dark-m">
-                  Recomendados
-                </span>
-              </div>
-            </div>
-            <div role="group" aria-labelledby={id}>
-              {recommendedItems.map((item) => renderItem(item))}
-            </div>
           </div>
         )}
-        {recommendedItems.length > 0 && (
+        {/* Búsquedas recomendadas */}
+        {searchTerm.length < 1 && recommendedItems.length > 0 && (
           <div
             role="presentation"
             data-value="recent"
@@ -241,7 +232,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
                   <p className="text-main-l dark:text-main-dark-l">
                     {searchTerm.length < 6
                       ? "Intenta agregar más caracteres al término de búsqueda."
-                      : "Intenta buscar otra cosa o prueba buscando con Essentia AI."}
+                      : `Intenta buscar otra cosa ${isPremium && " o prueba buscando con Essentia AI."}`}
                   </p>
                 </div>
                 {isPremium && (
@@ -252,7 +243,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
                       );
                       setIsOpen(false);
                     }}
-                    className="data-[hover=true]:opacity-hover justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white antialiased will-change-transform data-[hover=true]:text-white data-[hover=true]:transition dark:bg-dark-gradient"
+                    className="justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white antialiased will-change-transform data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
                   >
                     Buscar con Essentia AI
                     <SearchAIIcon
@@ -273,35 +264,49 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         )}
       </div>
     );
-  };
+  }, [
+    searchTerm,
+    recentSearches,
+    recommendedItems,
+    searchResults,
+    isPremium,
+    id,
+    router,
+    renderItem,
+  ]);
 
   const Search = useCallback(() => {
     return (
       <div className={cn(searchStyles.modalHeader)}>
-        <Input
-          role="combobox"
-          autoFocus
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="false"
-          aria-autocomplete="list"
-          aria-expanded="true"
-          aria-controls={id}
-          aria-labelledby={id}
-          isClearable
-          radius="none"
-          size="lg"
-          placeholder="Explora nuestros recursos..."
-          value={searchTerm}
-          onValueChange={handleSearchChange}
-          startContent={<SearchIcon className="mr-1 size-7" />}
-          endContent={<CloseIcon className="size-3.5" />}
-          classNames={{
-            clearButton: cn(searchStyles.clearButton),
-            inputWrapper: cn(searchStyles.inputWrapper),
-            input: cn(searchStyles.input),
-          }}
-        />
+        <div className={cn(searchStyles.inputWrapper)}>
+          <SearchIcon className="mr-1 size-7" />
+          <Input
+            role="combobox"
+            autoFocus
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+            aria-autocomplete="list"
+            aria-expanded="true"
+            aria-controls={id}
+            aria-labelledby={id}
+            placeholder="Explora nuestros recursos..."
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className={cn(searchStyles.input)}
+          />
+          {searchTerm.length > 0 && (
+            <Button
+              size="icon"
+              variant="outline"
+              radius="full"
+              onClick={() => setSearchTerm("")}
+              className={cn(searchStyles.clearButton)}
+            >
+              <X className="!size-3.5" />
+            </Button>
+          )}
+        </div>
         <button
           onClick={() => setIsOpen(false)}
           className="ml-2 hidden rounded-md border border-gray-200 px-2 py-1 text-xxs font-medium transition-colors hover:bg-gray-100 dark:border-dark dark:hover:bg-dark/50 md:block"
@@ -341,7 +346,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent closeButton={false} className="gap-0 p-0">
-          <DialogHeader className="border-b border-gray-200 dark:border-full-dark">
+          <DialogHeader className="border-b border-gray-200 dark:border-dark">
             <DialogTitle className="sr-only">Busca rápida</DialogTitle>
             <DialogDescription className="sr-only">
               Busca rápida
