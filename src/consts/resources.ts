@@ -94,11 +94,11 @@ export const RESOURCES: Resources[] = [
   },
   {
     id: 6,
-    title: "Salud para Todas las Edades",
-    subtitle: "Para el hoy y el mañana",
-    intro: `Desde la infancia hasta la vejez, nuestra sección **Salud para Todas las Edades** ofrece información relevante y específica para cada etapa de la vida. Encuentra consejos útiles y recursos para cuidar la salud en todas las etapas del desarrollo.`,
+    title: "Salud en Todas las Edades",
+    subtitle: "Para un futuro saludable",
+    intro: `Desde la infancia hasta la vejez, nuestra sección **Salud en Todas las Edades** ofrece información relevante y específica para cada etapa de la vida. Encuentra consejos útiles y recursos para cuidar la salud en todas las etapas del desarrollo.`,
     description:
-      "Salud para todas las edades se refiere a la **promoción de la salud y el bienestar** adaptados a cada etapa de la vida, desde la **niñez hasta la vejez**. Reconoce las **necesidades cambiantes** en cada fase y fomenta una **vida saludable en todas ellas**.",
+      "Salud en todas las edades se refiere a la **promoción de la salud y el bienestar** adaptados a cada etapa de la vida, desde la **niñez hasta la vejez**. Reconoce las **necesidades cambiantes** en cada fase y fomenta una **vida saludable en todas ellas**.",
     quote:
       "La salud es un regalo, y mantenerla es una de las mayores recompensas que podemos dar a nosotros mismos en cada etapa de la vida.",
     videoTitle: "¿Cómo Cuidar Tu Salud a Cualquier Edad?",
@@ -106,7 +106,7 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-edades-1920x1080.webp",
     image: "/extras/edades-600x400.webp",
     imageFull: "/extras/edades-1920x1280.webp",
-    resource: "salud-para-todas-las-edades",
+    resource: "salud-en-todas-las-edades",
     component: ForAllAges,
   },
 ];

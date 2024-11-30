@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  useDisclosure,
-} from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { FC, useState, useTransition } from "react";
+import { FC, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { CheckCircledIcon } from "@/modules/icons/common";
 import { setUserPlan } from "@/modules/payment/pay/actions";
@@ -24,12 +19,11 @@ interface PricingCardProps {
   title: string;
   priceId: string;
   price: number;
-  subtitle?: string;
+  subtitle: string;
   description: string;
-  buttonTitle?: string;
   features: string[];
-  isRecommended?: boolean;
-  isAnual?: boolean;
+  isPremium?: boolean;
+  isPremiumPlus?: boolean;
   session: Session;
   isCurrentPlan?: boolean;
 }
@@ -40,19 +34,14 @@ const PricingCard: FC<PricingCardProps> = ({
   price,
   subtitle,
   description,
-  buttonTitle,
   features,
-  isRecommended,
-  isAnual,
+  isPremium,
+  isPremiumPlus,
   session,
-  isCurrentPlan = false,
+  isCurrentPlan,
 }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const {
-    isOpen: isOpenCancelModal,
-    onOpen: onOpenCancelModal,
-    onOpenChange: onOpenChangeCancelModal,
-  } = useDisclosure();
+  const [isOpenPaymentModal, setIsOpenPaymentModal] = useState(false);
+  const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const router = useRouter();
@@ -66,7 +55,7 @@ const PricingCard: FC<PricingCardProps> = ({
         if (result.success) {
           toast.success(result.message);
           router.refresh();
-          onOpenChangeCancelModal();
+          setIsOpenCancelModal(false);
         } else {
           toast.error("Hubo un error al actualizar tu plan.");
         }
@@ -80,57 +69,73 @@ const PricingCard: FC<PricingCardProps> = ({
   const handlePlanSelect = (priceId: string) => {
     if (priceId === siteConfig.planPrices.free) {
       if (session) {
-        onOpenCancelModal();
+        setIsOpenCancelModal(true);
       } else {
         router.push("/login?redirect=/premium");
       }
     } else {
       if (session) {
         setSelectedPlan(priceId);
-        onOpen();
+        setIsOpenPaymentModal(true);
       } else {
         router.push("/login?redirect=/premium");
       }
     }
   };
 
+  const cardClassName = useMemo(
+    () =>
+      cn(
+        "relative rounded-xl bg-white shadow-md dark:bg-full-dark",
+        !isPremium &&
+          !isPremiumPlus &&
+          "border border-gray-300 dark:border-accent-dark",
+        isPremium &&
+          "z-10 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
+        isPremiumPlus &&
+          "z-0 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
+      ),
+    [isPremium, isPremiumPlus],
+  );
+
+  const cardHeaderClassName = useMemo(
+    () =>
+      cn(
+        "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-main after:-z-10 after:border-b after:border-gray-300 dark:text-white after:dark:border-accent-dark md:p-6",
+        !isPremium && !isPremiumPlus && "after:!inset-0",
+        isPremium
+          ? "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:content-[''] after:dark:border-full-dark after:dark:bg-full-dark/80"
+          : "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:content-[''] after:dark:bg-dark/50",
+      ),
+    [isPremium, isPremiumPlus],
+  );
+
+  const buttonName = useMemo(() => {
+    if (!session) {
+      return "Inicia sesión";
+    } else if (isCurrentPlan) {
+      return "Plan Actual";
+    } else {
+      return "Escoger " + title;
+    }
+  }, [isCurrentPlan, session, title]);
+
   return (
     <>
-      <Card
-        className={cn(
-          "relative rounded-xl bg-white shadow-lg dark:bg-full-dark",
-          !isRecommended &&
-            !isAnual &&
-            "dark:border-accent-dark border border-gray-300",
-          isRecommended &&
-            "z-10 bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
-          isAnual &&
-            "z-0 bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
-        )}
-      >
-        <CardHeader
-          className={cn(
-            "after:dark:border-accent-dark relative z-10 flex-col items-stretch gap-3 p-3 text-main after:border-b after:border-gray-300 dark:text-white md:p-6",
-            !isRecommended && !isAnual && "after:!inset-0",
-            isRecommended
-              ? "after:absolute after:inset-px after:bottom-0 after:z-[-1] after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:content-[''] after:dark:border-full-dark after:dark:bg-full-dark/80"
-              : "after:absolute after:inset-px after:bottom-0 after:z-[-1] after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:content-[''] after:dark:bg-dark/50",
-          )}
-        >
+      <Card className={cardClassName}>
+        <CardHeader className={cardHeaderClassName}>
           <div className="inline-flex items-center gap-2">
             <h3 className="text-2xl font-semibold">{title}</h3>
-            {subtitle && (
-              <div
-                className={cn(
-                  "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs text-main-h dark:text-main-dark",
-                  isRecommended
-                    ? "bg-light-gradient-v2 after:absolute after:inset-px after:z-0 after:rounded-full after:bg-white after:content-[''] dark:bg-dark-gradient-v2 after:dark:bg-full-dark"
-                    : "dark:border-accent-dark border border-gray-300 bg-white dark:bg-full-dark",
-                )}
-              >
-                <span className="z-10">{subtitle}</span>
-              </div>
-            )}
+            <div
+              className={cn(
+                "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs text-main-h dark:text-main-dark",
+                isPremium
+                  ? "bg-light-gradient-v2 after:absolute after:inset-px after:z-0 after:rounded-full after:bg-white after:content-[''] dark:bg-dark-gradient-v2 after:dark:bg-full-dark"
+                  : "border border-gray-300 bg-white dark:border-accent-dark dark:bg-full-dark",
+              )}
+            >
+              <span className="z-10">{subtitle}</span>
+            </div>
           </div>
           <p className="min-h-[40px] text-sm text-main-h dark:text-main-dark-h lg:min-h-[60px]">
             {description}
@@ -140,36 +145,24 @@ const PricingCard: FC<PricingCardProps> = ({
               ${price.toLocaleString("es-CL")}
             </span>
             <span className="ml-0.5 text-sm text-main-m dark:text-main-dark-h">
-              {isAnual ? "/año" : "/mes"}
+              {isPremiumPlus ? "/año" : "/mes"}
             </span>
           </p>
           <Button
             radius="full"
-            isDisabled={isCurrentPlan}
-            onPress={() => handlePlanSelect(priceId)}
+            disabled={isCurrentPlan}
+            variant="ghost"
+            onClick={() => handlePlanSelect(priceId)}
             className={cn(
-              "dark:border-accent-dark z-10 border border-gray-300 text-sm dark:bg-full-dark/80",
-              isRecommended &&
-                "border-none bg-light-gradient-v2 dark:bg-dark-gradient-v2",
-              isAnual && "bg-white dark:bg-full-dark",
+              "z-10 h-10 border border-gray-300 bg-white text-sm shadow-none dark:border-accent-dark dark:bg-full-dark",
+              isPremium &&
+                "border-none bg-light-gradient-v2 text-white dark:bg-dark-gradient-v2",
             )}
           >
-            {session ? (
-              isRecommended ? (
-                <span className="font-bold text-white">
-                  {isCurrentPlan ? "Plan Actual" : buttonTitle}
-                </span>
-              ) : (
-                <span>{isCurrentPlan ? "Plan Actual" : buttonTitle}</span>
-              )
-            ) : isRecommended ? (
-              <span className="font-bold text-white">Inicia sesión</span>
-            ) : (
-              <span>Inicia sesión</span>
-            )}
+            {buttonName}
           </Button>
         </CardHeader>
-        <CardBody className="z-10 p-3 md:p-6">
+        <div className="relative z-10 flex w-full flex-auto flex-col p-3 md:p-6">
           <ul role="list" className="grid gap-3">
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
@@ -182,17 +175,17 @@ const PricingCard: FC<PricingCardProps> = ({
               </li>
             ))}
           </ul>
-        </CardBody>
+        </div>
       </Card>
       <PaymentModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isOpenPaymentModal}
+        setIsOpen={setIsOpenPaymentModal}
         selectedPlan={selectedPlan}
         title={title}
       />
       <CancelPlanModal
         isOpen={isOpenCancelModal}
-        onOpenChange={onOpenChangeCancelModal}
+        setIsOpen={setIsOpenCancelModal}
         isPending={isPending}
         handleCancelPlan={handleSetFreePlan}
       />

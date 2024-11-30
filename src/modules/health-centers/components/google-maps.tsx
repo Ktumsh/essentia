@@ -1,6 +1,6 @@
 "use client";
 
-import "./map.css";
+import "@/styles/map.css";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
 

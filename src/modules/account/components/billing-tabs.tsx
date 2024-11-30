@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, Tab } from "@nextui-org/react";
+import { Tabs, Tab } from "@nextui-org/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";

@@ -1,34 +1,49 @@
 "use client";
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Popover,
-  PopoverTrigger,
-  Chip,
-  PopoverContent,
-  Snippet,
-} from "@nextui-org/react";
 import { loadStripe } from "@stripe/stripe-js";
-import { useState } from "react";
+import { Loader } from "lucide-react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useSteps } from "@/modules/chatbot/hooks/use-steps";
+import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
 import { CopyIcon } from "@/modules/icons/action";
-import { SpinnerIcon, WarningCircledIcon } from "@/modules/icons/common";
+import { WarningCircledIcon } from "@/modules/icons/common";
 import PaymentForm from "@/modules/payment/components/payment-form";
 import StripeWrapper from "@/modules/payment/components/stripe-wrapper";
 import { createSubscription } from "@/modules/payment/pay/actions";
-import { tooltipStyles } from "@/styles/tooltip-styles";
-import { cn } from "@/utils/common";
 
 interface PricingCardProps {
   isOpen: boolean;
-  onOpenChange: (isOpen: boolean) => void;
+  setIsOpen: (isOpen: boolean) => void;
   selectedPlan: string | null;
   title: string;
 }
@@ -37,18 +52,22 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string,
 );
 
+const CARD_NUMBER = "4242 4242 4242 4242";
+
 const PaymentModal = ({
   isOpen,
-  onOpenChange,
+  setIsOpen,
   selectedPlan,
   title,
 }: PricingCardProps) => {
+  const isMobile = useIsMobile();
   const { currentStep, nextStep } = useSteps();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [cardholderName, setCardholderName] = useState<string>("");
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const { copyToClipboard } = useCopyToClipboard({ timeout: 1000 });
 
-  const handleProceedToPayment = async () => {
+  const handleProceedToPayment = useCallback(async () => {
     if (!selectedPlan || !cardholderName) {
       toast.error(
         "Selecciona un plan y proporciona el nombre del titular de la suscripción",
@@ -69,182 +88,186 @@ const PaymentModal = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [cardholderName, nextStep, selectedPlan]);
 
-  return (
-    <Modal
-      size="lg"
-      radius="sm"
-      placement="center"
-      classNames={{
-        backdrop: "z-[101] bg-black/80",
-        wrapper: "z-[102] pointer-events-auto",
-        base: [
-          "bg-white dark:bg-full-dark",
-          currentStep === 1 && "min-h-[485px] md:min-h-[505px]",
-        ],
-        closeButton:
-          "hover:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:active:bg-white/10 transition-colors duration-150",
-      }}
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-    >
-      <ModalContent>
-        {(onClose) => (
+  const handleCopy = useCallback(() => {
+    copyToClipboard(CARD_NUMBER);
+    toast.success("Tarjeta copiada");
+  }, [copyToClipboard]);
+
+  const Content = useCallback(() => {
+    return (
+      <>
+        {currentStep === 0 ? (
           <>
-            {currentStep === 0 ? (
-              <>
-                <ModalHeader className="p-3 md:p-6">
-                  <div className="flex-col">
-                    <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
-                      Seleccionaste el plan {title}
-                    </h2>
-                    <p className="text-sm font-normal text-main-h dark:text-main-dark-h">
-                      Para continuar con la suscripción, proporciona el nombre
-                      del titular de la suscripción.
+            {isMobile ? (
+              <DrawerHeader>
+                <DrawerTitle>Seleccionaste el plan {title}</DrawerTitle>
+                <DrawerDescription className="mt-4 px-4 text-start">
+                  Para continuar con la suscripción, proporciona el nombre del
+                  titular de la suscripción.
+                </DrawerDescription>
+              </DrawerHeader>
+            ) : (
+              <DialogHeader isSecondary>
+                <DialogTitle>Mejora tu Plan</DialogTitle>
+                <DialogDescription>
+                  Para continuar con la suscripción, proporciona el nombre del
+                  titular de la suscripción.
+                </DialogDescription>
+              </DialogHeader>
+            )}{" "}
+            <div className="p-4 md:p-6">
+              <div className="mt-6 flex w-full flex-col space-y-2">
+                <Label htmlFor="cardholderName">
+                  Nombre del titular de la suscripción
+                </Label>
+                <Input
+                  name="cardholderName"
+                  type="text"
+                  required
+                  value={cardholderName}
+                  placeholder="Ingresa el nombre del titular de la suscripción"
+                  onChange={(e) => setCardholderName(e.target.value)}
+                />
+              </div>
+            </div>
+            {isMobile ? (
+              <DrawerFooter>
+                <DrawerClose asChild>
+                  <Button variant="secondary">Cancelar</Button>
+                </DrawerClose>
+                <Button
+                  variant="destructive"
+                  onClick={handleProceedToPayment}
+                  disabled={!selectedPlan || !cardholderName || isLoading}
+                >
+                  {isLoading && <Loader className="size-4 animate-spin" />}
+                  {isLoading ? null : "Mejorar a " + title}
+                </Button>
+              </DrawerFooter>
+            ) : (
+              <DialogFooter isSecondary>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancelar</Button>
+                </DialogClose>
+                <Button
+                  variant="destructive"
+                  disabled={!selectedPlan || !cardholderName || isLoading}
+                  onClick={handleProceedToPayment}
+                >
+                  {isLoading && <Loader className="size-4 animate-spin" />}
+                  {isLoading ? null : "Mejorar a " + title}
+                </Button>
+              </DialogFooter>
+            )}
+          </>
+        ) : (
+          <>
+            {isMobile ? (
+              <DrawerHeader>
+                <DrawerTitle>Suscribirse a Premium</DrawerTitle>
+                <DrawerDescription asChild>
+                  <div className="mt-4 space-y-2 px-6 text-start">
+                    <p>
+                      No te preocupes, es un pago simulado, no se harán cargos
+                      reales.
+                    </p>
+                    <p>
+                      Puedes usar la tarjeta{" "}
+                      <span className="font-semibold">{CARD_NUMBER}</span> para
+                      realizar el proceso.
                     </p>
                   </div>
-                </ModalHeader>
-                <ModalBody className="p-3 !pt-0 md:p-6">
-                  <div>
-                    <label
-                      htmlFor="cardholderName"
-                      className="text-sm text-main dark:text-main-dark"
-                    >
-                      Nombre del titular de la suscripción
-                    </label>
-                    <input
-                      type="text"
-                      id="cardholderName"
-                      required
-                      value={cardholderName}
-                      placeholder="Ingresa el nombre del titular de la suscripción"
-                      onChange={(e) => setCardholderName(e.target.value)}
-                      className={cn(
-                        "mt-1 block w-full rounded-md border border-gray-300 bg-gray-100 p-3 pr-[26px] text-sm leading-none shadow-sm focus:outline-none dark:border-accent-dark dark:bg-dark",
-                        "focus:border-[hsla(6,_93%,_71%,_50%)] focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(6,_93%,_71%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]",
-                        "focus:dark:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0px_3px_6px_rgba(0,_0,_0,_0.02),_0_0_0_3px_hsla(343,_58%,_50%,_25%),_0_1px_1px_0_rgba(255,_255,_255,_0.12))] focus:dark:border-[hsla(343,_58%,_50%,_50%)]",
-                      )}
-                    />
-                  </div>
-                </ModalBody>
-
-                <ModalFooter className="justify-between p-3 !pt-0 md:justify-end md:p-6">
-                  <Button
-                    onPress={onClose}
-                    variant="light"
-                    className="rounded-md data-[hover=true]:bg-gray-100 dark:data-[hover=true]:bg-dark"
-                  >
-                    Cancelar
-                  </Button>
-                  <Button
-                    color="danger"
-                    onPress={handleProceedToPayment}
-                    className="rounded-md"
-                    isDisabled={!selectedPlan || !cardholderName || isLoading}
-                    startContent={
-                      isLoading ? (
-                        <SpinnerIcon className="size-4 animate-spin" />
-                      ) : null
-                    }
-                  >
-                    {isLoading ? "Procesando..." : "Mejorar a Premium"}
-                  </Button>
-                </ModalFooter>
-              </>
+                </DrawerDescription>
+              </DrawerHeader>
             ) : (
-              <>
-                <ModalHeader className="items-center p-3 md:p-6">
-                  <h2 className="text-lg font-semibold text-main dark:text-white md:text-xl">
-                    Suscribirse a Premium
-                  </h2>
-                  <Popover
-                    backdrop="blur"
-                    placement="top"
-                    classNames={{
-                      base: ["max-w-96", tooltipStyles.arrow],
-                      content: ["items-start", tooltipStyles.content],
-                    }}
-                  >
-                    <PopoverTrigger>
-                      <Chip
-                        as="button"
-                        variant="flat"
-                        color="danger"
-                        size="sm"
-                        startContent={<WarningCircledIcon className="size-4" />}
-                        className="ml-3 appearance-none"
+              <DialogHeader isSecondary className="flex-row">
+                <DialogTitle>Suscribirse a Premium</DialogTitle>
+                <DialogDescription className="sr-only">
+                  Suscribirse a Premium
+                </DialogDescription>
+                <Popover>
+                  <PopoverTrigger className="!mt-0">
+                    <Badge variant="destructive" className="ml-3 gap-1">
+                      <WarningCircledIcon className="size-3.5" />
+                      Pago simulado (presiona aquí)
+                    </Badge>
+                  </PopoverTrigger>
+                  <PopoverContent className="space-y-1.5">
+                    <p className="text-balance text-xs text-main-h dark:text-main-dark-h">
+                      El pago es simulado y no se realizará ningún cargo real.
+                      Usa la tarjeta de prueba{" "}
+                      <button
+                        className="inline-flex items-center gap-1"
+                        onClick={() => handleCopy()}
                       >
-                        Pago simulado (haz clic)
-                      </Chip>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <div className="px-1 py-2">
-                        <div className="text-sm font-bold dark:text-main-dark">
-                          Pago simulado
-                        </div>
-                        <div className="text-xs text-main-h dark:text-main-dark-h">
-                          El pago es simulado y no se realizará ningún cargo
-                          real. Usa la tarjeta de prueba{" "}
-                          <Snippet
-                            size="sm"
-                            hideSymbol
-                            copyIcon={<CopyIcon />}
-                            tooltipProps={{
-                              content: "Copiar",
-                              classNames: {
-                                content: tooltipStyles.content,
-                              },
-                            }}
-                            classNames={{
-                              base: "bg-gray-100 dark:bg-full-dark",
-                              copyButton:
-                                "!size-4 min-w-0 [&_svg]:size-3 [&_svg]:text-main-m dark:[&_svg]:text-main-dark-m",
-                            }}
-                          >
-                            4242 4242 4242 4242
-                          </Snippet>{" "}
-                          con{" "}
-                          <strong className="text-main dark:text-main-dark">
-                            CVC 123
-                          </strong>{" "}
-                          y una{" "}
-                          <strong className="text-main dark:text-main-dark">
-                            fecha de expiración futura
-                          </strong>
-                          .
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </ModalHeader>
-                <ModalBody className="p-3 !pt-0 md:p-6">
-                  {!selectedPlan || !cardholderName || !clientSecret ? (
-                    <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
-                      <SpinnerIcon className="size-6" />
-                      <h3 className="text-sm text-main-m dark:text-main-dark-m">
-                        Procesando
-                      </h3>
-                    </div>
-                  ) : (
-                    <StripeWrapper
-                      stripe={stripePromise}
-                      clientSecret={clientSecret}
-                    >
-                      <PaymentForm
-                        onClose={onClose}
-                        cardholderName={cardholderName}
-                        priceId={selectedPlan}
-                      />
-                    </StripeWrapper>
-                  )}
-                </ModalBody>
-              </>
+                        {CARD_NUMBER}
+                        <CopyIcon className="!size-3" />
+                      </button>{" "}
+                      con{" "}
+                      <strong className="text-main dark:text-main-dark">
+                        CVC 123
+                      </strong>{" "}
+                      y una{" "}
+                      <strong className="text-main dark:text-main-dark">
+                        fecha de expiración futura
+                      </strong>
+                      .
+                    </p>
+                  </PopoverContent>
+                </Popover>
+              </DialogHeader>
+            )}
+            {!selectedPlan || !cardholderName || !clientSecret ? (
+              <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
+                <Loader className="size-6" />
+                <h3 className="text-sm text-main-m dark:text-main-dark-m">
+                  Procesando
+                </h3>
+              </div>
+            ) : (
+              <StripeWrapper stripe={stripePromise} clientSecret={clientSecret}>
+                <PaymentForm
+                  onClose={setIsOpen}
+                  cardholderName={cardholderName}
+                  priceId={selectedPlan}
+                />
+              </StripeWrapper>
             )}
           </>
         )}
-      </ModalContent>
-    </Modal>
+      </>
+    );
+  }, [
+    cardholderName,
+    clientSecret,
+    isMobile,
+    selectedPlan,
+    title,
+    handleCopy,
+    handleProceedToPayment,
+    currentStep,
+    isLoading,
+    setIsOpen,
+  ]);
+
+  if (isMobile) {
+    return (
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerContent>
+          <Content />
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent isSecondary>
+        <Content />
+      </DialogContent>
+    </Dialog>
   );
 };
 

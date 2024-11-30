@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/input";
 import { useLocalStorage } from "@rehooks/local-storage";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
@@ -252,7 +252,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
                       );
                       setIsOpen(false);
                     }}
-                    className="justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white antialiased will-change-transform data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
+                    className="data-[hover=true]:opacity-hover justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white antialiased will-change-transform data-[hover=true]:text-white data-[hover=true]:transition dark:bg-dark-gradient"
                   >
                     Buscar con Essentia AI
                     <SearchAIIcon

@@ -36,7 +36,7 @@ const MoreSection = () => {
                         <span slot="additional" className="font-bold">
                           Vida saludable, Ejercicios y fitness, Nutrición y
                           alimentación, Bienestar emocional, Salud y educación
-                          sexual y Salud para todas las edades
+                          sexual y Salud en todas las edades
                         </span>
                       </MoreSectonItem>
                       <MoreSectonItem text="Sección de noticias" />

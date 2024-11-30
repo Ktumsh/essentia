@@ -45,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: "https://essentia-web.vercel.app/salud-para-todas-las-edades",
+      url: "https://essentia-web.vercel.app/salud-en-todas-las-edades",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,

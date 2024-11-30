@@ -90,7 +90,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
 
   return (
     <>
-      <div className="mx-auto min-h-full max-w-7xl flex-1 border-gray-200 bg-white pb-16 text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:border md:border-y-0 md:pb-0">
+      <div className="mx-auto max-w-7xl flex-1 border-gray-200 bg-white pb-16 text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:min-h-[calc(100dvh-56px)] md:border md:border-y-0 md:pb-0">
         <div className="select-none lg:px-6 lg:pb-6">
           <div className="mx-auto flex w-full flex-col">
             <div className="flex flex-col overflow-hidden md:overflow-visible lg:flex-row">
@@ -98,7 +98,7 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                 id={`introduccion-a-${formatedTitle}`}
                 data-id={`introduccion-a-${formatedTitle}`}
                 data-name={`Introducción a ${title}`}
-                className="relative z-10 flex aspect-[908/384] flex-1 overflow-hidden border !border-t-0 border-white shadow-md dark:border-accent-dark md:mb-5 lg:rounded-b-3xl"
+                className="relative z-10 flex aspect-[908/384] flex-1 overflow-hidden md:mb-5 lg:rounded-b-xl"
               >
                 <div className="absolute right-0 top-0 z-20 p-5">
                   <BetterTooltip side="right" content="Contenido recomendado">
@@ -135,11 +135,11 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                   <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
                 </div>
                 <div className="absolute bottom-0 right-0 z-20 px-5 py-3">
-                  <BetterTooltip content={videoTitle}>
+                  <BetterTooltip content="Ver video presentación">
                     <Button
                       variant="ghost"
                       radius="lg"
-                      className="z-10 h-8 min-w-16 bg-black/40 backdrop-blur-sm backdrop-saturate-150 hover:bg-black/60"
+                      className="z-10 aspect-video h-8 bg-black/40 backdrop-blur-sm backdrop-saturate-150 !transition hover:!bg-black/60"
                       onClick={() => setIsOpen(true)}
                     >
                       <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />

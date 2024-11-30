@@ -16,14 +16,14 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
           className="relative overflow-hidden rounded-2xl bg-white dark:bg-full-dark md:h-52 md:rounded-xl"
         >
           <div className="flex items-center justify-between md:flex-col">
-            <div className="h-24">
+            <div className="h-20 md:h-24">
               <Image
                 quality={70}
                 width={270}
                 height={96}
                 src={fact.image}
                 alt={fact.fact}
-                className="aspect-auto h-full object-cover object-center"
+                className="aspect-auto h-full rounded-r-md object-cover object-center shadow-md md:rounded-none md:shadow-none"
               />
             </div>
             <div className="w-full p-6">

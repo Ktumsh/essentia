@@ -197,12 +197,12 @@ const sexEducationSearchData: SearchResult[] = [
 
 const forAllAgesSearchData: SearchResult[] = [
   {
-    content: "Introducción a Salud para Todas las Edades",
+    content: "Introducción a Salud en Todas las Edades",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/salud-para-todas-las-edades#¿como-cuidar-tu-salud-a-cualquier-edad?",
+    url: "/salud-en-todas-las-edades#¿como-cuidar-tu-salud-a-cualquier-edad?",
     hierarchy: {
-      lvl1: "Salud para todas las edades",
+      lvl1: "Salud en todas las edades",
       lvl2: null,
       lvl3: null,
     },

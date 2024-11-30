@@ -30,8 +30,8 @@ const Medicines = () => {
         </Link>
       </div>
       <div className="flex w-full">
-        <Card className="relative mt-2 box-border flex h-auto flex-col overflow-hidden rounded-lg border border-gray-200 bg-gray-100 text-main-h outline-none data-[focus-visible=true]:z-10 dark:border-dark dark:bg-dark/50 dark:text-main-dark">
-          <CardContent className="relative z-10 flex h-auto w-full flex-auto snap-x snap-mandatory flex-row gap-6 overflow-auto break-words p-3 text-left scrollbar-hide">
+        <Card className="mt-2 flex h-auto flex-col overflow-hidden bg-gray-50 dark:bg-dark/30">
+          <CardContent className="scrollbar-hide relative z-10 flex h-auto w-full flex-auto snap-x snap-mandatory flex-row gap-6 overflow-auto break-words p-3 text-left">
             <ul className="min-w-[90%] snap-center space-y-2 md:min-w-0">
               {MEDICINES_DATA_GROUP_1.map((category, index) => (
                 <MedicineCategory

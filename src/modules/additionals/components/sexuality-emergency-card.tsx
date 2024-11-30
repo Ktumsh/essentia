@@ -2,7 +2,8 @@ import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
-import { CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { SEXUALITY_EMERGENCY } from "@/consts/sexuality-emergency";
 import { HashIcon } from "@/modules/icons/common";
@@ -27,52 +28,54 @@ const SexualityEmergencyCard = () => {
       </div>
       <div className="flex max-h-[700px] w-full">
         {SEXUALITY_EMERGENCY.map((cardInfo, index) => (
-          <button
+          <Card
             key={index}
-            className="relative box-border flex h-auto min-h-[74px] w-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-gray-100 text-main outline-none transition-transform-background focus-visible:outline-offset-2 focus-visible:outline-focus data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 motion-reduce:transition-none dark:border-dark dark:bg-dark/50 dark:text-white md:min-h-[54px]"
+            className="flex h-auto cursor-pointer flex-col bg-gray-50 text-main dark:bg-dark/30 dark:text-white"
           >
+            <CardHeader isSecondary>
+              <CardTitle className="text-base md:text-lg">
+                Emergencias de Salud Sexual
+              </CardTitle>
+            </CardHeader>
+            <Separator />
             <CardContent className="flex flex-col overflow-hidden p-3">
-              <div className="inline-flex w-full items-center justify-between">
-                <h3 className="text-lg font-semibold">
-                  Emergencias de Salud Sexual
-                </h3>
-              </div>
-              <Separator className="my-3 bg-gray-200 dark:bg-dark" />
-              <ol className="modal flex flex-col space-y-4 overflow-y-auto">
-                {cardInfo.steps.map((step, stepIndex) => (
-                  <li
-                    key={stepIndex}
-                    className="space-y-1.5 text-start text-sm"
-                  >
-                    <ul className="inline-flex">
-                      <Badge
-                        variant="primary"
-                        className="mr-2 flex !size-6 min-w-0 max-w-full justify-center !bg-cyan-500 !text-white hover:!bg-cyan-500/80"
-                      >
-                        {step.step}
-                      </Badge>
-                      <li className="mr-2 text-nowrap text-base font-semibold">
-                        {step.title}
-                      </li>
-                    </ul>
-                    <ul className="ml-8 space-y-1.5 text-main-h dark:text-main-dark-h">
-                      {step.description.map((desc, i) => (
-                        <li key={i}>
-                          {desc.type === "bold" ? (
-                            <strong className="mr-2 text-main dark:text-white">
-                              {desc.content}
-                            </strong>
-                          ) : (
-                            desc.content
-                          )}
+              <ScrollArea>
+                <ol className="flex flex-col space-y-4">
+                  {cardInfo.steps.map((step, stepIndex) => (
+                    <li
+                      key={stepIndex}
+                      className="space-y-1.5 text-start text-sm"
+                    >
+                      <ul className="inline-flex">
+                        <Badge
+                          variant="primary"
+                          className="mr-2 flex !size-6 min-w-0 max-w-full justify-center !bg-pink-600 !text-white hover:!bg-pink-600/80"
+                        >
+                          {step.step}
+                        </Badge>
+                        <li className="mr-2 text-nowrap text-sm font-semibold">
+                          {step.title}
                         </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ol>
+                      </ul>
+                      <ul className="ml-8 space-y-1.5 text-main-h dark:text-main-dark-h">
+                        {step.description.map((desc, i) => (
+                          <li key={i}>
+                            {desc.type === "bold" ? (
+                              <strong className="mr-2 font-semibold">
+                                {desc.content}
+                              </strong>
+                            ) : (
+                              desc.content
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ol>
+              </ScrollArea>
             </CardContent>
-          </button>
+          </Card>
         ))}
       </div>
     </section>

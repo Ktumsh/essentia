@@ -48,7 +48,7 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
    - 🍎 Nutrición
    - 🧠 Bienestar Emocional
    - 👫 Salud y Educación Sexual
-   - 👨‍👩‍👧‍👦 Salud para Todas las Edades
+   - 👨‍👩‍👧‍👦 Salud en Todas las Edades
 
 2. **🤖 Essentia AI**: Inteligencia artificial especializada en salud.
 

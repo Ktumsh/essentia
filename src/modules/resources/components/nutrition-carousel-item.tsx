@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { StarIcon } from "@/modules/icons/common";
 import { HeartIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
@@ -56,18 +56,16 @@ const NutritionCarouselItem = ({ item, index }: Props) => {
               <div className="flex h-full translate-y-full flex-col rounded bg-gray-100/80 transition-transform duration-300 will-change-transform group-hover:translate-y-0 dark:bg-gray-900/90">
                 <div className="mx-auto flex h-full items-center justify-center">
                   <Button
-                    isIconOnly
-                    size="sm"
-                    variant="solid"
-                    color="primary"
+                    size="icon"
                     radius="full"
-                    onPress={() => setIsLiked(!isLiked)}
+                    variant="ghost"
+                    onClick={() => setIsLiked(!isLiked)}
                     className={cn(
                       isLiked && "!text-cerise-red-500",
-                      "bg-transparent text-main-m data-[hover=true]:text-main data-[hover=true]:opacity-100 dark:text-white/40 dark:data-[hover=true]:text-white",
+                      "bg-transparent text-main-m hover:!bg-transparent hover:text-main hover:opacity-100 active:scale-95 dark:text-white/40 dark:hover:text-white",
                     )}
                   >
-                    <HeartIcon />
+                    <HeartIcon className="!size-6" />
                   </Button>
                 </div>
                 <div className="mx-auto flex h-full items-center justify-center">
@@ -75,31 +73,29 @@ const NutritionCarouselItem = ({ item, index }: Props) => {
                     variant="ghost"
                     radius="none"
                     size="lg"
-                    onPress={() => {
+                    onClick={() => {
                       setIsOpen(true);
                       history.replaceState(null, "", `#${slug}`);
                     }}
-                    className="border border-main font-spacemono font-medium uppercase text-main data-[hover=true]:!bg-main data-[hover=true]:text-white dark:border-white dark:text-white dark:data-[hover=true]:!bg-white dark:data-[hover=true]:text-main"
+                    className="border border-main font-spacemono font-medium uppercase text-main hover:!bg-main hover:text-white dark:border-white dark:text-white dark:hover:!bg-white dark:hover:text-main"
                   >
                     Ver receta
                   </Button>
                 </div>
-                <div className="mx-auto flex h-full items-center justify-center gap-3">
+                <div className="mx-auto flex h-full items-center justify-center">
                   {[...Array(5)].map((_, index) => (
                     <Button
                       key={index}
-                      isIconOnly
-                      size="sm"
-                      variant="solid"
-                      color="primary"
+                      size="icon"
+                      variant="ghost"
                       radius="full"
-                      onPress={() => handleRating(index)}
+                      onClick={() => handleRating(index)}
                       className={cn(
-                        rating > index && "!text-yellow-300",
-                        "bg-transparent text-main-m data-[hover=true]:text-main data-[hover=true]:opacity-100 dark:text-white/40 dark:data-[hover=true]:text-white",
+                        rating > index && "!text-yellow-500",
+                        "bg-transparent text-main-m hover:!bg-transparent hover:text-main hover:opacity-100 active:scale-95 dark:text-white/40 dark:hover:text-white",
                       )}
                     >
-                      <StarIcon />
+                      <StarIcon className="!size-5" />
                     </Button>
                   ))}
                 </div>
