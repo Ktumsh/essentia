@@ -1,8 +1,8 @@
-import { MutableRefObject, useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
 interface UseSearchBoxProps {
   mapInstance: google.maps.Map | null;
-  searchRef: MutableRefObject<HTMLInputElement | null>;
+  searchRef: RefObject<HTMLInputElement | null>;
   createMarker: (
     place: google.maps.places.PlaceResult,
     infoWindow: google.maps.InfoWindow,

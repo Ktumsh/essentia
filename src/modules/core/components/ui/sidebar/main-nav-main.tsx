@@ -17,16 +17,17 @@ import MainSearch from "../layout/main-search";
 
 interface MainNavMainProps {
   items: SiteConfig["navLinks"];
+  isPremium?: boolean;
 }
 
-const MainNavMain = ({ items }: MainNavMainProps) => {
+const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
   const pathname = usePathname();
 
   return (
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem>
-          <MainSearch>
+          <MainSearch isPremium={isPremium}>
             <SidebarMenuButton tooltip="Busca rapida">
               <SearchIcon className="size-5" aria-hidden="true" />
               <span>Busca rápida</span>
