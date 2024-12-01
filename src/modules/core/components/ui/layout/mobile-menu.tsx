@@ -1,5 +1,6 @@
 "use client";
 
+import { Info } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -132,6 +133,13 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
 
                   <div role="group">
                     <footer className="flex flex-col justify-end gap-3 text-main-m dark:text-main-dark-m">
+                      <Link
+                        className="relative flex w-full items-center py-1.5 text-sm"
+                        href="/about-essentia"
+                      >
+                        <Info className="mr-3 size-3.5" />
+                        Acerca de Essentia
+                      </Link>
                       <Link
                         className="relative flex w-full items-center py-1.5 text-sm"
                         href="/account"

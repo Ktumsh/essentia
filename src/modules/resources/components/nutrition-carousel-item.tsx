@@ -19,10 +19,9 @@ type Item = {
 
 interface Props {
   item: Item;
-  index: number;
 }
 
-const NutritionCarouselItem = ({ item, index }: Props) => {
+const NutritionCarouselItem = ({ item }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [rating, setRating] = useState(0);
@@ -44,13 +43,11 @@ const NutritionCarouselItem = ({ item, index }: Props) => {
         <div className="h-full rounded border border-altern-accent bg-altern p-2.5 dark:border-accent-dark dark:bg-dark">
           <div className="relative overflow-hidden rounded">
             <Image
-              priority={index < 3}
-              loading={index > 2 ? "lazy" : "eager"}
-              width={257}
+              width={242}
               height={256}
               src={image}
               alt={title}
-              className="animate-fade-in z-0 h-64 w-full object-cover [content-visibility:auto]"
+              className="animate-fade-in z-0 aspect-auto h-64 w-full object-cover [content-visibility:auto] md:w-auto"
             />
             <div className="absolute inset-0 z-10 p-4">
               <div className="flex h-full translate-y-full flex-col rounded bg-gray-100/80 transition-transform duration-300 will-change-transform group-hover:translate-y-0 dark:bg-gray-900/90">

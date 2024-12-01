@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -8,35 +7,9 @@ import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { RECIPES } from "@/consts/recipes-data";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { HashIcon, StarsIcon } from "@/modules/icons/common";
 
-import { useVisibilityObserver } from "../hooks/use-visibility-obs";
-
-const Loading = () => {
-  const windowSize = useWindowSize();
-  const { width } = windowSize;
-
-  return (
-    <div className="ml-5 flex flex-1 space-x-8 overflow-hidden">
-      {Array.from({ length: width < 1024 ? 1 : 3 }).map((_, i) => (
-        <div
-          key={i}
-          className="flex h-96 w-full shrink-0 animate-pulse flex-col gap-4 rounded bg-gray-100 p-5 dark:bg-dark lg:w-[306.66px]"
-        >
-          <div className="h-64 w-full shrink-0 animate-pulse bg-gray-200 dark:bg-full-dark"></div>
-          <div className="h-4 w-4/5 shrink-0 animate-pulse rounded-full bg-gray-200 dark:bg-full-dark"></div>
-          <div className="h-4 w-1/2 shrink-0 animate-pulse rounded-full bg-gray-200 dark:bg-full-dark"></div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const NutritionCarousel = dynamic(() => import("./nutrition-carousel"), {
-  loading: () => <Loading />,
-  ssr: false,
-});
+import NutritionCarousel from "./nutrition-carousel";
 
 interface NutritionProps {
   isPremium?: boolean | null;
@@ -44,8 +17,6 @@ interface NutritionProps {
 
 const Nutrition = ({ isPremium }: NutritionProps) => {
   const router = useRouter();
-  const secondCarousel = useVisibilityObserver();
-  const thirdCarousel = useVisibilityObserver();
 
   const isMobile = useIsMobile();
 
@@ -127,7 +98,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
           </div>
           <NutritionCarousel data={RECIPES} startIndex={18} totalItems={15} />
         </section>
-        <section className="mb-16" ref={secondCarousel.ref}>
+        <section className="mb-16">
           <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
             <h4 className="text-main dark:text-white">
               <Link
@@ -147,13 +118,9 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
               plancha.
             </p>
           </div>
-          {secondCarousel.isVisible ? (
-            <NutritionCarousel data={RECIPES} startIndex={0} totalItems={18} />
-          ) : (
-            <Loading />
-          )}
+          <NutritionCarousel data={RECIPES} startIndex={0} totalItems={18} />
         </section>
-        <section className="mb-16" ref={thirdCarousel.ref}>
+        <section className="mb-16">
           <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
             <h4 className="text-main dark:text-white">
               <Link
@@ -173,11 +140,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
               galletas de avena.
             </p>
           </div>
-          {thirdCarousel.isVisible ? (
-            <NutritionCarousel data={RECIPES} startIndex={33} totalItems={15} />
-          ) : (
-            <Loading />
-          )}
+          <NutritionCarousel data={RECIPES} startIndex={33} totalItems={15} />
         </section>
       </section>
     </>

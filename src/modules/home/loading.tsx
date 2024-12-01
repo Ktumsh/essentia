@@ -11,7 +11,7 @@ const Loading = () => {
           className="relative overflow-hidden rounded-2xl bg-white dark:bg-full-dark md:h-52 md:rounded-xl"
         >
           <div className="flex items-center justify-between md:flex-col">
-            <div className="flex h-20 min-w-[141px] items-center justify-center overflow-hidden md:h-24 md:w-full">
+            <div className="flex h-20 min-w-[141px] items-center justify-center overflow-hidden py-1 md:h-24 md:w-full md:py-0">
               <Skeleton className="aspect-auto size-full rounded-none rounded-r-md object-cover object-center shadow-md md:rounded-none md:shadow-none" />
             </div>
             <div className="flex w-full flex-col content-center space-y-3 p-6">

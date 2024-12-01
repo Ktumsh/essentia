@@ -2,18 +2,21 @@
 
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
-import { FC, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { RESOURCES } from "@/consts/resources";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
+import {
+  getResourceColor,
+  getResourceDetails,
+  getResourceIndex,
+} from "@/modules/core/lib/utils";
 import { PlayIcon2 } from "@/modules/icons/action";
-import { StarIcon } from "@/modules/icons/common";
 import { TouchIcon } from "@/modules/icons/interface";
 import { NextArrowIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
@@ -26,7 +29,7 @@ interface ResourceWrapperProps {
   isPremium?: boolean | null;
 }
 
-const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
+const ResourceWrapper = ({ params, isPremium }: ResourceWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -48,6 +51,10 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
   } = resourceData;
 
   const formatedTitle = formatTitle(title);
+
+  const resourceIndex = getResourceIndex(title);
+
+  const resourceDetails = getResourceDetails(title);
 
   const scrollTo = ({ to }: { to: "start" | "end" }) => {
     if (sectionRef.current) {
@@ -101,11 +108,16 @@ const ResourceWrapper: FC<ResourceWrapperProps> = ({ params, isPremium }) => {
                 className="relative z-10 flex aspect-[908/384] flex-1 overflow-hidden md:mb-5 lg:rounded-b-xl"
               >
                 <div className="absolute right-0 top-0 z-20 p-5">
-                  <BetterTooltip side="right" content="Contenido recomendado">
-                    <Badge className="w-12 max-w-full cursor-help justify-center bg-light-gradient shadow-md dark:bg-dark-gradient-v2">
-                      <StarIcon className="w-4 text-white" />
-                    </Badge>
-                  </BetterTooltip>
+                  <div
+                    className={cn(
+                      "flex size-10 items-center justify-center rounded-lg bg-gradient-to-br",
+                      getResourceColor(resourceIndex, "gradient"),
+                    )}
+                  >
+                    {resourceDetails && (
+                      <resourceDetails.activeIcon className="size-5 text-white" />
+                    )}
+                  </div>
                 </div>
                 <div className="group relative flex w-full flex-col justify-center overflow-hidden text-main">
                   <div className="absolute top-1 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3 transition-opacity duration-500 group-active:opacity-0 lg:group-hover:opacity-0">
