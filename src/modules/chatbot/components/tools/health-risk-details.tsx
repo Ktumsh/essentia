@@ -4,6 +4,7 @@ import { Calendar } from "lucide-react";
 import { useMemo } from "react";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -19,6 +20,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BetterTooltip } from "@/components/ui/tooltip";
@@ -82,6 +88,8 @@ const HealthRiskDetails = ({
 }: {
   riskAssessment: RiskAssessment;
 }) => {
+  const isMobile = useIsMobile();
+
   const getTotalRiskLevel = useMemo(
     () => (generalRiskLevel: string, generalRiskLevelPercentage: number) => {
       const riskLevels = [
@@ -282,14 +290,33 @@ const HealthRiskDetails = ({
                   <p className="font-sans text-4xl font-extrabold text-main dark:text-white">
                     {riskAssessment.generalRiskLevelPercentage}%
                   </p>
-                  <BetterTooltip content="Porcentaje de riesgo general">
-                    <span
-                      aria-label="Ayuda"
-                      className="flex size-3 items-center justify-center rounded-full bg-bittersweet-300 dark:bg-cerise-red-600"
-                    >
-                      <QuestionIcon className="size-2 text-white" />
-                    </span>
-                  </BetterTooltip>
+                  {isMobile ? (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <span
+                          aria-label="Ayuda"
+                          className="flex size-3 items-center justify-center rounded-full bg-bittersweet-400 dark:bg-cerise-red-600"
+                        >
+                          <QuestionIcon className="size-2 text-white" />
+                        </span>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        side="top"
+                        className="w-auto rounded-full px-2 py-1"
+                      >
+                        <p className="text-xs">Porcentaje de riesgo general</p>
+                      </PopoverContent>
+                    </Popover>
+                  ) : (
+                    <BetterTooltip content="Porcentaje de riesgo general">
+                      <span
+                        aria-label="Ayuda"
+                        className="flex size-3 items-center justify-center rounded-full bg-bittersweet-300 dark:bg-cerise-red-600"
+                      >
+                        <QuestionIcon className="size-2 text-white" />
+                      </span>
+                    </BetterTooltip>
+                  )}
                 </div>
                 <Progress
                   value={riskAssessment.generalRiskLevelPercentage}
@@ -315,10 +342,14 @@ const HealthRiskDetails = ({
                 ] as RiskValue;
                 return (
                   <div key={key}>
-                    <h4 className="font-semibold text-main dark:text-white">
+                    <h4 className="text-xs font-semibold text-main first:!mt-0 dark:text-white md:text-sm">
                       {label}
                     </h4>
-                    {risk.interpretation && <p>{risk.interpretation}</p>}
+                    {risk.interpretation && (
+                      <p className="text-xs last:!mb-0 md:text-sm">
+                        {risk.interpretation}
+                      </p>
+                    )}
                   </div>
                 );
               })}
@@ -334,11 +365,13 @@ const HealthRiskDetails = ({
                 ] as RiskValue;
                 return (
                   <div key={key}>
-                    <h4 className="font-semibold text-main dark:text-white">
+                    <h4 className="text-xs font-semibold text-main first:!mt-0 dark:text-white md:text-sm">
                       {label}
                     </h4>
                     {risk.recommendedActions && (
-                      <p>{risk.recommendedActions}</p>
+                      <p className="text-xs last:!mb-0 md:text-sm">
+                        {risk.recommendedActions}
+                      </p>
                     )}
                   </div>
                 );

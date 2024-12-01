@@ -10,7 +10,11 @@ import { formatPathName } from "@/utils/format";
 
 import NavbarLinks from "./navbar-links";
 
-const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
+interface DesktopHeaderProps {
+  user: UserProfileData | null;
+}
+
+const DesktopHeader = ({ user }: DesktopHeaderProps) => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
@@ -44,7 +48,7 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
         </div>
         <div className="absolute right-0 top-0 z-40 h-14 px-6">
           <div className="flex size-full items-center justify-center text-sm font-normal text-gray-500 dark:text-main-dark-h">
-            {!profileData && (
+            {!user && (
               <Link
                 href="/login"
                 className="inline-flex h-8 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white transition-opacity hover:opacity-80 dark:bg-dark-gradient"
@@ -59,4 +63,4 @@ const Header = ({ profileData }: { profileData: UserProfileData | null }) => {
   );
 };
 
-export default Header;
+export default DesktopHeader;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC, Fragment, useMemo } from "react";
+import { Fragment, useMemo } from "react";
 
 import { siteConfig } from "@/config/site";
 import { UserProfileData } from "@/types/session";
@@ -12,24 +12,24 @@ import { formatPathName } from "@/utils/format";
 import MainSearch from "./main-search";
 
 interface BottomNavProps {
-  profileData: UserProfileData | null;
+  user: UserProfileData | null;
 }
 
-const BottomNav: FC<BottomNavProps> = ({ profileData }) => {
+const BottomNav = ({ user }: BottomNavProps) => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
-  const essentiaAi = pathname.startsWith("/essentia-ai");
+  const isEssentiaAi = pathname.startsWith("/essentia-ai");
+  const isAdditionals = pathname.startsWith("/adicionales");
 
-  const { is_premium } = profileData || {};
+  const { is_premium } = user || {};
 
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
     active:
       normalizedPath === page.href ||
-      (page.href === "/adicionales" &&
-        normalizedPath.startsWith("/adicionales")) ||
-      (page.href === "/essentia-ai" && essentiaAi),
+      (page.href === "/adicionales" && isAdditionals) ||
+      (page.href === "/essentia-ai" && isEssentiaAi),
   }));
 
   const navItems = useMemo(

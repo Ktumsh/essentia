@@ -45,24 +45,24 @@ const AssesHealthRiskStock = ({
   return (
     <Card ref={ref} className="group/card overflow-hidden rounded-xl">
       <CardHeader className="relative z-0 rounded-none p-0">
-        <div className="h-52 overflow-hidden">
+        <div className="h-36 overflow-hidden md:h-52">
           <Image
             width={696}
-            height={334}
-            quality={100}
+            height={208}
+            quality={80}
             src="/extras/health-risk-banner.jpg"
             alt="Health Risk Banner"
-            className="aspect-auto object-cover object-top"
+            className="aspect-auto h-36 object-cover object-top md:h-52"
           />
         </div>
-        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-6">
+        <div className="absolute inset-x-0 top-0 z-10 !mt-0 flex w-full justify-between p-6">
           <Badge className="shadow-md">Tu riesgo de salud</Badge>
 
           <BetterTooltip content="Descargar como imagen">
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white opacity-0 shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100"
+              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
             >
               <ArrowDownToLine className="!size-3.5" />
               <span className="sr-only">Descargar como Imagen</span>

@@ -8,6 +8,8 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { MaincapResources } from "@/types/resource";
 import { cn } from "@/utils/common";
 
+import { getItemBackgroundColor } from "../lib/utils";
+
 interface RecomendationsItemProps {
   item: MaincapResources;
   index: number;
@@ -16,25 +18,6 @@ interface RecomendationsItemProps {
 const RecomendationsItem = (props: RecomendationsItemProps) => {
   const { id, link, title, description, image, icon: Icon } = props.item;
   const { index } = props;
-
-  const itemBackgroundColor = useMemo(() => {
-    switch (true) {
-      case id === 1:
-        return "bg-yellow-500";
-      case id === 2:
-        return "bg-red-500";
-      case id === 3:
-        return "bg-indigo-500";
-      case id === 4:
-        return "bg-lime-500";
-      case id === 5:
-        return "bg-pink-500";
-      case id === 6:
-        return "bg-sky-500";
-      default:
-        return "";
-    }
-  }, [id]);
 
   const imageWidth = useMemo(() => {
     if (index % 2 === 0) {
@@ -75,7 +58,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
         <div
           className={cn(
             "flex size-10 items-center justify-center rounded-lg",
-            itemBackgroundColor,
+            getItemBackgroundColor(id),
           )}
         >
           <Icon className="size-5 text-white" />

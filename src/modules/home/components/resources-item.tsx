@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -9,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/utils/common";
 
 import { ArrowRightV2Icon } from "../../icons/navigation";
+import { getResourceColor } from "../lib/utils";
 
 type ResoucesItemProps = {
   index: number;
@@ -30,63 +30,12 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       title.toLocaleLowerCase().normalize("NFD"),
   );
 
-  const itemGradientColor = useMemo(() => {
-    switch (true) {
-      case index === 0:
-        return "from-emerald-600 to-emerald-500";
-      case index === 1:
-        return "from-sky-600 to-sky-500";
-      case index === 2:
-        return "from-yellow-600 to-yellow-500";
-      case index === 3:
-        return "from-fuchsia-600 to-fuchsia-500";
-      case index === 4:
-        return "from-rose-600 to-rose-500 ";
-      default:
-        return "from-cyan-600 to-cyan-500";
-    }
-  }, [index]);
-
-  const itemBackgroundColor = useMemo(() => {
-    switch (true) {
-      case index === 0:
-        return "bg-emerald-100 dark:bg-emerald-950";
-      case index === 1:
-        return "bg-sky-100 dark:bg-sky-950";
-      case index === 2:
-        return "bg-yellow-100 dark:bg-yellow-950";
-      case index === 3:
-        return "bg-fuchsia-100 dark:bg-fuchsia-950";
-      case index === 4:
-        return "bg-rose-100 dark:bg-rose-950";
-      default:
-        return "bg-cyan-100 dark:bg-cyan-950";
-    }
-  }, [index]);
-
-  const itemTextColor = useMemo(() => {
-    switch (true) {
-      case index === 0:
-        return "text-emerald-600";
-      case index === 1:
-        return "text-sky-600";
-      case index === 2:
-        return "text-yellow-600";
-      case index === 3:
-        return "text-fuchsia-600";
-      case index === 4:
-        return "text-rose-600";
-      default:
-        return "text-cyan-600";
-    }
-  }, [index]);
-
   return (
     <>
       <Link
         href={href}
         className={cn(
-          itemGradientColor,
+          getResourceColor(index, "gradient"),
           "relative aspect-auto h-44 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64 md:hidden",
         )}
       >
@@ -116,11 +65,13 @@ const ResourcesItem = (props: ResoucesItemProps) => {
             <div
               className={cn(
                 "flex size-10 items-center justify-center rounded-lg",
-                itemBackgroundColor,
+                getResourceColor(index, "background"),
               )}
             >
               {resource && (
-                <resource.activeIcon className={cn("size-5", itemTextColor)} />
+                <resource.activeIcon
+                  className={cn("size-5", getResourceColor(index, "text"))}
+                />
               )}
             </div>
             <span className="absolute right-6 top-6 !mt-0 text-xxs font-bold uppercase text-main-m dark:text-main-dark-m">
