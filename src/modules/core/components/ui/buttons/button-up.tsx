@@ -1,9 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import useScrollToUp from "@/modules/core/hooks/use-scroll-to-up";
 import { ArrowUpIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
@@ -12,55 +12,11 @@ interface ButtonUpProps {
 }
 
 const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
-  const [isVisible, setIsVisible] = useState(false);
   const pathname = usePathname();
+
+  const { isVisible, scrollToTop } = useScrollToUp(scrollRef);
+
   const essentiaAI = pathname === "/essentia-ai";
-
-  const defaultScrollRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const scrollElement =
-      scrollRef?.current || document.documentElement || document.body;
-
-    const handleScroll = () => {
-      const scrollTop =
-        scrollElement === document.documentElement ||
-        scrollElement === document.body
-          ? window.scrollY
-          : scrollElement.scrollTop;
-      setIsVisible(scrollTop > 20);
-    };
-
-    if (
-      scrollElement === document.documentElement ||
-      scrollElement === document.body
-    ) {
-      window.addEventListener("scroll", handleScroll);
-    } else {
-      scrollElement.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (
-        scrollElement === document.documentElement ||
-        scrollElement === document.body
-      ) {
-        window.removeEventListener("scroll", handleScroll);
-      } else {
-        scrollElement.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [scrollRef]);
-
-  const scrollToTop = () => {
-    const scrollElement =
-      scrollRef?.current ||
-      defaultScrollRef.current ||
-      document.documentElement;
-    if (scrollElement) {
-      scrollElement.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   return (
     <div

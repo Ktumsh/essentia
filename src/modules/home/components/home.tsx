@@ -1,12 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { dailyFacts } from "@/app/actions";
 import { useIsMobile } from "@/components/hooks/use-mobile";
-import AsideTabs from "@/modules/core/components/ui/layout/aside.tabs";
+import { HealthFact } from "@/types/common";
 import { UserProfileData } from "@/types/session";
 
-import DailyTip from "./daily-tip";
-import Recomendations from "./home-carousel/recomendations";
+import DesktopDailyTip from "./desktop-daily-tip";
+import MobileDailyTip from "./mobile-daily-tip";
 import RecomCard from "./recom-card";
+import Recomendations from "./recomendations";
 import Resources from "./resources";
 
 interface HomeProps {
@@ -14,8 +18,27 @@ interface HomeProps {
 }
 
 const Home = ({ profileData }: HomeProps) => {
-  const isMobile = useIsMobile();
   const { is_premium } = profileData ?? {};
+
+  const [facts, setFacts] = useState<HealthFact[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const fetchFacts = async () => {
+      try {
+        const data = await dailyFacts();
+        setFacts(data);
+      } catch (err) {
+        console.error("Error al obtener los facts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFacts();
+  }, []);
 
   return (
     <div className="flex flex-1">
@@ -44,12 +67,12 @@ const Home = ({ profileData }: HomeProps) => {
               <section className="mb-6 flex w-full flex-col px-6 md:mb-0 md:px-0">
                 <Resources />
               </section>
-              <DailyTip />
+              <MobileDailyTip facts={facts} loading={loading} />
             </div>
           </div>
         </div>
       </div>
-      <AsideTabs />
+      {!isMobile && <DesktopDailyTip facts={facts} loading={loading} />}
     </div>
   );
 };

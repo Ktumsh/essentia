@@ -1,4 +1,5 @@
-import dynamic from "next/dynamic";
+"use client";
+
 import { FC } from "react";
 
 import {
@@ -7,14 +8,11 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/modules/core/components/ui/carousels/carousel-sheet";
+} from "@/components/ui/carousel";
 import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { ResourceCard } from "@/types/resource";
 
-const NutritionCarouselItem = dynamic(
-  () => import("./nutrition-carousel-item"),
-  { ssr: false },
-);
+import NutritionCarouselItem from "./nutrition-carousel-item";
 
 interface Props {
   data: Array<ResourceCard>;
@@ -42,8 +40,8 @@ const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className={"absolute -bottom-10 left-10"} />
-      <CarouselNext className={"absolute -bottom-10 right-7"} />
+      <CarouselPrevious className="absolute -bottom-14 left-5 top-auto" />
+      <CarouselNext className="absolute -bottom-14 right-5 top-auto" />
     </Carousel>
   );
 };

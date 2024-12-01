@@ -154,10 +154,10 @@ const renderExerciseDetails = (exercise: Exercise) => {
         </TabsContent>
         <TabsContent
           value="how-to-do"
-          className="min-h-[272px] px-0 sm:min-h-56 md:min-h-[260px]"
+          className="min-h-[272px] px-5 sm:min-h-56 md:min-h-[260px]"
         >
-          <div className="flex min-h-[272px] gap-2 sm:min-h-56 md:min-h-[260px] md:items-center md:justify-center">
-            <div className="max-w-sm md:text-center">
+          <div className="flex min-h-[272px] items-center justify-center gap-2 sm:min-h-56 md:min-h-[260px]">
+            <div className="text-center md:max-w-sm">
               <p>
                 {exercise.instructions || "No hay instrucciones disponibles"}
               </p>
@@ -178,23 +178,23 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
   return (
     <Card ref={ref} className="group/card overflow-hidden rounded-xl">
       <CardHeader className="relative z-0 rounded-none p-0">
-        <div className="flex h-52 items-center overflow-hidden">
+        <div className="h-36 overflow-hidden md:h-52">
           <Image
             width={696}
-            height={392}
-            quality={100}
+            height={208}
+            quality={80}
             src="/extras/exercise-routine-banner.jpg"
             alt="Exercise Routine Banner"
-            className="aspect-auto object-cover object-top"
+            className="aspect-auto h-36 object-cover object-center md:h-52"
           />
         </div>
-        <div className="absolute inset-x-0 top-0 z-10 flex w-full justify-between p-2 md:p-6">
+        <div className="absolute inset-x-0 top-0 z-10 !mt-0 flex w-full justify-between p-6">
           <Badge className="shadow-md">Rutina de Ejercicios</Badge>
           <BetterTooltip content="Descargar como imagen">
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white opacity-0 shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100"
+              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
             >
               <ArrowDownToLine className="!size-3.5" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -275,18 +275,18 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           </div>
         )}
 
-        <Separator className="bg-gray-200 dark:bg-dark" />
+        <Separator />
         <ul className="space-y-2 md:space-y-4">
           {routine.exercises.map((exercise, index) => (
             <Fragment key={index}>
               <li className="flex flex-col justify-center gap-2 text-xs md:text-sm">
                 {renderExerciseDetails(exercise)}
               </li>
-              <Separator className="bg-gray-200 last:hidden dark:bg-dark" />
+              <Separator className="last:hidden" />
             </Fragment>
           ))}
         </ul>
-        <Separator className="w-auto bg-gray-200 dark:bg-dark" />
+        <Separator />
       </div>
       <CardFooter className="flex-col items-center justify-center space-y-2 p-2 !pt-0 md:space-y-4 md:p-8">
         {routine.coolDown && (

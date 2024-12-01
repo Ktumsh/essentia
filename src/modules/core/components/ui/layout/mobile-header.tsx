@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { UserProfileData } from "@/types/session";
 
 import {
@@ -21,22 +20,20 @@ import MobileMenu from "./mobile-menu";
 import MenuButton from "../buttons/menu-button";
 
 interface MobileHeaderProps {
-  profileData: UserProfileData | null;
+  user: UserProfileData | null;
 }
 
-const MobileHeader = ({ profileData }: MobileHeaderProps) => {
+const MobileHeader = ({ user }: MobileHeaderProps) => {
   const pathname = usePathname();
-  const windowSize = useWindowSize();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const isMobile = windowSize.width < 768;
   const isAIPage = pathname.startsWith("/essentia-ai");
 
   return (
     <>
       <SheetEdgeDragArea onOpen={() => setIsSheetOpen(true)} />
       <nav className="sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden border-b border-gray-200 bg-white/80 px-6 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80 md:hidden">
-        {(!isMobile || isAIPage) && <AppSidebarToggle />}
+        {isAIPage && <AppSidebarToggle />}
         <Link
           className="relative size-8 rounded-full transition-transform active:scale-95"
           href="/"
@@ -54,7 +51,7 @@ const MobileHeader = ({ profileData }: MobileHeaderProps) => {
         </Link>
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger className="focus-visible:outline-none">
-            <MenuButton profileData={profileData} />
+            <MenuButton profileData={user} />
           </SheetTrigger>
           <SheetContent
             aria-labelledby="dialog-description"
@@ -72,7 +69,7 @@ const MobileHeader = ({ profileData }: MobileHeaderProps) => {
                 Este es el menú móvil donde puedes navegar por las opciones.
               </SheetDescription>
             </span>
-            <MobileMenu profileData={profileData} />
+            <MobileMenu profileData={user} />
           </SheetContent>
         </Sheet>
       </nav>

@@ -323,10 +323,9 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         <DrawerTrigger asChild>
           <Button
             aria-label="Busca rápida"
-            color="danger"
             variant="ghost"
             fullWidth
-            className="inline-flex !h-full min-w-0 text-gray-500 after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:bg-transparent data-[hover=true]:bg-gray-100 dark:text-gray-400 dark:data-[hover=true]:bg-full-dark/50 dark:dark:data-[hover=true]:text-cerise-red-600 dark:data-[hover=true]:text-bittersweet-400 md:hidden"
+            className="inline-flex !h-full min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:!bg-transparent active:!bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:!bg-dark/50 md:hidden"
           >
             <span className="sr-only">Busca rápida</span>
             <SearchIcon className="!size-6" aria-hidden="true" />
