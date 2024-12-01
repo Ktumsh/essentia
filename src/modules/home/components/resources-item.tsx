@@ -4,11 +4,10 @@ import Link from "next/link";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Card, CardHeader } from "@/components/ui/card";
-import { siteConfig } from "@/config/site";
+import { getResourceColor, getResourceDetails } from "@/modules/core/lib/utils";
 import { cn } from "@/utils/common";
 
 import { ArrowRightV2Icon } from "../../icons/navigation";
-import { getResourceColor } from "../lib/utils";
 
 type ResoucesItemProps = {
   index: number;
@@ -22,13 +21,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
   const { index, title, subtitle, href, quote } = props;
   const isMobile = useIsMobile();
 
-  const resources = siteConfig.asideMenuLinks;
+  const resourceDetails = getResourceDetails(title);
 
-  const resource = resources.find(
-    (resource) =>
-      resource.name.toLocaleLowerCase().normalize("NFD") ===
-      title.toLocaleLowerCase().normalize("NFD"),
-  );
+  if (!resourceDetails) return null;
 
   return (
     <>
@@ -49,7 +44,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         </div>
         <div className="absolute inset-x-4 bottom-3 flex items-end justify-between sm:inset-x-5 sm:bottom-5">
           <div>
-            {resource && <resource.activeIcon className="size-7 text-white" />}
+            <resourceDetails.activeIcon className="size-7 text-white" />
           </div>
           <div className="inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-md dark:bg-full-dark">
             <div className="text-sm font-normal text-main dark:text-white">
@@ -68,11 +63,9 @@ const ResourcesItem = (props: ResoucesItemProps) => {
                 getResourceColor(index, "background"),
               )}
             >
-              {resource && (
-                <resource.activeIcon
-                  className={cn("size-5", getResourceColor(index, "text"))}
-                />
-              )}
+              <resourceDetails.activeIcon
+                className={cn("size-5", getResourceColor(index, "text"))}
+              />
             </div>
             <span className="absolute right-6 top-6 !mt-0 text-xxs font-bold uppercase text-main-m dark:text-main-dark-m">
               {subtitle}
