@@ -24,67 +24,57 @@ const BillingTabs = ({
   const pathname = usePathname();
   const tabListRef = useRef<HTMLDivElement>(null);
 
+  const activeTab = pathname.includes("/account/billing")
+    ? "billing"
+    : "account";
+
   useEffect(() => {
     if (tabListRef.current) {
-      const activeTab = tabListRef.current.querySelector(
-        `[data-key="${pathname}"]`,
+      const activeTabElement = tabListRef.current.querySelector(
+        `[data-key="${activeTab}"]`,
       );
-      if (activeTab) {
-        activeTab.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (activeTabElement) {
+        activeTabElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
       }
     }
-  }, [pathname]);
+  }, [activeTab]);
 
   return (
     <div className="flex flex-col">
       <Tabs
         ref={tabListRef}
-        selectedKey={pathname}
+        selectedKey={activeTab}
         aria-label="Options"
         variant="underlined"
         fullWidth
         classNames={{
           base: "z-10 z-0",
           tabList:
-            "p-0 mx-6 gap-6 rounded-none border-b border-gray-200 dark:border-dark",
+            "p-0 mx-6 rounded-none gap-0 border-b border-gray-200 dark:border-dark",
           cursor: "w-full bg-bittersweet-400 dark:bg-cerise-red-600",
-          tab: "max-w-fit px-0 h-12",
+          tab: "max-w-fit px-4 h-12 font-semibold",
           tabContent:
-            "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
+            "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-danger",
           panel: "w-full px-6 py-10 bg-white dark:bg-full-dark",
         }}
       >
-        <Tab
-          key="/account"
-          as={Link}
-          href="/account"
-          title={
-            <div className="flex items-center space-x-2">
-              <span>Mi cuenta</span>
-            </div>
-          }
-        >
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <AccountDetails profileData={profileData} />
-          </div>
+        <Tab key="account" as={Link} href="/account" title="Mi cuenta">
+          <AccountDetails profileData={profileData} />
         </Tab>
         <Tab
-          key="/account/billing"
+          key="billing"
           as={Link}
           href="/account/billing"
-          title={
-            <div className="flex items-center space-x-2">
-              <span>Detalles del plan</span>
-            </div>
-          }
+          title="Detalles del plan"
         >
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <BillingDetails
-              billingDetails={billingDetails}
-              clientSecret={clientSecret}
-              profileData={profileData}
-            />
-          </div>
+          <BillingDetails
+            billingDetails={billingDetails}
+            clientSecret={clientSecret}
+            profileData={profileData}
+          />
         </Tab>
       </Tabs>
     </div>

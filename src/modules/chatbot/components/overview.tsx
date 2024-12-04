@@ -4,7 +4,7 @@ const EmptyScreen = () => {
   return (
     <>
       <div className="mx-auto max-w-3xl px-4 pt-6">
-        <div className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-white p-6 dark:border-dark dark:bg-full-dark md:p-8">
+        <div className="flex flex-col gap-2 rounded-lg bg-white p-6 dark:bg-full-dark md:p-8">
           <div className="flex items-center gap-2">
             <h1 className="text-base font-bold text-main-h dark:text-main-dark sm:text-lg">
               Bienvenido a Essentia AI

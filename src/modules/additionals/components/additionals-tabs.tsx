@@ -21,43 +21,58 @@ export default function AdditionalsTabs() {
   const pathname = usePathname();
   const tabListRef = useRef<HTMLDivElement>(null);
 
+  let activeTab = "guides";
+
+  if (pathname.startsWith("/adicionales/guias")) {
+    activeTab = "guides";
+  } else if (pathname.startsWith("/adicionales/emergencias")) {
+    activeTab = "emergencies";
+  } else if (pathname.startsWith("/adicionales/enlaces")) {
+    activeTab = "links";
+  } else if (pathname.startsWith("/adicionales/recomendaciones")) {
+    activeTab = "recommendations";
+  }
+
   useEffect(() => {
     if (tabListRef.current) {
-      const activeTab = tabListRef.current.querySelector(
-        `[data-key="${pathname}"]`,
+      const activeTabElement = tabListRef.current.querySelector(
+        `[data-key="${activeTab}"]`,
       );
-      if (activeTab) {
-        activeTab.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (activeTabElement) {
+        activeTabElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
       }
     }
-  }, [pathname]);
+  }, [activeTab]);
 
   return (
     <div className="flex size-full flex-col">
       <Tabs
         ref={tabListRef}
-        selectedKey={pathname}
+        selectedKey={activeTab}
         aria-label="Options"
         variant="underlined"
         fullWidth
         classNames={{
           base: "z-10 z-0",
           tabList:
-            "p-0 mx-6 gap-6 rounded-none border-b border-gray-200 dark:border-dark",
+            "p-0 mx-6 rounded-none gap-0 border-b border-gray-200 dark:border-dark",
           cursor: "w-full bg-bittersweet-400 dark:bg-cerise-red-600",
-          tab: "max-w-fit px-0 h-12",
+          tab: "max-w-fit px-4 h-12 font-semibold",
           tabContent:
-            "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
-          panel: "w-full px-6 pt-10 pb-6 bg-white dark:bg-full-dark",
+            "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-danger",
+          panel: "w-full px-6 py-10 bg-white dark:bg-full-dark",
         }}
       >
         <Tab
-          key="/adicionales/guias"
+          key="guides"
           as={Link}
           href="/adicionales/guias"
           title={
-            <div className="flex items-center space-x-2">
-              <GuidesIcon className="size-5 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
+            <div className="flex items-center space-x-1.5">
+              <GuidesIcon className="size-4 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Guías</span>
             </div>
           }
@@ -65,12 +80,12 @@ export default function AdditionalsTabs() {
           <Guides />
         </Tab>
         <Tab
-          key="/adicionales/emergencias"
+          key="emergencies"
           as={Link}
           href="/adicionales/emergencias"
           title={
-            <div className="flex items-center space-x-2">
-              <EmergenciesIcon className="size-5 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
+            <div className="flex items-center space-x-1.5">
+              <EmergenciesIcon className="size-4 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Emergencias</span>
             </div>
           }
@@ -78,12 +93,14 @@ export default function AdditionalsTabs() {
           <Emergencies />
         </Tab>
         <Tab
-          key="/adicionales/enlaces"
+          isDisabled
+          key="links"
           as={Link}
           href="/adicionales/enlaces"
+          className="data-[disabled=true]:opacity-50"
           title={
-            <div className="flex items-center space-x-2">
-              <LinksIcon className="size-5 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
+            <div className="flex items-center space-x-1.5">
+              <LinksIcon className="size-4 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Enlaces</span>
             </div>
           }
@@ -91,12 +108,14 @@ export default function AdditionalsTabs() {
           <Links />
         </Tab>
         <Tab
-          key="/adicionales/recomendaciones"
+          isDisabled
+          key="recommendations"
           as={Link}
           href="/adicionales/recomendaciones"
+          className="data-[disabled=true]:opacity-50"
           title={
-            <div className="flex items-center space-x-2">
-              <RecommendationsIcon className="size-5 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
+            <div className="flex items-center space-x-1.5">
+              <RecommendationsIcon className="size-4 text-main-h group-data-[selected=true]:text-bittersweet-400 dark:text-main-dark-h dark:group-data-[selected=true]:text-cerise-red-600" />
               <span>Recomendaciones</span>
             </div>
           }

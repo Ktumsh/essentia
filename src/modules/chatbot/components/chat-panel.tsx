@@ -14,14 +14,13 @@ import {
 } from "react";
 
 import { Button } from "@/components/ui/button";
-import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
 import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
 import { Session } from "@/types/session";
-import { cn, shuffleArray } from "@/utils/common";
 
 import PromptForm from "./prompt-form";
+import SuggestedActions from "./suggested-actions";
 import { PreviewAttachment } from "./ui/preview-attachment";
 import PaymentModal from "../../payment/components/payment-modal";
 import WarningModal from "../../payment/components/warning-premium-modal";
@@ -79,15 +78,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   const [isVisible, setIsVisible] = useState(true);
 
-  const initialMessages = INITIAL_CHAT_MESSAGES;
-
-  const [suggestedActions, setSuggestedActions] = useState(initialMessages);
-
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
-
-  useEffect(() => {
-    setSuggestedActions((prevMessages) => shuffleArray([...prevMessages]));
-  }, []);
 
   const hasProcessedQueryRef = useRef(false);
 
@@ -111,50 +102,13 @@ const ChatPanel: FC<ChatPanelProps> = ({
           scrollToBottom={scrollToBottom}
         />
         <div className="relative flex w-full flex-col">
-          {messages.length === 0 &&
-            attachments.length === 0 &&
-            uploadQueue.length === 0 && (
-              <motion.div
-                initial={{ opacity: 1 }}
-                animate={!isPremium ? { opacity: 0 } : { opacity: 1 }}
-                transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
-                className="mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 scrollbar-hide sm:grid sm:px-0"
-              >
-                {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: 0.1 * index }}
-                    key={index}
-                    className="w-full"
-                  >
-                    <Button
-                      disabled={!isPremium}
-                      fullWidth
-                      radius="lg"
-                      className="h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main shadow-none hover:bg-gray-100 active:scale-[.97] dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0"
-                      onClick={async () => {
-                        append({
-                          role: "user",
-                          content: suggestedAction.action,
-                        });
-                      }}
-                    >
-                      <suggestedAction.icon
-                        className={cn("size-4", suggestedAction.iconColor)}
-                      />
-                      <span className="text-nowrap text-sm font-semibold">
-                        {suggestedAction.heading}
-                      </span>
-                      <span className="text-nowrap text-sm text-main-m dark:text-main-dark-m">
-                        {suggestedAction.subheading}
-                      </span>
-                    </Button>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
+          <SuggestedActions
+            messages={messages}
+            attachments={attachments}
+            uploadQueue={uploadQueue}
+            isPremium={isPremium}
+            append={append}
+          />
           <div className="relative border-t border-gray-200 bg-white px-4 py-2 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4">
             <motion.div
               initial={{ opacity: 1, y: 0, scale: 1 }}

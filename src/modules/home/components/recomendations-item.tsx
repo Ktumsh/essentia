@@ -50,7 +50,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
           alt={title}
           width={imageWidth}
           height={imageHeight}
-          className="absolute inset-0 z-[-1] aspect-auto object-cover object-center brightness-75"
+          className="absolute inset-0 z-[-1] aspect-auto w-full object-cover object-center brightness-75"
         />
       )}
       <div className="absolute inset-0 z-[-1] bg-gradient-to-t from-black/30 from-40% to-transparent backdrop-blur-sm transition duration-500 group-hover:backdrop-blur-0"></div>
