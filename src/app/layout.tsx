@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import Script from "next/script";
+import { Session } from "next-auth";
 import { Toaster } from "sonner";
 
 import { auth } from "@/app/(auth)/auth";
@@ -13,7 +14,6 @@ import { siteConfig } from "@/config/site";
 import { Providers } from "@/modules/core/components/ui/providers";
 import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
-import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
 
 import { PreloadResources } from "./preload-resources";
@@ -113,7 +113,7 @@ export default async function RootLayout({
           spaceMono.variable,
           dmSans.variable,
           GeistSans.variable,
-          "font-dmsans",
+          "font-sans",
         )}
       >
         <PreloadResources />

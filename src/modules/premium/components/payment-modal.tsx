@@ -79,7 +79,7 @@ const PaymentModal = ({
       const subscriptionResponse = await createSubscription({
         cardholderName,
         priceId: selectedPlan,
-        paymentMethodId: "",
+        type: selectedPlan as "premium" | "premiumPlus",
       });
       setClientSecret(subscriptionResponse.clientSecret);
       nextStep();
@@ -116,7 +116,7 @@ const PaymentModal = ({
                   titular de la suscripción.
                 </DialogDescription>
               </DialogHeader>
-            )}{" "}
+            )}
             <div className="p-4 md:p-6">
               <div className="mt-6 flex w-full flex-col space-y-2">
                 <Label htmlFor="cardholderName">

@@ -1,9 +1,11 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { Session } from "next-auth";
 import { Suspense, useEffect } from "react";
 import useSWR from "swr";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import {
   SidebarGroup,
   SidebarHeader,
@@ -12,25 +14,23 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { clearChats } from "@/db/chat-querys";
+import { deleteAllChatsByUserId } from "@/db/querys/chat-querys";
+import { Chat } from "@/db/schema";
 import HistoryLoading from "@/modules/chatbot/components/ui/history-loading";
-import useWindowSize from "@/modules/core/hooks/use-window-size";
 import { NewIcon } from "@/modules/icons/action";
-import { Chat } from "@/types/chat";
-import { Session } from "@/types/session";
 import { fetcher } from "@/utils/common";
 
 import ChatClearHistory from "./chat-clear-history";
 import ChatHistory from "./chat-history";
 
 interface ChatSidebarProps {
-  session: Session;
+  session: Session | null;
 }
 
 const ChatSidebar = ({ session }: ChatSidebarProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const windowSize = useWindowSize();
+  const isMobile = useIsMobile();
   const { setOpenMobile } = useSidebar();
   const {
     data: history,
@@ -41,10 +41,10 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
   });
 
   useEffect(() => {
-    if (windowSize.width > 768) {
+    if (!isMobile) {
       mutate();
     }
-  }, [windowSize.width, pathname, mutate]);
+  }, [isMobile, pathname, mutate]);
 
   if (!session?.user) return null;
 
@@ -74,7 +74,11 @@ const ChatSidebar = ({ session }: ChatSidebarProps) => {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <ChatClearHistory
-            clearChats={clearChats}
+            clearChats={() =>
+              deleteAllChatsByUserId({
+                id: session?.user?.id as string,
+              })
+            }
             isEnabled={history ? history.length > 0 : false}
           />
         </SidebarMenu>

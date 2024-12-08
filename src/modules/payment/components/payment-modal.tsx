@@ -99,7 +99,10 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
       const subscriptionResponse = await createSubscription({
         cardholderName,
         priceId: selectedPlan,
-        paymentMethodId: "",
+        type:
+          selectedPlan === siteConfig.planPrices.premium
+            ? "premium"
+            : "premiumPlus",
       });
       setClientSecret(subscriptionResponse.clientSecret);
       nextStep();

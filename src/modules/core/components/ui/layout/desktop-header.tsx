@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
+import {
+  VisibilitySelector,
+  VisibilityType,
+} from "@/modules/chatbot/components/visibility-selector";
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
 import { UserProfileData } from "@/types/session";
 import { formatPathName } from "@/utils/format";
@@ -12,10 +16,18 @@ import NavbarLinks from "./navbar-links";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;
+  selectedVisibility: VisibilityType;
+  isReadonly: boolean;
 }
 
-const DesktopHeader = ({ user }: DesktopHeaderProps) => {
+const DesktopHeader = ({
+  user,
+  selectedVisibility,
+  isReadonly,
+}: DesktopHeaderProps) => {
   const pathname = usePathname();
+  const { id } = useParams();
+  const chatId = id;
 
   const normalizedPath = formatPathName(pathname);
 
@@ -44,6 +56,13 @@ const DesktopHeader = ({ user }: DesktopHeaderProps) => {
         <div className="absolute left-0 top-0 z-40">
           <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
             <AppSidebarToggle />
+            {!isReadonly && chatId && (
+              <VisibilitySelector
+                chatId={chatId as string}
+                selectedVisibilityType={selectedVisibility}
+                className="order-1 md:order-3"
+              />
+            )}
           </div>
         </div>
         <div className="absolute right-0 top-0 z-40 h-14 px-6">

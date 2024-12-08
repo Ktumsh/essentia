@@ -29,6 +29,8 @@ const MobileHeader = ({ user }: MobileHeaderProps) => {
 
   const isAIPage = pathname.startsWith("/essentia-ai");
 
+  console.log("isAIPage", isAIPage);
+
   return (
     <>
       <SheetEdgeDragArea onOpen={() => setIsSheetOpen(true)} />

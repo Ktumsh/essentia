@@ -19,9 +19,8 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
     return null;
   }
 
-  const { email, first_name, last_name, username, created_at } = profileData;
+  const { email, firstName, lastName, username, createdAt } = profileData;
 
-  const createdAt = profileData && formatDate(created_at, "dd 'de' MMMM, yyyy");
   return (
     <>
       <div className="flex w-full flex-col gap-4">
@@ -37,7 +36,7 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
                     Nombre
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
-                    {first_name} {last_name}
+                    {firstName} {lastName}
                   </div>
                 </span>
                 <span className="flex flex-col">
@@ -59,14 +58,14 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
                     Fecha de creación
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
-                    {createdAt}
+                    {formatDate(createdAt, "dd 'de' MMMM, yyyy")}
                   </div>
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <footer className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
+        <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
           <div className="px-5 py-4 text-main dark:text-white">
             <h3 className="pb-4 text-base font-semibold">Contraseña</h3>
             <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
@@ -77,7 +76,7 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+          <footer className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               <Button
                 radius="lg"
@@ -87,8 +86,8 @@ const AccountDetails = ({ profileData }: AccountDetailsProps) => {
                 Cambiar contraseña
               </Button>
             </div>
-          </div>
-        </footer>
+          </footer>
+        </div>
       </div>
       <ChangePasswordModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>

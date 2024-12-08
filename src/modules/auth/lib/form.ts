@@ -67,10 +67,10 @@ export const registerSchema = z.object({
     .regex(/[a-zA-Z0-9]$/, {
       message: getMessageFromCode(ResultCode.INVALID_END_USERNAME),
     }),
-  name: z
+  firstName: z
     .string()
     .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
-  lastname: z
+  lastName: z
     .string()
     .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
   birthdate: z.coerce.date().refine(

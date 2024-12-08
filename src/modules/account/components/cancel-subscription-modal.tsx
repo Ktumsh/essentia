@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useCallback, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -33,7 +34,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site";
 import { setUserPlan } from "@/modules/payment/pay/actions";
 import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
-import { Session } from "@/types/session";
 
 interface CancelSubscriptionModalProps {
   isOpen: boolean;

@@ -5,8 +5,8 @@ import {
   getVerificationToken,
   updateEmailVerified,
   deleteVerificationToken,
-} from "@/db/email-querys";
-import { getUserById } from "@/db/user-querys";
+} from "@/db/querys/email-querys";
+import { getUserById } from "@/db/querys/user-querys";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -16,19 +16,19 @@ export async function GET(req: NextRequest) {
     return new Response("Token not found", { status: 400 });
   }
 
-  const verification = await getVerificationToken(token);
+  const [verification] = await getVerificationToken(token);
 
   if (!verification) {
     return new Response("Invalid token", { status: 400 });
   }
 
-  if (verification.expires_at < new Date()) {
+  if (verification.expiresAt < new Date()) {
     return new Response("Token expired", { status: 400 });
   }
 
-  const user = await getUserById(verification.user_id);
+  const [user] = await getUserById(verification.userId);
 
-  if (user?.email_verified) {
+  if (user?.emailVerified) {
     return new Response("Email already verified", { status: 400 });
   }
 

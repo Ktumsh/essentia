@@ -4,7 +4,7 @@ import path from "path";
 import * as brevo from "@getbrevo/brevo";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getUserByEmail } from "@/db/user-querys";
+import { getUserByEmail } from "@/db/querys/user-querys";
 
 const apiInstance = new brevo.TransactionalEmailsApi();
 
@@ -26,8 +26,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await getUserByEmail(email);
-    const username = user?.username || "";
+    const [user] = await getUserByEmail(email);
+
+    const username = user.username;
 
     const templatePath = path.join(
       process.cwd(),

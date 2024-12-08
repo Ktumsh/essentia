@@ -6,18 +6,17 @@ import { FC, useState } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -29,11 +28,10 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { ServerActionResult } from "@/types/chat";
 
 interface ChatClearHistoryProps {
   isEnabled: boolean;
-  clearChats: () => ServerActionResult<void>;
+  clearChats: () => Promise<void>;
 }
 
 const ChatClearHistory: FC<ChatClearHistoryProps> = ({
@@ -51,11 +49,7 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
     toast.promise(clearHistoryPromise, {
       loading: "Eliminando historial...",
       success: async () => {
-        const result = await clearHistoryPromise;
-
-        if (result && "error" in result) {
-          throw new Error(result.error);
-        }
+        await clearHistoryPromise;
         return "Historial de chat eliminado";
       },
       error: "Error al eliminar historial",
@@ -80,9 +74,11 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Eliminar historial de chat</DrawerTitle>
-            <DrawerDescription className="px-4">
-              Esto eliminará permanentemente tu historial de chat. ¿Deseas
-              continuar?
+            <DrawerDescription className="px-4" asChild>
+              <div>
+                <p>Esto eliminará permanentemente tu historial de chat.</p>
+                <p>¿Deseas continuar?</p>
+              </div>
             </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
@@ -98,8 +94,8 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
     );
   } else {
     return (
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogTrigger asChild>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
           <SidebarMenuItem>
             <SidebarMenuButton
               disabled={!isEnabled}
@@ -109,27 +105,25 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
               <span>Eliminar historial</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader className="flex flex-col gap-1">
-            <AlertDialogTitle>Eliminar historial de chat</AlertDialogTitle>
-          </AlertDialogHeader>
-          <AlertDialogDescription>
-            Esto eliminará permanentemente tu historial de chat. ¿Deseas
-            continuar?
-          </AlertDialogDescription>
-          <AlertDialogFooter>
-            <AlertDialogCancel asChild>
-              <Button variant="secondary">Cancelar</Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button variant="destructive" onClick={handleClearHistory}>
-                Continuar
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        </DialogTrigger>
+        <DialogContent isSecondary>
+          <DialogHeader isSecondary className="!pb-6">
+            <DialogTitle>Eliminar historial de chat</DialogTitle>
+            <DialogDescription>
+              Esto eliminará permanentemente tu historial de chat. ¿Deseas
+              continuar?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter isSecondary>
+            <DialogClose asChild>
+              <Button variant="outline">Cancelar</Button>
+            </DialogClose>
+            <Button variant="destructive" onClick={handleClearHistory}>
+              Continuar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     );
   }
 };

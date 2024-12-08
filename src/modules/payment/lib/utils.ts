@@ -22,8 +22,8 @@ export function formatDate(
   return format(date, dateFormat, { locale: es });
 }
 
-export function calculatePremiumExpiresAt(currentPeriodEnd: number): string {
-  return new Date(currentPeriodEnd * 1000).toISOString();
+export function calculatePremiumExpiresAt(currentPeriodEnd: number): Date {
+  return new Date(currentPeriodEnd * 1000);
 }
 
 export const getPlanName = (planId: string): string => {

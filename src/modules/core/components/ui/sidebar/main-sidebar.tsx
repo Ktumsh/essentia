@@ -6,7 +6,7 @@ import MainNavResources from "./main-nav-resources";
 
 interface MainSidebarProps {
   isCollapsed?: boolean;
-  isPremium?: boolean;
+  isPremium: boolean;
 }
 
 const MainSidebar = ({ isCollapsed, isPremium }: MainSidebarProps) => {

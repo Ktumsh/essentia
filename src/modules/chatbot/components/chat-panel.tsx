@@ -4,6 +4,7 @@ import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { Session } from "next-auth";
 import {
   Dispatch,
   FC,
@@ -18,7 +19,6 @@ import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
 import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
-import { Session } from "@/types/session";
 import { cn, shuffleArray } from "@/utils/common";
 
 import PromptForm from "./prompt-form";
@@ -46,7 +46,7 @@ export interface ChatPanelProps {
   messages: Array<Message>;
   isLoading: boolean;
   isPremium: boolean | null;
-  session: Session | undefined;
+  session: Session | null;
   scrollToBottom: () => void;
   isAtBottom: boolean;
 }
@@ -133,7 +133,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                       disabled={!isPremium}
                       fullWidth
                       radius="lg"
-                      className="h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main shadow-none hover:bg-gray-100 active:scale-[.97] dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0"
+                      className="h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main shadow-none hover:bg-gray-100 active:scale-[.97] disabled:cursor-default dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0"
                       onClick={async () => {
                         append({
                           role: "user",

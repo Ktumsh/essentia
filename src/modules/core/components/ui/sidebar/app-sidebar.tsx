@@ -1,29 +1,31 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { Session } from "next-auth";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
 import ChatSidebar from "@/modules/core/components/ui/sidebar/chat-sidebar";
-import { Session, UserProfileData } from "@/types/session";
+import { UserProfileData } from "@/types/session";
 
 import AppFooter from "./app-footer";
 import AppHeader from "./app-header";
 import MainSidebar from "./main-sidebar";
 
 interface AppSidebarProps {
-  session: Session;
+  session: Session | null;
   user: UserProfileData | null;
+  isPremium: boolean;
 }
 
-export function AppSidebar({ session, user }: AppSidebarProps) {
+export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
   const pathname = usePathname();
 
   const isMobile = useIsMobile();
 
   const isAIPage = pathname.startsWith("/essentia-ai");
 
-  const isCollapsed = isAIPage;
+  const isCollapsed = isAIPage && session;
 
   if (isMobile)
     return (
@@ -43,15 +45,7 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
         isCollapsed ? "overflow-hidden [&>[data-sidebar=sidebar]]:flex-row" : ""
       }
     >
-      {!isAIPage ? (
-        <>
-          <AppHeader />
-          <SidebarContent>
-            <MainSidebar isPremium={user?.is_premium} />
-          </SidebarContent>
-          <AppFooter user={user} />
-        </>
-      ) : (
+      {isAIPage && session ? (
         <>
           <Sidebar
             collapsible="none"
@@ -59,7 +53,7 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
           >
             <AppHeader isCollapsed />
             <SidebarContent>
-              <MainSidebar isCollapsed />
+              <MainSidebar isCollapsed isPremium={isPremium} />
             </SidebarContent>
             <AppFooter user={user} isCollapsed />
           </Sidebar>
@@ -71,6 +65,14 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
               <ChatSidebar session={session} />
             </SidebarContent>
           </Sidebar>
+        </>
+      ) : (
+        <>
+          <AppHeader />
+          <SidebarContent>
+            <MainSidebar isPremium={isPremium} />
+          </SidebarContent>
+          <AppFooter user={user} />
         </>
       )}
       <SidebarRail />

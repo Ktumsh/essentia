@@ -3,7 +3,9 @@
 import { type CoreUserMessage, generateText } from "ai";
 import { cookies } from "next/headers";
 
+import { updateChatVisibilityById } from "@/db/querys/chat-querys";
 import { gptFlashModel } from "@/modules/chatbot/ai";
+import { VisibilityType } from "@/modules/chatbot/components/visibility-selector";
 
 export async function saveModelId(model: string) {
   const cookieStore = await cookies();
@@ -27,4 +29,14 @@ export async function generateTitleFromUserMessage({
   });
 
   return title;
+}
+
+export async function updateChatVisibility({
+  chatId,
+  visibility,
+}: {
+  chatId: string;
+  visibility: VisibilityType;
+}) {
+  await updateChatVisibilityById({ chatId, visibility });
 }

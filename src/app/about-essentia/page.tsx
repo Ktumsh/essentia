@@ -4,7 +4,6 @@ import { auth } from "@/app/(auth)/auth";
 import About from "@/modules/about/components/about";
 import AboutHeader from "@/modules/about/components/about-header";
 import ButtonUp from "@/modules/core/components/ui/buttons/button-up";
-import { Session } from "@/types/session";
 
 export const metadata: Metadata = {
   title: "Bienvenida",
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
 };
 
 const WelcomePage = async () => {
-  const session = (await auth()) as Session;
+  const session = await auth();
   return (
     <>
       <AboutHeader session={session} />

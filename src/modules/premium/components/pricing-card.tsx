@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 import { FC, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -9,7 +10,6 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { CheckCircledIcon } from "@/modules/icons/common";
 import { setUserPlan } from "@/modules/payment/pay/actions";
-import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
 
 import CancelPlanModal from "./cancel-plan-modal";
@@ -24,7 +24,7 @@ interface PricingCardProps {
   features: string[];
   isPremium?: boolean;
   isPremiumPlus?: boolean;
-  session: Session;
+  session: Session | null;
   isCurrentPlan?: boolean;
 }
 

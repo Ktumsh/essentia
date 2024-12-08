@@ -1,100 +1,115 @@
 "use client";
 
 import { Trash2, Upload } from "lucide-react";
-import { ChangeEvent, FC, RefObject } from "react";
+import { ChangeEvent, FC, RefObject, useState } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AddPhotoIcon, EditIcon } from "@/modules/icons/action";
-import { cn } from "@/utils/common";
+import { AddPhotoIcon } from "@/modules/icons/action";
 
 interface ProfileImageDropdownProps {
-  type: "profile" | "banner";
   fileInputRef: RefObject<HTMLInputElement | null>;
   hasImage: boolean;
   handleMenuAction: (
     fileInputRef: RefObject<HTMLInputElement | null>,
     key: string,
-    type: "profile" | "banner",
   ) => void;
-  handleFileChange: (
-    e: ChangeEvent<HTMLInputElement>,
-    type: "profile" | "banner",
-  ) => void;
+  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
-  type,
   fileInputRef,
   hasImage,
   handleMenuAction,
   handleFileChange,
 }) => {
   const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          {type === "banner" ? (
-            <Button
-              aria-label="Agregar foto de portada"
-              radius="full"
-              size="icon"
-              className="pointer-events-auto z-10 !size-8 min-w-0 !bg-black/60 shadow-none hover:!bg-black/50 md:!size-10 md:min-w-10"
-            >
-              <AddPhotoIcon className="size-4 text-white md:!size-5" />
-            </Button>
-          ) : (
+      {isMobile ? (
+        <>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="pointer-events-auto absolute inset-0"
+          >
+            <span className="sr-only">Editar foto de perfil</span>
+          </button>
+          <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Editar foto de perfil</DrawerTitle>
+              </DrawerHeader>
+              <DrawerFooter>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleMenuAction(fileInputRef, "upload")}
+                >
+                  Subir foto de perfil
+                </Button>
+                {hasImage && (
+                  <Button
+                    variant="destructive"
+                    onClick={() => handleMenuAction(fileInputRef, "delete")}
+                  >
+                    Eliminar
+                  </Button>
+                )}
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button
               aria-label="Agregar foto de perfil"
               radius="full"
               size="icon"
-              className={cn(
-                !isMobile
-                  ? "!bg-black/60 hover:!bg-black/50"
-                  : "absolute -bottom-11 -right-11 inline-flex size-8 border-2 border-gray-200 bg-white dark:border-dark dark:bg-full-dark md:hidden",
-                "pointer-events-auto z-10 shadow-none",
-              )}
+              className="pointer-events-auto hidden !bg-black/60 hover:!bg-black/50 md:inline-flex"
             >
-              {!isMobile ? (
-                <AddPhotoIcon className="!size-5 text-white" />
-              ) : (
-                <EditIcon className="size-4 text-main dark:text-main-dark" />
-              )}
+              <AddPhotoIcon className="text-white" />
             </Button>
-          )}
-        </DropdownMenuTrigger>
+          </DropdownMenuTrigger>
 
-        <DropdownMenuContent aria-label={`Opciones de ${type}`}>
-          <DropdownMenuItem
-            onSelect={() => handleMenuAction(fileInputRef, "upload", type)}
-          >
-            <Upload className="size-4" />
-            Subir foto de {type === "profile" ? "perfil" : "portada"}
-          </DropdownMenuItem>
-          {hasImage && (
+          <DropdownMenuContent aria-label="Opciones de perfil">
             <DropdownMenuItem
-              onSelect={() => handleMenuAction(fileInputRef, "delete", type)}
+              onSelect={() => handleMenuAction(fileInputRef, "upload")}
             >
-              <Trash2 className="size-4" />
-              Eliminar
+              <Upload className="size-4" />
+              Subir foto de perfil
             </DropdownMenuItem>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
+            {hasImage && (
+              <DropdownMenuItem
+                onSelect={() => handleMenuAction(fileInputRef, "delete")}
+              >
+                <Trash2 className="size-4" />
+                Eliminar
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
 
       <input
         ref={fileInputRef}
         accept="image/jpeg,image/png,image/webp"
         type="file"
-        onChange={(e) => handleFileChange(e, type)}
+        onChange={(e) => handleFileChange(e)}
         className="pointer-events-auto absolute size-[0.1px] bg-transparent opacity-0"
       />
     </>

@@ -11,29 +11,29 @@ export function cn(...inputs: ClassValue[]) {
 export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
   7,
-); // 7-character random string
+);
 
-export async function fetcher<JSON = any>(
-  input: RequestInfo,
-  init?: RequestInit,
-): Promise<JSON> {
-  const res = await fetch(input, init);
+interface ApplicationError extends Error {
+  info: string;
+  status: number;
+}
+
+export const fetcher = async (url: string) => {
+  const res = await fetch(url);
 
   if (!res.ok) {
-    const json = await res.json();
-    if (json.error) {
-      const error = new Error(json.error) as Error & {
-        status: number;
-      };
-      error.status = res.status;
-      throw error;
-    } else {
-      throw new Error("An unexpected error occurred");
-    }
+    const error = new Error(
+      "An error occurred while fetching the data.",
+    ) as ApplicationError;
+
+    error.info = await res.json();
+    error.status = res.status;
+
+    throw error;
   }
 
   return res.json();
-}
+};
 
 export const runAsyncFnWithoutBlocking = (
   fn: (...args: any) => Promise<any>,

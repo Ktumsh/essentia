@@ -1,10 +1,13 @@
 export interface SystemPromptParams {
-  userName?: string;
-  userLastName?: string;
-  userAge?: number;
-  userBirthday?: string | Date;
-  userLocation?: string | null;
-  userBio?: string | null;
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+  birthdate?: Date | null;
+  location?: string | null;
+  bio?: string | null;
+  height?: number | null;
+  weight?: number | null;
+  genre?: string | null;
   premiumExpiresAt?: string | null;
   userPreferences?: {
     communicationFormat?: "text" | "infographic" | "image";
@@ -13,12 +16,15 @@ export interface SystemPromptParams {
 }
 
 export const createSystemPrompt = ({
-  userName,
-  userLastName,
-  userAge,
-  userBirthday,
-  userLocation,
-  userBio,
+  firstName,
+  lastName,
+  age,
+  birthdate,
+  location,
+  bio,
+  height,
+  weight,
+  genre,
   premiumExpiresAt,
   userPreferences,
 }: SystemPromptParams): string => {
@@ -160,28 +166,40 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
 `;
 
   // Continuación de la función para agregar la información del usuario
-  if (userName) {
-    prompt += `\nEl nombre del usuario es ${userName}. Puedes llamarlo por su nombre en tus respuestas para hacerlas más personales.`;
+  if (firstName) {
+    prompt += `\nEl nombre del usuario es ${firstName}. Puedes llamarlo por su nombre en tus respuestas para hacerlas más personales.`;
   }
 
-  if (userLastName) {
-    prompt += `\nEl apellido del usuario es ${userLastName}. Puedes utilizarlo para dirigirte a él de manera más formal o respetuosa.`;
+  if (lastName) {
+    prompt += `\nEl apellido del usuario es ${lastName}. Puedes utilizarlo para dirigirte a él de manera más formal o respetuosa.`;
   }
 
-  if (userAge) {
-    prompt += `\nLa edad del usuario es ${userAge} años. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`;
+  if (age) {
+    prompt += `\nLa edad del usuario es ${age} años. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`;
   }
 
-  if (userBirthday) {
-    prompt += `\nLa fecha de nacimiento del usuario es ${userBirthday}. Puedes desearle un feliz cumpleaños cuando corresponda.`;
+  if (birthdate) {
+    prompt += `\nLa fecha de nacimiento del usuario es ${birthdate}. Puedes desearle un feliz cumpleaños cuando corresponda.`;
   }
 
-  if (userLocation) {
-    prompt += `\nLa ubicación del usuario es ${userLocation}. Puedes ofrecer información localizada o adaptar tus respuestas a su región.`;
+  if (location) {
+    prompt += `\nLa ubicación del usuario es ${location}. Puedes ofrecer información localizada o adaptar tus respuestas a su región.`;
   }
 
-  if (userBio) {
-    prompt += `\nLa biografía del usuario es: "${userBio}". Si notas información relevante, la puedes utilizar para personalizar tus respuestas y ofrecer consejos relevantes.`;
+  if (bio) {
+    prompt += `\nLa biografía del usuario es: "${bio}". Si notas información relevante, la puedes utilizar para personalizar tus respuestas y ofrecer consejos relevantes.`;
+  }
+
+  if (height) {
+    prompt += `\nLa altura del usuario es ${height} cm. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`;
+  }
+
+  if (weight) {
+    prompt += `\nEl peso del usuario es ${weight} kg. Puedes ofrecer recomendaciones personalizadas para mantener un peso saludable.`;
+  }
+
+  if (genre) {
+    prompt += `\nEl género del usuario es ${genre}. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`;
   }
 
   if (premiumExpiresAt) {

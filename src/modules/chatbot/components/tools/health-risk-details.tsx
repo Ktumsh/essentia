@@ -224,7 +224,7 @@ const HealthRiskDetails = ({
         defaultValue="assessment"
         aria-label="Alternar entre interpretación y acciones recomendadas"
       >
-        <TabsList>
+        <TabsList className="border border-gray-200 dark:border-dark">
           <TabsTrigger value="assessment">Evaluación</TabsTrigger>
           <TabsTrigger value="interpretation">Interpretación</TabsTrigger>
           <TabsTrigger value="actions">Acciones</TabsTrigger>

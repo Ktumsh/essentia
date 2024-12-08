@@ -1,8 +1,11 @@
 "use client";
 
 import { Message } from "ai";
+import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
+import { memo } from "react";
 
+import { type ChatVote } from "@/db/schema";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
@@ -23,15 +26,25 @@ import { MoodTracking } from "../tools/mood-tracking-stock";
 import { Plan } from "../tools/nutrition-plan-stock";
 
 interface MessageProps {
+  chatId: string;
   message: Message;
-  profileData?: UserProfileData | null;
+  vote: ChatVote | undefined;
+  user?: UserProfileData | null;
+  isReadonly?: boolean;
   isLoading: boolean;
 }
 
-const PreviewMessage = ({ message, profileData, isLoading }: MessageProps) => {
+const PurePreviewMessage = ({
+  chatId,
+  message,
+  vote,
+  user,
+  isReadonly,
+  isLoading,
+}: MessageProps) => {
   const { id, role, content, toolInvocations, experimental_attachments } =
     message;
-  const { profile_image, username } = profileData || {};
+  const { profileImage, username } = user || {};
   return (
     <motion.div
       initial={{ y: 5, opacity: 0 }}
@@ -47,7 +60,7 @@ const PreviewMessage = ({ message, profileData, isLoading }: MessageProps) => {
       {role === "assistant" ? (
         <BotAvatar />
       ) : (
-        <UserAvatar profileImage={profile_image} username={username} />
+        <UserAvatar profileImage={profileImage} username={username} />
       )}
 
       <div
@@ -58,6 +71,14 @@ const PreviewMessage = ({ message, profileData, isLoading }: MessageProps) => {
           toolInvocations?.length && "!mr-0",
         )}
       >
+        {experimental_attachments && (
+          <div className="flex flex-row gap-2">
+            {experimental_attachments.map((attachment) => (
+              <PreviewAttachment key={attachment.url} attachment={attachment} />
+            ))}
+          </div>
+        )}
+
         {content && typeof content === "string" && (
           <Markdown>{content}</Markdown>
         )}
@@ -91,22 +112,80 @@ const PreviewMessage = ({ message, profileData, isLoading }: MessageProps) => {
             }
           })}
 
-        {experimental_attachments && (
-          <div className="flex flex-row gap-2">
-            {experimental_attachments.map((attachment) => (
-              <PreviewAttachment key={attachment.url} attachment={attachment} />
-            ))}
-          </div>
+        {!isReadonly && (
+          <MessageActions
+            key={`action-${id}`}
+            chatId={chatId}
+            message={message}
+            vote={vote}
+            isLoading={isLoading}
+          />
         )}
-
-        <MessageActions
-          key={`action-${id}`}
-          message={message}
-          isLoading={isLoading}
-        />
       </div>
     </motion.div>
   );
 };
 
-export default PreviewMessage;
+export const PreviewMessage = memo(
+  PurePreviewMessage,
+  (prevProps, nextProps) => {
+    if (prevProps.isLoading !== nextProps.isLoading) return false;
+    if (prevProps.isLoading && nextProps.isLoading) return false;
+    if (prevProps.message.content && nextProps.message.content) return false;
+    if (!equal(prevProps.vote, nextProps.vote)) return false;
+    return true;
+  },
+);
+
+export const ThinkingMessage = () => {
+  const role = "assistant";
+
+  const shimmerVariants = {
+    initial: {
+      opacity: 0.5,
+    },
+    animate: {
+      opacity: 1,
+    },
+  };
+
+  return (
+    <motion.div
+      initial={{ y: 5, opacity: 0 }}
+      animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
+      data-role={role}
+      className="group/message relative mx-auto flex w-full max-w-3xl items-start px-4"
+    >
+      <div
+        className={cn(
+          "flex w-full gap-4 rounded-xl group-data-[role=user]/message:ml-auto group-data-[role=user]/message:w-fit group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:px-3 group-data-[role=user]/message:py-2",
+          {
+            "group-data-[role=user]/message:bg-muted": true,
+          },
+        )}
+      >
+        <BotAvatar />
+
+        <span className="text-main-m dark:text-main-dark-m">
+          {"Pensando".split("").map((character, index) => (
+            <motion.span
+              key={index}
+              variants={shimmerVariants}
+              initial="initial"
+              animate="animate"
+              transition={{
+                duration: 1,
+                ease: "easeInOut",
+                delay: index * 0.15,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+            >
+              {character === " " ? "\u00A0" : character}
+            </motion.span>
+          ))}
+        </span>
+      </div>
+    </motion.div>
+  );
+};

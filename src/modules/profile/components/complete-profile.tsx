@@ -12,15 +12,14 @@ import { cn } from "@/utils/common";
 
 interface CompleteProfileProps {
   completeProfileData: {
-    profile_image?: string | null;
-    banner_image?: string | null;
+    profileImage?: string | null;
     bio?: string | null;
     location?: string | null;
   };
 }
 
 const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
-  const { profile_image, banner_image, bio, location } = completeProfileData;
+  const { profileImage, bio, location } = completeProfileData;
 
   return (
     <>
@@ -59,7 +58,7 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
         <div className="inline-flex flex-col gap-2 md:flex-row">
           <Badge
             className={cn(
-              profile_image
+              profileImage
                 ? "text-green-500"
                 : "text-main opacity-50 dark:text-main-dark",
               "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
@@ -67,18 +66,6 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
           >
             <CheckCircledIcon className="size-5" />
             Añade una foto de perfil
-          </Badge>
-
-          <Badge
-            className={cn(
-              banner_image
-                ? "text-green-500"
-                : "text-main opacity-50 dark:text-main-dark",
-              "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
-            )}
-          >
-            <CheckCircledIcon className="size-5" />
-            Añade una foto de portada
           </Badge>
 
           <Badge

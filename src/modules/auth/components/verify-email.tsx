@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { resendEmailVerification } from "@/db/email-querys";
+import { resendEmailVerification } from "@/db/querys/email-querys";
 import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {

@@ -1,16 +1,16 @@
-import {
-  convertToCoreMessages,
-  CoreUserMessage,
-  Message,
-  streamText,
-} from "ai";
+import { convertToCoreMessages, Message, StreamData, streamText } from "ai";
 import { z } from "zod";
 
 import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(main)/essentia-ai/chat/actions";
 import { createSystemPrompt } from "@/config/chatbot-prompt";
-import { removeChat, saveChat } from "@/db/chat-querys";
-import { getUserById } from "@/db/user-querys";
+import {
+  deleteChatById,
+  getChatById,
+  saveChat,
+  saveMessages,
+} from "@/db/querys/chat-querys";
+import { getSubscription } from "@/db/querys/payment-querys";
 import { gptFlashModel } from "@/modules/chatbot/ai";
 import {
   generateExerciseRoutine,
@@ -18,54 +18,108 @@ import {
   generateNutritionalPlan,
   generateRiskAssessment,
 } from "@/modules/chatbot/ai/actions";
-import { getFirstUserMessage } from "@/modules/chatbot/lib/utils";
+import {
+  generateUUID,
+  getMostRecentUserMessage,
+  sanitizeResponseMessages,
+} from "@/modules/chatbot/lib/utils";
 import { calculateAge } from "@/modules/core/lib/utils";
 import { formatDate } from "@/modules/payment/lib/utils";
-import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 export const maxDuration = 60;
+
+type AllowedTools =
+  | "recommendExercise"
+  | "healthRiskAssessment"
+  | "nutritionalAdvice"
+  | "moodTracking";
+
+const allTools: AllowedTools[] = [
+  "recommendExercise",
+  "healthRiskAssessment",
+  "nutritionalAdvice",
+  "moodTracking",
+];
 
 export async function POST(request: Request) {
   const { id, messages }: { id: string; messages: Array<Message> } =
     await request.json();
 
-  const session = (await auth()) as Session;
+  const session = await auth();
 
-  const userId = session.user.id;
-  const user = await getUserById(userId);
-
-  if (!user) {
+  if (!session || !session.user || !session.user.id) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const isPremium = user.is_premium;
-  const premiumExpiresAt = formatDate(user.premium_expires_at);
+  const userId = session?.user?.id as string;
+  const [subscription] = await getSubscription(userId);
+
+  if (!subscription) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const isPremium = subscription.isPremium;
+  const premiumExpiresAt = formatDate(subscription.expiresAt);
 
   if (!isPremium) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const profileData = session ? await getUserProfileData(session) : null;
+  const user = session ? await getUserProfileData(session) : null;
 
-  const userName = profileData?.first_name;
-  const userLastName = profileData?.last_name;
-  const userAge = calculateAge(profileData?.birthdate as string);
-  const userBirthday = profileData?.birthdate;
-  const userLocation = profileData?.location;
-  const userBio = profileData?.bio;
+  const {
+    firstName,
+    lastName,
+    birthdate,
+    location,
+    bio,
+    weight,
+    height,
+    genre,
+  } = user || {};
 
-  const coreMessages = convertToCoreMessages(messages).filter(
-    (message) => message.content.length > 0,
-  );
+  const age = calculateAge(user?.birthdate as Date);
+
+  const coreMessages = convertToCoreMessages(messages);
+  const userMessage = getMostRecentUserMessage(coreMessages);
+
+  if (!userMessage) {
+    return new Response("No user message found", { status: 400 });
+  }
+
+  const chat = await getChatById({ id });
+
+  if (!chat) {
+    const title = await generateTitleFromUserMessage({ message: userMessage });
+    await saveChat({ id, userId: session.user.id, title });
+  }
+
+  const userMessageId = generateUUID();
+
+  await saveMessages({
+    messages: [
+      { ...userMessage, id: userMessageId, createdAt: new Date(), chatId: id },
+    ],
+  });
+
+  const streamingData = new StreamData();
+
+  streamingData.append({
+    type: "user-message-id",
+    content: userMessageId,
+  });
 
   const systemPrompt = createSystemPrompt({
-    userName,
-    userLastName,
-    userAge,
-    userBirthday,
-    userLocation,
-    userBio,
+    firstName,
+    lastName,
+    birthdate,
+    location,
+    bio,
+    weight,
+    height,
+    genre,
+    age,
     premiumExpiresAt,
   });
 
@@ -74,6 +128,8 @@ export async function POST(request: Request) {
     system: systemPrompt,
     messages: coreMessages,
     maxTokens: 1024,
+    maxSteps: 5,
+    experimental_activeTools: allTools,
     tools: {
       recommendExercise: {
         description: "Mostrar rutina de ejercicios personalizada",
@@ -180,32 +236,39 @@ export async function POST(request: Request) {
         },
       },
     },
-    onFinish: async ({ responseMessages }) => {
-      if (session.user && session.user.id) {
+    onFinish: async ({ response }) => {
+      if (session?.user?.id) {
         try {
-          const createdAt = new Date();
-          const userId = session.user.id;
-          const path = `/essentia-ai/chat/${id}`;
+          const responseMessagesWithoutIncompleteToolCalls =
+            sanitizeResponseMessages(response.messages);
 
-          const userMessage = getFirstUserMessage(coreMessages);
-          const title = await generateTitleFromUserMessage({
-            message: userMessage as CoreUserMessage,
+          await saveMessages({
+            messages: responseMessagesWithoutIncompleteToolCalls.map(
+              (message) => {
+                const messageId = generateUUID();
+
+                if (message.role === "assistant") {
+                  streamingData.appendMessageAnnotation({
+                    messageIdFromServer: messageId,
+                  });
+                }
+
+                return {
+                  id: messageId,
+                  chatId: id,
+                  role: message.role,
+                  content: message.content,
+                  createdAt: new Date(),
+                };
+              },
+            ),
           });
-
-          const chat: any = {
-            id,
-            title,
-            userId,
-            createdAt,
-            messages: [...coreMessages, ...responseMessages],
-            path,
-          };
-
-          await saveChat(chat);
         } catch (error) {
           console.error("Error al guardar el chat:", error);
         }
       }
+
+      streamingData.close();
     },
     experimental_telemetry: {
       isEnabled: true,
@@ -213,7 +276,9 @@ export async function POST(request: Request) {
     },
   });
 
-  return result.toDataStreamResponse({});
+  return result.toDataStreamResponse({
+    data: streamingData,
+  });
 }
 
 export async function DELETE(request: Request) {
@@ -224,16 +289,20 @@ export async function DELETE(request: Request) {
     return new Response("Not Found", { status: 404 });
   }
 
-  const session = (await auth()) as Session;
+  const session = await auth();
 
   if (!session || !session.user) {
     return new Response("Unauthorized, please login", { status: 401 });
   }
 
   try {
-    const path = `/essentia-ai/chat/${id}`;
+    const chat = await getChatById({ id });
 
-    await removeChat({ id, path });
+    if (chat.userId !== session.user.id) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+
+    await deleteChatById({ id });
 
     return new Response("Chat eliminado", { status: 200 });
   } catch {

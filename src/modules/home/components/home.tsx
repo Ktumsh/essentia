@@ -18,7 +18,7 @@ interface HomeProps {
 }
 
 const Home = ({ profileData }: HomeProps) => {
-  const { is_premium } = profileData ?? {};
+  const { isPremium } = profileData ?? {};
 
   const [facts, setFacts] = useState<HealthFact[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,7 +50,7 @@ const Home = ({ profileData }: HomeProps) => {
                 <h2 className="mb-2 ml-3 px-5 font-semibold text-main dark:text-main-dark lg:px-0">
                   Recomendaciones
                 </h2>
-                <Recomendations isPremium={is_premium} />
+                <Recomendations isPremium={isPremium!} />
               </section>
             </div>
           )}

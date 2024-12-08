@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { auth } from "@/app/(auth)/auth";
-import { updateUserBanner, updateUserPhoto } from "@/db/profile-querys";
+import { updateUserPhoto } from "@/db/querys/profile-querys";
 
 const FileSchema = z.object({
   file: z
@@ -33,9 +33,8 @@ export const POST = async (req: NextRequest) => {
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const userId = formData.get("userId") as string;
-    const imageType = formData.get("imageType") as string;
 
-    if (!userId || !imageType) {
+    if (!userId) {
       return NextResponse.json(
         {
           success: false,
@@ -58,24 +57,11 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    let folder = "";
-    if (imageType === "profile") {
-      folder = "profile/";
-    } else if (imageType === "banner") {
-      folder = "banner/";
-    } else {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Tipo de imagen no válido",
-        },
-        { status: 400 },
-      );
-    }
+    const folder = "profile/";
 
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const fileExtension = file.name.split(".").pop();
-    const filename = `${imageType}-${userId}-${uniqueSuffix}.${fileExtension}`;
+    const filename = `$profile-${userId}-${uniqueSuffix}.${fileExtension}`;
     const filePath = `${folder}${filename}`;
 
     const fileBuffer = Buffer.from(await file.arrayBuffer());
@@ -87,19 +73,13 @@ export const POST = async (req: NextRequest) => {
 
       const fileUrl = data.url;
 
-      let updateResult;
+      const updateResult = await updateUserPhoto(userId, fileUrl);
 
-      if (imageType === "banner") {
-        updateResult = await updateUserBanner(userId, fileUrl);
-      } else if (imageType === "profile") {
-        updateResult = await updateUserPhoto(userId, fileUrl);
-      }
-
-      if (updateResult?.error) {
+      if (updateResult instanceof Error) {
         return NextResponse.json(
           {
             success: false,
-            error: updateResult.error,
+            error: updateResult.message,
           },
           { status: 500 },
         );
@@ -107,12 +87,11 @@ export const POST = async (req: NextRequest) => {
 
       return NextResponse.json({
         success: true,
-        [imageType === "banner" ? "banner_image" : "profile_image"]: (
+        ["profile_image"]: (
           updateResult as {
-            banner_image?: string | null;
             profile_image?: string | null;
           }
-        )[imageType === "banner" ? "banner_image" : "profile_image"],
+        )["profile_image"],
       });
     } catch (error) {
       console.error("Error uploading file to Vercel Blob:", error);

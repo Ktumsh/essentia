@@ -7,8 +7,7 @@ export const getRandomFacts = (num: number): HealthFact[] => {
   return shuffled.slice(0, num);
 };
 
-export function calculateAge(dob: string) {
-  const birthDate = new Date(dob);
+export function calculateAge(birthDate: Date): number {
   const today = new Date();
 
   let age = today.getFullYear() - birthDate.getFullYear();

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { getUserByEmail } from "@/db/user-querys";
+import { getUserByEmail } from "@/db/querys/user-querys";
 import VerifyEmail from "@/modules/auth/components/verify-email";
 
 type Props = {
@@ -15,9 +15,9 @@ const VerifyEmailPage = async (props: Props) => {
     return redirect("/login");
   }
 
-  const user = email ? await getUserByEmail(email) : null;
+  const [user] = await getUserByEmail(email);
 
-  const userId = user?.id;
+  const userId = user.id;
 
   if (!userId) {
     return redirect("/login");

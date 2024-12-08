@@ -10,7 +10,7 @@ interface RecomCardProps {
 }
 
 const RecomCard = ({ profileData }: RecomCardProps) => {
-  const { is_premium } = profileData || {};
+  const { isPremium } = profileData || {};
 
   return (
     <div className="flex size-full">
@@ -33,7 +33,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             <h2 className="text-xs font-semibold">Recursos Adicionales</h2>
           </div>
         </Link>
-        {is_premium ? (
+        {isPremium ? (
           <Link
             href="/essentia-ai"
             className="relative col-span-2 flex items-center justify-center rounded-2xl border border-white bg-light-gradient-v2 transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:border-full-dark dark:bg-dark-gradient-v2"

@@ -39,12 +39,14 @@ export const BetterTooltip = ({
   align = "center",
   side,
   className,
+  hidden,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Tooltip> & {
   content: JSX.Element | string;
   align?: "center" | "end" | "start";
   side?: "top" | "right" | "bottom" | "left";
   className?: string;
+  hidden?: boolean;
 }) => {
   const isMobile = useIsMobile();
 
@@ -56,7 +58,7 @@ export const BetterTooltip = ({
           align={align}
           side={side}
           className={className}
-          hidden={isMobile}
+          hidden={isMobile || hidden}
         >
           {content}
         </TooltipContent>

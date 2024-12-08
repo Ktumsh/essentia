@@ -1,18 +1,20 @@
 "use server";
 
+import { Session } from "next-auth";
 import Stripe from "stripe";
 
 import { auth } from "@/app/(auth)/auth";
 import { siteConfig } from "@/config/site";
 import {
-  deleteUserStripeCustomer,
-  getStripeCustomerId,
-  getSubscriptionId,
-  updatePremiumStatus,
-  updateUserStripeCustomerId,
-} from "@/db/payment-querys";
-import { getUserById, getUserBySubscriptionId } from "@/db/user-querys";
-import { Session } from "@/types/session";
+  deleteSubscription,
+  getSubscription,
+  getSubscriptionBySubscriptionId,
+  setPaymentDetails,
+  updateClientId,
+  updatePaymentDetails,
+  updateSubscription,
+} from "@/db/querys/payment-querys";
+import { getUserById } from "@/db/querys/user-querys";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
@@ -56,64 +58,58 @@ export async function verifyPaymentIntent(
   }
 }
 
-/**
- * Maneja el evento 'invoice.payment_succeeded'.
- * @param invoice - Objeto Stripe.Invoice
- */
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
-  const status = "active";
-
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const status = "active";
   const currentPeriodEnd = subscription.current_period_end;
+  const processedAt = new Date();
 
-  const user = await getUserBySubscriptionId(subscriptionId);
-  if (!user) {
-    console.error(
-      `Usuario no encontrado para la suscripción: ${subscriptionId}`,
-    );
-    return;
-  }
+  try {
+    const [user] = await getSubscriptionBySubscriptionId(subscriptionId);
 
-  if (!currentPeriodEnd) {
-    console.error(
-      `current_period_end no está definido para la suscripción: ${subscriptionId}`,
-    );
-    return;
-  }
-
-  await updatePremiumStatus(user.id, subscriptionId, status, currentPeriodEnd);
-
-  console.log(`Pago exitoso para suscripción: ${subscriptionId}`);
-
-  if (invoice.payment_intent) {
-    const paymentIntent = await stripe.paymentIntents.retrieve(
-      invoice.payment_intent as string,
+    await updateSubscription(
+      user.userId,
+      subscriptionId,
+      currentPeriodEnd,
+      status,
     );
 
-    const paymentMethodId = paymentIntent.payment_method as string;
-    if (paymentMethodId) {
-      const customer = await stripe.customers.retrieve(user.stripe_customer_id);
+    await updatePaymentDetails(user.userId, status, processedAt);
 
-      if (!("deleted" in customer) || !customer.deleted) {
-        await stripe.customers.update(customer.id, {
-          invoice_settings: {
-            default_payment_method: paymentMethodId,
-          },
-        });
-        console.log(
-          "Método de pago predeterminado actualizado:",
-          paymentMethodId,
+    if (invoice.payment_intent) {
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        invoice.payment_intent as string,
+      );
+
+      const paymentMethodId = paymentIntent.payment_method as string;
+      if (paymentMethodId) {
+        const customer = await stripe.customers.retrieve(
+          user.subscriptionId as string,
         );
+
+        if (!("deleted" in customer) || !customer.deleted) {
+          await stripe.customers.update(customer.id, {
+            invoice_settings: {
+              default_payment_method: paymentMethodId,
+            },
+          });
+          console.log(
+            "Método de pago predeterminado actualizado:",
+            paymentMethodId,
+          );
+        }
       }
     }
+  } catch (error) {
+    console.error("Error actualizando la suscripción:", error);
   }
 }
 
 interface CreateSubscriptionParams {
   cardholderName: string;
   priceId: string;
-  paymentMethodId: string;
+  type: "premium" | "premiumPlus";
 }
 
 interface CreateSubscriptionResponse {
@@ -123,30 +119,48 @@ interface CreateSubscriptionResponse {
 export async function createSubscription(
   params: CreateSubscriptionParams,
 ): Promise<CreateSubscriptionResponse> {
-  const { cardholderName, priceId } = params;
-  const session = (await auth()) as Session;
-  const status = "pending";
+  const { cardholderName, priceId, type } = params;
+  const session = await auth();
 
-  const user = await getUserById(session.user.id);
+  const [user] = await getUserById(session?.user?.id as string);
   if (!user) {
     throw new Error("Usuario no encontrado.");
   }
 
-  try {
-    let stripeCustomerId = user.stripe_customer_id;
+  const [subscription] = await getSubscription(user.id);
 
-    if (!stripeCustomerId) {
+  let subscriptionId = subscription?.subscriptionId || null;
+  let customerId = subscription?.clientId || null;
+
+  try {
+    if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email,
         name: cardholderName,
       });
-      stripeCustomerId = customer.id;
+      customerId = customer.id;
 
-      await updateUserStripeCustomerId(user.id, stripeCustomerId);
+      await updateClientId(user.id, customerId);
     }
 
-    const subscription = await stripe.subscriptions.create({
-      customer: stripeCustomerId,
+    if (subscriptionId) {
+      const sub = await stripe.subscriptions.retrieve(subscriptionId);
+      const amount = sub.items.data[0].price.unit_amount;
+      const currency = sub.items.data[0].price.currency;
+      const status = "pending";
+
+      await setPaymentDetails(user.id, status, amount, currency, new Date());
+
+      const invoice = sub.latest_invoice as Stripe.Invoice;
+      const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
+
+      if (paymentIntent && paymentIntent.client_secret) {
+        return { clientSecret: paymentIntent.client_secret };
+      }
+    }
+
+    const newSubscription = await stripe.subscriptions.create({
+      customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
       expand: ["latest_invoice.payment_intent"],
@@ -156,45 +170,33 @@ export async function createSubscription(
       },
     });
 
-    const invoice = subscription.latest_invoice as Stripe.Invoice;
+    const invoice = newSubscription.latest_invoice as Stripe.Invoice;
     const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
 
-    const currentPeriodEnd = subscription.current_period_end;
+    subscriptionId = newSubscription.id;
 
-    await updatePremiumStatus(
-      user.id,
-      subscription.id,
-      status,
-      currentPeriodEnd,
-    );
+    const currentPeriodEnd = newSubscription.current_period_end;
+    await updateSubscription(user.id, subscriptionId, currentPeriodEnd, type);
+
+    const amount = newSubscription.items.data[0].price.unit_amount;
+    const currency = newSubscription.items.data[0].price.currency;
+    const status = "pending";
+
+    await setPaymentDetails(user.id, status, amount, currency, new Date());
 
     const paymentMethodId = paymentIntent.payment_method as string;
     if (paymentMethodId) {
-      await stripe.customers.update(stripeCustomerId, {
+      await stripe.customers.update(customerId, {
         invoice_settings: {
           default_payment_method: paymentMethodId,
         },
       });
-      console.log(
-        "Método de pago predeterminado actualizado:",
-        paymentMethodId,
-      );
-    }
-
-    const customer = await stripe.customers.retrieve(stripeCustomerId);
-
-    if ("deleted" in customer && customer.deleted) {
-      console.log("El cliente ha sido eliminado");
-    } else {
-      console.log(
-        "Método de pago predeterminado:",
-        customer.invoice_settings.default_payment_method,
-      );
     }
 
     if (!paymentIntent.client_secret) {
       throw new Error("Client secret no encontrado.");
     }
+
     return { clientSecret: paymentIntent.client_secret };
   } catch (error) {
     console.error("Error creando suscripción:", error);
@@ -203,27 +205,26 @@ export async function createSubscription(
 }
 
 export async function checkPaymentStatus() {
-  const session = (await auth()) as Session;
+  const session = await auth();
   if (!session?.user) {
     return { isPremium: false };
   }
 
-  const user = await getUserById(session.user.id);
-  return { isPremium: user?.is_premium || false };
+  const [user] = await getSubscription(session?.user?.id as string);
+  return { isPremium: user.isPremium || false };
 }
 
-/**
- * Maneja el evento 'customer.subscription.deleted'.
- * @param subscription - Objeto Stripe.Subscription
- */
 export async function handleSubscriptionDeleted(
   subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
-  const status = subscription.status;
+
   const customerId = subscription.customer as string;
 
-  const user = await getUserBySubscriptionId(subscriptionId);
+  const session = await auth();
+
+  const [user] = await getUserById(session?.user?.id as string);
+
   if (!user) {
     console.error(
       `Usuario no encontrado para la suscripción: ${subscriptionId}`,
@@ -240,11 +241,11 @@ export async function handleSubscriptionDeleted(
   if (subscriptions.data.length > 0) {
     const activeSubscription = subscriptions.data[0];
 
-    await updatePremiumStatus(
+    await updateSubscription(
       user.id,
       activeSubscription.id,
-      activeSubscription.status,
       activeSubscription.current_period_end,
+      activeSubscription.status,
     );
 
     console.log(
@@ -253,15 +254,9 @@ export async function handleSubscriptionDeleted(
     return;
   }
 
-  await updatePremiumStatus(user.id, null, status, null);
-
-  console.log(`Suscripción eliminada: ${subscriptionId}, Estado: ${status}`);
+  await updateSubscription(user.id, null, null, "inactive");
 }
 
-/**
- * Maneja el evento 'customer.subscription.updated'.
- * @param subscription - Objeto Stripe.Subscription
- */
 export async function handleSubscriptionUpdated(
   subscription: Stripe.Subscription,
 ) {
@@ -269,33 +264,34 @@ export async function handleSubscriptionUpdated(
   const status = subscription.status;
   const currentPeriodEnd = subscription.current_period_end;
 
-  const user = await getUserBySubscriptionId(subscriptionId);
-  if (!user) {
+  try {
+    const session = await auth();
+
+    const [user] = await getUserById(session?.user?.id as string);
+
+    await updateSubscription(user.id, subscriptionId, currentPeriodEnd, status);
+  } catch (error) {
     console.error(
-      `Usuario no encontrado para la suscripción: ${subscriptionId}`,
+      `Error al actualizar la suscripción: ${subscriptionId}`,
+      error,
     );
-    return;
   }
-
-  await updatePremiumStatus(user.id, subscriptionId, status, currentPeriodEnd);
-
-  console.log(`Suscripción actualizada: ${subscriptionId}, Estado: ${status}`);
 }
 
-export async function handleCustomerDeleted(customer: Stripe.Customer) {
-  const customerId = customer.id;
+export async function handleCustomerDeleted(invoice: Stripe.Invoice) {
+  const subscriptionId = invoice.subscription as string;
 
-  const user = await getStripeCustomerId(customerId);
-  if (!user) {
-    console.error(`Usuario no encontrado para el cliente: ${customerId}`);
-    return;
+  try {
+    const [subscription] =
+      await getSubscriptionBySubscriptionId(subscriptionId);
+
+    await deleteSubscription(subscription.userId);
+  } catch (error) {
+    console.error(
+      "Error al eliminar el cliente y actualizar los datos en la base de datos:",
+      error,
+    );
   }
-
-  await deleteUserStripeCustomer(user.id);
-
-  console.log(
-    `Cliente eliminado y datos actualizados en la base de datos: ${customerId}`,
-  );
 }
 
 export async function handleInvoiceFinalized(finalizedSubscriptionId: string) {
@@ -332,7 +328,7 @@ export async function handleInvoiceFinalized(finalizedSubscriptionId: string) {
 }
 
 export async function getUserCurrentPlan(session: Session): Promise<string> {
-  if (!session || !session.user.email) return siteConfig.planPrices.free;
+  if (!session || !session?.user?.email) return siteConfig.planPrices.free;
 
   const customers = await stripe.customers.list({
     email: session.user.email,
@@ -358,22 +354,18 @@ export async function getUserCurrentPlan(session: Session): Promise<string> {
   return priceId;
 }
 
-/**
- * Establece el plan del usuario.
- * @param session - Sesión del usuario.
- * @param priceId - ID del precio seleccionado.
- */
 export async function setUserPlan(
-  session: Session,
+  session: Session | null,
   priceId: string,
   cancelReason?: string,
 ): Promise<{ success: boolean; message: string }> {
-  if (!session || !session.user.id) {
+  if (!session || !session?.user?.id) {
     return { success: false, message: "Usuario no autenticado." };
   }
 
-  const userId = session.user.id;
-  const subscriptionId = await getSubscriptionId(userId);
+  const userId = session?.user?.id as string;
+  const [subscription] = await getSubscription(userId);
+  const subscriptionId = subscription.subscriptionId;
 
   if (!subscriptionId) {
     return { success: false, message: "Usuario no encontrado." };
@@ -402,20 +394,10 @@ export async function setUserPlan(
       }
     }
 
-    try {
-      await updatePremiumStatus(userId, subscriptionId, "active", null);
-
-      return {
-        success: true,
-        message: "El plan se actualizará a Gratis al final del período.",
-      };
-    } catch (error) {
-      console.error("Error actualizando el estado premium:", error);
-      return {
-        success: false,
-        message: "Error al actualizar el plan a Gratis.",
-      };
-    }
+    return {
+      success: true,
+      message: "El plan se actualizará a Gratis al final del período.",
+    };
   } else {
     return {
       success: false,

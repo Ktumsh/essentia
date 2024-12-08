@@ -1,17 +1,33 @@
 "use client";
 
-import { MapPin } from "lucide-react";
+import {
+  Cake,
+  Calendar,
+  MapPin,
+  PersonStanding,
+  Ruler,
+  ScrollText,
+  Weight,
+} from "lucide-react";
 import { FC, ReactNode, memo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { StarsIcon } from "@/modules/icons/common";
-import { CalendarIcon } from "@/modules/icons/status";
 import { UserProfileData } from "@/types/session";
 
 import CompleteProfile from "./complete-profile";
 import EditProfileForm from "./edit-profile-form";
-import { formatCreatedAt } from "../lib/utils";
+import { formatFullDate } from "../lib/utils";
 
 interface ProfileInfoProps {
   profileData: UserProfileData | null;
@@ -26,96 +42,268 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [displayData, setDisplayData] = useState(profileData);
+  const [displayData, setDisplayData] = useState<UserProfileData | null>(
+    profileData,
+  );
 
-  const { is_premium, created_at } = profileData ?? {};
+  const {
+    firstName,
+    lastName,
+    username,
+    birthdate,
+    bio,
+    location,
+    genre,
+    weight,
+    height,
+    profileImage,
+  } = displayData ?? {};
 
-  const createdAt = formatCreatedAt(created_at as Date);
+  const { isPremium, createdAt } = profileData ?? {};
 
   const completeProfileData = {
-    profile_image: displayData?.profile_image,
-    banner_image: displayData?.banner_image,
-    bio: displayData?.bio,
-    location: displayData?.location,
+    profileImage,
+    bio,
+    location,
   };
 
   return (
     <>
-      <div className="space-y-3 px-4 pb-8 pt-3 md:space-y-6 md:px-8">
-        {/* Nombre y botón editar */}
-        <div className="relative">
-          {children}
-          <div className="ml-24 flex items-start justify-between md:ml-44">
-            <div className="inline-flex flex-col">
-              <div className="inline-flex items-center gap-2">
-                <h2 className="font-bold text-main dark:text-main-dark md:text-xl">{`${displayData?.first_name} ${displayData?.last_name}`}</h2>
-                {is_premium && (
-                  <BetterTooltip content="Cuenta Premium">
-                    <div className="relative inline-flex shrink-0 items-center justify-center gap-1 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
-                      <StarsIcon className="size-3.5 [&_*]:fill-white" />
-                      <span className="sr-only">Cuenta Premium</span>
-                    </div>
-                  </BetterTooltip>
+      <div className="px-6">
+        {isOwnProfile ? (
+          <h1 className="py-4 text-2xl font-semibold leading-none tracking-tight dark:text-white sm:text-3xl md:pt-11">
+            Perfil
+          </h1>
+        ) : (
+          <h1 className="py-4 text-2xl font-semibold leading-none tracking-tight dark:text-white sm:text-3xl md:pt-11">
+            Perfil de {username}
+          </h1>
+        )}
+      </div>
+      <div className="px-6">
+        <Separator />
+      </div>
+      <div className="w-full bg-white px-6 py-10 dark:bg-full-dark">
+        <div className="flex w-full flex-col gap-4">
+          <Card className="dark:text-whitea flex flex-col justify-between text-main md:flex-row">
+            <CardHeader>
+              <CardTitle className="mb-2 text-base">Avatar</CardTitle>
+              <CardDescription className="space-y-1">
+                <p>
+                  {isOwnProfile
+                    ? "Este es tu avatar de perfil."
+                    : "Este es el avatar de " + username + "."}
+                </p>
+                {isOwnProfile && (
+                  <p>
+                    Presiona en tu avatar para cargar uno personalizado desde
+                    tus archivos.
+                  </p>
                 )}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="md:pt-6">{children}</CardContent>
+          </Card>
+          <Card className="text-main dark:text-white">
+            <CardHeader>
+              <CardTitle className="pb-4 text-base">
+                {isOwnProfile
+                  ? "Información de tu Perfil"
+                  : "Información de su perfil"}
+              </CardTitle>
+              <CardDescription className="space-y-1">
+                <p>
+                  {isOwnProfile
+                    ? "Esta es tu información personal de tu perfil."
+                    : "Esta es la información personal de " + username + "."}
+                </p>
+                {isOwnProfile && (
+                  <p>
+                    Puedes editar tu información para que nuestra IA pueda
+                    brindarte una mejor experiencia para ti.
+                  </p>
+                )}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
+                  <span className="flex flex-col">
+                    <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      Nombre
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {firstName}
+                    </div>
+                  </span>
+                  <span className="flex flex-col">
+                    <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      Apellido
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {lastName}
+                    </div>
+                  </span>
+                  <span className="flex flex-col">
+                    <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      Nombre de usuario
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {username}
+                    </div>
+                  </span>
+                  <span className="flex flex-col">
+                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      <span>
+                        <Cake
+                          strokeWidth={1.5}
+                          className="size-3 text-main-m dark:text-main-dark-m"
+                        />
+                      </span>
+                      <span>Fecha de cumpleaños</span>
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {formatFullDate(birthdate!)}
+                    </div>
+                  </span>
+                </div>
               </div>
-              <span className="text-xs text-main-m dark:text-main-dark-m md:text-sm">
-                @{displayData?.username}
-              </span>
-            </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                  <div className="grid-cols grid flex-1 gap-4">
+                    <span className="flex flex-col">
+                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                        <span>
+                          <ScrollText
+                            strokeWidth={1.5}
+                            className="size-3 text-main-m dark:text-main-dark-m"
+                          />
+                        </span>
+                        <span>Biografía</span>
+                      </div>
+                      <div className="flex-1 pt-1 text-sm font-medium">
+                        {bio || "---"}
+                      </div>
+                    </span>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                  <div className="grid-cols grid flex-1 gap-4">
+                    <span className="flex flex-col">
+                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                        <span>
+                          <MapPin
+                            strokeWidth={1.5}
+                            className="size-3 text-main-m dark:text-main-dark-m"
+                          />
+                        </span>
+                        <span>Ubicación</span>
+                      </div>
+                      <div className="flex-1 pt-1 text-sm font-medium">
+                        {location || "---"}
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
+                  <span className="flex flex-col">
+                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      <span>
+                        <Weight
+                          strokeWidth={1.5}
+                          className="size-3 text-main-m dark:text-main-dark-m"
+                        />
+                      </span>
+                      <span>Peso</span>
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {(weight && weight + "kg") || "---"}
+                    </div>
+                  </span>
+                  <span className="flex flex-col">
+                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      <span>
+                        <Ruler
+                          strokeWidth={1.5}
+                          className="size-3 text-main-m dark:text-main-dark-m"
+                        />
+                      </span>
+                      <span>Estatura</span>
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {(height && height + "cm") || "---"}
+                    </div>
+                  </span>
+                  <span className="flex flex-col">
+                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      <span>
+                        <PersonStanding
+                          strokeWidth={1.5}
+                          className="size-3 text-main-m dark:text-main-dark-m"
+                        />
+                      </span>
+                      <span>Género</span>
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {genre || "---"}
+                    </div>
+                  </span>
+                  <span className="flex flex-col">
+                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                      <span>
+                        <Calendar
+                          strokeWidth={1.5}
+                          className="size-3 text-main-m dark:text-main-dark-m"
+                        />
+                      </span>
+                      <span>Fecha de creación</span>
+                    </div>
+                    <div className="flex-1 pt-1 text-sm font-medium">
+                      {formatFullDate(createdAt!)}
+                    </div>
+                  </span>
+                </div>
+              </div>
+              {isPremium && (
+                <BetterTooltip content="Cuenta Premium">
+                  <div className="absolute right-0 top-0 m-6 !mt-6 inline-flex shrink-0 items-center justify-center gap-1 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
+                    <StarsIcon className="size-3.5 [&_*]:fill-white" />
+                    <span className="sr-only">Cuenta Premium</span>
+                  </div>
+                </BetterTooltip>
+              )}
+            </CardContent>
             {isOwnProfile && (
-              <Button variant="outline" onClick={() => setIsOpen(true)}>
-                Editar perfil
-              </Button>
+              <CardFooter isSecondary>
+                <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
+                  <Button
+                    radius="lg"
+                    variant="outline"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    Editar perfil
+                  </Button>
+                </div>
+              </CardFooter>
             )}
-          </div>
-        </div>
+          </Card>
 
-        {/* Información del perfil */}
-        <div className="space-y-6 pt-6">
-          {displayData?.bio && (
-            <div>
-              <h3 className="mb-2 font-semibold text-main dark:text-main-dark md:text-lg">
-                {isOwnProfile ? "Acerca de mi" : "Biografía"}
-              </h3>
-              <p className="text-sm text-main-m dark:text-main-dark-m">
-                {displayData?.bio}
-              </p>
-            </div>
-          )}
-
-          <div className="grid gap-4 text-main-m dark:text-main-dark-m">
-            {displayData?.location && (
-              <div className="flex items-center space-x-2 text-sm">
-                <MapPin className="size-4 text-main-m dark:text-main-dark-m" />
-                <span>{displayData?.location}</span>
-              </div>
-            )}
-            <div className="flex items-center space-x-2 text-sm">
-              <CalendarIcon className="size-4 text-main-m dark:text-main-dark-m" />
-              <span>
-                {isOwnProfile ? "Te uniste en" : "Se unió en"} {createdAt}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Completar perfil */}
-        {isOwnProfile &&
-          (!displayData?.bio ||
-            !displayData?.location ||
-            !displayData?.profile_image ||
-            !displayData?.banner_image) && (
+          {/* Completar perfil */}
+          {isOwnProfile && (!bio || !location || !profileImage) && (
             <CompleteProfile completeProfileData={completeProfileData} />
           )}
-      </div>
+        </div>
 
-      <EditProfileForm
-        profileData={displayData}
-        isOwnProfile={isOwnProfile}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        setDisplayData={setDisplayData}
-      />
+        <EditProfileForm
+          profileData={displayData}
+          isOwnProfile={isOwnProfile}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setDisplayData={setDisplayData}
+        />
+      </div>
     </>
   );
 };
