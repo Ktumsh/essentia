@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getUserByEmail } from "@/db/user-querys";
+import { getUserByEmail } from "@/db/querys/user-querys";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
@@ -40,7 +40,7 @@ const SignupFormStep1: React.FC<Step1Props> = ({ onSuccess }) => {
     startTransition(async () => {
       try {
         const existingUser = await getUserByEmail(data.email);
-        if (existingUser) {
+        if (existingUser.length > 0) {
           toast.error(getMessageFromCode(ResultCode.EMAIL_EXISTS));
         } else {
           onSuccess(data.email);

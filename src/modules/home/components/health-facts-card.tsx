@@ -13,7 +13,7 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
       {facts?.map((fact, index) => (
         <section
           key={index}
-          className="relative overflow-hidden rounded-2xl bg-white dark:bg-full-dark md:h-52 md:rounded-xl"
+          className="relative overflow-hidden rounded-2xl bg-white dark:bg-full-dark md:min-h-52 md:rounded-xl"
         >
           <div className="flex items-center justify-between md:flex-col">
             <div className="h-20 py-1 md:h-24 md:py-0">

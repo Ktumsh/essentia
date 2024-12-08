@@ -17,7 +17,7 @@ import MainSearch from "../layout/main-search";
 
 interface MainNavMainProps {
   items: SiteConfig["navLinks"];
-  isPremium?: boolean;
+  isPremium: boolean;
 }
 
 const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {

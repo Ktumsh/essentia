@@ -1,8 +1,9 @@
 "use client";
 
+import { Session } from "next-auth";
+
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { siteConfig } from "@/config/site";
-import { Session } from "@/types/session";
 
 import PricingCard from "./pricing-card";
 import PricingSelector from "./pricing-selector";
@@ -14,7 +15,7 @@ import {
 } from "../lib/utils";
 
 interface PricingCardsProps {
-  session: Session;
+  session: Session | null;
   currentPriceId: string | null;
 }
 

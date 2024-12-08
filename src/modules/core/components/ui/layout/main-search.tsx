@@ -40,7 +40,7 @@ import { cn } from "@/utils/common";
 import { formatText } from "@/utils/format";
 
 interface MainSearchProps {
-  isPremium?: boolean;
+  isPremium: boolean;
   children?: React.ReactNode;
 }
 
@@ -230,9 +230,19 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
                 <div className="text-sm antialiased will-change-transform">
                   <p>No hay resultados para &quot;{searchTerm}&quot;</p>
                   <p className="text-main-l dark:text-main-dark-l">
-                    {searchTerm.length < 6
-                      ? "Intenta agregar más caracteres al término de búsqueda."
-                      : `Intenta buscar otra cosa ${isPremium && " o prueba buscando con Essentia AI."}`}
+                    {isPremium ? (
+                      <>
+                        {searchTerm.length < 6
+                          ? "Intenta agregar más caracteres al término de búsqueda."
+                          : "Intenta buscar otra cosa o prueba buscando con Essentia AI."}
+                      </>
+                    ) : (
+                      <>
+                        {searchTerm.length < 6
+                          ? "Intenta agregar más caracteres al término de búsqueda."
+                          : "Intenta buscar otra cosa."}
+                      </>
+                    )}
                   </p>
                 </div>
                 {isPremium && (

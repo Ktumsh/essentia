@@ -36,9 +36,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input, NumberInput } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { updateUserProfile } from "@/db/profile-querys";
+import { updateUserProfile } from "@/db/querys/profile-querys";
 import { UserProfileData } from "@/types/session";
 
 import { ProfileFormData, profileSchema } from "../lib/utils";
@@ -62,22 +70,32 @@ const EditProfileForm = ({
   const isMobile = useIsMobile();
   const [isPending, startTransition] = useTransition();
 
-  const { id } = profileData || {};
+  const {
+    id,
+    username,
+    firstName,
+    lastName,
+    birthdate,
+    bio,
+    genre,
+    weight,
+    height,
+    location,
+  } = profileData || {};
 
-  const prepareDefaultValues = (
-    profileData: UserProfileData | null,
-  ): ProfileFormData => ({
-    first_name: profileData?.first_name || "",
-    last_name: profileData?.last_name || "",
-    username: profileData?.username || "",
-    birthdate: profileData?.birthdate
-      ? new Date(profileData.birthdate)
-      : new Date(),
-    bio: profileData?.bio || "",
-    location: profileData?.location || "",
+  const prepareDefaultValues = (): ProfileFormData => ({
+    firstName: firstName || "",
+    lastName: lastName || "",
+    username: username || "",
+    birthdate: birthdate!,
+    bio: bio || "",
+    genre: genre || "",
+    weight: weight ?? null,
+    height: height ?? null,
+    location: location || "",
   });
 
-  const defaultValues = prepareDefaultValues(profileData);
+  const defaultValues = prepareDefaultValues();
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -96,7 +114,7 @@ const EditProfileForm = ({
     (data: ProfileFormData) => {
       startTransition(async () => {
         try {
-          const result = await updateUserProfile({ id, ...data });
+          const result = await updateUserProfile({ userId: id, ...data });
           if (result.error) {
             throw new Error(result.error);
           }
@@ -134,38 +152,37 @@ const EditProfileForm = ({
   const Content = useCallback(() => {
     return (
       <Form {...form}>
-        <form
-          onSubmit={handleSubmit(onSubmit, onError)}
-          className="w-full md:space-y-4"
-        >
+        <form className="w-full md:space-y-4">
           <div className="w-full space-y-6 p-6">
-            <FormField
-              control={control}
-              name="first_name"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormLabel>Nombre</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Ingresa tu nombre" />
-                  </FormControl>
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={control}
+                name="firstName"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Nombre</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Ingresa tu nombre" />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={control}
-              name="last_name"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormLabel>Apellido</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Ingresa tu apellido" />
-                  </FormControl>
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={control}
+                name="lastName"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Apellido</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Ingresa tu apellido" />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={control}
@@ -177,6 +194,25 @@ const EditProfileForm = ({
                     <Input
                       {...field}
                       placeholder="Ingresa tu nombre de usuario"
+                    />
+                  </FormControl>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="birthdate"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>Fecha de nacimiento</FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      startYear={1900}
+                      endYear={getYear(new Date())}
+                      selected={field.value}
+                      onSelect={(date: Date) => field.onChange(date)}
                     />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
@@ -205,48 +241,104 @@ const EditProfileForm = ({
 
             <FormField
               control={control}
-              name="birthdate"
+              name="genre"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Fecha de nacimiento</FormLabel>
+                  <FormLabel>Género</FormLabel>
                   <FormControl>
-                    <DatePicker
-                      startYear={1900}
-                      endYear={getYear(new Date())}
-                      selected={field.value}
-                      onSelect={(date: Date) => field.onChange(date)}
-                    />
+                    <Select
+                      {...field}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona tu género">
+                          {field.value}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Masculino">Masculino</SelectItem>
+                        <SelectItem value="Femenino">Femenino</SelectItem>
+                        <SelectItem value="Otro">Otro</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={control}
+                name="weight"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Peso (kg)</FormLabel>
+                    <FormControl>
+                      <NumberInput
+                        {...field}
+                        value={field.value}
+                        min={1}
+                        max={300}
+                        placeholder="Ingresa tu peso"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(
+                            value === "" ? null : parseFloat(value),
+                          );
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="height"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Estatura (cm)</FormLabel>
+                    <FormControl>
+                      <NumberInput
+                        {...field}
+                        value={field.value}
+                        min={40}
+                        max={250}
+                        placeholder="Ingresa tu estatura"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(
+                            value === "" ? null : parseFloat(value),
+                          );
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={control}
+              name="location"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>Ubicación</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Ingresa tu ubicación" />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
               )}
             />
           </div>
-          {isMobile ? (
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button variant="secondary">Cancelar</Button>
-              </DrawerClose>
-              <Button type="submit" variant="destructive" disabled={isPending}>
-                {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? "Guardando" : "Guardar"}
-              </Button>
-            </DrawerFooter>
-          ) : (
-            <DialogFooter isSecondary>
-              <DialogClose asChild>
-                <Button variant="outline">Cancelar</Button>
-              </DialogClose>
-              <Button type="submit" variant="destructive" disabled={isPending}>
-                {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? "Guardando" : "Guardar"}
-              </Button>
-            </DialogFooter>
-          )}
         </form>
       </Form>
     );
-  }, [form, handleSubmit, onSubmit, isPending, control, isMobile]);
+  }, [form, control]);
 
   if (isOwnProfile) {
     if (isMobile) {
@@ -256,21 +348,51 @@ const EditProfileForm = ({
             <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
               <DrawerTitle>Editar perfil</DrawerTitle>
             </DrawerHeader>
-            <Content />
+            <ScrollArea className="overflow-y-auto">
+              <Content />
+            </ScrollArea>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="secondary">Cancelar</Button>
+              </DrawerClose>
+              <Button
+                variant="destructive"
+                disabled={isPending}
+                onClick={handleSubmit(onSubmit, onError)}
+              >
+                {isPending && <Loader className="size-4 animate-spin" />}
+                {isPending ? "Guardando" : "Guardar"}
+              </Button>
+            </DrawerFooter>
           </DrawerContent>
         </Drawer>
       );
     } else {
       return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent isSecondary className="overflow-y-auto">
-            <DialogHeader isSecondary>
-              <DialogTitle>Editar perfil</DialogTitle>
-              <DialogDescription className="sr-only">
-                Editar perfil
-              </DialogDescription>
-            </DialogHeader>
-            <Content />
+          <DialogContent isSecondary>
+            <ScrollArea className="overflow-y-auto">
+              <DialogHeader isSecondary>
+                <DialogTitle>Editar perfil</DialogTitle>
+                <DialogDescription className="sr-only">
+                  Editar perfil
+                </DialogDescription>
+              </DialogHeader>
+              <Content />
+            </ScrollArea>
+            <DialogFooter isSecondary>
+              <DialogClose asChild>
+                <Button variant="outline">Cancelar</Button>
+              </DialogClose>
+              <Button
+                variant="destructive"
+                disabled={isPending}
+                onClick={handleSubmit(onSubmit, onError)}
+              >
+                {isPending && <Loader className="size-4 animate-spin" />}
+                {isPending ? "Guardando" : "Guardar"}
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       );

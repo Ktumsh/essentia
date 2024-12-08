@@ -28,7 +28,7 @@ const BillingDetails = ({
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
 
-  const { is_premium } = profileData || {};
+  const { isPremium } = profileData || {};
 
   const subscription = billingDetails?.subscription || {};
   const isSubscriptionCanceled = subscription?.status === "canceled";
@@ -38,12 +38,12 @@ const BillingDetails = ({
   const paymentMethod = billingDetails?.paymentMethod?.card || {};
 
   const planType =
-    isSubscriptionPending || isSubscriptionIncomplete || !is_premium
+    isSubscriptionPending || isSubscriptionIncomplete || !isPremium
       ? "Gratis"
       : (subscription?.items?.data?.[0]?.price?.nickname ?? "Gratis");
 
   const price =
-    isSubscriptionPending || isSubscriptionIncomplete || !is_premium
+    isSubscriptionPending || isSubscriptionIncomplete || !isPremium
       ? "0"
       : (subscription?.items?.data?.[0]?.price?.unit_amount?.toLocaleString(
           "es-CL",
@@ -53,7 +53,7 @@ const BillingDetails = ({
     subscription?.current_period_end &&
     !isSubscriptionPending &&
     !isSubscriptionIncomplete &&
-    is_premium
+    isPremium
       ? format(
           new Date(subscription.current_period_end * 1000),
           "dd 'de' MMM, yyyy",
@@ -121,7 +121,7 @@ const BillingDetails = ({
               <Button variant="outline" onClick={() => setIsOpenPayment(true)}>
                 {isSubscriptionCanceled ||
                 isSubscriptionIncomplete ||
-                !is_premium
+                !isPremium
                   ? "Mejorar a Premium"
                   : "Cambiar plan"}
               </Button>

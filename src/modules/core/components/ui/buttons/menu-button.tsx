@@ -8,16 +8,16 @@ interface Props {
 }
 
 const MenuButton: React.FC<Props> = ({ profileData }) => {
-  const { profile_image } = profileData || {};
+  const { profileImage } = profileData || {};
 
   return (
     <>
       {profileData ? (
         <>
           <Avatar className="size-8">
-            {profile_image && (
+            {profileImage && (
               <AvatarImage
-                src={profile_image}
+                src={profileImage}
                 alt={"Avatar de" + profileData.username}
               />
             )}

@@ -1,13 +1,12 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { getStripeCustomerById } from "@/db/payment-querys";
+import { getSubscription } from "@/db/querys/payment-querys";
 import BillingTabs from "@/modules/account/components/billing-tabs";
 import {
   createSetupIntent,
   getUserBillingDetails,
 } from "@/modules/payment/pay/actions";
-import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 export default async function AccountLayout({
@@ -15,22 +14,20 @@ export default async function AccountLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = (await auth()) as Session;
+  const session = await auth();
 
   if (!session) {
     return redirect("/");
   }
 
-  const customer = session
-    ? await getStripeCustomerById(session.user.id)
-    : null;
+  const [subscription] = await getSubscription(session?.user?.id as string);
 
-  const billingDetails = customer
-    ? await getUserBillingDetails(customer)
-    : null;
+  const client = subscription.clientId;
+
+  const billingDetails = client ? await getUserBillingDetails(client) : null;
 
   const clientSecret =
-    billingDetails && customer ? await createSetupIntent(customer) : null;
+    billingDetails && client ? await createSetupIntent(client) : null;
 
   const profileData = session ? await getUserProfileData(session) : null;
 

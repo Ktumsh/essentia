@@ -16,6 +16,8 @@ export enum ResultCode {
   INVALID_STRING_PASSWORD = "INVALID_STRING_PASSWORD",
   INVALID_BIRTHDATE = "INVALID_BIRTHDATE",
   INVALID_LENGTH_BIO = "INVALID_LENGTH_BIO",
+  INVALID_WEIGHT = "INVALID_WEIGHT",
+  INVALID_HEIGHT = "INVALID_HEIGHT",
   INVALID_LENGTH_LOCATION = "INVALID_LENGTH_LOCATION",
   INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
   EMAIL_NOT_VERIFIED = "EMAIL_NOT_VERIFIED",
@@ -63,6 +65,9 @@ const resultMessages: Record<ResultCode, string> = {
     "Debes tener al menos 13 años y la fecha debe ser realista",
   [ResultCode.INVALID_LENGTH_BIO]:
     "Tu biografía debe tener menos de 160 caracteres",
+  [ResultCode.INVALID_WEIGHT]: "Tu peso debe estar entre 1 y 300 kilogramos",
+  [ResultCode.INVALID_HEIGHT]:
+    "Tu altura debe estar entre 40 y 250 centímetros",
   [ResultCode.INVALID_LENGTH_LOCATION]:
     "Tu ubicación debe tener menos de 50 caracteres",
   [ResultCode.INVALID_CREDENTIALS]: "¡Credenciales inválidas!",

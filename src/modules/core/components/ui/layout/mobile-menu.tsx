@@ -29,7 +29,7 @@ interface MobileMenuProps {
 const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
   const pathname = usePathname();
   const [currentPath, setCurrentPath] = useState("");
-  const { first_name, last_name, username, profile_image, is_premium } =
+  const { firstName, lastName, username, profileImage, isPremium } =
     profileData || {};
 
   const resourceLinks = siteConfig.asideMenuLinks;
@@ -56,9 +56,9 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                     className="relative inline-flex w-full items-start gap-2"
                   >
                     <Avatar className="size-12">
-                      {profile_image && (
+                      {profileImage && (
                         <AvatarImage
-                          src={profile_image}
+                          src={profileImage}
                           alt={"Avatar de " + username}
                         />
                       )}
@@ -68,12 +68,12 @@ const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
                     </Avatar>
                     <div className="inline-flex flex-col items-start transition-colors duration-100 active:bg-gray-200 dark:active:bg-dark">
                       <span className="font-medium capitalize text-inherit transition-none">
-                        {`${first_name} ${last_name}`}
+                        {`${firstName} ${lastName}`}
                       </span>
                       <span className="text-sm text-main-m transition-none dark:text-main-dark-l">
                         @{username}
                       </span>
-                      {is_premium && (
+                      {isPremium && (
                         <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
                           <StarsIcon
                             aria-hidden="true"

@@ -1,6 +1,5 @@
 "use client";
 
-import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import { MessageSquareShare, MoreHorizontalIcon, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { FC, useState } from "react";
@@ -8,16 +7,16 @@ import { toast } from "sonner";
 import { KeyedMutator } from "swr";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -34,26 +33,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuAction } from "@/components/ui/sidebar";
-import ChatShareModal from "@/modules/core/components/ui/sidebar/chat-share-action";
-import { type Chat, ServerActionResult } from "@/types/chat";
+import { useChatVisibility } from "@/modules/chatbot/hooks/use-chat-visibility";
+
+import ChatShareModal from "./chat-share-action";
+
+import type { Chat } from "@/db/schema";
 
 interface ChatActionsProps {
   chat: Chat;
-  shareChat: (id: string) => ServerActionResult<Chat>;
   isActive?: boolean;
   mutate: KeyedMutator<Chat[]>;
 }
 
-const ChatActions: FC<ChatActionsProps> = ({
-  chat,
-  shareChat,
-  mutate,
-  isActive,
-}) => {
+const ChatActions: FC<ChatActionsProps> = ({ chat, mutate, isActive }) => {
   const { id } = useParams();
   const router = useRouter();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
+  const { visibilityType } = useChatVisibility({
+    chatId: chat.id,
+    initialVisibility: chat.visibility,
+  });
 
   const isMobile = useIsMobile();
 
@@ -63,7 +65,7 @@ const ChatActions: FC<ChatActionsProps> = ({
     const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
       method: "DELETE",
     });
-
+    setIsPending(true);
     toast.promise(deletePromise, {
       loading: "Eliminando chat...",
       success: () => {
@@ -76,6 +78,8 @@ const ChatActions: FC<ChatActionsProps> = ({
       },
       error: "Error al eliminar el chat",
     });
+
+    await deletePromise.finally(() => setIsPending(false));
 
     setShowDeleteDialog(false);
 
@@ -94,10 +98,12 @@ const ChatActions: FC<ChatActionsProps> = ({
           </SidebarMenuAction>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="start">
-          <DropdownMenuItem onSelect={() => setShareModalOpen(true)}>
-            <MessageSquareShare strokeWidth={1.5} />
-            Compartir
-          </DropdownMenuItem>
+          {visibilityType === "public" && (
+            <DropdownMenuItem onSelect={() => setShareModalOpen(true)}>
+              <MessageSquareShare strokeWidth={1.5} />
+              Compartir
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem
             onSelect={() => {
               setShowDeleteDialog(true);
@@ -112,7 +118,6 @@ const ChatActions: FC<ChatActionsProps> = ({
 
       <ChatShareModal
         chat={chat}
-        shareChat={shareChat}
         isOpen={shareModalOpen}
         setIsOpen={setShareModalOpen}
         onCopy={() => setShareModalOpen(false)}
@@ -123,8 +128,17 @@ const ChatActions: FC<ChatActionsProps> = ({
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>Eliminar chat</DrawerTitle>
-              <DrawerDescription className="px-4">
-                Esto eliminará el chat: {chat.title}. ¿Deseas continuar?
+              <DrawerDescription className="px-4" asChild>
+                <div>
+                  <p>
+                    Esto eliminará el chat:{" "}
+                    <span className="text-main dark:text-main-dark">
+                      {chat.title}
+                    </span>
+                    .
+                  </p>
+                  <p>¿Deseas continuar?</p>
+                </div>
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
@@ -138,26 +152,37 @@ const ChatActions: FC<ChatActionsProps> = ({
           </DrawerContent>
         </Drawer>
       ) : (
-        <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
-            </AlertDialogHeader>
-            <AlertDialogDescription>
-              Esto eliminará el chat: {chat.title}. ¿Deseas continuar?
-            </AlertDialogDescription>
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button variant="secondary">Cancelar</Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Button variant="destructive" onClick={handleDelete}>
-                  Continuar
-                </Button>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <DialogContent isSecondary>
+            <DialogHeader isSecondary className="!pb-6">
+              <DialogTitle>Eliminar chat</DialogTitle>
+              <DialogDescription asChild>
+                <div>
+                  <p>
+                    Esto eliminará el chat:{" "}
+                    <span className="text-main dark:text-main-dark">
+                      {chat.title}
+                    </span>
+                    .
+                  </p>
+                  <p>¿Deseas continuar?</p>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter isSecondary>
+              <DialogClose asChild>
+                <Button variant="outline">Cancelar</Button>
+              </DialogClose>
+              <Button
+                disabled={isPending}
+                variant="destructive"
+                onClick={handleDelete}
+              >
+                Continuar
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
     </>
   );

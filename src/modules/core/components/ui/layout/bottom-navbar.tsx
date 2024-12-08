@@ -22,7 +22,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
   const isEssentiaAi = pathname.startsWith("/essentia-ai");
   const isAdditionals = pathname.startsWith("/adicionales");
 
-  const { is_premium } = user || {};
+  const { isPremium } = user || {};
 
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
@@ -54,7 +54,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
         <Fragment key={index}>
           {item.isSearch ? (
             <li className="relative flex size-full items-center justify-center">
-              <MainSearch isPremium={is_premium} />
+              <MainSearch isPremium={isPremium!} />
             </li>
           ) : (
             <li className="relative flex size-full items-center justify-center">

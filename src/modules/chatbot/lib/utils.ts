@@ -1,4 +1,10 @@
-import { CoreMessage, CoreToolMessage, Message, ToolInvocation } from "ai";
+import {
+  CoreAssistantMessage,
+  CoreMessage,
+  CoreToolMessage,
+  Message,
+  ToolInvocation,
+} from "ai";
 import {
   parseISO,
   format,
@@ -8,9 +14,16 @@ import {
   subMonths,
 } from "date-fns";
 import { es } from "date-fns/locale";
-import { nanoid } from "nanoid";
 
-import { Chat } from "@/types/chat";
+import type { Chat, ChatMessage } from "@/db/schema";
+
+export function generateUUID(): string {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 
 export function getFormattedDate(date: string | null): string {
   const aiDate = date ? parseISO(date) : null;
@@ -30,14 +43,14 @@ type GroupedChats = {
   older: Chat[];
 };
 
-export function groupChatsByDate(chats: Chat[] | undefined) {
+export function groupChatsByDate(chats: Chat[]): GroupedChats {
   const now = new Date();
   const oneWeekAgo = subWeeks(now, 1);
   const oneMonthAgo = subMonths(now, 1);
 
-  return chats?.reduce(
+  return chats.reduce(
     (groups, chat) => {
-      const chatDate = new Date(chat.created_at);
+      const chatDate = new Date(chat.createdAt);
 
       if (isToday(chatDate)) {
         groups.today.push(chat);
@@ -97,7 +110,7 @@ function addToolMessageToChat({
 }
 
 export function convertToUIMessages(
-  messages: Array<CoreMessage>,
+  messages: Array<ChatMessage>,
 ): Array<Message> {
   return messages.reduce((chatMessages: Array<Message>, message) => {
     if (message.role === "tool") {
@@ -113,7 +126,7 @@ export function convertToUIMessages(
     if (typeof message.content === "string") {
       textContent = message.content;
     } else if (Array.isArray(message.content)) {
-      message.content.forEach((content) => {
+      for (const content of message.content) {
         if (content.type === "text") {
           textContent += content.text;
         } else if (content.type === "tool-call") {
@@ -124,12 +137,12 @@ export function convertToUIMessages(
             args: content.args,
           });
         }
-      });
+      }
     }
 
     chatMessages.push({
-      id: nanoid(),
-      role: message.role,
+      id: message.id,
+      role: message.role as Message["role"],
       content: textContent,
       toolInvocations,
     });
@@ -141,4 +154,58 @@ export function convertToUIMessages(
 export function getFirstUserMessage(messages: Array<CoreMessage>) {
   const userMessages = messages.filter((message) => message.role === "user");
   return userMessages[0];
+}
+
+export function getMostRecentUserMessage(messages: Array<CoreMessage>) {
+  const userMessages = messages.filter((message) => message.role === "user");
+  return userMessages.at(-1);
+}
+
+export function sanitizeResponseMessages(
+  messages: Array<CoreToolMessage | CoreAssistantMessage>,
+): Array<CoreToolMessage | CoreAssistantMessage> {
+  const toolResultIds: Array<string> = [];
+
+  for (const message of messages) {
+    if (message.role === "tool") {
+      for (const content of message.content) {
+        if (content.type === "tool-result") {
+          toolResultIds.push(content.toolCallId);
+        }
+      }
+    }
+  }
+
+  const messagesBySanitizedContent = messages.map((message) => {
+    if (message.role !== "assistant") return message;
+
+    if (typeof message.content === "string") return message;
+
+    const sanitizedContent = message.content.filter((content) =>
+      content.type === "tool-call"
+        ? toolResultIds.includes(content.toolCallId)
+        : content.type === "text"
+          ? content.text.length > 0
+          : true,
+    );
+
+    return {
+      ...message,
+      content: sanitizedContent,
+    };
+  });
+
+  return messagesBySanitizedContent.filter(
+    (message) => message.content.length > 0,
+  );
+}
+
+export function getMessageIdFromAnnotations(message: Message) {
+  if (!message.annotations) return message.id;
+
+  const [annotation] = message.annotations;
+  if (!annotation) return message.id;
+
+  // @ts-expect-error messageIdFromServer is not defined in MessageAnnotation
+  return annotation.messageIdFromServer;
 }

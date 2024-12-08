@@ -88,7 +88,7 @@ const DialogContent = React.forwardRef<
         {closeButton && (
           <DialogPrimitive.Close
             className={cn(
-              "tap-highlight-transparent focus-visible:outline-focus absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-black/10 dark:text-white/80 dark:hover:bg-white/5 dark:active:bg-white/10",
+              "absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 tap-highlight-transparent hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-black/10 dark:text-white/80 dark:hover:bg-white/5 dark:active:bg-white/10",
               closeButtonClass,
             )}
           >
@@ -141,10 +141,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn(
-      "text-xl font-semibold leading-none tracking-tight",
-      className,
-    )}
+    className={cn("text-lg font-semibold", className)}
     {...props}
   />
 ));

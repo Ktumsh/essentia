@@ -12,6 +12,7 @@ export async function sendEmail(email: string, token: string) {
   });
 
   const responseText = await res.text();
+  console.log("Response from server:", responseText);
 
   try {
     const data = JSON.parse(responseText);

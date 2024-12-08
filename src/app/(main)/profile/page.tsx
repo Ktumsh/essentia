@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { Session } from "@/types/session";
 import { getUserProfileData } from "@/utils/profile";
 
 const ProfilePage = async () => {
-  const session = (await auth()) as Session;
+  const session = await auth();
 
   if (!session) {
     return redirect("/");

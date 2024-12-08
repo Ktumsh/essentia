@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Session } from "next-auth";
 import { useRef, useMemo } from "react";
 
 import { StarsIcon } from "@/modules/icons/common";
-import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
 
 import { useActiveSection } from "../hooks/use-active-section";

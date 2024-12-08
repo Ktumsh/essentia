@@ -2,42 +2,50 @@
 
 import { Attachment, Message } from "ai";
 import { useChat } from "ai/react";
+import { Session } from "next-auth";
 import { ComponentProps, useEffect, useState } from "react";
 import { toast } from "sonner";
+import useSWR, { useSWRConfig } from "swr";
 
+import { type ChatVote } from "@/db/schema";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
-import { Session, UserProfileData } from "@/types/session";
+import { UserProfileData } from "@/types/session";
+import { fetcher } from "@/utils/common";
 
 import ChatPanel from "./chat-panel";
-import Overview from "./overview";
-import PreviewMessage from "../components/ui/message";
+import { Messages } from "./messages";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 
 export interface ChatProps extends ComponentProps<"div"> {
   id: string;
-  session?: Session | undefined;
-  missingKeys: string[];
-  profileData: UserProfileData | null;
-  isPremium: boolean | null;
   initialMessages: Array<Message>;
+  isReadonly: boolean;
+  missingKeys: string[];
+  session: Session | null;
+  user: UserProfileData | null;
+  isPremium: boolean | null;
 }
 
 export function Chat({
   id,
-  session,
-  missingKeys,
-  profileData,
-  isPremium,
   initialMessages,
+  isReadonly,
+  missingKeys,
+  session,
+  user,
+  isPremium,
 }: ChatProps) {
+  const { mutate } = useSWRConfig();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
+
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
       id,
       body: { id },
       initialMessages,
       onFinish: () => {
+        mutate("/api/chat/history");
         window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);
       },
     });
@@ -52,6 +60,11 @@ export function Chat({
     });
   }, [missingKeys]);
 
+  const { data: votes } = useSWR<Array<ChatVote>>(
+    `/api/chat/vote?chatId=${id}`,
+    fetcher,
+  );
+
   const [containerRef, endRef, scrollToBottom, isAtBottom] =
     useScrollToBottom<HTMLDivElement>();
 
@@ -59,22 +72,16 @@ export function Chat({
 
   return (
     <>
-      <div
-        className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-4"
-        ref={containerRef}
-      >
-        {messages.length === 0 && <Overview />}
-
-        {messages.map((message, index) => (
-          <PreviewMessage
-            key={`${message.id}-${index}`}
-            message={message}
-            profileData={profileData}
-            isLoading={isLoading && messages.length - 1 === index}
-          />
-        ))}
-        <div className="h-px w-full" ref={endRef} />
-      </div>
+      <Messages
+        chatId={id}
+        isLoading={isLoading}
+        votes={votes}
+        messages={messages}
+        isReadonly={isReadonly}
+        user={user}
+        containerRef={containerRef}
+        endRef={endRef}
+      />
 
       <ChatPanel
         input={input}

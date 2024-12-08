@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Globe } from "lucide-react";
 import Link from "next/link";
 import { KeyedMutator } from "swr";
 
@@ -9,11 +10,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { shareChat } from "@/db/chat-querys";
+import { BetterTooltip } from "@/components/ui/tooltip";
+import { useChatVisibility } from "@/modules/chatbot/hooks/use-chat-visibility";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
-import { type Chat } from "@/types/chat";
 
 import ChatActions from "./chat-actions";
+
+import type { Chat } from "@/db/schema";
 
 interface ChatItemProps {
   index: number;
@@ -26,6 +29,10 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
   const { setOpenMobile } = useSidebar();
   const [newChatId, setNewChatId] = useLocalStorage("newChatId", null);
   const shouldAnimate = index === 0 && isActive && newChatId;
+  const { visibilityType } = useChatVisibility({
+    chatId: chat.id,
+    initialVisibility: chat.visibility,
+  });
 
   if (!chat?.id) return null;
 
@@ -50,7 +57,15 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
         }}
       >
         <SidebarMenuButton asChild isActive={isActive}>
-          <Link href={chat.path} onClick={() => setOpenMobile(false)}>
+          <Link
+            href={`/essentia-ai/chat/${chat.id}`}
+            onClick={() => setOpenMobile(false)}
+          >
+            {visibilityType === "public" && (
+              <BetterTooltip content="Chat público">
+                <Globe strokeWidth={1.5} />
+              </BetterTooltip>
+            )}
             <span className="whitespace-nowrap">
               {shouldAnimate ? (
                 chat.title.split("").map((character, index) => (
@@ -89,14 +104,7 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
             </span>
           </Link>
         </SidebarMenuButton>
-        {
-          <ChatActions
-            chat={chat}
-            shareChat={shareChat}
-            isActive={isActive}
-            mutate={mutate}
-          />
-        }
+        <ChatActions chat={chat} isActive={isActive} mutate={mutate} />
       </motion.div>
     </SidebarMenuItem>
   );

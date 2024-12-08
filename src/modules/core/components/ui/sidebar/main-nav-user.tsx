@@ -42,10 +42,9 @@ interface MainNavUserProps {
 }
 
 const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
-  const { first_name, last_name, username, profile_image, is_premium } =
-    user || {};
+  const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
-  const fullName = `${first_name} ${last_name}`;
+  const fullName = `${firstName} ${lastName}`;
 
   const { isMobile } = useSidebar();
 
@@ -63,7 +62,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
               >
                 <>
                   <Avatar className="size-8 rounded-lg">
-                    <AvatarImage src={profile_image || ""} alt={username} />
+                    <AvatarImage src={profileImage || ""} alt={username} />
                     <AvatarFallback className="rounded-lg">
                       <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
                     </AvatarFallback>
@@ -94,8 +93,8 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 <DropdownMenuItem asChild>
                   <Link href={user ? `/profile/${username}` : "/login"}>
                     <Avatar className="size-8 rounded-lg">
-                      {profile_image && (
-                        <AvatarImage src={profile_image} alt={username} />
+                      {profileImage && (
+                        <AvatarImage src={profileImage} alt={username} />
                       )}
                       <AvatarFallback className="rounded-lg">
                         <AvatarIcon className="text-main-h dark:text-main-dark-h" />
@@ -113,7 +112,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                         </span>
                       )}
                     </div>
-                    {is_premium && (
+                    {isPremium && (
                       <BetterTooltip content="Cuenta Premium">
                         <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
                           <StarsIcon
@@ -127,7 +126,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 </DropdownMenuItem>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {!is_premium && user && (
+              {!isPremium && user && (
                 <>
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>

@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 export function formatDate(
-  input: string | number | Date,
+  input: Date,
   formatStr: string = "dd/MM/yyyy",
 ): string {
   const date = new Date(input);

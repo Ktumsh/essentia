@@ -58,7 +58,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
         aria-label="Alternar entre instrucciones del ejercicio"
         defaultValue="exercises"
       >
-        <TabsList>
+        <TabsList className="border border-gray-200 dark:border-dark">
           <TabsTrigger value="exercises">Ejercicio</TabsTrigger>
           <TabsTrigger value="how-to-do">Instrucciones</TabsTrigger>
         </TabsList>

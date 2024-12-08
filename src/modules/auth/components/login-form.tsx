@@ -18,7 +18,7 @@ import {
   FormControl,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getProfileNameByEmail } from "@/db/profile-querys";
+import { getProfileNameByEmail } from "@/db/querys/profile-querys";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
@@ -61,9 +61,9 @@ const LoginForm: React.FC = () => {
         localStorage.removeItem("rememberedEmail");
       }
 
-      const userName = await getProfileNameByEmail(data.email);
+      const [userName] = await getProfileNameByEmail(data.email);
       if (userName) {
-        toast.success(`¡Hola de nuevo, ${userName.first_name}!`);
+        toast.success(`¡Hola de nuevo, ${userName.firstName}!`);
       } else {
         toast.success(`¡Hola de nuevo!`);
       }

@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { getUserByUsername } from "@/db/user-querys";
+import { getUserByUsername } from "@/db/querys/user-querys";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 export const convertToDateValue = (dateString: string): Date => {
@@ -9,25 +9,15 @@ export const convertToDateValue = (dateString: string): Date => {
   return new Date(year, month - 1, day);
 };
 
-export function formatCreatedAt(createdAt: Date): string {
-  if (!createdAt) {
-    return "Fecha no disponible";
-  }
-
-  // Usamos Date global para formatear
-  return createdAt.toLocaleDateString("es-ES", {
+export function formatFullDate(birthdate: Date): string {
+  return birthdate.toLocaleDateString("es-ES", {
     year: "numeric",
     month: "long",
+    day: "numeric",
   });
 }
 
-export const formatInitialDate = (
-  birthdate: string | Date | undefined,
-): Date | null => {
-  if (typeof birthdate === "string") {
-    return convertToDateValue(birthdate);
-  }
-
+export const formatInitialDate = (birthdate: Date | undefined): Date | null => {
   if (birthdate instanceof Date) {
     return birthdate;
   }
@@ -37,7 +27,6 @@ export const formatInitialDate = (
 
 export async function uploadFile(
   file: File,
-  imageType: "profile" | "banner",
   userId: string,
   hasToast: boolean = false,
   toastMessage?: string,
@@ -45,7 +34,6 @@ export async function uploadFile(
 ) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("imageType", imageType);
   formData.append("userId", userId);
 
   const uploadPromise = fetch("/api/files/upload-profile", {
@@ -55,7 +43,7 @@ export async function uploadFile(
 
   if (hasToast) {
     return toast.promise(uploadPromise, {
-      loading: `Subiendo ${imageType === "banner" ? "foto de portada" : "foto de perfil"}...`,
+      loading: "Subiendo foto de perfil...",
       success: async () => {
         const response = await uploadPromise;
         const result = await response.json();
@@ -76,7 +64,7 @@ export async function uploadFile(
       throw new Error(result.error || "Error al subir la imagen");
     }
 
-    return result[`${imageType}_image`];
+    return result["profileImage"];
   }
 }
 
@@ -138,7 +126,7 @@ export async function validateProfileForm(
       isValid = false;
     }
 
-    const existingUser = await getUserByUsername(username);
+    const [existingUser] = await getUserByUsername(username);
     if (existingUser && existingUser.id !== tempFormData.user_id) {
       newErrors.username = "¡Este nombre de usuario ya existe!";
       isValid = false;
@@ -150,10 +138,10 @@ export async function validateProfileForm(
 }
 
 export const profileSchema = z.object({
-  first_name: z
+  firstName: z
     .string()
     .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
-  last_name: z
+  lastName: z
     .string()
     .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
   username: z
@@ -169,6 +157,17 @@ export const profileSchema = z.object({
     .string()
     .max(160, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_BIO) })
     .optional(),
+  genre: z.string().optional(),
+  weight: z
+    .number()
+    .min(1, { message: getMessageFromCode(ResultCode.INVALID_WEIGHT) })
+    .max(300, { message: getMessageFromCode(ResultCode.INVALID_WEIGHT) })
+    .nullable(),
+  height: z
+    .number()
+    .min(40, { message: getMessageFromCode(ResultCode.INVALID_HEIGHT) })
+    .max(250, { message: getMessageFromCode(ResultCode.INVALID_HEIGHT) })
+    .nullable(),
   location: z
     .string()
     .max(50, {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Session } from "next-auth";
 import { useState } from "react";
 
 import {
@@ -11,7 +12,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { siteConfig } from "@/config/site";
-import { Session } from "@/types/session";
 
 import PricingCard from "./pricing-card";
 import {
@@ -22,7 +22,7 @@ import {
 } from "../lib/utils";
 
 interface PricingSelectorProps {
-  session: Session;
+  session: Session | null;
   currentPriceId: string | null;
 }
 

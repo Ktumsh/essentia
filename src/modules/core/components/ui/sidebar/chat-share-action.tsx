@@ -1,3 +1,5 @@
+"use client";
+
 import { Copy } from "lucide-react";
 import { memo, useCallback } from "react";
 import { toast } from "sonner";
@@ -23,11 +25,12 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
-import { type Chat, ServerActionResult } from "@/types/chat";
+import { formatDate } from "@/utils/format";
+
+import type { Chat } from "@/db/schema";
 
 interface ChatShareModalProps {
-  chat: Pick<Chat, "id" | "title" | "messages">;
-  shareChat: (id: string) => ServerActionResult<Chat>;
+  chat: Chat;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   onCopy: () => void;
@@ -35,7 +38,6 @@ interface ChatShareModalProps {
 
 const ChatShareModal = ({
   chat,
-  shareChat,
   isOpen,
   setIsOpen,
   onCopy,
@@ -47,29 +49,13 @@ const ChatShareModal = ({
   const copyShareLink = useCallback(
     async (chat: Chat) => {
       const url = new URL(window.location.href);
-      url.pathname = chat.share_path;
+      url.pathname = `/essentia-ai/chat/${chat.id}`;
       copyToClipboard(url.toString());
       onCopy();
+      toast.success("Enlace copiado");
     },
     [copyToClipboard, onCopy],
   );
-
-  const handleShare = useCallback(async () => {
-    const sharePromise = shareChat(chat.id);
-
-    toast.promise(sharePromise, {
-      loading: "Copiando enlace del chat...",
-      success: async (result) => {
-        if (result && "error" in result) {
-          throw new Error(result.error);
-        }
-
-        copyShareLink(result);
-        return "Enlace copiado";
-      },
-      error: "No se pudo copiar el enlace para compartir",
-    });
-  }, [copyShareLink, shareChat, chat.id]);
 
   const Content = memo(() => {
     return (
@@ -77,7 +63,7 @@ const ChatShareModal = ({
         <div className="mx-4 mt-4 space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-dark md:m-0">
           <div className="font-medium">{chat.title}</div>
           <div className="text-main-m dark:text-main-dark-m">
-            {chat.messages.length} mensajes
+            {formatDate(chat.createdAt, "d 'de' MMMM, yyyy")}
           </div>
         </div>
         <div className="flex w-full items-center space-x-2 p-4 pb-0 md:p-0">
@@ -92,7 +78,7 @@ const ChatShareModal = ({
             variant="destructive"
             size="sm"
             className="px-3"
-            onClick={() => handleShare()}
+            onClick={() => copyShareLink(chat)}
           >
             <span className="sr-only">Copiar</span>
             <Copy />
@@ -109,7 +95,7 @@ const ChatShareModal = ({
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Compartir link al chat</DrawerTitle>
+            <DrawerTitle>Compartir enlace al chat</DrawerTitle>
           </DrawerHeader>
           <Content />
           <DrawerFooter className="sm:justify-start">
@@ -125,10 +111,10 @@ const ChatShareModal = ({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Compartir link al chat</DialogTitle>
+            <DialogTitle>Compartir enlace al chat</DialogTitle>
           </DialogHeader>
           <DialogDescription className="sr-only">
-            Compartir link al chat
+            Compartir enlace al chat
           </DialogDescription>
           <Content />
           <DialogFooter className="sm:justify-start">

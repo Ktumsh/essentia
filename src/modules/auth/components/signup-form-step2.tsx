@@ -52,8 +52,8 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
       email: email,
       password: "",
       username: "",
-      name: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       birthdate: new Date(),
     },
   });
@@ -82,8 +82,8 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
         formData.append("email", data.email);
         formData.append("password", data.password);
         formData.append("username", data.username);
-        formData.append("name", data.name);
-        formData.append("lastname", data.lastname);
+        formData.append("firstName", data.firstName);
+        formData.append("lastName", data.lastName);
         formData.append("birthdate", data.birthdate.toISOString());
 
         const result = await signup(undefined, formData);
@@ -143,15 +143,15 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
         <div className="flex w-full gap-5">
           <FormField
             control={form.control}
-            name="name"
+            name="firstName"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel htmlFor="name">Nombre</FormLabel>
+                <FormLabel htmlFor="firstName">Nombre</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    id="name"
-                    name="name"
+                    id="firstName"
+                    name="firstName"
                     type="text"
                     placeholder="Ingresa tu nombre"
                     isAuth
@@ -166,15 +166,15 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           />
           <FormField
             control={form.control}
-            name="lastname"
+            name="lastName"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel htmlFor="lastname">Apellido</FormLabel>
+                <FormLabel htmlFor="lastName">Apellido</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    id="lastname"
-                    name="lastname"
+                    id="lastName"
+                    name="lastName"
                     type="text"
                     placeholder="Ingresa tu apellido"
                     isAuth

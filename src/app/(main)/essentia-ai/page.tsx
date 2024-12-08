@@ -1,31 +1,33 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import { getMissingKeys } from "@/db/chat-querys";
-import { getUserById } from "@/db/user-querys";
+import { getMissingKeys } from "@/db/querys/chat-querys";
+import { getSubscription } from "@/db/querys/payment-querys";
 import { Chat } from "@/modules/chatbot/components/chat";
-import { Session } from "@/types/session";
-import { nanoid } from "@/utils/common";
+import { generateUUID } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
 export const metadata: Metadata = {
   title: "Essentia AI ⭐",
 };
 
 const AIPage = async () => {
-  const id = nanoid();
-  const session = (await auth()) as Session;
+  const id = generateUUID();
+  const session = await auth();
   const missingKeys = await getMissingKeys();
   const profileData = session ? await getUserProfileData(session) : null;
-  const user = session ? await getUserById(session.user.id) : null;
-  const isPremium = user?.is_premium ?? null;
+  const [subscription] = profileData
+    ? await getSubscription(session?.user?.id as string)
+    : [];
+  const isPremium = subscription ? subscription.isPremium : false;
   return (
     <Chat
       id={id}
-      session={session}
-      missingKeys={missingKeys}
-      profileData={profileData}
-      isPremium={isPremium}
       initialMessages={[]}
+      isReadonly={false}
+      missingKeys={missingKeys}
+      session={session}
+      user={profileData}
+      isPremium={isPremium}
     />
   );
 };

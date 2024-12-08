@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Session } from "next-auth";
 import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,6 @@ import { ABOUT_SECTIONS } from "@/consts/about-sections";
 import { StarsIcon } from "@/modules/icons/common";
 import { AboutCrop } from "@/modules/icons/miscellaneus";
 import { ArrowAnimateIcon } from "@/modules/icons/navigation";
-import { Session } from "@/types/session";
 
 import AboutFooter from "./about-footer";
 import Section from "./section";

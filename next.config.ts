@@ -1,7 +1,7 @@
 import withPWAInit from "@ducanh2912/next-pwa";
+import { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -104,6 +104,7 @@ const nextConfig = {
   },
   transpilePackages: ["geist"],
   experimental: {
+    ppr: true,
     serverActions: {
       allowedOrigins: [
         "localhost:3000",
@@ -125,7 +126,6 @@ const nextConfig = {
 const withPWA = withPWAInit({
   dest: "public",
   register: true,
-  skipWaiting: true,
   disable: process.env.NODE_ENV === "development",
 });
 
