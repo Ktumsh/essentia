@@ -36,14 +36,14 @@ export async function POST(request: NextRequest) {
   const customer = event.data.object as Stripe.Customer;
 
   switch (event.type) {
-    case "invoice.payment_succeeded":
-      await handlePaymentSucceeded(invoice);
-      break;
     case "customer.subscription.created":
       await handleSubscriptionCreated(subscription);
       break;
     case "customer.subscription.updated":
       await handleSubscriptionUpdated(subscription);
+      break;
+    case "invoice.payment_succeeded":
+      await handlePaymentSucceeded(invoice);
       break;
     case "customer.subscription.deleted":
       await handleSubscriptionDeleted(subscription);
