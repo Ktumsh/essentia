@@ -151,11 +151,6 @@ export async function createSubscription({
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
     });
 
-    if (sessionCheckout.subscription) {
-      const subscriptionId = sessionCheckout.subscription as string;
-      await updateSubscription(user.id, subscriptionId, null, "inactive", null);
-    }
-
     const price = await stripe.prices.retrieve(priceId);
 
     if (price.unit_amount && price.currency) {

@@ -42,6 +42,8 @@ export async function POST(request: NextRequest) {
     case "customer.subscription.updated":
       await handleSubscriptionUpdated(updatedSubscription);
       break;
+    case "customer.subscription.created":
+      await handleSubscriptionUpdated(updatedSubscription);
     case "customer.subscription.deleted":
       await handleSubscriptionDeleted(subscription);
       break;
