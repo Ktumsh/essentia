@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import {
   deleteSubscription,
   getSubscription,
+  getSubscriptionByClientId,
   getSubscriptionBySubscriptionId,
   setPaymentDetails,
   updateClientId,
@@ -243,12 +244,14 @@ export async function handleSubscriptionUpdated(
   }
 }
 
-export async function handleCustomerDeleted(invoice: Stripe.Invoice) {
-  const subscriptionId = invoice.subscription as string;
+export async function handleCustomerDeleted(customer: Stripe.Customer) {
+  if (!customer || !customer.id) {
+    console.error("No se pudo obtener el cliente eliminado.");
+    return;
+  }
 
   try {
-    const [subscription] =
-      await getSubscriptionBySubscriptionId(subscriptionId);
+    const [subscription] = await getSubscriptionByClientId(customer.id);
 
     await deleteSubscription(subscription.userId);
   } catch (error) {

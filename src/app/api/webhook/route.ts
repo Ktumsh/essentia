@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
   const invoice = event.data.object as Stripe.Invoice;
   const subscription = event.data.object as Stripe.Subscription;
   const updatedSubscription = event.data.object as Stripe.Subscription;
+  const customer = event.data.object as Stripe.Customer;
 
   switch (event.type) {
     case "invoice.payment_succeeded":
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
       await handleSubscriptionDeleted(subscription);
       break;
     case "customer.deleted":
-      await handleCustomerDeleted(invoice);
+      await handleCustomerDeleted(customer);
       break;
     default:
       console.log(`Evento webhook no manejado ${event.type}`);

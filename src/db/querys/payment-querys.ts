@@ -143,6 +143,21 @@ export async function getSubscriptionBySubscriptionId(
   }
 }
 
+export async function getSubscriptionByClientId(
+  clientId: string,
+): Promise<Array<Subscription>> {
+  try {
+    return await db
+      .select()
+      .from(subscription)
+      .where(eq(subscription.clientId, clientId))
+      .limit(1);
+  } catch (error) {
+    console.error("Error al obtener la suscripción del usuario:", error);
+    throw error;
+  }
+}
+
 export async function updateClientId(
   userId: string,
   clientId: string,
