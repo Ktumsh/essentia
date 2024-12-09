@@ -252,13 +252,17 @@ export async function handleSubscriptionUpdated(
   const subscriptionId = subscription.id;
   const status = subscription.status;
   const currentPeriodEnd = subscription.current_period_end;
+  const clientId = subscription.customer as string;
 
   try {
-    const session = await auth();
+    const [subscription] = await getSubscriptionByClientId(clientId);
 
-    const [user] = await getUserById(session?.user?.id as string);
-
-    await updateSubscription(user.id, subscriptionId, currentPeriodEnd, status);
+    await updateSubscription(
+      subscription.userId,
+      subscriptionId,
+      currentPeriodEnd,
+      status,
+    );
   } catch (error) {
     console.error(
       `Error al actualizar la suscripción: ${subscriptionId}`,

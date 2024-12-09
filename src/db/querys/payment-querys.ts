@@ -117,11 +117,18 @@ export async function deleteSubscription(userId: string): Promise<void> {
 export async function getSubscription(
   userId: string,
 ): Promise<Array<Subscription>> {
+  if (!userId) {
+    console.error("userId es requerido");
+  }
   try {
-    return await db
+    const res = await db
       .select()
       .from(subscription)
       .where(eq(subscription.userId, userId));
+
+    console.log("datos desde getSubscription: ", res);
+
+    return res;
   } catch (error) {
     console.error("Error al obtener la suscripción del usuario:", error);
     throw error;
