@@ -224,6 +224,28 @@ export async function handleSubscriptionDeleted(
   await updateSubscription(user.id, null, null, "inactive", "free");
 }
 
+export async function handleSubscriptionCreated(
+  subscription: Stripe.Subscription,
+) {
+  const subscriptionId = subscription.id;
+  const status = subscription.status;
+  const currentPeriodEnd = subscription.current_period_end;
+  const clientId = subscription.customer as string;
+
+  try {
+    const [subscription] = await getSubscriptionByClientId(clientId);
+
+    const userId = subscription.userId;
+
+    await updateSubscription(userId, subscriptionId, currentPeriodEnd, status);
+  } catch (error) {
+    console.error(
+      `Error al manejar la creación de la suscripción: ${subscriptionId}`,
+      error,
+    );
+  }
+}
+
 export async function handleSubscriptionUpdated(
   subscription: Stripe.Subscription,
 ) {
