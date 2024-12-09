@@ -49,7 +49,7 @@ export const subscription = table("subscription", {
   clientId: varchar("client_id", { length: 255 }),
   isPremium: boolean("is_premium").notNull().default(false),
   status: varchar("status", { length: 255 }).default("inactive"),
-  type: varchar("type", { length: 50 }),
+  type: varchar("type", { length: 50 }).default("free"),
   expiresAt: timestamp("expires_at"),
 });
 
