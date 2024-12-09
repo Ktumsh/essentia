@@ -64,6 +64,9 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const status = "active";
   const currentPeriodEnd = subscription.current_period_end;
   const processedAt = new Date();
+  const subscriptionType = subscription.items.data[0].price?.recurring
+    ?.interval as string;
+  const type = subscriptionType === "month" ? "premium" : "premium-plus";
 
   try {
     const [user] = await getSubscriptionBySubscriptionId(subscriptionId);
@@ -73,6 +76,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
       subscriptionId,
       currentPeriodEnd,
       status,
+      type,
     );
 
     await updatePaymentDetails(user.userId, status, processedAt);
@@ -106,20 +110,11 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   }
 }
 
-interface CreateSubscriptionParams {
-  cardholderName: string;
+export async function createSubscription({
+  priceId,
+}: {
   priceId: string;
-  type: "premium" | "premiumPlus";
-}
-
-interface CreateSubscriptionResponse {
-  clientSecret: string;
-}
-
-export async function createSubscription(
-  params: CreateSubscriptionParams,
-): Promise<CreateSubscriptionResponse> {
-  const { cardholderName, priceId, type } = params;
+}): Promise<{ checkoutUrl: string }> {
   const session = await auth();
 
   const [user] = await getUserById(session?.user?.id as string);
@@ -129,75 +124,45 @@ export async function createSubscription(
 
   const [subscription] = await getSubscription(user.id);
 
-  let subscriptionId = subscription?.subscriptionId || null;
   let customerId = subscription?.clientId || null;
 
   try {
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email,
-        name: cardholderName,
       });
       customerId = customer.id;
-
       await updateClientId(user.id, customerId);
     }
 
-    if (subscriptionId) {
-      const sub = await stripe.subscriptions.retrieve(subscriptionId);
-      const amount = sub.items.data[0].price.unit_amount;
-      const currency = sub.items.data[0].price.currency;
-      const status = "pending";
-
-      await setPaymentDetails(user.id, status, amount, currency, new Date());
-
-      const invoice = sub.latest_invoice as Stripe.Invoice;
-      const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
-
-      if (paymentIntent && paymentIntent.client_secret) {
-        return { clientSecret: paymentIntent.client_secret };
-      }
-    }
-
-    const newSubscription = await stripe.subscriptions.create({
+    const sessionCheckout = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
       customer: customerId,
-      items: [{ price: priceId }],
-      payment_behavior: "default_incomplete",
-      expand: ["latest_invoice.payment_intent"],
-      payment_settings: {
-        payment_method_types: ["card"],
-        save_default_payment_method: "on_subscription",
-      },
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
     });
 
-    const invoice = newSubscription.latest_invoice as Stripe.Invoice;
-    const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
+    const price = await stripe.prices.retrieve(priceId);
 
-    subscriptionId = newSubscription.id;
-
-    const currentPeriodEnd = newSubscription.current_period_end;
-    await updateSubscription(user.id, subscriptionId, currentPeriodEnd, type);
-
-    const amount = newSubscription.items.data[0].price.unit_amount;
-    const currency = newSubscription.items.data[0].price.currency;
-    const status = "pending";
-
-    await setPaymentDetails(user.id, status, amount, currency, new Date());
-
-    const paymentMethodId = paymentIntent.payment_method as string;
-    if (paymentMethodId) {
-      await stripe.customers.update(customerId, {
-        invoice_settings: {
-          default_payment_method: paymentMethodId,
-        },
-      });
+    if (price.unit_amount && price.currency) {
+      const status = "pending";
+      await setPaymentDetails(
+        user.id,
+        status,
+        price.unit_amount,
+        price.currency,
+        new Date(),
+      );
     }
 
-    if (!paymentIntent.client_secret) {
-      throw new Error("Client secret no encontrado.");
-    }
-
-    return { clientSecret: paymentIntent.client_secret };
+    return { checkoutUrl: sessionCheckout.url as string };
   } catch (error) {
     console.error("Error creando suscripción:", error);
     throw new Error("Error creando suscripción.");
@@ -254,7 +219,7 @@ export async function handleSubscriptionDeleted(
     return;
   }
 
-  await updateSubscription(user.id, null, null, "inactive");
+  await updateSubscription(user.id, null, null, "inactive", "free");
 }
 
 export async function handleSubscriptionUpdated(
@@ -302,15 +267,7 @@ export async function handleInvoiceFinalized(finalizedSubscriptionId: string) {
       );
 
       if (subscription.status === "incomplete") {
-        console.log(
-          `Deleting incomplete subscription: ${finalizedSubscriptionId}`,
-        );
-
         await stripe.subscriptions.cancel(finalizedSubscriptionId);
-
-        console.log(
-          `Subscription ${finalizedSubscriptionId} deleted successfully.`,
-        );
       } else {
         console.log(
           `Subscription ${finalizedSubscriptionId} is not incomplete. Current status: ${subscription.status}`,

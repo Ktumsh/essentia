@@ -1,7 +1,5 @@
 "use client";
 
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -32,19 +30,25 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site";
+import { Payment, Subscription } from "@/db/schema";
 import { setUserPlan } from "@/modules/payment/pay/actions";
 import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
+import { formatDate } from "@/utils/format";
+
+import { getPlanType } from "../lib/utils";
 
 interface CancelSubscriptionModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  billingDetails: any;
+  billingDetails: Payment;
+  subscription: Subscription;
 }
 
 const CancelSubscriptionModal = ({
   isOpen,
   setIsOpen,
   billingDetails,
+  subscription,
 }: CancelSubscriptionModalProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -52,19 +56,16 @@ const CancelSubscriptionModal = ({
   const [cancelReason, setCancelReason] = useState<string>("");
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
 
+  const { amount } = billingDetails;
+  const { type, expiresAt } = subscription;
+
   const isMobile = useIsMobile();
 
-  const subscription = billingDetails.subscription;
-  const subscriptionItems = subscription.items.data[0].price;
-  const planType = subscriptionItems.nickname ?? "N/A";
+  const planType = getPlanType(type!);
 
-  const price = subscriptionItems.unit_amount.toLocaleString("es-CL");
+  const price = amount?.toLocaleString("es-CL");
 
-  const renewalDate = format(
-    new Date(subscription.current_period_end * 1000),
-    "dd 'de' MMM, yyyy",
-    { locale: es },
-  );
+  const renewalDate = formatDate(expiresAt!, "dd 'de' MMM, yyyy");
 
   const handleSetFreePlan = async () => {
     const combinedReasons = [...selectedReasons, cancelReason]
