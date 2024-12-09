@@ -9,7 +9,6 @@ import {
   deleteSubscription,
   getSubscription,
   getSubscriptionByClientId,
-  getSubscriptionBySubscriptionId,
   setPaymentDetails,
   updateClientId,
   updatePaymentDetails,
@@ -62,6 +61,7 @@ export async function verifyPaymentIntent(
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const clientId = subscription.customer as string;
   const status = "active";
   const paymentStatus = "paid";
   const currentPeriodEnd = subscription.current_period_end;
@@ -70,17 +70,17 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
     ?.interval as string;
   const type = subscriptionType === "month" ? "premium" : "premium-plus";
   try {
-    const [user] = await getSubscriptionBySubscriptionId(subscriptionId);
+    const [subscription] = await getSubscriptionByClientId(clientId);
 
     await updateSubscription(
-      user.userId,
+      subscription.userId,
       subscriptionId,
       currentPeriodEnd,
       status,
       type,
     );
 
-    await updatePaymentDetails(user.userId, paymentStatus, processedAt);
+    await updatePaymentDetails(subscription.userId, paymentStatus, processedAt);
 
     if (invoice.payment_intent) {
       const paymentIntent = await stripe.paymentIntents.retrieve(
@@ -90,7 +90,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
       const paymentMethodId = paymentIntent.payment_method as string;
       if (paymentMethodId) {
         const customer = await stripe.customers.retrieve(
-          user.subscriptionId as string,
+          subscription.subscriptionId as string,
         );
 
         if (!("deleted" in customer) || !customer.deleted) {
