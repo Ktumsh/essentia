@@ -62,7 +62,7 @@ export const payment = table("payment", {
     .references(() => user.id, { onDelete: "cascade" }),
   status: varchar("status", { length: 12 }).default("pending"),
   amount: integer("amount"),
-  currency: varchar("currency", { length: 10 }).notNull(),
+  currency: varchar("currency", { length: 10 }),
   processedAt: timestamp("processed_at"),
 });
 

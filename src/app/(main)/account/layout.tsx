@@ -1,12 +1,9 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { getSubscription } from "@/db/querys/payment-querys";
+import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import BillingTabs from "@/modules/account/components/billing-tabs";
-import {
-  createSetupIntent,
-  getUserBillingDetails,
-} from "@/modules/payment/pay/actions";
+import { getUserBillingDetails } from "@/modules/payment/pay/actions";
 import { getUserProfileData } from "@/utils/profile";
 
 export default async function AccountLayout({
@@ -26,18 +23,19 @@ export default async function AccountLayout({
 
   const billingDetails = client ? await getUserBillingDetails(client) : null;
 
-  const clientSecret =
-    billingDetails && client ? await createSetupIntent(client) : null;
+  const paymentMethod = billingDetails?.paymentMethod.card;
 
-  const profileData = session ? await getUserProfileData(session) : null;
+  const [billingDetail] = await getPaymentDetails(session?.user?.id as string);
+
+  const userData = session ? await getUserProfileData(session) : null;
 
   return (
     <div className="mx-auto h-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:h-auto md:border md:border-y-0">
       {children}
       <BillingTabs
-        profileData={profileData}
-        billingDetails={billingDetails}
-        clientSecret={clientSecret as string}
+        subscription={subscription}
+        billingDetail={{ ...billingDetail, card: paymentMethod }}
+        user={userData}
       />
     </div>
   );

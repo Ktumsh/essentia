@@ -9,17 +9,17 @@ import { formatDate } from "@/utils/format";
 import ChangePasswordModal from "./change-password-modal";
 
 interface AccountDetailsProps {
-  profileData: UserProfileData | null;
+  user: UserProfileData | null;
 }
 
-const AccountDetails = ({ profileData }: AccountDetailsProps) => {
+const AccountDetails = ({ user }: AccountDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!profileData) {
+  if (!user) {
     return null;
   }
 
-  const { email, firstName, lastName, username, createdAt } = profileData;
+  const { email, firstName, lastName, username, createdAt } = user;
 
   return (
     <>

@@ -4,22 +4,25 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import Stripe from "stripe";
 
 import { UserProfileData } from "@/types/session";
 
 import AccountDetails from "./account-details";
 import BillingDetails from "./billing-details";
 
+import type { Payment, Subscription } from "@/db/schema";
+
 interface BillingTabsProps {
-  profileData: UserProfileData | null;
-  billingDetails: any;
-  clientSecret: string;
+  subscription: Subscription;
+  user: UserProfileData | null;
+  billingDetail: Payment & { card: Stripe.PaymentMethod.Card | undefined };
 }
 
 const BillingTabs = ({
-  profileData,
-  billingDetails,
-  clientSecret,
+  subscription,
+  billingDetail,
+  user,
 }: BillingTabsProps) => {
   const pathname = usePathname();
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -65,7 +68,7 @@ const BillingTabs = ({
           }
         >
           <div className="flex flex-col gap-4 lg:flex-row">
-            <AccountDetails profileData={profileData} />
+            <AccountDetails user={user} />
           </div>
         </Tab>
         <Tab
@@ -80,9 +83,8 @@ const BillingTabs = ({
         >
           <div className="flex flex-col gap-4 lg:flex-row">
             <BillingDetails
-              billingDetails={billingDetails}
-              clientSecret={clientSecret}
-              profileData={profileData}
+              subscription={subscription}
+              billingDetail={billingDetail}
             />
           </div>
         </Tab>

@@ -13,7 +13,7 @@ import { setUserPlan } from "@/modules/payment/pay/actions";
 import { cn } from "@/utils/common";
 
 import CancelPlanModal from "./cancel-plan-modal";
-import PaymentModal from "./payment-modal";
+import ConfirmPlanModal from "./confirm-plan-modal";
 
 interface PricingCardProps {
   title: string;
@@ -40,7 +40,7 @@ const PricingCard: FC<PricingCardProps> = ({
   session,
   isCurrentPlan,
 }) => {
-  const [isOpenPaymentModal, setIsOpenPaymentModal] = useState(false);
+  const [isOpenConfirmPlanModal, setIsOpenConfirmPlanModal] = useState(false);
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -76,7 +76,7 @@ const PricingCard: FC<PricingCardProps> = ({
     } else {
       if (session) {
         setSelectedPlan(priceId);
-        setIsOpenPaymentModal(true);
+        setIsOpenConfirmPlanModal(true);
       } else {
         router.push("/login?redirect=/premium");
       }
@@ -167,7 +167,9 @@ const PricingCard: FC<PricingCardProps> = ({
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
                 <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
-                  <CheckCircledIcon className="inline-flex size-5 shrink-0 text-teal-400" />
+                  <div className="flex items-center justify-center rounded-full bg-white">
+                    <CheckCircledIcon className="inline-flex size-5 shrink-0 text-teal-400" />
+                  </div>
                   <span className="text-left text-main-h dark:text-white/90">
                     {feature}
                   </span>
@@ -177,9 +179,9 @@ const PricingCard: FC<PricingCardProps> = ({
           </ul>
         </div>
       </Card>
-      <PaymentModal
-        isOpen={isOpenPaymentModal}
-        setIsOpen={setIsOpenPaymentModal}
+      <ConfirmPlanModal
+        isOpen={isOpenConfirmPlanModal}
+        setIsOpen={setIsOpenConfirmPlanModal}
         selectedPlan={selectedPlan}
         title={title}
       />

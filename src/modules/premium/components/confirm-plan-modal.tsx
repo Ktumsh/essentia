@@ -1,7 +1,6 @@
 "use client";
 
 import { Loader } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -21,49 +20,31 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { siteConfig } from "@/config/site";
-import { usePlan } from "@/modules/core/hooks/use-current-plan";
-import { LinkIcon } from "@/modules/icons/action";
+import { createSubscription } from "@/modules/payment/pay/actions";
 
-import { PlanSelector } from "./plan-selector";
-import { getPlanName } from "../lib/utils";
-import { createSubscription } from "../pay/actions";
-
-interface PaymentModalProps {
+interface ConfirmPlanModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  selectedPlan: string | null;
+  title: string;
 }
 
-const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
+const ConfirmPlanModal = ({
+  isOpen,
+  setIsOpen,
+  selectedPlan,
+  title,
+}: ConfirmPlanModalProps) => {
   const router = useRouter();
-  const { currentPlan } = usePlan();
-  const [selectedPlan, setSelectedPlan] = useState<string>(
-    currentPlan === siteConfig.planPrices.free
-      ? siteConfig.planPrices.premium
-      : currentPlan || siteConfig.planPrices.free,
-  );
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const isMobile = useIsMobile();
 
   const handleProceedToPayment = useCallback(async () => {
-    if (selectedPlan === currentPlan) {
-      toast.info("Ya tienes seleccionado tu plan actual.");
-      return;
-    }
-
-    if (selectedPlan === siteConfig.planPrices.free) {
-      toast.error(
-        "Para seleccionar un plan gratuito debes cancelar tu suscripción actual.",
-      );
-      return;
-    }
-
     if (!selectedPlan) {
       toast.error("Selecciona un plan");
       return;
@@ -79,7 +60,7 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
       toast.error("Hubo un error creando tu suscripción");
       setIsLoading(false);
     }
-  }, [selectedPlan, currentPlan, router]);
+  }, [selectedPlan, router]);
 
   const Content = useCallback(() => {
     return (
@@ -87,29 +68,23 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
         {isMobile ? (
           <DrawerHeader>
             <DrawerTitle>Mejora tu Plan</DrawerTitle>
+            <DrawerDescription className="mt-4 px-4 text-start">
+              Actualiza al plan {title} para obtener acceso a todas las
+              funcionalidades de Essentia AI.
+            </DrawerDescription>
           </DrawerHeader>
         ) : (
           <DialogHeader isSecondary>
             <DialogTitle>Mejora tu Plan</DialogTitle>
             <DialogDescription>
-              Actualiza al plan Premium para obtener acceso a todas las
+              Actualiza al plan {title} para obtener acceso a todas las
               funcionalidades de Essentia AI.
             </DialogDescription>
           </DialogHeader>
         )}
         <div className="p-4 md:p-6">
-          <PlanSelector
-            onSelect={setSelectedPlan}
-            selectedPlanId={selectedPlan}
-          />
-          <p className="mt-3 flex gap-1 text-center text-sm text-main-m dark:text-main-dark-m">
-            Mira más detalles sobre los planes en nuestra
-            <Link
-              className="flex items-center gap-x-1 text-orient-700"
-              href="/premium"
-            >
-              página de precios <LinkIcon />
-            </Link>
+          <p className="mt-3 text-sm text-main-h dark:text-main-dark-h">
+            Confirma para proceder con la actualización a {title}.
           </p>
         </div>
 
@@ -121,16 +96,12 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
             <Button
               variant="destructive"
               onClick={handleProceedToPayment}
-              disabled={
-                !selectedPlan || isLoading || selectedPlan === currentPlan
-              }
+              disabled={isLoading}
             >
               {isLoading ? (
                 <Loader className="size-4 animate-spin" />
-              ) : selectedPlan === currentPlan ? (
-                "Plan Actual"
               ) : (
-                `Mejorar a ${getPlanName(selectedPlan)}`
+                `Mejorar a ${title}`
               )}
             </Button>
           </DrawerFooter>
@@ -142,23 +113,19 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
             <Button
               variant="destructive"
               onClick={handleProceedToPayment}
-              disabled={
-                !selectedPlan || isLoading || selectedPlan === currentPlan
-              }
+              disabled={isLoading}
             >
               {isLoading ? (
                 <Loader className="size-4 animate-spin" />
-              ) : selectedPlan === currentPlan ? (
-                "Plan Actual"
               ) : (
-                `Mejorar a ${getPlanName(selectedPlan)}`
+                `Mejorar a ${title}`
               )}
             </Button>
           </DialogFooter>
         )}
       </>
     );
-  }, [selectedPlan, currentPlan, isLoading, handleProceedToPayment, isMobile]);
+  }, [title, isLoading, handleProceedToPayment, isMobile]);
 
   if (isMobile) {
     return (
@@ -179,4 +146,4 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
   );
 };
 
-export default PaymentModal;
+export default ConfirmPlanModal;
