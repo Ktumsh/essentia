@@ -21,7 +21,7 @@ export async function updateSubscription(
   subscriptionId: string | null,
   currentPeriodEnd: number | null,
   status?: string,
-  type?: string,
+  type?: string | null,
 ): Promise<void> {
   if (!userId) {
     throw new Error("userId es requerido");

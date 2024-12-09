@@ -61,35 +61,16 @@ export async function verifyPaymentIntent(
 
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
-  if (!subscriptionId) {
-    console.error(
-      "El invoice no tiene una suscripción asociada.",
-      subscriptionId,
-    );
-    return;
-  }
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
   const status = "active";
+  const paymentStatus = "paid";
   const currentPeriodEnd = subscription.current_period_end;
   const processedAt = new Date();
   const subscriptionType = subscription.items.data[0].price?.recurring
     ?.interval as string;
   const type = subscriptionType === "month" ? "premium" : "premium-plus";
-
   try {
     const [user] = await getSubscriptionBySubscriptionId(subscriptionId);
-
-    if (!user) {
-      throw new Error(
-        `No se encontró un usuario asociado a la suscripción: ${subscriptionId}`,
-      );
-    }
-
-    if (!user.userId || !subscriptionId || !currentPeriodEnd || !type) {
-      throw new Error(
-        `Parámetros inválidos: userId=${user.userId}, subscriptionId=${subscriptionId}, currentPeriodEnd=${currentPeriodEnd}, type=${type}`,
-      );
-    }
 
     await updateSubscription(
       user.userId,
@@ -99,7 +80,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
       type,
     );
 
-    await updatePaymentDetails(user.userId, status, processedAt);
+    await updatePaymentDetails(user.userId, paymentStatus, processedAt);
 
     if (invoice.payment_intent) {
       const paymentIntent = await stripe.paymentIntents.retrieve(
@@ -127,6 +108,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
     }
   } catch (error) {
     console.error("Error actualizando la suscripción:", error);
+    throw error;
   }
 }
 
@@ -168,6 +150,11 @@ export async function createSubscription({
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
     });
+
+    if (sessionCheckout.subscription) {
+      const subscriptionId = sessionCheckout.subscription as string;
+      await updateSubscription(user.id, subscriptionId, null, "inactive", null);
+    }
 
     const price = await stripe.prices.retrieve(priceId);
 
