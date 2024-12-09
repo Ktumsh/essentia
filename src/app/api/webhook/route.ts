@@ -6,6 +6,7 @@ import {
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
   handleCustomerDeleted,
+  handleSubscriptionCreated,
 } from "@/modules/payment/pay/actions";
 import stripe from "@/utils/stripe";
 
@@ -32,18 +33,18 @@ export async function POST(request: NextRequest) {
 
   const invoice = event.data.object as Stripe.Invoice;
   const subscription = event.data.object as Stripe.Subscription;
-  const updatedSubscription = event.data.object as Stripe.Subscription;
   const customer = event.data.object as Stripe.Customer;
 
   switch (event.type) {
     case "invoice.payment_succeeded":
       await handlePaymentSucceeded(invoice);
       break;
-    case "customer.subscription.updated":
-      await handleSubscriptionUpdated(updatedSubscription);
-      break;
     case "customer.subscription.created":
-      await handleSubscriptionUpdated(updatedSubscription);
+      await handleSubscriptionCreated(subscription);
+      break;
+    case "customer.subscription.updated":
+      await handleSubscriptionUpdated(subscription);
+      break;
     case "customer.subscription.deleted":
       await handleSubscriptionDeleted(subscription);
       break;
