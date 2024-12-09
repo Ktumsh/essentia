@@ -15,6 +15,13 @@
       "when": 1733703498975,
       "tag": "0001_mute_dagger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1733717368652,
+      "tag": "0002_damp_deathbird",
+      "breakpoints": true
     }
   ]
 }
