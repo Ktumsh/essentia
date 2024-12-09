@@ -188,40 +188,44 @@ export async function handleSubscriptionDeleted(
 
   const customerId = subscription.customer as string;
 
-  const session = await auth();
+  try {
+    const [subscription] = await getSubscriptionByClientId(customerId);
 
-  const [user] = await getUserById(session?.user?.id as string);
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customerId,
+      status: "active",
+      limit: 1,
+    });
 
-  if (!user) {
-    console.error(
-      `Usuario no encontrado para la suscripción: ${subscriptionId}`,
-    );
-    return;
-  }
+    if (subscriptions.data.length > 0) {
+      const activeSubscription = subscriptions.data[0];
 
-  const subscriptions = await stripe.subscriptions.list({
-    customer: customerId,
-    status: "active",
-    limit: 1,
-  });
+      await updateSubscription(
+        subscription.userId,
+        activeSubscription.id,
+        activeSubscription.current_period_end,
+        activeSubscription.status,
+      );
 
-  if (subscriptions.data.length > 0) {
-    const activeSubscription = subscriptions.data[0];
+      console.log(
+        `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`,
+      );
+      return;
+    }
 
     await updateSubscription(
-      user.id,
-      activeSubscription.id,
-      activeSubscription.current_period_end,
-      activeSubscription.status,
+      subscription.userId,
+      null,
+      null,
+      "inactive",
+      "free",
     );
-
-    console.log(
-      `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`,
+  } catch (error) {
+    console.error(
+      `Error al manejar la eliminación de la suscripción: ${subscriptionId}`,
+      error,
     );
-    return;
   }
-
-  await updateSubscription(user.id, null, null, "inactive", "free");
 }
 
 export async function handleSubscriptionCreated(
@@ -229,15 +233,29 @@ export async function handleSubscriptionCreated(
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
+  const type = subscription.items.data[0].plan.nickname;
   const currentPeriodEnd = subscription.current_period_end;
   const clientId = subscription.customer as string;
+
+  const planType =
+    type === "Premium"
+      ? "premium"
+      : type === "Premium Plus"
+        ? "premium-plus"
+        : "free";
 
   try {
     const [subscription] = await getSubscriptionByClientId(clientId);
 
     const userId = subscription.userId;
 
-    await updateSubscription(userId, subscriptionId, currentPeriodEnd, status);
+    await updateSubscription(
+      userId,
+      subscriptionId,
+      currentPeriodEnd,
+      status,
+      planType,
+    );
   } catch (error) {
     console.error(
       `Error al manejar la creación de la suscripción: ${subscriptionId}`,
@@ -251,8 +269,16 @@ export async function handleSubscriptionUpdated(
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
+  const type = subscription.items.data[0].plan.nickname;
   const currentPeriodEnd = subscription.current_period_end;
   const clientId = subscription.customer as string;
+
+  const planType =
+    type === "Premium"
+      ? "premium"
+      : type === "Premium Plus"
+        ? "premium-plus"
+        : "free";
 
   try {
     const [subscription] = await getSubscriptionByClientId(clientId);
@@ -262,6 +288,7 @@ export async function handleSubscriptionUpdated(
       subscriptionId,
       currentPeriodEnd,
       status,
+      planType,
     );
   } catch (error) {
     console.error(
