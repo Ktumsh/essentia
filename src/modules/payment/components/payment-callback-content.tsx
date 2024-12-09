@@ -75,7 +75,7 @@ const PaymentCallbackContent = ({
 
     const verifySession = async () => {
       try {
-        const response = await fetch("/api/verify-session", {
+        const response = await fetch("/api/verify-payment", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
