@@ -61,6 +61,13 @@ export async function verifyPaymentIntent(
 
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
+  if (!subscriptionId) {
+    console.error(
+      "El invoice no tiene una suscripción asociada.",
+      subscriptionId,
+    );
+    return;
+  }
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
   const status = "active";
   const currentPeriodEnd = subscription.current_period_end;
@@ -71,6 +78,18 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 
   try {
     const [user] = await getSubscriptionBySubscriptionId(subscriptionId);
+
+    if (!user) {
+      throw new Error(
+        `No se encontró un usuario asociado a la suscripción: ${subscriptionId}`,
+      );
+    }
+
+    if (!user.userId || !subscriptionId || !currentPeriodEnd || !type) {
+      throw new Error(
+        `Parámetros inválidos: userId=${user.userId}, subscriptionId=${subscriptionId}, currentPeriodEnd=${currentPeriodEnd}, type=${type}`,
+      );
+    }
 
     await updateSubscription(
       user.userId,
