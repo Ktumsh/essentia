@@ -1,199 +1,160 @@
 "use client";
 
-import { Info } from "lucide-react";
+import { LogOut, Menu, SunMoon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { FC, useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { siteConfig } from "@/config/site";
-import { MOBILE_MENU_CONTENT_ID } from "@/consts/mobile-menu";
-import { HelpIcon, LogoutIcon } from "@/modules/icons/action";
-import { StarsIcon } from "@/modules/icons/common";
-import { AccountFillIcon, PricingFillIcon } from "@/modules/icons/interface";
+import { Separator } from "@/components/ui/separator";
 import {
-  AvatarIcon,
-  SettingsIcon,
-  ThemeIcon,
-} from "@/modules/icons/miscellaneus";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { siteConfig } from "@/config/site";
+import { StarsIcon } from "@/modules/icons/common";
+import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
 import { ThemeToggle } from "../buttons/theme-toggle";
 
 interface MobileMenuProps {
-  profileData: UserProfileData | null;
+  user: UserProfileData | null;
 }
 
-const MobileMenu: FC<MobileMenuProps> = ({ profileData }) => {
+const MobileMenu = ({ user }: MobileMenuProps) => {
   const pathname = usePathname();
-  const [currentPath, setCurrentPath] = useState("");
-  const { firstName, lastName, username, profileImage, isPremium } =
-    profileData || {};
+
+  const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
   const resourceLinks = siteConfig.asideMenuLinks;
-
-  useEffect(() => {
-    setCurrentPath(pathname);
-  }, [pathname]);
+  const menuFooterLinks = siteConfig.menuFooterLinks;
 
   return (
-    <>
-      {/* Mobile Menu */}
-      <div
-        id={MOBILE_MENU_CONTENT_ID}
-        role="menu"
-        className="flex h-full w-screen max-w-[300px] flex-col items-center overflow-y-hidden bg-white px-8 dark:bg-full-dark lg:hidden"
-      >
-        <nav className="size-full">
-          <div className="flex size-full max-h-dvh flex-col justify-between">
-            <div className="flex size-full flex-col overflow-y-hidden text-main-h dark:text-main-dark-h">
-              <div className="flex h-auto w-full border-b-1 border-gray-200 py-5 dark:border-dark">
-                {profileData && (
-                  <Link
-                    href={`/profile/${username}`}
-                    className="relative inline-flex w-full items-start gap-2"
-                  >
-                    <Avatar className="size-12">
-                      {profileImage && (
-                        <AvatarImage
-                          src={profileImage}
-                          alt={"Avatar de " + username}
-                        />
-                      )}
-                      <AvatarFallback>
-                        <AvatarIcon />
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="inline-flex flex-col items-start transition-colors duration-100 active:bg-gray-200 dark:active:bg-dark">
-                      <span className="font-medium capitalize text-inherit transition-none">
-                        {`${firstName} ${lastName}`}
-                      </span>
-                      <span className="text-sm text-main-m transition-none dark:text-main-dark-l">
-                        @{username}
-                      </span>
-                      {isPremium && (
-                        <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
-                          <StarsIcon
-                            aria-hidden="true"
-                            className="stars-icon v2 size-6 focus:outline-none"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </Link>
+    <Sheet>
+      <SheetTrigger>
+        <Menu strokeWidth={1.5} className="size-6" />
+      </SheetTrigger>
+      <SheetContent side="right" className="flex flex-col">
+        <SheetHeader>
+          <SheetTitle className="sr-only">Menú</SheetTitle>
+          <SheetDescription className="sr-only">
+            Este es el menú móvil donde puedes navegar por las opciones.
+          </SheetDescription>
+          {user ? (
+            <Link
+              href={`/profile/${username}`}
+              className="relative inline-flex w-full items-start gap-2"
+            >
+              <Avatar className="size-12">
+                {profileImage && (
+                  <AvatarImage
+                    src={profileImage}
+                    alt={"Avatar de " + username}
+                  />
                 )}
-                {!profileData && (
-                  <Link
-                    href="/login"
-                    className="box-border inline-flex h-8 w-full min-w-16 select-none appearance-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-light-gradient-v2 px-5 text-sm font-normal text-white subpixel-antialiased tap-highlight-transparent transition-transform-colors-opacity active:scale-[0.97] motion-reduce:transition-none dark:bg-dark-gradient"
-                  >
-                    Iniciar sesión
-                  </Link>
+                <AvatarFallback>
+                  <AvatarIcon />
+                </AvatarFallback>
+              </Avatar>
+              <div className="inline-flex flex-col items-start transition-colors duration-100 active:bg-gray-200 dark:active:bg-dark">
+                <span className="font-medium capitalize text-inherit transition-none">
+                  {`${firstName} ${lastName}`}
+                </span>
+                <span className="text-sm text-main-m transition-none dark:text-main-dark-l">
+                  @{username}
+                </span>
+                {isPremium && (
+                  <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
+                    <StarsIcon
+                      aria-hidden="true"
+                      className="stars-icon v2 size-6 focus:outline-none"
+                    />
+                  </div>
                 )}
               </div>
-              <div className="relative size-full overflow-y-scroll scrollbar-hide">
-                <div className="flex h-full flex-col justify-between py-5">
-                  <div role="group">
-                    <div className="group flex">
-                      <div className="justify-between bg-transparent px-0 text-base font-medium text-main-h data-[pressed=true]:scale-100 data-[hover=true]:bg-transparent dark:text-main-dark-h">
-                        Recursos
-                      </div>
-                    </div>
-                    <div className="overflow-hidden pt-3 transition-all">
-                      <div
-                        aria-label="Recursos"
-                        className="flex w-full flex-col gap-3 outline-none"
-                      >
-                        {resourceLinks.map((link) => (
-                          <Link
-                            key={link.name}
-                            href={link.link}
-                            className={cn(
-                              "inline-flex items-center gap-2 px-0 py-1.5 text-sm",
-                              currentPath === link.link
-                                ? "text-bittersweet-400 dark:text-cerise-red-400"
-                                : "text-main-h dark:text-main-dark-h",
-                            )}
-                          >
-                            <link.activeIcon
-                              className={`size-5 transition-colors ${
-                                currentPath === link.link
-                                  ? "text-bittersweet-400 dark:text-cerise-red-400"
-                                  : "text-main-h dark:text-main-dark"
-                              }`}
-                            />
-                            <span>{link.name}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div role="group">
-                    <footer className="flex flex-col justify-end gap-3 text-main-m dark:text-main-dark-m">
-                      <Link
-                        className="relative flex w-full items-center py-1.5 text-sm"
-                        href="/about-essentia"
-                      >
-                        <Info className="mr-3 size-3.5" />
-                        Acerca de Essentia
-                      </Link>
-                      <Link
-                        className="relative flex w-full items-center py-1.5 text-sm"
-                        href="/account"
-                      >
-                        <AccountFillIcon className="mr-3 size-3.5" />
-                        Cuenta
-                      </Link>
-                      <Link
-                        className="relative flex w-full items-center py-1.5 text-sm"
-                        href="/premium"
-                      >
-                        <PricingFillIcon className="mr-3 size-3.5" />
-                        Premium
-                      </Link>
-                      <Link
-                        className="relative flex w-full items-center py-1.5 text-sm"
-                        href=""
-                      >
-                        <SettingsIcon className="mr-3 size-3.5" />
-                        Configuración
-                      </Link>
-                      <Link
-                        className="relative flex w-full items-center py-1.5 text-sm"
-                        href=""
-                      >
-                        <HelpIcon className="mr-3 size-3.5" />
-                        Centro de ayuda
-                      </Link>
-                      <div className="flex w-full items-center justify-between py-1.5">
-                        <div className="flex flex-row items-center">
-                          <ThemeIcon className="mr-3 size-3.5" />
-                          <span className="text-sm">Tema</span>
-                        </div>
-                        <ThemeToggle className="!size-8" />
-                      </div>
-                      {profileData ? (
-                        <button
-                          id="logout"
-                          className="relative flex w-full items-center py-1.5 text-sm font-medium text-bittersweet-400 dark:text-cerise-red-600"
-                          onClick={() => signOut({ callbackUrl: "/logout" })}
-                        >
-                          <LogoutIcon className="mr-3 size-3.5" />
-                          Cerrar sesión
-                        </button>
-                      ) : null}
-                    </footer>
-                  </div>
-                </div>
-              </div>
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="box-border inline-flex h-8 w-full min-w-16 select-none appearance-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-light-gradient-v2 px-5 text-sm font-normal text-white subpixel-antialiased tap-highlight-transparent transition-transform-colors-opacity active:scale-[0.97] motion-reduce:transition-none dark:bg-dark-gradient"
+            >
+              Iniciar sesión
+            </Link>
+          )}
+        </SheetHeader>
+        <Separator />
+        <div role="group" className="flex flex-1 flex-col">
+          <div className="group flex">
+            <div className="inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium text-main-m">
+              Recursos
             </div>
           </div>
-        </nav>
-      </div>
-    </>
+          <div aria-label="Recursos" className="flex w-full flex-col space-y-2">
+            {resourceLinks.map((link) => (
+              <SheetClose asChild key={link.name}>
+                <Link
+                  href={link.link}
+                  className={cn(
+                    "inline-flex items-center gap-2 px-0 py-1.5 text-sm",
+                    pathname === link.link
+                      ? "text-danger"
+                      : "text-main-h dark:text-main-dark-h",
+                  )}
+                >
+                  <link.activeIcon
+                    className={`size-4 transition-colors ${
+                      pathname === link.link
+                        ? "text-danger"
+                        : "text-main-h dark:text-main-dark"
+                    }`}
+                  />
+                  <span>{link.name}</span>
+                </Link>
+              </SheetClose>
+            ))}
+          </div>
+        </div>
+        <SheetFooter className="text-sm">
+          {menuFooterLinks.map((link) => (
+            <SheetClose asChild key={link.name}>
+              <Link
+                href={link.link}
+                className="inline-flex items-center space-x-3 py-1.5"
+              >
+                <link.icon strokeWidth={1.5} className="size-3.5" />
+                <span>{link.name}</span>
+              </Link>
+            </SheetClose>
+          ))}
+          <div className="inline-flex items-center justify-between py-1.5">
+            <div className="flex flex-row items-center space-x-3">
+              <SunMoon className="size-3.5" />
+              <span>Tema</span>
+            </div>
+            <ThemeToggle className="!size-8" />
+          </div>
+          {user && (
+            <SheetClose asChild>
+              <button
+                className="inline-flex items-center py-1.5"
+                onClick={() => signOut({ callbackUrl: "/logout" })}
+              >
+                <LogOut strokeWidth={1.5} className="mr-3 size-3.5" />
+                Cerrar sesión
+              </button>
+            </SheetClose>
+          )}
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 };
 

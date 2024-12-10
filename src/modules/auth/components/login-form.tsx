@@ -106,23 +106,20 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-xl border-transparent bg-transparent px-6 text-left font-normal dark:border-dark sm:min-w-[500px] sm:bg-white sm:dark:bg-full-dark md:border md:p-8">
+    <div className="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-xl bg-transparent px-6 text-left font-normal sm:min-w-[500px] sm:bg-white sm:dark:bg-full-dark md:p-8">
+      <div className="mb-5 flex w-full flex-col">
+        <h2 className="font-sans text-xl font-extrabold text-main dark:text-white sm:text-2xl">
+          Bienvenid@,
+        </h2>
+        <div className="w-full text-sm text-main-h dark:text-main-dark">
+          <p>Ingresa tus credenciales para acceder a tu cuenta de Essentia.</p>
+        </div>
+      </div>
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mb-4 flex size-full select-none flex-col items-start justify-center gap-5"
+          className="mb-4 flex size-full select-none flex-col items-start justify-center space-y-5"
         >
-          <div>
-            <h2 className="font-sans text-xl font-extrabold text-main dark:text-white sm:text-2xl">
-              Bienvenid@,
-            </h2>
-            <div className="w-full text-sm text-main-h dark:text-main-dark-h">
-              <p>
-                Ingresa tus credenciales para acceder a tu cuenta de Essentia.
-              </p>
-            </div>
-          </div>
-
           {/* Email */}
           <FormField
             control={form.control}
@@ -192,7 +189,7 @@ const LoginForm: React.FC = () => {
           />
 
           {/* Remember Me y Forgot Password */}
-          <div className="mx-0 mt-[-15px] flex w-full justify-between text-xs text-main-h dark:text-main-dark-h">
+          <div className="mx-0 flex w-full justify-between text-xs text-main-h dark:text-main-dark-h">
             <FormField
               control={form.control}
               name="remember"

@@ -1,3 +1,5 @@
+"use client";
+
 import { Fragment, useRef } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +24,7 @@ const EmergencySteps = () => {
   return (
     <section
       ref={sectionRef}
-      className="scrollbar-hide flex w-full max-w-6xl snap-x snap-mandatory items-center justify-between overflow-x-scroll md:mx-0"
+      className="flex w-full max-w-6xl snap-x snap-mandatory items-center justify-between overflow-x-scroll scrollbar-hide md:mx-0"
     >
       {EMERGENCY_STEPS.map((card, index) => (
         <Fragment key={index}>

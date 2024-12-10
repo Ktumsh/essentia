@@ -51,7 +51,7 @@ const About = ({ session }: AboutProps) => {
   return (
     <article className="z-40 size-full text-clip break-words bg-white font-normal text-main">
       <div className="relative mx-auto flex max-w-screen-xl flex-col items-center justify-center px-5 pt-24 sm:pt-56">
-        <div className="flex flex-col items-center space-y-6 pl-6 text-center sm:pl-0">
+        <div className="flex flex-col items-center space-y-6 text-center">
           <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-7xl">
             La Información de Salud Esencial para tu Bienestar
           </h1>

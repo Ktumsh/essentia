@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
-import BillingTabs from "@/modules/account/components/billing-tabs";
+import AccountTabs from "@/modules/account/components/account-tabs";
 import { getUserBillingDetails } from "@/modules/payment/pay/actions";
 import { getUserProfileData } from "@/utils/profile";
 
@@ -32,7 +32,7 @@ export default async function AccountLayout({
   return (
     <div className="mx-auto h-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:h-auto md:border md:border-y-0">
       {children}
-      <BillingTabs
+      <AccountTabs
         subscription={subscription}
         billingDetail={{ ...billingDetail, card: paymentMethod }}
         user={userData}

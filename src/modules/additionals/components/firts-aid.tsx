@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
@@ -44,7 +46,7 @@ const FirstAid = () => {
           className="group flex h-auto w-fit items-center p-0 text-xl font-semibold transition active:scale-100"
         >
           <Badge variant="primary" className="gap-1 py-1">
-            <TriangleAlert className="size-3.5" />
+            <TriangleAlert strokeWidth={1.5} className="size-3.5" />
             <h3>Primeros auxilios</h3>
           </Badge>
           <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -91,8 +93,8 @@ const FirstAid = () => {
             >
               <Separator />
             </motion.div>
-            <CardContent className="flex flex-col overflow-hidden p-3">
-              <ScrollArea>
+            <CardContent className="flex flex-col overflow-hidden p-0">
+              <ScrollArea className="p-3 pr-5">
                 <ol
                   className={cn(
                     "space-y-4 opacity-0 transition-all [interpolate-size:allow-keywords]",
@@ -102,12 +104,12 @@ const FirstAid = () => {
                   {cardInfo.steps.map((step, stepIndex) => (
                     <li
                       key={stepIndex}
-                      className="space-y-1.5 text-start text-sm"
+                      className="prose-sm space-y-1.5 text-start"
                     >
-                      <ul className="flex">
+                      <ul className="flex items-center pl-0">
                         <Badge
                           variant="primary"
-                          className="mr-2 flex size-6 items-center justify-center !bg-cyan-600 font-bold !text-white hover:!bg-cyan-600/80"
+                          className="flex size-6 items-center justify-center !bg-cyan-600 font-bold !text-white hover:!bg-cyan-600/80"
                         >
                           {step.step}
                         </Badge>

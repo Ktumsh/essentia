@@ -128,7 +128,7 @@ const DialogFooter = ({
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className,
       isSecondary &&
-        "border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50 sm:justify-between",
+        "justify-between border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50",
     )}
     {...props}
   />

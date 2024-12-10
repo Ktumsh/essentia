@@ -110,7 +110,7 @@ const ResourceWrapper = ({ params, isPremium }: ResourceWrapperProps) => {
                 <div className="absolute right-0 top-0 z-20 p-5">
                   <div
                     className={cn(
-                      "flex size-10 items-center justify-center rounded-lg bg-gradient-to-br",
+                      "flex size-10 items-center justify-center rounded-lg bg-gradient-to-br shadow",
                       getResourceColor(resourceIndex, "gradient"),
                     )}
                   >

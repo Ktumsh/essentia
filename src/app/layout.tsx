@@ -125,7 +125,9 @@ export default async function RootLayout({
           }}
         />
         <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
-          <div className="relative size-full min-h-dvh">{children}</div>
+          <div className="relative flex size-full min-h-dvh flex-col md:flex-row">
+            {children}
+          </div>
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />

@@ -1,3 +1,9 @@
+import { BadgeCheck, HelpCircle, Info, Settings, Sparkles } from "lucide-react";
+
+import Emergencies from "@/modules/additionals/components/emergencies";
+import Guides from "@/modules/additionals/components/guides";
+import Links from "@/modules/additionals/components/links";
+import Recommendations from "@/modules/additionals/components/recommendations";
 import {
   HomeIcon,
   HomeFillIcon,
@@ -19,8 +25,16 @@ import {
   ForAllAgesFillIcon,
 } from "@/modules/icons/interface";
 import {
+  EmergenciesFillIcon,
+  EmergenciesIcon,
+  GuidesFillIcon,
+  GuidesIcon,
   HealthCentersFillIcon,
   HealthCentersIcon,
+  LinksFillIcon,
+  LinksIcon,
+  RecommendationsFillIcon,
+  RecommendationsIcon,
 } from "@/modules/icons/miscellaneus";
 import { SiteConfig } from "@/types/common";
 
@@ -102,6 +116,43 @@ export const siteConfig: SiteConfig = {
       activeIcon: ForAllAgesFillIcon,
     },
   ],
+  additionalLinks: [
+    {
+      href: "/adicionales/guias",
+      name: "Guías",
+      icon: GuidesIcon,
+      activeIcon: GuidesFillIcon,
+      component: Guides,
+    },
+    {
+      href: "/adicionales/emergencias",
+      name: "Emergencias",
+      icon: EmergenciesIcon,
+      activeIcon: EmergenciesFillIcon,
+      component: Emergencies,
+    },
+    {
+      href: "/adicionales/enlaces",
+      name: "Enlaces",
+      icon: LinksIcon,
+      activeIcon: LinksFillIcon,
+      component: Links,
+    },
+    {
+      href: "/adicionales/recomendaciones",
+      name: "Recomendaciones",
+      icon: RecommendationsIcon,
+      activeIcon: RecommendationsFillIcon,
+      component: Recommendations,
+    },
+  ],
+  menuFooterLinks: [
+    { name: "Descubre Essentia", link: "/about-essentia", icon: Info },
+    { name: "Cuenta", link: "/account", icon: BadgeCheck },
+    { name: "Premium", link: "/premium", icon: Sparkles },
+    { name: "Configuración", link: "#", icon: Settings },
+    { name: "Soporte", link: "#", icon: HelpCircle },
+  ],
   footerLinks: {
     resources: [
       { href: "/salud-y-bienestar", text: "Salud y Bienestar" },
@@ -121,20 +172,19 @@ export const siteConfig: SiteConfig = {
       },
     ],
     additionalresources: [
-      { href: "/adicionales", text: "Guías" },
-      { href: "/adicionales", text: "Enlaces" },
-      { href: "/adicionales", text: "Recomendaciones" },
-      { href: "/adicionales", text: "Centros de salud" },
-      { href: "/adicionales", text: "Fonos de emergencia" },
-    ],
-    comunidad: [
-      { href: "/comunidad/blog", text: "Blog" },
-      { href: "/comunidad/support-groups", text: "Grupos de apoyo" },
-      { href: "/comunidad/inspiring-stories", text: "Historias inspiradoras" },
-      { href: "/comunidad/community-resources", text: "Recursos comunitarios" },
+      { href: "/adicionales/guias", text: "Guías" },
+      {
+        href: "/adicionales/emergencias",
+        text: "Emergencias",
+      },
+      { href: "/adicionales/enlaces", text: "Enlaces" },
+      {
+        href: "/adicionales/recomendaciones",
+        text: "Recomendaciones",
+      },
     ],
     more: [
-      { href: "/about-essentia", text: "Acerca de" },
+      { href: "/about-essentia", text: "Descubre Essentia" },
       { href: "", text: "Privacidad" },
       { href: "", text: "Términos" },
       { href: "", text: "Cookies" },
@@ -145,7 +195,7 @@ export const siteConfig: SiteConfig = {
       { href: "", text: "Políticas de privacidad" },
       { href: "", text: "Términos y condiciones" },
       { href: "", text: "Cookies" },
-      { href: "/about-essentia", text: "Acerca de" },
+      { href: "/about-essentia", text: "Descubre Essentia" },
     ],
   },
 };
