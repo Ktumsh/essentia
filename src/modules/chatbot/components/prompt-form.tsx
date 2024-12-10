@@ -174,7 +174,7 @@ const PromptForm: FC<PromptFormProps> = ({
           placeholder="Escribe tu mensaje."
           onChange={handleInput}
           onKeyDown={onKeyDown}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] text-main focus-within:outline-none dark:text-main-dark"
+          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] text-sm text-main focus-within:outline-none dark:text-main-dark"
         />
 
         {isLoading ? (

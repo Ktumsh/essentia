@@ -29,7 +29,7 @@ const Recomendations = ({ isPremium }: RecomendationsProps) => {
         ).map((item, index) => (
           <CarouselItem
             key={index}
-            className="odd:flex-[0_0_60%] even:flex-[0_0_40%]"
+            className="lg:odd:flex-[0_0_60%] lg:even:flex-[0_0_40%]"
           >
             <RecomendationsItem item={item} index={index} />
           </CarouselItem>

@@ -115,30 +115,28 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
 
   return (
     <Form {...form}>
+      <div className="mb-5 flex gap-5">
+        <Button
+          size="icon"
+          radius="lg"
+          onClick={onBack}
+          className="bg-transparent px-2 shadow-none dark:bg-transparent sm:bg-gray-100 sm:dark:bg-dark"
+        >
+          <ArrowRightV2Icon className="!size-6 rotate-180 text-main-h dark:text-main-dark" />
+        </Button>
+        <div className="w-full text-sm text-main-h dark:text-main-dark">
+          <p>
+            Parece que no tienes una cuenta. Vamos a crear una nueva cuenta para{" "}
+            <span className="font-bold text-orient-700 sm:font-medium">
+              {email}
+            </span>
+          </p>
+        </div>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col items-start justify-center space-y-4"
+        className="flex flex-col items-start justify-center space-y-5"
       >
-        <div className="flex gap-5">
-          <Button
-            size="icon"
-            radius="lg"
-            onClick={onBack}
-            className="bg-transparent px-2 shadow-none dark:bg-transparent sm:bg-gray-100 sm:dark:bg-dark"
-          >
-            <ArrowRightV2Icon className="!size-6 rotate-180 text-main-h dark:text-main-dark-h" />
-          </Button>
-          <div className="w-full text-sm text-main-h dark:text-main-dark-h">
-            <p>
-              Parece que no tienes una cuenta. Vamos a crear una nueva cuenta
-              para{" "}
-              <span className="font-bold text-orient-700 sm:font-medium">
-                {email}
-              </span>
-            </p>
-          </div>
-        </div>
-
         {/* Nombre y Apellido */}
         <div className="flex w-full gap-5">
           <FormField
@@ -221,7 +219,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
           name="birthdate"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel className="relative inline-flex items-center gap-2 text-xs">
+              <FormLabel className="relative inline-flex items-center gap-2">
                 Fecha de nacimiento
                 <Popover>
                   <PopoverTrigger asChild>

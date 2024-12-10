@@ -94,7 +94,7 @@ export const FIRST_AID = [
           {
             type: "highlight",
             content: "si la persona no puede hablar, toser o respirar",
-            highlightClass: "text-bittersweet-400 dark:text-cerise-red-600",
+            highlightClass: "text-red-500",
           },
         ],
         description: [

@@ -2,22 +2,26 @@
 
 import { useEffect, useState, useCallback } from "react";
 
-export const useNavbarChange = (vh: number) => {
+import { useIsMobile } from "@/components/hooks/use-mobile";
+
+const VIEWPORT_HEIGHT = window.innerHeight / 1.4;
+
+export const useNavbarChange = () => {
   const [isChanged, setIsChanged] = useState(false);
   const [isChanging, setIsChanging] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const isMobile = useIsMobile();
 
   const checkScreenSizeAndUpdateNavbar = useCallback(() => {
     const scrollTop = window.scrollY;
 
-    if (isLargeScreen) {
-      if (scrollTop > vh && !isChanged) {
+    if (!isMobile) {
+      if (scrollTop > VIEWPORT_HEIGHT && !isChanged) {
         setIsChanging(true);
         setTimeout(() => {
           setIsChanged(true);
           setIsChanging(false);
         }, 150);
-      } else if (scrollTop <= vh && isChanged) {
+      } else if (scrollTop <= VIEWPORT_HEIGHT && isChanged) {
         setIsChanging(true);
         setTimeout(() => {
           setIsChanged(false);
@@ -28,23 +32,15 @@ export const useNavbarChange = (vh: number) => {
       setIsChanged(false);
       setIsChanging(false);
     }
-  }, [isChanged, isLargeScreen, vh]);
+  }, [isChanged, isMobile, VIEWPORT_HEIGHT]);
 
   useEffect(() => {
-    setIsLargeScreen(window.innerWidth >= 640);
-
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 640);
-    };
-
-    window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", checkScreenSizeAndUpdateNavbar);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", checkScreenSizeAndUpdateNavbar);
     };
-  }, [checkScreenSizeAndUpdateNavbar]);
+  }, [checkScreenSizeAndUpdateNavbar, isMobile]);
 
-  return { isChanged, isChanging, isLargeScreen };
+  return { isChanged, isChanging };
 };

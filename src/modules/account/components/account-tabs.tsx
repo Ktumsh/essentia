@@ -13,17 +13,17 @@ import BillingDetails from "./billing-details";
 
 import type { Payment, Subscription } from "@/db/schema";
 
-interface BillingTabsProps {
+interface AccountTabsProps {
   subscription: Subscription;
   user: UserProfileData | null;
   billingDetail: Payment & { card: Stripe.PaymentMethod.Card | undefined };
 }
 
-const BillingTabs = ({
+const AccountTabs = ({
   subscription,
   billingDetail,
   user,
-}: BillingTabsProps) => {
+}: AccountTabsProps) => {
   const pathname = usePathname();
   const tabListRef = useRef<HTMLDivElement>(null);
 
@@ -49,9 +49,9 @@ const BillingTabs = ({
         classNames={{
           base: "z-10 z-0",
           tabList:
-            "p-0 mx-6 gap-6 rounded-none border-b border-gray-200 dark:border-dark",
-          cursor: "w-full bg-bittersweet-400 dark:bg-cerise-red-600",
-          tab: "max-w-fit px-0 h-12",
+            "p-0 mx-6 gap-0 rounded-none border-b border-gray-200 dark:border-dark",
+          cursor: "w-full bg-danger",
+          tab: "max-w-fit px-4 h-12",
           tabContent:
             "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
           panel: "w-full px-6 py-10 bg-white dark:bg-full-dark",
@@ -93,4 +93,4 @@ const BillingTabs = ({
   );
 };
 
-export default BillingTabs;
+export default AccountTabs;

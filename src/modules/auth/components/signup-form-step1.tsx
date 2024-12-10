@@ -53,13 +53,13 @@ const SignupFormStep1: React.FC<Step1Props> = ({ onSuccess }) => {
 
   return (
     <Form {...form}>
+      <div className="mb-5 w-full text-sm text-main-h dark:text-main-dark">
+        <p>Continúa con tu correo para comenzar a crear tu cuenta.</p>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-start justify-center space-y-4"
+        className="flex flex-col items-start justify-center space-y-5"
       >
-        <div className="mb-5 w-full text-sm text-main-h dark:text-main-dark-h">
-          <p>Continúa con tu correo para comenzar a crear tu cuenta.</p>
-        </div>
         <FormField
           control={form.control}
           name="email"

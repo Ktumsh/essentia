@@ -10,6 +10,10 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
+import BottomNav from "./layout/bottom-navbar";
+import DesktopHeader from "./layout/desktop-header";
+import MobileHeader from "./layout/mobile-header";
+import WelcomeModal from "./welcome-modal";
 import { startsWithAny } from "../../lib/utils";
 import ButtonUp from "../ui/buttons/button-up";
 import { AppSidebar } from "../ui/sidebar/app-sidebar";
@@ -75,24 +79,40 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({
         <div className={backgroundClasses}></div>
       </motion.div>
 
+      {/* Mobile Header */}
+      <MobileHeader user={user} />
+
+      {/* Sidebar */}
+      <AppSidebar session={session} user={user} isPremium={isPremium} />
+
       {/* Main content */}
-      <div className="flex w-full">
-        <AppSidebar session={session} user={user} isPremium={isPremium} />
-        <SidebarInset>
-          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
-            {isEssentiaAI ? (
-              <>{children}</>
-            ) : (
-              <div ref={scrollRef} className="w-full flex-1 overflow-y-auto">
-                {children}
-              </div>
-            )}
+      <SidebarInset>
+        {/* Desktop Header */}
+        <DesktopHeader
+          user={user}
+          selectedVisibility="private"
+          isReadonly={false}
+        />
+
+        {isEssentiaAI ? (
+          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col">
+            {children}
           </div>
-        </SidebarInset>
-      </div>
+        ) : (
+          <div ref={scrollRef} className="w-full flex-1 overflow-y-auto">
+            {children}
+          </div>
+        )}
+      </SidebarInset>
 
       {/* Button Up */}
       {!hideButtonUp && !isMobile && <ButtonUp scrollRef={scrollRef} />}
+
+      {/* Bottom Mobile Navbar */}
+      <BottomNav user={user} />
+
+      {/* Welcome Modal */}
+      {!session && <WelcomeModal />}
     </>
   );
 };

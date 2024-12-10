@@ -38,9 +38,9 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             href="/essentia-ai"
             className="relative col-span-2 flex items-center justify-center rounded-2xl border border-white bg-light-gradient-v2 transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:border-full-dark dark:bg-dark-gradient-v2"
           >
-            <div className="inline-flex h-16 items-center justify-center gap-4">
+            <div className="inline-flex h-16 items-center justify-center gap-2">
               <AIFillIcon className="size-7 text-white" />
-              <h2 className="text-2xl font-extrabold leading-none text-white">
+              <h2 className="text-2xl font-semibold leading-none text-white">
                 Essentia AI
               </h2>
             </div>

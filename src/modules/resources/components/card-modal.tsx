@@ -158,7 +158,7 @@ const CardModal = ({ props }: { props: Props }) => {
             </div>
           </DialogHeader>
           <Content />
-          <DialogFooter className="flex flex-row justify-end gap-2 border-t-1 border-gray-200 px-6 py-4 text-main dark:border-dark">
+          <DialogFooter isSecondary className="justify-end">
             <DialogTrigger asChild>
               <Button variant="outline">Cerrar</Button>
             </DialogTrigger>

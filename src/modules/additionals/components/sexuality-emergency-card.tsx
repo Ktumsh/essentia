@@ -20,7 +20,7 @@ const SexualityEmergencyCard = () => {
           className="group flex h-auto w-fit items-center p-0 text-xl font-semibold transition active:scale-100"
         >
           <Badge variant="primary" className="gap-1 py-1">
-            <TriangleAlert className="size-3.5" />
+            <TriangleAlert strokeWidth={1.5} className="size-3.5" />
             <h3>Emergencias de salud sexual</h3>
           </Badge>
           <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -38,22 +38,22 @@ const SexualityEmergencyCard = () => {
               </CardTitle>
             </CardHeader>
             <Separator />
-            <CardContent className="flex flex-col overflow-hidden p-3">
-              <ScrollArea>
-                <ol className="flex flex-col space-y-4">
+            <CardContent className="flex flex-col overflow-hidden p-0">
+              <ScrollArea className="p-3 pr-5">
+                <ol className="space-y-4">
                   {cardInfo.steps.map((step, stepIndex) => (
                     <li
                       key={stepIndex}
-                      className="space-y-1.5 text-start text-sm"
+                      className="prose-sm space-y-1.5 text-start"
                     >
-                      <ul className="inline-flex">
+                      <ul className="inline-flex pl-0">
                         <Badge
                           variant="primary"
                           className="mr-2 flex !size-6 min-w-0 max-w-full justify-center !bg-pink-600 !text-white hover:!bg-pink-600/80"
                         >
                           {step.step}
                         </Badge>
-                        <li className="mr-2 text-nowrap text-sm font-semibold">
+                        <li className="mr-2 text-nowrap text-sm font-semibold md:text-base">
                           {step.title}
                         </li>
                       </ul>
