@@ -355,6 +355,12 @@
   animation: bounce-rotate 3s infinite;
 }
 
+.animate-enchance {
+  animation: enchance-header linear both;
+  animation-timeline: scroll(root);
+  animation-range: 0 100px;
+}
+
 @keyframes bounce-rotate {
   0%,
   10% {
@@ -435,6 +441,12 @@
     scale: 1;
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+@keyframes enchance-header {
+  to {
+    backdrop-filter: blur(16px);
   }
 }
 

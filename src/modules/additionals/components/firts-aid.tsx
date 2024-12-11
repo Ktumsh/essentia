@@ -94,11 +94,11 @@ const FirstAid = () => {
               <Separator />
             </motion.div>
             <CardContent className="flex flex-col overflow-hidden p-0">
-              <ScrollArea className="p-3 pr-5">
+              <ScrollArea className="flex flex-col p-3 pr-5">
                 <ol
                   className={cn(
                     "space-y-4 opacity-0 transition-all [interpolate-size:allow-keywords]",
-                    openCard === index ? "h-auto opacity-100" : "h-0",
+                    openCard === index ? "opacity-100" : "h-0",
                   )}
                 >
                   {cardInfo.steps.map((step, stepIndex) => (

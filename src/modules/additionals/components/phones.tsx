@@ -35,7 +35,7 @@ const Phones = () => {
         {PHONES.map((phone, index) => (
           <Card
             key={index}
-            className="group flex max-w-[90%] shrink-0 snap-start flex-col shadow-none sm:col-span-4 md:max-w-full"
+            className="group flex max-w-[91%] shrink-0 snap-start flex-col shadow-none sm:col-span-4 md:max-w-full"
           >
             <CardHeader isSecondary>
               <CardTitle className="text-base dark:text-white md:text-lg">

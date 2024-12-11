@@ -5,7 +5,6 @@ import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
 import { memo } from "react";
 
-import { type ChatVote } from "@/db/schema";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
@@ -24,6 +23,8 @@ import { Routine } from "../tools/excercise-routine-stock";
 import { RiskAssessment } from "../tools/health-risk-stock";
 import { MoodTracking } from "../tools/mood-tracking-stock";
 import { Plan } from "../tools/nutrition-plan-stock";
+
+import type { ChatVote } from "@/db/schema";
 
 interface MessageProps {
   chatId: string;
@@ -67,7 +68,7 @@ const PurePreviewMessage = ({
         className={cn(
           role === "assistant"
             ? "group/message ml-2 flex-1 space-y-2 overflow-hidden sm:mr-6 md:ml-4"
-            : "ml-4 mr-2 max-w-[70%] space-y-2 overflow-hidden rounded-s-xl rounded-ee-xl bg-white px-5 py-2.5 dark:bg-full-dark",
+            : "ml-4 mr-2 max-w-[72%] space-y-2 overflow-hidden rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 dark:bg-full-dark md:px-4 md:py-2.5",
           toolInvocations?.length && "!mr-0",
         )}
       >
@@ -79,9 +80,9 @@ const PurePreviewMessage = ({
           </div>
         )}
 
-        {content && typeof content === "string" && (
-          <Markdown>{content}</Markdown>
-        )}
+        <Markdown prose="prose-sm text-[15px] md:prose">
+          {content as string}
+        </Markdown>
 
         {toolInvocations &&
           toolInvocations.map((toolInvocation) => {

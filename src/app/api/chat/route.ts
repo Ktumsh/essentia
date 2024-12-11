@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const user = session ? await getUserProfileData(session) : null;
+  const user = session ? await getUserProfileData({ session }) : null;
 
   const {
     firstName,
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
     system: systemPrompt,
     messages: coreMessages,
     maxTokens: 1024,
-    maxSteps: 5,
+    maxSteps: 2,
     experimental_activeTools: allTools,
     tools: {
       recommendExercise: {

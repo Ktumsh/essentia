@@ -95,6 +95,28 @@ export async function getUserProfileByUsername(
   }
 }
 
+export async function getUserProfileById(
+  userId: string,
+): Promise<
+  Array<{ user: User; profile: UserProfile; subscription: Subscription }>
+> {
+  try {
+    return await db
+      .select({
+        user: user,
+        profile: userProfile,
+        subscription: subscription,
+      })
+      .from(userProfile)
+      .innerJoin(user, eq(user.id, userProfile.userId))
+      .innerJoin(subscription, eq(user.id, subscription.userId))
+      .where(eq(user.id, userId));
+  } catch (error) {
+    console.error("Error al obtener el perfil del usuario:", error);
+    throw error;
+  }
+}
+
 export async function updateUserProfile(
   profileData: Partial<UserProfile & User>,
 ) {

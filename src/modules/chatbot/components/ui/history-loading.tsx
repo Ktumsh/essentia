@@ -18,7 +18,7 @@ const HistoryLoading = () => {
           <SidebarMenu>
             {Array.from({ length: 3 }).map((_, i) => (
               <SidebarMenuItem key={i}>
-                <SidebarMenuSkeleton showIcon />
+                <SidebarMenuSkeleton uniqueKey={i} showIcon />
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
@@ -32,7 +32,7 @@ const HistoryLoading = () => {
           <SidebarMenu>
             {Array.from({ length: 3 }).map((_, i) => (
               <SidebarMenuItem key={i}>
-                <SidebarMenuSkeleton showIcon />
+                <SidebarMenuSkeleton uniqueKey={i} showIcon />
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
@@ -46,7 +46,7 @@ const HistoryLoading = () => {
           <SidebarMenu>
             {Array.from({ length: 3 }).map((_, i) => (
               <SidebarMenuItem key={i}>
-                <SidebarMenuSkeleton showIcon />
+                <SidebarMenuSkeleton uniqueKey={i} showIcon />
               </SidebarMenuItem>
             ))}
           </SidebarMenu>

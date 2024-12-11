@@ -2,13 +2,8 @@ import { type Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import {
-  getChatById,
-  getMessagesByChatId,
-  getMissingKeys,
-} from "@/db/querys/chat-querys";
-import { getSubscription } from "@/db/querys/payment-querys";
-import { Chat as PreviewChat } from "@/modules/chatbot/components/chat";
+import { getChatById, getMessagesByChatId } from "@/db/querys/chat-querys";
+import { Chat } from "@/modules/chatbot/components/chat";
 import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
 
@@ -42,19 +37,19 @@ export default async function ChatPage(props: ChatPageProps) {
 
   const chat = await getChatById({ id });
 
-  const missingKeys = await getMissingKeys();
+  if (!chat) {
+    redirect("/essentia-ai");
+  }
 
   const session = await auth();
 
-  const profileData = session ? await getUserProfileData(session) : null;
+  const isOwnChat = chat?.userId === session?.user?.id;
 
-  const [subscription] = await getSubscription(session?.user?.id as string);
-
-  const isPremium = subscription.isPremium || false;
-
-  if (!chat) {
-    notFound();
-  }
+  const profileData = !isOwnChat
+    ? await getUserProfileData({ userId: chat.userId, isOwn: false })
+    : session
+      ? await getUserProfileData({ session })
+      : null;
 
   if (chat.visibility === "private") {
     if (!session || !session.user) {
@@ -70,19 +65,15 @@ export default async function ChatPage(props: ChatPageProps) {
     id,
   });
 
-  if (!messagesFromDb) {
-    redirect("/essentia-ai");
-  }
-
   return (
-    <PreviewChat
+    <Chat
       id={chat.id}
+      chat={chat}
       initialMessages={convertToUIMessages(messagesFromDb)}
-      missingKeys={missingKeys}
+      isReadonly={session?.user?.id !== chat.userId}
+      selectedVisibilityType={chat.visibility}
       session={session}
       user={profileData}
-      isPremium={isPremium}
-      isReadonly={session?.user?.id !== chat.userId}
     />
   );
 }

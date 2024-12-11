@@ -88,14 +88,10 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({
       {/* Main content */}
       <SidebarInset>
         {/* Desktop Header */}
-        <DesktopHeader
-          user={user}
-          selectedVisibility="private"
-          isReadonly={false}
-        />
+        {!isEssentiaAI && <DesktopHeader user={user} isReadonly={false} />}
 
         {isEssentiaAI ? (
-          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col">
+          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
             {children}
           </div>
         ) : (

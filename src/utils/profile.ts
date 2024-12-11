@@ -2,17 +2,26 @@ import { Session } from "next-auth";
 
 import {
   getUserProfileByEmail,
+  getUserProfileById,
   getUserProfileByUsername,
 } from "@/db/querys/profile-querys";
 import { UserProfileData } from "@/types/session";
 
-export async function getUserProfileData(
-  session?: Session,
-  username?: string,
-): Promise<UserProfileData> {
+export async function getUserProfileData({
+  session,
+  username,
+  isOwn,
+  userId,
+}: {
+  session?: Session;
+  username?: string;
+  isOwn?: boolean;
+  userId?: string;
+}): Promise<UserProfileData> {
   let userProfile;
-
-  if (username) {
+  if (!isOwn && userId) {
+    [userProfile] = await getUserProfileById(userId);
+  } else if (username) {
     [userProfile] = await getUserProfileByUsername(username);
   } else if (session?.user?.email) {
     [userProfile] = await getUserProfileByEmail(session.user.email);
