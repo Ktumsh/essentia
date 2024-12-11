@@ -10,7 +10,7 @@ const ProfilePage = async () => {
     return redirect("/");
   }
 
-  const profileData = await getUserProfileData(session);
+  const profileData = await getUserProfileData({ session });
 
   redirect("/profile/" + profileData.username);
 };

@@ -26,9 +26,11 @@ const MobileHeader = ({ user }: MobileHeaderProps) => {
           <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb]">
             <Logo className="h-4" />
           </div>
-          <div className="grid flex-1 text-left text-sm leading-tight md:text-base">
-            <span className="truncate font-semibold">Essentia</span>
-          </div>
+          {!isAIPage && (
+            <div className="grid flex-1 text-left text-sm leading-tight md:text-base">
+              <span className="truncate font-semibold">Essentia</span>
+            </div>
+          )}
         </Link>
         <MobileMenu user={user} />
       </header>

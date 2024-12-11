@@ -1,14 +1,16 @@
 import { Message } from "ai";
 import { memo } from "react";
 
-import { type ChatVote } from "@/db/schema";
 import { UserProfileData } from "@/types/session";
 
 import Overview from "./overview";
 import { PreviewMessage, ThinkingMessage } from "./ui/preview-message";
 
+import type { Chat, ChatVote } from "@/db/schema";
+
 interface MessagesProps {
-  chatId: string;
+  id: string;
+  chat: Chat;
   isLoading: boolean;
   votes: Array<ChatVote> | undefined;
   messages: Array<Message>;
@@ -19,7 +21,7 @@ interface MessagesProps {
 }
 
 function PureMessages({
-  chatId,
+  id,
   isLoading,
   votes,
   messages,
@@ -38,7 +40,7 @@ function PureMessages({
       {messages.map((message, index) => (
         <PreviewMessage
           key={`${message.id}-${index}`}
-          chatId={chatId}
+          chatId={id}
           message={message}
           user={user}
           isLoading={isLoading && messages.length - 1 === index}
@@ -55,7 +57,7 @@ function PureMessages({
         messages.length > 0 &&
         messages[messages.length - 1].role === "user" && <ThinkingMessage />}
 
-      <div className="h-px w-full" ref={endRef} />
+      <div className="min-h-6 w-full" ref={endRef} />
     </div>
   );
 }

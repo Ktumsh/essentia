@@ -57,19 +57,20 @@ const SexualityEmergencyCard = () => {
                           {step.title}
                         </li>
                       </ul>
-                      <ul className="ml-8 space-y-1.5 text-main-h dark:text-main-dark-h">
-                        {step.description.map((desc, i) => (
-                          <li key={i}>
-                            {desc.type === "bold" ? (
-                              <strong className="mr-2 font-semibold">
-                                {desc.content}
-                              </strong>
-                            ) : (
-                              desc.content
-                            )}
-                          </li>
-                        ))}
-                      </ul>
+                      {step.description.map((desc, i) => (
+                        <p
+                          key={i}
+                          className="ml-8 space-y-1.5 text-main-h dark:text-main-dark"
+                        >
+                          {desc.type === "bold" ? (
+                            <strong className="mr-2 font-semibold">
+                              {desc.content}
+                            </strong>
+                          ) : (
+                            desc.content
+                          )}
+                        </p>
+                      ))}
                     </li>
                   ))}
                 </ol>

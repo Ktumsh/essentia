@@ -61,8 +61,8 @@ const NonMemoizedMarkdown = ({
       remarkPlugins={[remarkGfm]}
       components={components}
       className={cn(
-        prose,
         "prose break-words !text-main-h dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:!text-main-dark",
+        prose,
       )}
     >
       {children}

@@ -108,7 +108,7 @@ const PaymentCallbackContent = ({
 
   if (isVerified === null) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
+      <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
         <Card className="flex flex-col items-center text-center dark:bg-dark/30 md:flex-row">
           <CardHeader>
             <CardDescription className="inline-flex items-center gap-2 dark:text-white">
@@ -123,7 +123,7 @@ const PaymentCallbackContent = ({
 
   if (!isVerified) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
+      <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
         <Card className="flex flex-col items-center text-center dark:bg-dark/30 md:flex-row">
           <CardHeader>
             <CardDescription className="dark:text-white">
@@ -143,7 +143,7 @@ const PaymentCallbackContent = ({
 
   if (titleStatus === "canceled") {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
+      <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
         <Card className="flex flex-col items-center text-center dark:bg-dark/30 md:flex-row">
           <CardHeader>
             <CardDescription className="inline-flex flex-col items-center gap-2 dark:text-white md:flex-row">
@@ -162,7 +162,7 @@ const PaymentCallbackContent = ({
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
+    <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
       <div className="relative flex size-[120px] items-center justify-center">
         {circles.map((circle, index) => (
           <motion.div

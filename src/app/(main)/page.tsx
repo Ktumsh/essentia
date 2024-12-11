@@ -8,7 +8,7 @@ export const metadata = {
 
 const MainPage = async () => {
   const session = await auth();
-  const profileData = session ? await getUserProfileData(session) : null;
+  const profileData = session ? await getUserProfileData({ session }) : null;
   return <Home profileData={profileData} />;
 };
 

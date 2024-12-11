@@ -9,7 +9,7 @@ import {
   ScrollText,
   Weight,
 } from "lucide-react";
-import { FC, ReactNode, memo, useState } from "react";
+import { ReactNode, memo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -35,11 +35,11 @@ interface ProfileInfoProps {
   isOwnProfile: boolean;
 }
 
-const ProfileInfo: FC<ProfileInfoProps> = ({
+const ProfileInfo = ({
   profileData,
   children,
   isOwnProfile,
-}) => {
+}: ProfileInfoProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [displayData, setDisplayData] = useState<UserProfileData | null>(
@@ -267,10 +267,14 @@ const ProfileInfo: FC<ProfileInfoProps> = ({
                 </div>
               </div>
               {isPremium && (
-                <BetterTooltip content="Cuenta Premium">
+                <BetterTooltip
+                  content={isOwnProfile ? "Cuenta Premium" : "Usuario Premium"}
+                >
                   <div className="absolute right-0 top-0 m-6 !mt-6 inline-flex shrink-0 items-center justify-center gap-1 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
                     <StarsIcon className="size-3.5 [&_*]:fill-white" />
-                    <span className="sr-only">Cuenta Premium</span>
+                    <span className="sr-only">
+                      {isOwnProfile ? "Cuenta Premium" : "Usuario Premium"}
+                    </span>
                   </div>
                 </BetterTooltip>
               )}

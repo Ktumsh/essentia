@@ -289,7 +289,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
     return (
       <div className={cn(searchStyles.modalHeader)}>
         <div className={cn(searchStyles.inputWrapper)}>
-          <SearchIcon className="mr-1 size-7" />
+          <SearchIcon className="mr-1 size-7 shrink-0" />
           <Input
             role="combobox"
             autoFocus
@@ -341,7 +341,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
             <SearchIcon className="!size-6" aria-hidden="true" />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="max-h-[50dvh] min-h-[560px]">
+        <DrawerContent className="max-h-[50dvh] min-h-[450px]">
           <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
             <DrawerTitle>Buscar</DrawerTitle>
             <Search />

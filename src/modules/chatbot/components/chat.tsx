@@ -2,40 +2,44 @@
 
 import { Attachment, Message } from "ai";
 import { useChat } from "ai/react";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { ComponentProps, useEffect, useState } from "react";
-import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
 
-import { type ChatVote } from "@/db/schema";
+import DesktopHeader from "@/modules/core/components/ui/layout/desktop-header";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { UserProfileData } from "@/types/session";
 import { fetcher } from "@/utils/common";
 
 import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
+import { VisibilityType } from "./visibility-selector";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
+
+import type { Chat as ChatType, ChatVote } from "@/db/schema";
 
 export interface ChatProps extends ComponentProps<"div"> {
   id: string;
+  chat?: ChatType;
   initialMessages: Array<Message>;
   isReadonly: boolean;
-  missingKeys: string[];
+  selectedVisibilityType: VisibilityType;
   session: Session | null;
   user: UserProfileData | null;
-  isPremium: boolean | null;
 }
 
 export function Chat({
   id,
+  chat,
   initialMessages,
   isReadonly,
-  missingKeys,
+  selectedVisibilityType,
   session,
   user,
-  isPremium,
 }: ChatProps) {
   const { mutate } = useSWRConfig();
+  const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
@@ -46,19 +50,13 @@ export function Chat({
       initialMessages,
       onFinish: () => {
         mutate("/api/chat/history");
-        window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);
+        router.push(`/essentia-ai/chat/${id}`);
       },
     });
 
   useEffect(() => {
     setNewChatId(id);
   });
-
-  useEffect(() => {
-    missingKeys.map((key) => {
-      toast.error(`Falta la variable de entorno ${key}!`);
-    });
-  }, [missingKeys]);
 
   const { data: votes } = useSWR<Array<ChatVote>>(
     `/api/chat/vote?chatId=${id}`,
@@ -72,8 +70,15 @@ export function Chat({
 
   return (
     <>
+      <DesktopHeader
+        user={user}
+        isReadonly={isReadonly}
+        selectedVisibilityType={selectedVisibilityType}
+      />
+
       <Messages
-        chatId={id}
+        id={id}
+        chat={chat as ChatType}
         isLoading={isLoading}
         votes={votes}
         messages={messages}
@@ -93,10 +98,11 @@ export function Chat({
         setAttachments={setAttachments}
         messages={messages}
         isLoading={isLoading}
-        isPremium={isPremium}
         session={session}
         scrollToBottom={scrollToBottom}
         isAtBottom={isAtBottom}
+        isReadonly={isReadonly}
+        user={user}
       />
     </>
   );

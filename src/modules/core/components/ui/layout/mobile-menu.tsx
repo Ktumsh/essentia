@@ -68,7 +68,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 <span className="font-medium capitalize text-inherit transition-none">
                   {`${firstName} ${lastName}`}
                 </span>
-                <span className="text-sm text-main-m transition-none dark:text-main-dark-l">
+                <span className="text-sm text-main-m transition-none dark:text-main-dark-m">
                   @{username}
                 </span>
                 {isPremium && (
@@ -93,7 +93,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
         <Separator />
         <div role="group" className="flex flex-1 flex-col">
           <div className="group flex">
-            <div className="inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium text-main-m">
+            <div className="inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium text-main-m dark:text-main-dark-m">
               Recursos
             </div>
           </div>
@@ -134,7 +134,8 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               </Link>
             </SheetClose>
           ))}
-          <div className="inline-flex items-center justify-between py-1.5">
+          <Separator className="!my-4" />
+          <div className="!mt-0 inline-flex items-center justify-between py-1.5">
             <div className="flex flex-row items-center space-x-3">
               <SunMoon className="size-3.5" />
               <span>Tema</span>
@@ -144,7 +145,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
           {user && (
             <SheetClose asChild>
               <button
-                className="inline-flex items-center py-1.5"
+                className="!mt-0.5 inline-flex items-center py-1.5"
                 onClick={() => signOut({ callbackUrl: "/logout" })}
               >
                 <LogOut strokeWidth={1.5} className="mr-3 size-3.5" />

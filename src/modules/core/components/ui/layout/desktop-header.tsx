@@ -16,13 +16,13 @@ import NavbarLinks from "./navbar-links";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;
-  selectedVisibility: VisibilityType;
+  selectedVisibilityType?: VisibilityType;
   isReadonly: boolean;
 }
 
 const DesktopHeader = ({
   user,
-  selectedVisibility,
+  selectedVisibilityType,
   isReadonly,
 }: DesktopHeaderProps) => {
   const pathname = usePathname();
@@ -59,7 +59,7 @@ const DesktopHeader = ({
             {!isReadonly && chatId && (
               <VisibilitySelector
                 chatId={chatId as string}
-                selectedVisibilityType={selectedVisibility}
+                selectedVisibilityType={selectedVisibilityType || "private"}
                 className="order-1 md:order-3"
               />
             )}

@@ -11,7 +11,7 @@ export default async function MainLayout({
   children: ReactNode;
 }) {
   const session = await auth();
-  const userData = session ? await getUserProfileData(session) : null;
+  const userData = session ? await getUserProfileData({ session }) : null;
   const [subscription] = userData
     ? await getSubscription(session?.user?.id as string)
     : [];

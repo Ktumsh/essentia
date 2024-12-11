@@ -26,16 +26,16 @@ const ProfilePage = async (props: Props) => {
   let isOwnProfile = false;
 
   if (session) {
-    const authenticatedUserProfile = await getUserProfileData(session);
+    const userData = await getUserProfileData({ session });
 
-    if (authenticatedUserProfile.username === username) {
-      profileData = authenticatedUserProfile;
+    if (userData.username === username) {
+      profileData = userData;
       isOwnProfile = true;
     } else {
-      profileData = await getUserProfileData(undefined, username);
+      profileData = await getUserProfileData({ session: undefined, username });
     }
   } else {
-    profileData = await getUserProfileData(undefined, username);
+    profileData = await getUserProfileData({ session: undefined, username });
   }
 
   return <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />;

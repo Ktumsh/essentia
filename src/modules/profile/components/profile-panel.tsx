@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, RefObject, useRef } from "react";
+import { RefObject, useRef } from "react";
 import { toast } from "sonner";
 
 import { deleteFile } from "@/app/(main)/profile/actions";
@@ -18,7 +18,7 @@ interface ProfilePanelProps {
   isOwnProfile: boolean;
 }
 
-const ProfilePanel: FC<ProfilePanelProps> = ({ profileData, isOwnProfile }) => {
+const ProfilePanel = ({ profileData, isOwnProfile }: ProfilePanelProps) => {
   const { id, username, profileImage } = profileData;
 
   const fileProfilePhotoRef = useRef<HTMLInputElement>(null);
