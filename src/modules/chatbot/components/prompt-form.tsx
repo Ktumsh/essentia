@@ -1,11 +1,11 @@
 "use client";
 
 import { Attachment, ChatRequestOptions, Message } from "ai";
-import equal from "fast-deep-equal";
 import { ArrowUp, Paperclip } from "lucide-react";
 import {
   ChangeEvent,
   Dispatch,
+  FormEvent,
   memo,
   SetStateAction,
   useCallback,
@@ -20,6 +20,7 @@ import { BetterTooltip } from "@/components/ui/tooltip";
 import { StopIcon } from "@/modules/icons/action";
 
 import { useAdjustHeight } from "../hooks/use-adjust-height";
+import { useEnterSubmit } from "../hooks/use-enter-submit";
 import { sanitizeUIMessages } from "../lib/utils";
 
 interface PromptFormProps {
@@ -60,17 +61,26 @@ const PurePromptForm = ({
 
   const { textareaRef, adjustHeight } = useAdjustHeight();
 
-  const submitForm = useCallback(() => {
-    handleSubmit(undefined, {
-      experimental_attachments: attachments,
-    });
+  const { formRef, onKeyDown } = useEnterSubmit();
 
-    setAttachments([]);
+  const submitForm = useCallback(
+    (event: FormEvent) => {
+      if (event?.preventDefault) {
+        event.preventDefault();
+      }
 
-    if (!isMobile) {
-      textareaRef.current?.focus();
-    }
-  }, [attachments, handleSubmit, setAttachments, isMobile, textareaRef]);
+      handleSubmit(undefined, {
+        experimental_attachments: attachments,
+      });
+
+      setAttachments([]);
+
+      if (!isMobile) {
+        textareaRef.current?.focus();
+      }
+    },
+    [attachments, handleSubmit, setAttachments, isMobile, textareaRef],
+  );
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
@@ -135,20 +145,8 @@ const PurePromptForm = ({
     adjustHeight();
   };
 
-  const handleOnKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-
-      if (isLoading) {
-        toast.error("¡No puedes enviar más de un mensaje al mismo tiempo!");
-      } else {
-        submitForm();
-      }
-    }
-  };
-
   return (
-    <form>
+    <form ref={formRef} onSubmit={submitForm}>
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden border-gray-200 bg-white px-8 dark:border-dark dark:bg-transparent sm:rounded-md sm:border sm:px-12 sm:dark:bg-dark/50">
         <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
 
@@ -173,7 +171,7 @@ const PurePromptForm = ({
           disabled={!isPremium || false}
           value={input}
           onChange={handleInput}
-          onKeyDown={(e) => handleOnKeyDown(e)}
+          onKeyDown={onKeyDown}
           className="min-h-[60px] w-full resize-none border-none bg-transparent px-4 py-[1.3rem] text-[15px] text-main shadow-none focus-visible:ring-0 dark:text-main-dark md:text-base"
         />
 
@@ -182,8 +180,9 @@ const PurePromptForm = ({
         ) : (
           <SendButton
             input={input}
-            submitForm={submitForm}
+            handleSubmit={handleSubmit}
             uploadQueue={uploadQueue}
+            isPremium={isPremium}
           />
         )}
       </div>
@@ -191,13 +190,7 @@ const PurePromptForm = ({
   );
 };
 
-export const PromptForm = memo(PurePromptForm, (prevProps, nextProps) => {
-  if (prevProps.input !== nextProps.input) return false;
-  if (prevProps.isLoading !== nextProps.isLoading) return false;
-  if (!equal(prevProps.attachments, nextProps.attachments)) return false;
-
-  return true;
-});
+export const PromptForm = memo(PurePromptForm);
 
 function PureAttachmentsButton({
   fileInputRef,
@@ -233,7 +226,6 @@ function PureStopButton({
 }) {
   return (
     <Button
-      type="submit"
       size="icon"
       radius="full"
       variant="destructive"
@@ -252,35 +244,28 @@ function PureStopButton({
 const StopButton = memo(PureStopButton);
 
 function PureSendButton({
-  submitForm,
+  handleSubmit,
   input,
   uploadQueue,
+  isPremium,
 }: {
-  submitForm: () => void;
+  handleSubmit: () => void;
   input: string;
   uploadQueue: Array<string>;
+  isPremium: boolean | null;
 }) {
   return (
     <Button
-      type="submit"
       size="icon"
       radius="full"
       variant="destructive"
       className="absolute right-0 top-[13px] size-9 sm:right-4"
-      onClick={(event) => {
-        event.preventDefault();
-        submitForm();
-      }}
-      disabled={input.length === 0 || uploadQueue.length > 0}
+      onClick={handleSubmit}
+      disabled={input.length === 0 || uploadQueue.length > 0 || !isPremium}
     >
       <ArrowUp className="size-4" />
     </Button>
   );
 }
 
-const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
-  if (prevProps.uploadQueue.length !== nextProps.uploadQueue.length)
-    return false;
-  if (!prevProps.input !== !nextProps.input) return false;
-  return true;
-});
+const SendButton = memo(PureSendButton);
