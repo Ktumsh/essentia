@@ -100,6 +100,11 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "vhr5hh5pbkumdnyu.public.blob.vercel-storage.com",
+        port: "",
+      },
     ],
   },
   transpilePackages: ["geist"],

@@ -4,7 +4,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistSans } from "geist/font/sans";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
-import Script from "next/script";
 import { Session } from "next-auth";
 import { Toaster } from "sonner";
 
@@ -19,7 +18,7 @@ import { cn } from "@/utils/common";
 import { PreloadResources } from "./preload-resources";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://essentia-web.vercel.app"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     template: `%s - ${siteConfig.name}`,
     default: siteConfig.name,
@@ -29,17 +28,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  keywords: [
-    "essentia",
-    "salud",
-    "nutricion",
-    "alimentacion",
-    "bienestar",
-    "ejercicios",
-    "salud mental",
-    "esencial",
-    "salud rapida",
-  ],
+  keywords: siteConfig.keywords,
   robots: {
     index: true,
     follow: true,
@@ -50,10 +39,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: siteConfig.name,
-    description:
-      "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+    description: siteConfig.description,
     type: "website",
-    url: "https://essentia-web.vercel.app",
+    url: siteConfig.url,
     siteName: siteConfig.name,
     images: [
       {
@@ -65,8 +53,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: siteConfig.name,
-    description:
-      "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+    description: siteConfig.description,
     card: "summary_large_image",
     creator: "@essentia_cl",
     images: [
@@ -84,9 +71,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: light)", color: "#d5d8eb" },
     { media: "(prefers-color-scheme: dark)", color: "#030e1e" },
   ],
+  maximumScale: 1.0,
   colorScheme: "light dark",
 };
 
@@ -131,7 +119,6 @@ export default async function RootLayout({
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />
-        <Script src="https://js.stripe.com/v3/" strategy="lazyOnload" />
       </body>
     </html>
   );

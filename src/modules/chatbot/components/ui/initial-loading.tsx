@@ -28,7 +28,6 @@ const InitialLoading = () => {
               repeat: Infinity,
               repeatType: "reverse",
             }}
-            className="inline-block"
           >
             {character === " " ? "\u00A0" : character}
           </motion.span>

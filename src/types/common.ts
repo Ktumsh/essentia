@@ -48,6 +48,10 @@ export type SiteConfig = {
 
   description: string;
 
+  url: string;
+
+  keywords: string[];
+
   planPrices: {
     free: string;
     premium: string;

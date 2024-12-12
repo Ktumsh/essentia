@@ -1,11 +1,14 @@
 "use client";
 
-import { Message } from "ai";
+import { ChatRequestOptions, Message } from "ai";
 import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
-import { memo } from "react";
+import { memo, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
+import { PencilEditIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
@@ -18,6 +21,7 @@ import {
 } from "../tools";
 import { InitialLoading } from "./initial-loading";
 import { MessageActions } from "./message-actions";
+import { MessageEditor } from "./message-editor";
 import { PreviewAttachment } from "./preview-attachment";
 import { Routine } from "../tools/excercise-routine-stock";
 import { RiskAssessment } from "../tools/health-risk-stock";
@@ -33,6 +37,12 @@ interface MessageProps {
   user?: UserProfileData | null;
   isReadonly?: boolean;
   isLoading: boolean;
+  setMessages: (
+    messages: Message[] | ((messages: Message[]) => Message[]),
+  ) => void;
+  reload: (
+    chatRequestOptions?: ChatRequestOptions,
+  ) => Promise<string | null | undefined>;
 }
 
 const PurePreviewMessage = ({
@@ -42,86 +52,128 @@ const PurePreviewMessage = ({
   user,
   isReadonly,
   isLoading,
+  setMessages,
+  reload,
 }: MessageProps) => {
   const { id, role, content, toolInvocations, experimental_attachments } =
     message;
   const { profileImage, username } = user || {};
+
+  const [mode, setMode] = useState<"view" | "edit">("view");
   return (
     <motion.div
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       data-role={role}
-      className={cn(
-        "mx-auto w-full max-w-3xl px-4",
-        role === "assistant"
-          ? "group relative flex items-start"
-          : "group relative flex flex-row-reverse items-start self-end",
-      )}
+      className="group/message mx-auto w-full max-w-3xl px-4"
     >
-      {role === "assistant" ? (
-        <BotAvatar />
-      ) : (
-        <UserAvatar profileImage={profileImage} username={username} />
-      )}
-
       <div
         className={cn(
-          role === "assistant"
-            ? "group/message ml-2 flex-1 space-y-2 overflow-hidden sm:mr-6 md:ml-4"
-            : "ml-4 mr-2 max-w-[72%] space-y-2 overflow-hidden rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 dark:bg-full-dark md:px-4 md:py-2.5",
-          toolInvocations?.length && "!mr-0",
+          "flex w-full gap-4 group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-[88%]",
+          {
+            "w-full": mode === "edit",
+            "group-data-[role=user]/message:w-fit": mode !== "edit",
+          },
         )}
       >
-        {experimental_attachments && (
-          <div className="flex flex-row gap-2">
-            {experimental_attachments.map((attachment) => (
-              <PreviewAttachment key={attachment.url} attachment={attachment} />
-            ))}
-          </div>
+        {role === "assistant" && <BotAvatar />}
+
+        {role === "user" && (
+          <UserAvatar profileImage={profileImage} username={username} />
         )}
 
-        <Markdown prose="prose-sm text-[15px] md:prose">
-          {content as string}
-        </Markdown>
+        <div className="flex w-full flex-col gap-2">
+          {experimental_attachments && (
+            <div className="flex flex-row gap-2">
+              {experimental_attachments.map((attachment) => (
+                <PreviewAttachment
+                  key={attachment.url}
+                  attachment={attachment}
+                />
+              ))}
+            </div>
+          )}
 
-        {toolInvocations &&
-          toolInvocations.map((toolInvocation) => {
-            const { toolName, toolCallId, state } = toolInvocation;
+          {content && mode === "view" && (
+            <div className="flex flex-row items-start gap-2">
+              {role === "user" && !isReadonly && (
+                <BetterTooltip content="Editar mensaje">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full border-none text-main opacity-0 hover:bg-white group-hover/message:opacity-100 dark:text-main-dark dark:hover:bg-full-dark"
+                    onClick={() => {
+                      setMode("edit");
+                    }}
+                  >
+                    <PencilEditIcon strokeWidth={1.5} />
+                  </Button>
+                </BetterTooltip>
+              )}
 
-            if (state === "result") {
-              const { result } = toolInvocation;
+              <div
+                className={cn("flex flex-col gap-4", {
+                  "rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 dark:bg-full-dark md:px-4 md:py-2.5":
+                    role === "user",
+                })}
+              >
+                <Markdown>{content as string}</Markdown>
+              </div>
+            </div>
+          )}
 
-              return (
-                <div key={toolCallId}>
-                  {toolName === "recommendExercise" ? (
-                    <ExerciseRoutineStock props={result.routine as Routine} />
-                  ) : toolName === "healthRiskAssessment" ? (
-                    <HealthRiskStock
-                      props={result.riskAssessment as RiskAssessment}
-                    />
-                  ) : toolName === "nutritionalAdvice" ? (
-                    <NutritionPlanStock props={result.plan as Plan} />
-                  ) : toolName === "moodTracking" ? (
-                    <MoodTrackingStock
-                      props={result.moodTracking as MoodTracking}
-                    />
-                  ) : null}
-                </div>
-              );
-            } else {
-              return <InitialLoading key={toolCallId} />;
-            }
-          })}
+          {content && mode === "edit" && (
+            <div className="flex flex-row items-start gap-2">
+              <div className="size-8" />
 
-        {!isReadonly && (
-          <MessageActions
-            key={`action-${id}`}
-            chatId={chatId}
-            message={message}
-            vote={vote}
-            isLoading={isLoading}
-          />
-        )}
+              <MessageEditor
+                key={id}
+                message={message}
+                setMode={setMode}
+                setMessages={setMessages}
+                reload={reload}
+              />
+            </div>
+          )}
+
+          {toolInvocations &&
+            toolInvocations.map((toolInvocation) => {
+              const { toolName, toolCallId, state } = toolInvocation;
+
+              if (state === "result") {
+                const { result } = toolInvocation;
+
+                return (
+                  <div key={toolCallId}>
+                    {toolName === "recommendExercise" ? (
+                      <ExerciseRoutineStock props={result.routine as Routine} />
+                    ) : toolName === "healthRiskAssessment" ? (
+                      <HealthRiskStock
+                        props={result.riskAssessment as RiskAssessment}
+                      />
+                    ) : toolName === "nutritionalAdvice" ? (
+                      <NutritionPlanStock props={result.plan as Plan} />
+                    ) : toolName === "moodTracking" ? (
+                      <MoodTrackingStock
+                        props={result.moodTracking as MoodTracking}
+                      />
+                    ) : null}
+                  </div>
+                );
+              } else {
+                return <InitialLoading key={toolCallId} />;
+              }
+            })}
+          {!isReadonly && (
+            <MessageActions
+              key={`action-${id}`}
+              chatId={chatId}
+              message={message}
+              vote={vote}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
       </div>
     </motion.div>
   );
