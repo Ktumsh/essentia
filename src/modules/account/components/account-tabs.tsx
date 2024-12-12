@@ -4,7 +4,6 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import Stripe from "stripe";
 
 import { UserProfileData } from "@/types/session";
 
@@ -16,7 +15,7 @@ import type { Payment, Subscription } from "@/db/schema";
 interface AccountTabsProps {
   subscription: Subscription;
   user: UserProfileData | null;
-  billingDetail: Payment & { card: Stripe.PaymentMethod.Card | undefined };
+  billingDetail: Payment;
 }
 
 const AccountTabs = ({
@@ -54,7 +53,7 @@ const AccountTabs = ({
           tab: "max-w-fit px-4 h-12",
           tabContent:
             "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
-          panel: "w-full px-6 py-10 bg-white dark:bg-full-dark",
+          panel: "w-full px-6 py-10 pb-16 bg-white dark:bg-full-dark",
         }}
       >
         <Tab

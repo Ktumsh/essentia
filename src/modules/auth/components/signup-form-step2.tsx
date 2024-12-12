@@ -127,7 +127,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
         <div className="w-full text-sm text-main-h dark:text-main-dark">
           <p>
             Parece que no tienes una cuenta. Vamos a crear una nueva cuenta para{" "}
-            <span className="font-bold text-orient-700 sm:font-medium">
+            <span className="font-bold text-blue-600 sm:font-medium">
               {email}
             </span>
           </p>
@@ -317,7 +317,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
             Al registrarte, estás aceptando los{" "}
             <Link
               href="#"
-              className="font-bold text-orient-700 underline-offset-2 hover:underline sm:font-medium"
+              className="font-bold text-blue-600 underline-offset-2 hover:underline sm:font-medium"
               aria-label="Términos y condiciones de uso"
             >
               Términos y condiciones de uso{" "}
@@ -325,7 +325,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
             y la{" "}
             <Link
               href="#"
-              className="font-bold text-orient-700 underline-offset-2 hover:underline sm:font-medium"
+              className="font-bold text-blue-600 underline-offset-2 hover:underline sm:font-medium"
               aria-label="Política de privacidad"
             >
               Política de privacidad
@@ -338,7 +338,7 @@ const SignupFormStep2: React.FC<Step2Props> = ({ email, onBack }) => {
             ¿Ya tienes una cuenta?{" "}
             <Link
               href="/login"
-              className="font-bold text-orient-700 underline-offset-2 hover:underline sm:font-medium"
+              className="font-bold text-blue-600 underline-offset-2 hover:underline sm:font-medium"
               aria-label="Inicia sesión"
             >
               Inicia sesión

@@ -85,7 +85,7 @@ const SignupFormStep1: React.FC<Step1Props> = ({ onSuccess }) => {
           <p>
             ¿Ya tienes una cuenta?{" "}
             <Link
-              className="font-bold text-orient-700 sm:font-medium"
+              className="font-bold text-blue-600 sm:font-medium"
               href="/login"
               aria-label="Inicia sesión"
             >

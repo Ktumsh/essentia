@@ -28,7 +28,7 @@ export const searchStyles = {
     "inline-flex",
     "items-center",
     "w-full",
-    "h-14",
+    "h-12 md:h-14",
     "bg-transparent",
     "text-main-h",
     "dark:text-main-dark-h",
@@ -49,7 +49,7 @@ export const searchStyles = {
     "transition-colors duration-150",
   ],
   modalHeader: ["flex", "items-center", "w-full", "pl-2", "pr-4", "!mt-0"],
-  modalContent: ["p-2", "overflow-y-auto", "md:max-h-[50vh]"],
+  modalContent: ["p-2", "overflow-y-auto"],
   noResults: [
     "flex",
     "flex-col",

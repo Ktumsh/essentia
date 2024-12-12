@@ -10,11 +10,11 @@ import {
   AdditionalFillIcon,
 } from "@/modules/icons/interface";
 import {
-  EmergenciesIcon,
-  GuidesIcon,
+  EmergenciesFillIcon,
+  GuidesFillIcon,
   HealthCentersFillIcon,
-  LinksIcon,
-  RecommendationsIcon,
+  LinksFillIcon,
+  RecommendationsFillIcon,
 } from "@/modules/icons/miscellaneus";
 import { IconSvgProps } from "@/types/common";
 
@@ -233,31 +233,7 @@ const additionalsSearchData: SearchResult[] = [
       lvl2: "Guias",
       lvl3: null,
     },
-    icon: GuidesIcon,
-  },
-  {
-    content: "Enlaces",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/adicionales/enlaces",
-    hierarchy: {
-      lvl1: "Recursos Adicionales",
-      lvl2: "Enlaces",
-      lvl3: null,
-    },
-    icon: LinksIcon,
-  },
-  {
-    content: "Recomendaciones",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/adicionales/recomendaciones",
-    hierarchy: {
-      lvl1: "Recursos Adicionales",
-      lvl2: "Recomendaciones",
-      lvl3: null,
-    },
-    icon: RecommendationsIcon,
+    icon: GuidesFillIcon,
   },
   {
     content: "Emergencias",
@@ -269,7 +245,31 @@ const additionalsSearchData: SearchResult[] = [
       lvl2: "Emergencias",
       lvl3: null,
     },
-    icon: EmergenciesIcon,
+    icon: EmergenciesFillIcon,
+  },
+  {
+    content: "Enlaces",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/enlaces",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Enlaces",
+      lvl3: null,
+    },
+    icon: LinksFillIcon,
+  },
+  {
+    content: "Recomendaciones",
+    objectID: nanoid(),
+    type: "lvl2",
+    url: "/adicionales/recomendaciones",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Recomendaciones",
+      lvl3: null,
+    },
+    icon: RecommendationsFillIcon,
   },
   {
     content: "Teléfonos de Emergencia",

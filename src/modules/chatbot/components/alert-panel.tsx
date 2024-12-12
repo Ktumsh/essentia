@@ -69,10 +69,10 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
             </Button>
           ) : (
             <Link
-              href="/login"
+              href="/login?redirect=/essentia-ai"
               className="inline-flex h-8 min-w-10 shrink-0 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
             >
-              Iniciar sesión
+              Inicia sesión
             </Link>
           )}
         </motion.div>

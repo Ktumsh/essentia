@@ -1,10 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import Stripe from "stripe";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Payment, Subscription } from "@/db/schema";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import { cn } from "@/utils/common";
@@ -15,7 +20,7 @@ import { getPlanType } from "../lib/utils";
 
 interface BillingDetailsProps {
   subscription: Subscription;
-  billingDetail: Payment & { card: Stripe.PaymentMethod.Card | undefined };
+  billingDetail: Payment;
 }
 
 const BillingDetails = ({
@@ -28,8 +33,6 @@ const BillingDetails = ({
   const { amount } = billingDetail;
   const { type, expiresAt, isPremium } = subscription;
 
-  const paymentMethod = billingDetail.card;
-
   const planType = getPlanType(type!);
 
   const price = isPremium ? amount?.toLocaleString("es-CL") : "0";
@@ -38,15 +41,12 @@ const BillingDetails = ({
     ? formatDate(expiresAt!, "dd 'de' MMM, yyyy")
     : "No aplica";
 
-  const paymentBrand = paymentMethod?.brand || "N/A";
-  const paymentLast4 = paymentMethod?.last4 || "N/A";
-
   return (
     <>
       <div className="flex w-full flex-col gap-4">
-        <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
-          <div className="px-5 py-4 text-main dark:text-white">
-            <h3 className="flex flex-wrap items-center gap-x-2 pb-4 text-base font-semibold">
+        <Card className="text-main dark:text-white">
+          <CardHeader>
+            <CardTitle className="flex flex-wrap items-center gap-x-2 text-base">
               <span>Resumen del Plan</span>
               <div
                 className={cn(
@@ -58,8 +58,10 @@ const BillingDetails = ({
               >
                 {planType}
               </div>
-            </h3>
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
               <div className="grid flex-1 grid-cols-2 gap-4 md:grid-cols-6">
                 <span className="flex flex-col">
                   <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
@@ -79,14 +81,14 @@ const BillingDetails = ({
                 </span>
               </div>
             </div>
-          </div>
-          <footer className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+          </CardContent>
+          <CardFooter isSecondary>
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               {isPremium && (
                 <Button
                   variant="outline"
                   onClick={() => setIsOpenCancel(true)}
-                  className="border border-red-500 text-red-500 dark:border-red-500 dark:text-red-500"
+                  className="border !border-red-500 !text-red-500"
                 >
                   Cancelar suscripción
                 </Button>
@@ -95,46 +97,8 @@ const BillingDetails = ({
                 {isPremium ? "Cambiar plan" : "Mejorar a Premium"}
               </Button>
             </div>
-          </footer>
-        </div>
-
-        {billingDetail && (
-          <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
-            <div className="px-5 py-4 text-main dark:text-white">
-              <h3 className="pb-4 text-base font-semibold">
-                Información de Pago
-              </h3>
-              <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-                <span className="flex items-center gap-4 text-sm">
-                  {paymentBrand === "visa" && (
-                    <Image
-                      alt="logo for visa"
-                      width={19}
-                      height={12}
-                      src="/cardbrands/visa.svg"
-                      className="h-3 w-auto"
-                    />
-                  )}
-                  {paymentBrand === "mastercard" && (
-                    <Image
-                      alt="logo for visa"
-                      width={18}
-                      height={12}
-                      src="/cardbrands/mastercard.svg"
-                      className="h-3 w-auto"
-                    />
-                  )}
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs">••••</span>
-                    <span className="text-xs">••••</span>
-                    <span className="text-xs">••••</span>
-                    <span>{paymentLast4 ?? "N/A"}</span>
-                  </div>
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
+          </CardFooter>
+        </Card>
       </div>
 
       {billingDetail && (

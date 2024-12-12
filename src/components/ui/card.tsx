@@ -78,7 +78,7 @@ const CardFooter = React.forwardRef<
       "flex items-center p-6 pt-0",
       className,
       isSecondary &&
-        "border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50 sm:justify-between",
+        "border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50 md:justify-between",
     )}
     {...props}
   />

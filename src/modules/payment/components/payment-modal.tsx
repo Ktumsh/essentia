@@ -1,7 +1,6 @@
 "use client";
 
 import { Loader } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -27,7 +26,6 @@ import {
 } from "@/components/ui/drawer";
 import { siteConfig } from "@/config/site";
 import { usePlan } from "@/modules/core/hooks/use-current-plan";
-import { LinkIcon } from "@/modules/icons/action";
 
 import { PlanSelector } from "./plan-selector";
 import { getPlanName } from "../lib/utils";
@@ -102,15 +100,6 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
             onSelect={setSelectedPlan}
             selectedPlanId={selectedPlan}
           />
-          <p className="mt-3 flex gap-1 text-center text-sm text-main-m dark:text-main-dark-m">
-            Mira más detalles sobre los planes en nuestra
-            <Link
-              className="flex items-center gap-x-1 text-orient-700"
-              href="/premium"
-            >
-              página de precios <LinkIcon />
-            </Link>
-          </p>
         </div>
 
         {isMobile ? (

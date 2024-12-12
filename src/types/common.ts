@@ -85,12 +85,28 @@ export type SiteConfig = {
   }[];
 
   menuFooterLinks: {
-    name: string;
-    link: string;
-    icon: ForwardRefExoticComponent<
-      Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-    >;
-  }[];
+    extras: {
+      name: string;
+      link: string;
+      icon: ForwardRefExoticComponent<
+        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+      >;
+    }[];
+    config: {
+      name: string;
+      link: string;
+      icon: ForwardRefExoticComponent<
+        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+      >;
+    }[];
+    account: {
+      name: string;
+      link?: string;
+      icon: ForwardRefExoticComponent<
+        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+      >;
+    }[];
+  };
 
   footerLinks: {
     resources: { href: string; text: string }[];

@@ -20,7 +20,7 @@ const FAQItems = ({ faqs }: FAQItemProps) => {
           aria-label={faq.question}
           className="py-2 md:py-4"
         >
-          <AccordionTrigger className="py-4 underline-offset-2 data-[hover=true]:underline md:px-6">
+          <AccordionTrigger className="py-4 underline-offset-2 md:px-6">
             {faq.question}
           </AccordionTrigger>
           <AccordionContent className="prose-sm !pt-0 pb-4 pr-10 text-left text-main-h dark:text-main-dark-h md:px-6 md:pr-12">

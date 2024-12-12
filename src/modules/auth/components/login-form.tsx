@@ -67,7 +67,7 @@ const LoginForm: React.FC = () => {
       } else {
         toast.success(`¡Hola de nuevo!`);
       }
-      router.push(redirectUrl);
+      router.replace(redirectUrl);
     },
     [router, redirectUrl],
   );
@@ -231,7 +231,7 @@ const LoginForm: React.FC = () => {
           ¿No tienes una cuenta?{" "}
           <Link
             id="register-base-color"
-            className="register-base-color font-bold text-orient-700 sm:font-medium"
+            className="register-base-color font-bold text-blue-600 sm:font-medium"
             href="/signup"
             aria-label="Regístrate"
           >

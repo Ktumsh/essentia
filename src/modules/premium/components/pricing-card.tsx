@@ -167,7 +167,7 @@ const PricingCard: FC<PricingCardProps> = ({
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
                 <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
-                  <div className="flex items-center justify-center rounded-full bg-white">
+                  <div className="relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:bg-background after:content-['']">
                     <CheckCircledIcon className="inline-flex size-5 shrink-0 text-teal-400" />
                   </div>
                   <span className="text-left text-main-h dark:text-white/90">

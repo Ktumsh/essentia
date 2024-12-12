@@ -43,16 +43,24 @@ export function Chat({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
-  const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
-    useChat({
-      id,
-      body: { id },
-      initialMessages,
-      onFinish: () => {
-        mutate("/api/chat/history");
-        router.push(`/essentia-ai/chat/${id}`);
-      },
-    });
+  const {
+    messages,
+    setMessages,
+    handleSubmit,
+    input,
+    setInput,
+    append,
+    isLoading,
+    stop,
+  } = useChat({
+    id,
+    body: { id },
+    initialMessages,
+    onFinish: () => {
+      mutate("/api/chat/history");
+      router.replace(`/essentia-ai/chat/${id}`);
+    },
+  });
 
   useEffect(() => {
     setNewChatId(id);
@@ -97,6 +105,7 @@ export function Chat({
         attachments={attachments}
         setAttachments={setAttachments}
         messages={messages}
+        setMessages={setMessages}
         isLoading={isLoading}
         session={session}
         scrollToBottom={scrollToBottom}
