@@ -19,7 +19,7 @@ import { LinkIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 
 import AlertPanel from "./alert-panel";
-import PromptForm from "./prompt-form";
+import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
 import { PreviewAttachment } from "./ui/preview-attachment";
 import FooterText from "../components/ui/footer-text";
@@ -41,6 +41,7 @@ export interface ChatPanelProps {
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
   messages: Array<Message>;
+  setMessages: Dispatch<SetStateAction<Array<Message>>>;
   isLoading: boolean;
   session: Session | null;
   scrollToBottom: () => void;
@@ -58,6 +59,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
   attachments,
   setAttachments,
   messages,
+  setMessages,
   isLoading,
   session,
   scrollToBottom,
@@ -122,7 +124,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                 className="space-y-4"
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
-                  <div className="flex flex-wrap items-end gap-2 overflow-x-auto">
+                  <div className="mt-3 flex flex-wrap items-end gap-2 overflow-x-auto md:mt-0">
                     {attachments.map((attachment, index) => (
                       <PreviewAttachment
                         key={attachment.url || index}
@@ -156,6 +158,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                   setInput={setInput}
                   attachments={attachments}
                   setAttachments={setAttachments}
+                  setMessages={setMessages}
                   uploadQueue={uploadQueue}
                   setUploadQueue={setUploadQueue}
                   isPremium={isPremium}

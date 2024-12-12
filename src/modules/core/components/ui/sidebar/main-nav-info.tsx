@@ -52,7 +52,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
-                <CollapsibleContent>
+                <CollapsibleContent className="transition-height">
                   <SidebarMenuSub>
                     {items.map((link) => (
                       <SidebarMenuSubItem key={link.text}>

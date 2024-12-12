@@ -30,12 +30,14 @@ import { getUserProfileData } from "@/utils/profile";
 export const maxDuration = 60;
 
 type AllowedTools =
+  | "getWeather"
   | "recommendExercise"
   | "healthRiskAssessment"
   | "nutritionalAdvice"
   | "moodTracking";
 
 const allTools: AllowedTools[] = [
+  "getWeather",
   "recommendExercise",
   "healthRiskAssessment",
   "nutritionalAdvice",
@@ -127,10 +129,24 @@ export async function POST(request: Request) {
     model: gptFlashModel,
     system: systemPrompt,
     messages: coreMessages,
-    maxTokens: 1024,
-    maxSteps: 2,
+    maxSteps: 5,
     experimental_activeTools: allTools,
     tools: {
+      getWeather: {
+        description: "Obtén el clima actual en una ubicación",
+        parameters: z.object({
+          latitude: z.number(),
+          longitude: z.number(),
+        }),
+        execute: async ({ latitude, longitude }) => {
+          const response = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`,
+          );
+
+          const weatherData = await response.json();
+          return weatherData;
+        },
+      },
       recommendExercise: {
         description: "Mostrar rutina de ejercicios personalizada",
         parameters: z.object({

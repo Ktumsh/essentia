@@ -3,6 +3,13 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { UserProfileData } from "@/types/session";
 import { formatDate } from "@/utils/format";
 
@@ -23,13 +30,15 @@ const AccountDetails = ({ user }: AccountDetailsProps) => {
 
   return (
     <>
-      <div className="flex w-full flex-col gap-4">
-        <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
-          <div className="px-5 py-4 text-main dark:text-white">
-            <h3 className="pb-4 text-base font-semibold">
+      <div className="mb-5 flex w-full flex-col gap-4">
+        <Card className="text-main dark:text-white">
+          <CardHeader>
+            <CardTitle className="text-base">
               Información de tu Cuenta
-            </h3>
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
                 <span className="flex flex-col">
                   <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
@@ -63,20 +72,22 @@ const AccountDetails = ({ user }: AccountDetailsProps) => {
                 </span>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="rounded-lg border border-gray-200 bg-white dark:border-dark dark:bg-full-dark">
-          <div className="px-5 py-4 text-main dark:text-white">
-            <h3 className="pb-4 text-base font-semibold">Contraseña</h3>
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+          </CardContent>
+        </Card>
+        <Card className="text-main dark:text-white">
+          <CardHeader>
+            <CardTitle className="text-base">Contraseña</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
               <span className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <span className="text-xs">••••••••••••</span>
                 </div>
               </span>
             </div>
-          </div>
-          <footer className="flex flex-col justify-between gap-4 rounded-none border-t border-gray-200 bg-gray-100 px-4 py-3 dark:border-dark dark:bg-dark/50 sm:flex-row sm:items-center">
+          </CardContent>
+          <CardFooter isSecondary>
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               <Button
                 radius="lg"
@@ -86,8 +97,8 @@ const AccountDetails = ({ user }: AccountDetailsProps) => {
                 Cambiar contraseña
               </Button>
             </div>
-          </footer>
-        </div>
+          </CardFooter>
+        </Card>
       </div>
       <ChangePasswordModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>

@@ -1,4 +1,16 @@
-import { BadgeCheck, HelpCircle, Info, Settings, Sparkles } from "lucide-react";
+import {
+  BadgeCheck,
+  Bug,
+  Cookie,
+  FileText,
+  HelpCircle,
+  Info,
+  Lock,
+  LogOut,
+  Settings,
+  Sparkles,
+  User,
+} from "lucide-react";
 
 import Emergencies from "@/modules/additionals/components/emergencies";
 import Guides from "@/modules/additionals/components/guides";
@@ -146,13 +158,29 @@ export const siteConfig: SiteConfig = {
       component: Recommendations,
     },
   ],
-  menuFooterLinks: [
-    { name: "Descubre Essentia", link: "/about-essentia", icon: Info },
-    { name: "Cuenta", link: "/account", icon: BadgeCheck },
-    { name: "Premium", link: "/premium", icon: Sparkles },
-    { name: "Configuración", link: "#", icon: Settings },
-    { name: "Soporte", link: "#", icon: HelpCircle },
-  ],
+  menuFooterLinks: {
+    extras: [
+      { name: "Descubre Essentia", link: "/about-essentia", icon: Info },
+      { name: "Privacidad", link: "#", icon: Lock },
+      { name: "Términos", link: "#", icon: FileText },
+      { name: "Cookies", link: "#", icon: Cookie },
+    ],
+    config: [
+      { name: "Configuración", link: "#", icon: Settings },
+      { name: "Soporte", link: "#", icon: HelpCircle },
+      {
+        name: "Reportar un error",
+        link: "https://github.com/Ktumsh/essentia/issues/new",
+        icon: Bug,
+      },
+    ],
+    account: [
+      { name: "Perfil", icon: User },
+      { name: "Cuenta", link: "/account", icon: BadgeCheck },
+      { name: "Premium", link: "/premium", icon: Sparkles },
+      { name: "Cerrar sesión", icon: LogOut },
+    ],
+  },
   footerLinks: {
     resources: [
       { href: "/salud-y-bienestar", text: "Salud y Bienestar" },

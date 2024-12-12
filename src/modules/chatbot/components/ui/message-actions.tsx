@@ -1,6 +1,8 @@
 "use client";
 import { Message } from "ai";
+import equal from "fast-deep-equal";
 import { Copy, ThumbsDown, ThumbsUp } from "lucide-react";
+import { memo } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 
@@ -11,19 +13,19 @@ import { useCopyToClipboard } from "@/modules/core/hooks/use-copy-to-clipboard";
 
 import { getMessageIdFromAnnotations } from "../../lib/utils";
 
-interface MessageActionsProps {
+interface PureMessageActionsProps {
   chatId: string;
   message: Message;
   vote: ChatVote | undefined;
   isLoading: boolean;
 }
 
-const MessageActions = ({
+const PureMessageActions = ({
   chatId,
   message,
   vote,
   isLoading,
-}: MessageActionsProps) => {
+}: PureMessageActionsProps) => {
   const { mutate } = useSWRConfig();
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
 
@@ -122,6 +124,9 @@ const MessageActions = ({
     });
   };
 
+  const isUpvoted = vote?.isUpvoted === true;
+  const isDownvoted = vote?.isUpvoted === false;
+
   return (
     <div className="flex flex-row gap-2">
       <BetterTooltip content="Copiar texto">
@@ -135,7 +140,7 @@ const MessageActions = ({
         </Button>
       </BetterTooltip>
 
-      <BetterTooltip content="Me gusta" hidden={vote?.isUpvoted}>
+      <BetterTooltip content="Me gusta" hidden={isUpvoted}>
         <Button
           variant="outline"
           disabled={vote?.isUpvoted}
@@ -147,7 +152,7 @@ const MessageActions = ({
         </Button>
       </BetterTooltip>
 
-      <BetterTooltip content="No me gusta" hidden={!vote?.isUpvoted}>
+      <BetterTooltip content="No me gusta" hidden={isDownvoted}>
         <Button
           variant="outline"
           disabled={vote && !vote.isUpvoted}
@@ -162,4 +167,11 @@ const MessageActions = ({
   );
 };
 
-export default MessageActions;
+export const MessageActions = memo(
+  PureMessageActions,
+  (prevProps, nextProps) => {
+    if (!equal(prevProps.vote, nextProps.vote)) return false;
+    if (prevProps.isLoading !== nextProps.isLoading) return false;
+    return true;
+  },
+);

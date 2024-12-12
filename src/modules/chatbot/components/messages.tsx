@@ -1,10 +1,11 @@
 import { Message } from "ai";
+import equal from "fast-deep-equal";
 import { memo } from "react";
 
 import { UserProfileData } from "@/types/session";
 
 import Overview from "./overview";
-import { PreviewMessage, ThinkingMessage } from "./ui/preview-message";
+import { PreviewMessage, ThinkingMessage } from "./ui/message";
 
 import type { Chat, ChatVote } from "@/db/schema";
 
@@ -62,4 +63,11 @@ function PureMessages({
   );
 }
 
-export const Messages = memo(PureMessages);
+export const Messages = memo(PureMessages, (prevProps, nextProps) => {
+  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (prevProps.isLoading && nextProps.isLoading) return false;
+  if (prevProps.messages.length !== nextProps.messages.length) return false;
+  if (!equal(prevProps.votes, nextProps.votes)) return false;
+
+  return true;
+});

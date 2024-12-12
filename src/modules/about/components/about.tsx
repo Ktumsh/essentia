@@ -57,7 +57,7 @@ const About = ({ session }: AboutProps) => {
           </h1>
           <p className="max-w-md text-center text-lg text-main-h dark:text-main-dark-h md:max-w-[850px] md:text-2xl">
             Todo lo que necesitas para una vida{" "}
-            <span className="text-orient-700">más saludable</span> y equilibrada
+            <span className="text-blue-600">más saludable</span> y equilibrada
           </p>
         </div>
         <div className="flex py-32">

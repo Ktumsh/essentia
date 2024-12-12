@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { memo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -15,6 +16,19 @@ const NonMemoizedMarkdown = ({
   const components = {
     p({ children }: any) {
       return <p className="mb-2 last:mb-0">{children}</p>;
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    a: ({ node, children, ...props }: any) => {
+      return (
+        <Link
+          className="text-blue-500 hover:underline"
+          target="_blank"
+          rel="noreferrer"
+          {...props}
+        >
+          {children}
+        </Link>
+      );
     },
     code({
       inline,

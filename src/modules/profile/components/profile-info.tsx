@@ -106,7 +106,7 @@ const ProfileInfo = ({
           </Card>
           <Card className="text-main dark:text-white">
             <CardHeader>
-              <CardTitle className="pb-4 text-base">
+              <CardTitle className="mb-2 text-base">
                 {isOwnProfile
                   ? "Información de tu Perfil"
                   : "Información de su perfil"}

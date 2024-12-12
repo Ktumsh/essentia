@@ -48,7 +48,7 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
           value={selectedPlan}
           onValueChange={(value) => setSelectedPlan(value)}
         >
-          <SelectTrigger>
+          <SelectTrigger className="border-0 md:border">
             <SelectValue>{getPlanName(selectedPlan)}</SelectValue>
           </SelectTrigger>
           <SelectContent>

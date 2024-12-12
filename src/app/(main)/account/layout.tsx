@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@/app/(auth)/auth";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import AccountTabs from "@/modules/account/components/account-tabs";
-import { getUserBillingDetails } from "@/modules/payment/pay/actions";
 import { getUserProfileData } from "@/utils/profile";
 
 export default async function AccountLayout({
@@ -19,12 +18,6 @@ export default async function AccountLayout({
 
   const [subscription] = await getSubscription(session?.user?.id as string);
 
-  const client = subscription.clientId;
-
-  const billingDetails = client ? await getUserBillingDetails(client) : null;
-
-  const paymentMethod = billingDetails?.paymentMethod.card;
-
   const [billingDetail] = await getPaymentDetails(session?.user?.id as string);
 
   const userData = session ? await getUserProfileData({ session }) : null;
@@ -34,7 +27,7 @@ export default async function AccountLayout({
       {children}
       <AccountTabs
         subscription={subscription}
-        billingDetail={{ ...billingDetail, card: paymentMethod }}
+        billingDetail={billingDetail}
         user={userData}
       />
     </div>
