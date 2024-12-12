@@ -9,18 +9,17 @@ import {
   memo,
   SetStateAction,
   useCallback,
-  useEffect,
   useRef,
 } from "react";
-import Textarea from "react-textarea-autosize";
 import { toast } from "sonner";
-import { useLocalStorage } from "usehooks-ts";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { StopIcon } from "@/modules/icons/action";
 
+import { useAdjustHeight } from "../hooks/use-adjust-height";
 import { sanitizeUIMessages } from "../lib/utils";
 
 interface PromptFormProps {
@@ -55,29 +54,11 @@ const PurePromptForm = ({
   uploadQueue,
   setUploadQueue,
 }: PromptFormProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const [localStorageInput, setLocalStorageInput] = useLocalStorage(
-    "input",
-    "",
-  );
 
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      const domValue = textareaRef.current.value;
-      const finalValue = domValue || localStorageInput || "";
-      setInput(finalValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setLocalStorageInput(input);
-  }, [input, setLocalStorageInput]);
+  const { textareaRef, adjustHeight } = useAdjustHeight();
 
   const submitForm = useCallback(() => {
     handleSubmit(undefined, {
@@ -85,18 +66,11 @@ const PurePromptForm = ({
     });
 
     setAttachments([]);
-    setLocalStorageInput("");
 
     if (!isMobile) {
       textareaRef.current?.focus();
     }
-  }, [
-    attachments,
-    handleSubmit,
-    setAttachments,
-    setLocalStorageInput,
-    isMobile,
-  ]);
+  }, [attachments, handleSubmit, setAttachments, isMobile, textareaRef]);
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
@@ -158,6 +132,7 @@ const PurePromptForm = ({
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
+    adjustHeight();
   };
 
   const handleOnKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -189,19 +164,17 @@ const PurePromptForm = ({
 
         <Textarea
           ref={textareaRef}
-          tabIndex={0}
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"
           rows={1}
-          name="message"
-          value={input}
           autoFocus
-          disabled={!isPremium || false}
           placeholder="Escribe tu mensaje."
+          disabled={!isPremium || false}
+          value={input}
           onChange={handleInput}
           onKeyDown={(e) => handleOnKeyDown(e)}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] text-[15px] text-main focus-within:outline-none dark:text-main-dark md:text-base"
+          className="min-h-[60px] w-full resize-none border-none bg-transparent px-4 py-[1.3rem] text-[15px] text-main shadow-none focus-visible:ring-0 dark:text-main-dark md:text-base"
         />
 
         {isLoading ? (

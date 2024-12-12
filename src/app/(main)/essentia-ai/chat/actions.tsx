@@ -3,7 +3,11 @@
 import { type CoreUserMessage, generateText } from "ai";
 import { cookies } from "next/headers";
 
-import { updateChatVisibilityById } from "@/db/querys/chat-querys";
+import {
+  deleteMessagesByChatIdAfterTimestamp,
+  getMessageById,
+  updateChatVisibilityById,
+} from "@/db/querys/chat-querys";
 import { gptFlashModel } from "@/modules/chatbot/ai";
 import { VisibilityType } from "@/modules/chatbot/components/visibility-selector";
 
@@ -39,4 +43,13 @@ export async function updateChatVisibility({
   visibility: VisibilityType;
 }) {
   await updateChatVisibilityById({ chatId, visibility });
+}
+
+export async function deleteTrailingMessages({ id }: { id: string }) {
+  const [message] = await getMessageById({ id });
+
+  await deleteMessagesByChatIdAfterTimestamp({
+    chatId: message.chatId,
+    timestamp: message.createdAt,
+  });
 }

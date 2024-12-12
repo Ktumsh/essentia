@@ -52,6 +52,7 @@ export function Chat({
     append,
     isLoading,
     stop,
+    reload,
   } = useChat({
     id,
     body: { id },
@@ -94,6 +95,8 @@ export function Chat({
         user={user}
         containerRef={containerRef}
         endRef={endRef}
+        setMessages={setMessages}
+        reload={reload}
       />
 
       <ChatPanel

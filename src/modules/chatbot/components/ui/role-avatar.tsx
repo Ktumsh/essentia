@@ -25,7 +25,7 @@ export const UserAvatar = ({
   username?: string;
 }) => {
   return (
-    <div className="flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg">
+    <div className="order-1 flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg">
       <Avatar className="size-6 rounded-lg">
         <AvatarImage src={profileImage || ""} alt={username} />
         <AvatarFallback className="rounded-lg">

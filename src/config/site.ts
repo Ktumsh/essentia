@@ -54,6 +54,18 @@ export const siteConfig: SiteConfig = {
   name: "Essentia",
   description:
     "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+  url: "https://essentia-web.vercel.app",
+  keywords: [
+    "essentia",
+    "salud",
+    "nutricion",
+    "alimentacion",
+    "bienestar",
+    "ejercicios",
+    "salud mental",
+    "esencial",
+    "salud rapida",
+  ],
   planPrices: {
     free: "price_free",
     premium: "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",

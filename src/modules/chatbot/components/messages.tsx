@@ -1,4 +1,4 @@
-import { Message } from "ai";
+import { ChatRequestOptions, Message } from "ai";
 import equal from "fast-deep-equal";
 import { memo } from "react";
 
@@ -19,6 +19,12 @@ interface MessagesProps {
   user: UserProfileData | null;
   containerRef: React.RefObject<HTMLDivElement | null>;
   endRef: React.RefObject<HTMLDivElement | null>;
+  setMessages: (
+    messages: Message[] | ((messages: Message[]) => Message[]),
+  ) => void;
+  reload: (
+    chatRequestOptions?: ChatRequestOptions,
+  ) => Promise<string | null | undefined>;
 }
 
 function PureMessages({
@@ -30,6 +36,8 @@ function PureMessages({
   user,
   containerRef,
   endRef,
+  setMessages,
+  reload,
 }: MessagesProps) {
   return (
     <div
@@ -51,6 +59,8 @@ function PureMessages({
               : undefined
           }
           isReadonly={isReadonly}
+          setMessages={setMessages}
+          reload={reload}
         />
       ))}
 
