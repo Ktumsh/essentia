@@ -1,6 +1,7 @@
 "use client";
 
 import { Attachment, ChatRequestOptions, Message } from "ai";
+import equal from "fast-deep-equal";
 import { ArrowUp, Paperclip } from "lucide-react";
 import {
   ChangeEvent,
@@ -190,7 +191,13 @@ const PurePromptForm = ({
   );
 };
 
-export const PromptForm = memo(PurePromptForm);
+export const PromptForm = memo(PurePromptForm, (prevProps, nextProps) => {
+  if (prevProps.input !== nextProps.input) return false;
+  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (!equal(prevProps.attachments, nextProps.attachments)) return false;
+
+  return true;
+});
 
 function PureAttachmentsButton({
   fileInputRef,
