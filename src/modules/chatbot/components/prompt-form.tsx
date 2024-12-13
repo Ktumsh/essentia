@@ -10,9 +10,11 @@ import {
   memo,
   SetStateAction,
   useCallback,
+  useEffect,
   useRef,
 } from "react";
 import { toast } from "sonner";
+import { useLocalStorage } from "usehooks-ts";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -64,6 +66,25 @@ const PurePromptForm = ({
 
   const { formRef, onKeyDown } = useEnterSubmit();
 
+  const [localStorageInput, setLocalStorageInput] = useLocalStorage(
+    "input",
+    "",
+  );
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      const domValue = textareaRef.current.value;
+      const finalValue = domValue || localStorageInput || "";
+      setInput(finalValue);
+      adjustHeight();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setLocalStorageInput(input);
+  }, [input, setLocalStorageInput]);
+
   const submitForm = useCallback(
     (event: FormEvent) => {
       if (event?.preventDefault) {
@@ -75,12 +96,20 @@ const PurePromptForm = ({
       });
 
       setAttachments([]);
+      setLocalStorageInput("");
 
       if (!isMobile) {
         textareaRef.current?.focus();
       }
     },
-    [attachments, handleSubmit, setAttachments, isMobile, textareaRef],
+    [
+      attachments,
+      handleSubmit,
+      setAttachments,
+      setLocalStorageInput,
+      isMobile,
+      textareaRef,
+    ],
   );
 
   const uploadFile = async (file: File) => {
