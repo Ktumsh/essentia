@@ -104,6 +104,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "vhr5hh5pbkumdnyu.public.blob.vercel-storage.com",
         port: "",
+        pathname: "/**",
       },
     ],
   },
