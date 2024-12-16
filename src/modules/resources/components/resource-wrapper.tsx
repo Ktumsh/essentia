@@ -121,7 +121,7 @@ const ResourceWrapper = ({ params, isPremium }: ResourceWrapperProps) => {
                 </div>
                 <div className="group relative flex w-full flex-col justify-center overflow-hidden text-main">
                   <div className="absolute top-1 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3 transition-opacity duration-500 group-active:opacity-0 lg:group-hover:opacity-0">
-                    <span className="font-motivasans font-bold uppercase text-white/60">
+                    <span className="font-semibold uppercase text-white/60">
                       Introducción a
                     </span>
                     <h2 className="text-2xl font-bold text-white md:text-3xl lg:text-4xl">

@@ -18,10 +18,10 @@ const AuthHeader = () => {
     <div role="banner" className="animate-enchance fixed top-0 z-[100] w-full">
       <div className="flex h-14 w-full items-center justify-between gap-5 px-6">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb] md:size-10">
-            <Logo className="h-4 md:h-5" />
+          <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
+            <Logo />
           </div>
-          <div className="grid flex-1 text-left text-sm leading-tight md:text-base">
+          <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">Essentia</span>
           </div>
         </Link>

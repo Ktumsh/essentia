@@ -23,7 +23,7 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
                 height={96}
                 src={fact.image}
                 alt={fact.fact}
-                className="aspect-auto h-full rounded-r-md object-cover object-center shadow-md md:h-24 md:rounded-none md:shadow-none"
+                className="animate-fade-in aspect-auto h-full rounded-r-md object-cover object-center shadow-md md:h-24 md:rounded-none md:shadow-none"
               />
             </div>
             <div className="w-full p-6">

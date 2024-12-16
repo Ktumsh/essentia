@@ -172,7 +172,7 @@ export const siteConfig: SiteConfig = {
   ],
   menuFooterLinks: {
     extras: [
-      { name: "Descubre Essentia", link: "/about-essentia", icon: Info },
+      { name: "Descubre Essentia", link: "/about", icon: Info },
       { name: "Privacidad", link: "#", icon: Lock },
       { name: "Términos", link: "#", icon: FileText },
       { name: "Cookies", link: "#", icon: Cookie },
@@ -224,7 +224,7 @@ export const siteConfig: SiteConfig = {
       },
     ],
     more: [
-      { href: "/about-essentia", text: "Descubre Essentia" },
+      { href: "/about", text: "Descubre Essentia" },
       { href: "", text: "Privacidad" },
       { href: "", text: "Términos" },
       { href: "", text: "Cookies" },
@@ -235,7 +235,7 @@ export const siteConfig: SiteConfig = {
       { href: "", text: "Políticas de privacidad" },
       { href: "", text: "Términos y condiciones" },
       { href: "", text: "Cookies" },
-      { href: "/about-essentia", text: "Descubre Essentia" },
+      { href: "/about", text: "Descubre Essentia" },
     ],
   },
 };

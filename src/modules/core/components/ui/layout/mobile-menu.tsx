@@ -102,7 +102,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               href="/"
               className="relative !mt-0 inline-flex items-center gap-2"
             >
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb]">
+              <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
                 <Logo width={16} height={16} className="h-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -208,30 +208,52 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               <ThemeToggle className="!size-8" />
             </div>
             <Separator className="!my-4" />
-            <SheetClose asChild>
+            {user ? (
+              <SheetClose asChild>
+                <button
+                  className="relative inline-flex w-full items-center gap-2"
+                  onClick={() => setIsDrawerOpen(true)}
+                >
+                  <Avatar className="size-8 rounded-lg">
+                    <AvatarImage
+                      src={profileImage || ""}
+                      alt={username || "Invitado"}
+                    />
+                    <AvatarFallback className="rounded-lg">
+                      <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">
+                      {fullName !== "undefined undefined"
+                        ? fullName
+                        : "Invitado"}
+                    </span>
+                    {username && (
+                      <span className="truncate text-xs text-main-m dark:text-main-dark-m">
+                        @{username}
+                      </span>
+                    )}
+                  </div>
+                  <ChevronsUpDown className="ml-auto size-4" />
+                </button>
+              </SheetClose>
+            ) : (
               <button
                 className="relative inline-flex w-full items-center gap-2"
                 onClick={() => setIsDrawerOpen(true)}
               >
                 <Avatar className="size-8 rounded-lg">
-                  <AvatarImage src={profileImage || ""} alt={username} />
+                  <AvatarImage src={""} alt="Invitado" />
                   <AvatarFallback className="rounded-lg">
                     <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    {fullName !== "undefined undefined" ? fullName : "Invitado"}
-                  </span>
-                  {username && (
-                    <span className="truncate text-xs text-main-m dark:text-main-dark-m">
-                      @{username}
-                    </span>
-                  )}
+                  <span className="truncate font-semibold">Invitado</span>
                 </div>
-                <ChevronsUpDown className="ml-auto size-4" />
               </button>
-            </SheetClose>
+            )}
           </SheetFooter>
         </SheetContent>
       </Sheet>

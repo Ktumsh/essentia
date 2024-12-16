@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ArrowDown } from "lucide-react";
 import Link from "next/link";
 import { Session } from "next-auth";
 import { useRef } from "react";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ABOUT_SECTIONS } from "@/consts/about-sections";
 import { StarsIcon } from "@/modules/icons/common";
 import { AboutCrop } from "@/modules/icons/miscellaneus";
-import { ArrowAnimateIcon } from "@/modules/icons/navigation";
+import { cn } from "@/utils/common";
 
 import AboutFooter from "./about-footer";
 import Section from "./section";
@@ -18,10 +18,11 @@ import useSmoothScroll from "../hooks/use-smooth-scroll";
 
 interface AboutProps {
   session: Session | null;
+  isPremium: boolean | null;
 }
 
-const About = ({ session }: AboutProps) => {
-  const scrollToSection = useSmoothScroll("#nuestros_recursos");
+const About = ({ session, isPremium }: AboutProps) => {
+  const scrollToSection = useSmoothScroll("#nuestro_metodo");
 
   const bubble1Ref = useRef<HTMLImageElement>(null);
   const bubble2Ref = useRef<HTMLImageElement>(null);
@@ -50,26 +51,26 @@ const About = ({ session }: AboutProps) => {
 
   return (
     <article className="z-40 size-full text-clip break-words bg-white font-normal text-main">
-      <div className="relative mx-auto flex max-w-screen-xl flex-col items-center justify-center px-5 pt-24 sm:pt-56">
-        <div className="flex flex-col items-center space-y-6 text-center">
-          <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-7xl">
-            La Información de Salud Esencial para tu Bienestar
-          </h1>
-          <p className="max-w-md text-center text-lg text-main-h dark:text-main-dark-h md:max-w-[850px] md:text-2xl">
-            Todo lo que necesitas para una vida{" "}
-            <span className="text-blue-600">más saludable</span> y equilibrada
-          </p>
-        </div>
-        <div className="flex py-32">
+      <div className="relative mx-auto flex min-h-[85dvh] max-w-screen-xl px-6 pb-10 pt-48 md:pb-24">
+        <div className="m-auto flex h-full flex-col items-center justify-between gap-44 md:gap-14">
+          <div className="flex flex-col items-center gap-14 text-center">
+            <h1 className="max-w-5xl font-grotesk text-4xl font-semibold sm:text-5xl md:text-7xl">
+              La Información de Salud Esencial para tu Bienestar
+            </h1>
+            <p className="max-w-md text-center text-lg text-main-h dark:text-main-dark-h md:max-w-[850px] md:text-2xl">
+              Todo lo que necesitas para una vida{" "}
+              <span className="text-blue-600">más saludable</span> y equilibrada
+            </p>
+          </div>
           <Button
             size="lg"
-            radius="lg"
+            radius="full"
             variant="outline"
             onClick={scrollToSection}
-            className="text-base"
+            className="w-full text-base md:w-auto"
           >
             Comenzar
-            <ArrowAnimateIcon className="arrow-symbol-mktg inline-block size-4" />
+            <ArrowDown />
           </Button>
         </div>
       </div>
@@ -77,29 +78,23 @@ const About = ({ session }: AboutProps) => {
       <article className="relative size-full break-words bg-[url('/extras/essentia-bg-page.png')] bg-center bg-no-repeat font-normal text-main dark:text-main-dark-h">
         <div className="abolute left-0 top-0 w-full overflow-hidden">
           <AboutCrop className="absolute z-10 block h-28 w-full" />
-          {sections.map((section) => (
-            <Section
-              key={section.sectionId}
-              sectionId={section.sectionId}
-              classSection={section.classSection}
-              wrapper={section.wrapper}
-              inner={section.inner}
-              sectionName={section.sectionName}
-              title={section.title}
-              description={section.description}
-              img={section.img}
-              imgAlt={section.imgAlt}
-            >
+          {sections.map((section, index) => (
+            <Section key={index} index={index} {...section}>
               {section.bubbles.map((bubble, bubbleIndex) => (
-                <Image
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
                   key={bubbleIndex}
                   ref={bubble.ref}
                   src={bubble.src}
-                  alt={bubble.alt}
-                  width={150}
-                  height={150}
-                  className={bubble.className}
                   aria-hidden="true"
+                  alt="bubble"
+                  className={cn(
+                    bubble.className,
+                    bubbleIndex % 2 === 0
+                      ? "animate-float-up-down delay-200"
+                      : "animate-float-wave",
+                    "absolute blur-xl motion-reduce:animate-none",
+                  )}
                 />
               ))}
             </Section>
@@ -118,28 +113,37 @@ const About = ({ session }: AboutProps) => {
                 </h2>
               </div>
               <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 text-center sm:w-96">
-                <Link
-                  type="button"
-                  aria-label="Autenticar usuario"
-                  className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
-                  href="/premium"
-                >
-                  <span className="mr-2">
-                    <StarsIcon
-                      aria-hidden="true"
-                      className="size-5 focus:outline-none [&_*]:fill-white"
-                    />
-                  </span>
-                  Hazte premium
-                </Link>
+                {!isPremium && (
+                  <Link
+                    type="button"
+                    className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
+                    href="/premium"
+                  >
+                    <span className="mr-2">
+                      <StarsIcon
+                        aria-hidden="true"
+                        className="size-5 focus:outline-none [&_*]:fill-white"
+                      />
+                    </span>
+                    Hazte premium
+                  </Link>
+                )}
                 {!session && (
                   <Link
                     type="button"
-                    aria-label="Autenticar usuario"
                     className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-dark/40 px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
-                    href="/login"
+                    href="/signup"
                   >
-                    Inicia sesión
+                    Regístrate
+                  </Link>
+                )}
+                {session && isPremium && (
+                  <Link
+                    type="button"
+                    className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
+                    href="/premium"
+                  >
+                    Revisa tus beneficios
                   </Link>
                 )}
               </div>

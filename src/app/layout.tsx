@@ -8,7 +8,7 @@ import { Session } from "next-auth";
 import { Toaster } from "sonner";
 
 import { auth } from "@/app/(auth)/auth";
-import { fontMotiva, spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
+import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
 import { Providers } from "@/modules/core/components/ui/providers";
 import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
@@ -96,7 +96,6 @@ export default async function RootLayout({
       <body
         className={cn(
           "isolate bg-gray-50 antialiased dark:bg-full-dark",
-          fontMotiva.variable,
           spaceGrotesk.variable,
           spaceMono.variable,
           dmSans.variable,

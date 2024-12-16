@@ -37,7 +37,7 @@ const WelcomeModal = () => {
           <>
             <DialogHeader className="items-center px-6 py-4">
               <div className="absolute -left-1/2 top-[-820px] -z-10 size-[900px] -translate-x-32 rounded-full border-4 border-gray-200 bg-light-gradient-v2 dark:border-dark dark:bg-dark-gradient"></div>
-              <DialogTitle className="font-motivasans text-3xl font-bold text-white">
+              <DialogTitle className="text-3xl font-bold text-white">
                 ¡Bienvenido!
               </DialogTitle>
               <DialogDescription className="sr-only">

@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 
-const VIEWPORT_HEIGHT = window.innerHeight / 1.4;
+const VIEWPORT_HEIGHT = window.innerHeight / 1.2;
 
 export const useNavbarChange = () => {
   const [isChanged, setIsChanged] = useState(false);
@@ -32,7 +32,7 @@ export const useNavbarChange = () => {
       setIsChanged(false);
       setIsChanging(false);
     }
-  }, [isChanged, isMobile, VIEWPORT_HEIGHT]);
+  }, [isChanged, isMobile]);
 
   useEffect(() => {
     window.addEventListener("scroll", checkScreenSizeAndUpdateNavbar);
@@ -40,7 +40,7 @@ export const useNavbarChange = () => {
     return () => {
       window.removeEventListener("scroll", checkScreenSizeAndUpdateNavbar);
     };
-  }, [checkScreenSizeAndUpdateNavbar, isMobile]);
+  }, [checkScreenSizeAndUpdateNavbar]);
 
   return { isChanged, isChanging };
 };
