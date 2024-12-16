@@ -133,19 +133,15 @@ interface BubbleData {
   ref: React.RefObject<HTMLImageElement | null> | null;
   src: string;
   className: string;
-  alt: string;
 }
 
 export interface AboutSection {
-  sectionId: string;
-  classSection: string;
-  wrapper: string;
-  inner: string;
-  sectionName: string;
+  slug: string;
+  section: string;
   title: string;
   description: string;
   img: string;
-  imgAlt: string;
+  video: string;
   bubbles: BubbleData[];
 }
 

@@ -53,6 +53,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
+    --logo: 232 35% 88%;
     --background: 0 0% 100%;
     --foreground: 210, 30%, 18%;
     --card: 0 0% 100%;
@@ -101,14 +102,7 @@
       transparent 71%
     );
 
-    --bg-bento-gradient: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.12) 12%,
-      rgba(255, 255, 255, 0.04) 50%,
-      rgba(255, 255, 255, 0.08) 83%,
-      rgba(255, 255, 255, 0.2)
-    );
+    --bg-bento-gradient: linear-gradient(135deg, #fff3, #ffffff12);
 
     --landing-gradient: linear-gradient(
       68.4deg,
@@ -321,21 +315,6 @@
   z-index: 0;
 }
 
-.btn_mktg:hover .octicon-chevrow-stem,
-.btn_mktg:active .octicon-chevrow-stem {
-  stroke-dashoffset: 20;
-}
-
-.btn_mktg:hover .arrow-symbol-mktg,
-.btn_mktg:active .arrow-symbol-mktg {
-  transform: translateY(2px) rotate(90deg);
-}
-
-.arrow-symbol-mktg {
-  transition: transform 0.2s;
-  transform: translateX(0) rotate(90deg);
-}
-
 .gradient_border::before {
   content: "";
   position: absolute;
@@ -345,10 +324,6 @@
   height: 95%;
   background: #fff;
   border-radius: 0.85rem;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.25s ease-in-out;
 }
 
 .animate-bounce-rotate {
@@ -382,15 +357,6 @@
   100% {
     transform: translate(-25%, -50%) rotate(-45deg);
     opacity: 0;
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
 

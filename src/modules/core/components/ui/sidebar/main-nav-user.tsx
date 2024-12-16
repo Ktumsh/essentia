@@ -170,7 +170,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                   </DropdownMenuItem>
                 ) : (
                   <DropdownMenuItem asChild>
-                    <Link href="/about-essentia">
+                    <Link href="/about">
                       <BadgeInfo strokeWidth={1.5} />
                       Descubre Essentia
                     </Link>

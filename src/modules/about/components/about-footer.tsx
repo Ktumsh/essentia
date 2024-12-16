@@ -15,7 +15,7 @@ const AboutFooter = () => {
             <div className="inline-flex items-center justify-center">
               <div className="flex items-center justify-center gap-3">
                 <Link href="/">
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb]">
+                  <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
                     <Logo className="h-4" />
                   </div>
                 </Link>

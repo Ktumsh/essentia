@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import {
   VisibilitySelector,
@@ -25,6 +25,7 @@ const DesktopHeader = ({
   selectedVisibilityType,
   isReadonly,
 }: DesktopHeaderProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   const { id } = useParams();
   const chatId = id;
@@ -68,12 +69,9 @@ const DesktopHeader = ({
         <div className="absolute right-0 top-0 z-40 h-14 px-6">
           <div className="flex size-full items-center justify-center text-sm font-normal text-gray-500 dark:text-main-dark-h">
             {!user && (
-              <Link
-                href="/login"
-                className="inline-flex h-8 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white transition-opacity hover:opacity-80 dark:bg-dark-gradient"
-              >
+              <Button variant="gradient" onClick={() => router.push("/login")}>
                 Inicia sesión
-              </Link>
+              </Button>
             )}
           </div>
         </div>

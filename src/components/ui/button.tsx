@@ -18,6 +18,8 @@ const buttonVariants = cva(
         secondary:
           "bg-gray-100 shadow-sm hover:bg-gray-100/80 dark:bg-dark/50 dark:hover:bg-dark/30 border-0",
         ghost: "hover:bg-gray-100 dark:hover:bg-dark shadow-none",
+        gradient:
+          "bg-light-gradient-v2 dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white hover:opacity-80",
         mobile:
           "justify-start gap-5 hover:bg-transparent active:bg-gray-100 dark:hover:bg-transparent dark:active:bg-dark rounded-full",
         link: "text-gray-900 underline-offset-4 hover:underline dark:text-gray-50",

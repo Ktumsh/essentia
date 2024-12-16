@@ -2,6 +2,7 @@
 
 import { Bug, ChevronRight, Info } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Collapsible,
@@ -34,6 +35,10 @@ interface MainNavInfoProps {
 }
 
 const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
+  const pathname = usePathname();
+
+  const isAIPage = pathname.startsWith("/essentia-ai");
+
   const { state } = useSidebar();
   return (
     <SidebarGroup>
@@ -43,7 +48,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
       <SidebarMenu>
         <Collapsible asChild className="group/collapsible">
           <SidebarMenuItem>
-            {state === "expanded" ? (
+            {state === "expanded" && !isAIPage ? (
               <>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip="Información">

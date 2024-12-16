@@ -23,7 +23,7 @@ const MobileHeader = ({ user }: MobileHeaderProps) => {
       <header className="sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden border-b border-gray-200 bg-white/80 px-6 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80 md:hidden">
         {isAIPage && <AppSidebarToggle />}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb]">
+          <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
             <Logo className="h-4" />
           </div>
           {!isAIPage && (
