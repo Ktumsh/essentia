@@ -1,10 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { SpinnerIcon } from "@/modules/icons/status";
+
+export const metadata: Metadata = {
+  title: "Cerrar sesión",
+  alternates: {
+    canonical: "/logout",
+  },
+};
 
 const LogoutPage = () => {
   const router = useRouter();
@@ -12,7 +20,7 @@ const LogoutPage = () => {
   useEffect(() => {
     setTimeout(() => {
       router.push("/login");
-    }, 1500);
+    }, 1000);
   }, [router]);
   return (
     <motion.div

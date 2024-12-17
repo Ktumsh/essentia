@@ -123,7 +123,6 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 │   ├── /home/                     # Módulo página de inicio
 │   ├── /icons/                    # Íconos usados en la aplicación
 │   ├── /about/                    # Módulo de Acerca de
-│   ├── /news/                     # Módulo de Noticias
 │   ├── /notfound/                 # Módulo de error 404
 │   ├── /profile/                  # Módulo de Perfil de Usuario
 │   └── /resources/                # Módulo de Recursos Principales

@@ -13,6 +13,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const username = params.username;
   return {
     title: `Perfil de ${username}`,
+    alternates: {
+      canonical: `/profile/${username}`,
+    },
   };
 }
 

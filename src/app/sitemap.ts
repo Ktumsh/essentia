@@ -51,12 +51,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: "https://essentia-web.vercel.app/noticias",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-    {
       url: "https://essentia-web.vercel.app/adicionales",
       lastModified: new Date(),
       changeFrequency: "yearly",
