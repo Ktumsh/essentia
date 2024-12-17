@@ -90,7 +90,7 @@ const AboutHeader = ({ session, isPremium }: AboutHeaderProps) => {
       <nav
         id="nav"
         className={cn(
-          "z-50 mx-auto flex max-w-7xl flex-1 items-center justify-center bg-white px-3 text-main transition-all md:bg-transparent",
+          "z-50 mx-auto flex max-w-full flex-1 items-center justify-center bg-white px-3 text-main transition-all md:max-w-7xl md:bg-transparent",
           isChanged && "mt-4 !bg-white px-28 md:rounded-full",
         )}
       >
