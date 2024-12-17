@@ -29,14 +29,12 @@ const ChatHeader = ({ session, history }: ChatSidebarProps) => {
 
   return (
     <SidebarGroup>
+      <SidebarHeader className="mb-1">
+        <div className="flex-1 text-left text-sm leading-tight">
+          <h4 className="truncate font-semibold">Historial de chats</h4>
+        </div>
+      </SidebarHeader>
       <SidebarMenu>
-        <SidebarHeader>
-          <SidebarMenuItem>
-            <div className="flex-1 text-left text-sm leading-tight">
-              <h4 className="truncate font-semibold">Historial de chats</h4>
-            </div>
-          </SidebarMenuItem>
-        </SidebarHeader>
         <SidebarMenuItem>
           <SidebarMenuButton
             tooltip="Nuevo chat"

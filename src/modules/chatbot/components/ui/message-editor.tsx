@@ -8,7 +8,6 @@ import { deleteTrailingMessages } from "@/app/(main)/essentia-ai/chat/actions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import { useAdjustHeight } from "../../hooks/use-adjust-height";
 import { useUserMessageId } from "../../hooks/use-user-message-id";
 
 export type MessageEditorProps = {
@@ -33,11 +32,8 @@ export function MessageEditor({
 
   const [draftContent, setDraftContent] = useState<string>(message.content);
 
-  const { textareaRef, adjustHeight } = useAdjustHeight();
-
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDraftContent(event.target.value);
-    adjustHeight();
   };
 
   const handleSubmit = async () => {
@@ -74,10 +70,9 @@ export function MessageEditor({
   };
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-2 rounded-xl bg-background px-2.5 py-1.5 outline outline-2 outline-danger/50 md:px-4 md:py-2.5">
       <Textarea
-        ref={textareaRef}
-        className="w-full resize-none overflow-hidden rounded-xl bg-background !text-base shadow-none outline outline-1 outline-danger"
+        className="!h-auto max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto border-none p-0 !text-base text-main-h shadow-none [field-sizing:content] focus-visible:ring-0 dark:text-main-dark"
         value={draftContent}
         onChange={handleInput}
       />
@@ -85,7 +80,7 @@ export function MessageEditor({
       <div className="flex flex-row justify-end gap-2">
         <Button
           variant="outline"
-          className="h-fit border-none px-3 py-2 shadow-none"
+          className="shadow-none"
           onClick={() => {
             setMode("view");
           }}
@@ -94,7 +89,7 @@ export function MessageEditor({
         </Button>
         <Button
           variant="destructive"
-          className="h-fit px-3 py-2 shadow-none"
+          className="shadow-none"
           disabled={isSubmitting}
           onClick={handleSubmit}
         >

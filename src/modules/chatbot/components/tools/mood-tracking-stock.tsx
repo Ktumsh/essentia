@@ -76,8 +76,8 @@ const MoodTrackingStock = ({
               Actividades recomendadas
             </h3>
           </div>
-          <Badge className="py-1.5">
-            <HeartIcon className="size-4 text-main-h dark:text-main-dark-h" />
+          <Badge className="bg-rose-100 py-1.5 dark:bg-rose-950">
+            <HeartIcon className="size-4 text-rose-500" />
           </Badge>
         </div>
         <ul className="list-inside list-disc space-y-3">

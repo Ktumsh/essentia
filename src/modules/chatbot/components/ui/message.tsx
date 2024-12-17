@@ -5,6 +5,7 @@ import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
 import { memo, useState } from "react";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
@@ -19,6 +20,7 @@ import {
   MoodTrackingStock,
   NutritionPlanStock,
 } from "../tools";
+import EditModal from "./edit-modal";
 import { InitialLoading } from "./initial-loading";
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
@@ -55,10 +57,13 @@ const PurePreviewMessage = ({
   setMessages,
   reload,
 }: MessageProps) => {
+  const isMobile = useIsMobile();
+
   const { id, role, content, toolInvocations, experimental_attachments } =
     message;
   const { profileImage, username } = user || {};
 
+  const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<"view" | "edit">("view");
   return (
     <motion.div
@@ -69,16 +74,16 @@ const PurePreviewMessage = ({
     >
       <div
         className={cn(
-          "flex w-full gap-4 group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-[88%]",
+          "flex w-full gap-4 group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-[75%]",
           {
-            "w-full": mode === "edit",
+            "w-full group-data-[role=user]/message:max-w-full": mode === "edit",
             "group-data-[role=user]/message:w-fit": mode !== "edit",
           },
         )}
       >
         {role === "assistant" && <BotAvatar />}
 
-        {role === "user" && (
+        {role === "user" && !isMobile && (
           <UserAvatar profileImage={profileImage} username={username} />
         )}
 
@@ -96,12 +101,12 @@ const PurePreviewMessage = ({
 
           {content && mode === "view" && (
             <div className="flex flex-row items-start gap-2">
-              {role === "user" && !isReadonly && (
+              {role === "user" && !isReadonly && !isMobile && (
                 <BetterTooltip content="Editar mensaje">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full border-none text-main opacity-0 hover:bg-white group-hover/message:opacity-100 dark:text-main-dark dark:hover:bg-full-dark"
+                    className="shrink-0 rounded-full border-none text-main opacity-0 hover:bg-white group-hover/message:opacity-100 dark:text-main-dark dark:hover:bg-full-dark"
                     onClick={() => {
                       setMode("edit");
                     }}
@@ -112,10 +117,19 @@ const PurePreviewMessage = ({
               )}
 
               <div
-                className={cn("flex flex-col gap-4", {
-                  "rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 dark:bg-full-dark md:px-4 md:py-2.5":
-                    role === "user",
-                })}
+                role={isMobile ? "button" : undefined}
+                onClick={() => {
+                  if (isMobile) {
+                    setIsOpen(true);
+                  }
+                }}
+                className={cn(
+                  "flex flex-col gap-4 transition-opacity active:opacity-80 md:active:opacity-100",
+                  {
+                    "rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 dark:bg-full-dark md:px-4 md:py-2.5":
+                      role === "user",
+                  },
+                )}
               >
                 <Markdown>{content as string}</Markdown>
               </div>
@@ -124,7 +138,7 @@ const PurePreviewMessage = ({
 
           {content && mode === "edit" && (
             <div className="flex flex-row items-start gap-2">
-              <div className="size-8" />
+              <div className="hidden size-8 shrink-0 md:block" />
 
               <MessageEditor
                 key={id}
@@ -135,6 +149,8 @@ const PurePreviewMessage = ({
               />
             </div>
           )}
+
+          <EditModal isOpen={isOpen} setIsOpen={setIsOpen} setMode={setMode} />
 
           {toolInvocations &&
             toolInvocations.map((toolInvocation) => {

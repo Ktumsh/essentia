@@ -182,6 +182,7 @@ const PurePromptForm = ({
 
         <input
           type="file"
+          aria-label="Adjuntar archivos"
           accept="image/jpeg,image/jpg,image/png,image/webp"
           ref={fileInputRef}
           multiple
@@ -245,6 +246,7 @@ function PureAttachmentsButton({
         className="absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:border-accent-dark dark:text-main-dark sm:left-4"
         onClick={() => fileInputRef.current?.click()}
       >
+        <span className="sr-only">Adjuntar archivo</span>
         <Paperclip className="size-4" />
       </Button>
     </BetterTooltip>
@@ -272,6 +274,7 @@ function PureStopButton({
         setMessages((messages) => sanitizeUIMessages(messages));
       }}
     >
+      <span className="sr-only">Detener generación de mensajes</span>
       <StopIcon className="size-4" />
     </Button>
   );
@@ -299,6 +302,7 @@ function PureSendButton({
       onClick={handleSubmit}
       disabled={input.length === 0 || uploadQueue.length > 0 || !isPremium}
     >
+      <span className="sr-only">Enviar mensaje</span>
       <ArrowUp className="size-4" />
     </Button>
   );
