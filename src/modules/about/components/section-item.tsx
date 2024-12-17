@@ -46,20 +46,20 @@ const SectionItem = (props: SectionItemProps) => {
         )}
       >
         <div className="relative mx-2 w-auto flex-[0_auto] self-center sm:mx-10 md:mx-0 md:w-full md:max-w-md">
-          <div className="group relative mb-4 inline-flex self-start overflow-hidden rounded-full bg-light-gradient px-4 py-1 text-sm font-semibold uppercase text-white md:self-center">
+          <div className="group relative mb-4 inline-flex self-start overflow-hidden rounded-full bg-light-gradient px-4 py-1 text-xs font-semibold uppercase text-white md:self-center md:text-sm">
             <span>{section}</span>
             <div className="absolute inset-0 top-[-20px] flex h-[calc(100%+40px)] w-full animate-shine-infinite justify-center blur-md">
               <div className="relative h-full w-8 bg-white/30"></div>
             </div>
           </div>
-          <h2 className="mb-5 w-full font-grotesk text-3xl font-extrabold sm:text-5xl">
+          <h2 className="mb-5 w-full font-grotesk text-3xl font-bold sm:text-5xl">
             {title}
           </h2>
           <p className="max-full mx-auto leading-normal text-main sm:text-2xl">
             {description}
           </p>
         </div>
-        <div className="relative min-h-[600px] overflow-hidden rounded-6xl md:max-w-3xl">
+        <div className="relative overflow-hidden rounded-6xl md:min-h-[600px] md:max-w-3xl">
           {!videoError ? (
             <video
               preload="metadata"
@@ -69,7 +69,7 @@ const SectionItem = (props: SectionItemProps) => {
               loop
               muted
               onError={() => setVideoError(true)}
-              className="aspect-auto h-[600px] object-cover"
+              className="aspect-auto object-cover md:h-[600px]"
             ></video>
           ) : (
             <Image
@@ -77,7 +77,7 @@ const SectionItem = (props: SectionItemProps) => {
               width={728}
               height={600}
               alt={section}
-              className="aspect-auto h-[600px] object-cover"
+              className="aspect-auto object-cover md:h-[600px]"
             />
           )}
         </div>
