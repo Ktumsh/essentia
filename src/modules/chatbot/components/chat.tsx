@@ -1,10 +1,10 @@
 "use client";
 
-import { Attachment, Message } from "ai";
+import { Attachment, type Message } from "ai";
 import { useChat } from "ai/react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import { ComponentProps, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 
 import { useChatContext } from "@/modules/core/hooks/use-chat-context";
@@ -16,12 +16,27 @@ import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
 import { VisibilityType } from "./visibility-selector";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
+import { useUserMessageId } from "../hooks/use-user-message-id";
 
-import type { Chat as ChatType, ChatVote } from "@/db/schema";
+import type { ChatVote } from "@/db/schema";
 
-export interface ChatProps extends ComponentProps<"div"> {
+type StreamingDelta = {
+  type:
+    | "text-delta"
+    | "code-delta"
+    | "title"
+    | "id"
+    | "suggestion"
+    | "clear"
+    | "finish"
+    | "user-message-id"
+    | "kind";
+
+  content: string;
+};
+
+export interface ChatProps {
   id: string;
-  chat?: ChatType;
   initialMessages: Array<Message>;
   isReadonly: boolean;
   selectedVisibilityType: VisibilityType;
@@ -31,7 +46,6 @@ export interface ChatProps extends ComponentProps<"div"> {
 
 export function Chat({
   id,
-  chat,
   initialMessages,
   isReadonly,
   selectedVisibilityType,
@@ -45,6 +59,8 @@ export function Chat({
 
   const { setChatData } = useChatContext();
 
+  const { setUserMessageIdFromServer } = useUserMessageId();
+
   const {
     messages,
     setMessages,
@@ -55,6 +71,7 @@ export function Chat({
     isLoading,
     stop,
     reload,
+    data: streamingData,
   } = useChat({
     id,
     body: { id },
@@ -73,6 +90,18 @@ export function Chat({
     });
   });
 
+  useEffect(() => {
+    const mostRecentDelta = streamingData?.at(-1);
+    if (!mostRecentDelta) return;
+
+    const delta = mostRecentDelta as StreamingDelta;
+
+    if (delta.type === "user-message-id") {
+      setUserMessageIdFromServer(delta.content as string);
+      return;
+    }
+  }, [streamingData, setUserMessageIdFromServer]);
+
   const { data: votes } = useSWR<Array<ChatVote>>(
     `/api/chat/vote?chatId=${id}`,
     fetcher,
@@ -86,8 +115,7 @@ export function Chat({
   return (
     <>
       <Messages
-        id={id}
-        chat={chat as ChatType}
+        chatId={id}
         isLoading={isLoading}
         votes={votes}
         messages={messages}

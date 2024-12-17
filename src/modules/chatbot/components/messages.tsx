@@ -1,4 +1,3 @@
-import { ChatRequestOptions, Message } from "ai";
 import equal from "fast-deep-equal";
 import { memo } from "react";
 
@@ -7,11 +6,11 @@ import { UserProfileData } from "@/types/session";
 import Overview from "./overview";
 import { PreviewMessage, ThinkingMessage } from "./ui/message";
 
-import type { Chat, ChatVote } from "@/db/schema";
+import type { ChatVote } from "@/db/schema";
+import type { ChatRequestOptions, Message } from "ai";
 
 interface MessagesProps {
-  id: string;
-  chat: Chat;
+  chatId: string;
   isLoading: boolean;
   votes: Array<ChatVote> | undefined;
   messages: Array<Message>;
@@ -28,7 +27,7 @@ interface MessagesProps {
 }
 
 function PureMessages({
-  id,
+  chatId,
   isLoading,
   votes,
   messages,
@@ -48,8 +47,8 @@ function PureMessages({
 
       {messages.map((message, index) => (
         <PreviewMessage
-          key={`${message.id}-${index}`}
-          chatId={id}
+          key={message.id}
+          chatId={chatId}
           message={message}
           user={user}
           isLoading={isLoading && messages.length - 1 === index}

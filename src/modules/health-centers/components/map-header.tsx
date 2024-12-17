@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 
 const MapHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -13,4 +13,4 @@ const MapHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default MapHeader;
+export default memo(MapHeader);
