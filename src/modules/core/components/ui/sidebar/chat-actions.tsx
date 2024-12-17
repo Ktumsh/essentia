@@ -2,7 +2,7 @@
 
 import { MessageSquareShare, MoreHorizontalIcon, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { KeyedMutator } from "swr";
 
@@ -25,6 +25,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
   DropdownMenu,
@@ -34,6 +35,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuAction } from "@/components/ui/sidebar";
 import { useChatVisibility } from "@/modules/chatbot/hooks/use-chat-visibility";
+import { cn } from "@/utils/common";
 
 import ChatShareModal from "./chat-share-action";
 
@@ -45,7 +47,7 @@ interface ChatActionsProps {
   mutate: KeyedMutator<Chat[]>;
 }
 
-const ChatActions: FC<ChatActionsProps> = ({ chat, mutate, isActive }) => {
+const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
   const { id } = useParams();
   const router = useRouter();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -90,31 +92,81 @@ const ChatActions: FC<ChatActionsProps> = ({ chat, mutate, isActive }) => {
 
   return (
     <>
-      <DropdownMenu modal={true}>
-        <DropdownMenuTrigger asChild>
-          <SidebarMenuAction showOnHover={!isActive} className="w-6">
-            <MoreHorizontalIcon />
-            <span className="sr-only">Acciones</span>
-          </SidebarMenuAction>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="bottom" align="start">
-          {visibilityType === "public" && (
-            <DropdownMenuItem onSelect={() => setShareModalOpen(true)}>
-              <MessageSquareShare strokeWidth={1.5} />
-              Compartir
+      {isMobile ? (
+        <Drawer>
+          <DrawerTrigger asChild>
+            <SidebarMenuAction
+              showOnHover={!isActive}
+              className="w-6 hover:!bg-transparent"
+            >
+              <MoreHorizontalIcon />
+              <span className="sr-only">Acciones</span>
+            </SidebarMenuAction>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle></DrawerTitle>
+            </DrawerHeader>
+            <DrawerFooter>
+              {visibilityType === "public" && (
+                <DrawerClose asChild>
+                  <Button
+                    variant="mobile"
+                    onClick={() => setShareModalOpen(true)}
+                  >
+                    <MessageSquareShare strokeWidth={1.5} />
+                    Compartir
+                  </Button>
+                </DrawerClose>
+              )}
+              <DrawerClose asChild>
+                <Button
+                  variant="mobile"
+                  className="text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500 dark:focus:bg-red-500/15 dark:focus:text-red-400"
+                  onClick={() => {
+                    setShowDeleteDialog(true);
+                  }}
+                >
+                  <Trash2 strokeWidth={1.5} />
+                  Borrar
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <DropdownMenu modal={true}>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuAction
+              showOnHover={!isActive}
+              className={cn(
+                "w-6",
+                isActive && "md:hover:bg-white md:dark:hover:bg-full-dark",
+              )}
+            >
+              <MoreHorizontalIcon />
+              <span className="sr-only">Acciones</span>
+            </SidebarMenuAction>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="bottom" align="start">
+            {visibilityType === "public" && (
+              <DropdownMenuItem onSelect={() => setShareModalOpen(true)}>
+                <MessageSquareShare strokeWidth={1.5} />
+                Compartir
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem
+              onSelect={() => {
+                setShowDeleteDialog(true);
+              }}
+              className="text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500 dark:focus:bg-red-500/15 dark:focus:text-red-400"
+            >
+              <Trash2 strokeWidth={1.5} />
+              Borrar
             </DropdownMenuItem>
-          )}
-          <DropdownMenuItem
-            onSelect={() => {
-              setShowDeleteDialog(true);
-            }}
-            className="text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500 dark:focus:bg-red-500/15 dark:focus:text-red-400"
-          >
-            <Trash2 strokeWidth={1.5} />
-            Borrar
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
 
       <ChatShareModal
         chat={chat}

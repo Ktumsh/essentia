@@ -91,7 +91,7 @@ const LayoutWrapper = ({
         <DesktopHeader user={user} />
 
         {isEssentiaAI ? (
-          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">
+          <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col">
             {children}
           </div>
         ) : (

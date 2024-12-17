@@ -5,7 +5,7 @@ import { AvatarIcon } from "@/modules/icons/miscellaneus";
 
 export const BotAvatar = () => {
   return (
-    <div className="dark:bg-logo flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg bg-white">
+    <div className="flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg bg-white dark:bg-logo">
       <Image
         width={16}
         height={16}

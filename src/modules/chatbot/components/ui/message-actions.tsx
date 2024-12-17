@@ -128,39 +128,39 @@ const PureMessageActions = ({
   const isDownvoted = vote?.isUpvoted === false;
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 transition-opacity group-hover/message:opacity-100 md:opacity-0">
       <BetterTooltip content="Copiar texto">
         <Button
           variant="outline"
           onClick={onCopy}
-          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m dark:border-white/10 dark:text-main-dark-m"
+          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
         >
           <Copy />
           <span className="sr-only">Copiar</span>
         </Button>
       </BetterTooltip>
 
-      <BetterTooltip content="Me gusta" hidden={isUpvoted}>
+      <BetterTooltip content="Buena respuesta" hidden={isUpvoted}>
         <Button
           variant="outline"
           disabled={vote?.isUpvoted}
           onClick={upvoteResponse}
-          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m dark:border-white/10 dark:text-main-dark-m"
+          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
         >
           <ThumbsUp />
-          <span className="sr-only">Votar me gusta</span>
+          <span className="sr-only">Votar buena respuesta</span>
         </Button>
       </BetterTooltip>
 
-      <BetterTooltip content="No me gusta" hidden={isDownvoted}>
+      <BetterTooltip content="Mala respuesta" hidden={isDownvoted}>
         <Button
           variant="outline"
           disabled={vote && !vote.isUpvoted}
           onClick={downvoteResponse}
-          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m dark:border-white/10 dark:text-main-dark-m"
+          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
         >
           <ThumbsDown />
-          <span className="sr-only">Votar no me gusta</span>
+          <span className="sr-only">Votar mala respuesta</span>
         </Button>
       </BetterTooltip>
     </div>
