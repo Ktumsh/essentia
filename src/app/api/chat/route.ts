@@ -1,4 +1,9 @@
-import { convertToCoreMessages, Message, StreamData, streamText } from "ai";
+import {
+  convertToCoreMessages,
+  Message,
+  createDataStreamResponse,
+  streamText,
+} from "ai";
 import { z } from "zod";
 
 import { auth } from "@/app/(auth)/auth";
@@ -87,7 +92,7 @@ export async function POST(request: Request) {
   const userMessage = getMostRecentUserMessage(coreMessages);
 
   if (!userMessage) {
-    return new Response("No user message found", { status: 400 });
+    return new Response("Mensaje de usuario no encontrado", { status: 400 });
   }
 
   const chat = await getChatById({ id });
@@ -105,13 +110,6 @@ export async function POST(request: Request) {
     ],
   });
 
-  const streamingData = new StreamData();
-
-  streamingData.append({
-    type: "user-message-id",
-    content: userMessageId,
-  });
-
   const systemPrompt = createSystemPrompt({
     firstName,
     lastName,
@@ -125,175 +123,180 @@ export async function POST(request: Request) {
     premiumExpiresAt,
   });
 
-  const result = await streamText({
-    model: gptFlashModel,
-    system: systemPrompt,
-    messages: coreMessages,
-    maxSteps: 5,
-    experimental_activeTools: allTools,
-    tools: {
-      getWeather: {
-        description: "Obtén el clima actual en una ubicación",
-        parameters: z.object({
-          latitude: z.number(),
-          longitude: z.number(),
-        }),
-        execute: async ({ latitude, longitude }) => {
-          const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`,
-          );
+  return createDataStreamResponse({
+    execute: (dataStream) => {
+      dataStream.writeData({
+        type: "user-message-id",
+        content: userMessageId,
+      });
 
-          const weatherData = await response.json();
-          return weatherData;
+      const result = streamText({
+        model: gptFlashModel,
+        system: systemPrompt,
+        messages: coreMessages,
+        maxSteps: 5,
+        experimental_activeTools: allTools,
+        tools: {
+          getWeather: {
+            description: "Obtén el clima actual en una ubicación",
+            parameters: z.object({
+              latitude: z.number(),
+              longitude: z.number(),
+            }),
+            execute: async ({ latitude, longitude }) => {
+              const response = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`,
+              );
+
+              const weatherData = await response.json();
+              return weatherData;
+            },
+          },
+          recommendExercise: {
+            description: "Mostrar rutina de ejercicios personalizada",
+            parameters: z.object({
+              objective: z.string().describe("Objetivo principal"),
+              physicalLevel: z.string().describe("Nivel de condición física"),
+              time: z
+                .string()
+                .describe("Tiempo disponible para realizar la rutina"),
+              preferences: z.string().describe("Preferencias"),
+              healthConditions: z
+                .string()
+                .describe("Condiciones de salud preexistentes"),
+              equipment: z.string().describe("Disponibilidad de equipamiento"),
+            }),
+            execute: async ({
+              objective,
+              physicalLevel,
+              time,
+              preferences,
+              healthConditions,
+              equipment,
+            }) => {
+              const results = await generateExerciseRoutine({
+                objective,
+                physicalLevel,
+                time,
+                preferences,
+                healthConditions,
+                equipment,
+              });
+              return results;
+            },
+          },
+          healthRiskAssessment: {
+            description: "Mostrar evaluación de riesgo de salud",
+            parameters: z.object({
+              weight: z.number().describe("Peso"),
+              height: z.number().describe("Altura"),
+              familyHistory: z.string().describe("Historial familiar"),
+              lifestyle: z.string().describe("Estilo de vida"),
+              healthConditions: z
+                .string()
+                .describe("Condiciones de salud preexistentes"),
+            }),
+            execute: async ({
+              weight,
+              height,
+              familyHistory,
+              lifestyle,
+              healthConditions,
+            }) => {
+              const results = await generateRiskAssessment({
+                weight,
+                height,
+                familyHistory,
+                lifestyle,
+                healthConditions,
+              });
+              return results;
+            },
+          },
+          nutritionalAdvice: {
+            description: "Mostrar plan nutricional",
+            parameters: z.object({
+              dietType: z.string().describe("Tipo de alimento"),
+              restrictions: z.string().describe("Restricciones"),
+              calorieGoal: z.string().describe("Meta de calorías"),
+              activityLevel: z.string().describe("Nivel de actividad"),
+              weight: z.number().describe("Peso"),
+              height: z.number().describe("Altura"),
+              weightGoal: z.string().describe("Meta de peso"),
+            }),
+            execute: async ({
+              dietType,
+              restrictions,
+              calorieGoal,
+              activityLevel,
+              weight,
+              height,
+              weightGoal,
+            }) => {
+              const results = await generateNutritionalPlan({
+                dietType,
+                restrictions,
+                calorieGoal,
+                activityLevel,
+                weight,
+                height,
+                weightGoal,
+              });
+              return results;
+            },
+          },
+          moodTracking: {
+            description:
+              "Mostrar recomendación de actividades para mejorar el estado de ánimo",
+            parameters: z.object({
+              mood: z.string().describe("Estado de ánimo"),
+            }),
+            execute: async ({ mood }) => {
+              const results = await generateMoodTracking({ mood });
+              return results;
+            },
+          },
         },
-      },
-      recommendExercise: {
-        description: "Mostrar rutina de ejercicios personalizada",
-        parameters: z.object({
-          objective: z.string().describe("Objetivo principal"),
-          physicalLevel: z.string().describe("Nivel de condición física"),
-          time: z
-            .string()
-            .describe("Tiempo disponible para realizar la rutina"),
-          preferences: z.string().describe("Preferencias"),
-          healthConditions: z
-            .string()
-            .describe("Condiciones de salud preexistentes"),
-          equipment: z.string().describe("Disponibilidad de equipamiento"),
-        }),
-        execute: async ({
-          objective,
-          physicalLevel,
-          time,
-          preferences,
-          healthConditions,
-          equipment,
-        }) => {
-          const results = await generateExerciseRoutine({
-            objective,
-            physicalLevel,
-            time,
-            preferences,
-            healthConditions,
-            equipment,
-          });
-          return results;
+        onFinish: async ({ response }) => {
+          if (session?.user?.id) {
+            try {
+              const responseMessagesWithoutIncompleteToolCalls =
+                sanitizeResponseMessages(response.messages);
+
+              await saveMessages({
+                messages: responseMessagesWithoutIncompleteToolCalls.map(
+                  (message) => {
+                    const messageId = generateUUID();
+
+                    if (message.role === "assistant") {
+                      dataStream.writeMessageAnnotation({
+                        messageIdFromServer: messageId,
+                      });
+                    }
+
+                    return {
+                      id: messageId,
+                      chatId: id,
+                      role: message.role,
+                      content: message.content,
+                      createdAt: new Date(),
+                    };
+                  },
+                ),
+              });
+            } catch (error) {
+              console.error("Error al guardar el chat:", error);
+            }
+          }
         },
-      },
-      healthRiskAssessment: {
-        description: "Mostrar evaluación de riesgo de salud",
-        parameters: z.object({
-          weight: z.number().describe("Peso"),
-          height: z.number().describe("Altura"),
-          familyHistory: z.string().describe("Historial familiar"),
-          lifestyle: z.string().describe("Estilo de vida"),
-          healthConditions: z
-            .string()
-            .describe("Condiciones de salud preexistentes"),
-        }),
-        execute: async ({
-          weight,
-          height,
-          familyHistory,
-          lifestyle,
-          healthConditions,
-        }) => {
-          const results = await generateRiskAssessment({
-            weight,
-            height,
-            familyHistory,
-            lifestyle,
-            healthConditions,
-          });
-          return results;
+        experimental_telemetry: {
+          isEnabled: true,
+          functionId: "stream-text",
         },
-      },
-      nutritionalAdvice: {
-        description: "Mostrar plan nutricional",
-        parameters: z.object({
-          dietType: z.string().describe("Tipo de alimento"),
-          restrictions: z.string().describe("Restricciones"),
-          calorieGoal: z.string().describe("Meta de calorías"),
-          activityLevel: z.string().describe("Nivel de actividad"),
-          weight: z.number().describe("Peso"),
-          height: z.number().describe("Altura"),
-          weightGoal: z.string().describe("Meta de peso"),
-        }),
-        execute: async ({
-          dietType,
-          restrictions,
-          calorieGoal,
-          activityLevel,
-          weight,
-          height,
-          weightGoal,
-        }) => {
-          const results = await generateNutritionalPlan({
-            dietType,
-            restrictions,
-            calorieGoal,
-            activityLevel,
-            weight,
-            height,
-            weightGoal,
-          });
-          return results;
-        },
-      },
-      moodTracking: {
-        description:
-          "Mostrar recomendación de actividades para mejorar el estado de ánimo",
-        parameters: z.object({
-          mood: z.string().describe("Estado de ánimo"),
-        }),
-        execute: async ({ mood }) => {
-          const results = await generateMoodTracking({ mood });
-          return results;
-        },
-      },
+      });
+
+      result.mergeIntoDataStream(dataStream);
     },
-    onFinish: async ({ response }) => {
-      if (session?.user?.id) {
-        try {
-          const responseMessagesWithoutIncompleteToolCalls =
-            sanitizeResponseMessages(response.messages);
-
-          await saveMessages({
-            messages: responseMessagesWithoutIncompleteToolCalls.map(
-              (message) => {
-                const messageId = generateUUID();
-
-                if (message.role === "assistant") {
-                  streamingData.appendMessageAnnotation({
-                    messageIdFromServer: messageId,
-                  });
-                }
-
-                return {
-                  id: messageId,
-                  chatId: id,
-                  role: message.role,
-                  content: message.content,
-                  createdAt: new Date(),
-                };
-              },
-            ),
-          });
-        } catch (error) {
-          console.error("Error al guardar el chat:", error);
-        }
-      }
-
-      streamingData.close();
-    },
-    experimental_telemetry: {
-      isEnabled: true,
-      functionId: "stream-text",
-    },
-  });
-
-  return result.toDataStreamResponse({
-    data: streamingData,
   });
 }
 
