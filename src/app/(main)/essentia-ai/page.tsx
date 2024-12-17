@@ -4,6 +4,7 @@ import { auth } from "@/app/(auth)/auth";
 import { Chat } from "@/modules/chatbot/components/chat";
 import { generateUUID } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
+
 export const metadata: Metadata = {
   title: "Essentia AI ⭐",
   alternates: {

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
-import React, { FC, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { SidebarInset } from "@/components/ui/sidebar";
@@ -27,12 +27,12 @@ interface LayoutWrapperProps {
   children: React.ReactNode;
 }
 
-const LayoutWrapper: FC<LayoutWrapperProps> = ({
+const LayoutWrapper = ({
   session,
   user,
   isPremium,
   children,
-}) => {
+}: LayoutWrapperProps) => {
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
@@ -88,7 +88,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({
       {/* Main content */}
       <SidebarInset>
         {/* Desktop Header */}
-        {!isEssentiaAI && <DesktopHeader user={user} isReadonly={false} />}
+        <DesktopHeader user={user} />
 
         {isEssentiaAI ? (
           <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col md:h-dvh">

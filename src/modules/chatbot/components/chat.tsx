@@ -7,7 +7,7 @@ import { Session } from "next-auth";
 import { ComponentProps, useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 
-import DesktopHeader from "@/modules/core/components/ui/layout/desktop-header";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 import { UserProfileData } from "@/types/session";
 import { fetcher } from "@/utils/common";
@@ -43,6 +43,8 @@ export function Chat({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
+  const { setChatData } = useChatContext();
+
   const {
     messages,
     setMessages,
@@ -65,6 +67,10 @@ export function Chat({
 
   useEffect(() => {
     setNewChatId(id);
+    setChatData({
+      isReadonly: isReadonly,
+      selectedVisibilityType: selectedVisibilityType,
+    });
   });
 
   const { data: votes } = useSWR<Array<ChatVote>>(
@@ -79,12 +85,6 @@ export function Chat({
 
   return (
     <>
-      <DesktopHeader
-        user={user}
-        isReadonly={isReadonly}
-        selectedVisibilityType={selectedVisibilityType}
-      />
-
       <Messages
         id={id}
         chat={chat as ChatType}
