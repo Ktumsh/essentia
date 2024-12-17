@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FC, type JSX } from "react";
+import { type JSX } from "react";
 
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { IconSvgProps } from "@/types/common";
@@ -18,23 +18,25 @@ interface NavbarLinksProps {
   pages: Page[];
 }
 
-const NavbarLinks: FC<NavbarLinksProps> = ({ pages }) => {
+const NavbarLinks = ({ pages }: NavbarLinksProps) => {
   return (
     <nav
-      className="relative inline-flex items-center justify-center gap-4"
       role="navigation"
-      aria-label="Main Navigation"
+      className="relative inline-flex items-center justify-center gap-4"
     >
       <ul className="relative z-10 flex space-x-4">
         {pages.map(
-          ({ name, href, icon: Icon, activeIcon: ActiveIcon, active }, key) => (
+          (
+            { name, href, icon: Icon, activeIcon: ActiveIcon, active },
+            index,
+          ) => (
             <li
-              key={key}
+              key={href}
               className="relative flex w-20 items-center justify-center"
             >
               <BetterTooltip content={name}>
                 <Link
-                  id={`navbar_link_${key + 1}`}
+                  id={`navbar_link_${index + 1}`}
                   aria-label={`Ir a ${name}`}
                   href={href}
                   className={cn(

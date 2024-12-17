@@ -4,11 +4,9 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import {
-  VisibilitySelector,
-  VisibilityType,
-} from "@/modules/chatbot/components/visibility-selector";
+import { VisibilitySelector } from "@/modules/chatbot/components/visibility-selector";
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { UserProfileData } from "@/types/session";
 import { formatPathName } from "@/utils/format";
 
@@ -16,31 +14,24 @@ import NavbarLinks from "./navbar-links";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;
-  selectedVisibilityType?: VisibilityType;
-  isReadonly: boolean;
 }
 
-const DesktopHeader = ({
-  user,
-  selectedVisibilityType,
-  isReadonly,
-}: DesktopHeaderProps) => {
+const DesktopHeader = ({ user }: DesktopHeaderProps) => {
+  const { isReadonly, selectedVisibilityType } = useChatContext();
+
   const router = useRouter();
   const pathname = usePathname();
-  const { id } = useParams();
-  const chatId = id;
+  const params = useParams();
+
+  const chatId = params.id;
 
   const normalizedPath = formatPathName(pathname);
-
-  const essentiaAi = pathname.startsWith("/essentia-ai");
 
   const pages = siteConfig.navLinks.map((page) => ({
     ...page,
     active:
       normalizedPath === page.href ||
-      (page.href === "/adicionales" &&
-        normalizedPath.startsWith("/adicionales")) ||
-      (page.href === "/essentia-ai" && essentiaAi),
+      normalizedPath.startsWith(page.href + "/"),
   }));
 
   return (
