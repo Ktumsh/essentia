@@ -105,7 +105,8 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
-              <DrawerTitle></DrawerTitle>
+              <DrawerTitle>Chat</DrawerTitle>
+              <DrawerDescription></DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
               {visibilityType === "public" && (
@@ -122,13 +123,13 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
               <DrawerClose asChild>
                 <Button
                   variant="mobile"
-                  className="text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500 dark:focus:bg-red-500/15 dark:focus:text-red-400"
+                  className="text-destructive active:bg-destructive/15 active:text-destructive dark:text-red-500 dark:active:bg-red-500/15 dark:active:text-red-400"
                   onClick={() => {
                     setShowDeleteDialog(true);
                   }}
                 >
                   <Trash2 strokeWidth={1.5} />
-                  Borrar
+                  Eliminar
                 </Button>
               </DrawerClose>
             </DrawerFooter>
@@ -162,7 +163,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
               className="text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500 dark:focus:bg-red-500/15 dark:focus:text-red-400"
             >
               <Trash2 strokeWidth={1.5} />
-              Borrar
+              Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -195,7 +196,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
             </DrawerHeader>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button variant="secondary">Cancelar</Button>
+                <Button variant="outline">Cancelar</Button>
               </DrawerClose>
               <Button variant="destructive" onClick={handleDelete}>
                 Continuar

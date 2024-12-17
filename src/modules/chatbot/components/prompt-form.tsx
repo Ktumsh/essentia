@@ -85,6 +85,10 @@ const PurePromptForm = ({
     setLocalStorageInput(input);
   }, [input, setLocalStorageInput]);
 
+  useEffect(() => {
+    adjustHeight();
+  }, [input, adjustHeight]);
+
   const submitForm = useCallback(
     (event: FormEvent) => {
       if (event?.preventDefault) {
@@ -96,6 +100,7 @@ const PurePromptForm = ({
       });
 
       setAttachments([]);
+      setInput("");
       setLocalStorageInput("");
 
       if (!isMobile) {
@@ -107,6 +112,7 @@ const PurePromptForm = ({
       handleSubmit,
       setAttachments,
       setLocalStorageInput,
+      setInput,
       isMobile,
       textareaRef,
     ],

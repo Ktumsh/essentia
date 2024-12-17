@@ -1,6 +1,5 @@
 "use client";
 
-import { ChatRequestOptions, Message } from "ai";
 import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
 import { memo, useState } from "react";
@@ -31,6 +30,7 @@ import { MoodTracking } from "../tools/mood-tracking-stock";
 import { Plan } from "../tools/nutrition-plan-stock";
 
 import type { ChatVote } from "@/db/schema";
+import type { ChatRequestOptions, Message } from "ai";
 
 interface MessageProps {
   chatId: string;
@@ -63,6 +63,8 @@ const PurePreviewMessage = ({
     message;
   const { profileImage, username } = user || {};
 
+  const userRole = role === "user";
+
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<"view" | "edit">("view");
   return (
@@ -83,7 +85,7 @@ const PurePreviewMessage = ({
       >
         {role === "assistant" && <BotAvatar />}
 
-        {role === "user" && !isMobile && (
+        {userRole && !isMobile && (
           <UserAvatar profileImage={profileImage} username={username} />
         )}
 
@@ -101,35 +103,34 @@ const PurePreviewMessage = ({
 
           {content && mode === "view" && (
             <div className="flex flex-row items-start gap-2">
-              {role === "user" && !isReadonly && !isMobile && (
+              {userRole && !isReadonly && !isMobile && (
                 <BetterTooltip content="Editar mensaje">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="shrink-0 rounded-full border-none text-main opacity-0 hover:bg-white group-hover/message:opacity-100 dark:text-main-dark dark:hover:bg-full-dark"
+                    radius="full"
+                    className="text-main opacity-0 hover:bg-white group-hover/message:opacity-100 dark:text-main-dark dark:hover:bg-full-dark"
                     onClick={() => {
                       setMode("edit");
                     }}
                   >
-                    <PencilEditIcon strokeWidth={1.5} />
+                    <PencilEditIcon strokeWidth={1.5} className="!size-5" />
                   </Button>
                 </BetterTooltip>
               )}
 
               <div
-                role={isMobile ? "button" : undefined}
-                onClick={() => {
-                  if (isMobile) {
-                    setIsOpen(true);
-                  }
-                }}
-                className={cn(
-                  "flex flex-col gap-4 transition-opacity active:opacity-80 md:active:opacity-100",
-                  {
-                    "rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 dark:bg-full-dark md:px-4 md:py-2.5":
-                      role === "user",
-                  },
-                )}
+                role={isMobile && userRole ? "button" : undefined}
+                aria-label={
+                  isMobile && userRole
+                    ? "Presionar y editar mensaje"
+                    : undefined
+                }
+                onClick={() => isMobile && userRole && setIsOpen(true)}
+                className={cn("flex flex-col gap-4", {
+                  "rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 duration-75 transition-transform-opacity active:scale-[0.97] active:opacity-80 active:duration-150 dark:bg-full-dark md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
+                    userRole,
+                })}
               >
                 <Markdown>{content as string}</Markdown>
               </div>

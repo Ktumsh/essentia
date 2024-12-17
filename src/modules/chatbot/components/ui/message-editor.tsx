@@ -1,6 +1,5 @@
 "use client";
 
-import { ChatRequestOptions, Message } from "ai";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
@@ -9,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 import { useUserMessageId } from "../../hooks/use-user-message-id";
+
+import type { ChatRequestOptions, Message } from "ai";
 
 export type MessageEditorProps = {
   message: Message;

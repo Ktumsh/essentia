@@ -59,14 +59,14 @@ const ChatShareModal = ({
 
   const Content = memo(() => {
     return (
-      <>
-        <div className="mx-4 mt-4 space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-dark md:m-0">
+      <div className="space-y-4 p-6 pb-0 md:p-6">
+        <div className="space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-dark">
           <div className="font-medium">{chat.title}</div>
           <div className="text-main-m dark:text-main-dark-m">
             {formatDate(chat.createdAt, "d 'de' MMMM, yyyy")}
           </div>
         </div>
-        <div className="flex w-full items-center space-x-2 p-4 pb-0 md:p-0">
+        <div className="flex w-full items-center space-x-2">
           <Input
             id="link"
             defaultValue={
@@ -84,7 +84,7 @@ const ChatShareModal = ({
             <Copy />
           </Button>
         </div>
-      </>
+      </div>
     );
   });
 
@@ -98,9 +98,9 @@ const ChatShareModal = ({
             <DrawerTitle>Compartir enlace al chat</DrawerTitle>
           </DrawerHeader>
           <Content />
-          <DrawerFooter className="sm:justify-start">
+          <DrawerFooter>
             <DrawerClose asChild>
-              <Button variant="secondary">Cancelar</Button>
+              <Button variant="outline">Cancelar</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
@@ -109,17 +109,17 @@ const ChatShareModal = ({
   } else {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
+        <DialogContent isSecondary>
+          <DialogHeader isSecondary>
             <DialogTitle>Compartir enlace al chat</DialogTitle>
           </DialogHeader>
           <DialogDescription className="sr-only">
             Compartir enlace al chat
           </DialogDescription>
           <Content />
-          <DialogFooter className="sm:justify-start">
+          <DialogFooter isSecondary>
             <DialogClose asChild>
-              <Button variant="secondary">Cancelar</Button>
+              <Button variant="outline">Cancelar</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

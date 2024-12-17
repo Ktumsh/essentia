@@ -353,7 +353,7 @@ const EditProfileForm = ({
             </ScrollArea>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button variant="secondary">Cancelar</Button>
+                <Button variant="outline">Cancelar</Button>
               </DrawerClose>
               <Button
                 variant="destructive"

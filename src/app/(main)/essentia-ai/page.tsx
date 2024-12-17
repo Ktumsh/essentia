@@ -14,8 +14,10 @@ export const metadata: Metadata = {
 
 const AIPage = async () => {
   const id = generateUUID();
+
   const session = await auth();
   const userData = session ? await getUserProfileData({ session }) : null;
+
   return (
     <Chat
       key={id}
