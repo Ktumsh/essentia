@@ -8,9 +8,12 @@ import AboutHeader from "@/modules/about/components/about-header";
 import ButtonUp from "@/modules/core/components/ui/buttons/button-up";
 
 export const metadata: Metadata = {
-  title: "Desubre Essentia",
+  title: "Desubre" + siteConfig.name,
+  alternates: {
+    canonical: "/about",
+  },
   openGraph: {
-    title: "Desubre Essentia",
+    title: "Desubre" + siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url + "/about",
     type: "website",
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: "Desubre Essentia",
+    title: "Desubre" + siteConfig.name,
     description: siteConfig.description,
     card: "summary_large_image",
     images: [

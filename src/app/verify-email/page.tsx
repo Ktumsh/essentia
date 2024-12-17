@@ -1,7 +1,15 @@
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { getUserByEmail } from "@/db/querys/user-querys";
 import VerifyEmail from "@/modules/auth/components/verify-email";
+
+export const metadata: Metadata = {
+  title: "Verificar correo electrónico",
+  alternates: {
+    canonical: "/verify-email",
+  },
+};
 
 type Props = {
   searchParams: Promise<{ email?: string }>;

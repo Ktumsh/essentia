@@ -6,6 +6,9 @@ import { generateUUID } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
 export const metadata: Metadata = {
   title: "Essentia AI ⭐",
+  alternates: {
+    canonical: "/essentia-ai",
+  },
 };
 
 const AIPage = async () => {

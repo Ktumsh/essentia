@@ -1,6 +1,15 @@
+import { Metadata } from "next";
+
 import { auth } from "@/app/(auth)/auth";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import PaymentCallbackContent from "@/modules/payment/components/payment-callback-content";
+
+export const metadata: Metadata = {
+  title: "Compra cancelada",
+  alternates: {
+    canonical: "/payment/cancel",
+  },
+};
 
 const CancelPage = async () => {
   const session = await auth();

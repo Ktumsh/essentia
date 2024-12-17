@@ -4,6 +4,9 @@ import AccountHeader from "@/modules/account/components/account-header";
 
 export const metadata: Metadata = {
   title: "Suscripción y Facturación",
+  alternates: {
+    canonical: "/account/billing",
+  },
 };
 
 const BillingPage = () => {

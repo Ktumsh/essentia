@@ -7,6 +7,9 @@ import PricingCards from "@/modules/premium/components/pricing-cards";
 
 export const metadata: Metadata = {
   title: "Premium",
+  alternates: {
+    canonical: "/premium",
+  },
 };
 
 const PremiumPage = async () => {
