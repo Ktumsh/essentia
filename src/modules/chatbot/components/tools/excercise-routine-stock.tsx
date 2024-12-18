@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { CheckCircledIcon, WarningCircledIcon } from "@/modules/icons/common";
@@ -62,10 +61,7 @@ const renderExerciseDetails = (exercise: Exercise) => {
           <TabsTrigger value="exercises">Ejercicio</TabsTrigger>
           <TabsTrigger value="how-to-do">Instrucciones</TabsTrigger>
         </TabsList>
-        <TabsContent
-          value="exercises"
-          className="min-h-[272px] px-0 sm:min-h-56 md:min-h-[260px]"
-        >
+        <TabsContent value="exercises" className="px-0">
           <div className="flex flex-col">
             <h3 className="font-medium text-main dark:text-white md:text-lg">
               {exercise.name}
@@ -265,7 +261,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
         </div>
         {routine.warmUp && (
           <div className="flex w-full items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
-            <WarningCircledIcon className="size-8 min-w-8 text-danger md:size-10 md:min-w-10" />
+            <WarningCircledIcon className="size-8 shrink-0 text-red-500 md:size-10" />
             <div className="flex flex-col">
               <h3 className="font-sans font-extrabold uppercase">
                 Antes de comenzar
@@ -274,24 +270,20 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
             </div>
           </div>
         )}
-
-        <Separator />
         <ul className="space-y-2 md:space-y-4">
           {routine.exercises.map((exercise, index) => (
             <Fragment key={index}>
               <li className="flex flex-col justify-center gap-2 text-xs md:text-sm">
                 {renderExerciseDetails(exercise)}
               </li>
-              <Separator className="last:hidden" />
             </Fragment>
           ))}
         </ul>
-        <Separator />
       </div>
-      <CardFooter className="flex-col items-center justify-center space-y-2 p-2 !pt-0 md:space-y-4 md:p-8">
+      <CardFooter className="flex-col items-center justify-center space-y-2 p-2 !pt-0 md:space-y-4 md:p-6">
         {routine.coolDown && (
           <div className="flex w-full items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
-            <CheckCircledIcon className="size-8 min-w-8 text-success opacity-50 md:size-10 md:min-w-10" />
+            <CheckCircledIcon className="size-8 min-w-8 text-green-500 md:size-10 md:min-w-10" />
             <div className="flex flex-col">
               <h3 className="font-sans font-extrabold uppercase">
                 Al finalizar
@@ -313,16 +305,20 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
                 <div
                   key={index}
                   className={cn(
-                    "space-y-2 rounded-lg bg-white p-3 dark:bg-full-dark",
-                    index % 2 === 0 ? "last:col-span-2" : null,
+                    "prose flex flex-col items-center rounded-lg bg-white p-2 dark:bg-full-dark md:p-3",
+                    {
+                      "last:col-span-2": index % 2 === 0,
+                    },
                   )}
                 >
                   <h4 className="text-center text-sm font-semibold dark:text-main-dark md:text-main">
                     {daySchedule.day}
                   </h4>
-                  <ul className="text-center text-xs dark:text-main-dark-h md:text-sm">
+                  <ul className="w-fit text-xs dark:text-main-dark-h md:text-sm">
                     {daySchedule.exercises.map((exerciseName, idx) => (
-                      <li key={idx}>{exerciseName}</li>
+                      <li key={idx} className="pl-0 md:pl-[.375em]">
+                        {exerciseName}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -332,7 +328,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
         )}
         {routine.recommendations && (
           <div className="rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
-            <h3 className="font-sans text-lg font-extrabold uppercase md:text-xl">
+            <h3 className="font-sans text-base font-extrabold uppercase md:text-xl">
               Recomendaciones
             </h3>
             <p className="dark:text-main-dark-h">{routine.recommendations}</p>

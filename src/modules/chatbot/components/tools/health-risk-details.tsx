@@ -242,14 +242,17 @@ const HealthRiskDetails = ({
                 </Badge>
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <ChartContainer config={CHART_CONFIG} className="min-h-48 w-full">
+            <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
+              <ChartContainer
+                config={CHART_CONFIG}
+                className="w-full text-xxs md:min-h-48 md:text-xs"
+              >
                 <BarChart
                   accessibilityLayer
                   data={CHART_DATA}
                   layout="vertical"
                   maxBarSize={36}
-                  barCategoryGap={10}
+                  barCategoryGap={isMobile ? 5 : 10}
                   endAngle={30}
                 >
                   <YAxis
@@ -286,16 +289,25 @@ const HealthRiskDetails = ({
             </CardContent>
             <CardFooter className="justify-center">
               <div className="flex max-w-80 flex-col items-center space-y-4">
-                <div className="inline-flex items-center gap-2">
+                <div className="inline-flex items-center gap-1">
                   <p className="font-sans text-4xl font-extrabold text-main dark:text-white">
-                    {riskAssessment.generalRiskLevelPercentage}%
+                    {riskAssessment.generalRiskLevelPercentage}
                   </p>
+                  <span className="self-end text-lg text-main-h dark:text-main-dark-h">
+                    %
+                  </span>
+                </div>
+                <div className="inline-flex w-full items-center gap-2">
+                  <Progress
+                    value={riskAssessment.generalRiskLevelPercentage}
+                    indicatorColor={riskInfo.strokeColor}
+                  />
                   {isMobile ? (
                     <Popover>
                       <PopoverTrigger asChild>
                         <span
                           aria-label="Ayuda"
-                          className="flex size-3 items-center justify-center rounded-full bg-bittersweet-400 dark:bg-cerise-red-600"
+                          className="flex size-3 shrink-0 items-center justify-center rounded-full bg-bittersweet-400 dark:bg-cerise-red-600"
                         >
                           <QuestionIcon className="size-2 text-white" />
                         </span>
@@ -318,17 +330,20 @@ const HealthRiskDetails = ({
                     </BetterTooltip>
                   )}
                 </div>
-                <Progress
-                  value={riskAssessment.generalRiskLevelPercentage}
-                  indicatorColor={riskInfo.strokeColor}
-                />
-                <div className={cn("mt-2 text-xl font-bold", riskInfo.color)}>
+                <div
+                  className={cn(
+                    "mt-2 text-lg font-bold md:text-xl",
+                    riskInfo.color,
+                  )}
+                >
                   Nivel de riesgo{" "}
                   <span className="uppercase">
                     {riskAssessment.generalRiskLevel}
                   </span>
                 </div>
-                <div className="text-center text-sm">{riskInfo.message}</div>
+                <div className="text-center text-xs md:text-sm">
+                  {riskInfo.message}
+                </div>
               </div>
             </CardFooter>
           </Card>
