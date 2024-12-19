@@ -134,6 +134,7 @@ const LoginForm: React.FC = () => {
                       id="email"
                       type="email"
                       placeholder="Ingresa tu correo electrónico"
+                      autoComplete="email"
                       required
                       autoFocus
                       isAuth
@@ -161,6 +162,7 @@ const LoginForm: React.FC = () => {
                       id="password"
                       type={isVisible ? "text" : "password"}
                       placeholder="Ingresa tu contraseña"
+                      autoComplete="current-password"
                       required
                       isAuth
                     />

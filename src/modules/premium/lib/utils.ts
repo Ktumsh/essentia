@@ -44,7 +44,7 @@ export const planDetails: Record<string, PlanDetails> = {
     subname: "Ahorra más",
     feature: [
       "Todo lo del plan mensual +",
-      "Descuentos en futuras suscripciones",
+      "Ahorro del 20% respecto al plan mensual",
       "Prioridad en soporte",
     ],
   },

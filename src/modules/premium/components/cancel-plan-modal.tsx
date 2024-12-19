@@ -4,7 +4,6 @@ import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -28,6 +26,16 @@ interface CancelPlanModalProps {
   handleCancelPlan: () => void;
 }
 
+const Description = () => {
+  return (
+    <>
+      Al <span className="font-semibold">continuar</span>, tu plan se cancelará
+      y perderás acceso a todas las funcionalidades Premium a partir de la fecha
+      de vencimiento de tu suscripción actual.
+    </>
+  );
+};
+
 const CancelPlanModal = ({
   isOpen,
   setIsOpen,
@@ -36,29 +44,26 @@ const CancelPlanModal = ({
 }: CancelPlanModalProps) => {
   const isMobile = useIsMobile();
 
+  const title = "Cambiar al plan Gratis";
+
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Seleccionaste el plan Gratis</DrawerTitle>
-            <DrawerDescription className="mt-4 px-6 text-start">
-              Al continuar, tu plan se cancelará y perderás acceso a todas las
-              funcionalidades Premium a partir de la fecha de vencimiento de tu
-              suscripción actual.
+            <DrawerTitle>{title}</DrawerTitle>
+            <DrawerDescription className="mt-4 px-4 text-start">
+              <Description />
             </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DrawerClose>
             <Button
               variant="destructive"
               disabled={isPending}
               onClick={handleCancelPlan}
             >
               {isPending && <Loader className="size-4 animate-spin" />}
-              {isPending ? null : "Cambiar a plan Gratis"}
+              {isPending ? null : "Continuar"}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -68,25 +73,20 @@ const CancelPlanModal = ({
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent isSecondary>
-          <DialogHeader isSecondary className="mb-5">
-            <DialogTitle>Seleccionaste el plan Gratis</DialogTitle>
+          <DialogHeader isSecondary className="!pb-6">
+            <DialogTitle>{title}</DialogTitle>
             <DialogDescription>
-              Al continuar, tu plan se cancelará y perderás acceso a todas las
-              funcionalidades Premium a partir de la fecha de vencimiento de tu
-              suscripción actual.
+              <Description />
             </DialogDescription>
           </DialogHeader>
           <DialogFooter isSecondary>
-            <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DialogClose>
             <Button
               variant="destructive"
               disabled={isPending}
               onClick={handleCancelPlan}
             >
               {isPending && <Loader className="size-4 animate-spin" />}
-              {isPending ? null : "Cambiar a plan Gratis"}
+              {isPending ? null : "Continuar"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -23,6 +23,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -73,7 +74,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
   const menuFooterLinks = siteConfig.menuFooterLinks;
 
   const handleAccountAction = (index: number, item: Item) => {
-    if (index !== -1) {
+    if (index <= 2) {
       router.push(
         item.link
           ? item.link
@@ -102,7 +103,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               href="/"
               className="relative !mt-0 inline-flex items-center gap-2"
             >
-              <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-logo">
                 <Logo width={16} height={16} className="h-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -262,6 +263,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle></DrawerTitle>
+              <DrawerDescription></DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
               {menuFooterLinks.account.map((item, index) => (
