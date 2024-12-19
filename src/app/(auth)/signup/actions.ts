@@ -1,5 +1,6 @@
 "use server";
 
+import { set } from "date-fns";
 import { AuthError } from "next-auth";
 
 import { createUser } from "@/db/querys/user-querys";
@@ -25,13 +26,20 @@ export async function signup(
   const birthdateStr = formData.get("birthdate") as string;
   const birthdate = new Date(birthdateStr);
 
+  const normalizedBirthdate = set(birthdate, {
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    milliseconds: 0,
+  });
+
   const registerData: RegisterFormData = {
     email,
     password,
     username,
     firstName,
     lastName,
-    birthdate,
+    birthdate: normalizedBirthdate,
   };
 
   const parsedCredentials = registerSchema.safeParse(registerData);
