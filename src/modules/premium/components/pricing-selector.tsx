@@ -24,9 +24,14 @@ import {
 interface PricingSelectorProps {
   session: Session | null;
   currentPriceId: string | null;
+  isPremium: boolean | null;
 }
 
-const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
+const PricingSelector = ({
+  session,
+  currentPriceId,
+  isPremium,
+}: PricingSelectorProps) => {
   const id = currentPriceId;
   const { free, premium, premiumPlus } = siteConfig.planPrices;
   const PLANS = [free, premium, premiumPlus];
@@ -75,8 +80,9 @@ const PricingSelector = ({ session, currentPriceId }: PricingSelectorProps) => {
         priceId={selectedPlan}
         isCurrentPlan={id === selectedPlan}
         price={planPrice}
-        isPremium={isRecommended}
-        isPremiumPlus={isAnual}
+        isPremiumPlan={isRecommended}
+        isPremiumPlusPlan={isAnual}
+        isPremium={isPremium}
         features={getPlanFeatures(selectedPlan)}
       />
     </>

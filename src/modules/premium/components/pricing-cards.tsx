@@ -4,6 +4,7 @@ import { Session } from "next-auth";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { siteConfig } from "@/config/site";
+import { usePlan } from "@/modules/core/hooks/use-current-plan";
 
 import PricingCard from "./pricing-card";
 import PricingSelector from "./pricing-selector";
@@ -16,13 +17,14 @@ import {
 
 interface PricingCardsProps {
   session: Session | null;
-  currentPriceId: string | null;
+  isPremium: boolean | null;
 }
 
-const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
-  const id = currentPriceId;
+const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
   const { free, premium, premiumPlus } = siteConfig.planPrices;
   const PLANS = [free, premium, premiumPlus];
+
+  const { currentPlan } = usePlan();
 
   const isMobile = useIsMobile();
 
@@ -44,24 +46,26 @@ const PricingCards = ({ session, currentPriceId }: PricingCardsProps) => {
           <div className="mx-auto w-full max-w-[450px] md:hidden">
             <PricingSelector
               session={session}
-              currentPriceId={currentPriceId}
+              currentPriceId={currentPlan}
+              isPremium={isPremium}
             />
           </div>
         ) : (
           <div className="hidden md:block">
             <div className="grid grid-cols-3 gap-4 lg:gap-6 xl:gap-12">
-              {PLANS.map((plan) => (
+              {PLANS.map((plan, index) => (
                 <PricingCard
-                  key={plan}
+                  key={index}
                   session={session}
                   title={getPlanName(plan)}
-                  subtitle={getPlanSubname(id, plan)}
+                  subtitle={getPlanSubname(currentPlan, plan)}
                   description={getPlanDescription(plan)}
                   priceId={plan}
-                  isCurrentPlan={currentPriceId === plan}
+                  isCurrentPlan={currentPlan === plan}
                   price={plan === free ? 0 : plan === premium ? 9500 : 91200}
-                  isPremium={plan === premium}
-                  isPremiumPlus={plan === premiumPlus}
+                  isPremiumPlan={plan === premium}
+                  isPremiumPlusPlan={plan === premiumPlus}
+                  isPremium={isPremium}
                   features={getPlanFeatures(plan)}
                 />
               ))}

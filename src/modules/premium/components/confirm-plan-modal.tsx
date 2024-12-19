@@ -2,14 +2,13 @@
 
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -18,7 +17,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -32,6 +30,7 @@ interface ConfirmPlanModalProps {
   setIsOpen: (isOpen: boolean) => void;
   selectedPlan: string | null;
   title: string;
+  isUserPremium: boolean | null;
 }
 
 const ConfirmPlanModal = ({
@@ -39,6 +38,7 @@ const ConfirmPlanModal = ({
   setIsOpen,
   selectedPlan,
   title,
+  isUserPremium,
 }: ConfirmPlanModalProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -62,37 +62,50 @@ const ConfirmPlanModal = ({
     }
   }, [selectedPlan, router]);
 
+  const modalTitle = useMemo(() => {
+    return isUserPremium ? `Cambiar a ${title}` : `Mejorar a ${title}`;
+  }, [isUserPremium, title]);
+
+  const Description = useCallback(() => {
+    if (isUserPremium) {
+      return (
+        <>
+          Al <span className="font-semibold">continuar</span>, tu plan se
+          actualizará a {title} junto con todos sus beneficios.
+        </>
+      );
+    } else {
+      return (
+        <>
+          Al <span className="font-semibold">continuar</span>, tu plan se
+          actualizará a {title} y obtendrás acceso a todas las funcionalidades
+          de Essentia AI.
+        </>
+      );
+    }
+  }, [isUserPremium, title]);
+
   const Content = useCallback(() => {
     return (
       <>
         {isMobile ? (
           <DrawerHeader>
-            <DrawerTitle>Mejora tu Plan</DrawerTitle>
+            <DrawerTitle>{modalTitle}</DrawerTitle>
             <DrawerDescription className="mt-4 px-4 text-start">
-              Actualiza al plan {title} para obtener acceso a todas las
-              funcionalidades de Essentia AI.
+              <Description />
             </DrawerDescription>
           </DrawerHeader>
         ) : (
-          <DialogHeader isSecondary>
-            <DialogTitle>Mejora tu Plan</DialogTitle>
+          <DialogHeader isSecondary className="!pb-6">
+            <DialogTitle>{modalTitle}</DialogTitle>
             <DialogDescription>
-              Actualiza al plan {title} para obtener acceso a todas las
-              funcionalidades de Essentia AI.
+              <Description />
             </DialogDescription>
           </DialogHeader>
         )}
-        <div className="p-4 md:p-6">
-          <p className="mt-3 text-sm text-main-h dark:text-main-dark-h">
-            Confirma para proceder con la actualización a {title}.
-          </p>
-        </div>
 
         {isMobile ? (
           <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DrawerClose>
             <Button
               variant="destructive"
               onClick={handleProceedToPayment}
@@ -101,15 +114,12 @@ const ConfirmPlanModal = ({
               {isLoading ? (
                 <Loader className="size-4 animate-spin" />
               ) : (
-                `Mejorar a ${title}`
+                "Continuar"
               )}
             </Button>
           </DrawerFooter>
         ) : (
           <DialogFooter isSecondary>
-            <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DialogClose>
             <Button
               variant="destructive"
               onClick={handleProceedToPayment}
@@ -118,14 +128,14 @@ const ConfirmPlanModal = ({
               {isLoading ? (
                 <Loader className="size-4 animate-spin" />
               ) : (
-                `Mejorar a ${title}`
+                "Continuar"
               )}
             </Button>
           </DialogFooter>
         )}
       </>
     );
-  }, [title, isLoading, handleProceedToPayment, isMobile]);
+  }, [isLoading, handleProceedToPayment, isMobile, modalTitle, Description]);
 
   if (isMobile) {
     return (

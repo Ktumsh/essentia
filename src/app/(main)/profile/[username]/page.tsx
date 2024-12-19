@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import ProfilePanel from "@/modules/profile/components/profile-panel";
+import ProfileInfo from "@/modules/profile/components/profile-info";
 import { getUserProfileData } from "@/utils/profile";
 
 type Props = {
@@ -41,7 +41,7 @@ const ProfilePage = async (props: Props) => {
     profileData = await getUserProfileData({ session: undefined, username });
   }
 
-  return <ProfilePanel profileData={profileData} isOwnProfile={isOwnProfile} />;
+  return <ProfileInfo profileData={profileData} isOwnProfile={isOwnProfile} />;
 };
 
 export default ProfilePage;

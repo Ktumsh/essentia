@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import { FC, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -18,33 +18,41 @@ import ConfirmPlanModal from "./confirm-plan-modal";
 interface PricingCardProps {
   title: string;
   priceId: string;
+  isCurrentPlan: boolean;
+  isPremiumPlan?: boolean;
+  isPremiumPlusPlan?: boolean;
   price: number;
   subtitle: string;
   description: string;
   features: string[];
-  isPremium?: boolean;
-  isPremiumPlus?: boolean;
   session: Session | null;
-  isCurrentPlan?: boolean;
+  isPremium: boolean | null;
 }
 
-const PricingCard: FC<PricingCardProps> = ({
+const PricingCard = ({
   title,
   priceId,
+  isCurrentPlan,
+  isPremiumPlan = false,
+  isPremiumPlusPlan = false,
   price,
   subtitle,
   description,
   features,
-  isPremium,
-  isPremiumPlus,
   session,
-  isCurrentPlan,
-}) => {
+  isPremium,
+}: PricingCardProps) => {
+  const router = useRouter();
+
+  const { free } = siteConfig.planPrices;
+
+  console.log("isPremiumPlan", isPremiumPlan);
+  console.log("isPremiumPlusPlan", isPremiumPlusPlan);
+
   const [isOpenConfirmPlanModal, setIsOpenConfirmPlanModal] = useState(false);
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
 
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleSetFreePlan = async () => {
@@ -67,7 +75,7 @@ const PricingCard: FC<PricingCardProps> = ({
   };
 
   const handlePlanSelect = (priceId: string) => {
-    if (priceId === siteConfig.planPrices.free) {
+    if (priceId === free) {
       if (session) {
         setIsOpenCancelModal(true);
       } else {
@@ -87,27 +95,27 @@ const PricingCard: FC<PricingCardProps> = ({
     () =>
       cn(
         "relative rounded-xl bg-white shadow-md dark:bg-full-dark",
-        !isPremium &&
-          !isPremiumPlus &&
+        !isPremiumPlan &&
+          !isPremiumPlusPlan &&
           "border border-gray-300 dark:border-accent-dark",
-        isPremium &&
+        isPremiumPlan &&
           "z-10 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
-        isPremiumPlus &&
+        isPremiumPlusPlan &&
           "z-0 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
       ),
-    [isPremium, isPremiumPlus],
+    [isPremiumPlan, isPremiumPlusPlan],
   );
 
   const cardHeaderClassName = useMemo(
     () =>
       cn(
         "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-main after:-z-10 after:border-b after:border-gray-300 dark:text-white after:dark:border-accent-dark md:p-6",
-        !isPremium && !isPremiumPlus && "after:!inset-0",
-        isPremium
+        !isPremiumPlan && !isPremiumPlusPlan && "after:!inset-0",
+        isPremiumPlan
           ? "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:content-[''] after:dark:border-full-dark after:dark:bg-full-dark/80"
           : "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:content-[''] after:dark:bg-dark/50",
       ),
-    [isPremium, isPremiumPlus],
+    [isPremiumPlan, isPremiumPlusPlan],
   );
 
   const buttonName = useMemo(() => {
@@ -129,7 +137,7 @@ const PricingCard: FC<PricingCardProps> = ({
             <div
               className={cn(
                 "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs text-main-h dark:text-main-dark",
-                isPremium
+                isPremiumPlan
                   ? "bg-light-gradient-v2 after:absolute after:inset-px after:z-0 after:rounded-full after:bg-white after:content-[''] dark:bg-dark-gradient-v2 after:dark:bg-full-dark"
                   : "border border-gray-300 bg-white dark:border-accent-dark dark:bg-full-dark",
               )}
@@ -145,19 +153,15 @@ const PricingCard: FC<PricingCardProps> = ({
               ${price.toLocaleString("es-CL")}
             </span>
             <span className="ml-0.5 text-sm text-main-m dark:text-main-dark-h">
-              {isPremiumPlus ? "/año" : "/mes"}
+              {isPremiumPlusPlan ? "/año" : "/mes"}
             </span>
           </p>
           <Button
             radius="full"
             disabled={isCurrentPlan}
-            variant="ghost"
+            variant={isPremiumPlan ? "gradient" : "outline"}
             onClick={() => handlePlanSelect(priceId)}
-            className={cn(
-              "z-10 h-10 border border-gray-300 bg-white text-sm shadow-none dark:border-accent-dark dark:bg-full-dark",
-              isPremium &&
-                "border-none bg-light-gradient-v2 text-white dark:bg-dark-gradient-v2",
-            )}
+            className="z-10 h-10 shadow-none"
           >
             {buttonName}
           </Button>
@@ -184,6 +188,7 @@ const PricingCard: FC<PricingCardProps> = ({
         setIsOpen={setIsOpenConfirmPlanModal}
         selectedPlan={selectedPlan}
         title={title}
+        isUserPremium={isPremium}
       />
       <CancelPlanModal
         isOpen={isOpenCancelModal}
