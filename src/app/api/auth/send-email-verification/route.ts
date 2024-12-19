@@ -17,9 +17,9 @@ const smtpEmail = new brevo.SendSmtpEmail();
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, token } = await req.json();
+    const { email, code, token } = await req.json();
 
-    if (!email || !token) {
+    if (!email || !code || !token) {
       return NextResponse.json(
         { error: "Email and token are required" },
         { status: 400 },
@@ -44,8 +44,9 @@ export async function POST(req: NextRequest) {
       .replace("{{username}}", username)
       .replace(
         "{{verificationLink}}",
-        `${baseUrl}/api/auth/verify-email?token=${token}`,
+        `${baseUrl}/verify-email?email=${email}&token=${token}`,
       )
+      .replace("{{verificationCode}}", code)
       .replace(
         "{{logoUrl}}",
         `https://raw.githubusercontent.com/Ktumsh/essentia/main/public/essentia_x512.png`,

@@ -84,7 +84,7 @@ export const emailVerification = table("email_verification", {
   userId: uuid("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
-  token: varchar("token", { length: 255 }),
+  code: varchar("code", { length: 6 }),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   verifiedAt: timestamp("verified_at").default(sql`NULL`),

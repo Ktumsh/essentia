@@ -7,62 +7,64 @@ import postgres from "postgres";
 
 import { user, emailVerification, type EmailVerification } from "@/db/schema";
 import { sendEmailVerification } from "@/modules/auth/lib/send-email-verification";
+import { generateVerificationCode } from "@/modules/core/lib/utils";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
 
 export async function insertEmailVerificationToken(
   userId: string,
-  token: string,
+  code: string,
 ) {
   const expiresAt = new Date();
-  expiresAt.setHours(expiresAt.getHours() + 24);
+  expiresAt.setMinutes(expiresAt.getMinutes() + 10);
 
   try {
     return await db.insert(emailVerification).values({
       userId,
-      token,
+      code,
       expiresAt,
     });
   } catch (error) {
-    console.error("Error al insertar el token de verificación:", error);
+    console.error("Error al insertar el código de verificación:", error);
     throw error;
   }
 }
 
-export async function getVerificationToken(
-  token: string,
-): Promise<Array<EmailVerification>> {
+export async function getVerificationCode(
+  code: string,
+): Promise<{ success: boolean; record?: EmailVerification; error?: string }> {
   try {
-    const verificationRecord = await db
+    const verificationCodeRecord = await db
       .select()
       .from(emailVerification)
-      .where(eq(emailVerification.token, token))
+      .where(eq(emailVerification.code, code))
       .limit(1);
 
-    if (verificationRecord.length === 0) {
-      throw new Error("Token no encontrado");
+    if (verificationCodeRecord.length === 0) {
+      return { success: false, error: "Código no encontrado" };
     }
 
-    const { expiresAt } = verificationRecord[0];
+    const { expiresAt } = verificationCodeRecord[0];
     const currentDate = new Date();
 
     if (currentDate > expiresAt) {
-      throw new Error("El token ha expirado");
+      return { success: false, error: "El código ha expirado" };
     }
 
-    return verificationRecord;
+    return { success: true, record: verificationCodeRecord[0] };
   } catch (error) {
-    console.error("Error al obtener el token de verificación:", error);
-    throw error;
+    console.error("Error al obtener el código de verificación:", error);
+    return { success: false, error: "Error interno al validar el código" };
   }
 }
 
 export async function resendEmailVerification(userId: string, email: string) {
-  const newToken = nanoid();
+  const newCode = generateVerificationCode();
+  const newToken = nanoid(64);
 
   const expiresAt = new Date();
-  expiresAt.setHours(expiresAt.getHours() + 24);
+  expiresAt.setMinutes(expiresAt.getMinutes() + 10);
 
   try {
     const userResult = await db
@@ -71,7 +73,14 @@ export async function resendEmailVerification(userId: string, email: string) {
       .where(eq(user.id, userId))
       .limit(1);
 
-    if (userResult.length === 0 || userResult[0].emailVerified) {
+    if (userResult.length === 0) {
+      return {
+        status: "error",
+        message: "Correo inválido.",
+      };
+    }
+
+    if (userResult[0].emailVerified) {
       return {
         status: "error",
         message: "El correo ya está verificado.",
@@ -81,12 +90,12 @@ export async function resendEmailVerification(userId: string, email: string) {
     await db
       .update(emailVerification)
       .set({
-        token: newToken,
+        code: newCode,
         expiresAt: expiresAt,
       })
       .where(eq(emailVerification.userId, userId));
 
-    await sendEmailVerification(email, newToken);
+    await sendEmailVerification(email, newCode, newToken);
     return {
       status: "success",
       message: "Se ha enviado un nuevo correo de verificación.",
@@ -127,12 +136,12 @@ export async function updateEmailVerified(userId: string) {
   }
 }
 
-export async function deleteVerificationToken(token: string) {
+export async function deleteVerificationToken(code: string) {
   try {
     await db
       .update(emailVerification)
-      .set({ token: null })
-      .where(eq(emailVerification.token, token));
+      .set({ code: null })
+      .where(eq(emailVerification.code, code));
   } catch (error) {
     console.error("Error al eliminar el token de verificación:", error);
     throw error;
@@ -153,17 +162,28 @@ export async function getUsersForReminder(startDate: Date, endDate: Date) {
 }
 
 export async function sendVerificationReminderToUsers(users: Array<any>) {
-  for (const user of users) {
-    const verificationToken = user.id;
-    const result = await sendEmailVerification(user.email, verificationToken);
+  const promises = users.map(async (user) => {
+    try {
+      const newCode = generateVerificationCode();
+      const newToken = nanoid(64);
 
-    if (result.success) {
-      console.log(`Recordatorio enviado a ${user.email}.`);
-    } else {
+      const result = await sendEmailVerification(user.email, newCode, newToken);
+
+      if (result.success) {
+        console.log(`Recordatorio enviado a ${user.email}.`);
+      } else {
+        console.error(
+          `Error al enviar recordatorio a ${user.email}:`,
+          result.error,
+        );
+      }
+    } catch (error) {
       console.error(
-        `Error al enviar recordatorio a ${user.email}:`,
-        result.error,
+        `Error inesperado al enviar recordatorio a ${user.email}:`,
+        error,
       );
     }
-  }
+  });
+
+  await Promise.all(promises);
 }

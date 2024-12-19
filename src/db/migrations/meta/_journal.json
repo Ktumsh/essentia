@@ -50,6 +50,13 @@
       "when": 1734640855753,
       "tag": "0006_rainy_kylun",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1734650562986,
+      "tag": "0007_romantic_hammerhead",
+      "breakpoints": true
     }
   ]
 }

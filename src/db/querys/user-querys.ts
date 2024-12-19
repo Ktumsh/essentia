@@ -10,6 +10,7 @@ import postgres from "postgres";
 
 import { user, type User, userProfile, subscription } from "@/db/schema";
 import { sendEmailVerification } from "@/modules/auth/lib/send-email-verification";
+import { generateVerificationCode } from "@/modules/core/lib/utils";
 import { ResultCode } from "@/utils/code";
 
 import { insertEmailVerificationToken } from "./email-querys";
@@ -60,10 +61,12 @@ export async function createUser(
       isPremium: false,
     });
 
-    const token = nanoid();
-    await insertEmailVerificationToken(userId, token);
+    const code = generateVerificationCode();
+    const token = nanoid(64);
 
-    const emailResult = await sendEmailVerification(email, token);
+    await insertEmailVerificationToken(userId, code);
+
+    const emailResult = await sendEmailVerification(email, code, token);
     if (!emailResult.success) {
       throw new Error("Error al enviar el email de verificación");
     }

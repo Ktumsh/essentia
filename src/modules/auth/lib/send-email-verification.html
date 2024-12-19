@@ -25,7 +25,7 @@
         text-align: center;
       }
       .text {
-        margin: 10px 0 10px 0;
+        margin: 20px 0 20px 0;
         text-align: start;
         color: rgb(0, 0, 0);
       }
@@ -45,16 +45,18 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 40px;
       }
-      a.button {
+      a {
+        text-decoration: none;
+      }
+      span {
         width: 100%;
         font-size: 14px;
-        background-color: #fa8072;
-        color: #fff !important;
+        background-color: #f3f4f6;
+        color: #050505 !important;
         font-weight: 600;
         line-height: 1.5;
-        border-radius: 4px;
         padding: 12px 24px;
         text-decoration: none;
       }
@@ -79,14 +81,17 @@
           <img src="{{logoUrl}}" width="48" height="48" alt="Essentia" />
         </div>
         <h1 class="text title">Verifica tu correo electrónico</h1>
-        <p class="text">Hola <strong>{{username}}</strong>!</p>
+        <p class="text">Hola <strong>{{username}}</strong>,</p>
+        <p class="text">Hemos recibido un intento de inicio de sesión.</p>
         <p class="text">
-          Por favor, haz click en el botón de abajo para confirmar tu correo y
-          activar tu cuenta.
+          Para completar el proceso de inicio de sesión, ingresa el código de 6
+          dígitos en la ventana original o ingrésalo en una nueva accediendo al
+          siguiente enlace:
         </p>
         <div class="button-wrapper">
-          <a class="button" href="{{verificationLink}}"> Confirmar correo </a>
+          <span>{{verificationCode}}</span>
         </div>
+        <a href="{{verificationLink}}">{{verificationLink}}</a>
       </div>
       <p class="text tiny">
         Si crees que esto fue un error, por favor ignora este correo.
