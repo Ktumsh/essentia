@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { toZonedTime } from "date-fns-tz";
+import { formatInTimeZone } from "date-fns-tz";
 
 export function formatDate(
   input: Date,
@@ -16,12 +16,10 @@ export function formatDate(
   return formattedDate;
 }
 
-export function formatDateWithTimezone(date: Date, formatStr: string) {
+export function formatDateInTimezone(date: Date, formatStr: string) {
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const zonedDate = toZonedTime(date, userTimeZone);
-
-  return format(zonedDate, formatStr, { locale: es });
+  return formatInTimeZone(date, userTimeZone, formatStr, { locale: es });
 }
 
 export const formatNumber = (value: number) =>

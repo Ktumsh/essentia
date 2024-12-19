@@ -4,7 +4,7 @@ import path from "path";
 import * as brevo from "@getbrevo/brevo";
 import { NextRequest, NextResponse } from "next/server";
 
-import { formatDateWithTimezone } from "@/utils/format";
+import { formatDateInTimezone } from "@/utils/format";
 
 const apiInstance = new brevo.TransactionalEmailsApi();
 
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const currentTime = formatDateWithTimezone(
+    const currentTime = formatDateInTimezone(
       new Date(),
       "d 'de' MMMM 'de' yyyy 'a las' HH:mm",
     );
