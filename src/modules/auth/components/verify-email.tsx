@@ -1,5 +1,6 @@
 "use client";
 
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,11 +10,20 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { resendEmailVerification } from "@/db/querys/email-querys";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import {
+  getVerificationCode,
+  resendEmailVerification,
+} from "@/db/querys/email-querys";
 import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
@@ -24,6 +34,8 @@ interface VerifyEmailProps {
 const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   const router = useRouter();
   const [isSending, setIsSending] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [code, setCode] = useState<string>("");
 
   const handleResendEmail = async () => {
     setIsSending(true);
@@ -39,6 +51,33 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    setIsVerifying(true);
+    try {
+      const response = await getVerificationCode(code);
+
+      if (response.success) {
+        toast.success("¡Tu correo se ha verificado!");
+        router.push("/login");
+      } else {
+        toast.error("Código incorrecto.");
+      }
+    } catch (error) {
+      console.error("Error al verificar el código:", error);
+      toast.error("Ocurrió un error. Inténtalo nuevamente.");
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleCodeChange = (value: string) => {
+    setCode(value);
+
+    if (value.length === 6) {
+      handleVerifyCode();
     }
   };
 
@@ -60,15 +99,37 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
             </CardTitle>
             <CardDescription className="text-center text-main dark:text-main-dark">
               <p>
-                Hemos enviado un correo de verificación a{" "}
+                Hemos enviado un código de verificación a{" "}
                 <span className="font-semibold !text-blue-600">{email}</span>{" "}
-                para que puedas activar tu cuenta.
-              </p>
-              <p>
-                ¿Aún no lo recibes? Mira en tu carpeta de correo no deseado o
-                puedes reenviarlo.
+                para que puedas activar tu cuenta. Introdúcelo a continuación.
               </p>
             </CardDescription>
+            <CardContent className="pt-3">
+              {isVerifying ? (
+                <div className="inline-flex h-12 items-center justify-center gap-2">
+                  <span>Verificando</span>
+                  <Loader className="size-4 animate-spin" />
+                </div>
+              ) : (
+                <InputOTP
+                  maxLength={6}
+                  pattern={REGEXP_ONLY_DIGITS}
+                  value={code}
+                  onChange={handleCodeChange}
+                  containerClassName="justify-center"
+                >
+                  <InputOTPGroup>
+                    {[...Array(6)].map((_, index) => (
+                      <InputOTPSlot
+                        key={index}
+                        className="size-12"
+                        index={index}
+                      />
+                    ))}
+                  </InputOTPGroup>
+                </InputOTP>
+              )}
+            </CardContent>
           </CardHeader>
         </Card>
       </div>
@@ -88,7 +149,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
           onClick={handleResendEmail}
         >
           {isSending ? <Loader className="size-4 animate-spin" /> : null}
-          {!isSending && "Reenviar correo"}
+          {!isSending && "Reenviar código"}
         </Button>
       </div>
     </div>

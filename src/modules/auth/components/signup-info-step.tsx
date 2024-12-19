@@ -60,6 +60,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
       setHasMissingFields(true);
     } else {
       setHasMissingFields(false);
+      toast.error("Por favor corrige los errores en el formulario.");
     }
   };
 
@@ -73,7 +74,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
             type: "manual",
             message: getMessageFromCode(ResultCode.USERNAME_EXISTS),
           });
-          toast.error(getMessageFromCode(ResultCode.USERNAME_EXISTS));
+          toast.error("Por favor corrige los errores en el formulario.");
           return;
         }
 

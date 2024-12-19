@@ -1,9 +1,15 @@
+import { Metadata } from "next";
+
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "Cuenta eliminada",
+};
 
 const AccountDeletedPage = () => {
   return (
