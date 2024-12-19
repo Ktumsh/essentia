@@ -63,9 +63,9 @@ const LoginForm: React.FC = () => {
 
       const [userName] = await getProfileNameByEmail(data.email);
       if (userName) {
-        toast.success(`¡Hola de nuevo, ${userName.firstName}!`);
+        toast.success(`¡Bienvenid@, ${userName.firstName}!`);
       } else {
-        toast.success(`¡Hola de nuevo!`);
+        toast.success(`¡Bienvenid@!`);
       }
       router.replace(redirectUrl);
     },

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bug, ChevronRight, Info } from "lucide-react";
+import { ChevronRight, Info } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -43,7 +43,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
   return (
     <SidebarGroup>
       <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
-        Extras
+        Adicional
       </SidebarGroupLabel>
       <SidebarMenu>
         <Collapsible asChild className="group/collapsible">
@@ -95,19 +95,6 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
             )}
           </SidebarMenuItem>
         </Collapsible>
-      </SidebarMenu>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton tooltip="Reportar un error" asChild>
-            <Link
-              href="https://github.com/Ktumsh/essentia/issues/new"
-              target="_blank"
-            >
-              <Bug strokeWidth={1.5} />
-              <span>Reportar un error</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   );

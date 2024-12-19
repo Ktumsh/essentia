@@ -32,7 +32,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site";
 import { Payment, Subscription } from "@/db/schema";
 import { setUserPlan } from "@/modules/payment/pay/actions";
-import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
+import ReasonCheckbox from "@/modules/pricing/components/reason-checkbox";
 import { formatDate } from "@/utils/format";
 
 import { getPlanType } from "../lib/utils";
@@ -40,14 +40,14 @@ import { getPlanType } from "../lib/utils";
 interface CancelSubscriptionModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  billingDetails: Payment;
+  subscriptionDetails: Payment;
   subscription: Subscription;
 }
 
 const CancelSubscriptionModal = ({
   isOpen,
   setIsOpen,
-  billingDetails,
+  subscriptionDetails,
   subscription,
 }: CancelSubscriptionModalProps) => {
   const router = useRouter();
@@ -56,7 +56,7 @@ const CancelSubscriptionModal = ({
   const [cancelReason, setCancelReason] = useState<string>("");
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
 
-  const { amount } = billingDetails;
+  const { amount } = subscriptionDetails;
   const { type, expiresAt } = subscription;
 
   const isMobile = useIsMobile();
@@ -148,7 +148,7 @@ const CancelSubscriptionModal = ({
               onClick={handleSetFreePlan}
             >
               {isPending && <Loader className="size-4 animate-spin" />}
-              {isPending ? "Cancelando plan" : "Confirmar"}
+              {isPending ? null : "Confirmar"}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -178,7 +178,7 @@ const CancelSubscriptionModal = ({
             onClick={handleSetFreePlan}
           >
             {isPending && <Loader className="size-4 animate-spin" />}
-            {isPending ? "Cancelando plan" : "Confirmar"}
+            {isPending ? null : "Confirmar"}
           </Button>
         </DialogFooter>
       </DialogContent>

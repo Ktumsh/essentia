@@ -26,7 +26,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
     if (isPremium) {
       router.push(`/essentia-ai?search=${encodeURIComponent(searchTerm)}`);
     } else {
-      router.push("/premium");
+      router.push("/pricing");
     }
   };
 

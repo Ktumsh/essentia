@@ -47,7 +47,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { updateUserProfile } from "@/db/querys/profile-querys";
+import { getUserByUsername } from "@/db/querys/user-querys";
 import { UserProfileData } from "@/types/session";
+import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { ProfileFormData, profileSchema } from "../lib/utils";
 
@@ -88,11 +90,11 @@ const EditProfileForm = ({
     lastName: lastName || "",
     username: username || "",
     birthdate: birthdate!,
-    bio: bio || "",
-    genre: genre || "",
+    bio: bio ?? "",
+    genre: genre ?? "",
     weight: weight ?? null,
     height: height ?? null,
-    location: location || "",
+    location: location ?? "",
   });
 
   const defaultValues = prepareDefaultValues();
@@ -102,7 +104,7 @@ const EditProfileForm = ({
     defaultValues,
   });
 
-  const { handleSubmit, control } = form;
+  const { handleSubmit, control, setError, reset } = form;
 
   const onError = (errors: FieldErrors<ProfileFormData>) => {
     if (Object.keys(errors).length > 0) {
@@ -114,7 +116,23 @@ const EditProfileForm = ({
     (data: ProfileFormData) => {
       startTransition(async () => {
         try {
-          const result = await updateUserProfile({ userId: id, ...data });
+          const user = await getUserByUsername(data.username);
+          if (user.length > 0 && user[0].id !== id) {
+            setError("username", {
+              type: "manual",
+              message: getMessageFromCode(ResultCode.USERNAME_EXISTS),
+            });
+            toast.error("Por favor corrige los errores en el formulario.");
+            return;
+          }
+
+          const result = await updateUserProfile({
+            userId: id,
+            ...data,
+            bio: data.bio?.trim() === "" ? null : data.bio,
+            genre: data.genre?.trim() === "" ? null : data.genre,
+            location: data.location?.trim() === "" ? null : data.location,
+          });
           if (result.error) {
             throw new Error(result.error);
           }
@@ -131,7 +149,7 @@ const EditProfileForm = ({
           });
 
           if (data.username !== profileData?.username) {
-            router.replace(`/profile/${data.username}`);
+            router.replace("/account/profile");
           }
         } catch (error) {
           console.error("Error al actualizar el perfil:", error);
@@ -143,6 +161,7 @@ const EditProfileForm = ({
       startTransition,
       setIsOpen,
       setDisplayData,
+      setError,
       id,
       profileData?.username,
       router,
@@ -353,7 +372,9 @@ const EditProfileForm = ({
             </ScrollArea>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button variant="outline">Cancelar</Button>
+                <Button variant="outline" onClick={() => reset(defaultValues)}>
+                  Cancelar
+                </Button>
               </DrawerClose>
               <Button
                 variant="destructive"
@@ -361,7 +382,7 @@ const EditProfileForm = ({
                 onClick={handleSubmit(onSubmit, onError)}
               >
                 {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? "Guardando" : "Guardar"}
+                {isPending ? null : "Guardar"}
               </Button>
             </DrawerFooter>
           </DrawerContent>
@@ -382,7 +403,9 @@ const EditProfileForm = ({
             </ScrollArea>
             <DialogFooter isSecondary>
               <DialogClose asChild>
-                <Button variant="outline">Cancelar</Button>
+                <Button variant="outline" onClick={() => reset(defaultValues)}>
+                  Cancelar
+                </Button>
               </DialogClose>
               <Button
                 variant="destructive"
@@ -390,7 +413,7 @@ const EditProfileForm = ({
                 onClick={handleSubmit(onSubmit, onError)}
               >
                 {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? "Guardando" : "Guardar"}
+                {isPending ? null : "Guardar"}
               </Button>
             </DialogFooter>
           </DialogContent>

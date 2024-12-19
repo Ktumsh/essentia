@@ -48,7 +48,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </Link>
         ) : (
           <Link
-            href="/premium"
+            href="/pricing"
             className="col-span-2 flex items-center justify-center rounded-2xl bg-light-gradient-v2 transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2"
           >
             <div className="inline-flex h-16 items-center justify-center gap-4">

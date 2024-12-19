@@ -68,7 +68,7 @@
         margin-bottom: 20px;
       }
       img {
-        border-radius: 50%;
+        border-radius: 12px;
       }
     </style>
   </head>
@@ -79,17 +79,22 @@
           <img src="{{logoUrl}}" width="48" height="48" alt="Essentia" />
         </div>
         <h1 class="text title">Verifica tu correo electrónico</h1>
-        <p class="text">Hola <strong>{{username}}</strong>!</p>
+        <p class="text">Hola,</p>
         <p class="text">
-          Por favor, haz click en el botón de abajo para confirmar tu correo y
-          activar tu cuenta.
+          Tu solicitud de eliminación de cuenta que se originó el {{date}}, ha
+          sido confirmada y se ha programado la eliminación de todos los datos
+          de la cuenta.
         </p>
-        <div class="button-wrapper">
-          <a class="button" href="{{verificationLink}}"> Confirmar correo </a>
-        </div>
+        <p class="text">
+          Si tienes algún comentario que hacernos para que podamos mejorar
+          nuestra plataforma en el futuro para que tú y otras personas puedan
+          usarla, nos encantaría conocerlo. Simplemente responde a este correo
+          electrónico para enviarnos un mensaje.
+        </p>
       </div>
       <p class="text tiny">
-        Si crees que esto fue un error, por favor ignora este correo.
+        Si no solicitaste la eliminación de tu cuenta, responde a este correo
+        electrónico para comunicarse con nosotros de inmediato.
       </p>
       <p class="footer">© 2024 Essentia. Santiago de Chile.</p>
     </div>

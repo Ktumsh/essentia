@@ -224,6 +224,10 @@
     @apply scroll-smooth;
   }
 
+  ::selection {
+    @apply bg-bittersweet-100 text-bittersweet-950 dark:bg-cerise-red-950 dark:text-cerise-red-100;
+  }
+
   ::-webkit-scrollbar {
     width: 5px;
   }

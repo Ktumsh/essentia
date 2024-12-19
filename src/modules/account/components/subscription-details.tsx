@@ -18,19 +18,19 @@ import { formatDate } from "@/utils/format";
 import CancelSubscriptionModal from "./cancel-subscription-modal";
 import { getPlanType } from "../lib/utils";
 
-interface BillingDetailsProps {
+interface SubscriptionDetailsProps {
   subscription: Subscription;
-  billingDetail: Payment;
+  subscriptionDetails: Payment | null;
 }
 
-const BillingDetails = ({
+const SubscriptionDetails = ({
   subscription,
-  billingDetail,
-}: BillingDetailsProps) => {
+  subscriptionDetails,
+}: SubscriptionDetailsProps) => {
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
 
-  const { amount } = billingDetail;
+  const { amount } = subscriptionDetails || {};
   const { type, expiresAt, isPremium } = subscription;
 
   const planType = getPlanType(type!);
@@ -86,6 +86,7 @@ const BillingDetails = ({
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               {isPremium && (
                 <Button
+                  radius="lg"
                   variant="outline"
                   onClick={() => setIsOpenCancel(true)}
                   className="border !border-red-500 !text-red-500"
@@ -93,7 +94,11 @@ const BillingDetails = ({
                   Cancelar suscripción
                 </Button>
               )}
-              <Button variant="outline" onClick={() => setIsOpenPayment(true)}>
+              <Button
+                radius="lg"
+                variant="outline"
+                onClick={() => setIsOpenPayment(true)}
+              >
                 {isPremium ? "Cambiar plan" : "Mejorar a Premium"}
               </Button>
             </div>
@@ -101,12 +106,12 @@ const BillingDetails = ({
         </Card>
       </div>
 
-      {billingDetail && (
+      {subscriptionDetails && (
         <>
           <CancelSubscriptionModal
             isOpen={isOpenCancel}
             setIsOpen={setIsOpenCancel}
-            billingDetails={billingDetail}
+            subscriptionDetails={subscriptionDetails}
             subscription={subscription}
           />
         </>
@@ -116,4 +121,4 @@ const BillingDetails = ({
   );
 };
 
-export default BillingDetails;
+export default SubscriptionDetails;

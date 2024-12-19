@@ -75,13 +75,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
 
   const handleAccountAction = (index: number, item: Item) => {
     if (index <= 2) {
-      router.push(
-        item.link
-          ? item.link
-          : item.name === "Perfil"
-            ? `/profile/${username}`
-            : "",
-      );
+      router.push(item.link || "#");
     } else {
       signOut({ callbackUrl: "/logout" });
     }

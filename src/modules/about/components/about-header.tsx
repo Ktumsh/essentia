@@ -147,7 +147,7 @@ const AboutHeader = ({ session, isPremium }: AboutHeaderProps) => {
             {session && !isPremium && (
               <Button
                 variant="gradient"
-                onClick={() => router.push("/premium")}
+                onClick={() => router.push("/pricing")}
               >
                 <StarsIcon className="size-4 focus:outline-none [&_*]:fill-white" />
                 Hazte premium

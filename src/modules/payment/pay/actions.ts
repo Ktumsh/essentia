@@ -213,13 +213,7 @@ export async function handleSubscriptionDeleted(
       return;
     }
 
-    await updateSubscription(
-      subscription.userId,
-      null,
-      null,
-      "inactive",
-      "free",
-    );
+    await updateSubscription(subscription.userId, null, null, "paused", "free");
   } catch (error) {
     console.error(
       `Error al manejar la eliminación de la suscripción: ${subscriptionId}`,

@@ -72,11 +72,11 @@ export const PlanSelector = ({
           </TabsContent>
         ))}
       </Tabs>
-      <p className="mt-3 flex gap-1 text-center text-sm text-main-h dark:text-main-dark-h">
-        Mira más detalles sobre los planes en nuestra
+      <p className="mt-3 text-sm text-main-h dark:text-main-dark-h">
+        Mira más detalles sobre los planes en nuestra{" "}
         <Link
-          className="flex items-center gap-x-1 text-blue-600"
-          href="/premium"
+          className="inline-flex items-center gap-x-1 text-blue-600"
+          href="/pricing"
         >
           página de precios <LinkIcon />
         </Link>

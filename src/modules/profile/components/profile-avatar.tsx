@@ -3,7 +3,7 @@
 import { memo, RefObject, useRef } from "react";
 import { toast } from "sonner";
 
-import { deleteFile } from "@/app/(main)/profile/actions";
+import { deleteFile } from "@/app/(main)/account/profile/actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";

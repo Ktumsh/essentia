@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import postgres from "postgres";
 
 import { user, emailVerification, type EmailVerification } from "@/db/schema";
-import { sendEmail } from "@/modules/auth/lib/send-email";
+import { sendEmailVerification } from "@/modules/auth/lib/send-email-verification";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -86,7 +86,7 @@ export async function resendEmailVerification(userId: string, email: string) {
       })
       .where(eq(emailVerification.userId, userId));
 
-    await sendEmail(email, newToken);
+    await sendEmailVerification(email, newToken);
     return {
       status: "success",
       message: "Se ha enviado un nuevo correo de verificación.",
@@ -155,7 +155,7 @@ export async function getUsersForReminder(startDate: Date, endDate: Date) {
 export async function sendVerificationReminderToUsers(users: Array<any>) {
   for (const user of users) {
     const verificationToken = user.id;
-    const result = await sendEmail(user.email, verificationToken);
+    const result = await sendEmailVerification(user.email, verificationToken);
 
     if (result.success) {
       console.log(`Recordatorio enviado a ${user.email}.`);

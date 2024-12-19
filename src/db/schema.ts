@@ -13,12 +13,18 @@ import {
 
 export const user = table("user", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
+  role: varchar("role", { enum: ["user", "admin"] })
+    .notNull()
+    .default("user"),
   email: varchar("email", { length: 64 }).unique().notNull(),
   username: varchar("username", { length: 20 }).unique().notNull(),
   password: varchar("password", { length: 64 }).notNull(),
   emailVerified: boolean("email_verified").default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  status: varchar("status", { enum: ["enabled", "disabled"] })
+    .notNull()
+    .default("enabled"),
 });
 
 export type User = InferSelectModel<typeof user>;
@@ -48,8 +54,11 @@ export const subscription = table("subscription", {
   subscriptionId: varchar("subscription_id", { length: 255 }),
   clientId: varchar("client_id", { length: 255 }),
   isPremium: boolean("is_premium").notNull().default(false),
-  status: varchar("status", { length: 255 }).default("inactive"),
-  type: varchar("type", { length: 50 }).default("free"),
+  status: varchar("status", { length: 255 }).default("paused"),
+  type: varchar("type", {
+    enum: ["free", "premium", "premium-plus"],
+    length: 50,
+  }).default("free"),
   expiresAt: timestamp("expires_at"),
 });
 
@@ -60,7 +69,9 @@ export const payment = table("payment", {
   userId: uuid("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  status: varchar("status", { length: 12 }).default("pending"),
+  status: varchar("status", { enum: ["paid", "pending"], length: 12 }).default(
+    "pending",
+  ),
   amount: integer("amount"),
   currency: varchar("currency", { length: 10 }),
   processedAt: timestamp("processed_at"),
