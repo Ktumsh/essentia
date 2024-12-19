@@ -22,6 +22,34 @@
       "when": 1733717368652,
       "tag": "0002_damp_deathbird",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1734610539609,
+      "tag": "0003_nervous_nighthawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1734612337111,
+      "tag": "0004_early_ikaris",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1734636226123,
+      "tag": "0005_broken_stranger",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1734640855753,
+      "tag": "0006_rainy_kylun",
+      "breakpoints": true
     }
   ]
 }

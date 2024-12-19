@@ -28,7 +28,7 @@ const LogoutPage = () => {
           aria-hidden="true"
         />
       </span>
-      <h1 className="text-center text-2xl font-semibold text-main dark:text-main-dark">
+      <h1 className="text-center text-2xl font-semibold text-main dark:text-white">
         Cerrando sesión
       </h1>
     </motion.div>

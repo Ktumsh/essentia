@@ -3,14 +3,14 @@ import { Metadata } from "next";
 import AccountHeader from "@/modules/account/components/account-header";
 
 export const metadata: Metadata = {
-  title: "Suscripción y Facturación",
+  title: "Suscripción",
   alternates: {
     canonical: "/account/billing",
   },
 };
 
 const BillingPage = () => {
-  return <AccountHeader title="Suscripción y Facturación" />;
+  return <AccountHeader title="Suscripción" />;
 };
 
 export default BillingPage;

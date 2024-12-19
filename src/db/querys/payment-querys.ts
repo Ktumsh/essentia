@@ -20,8 +20,8 @@ export async function updateSubscription(
   userId: string,
   subscriptionId: string | null,
   currentPeriodEnd: number | null,
-  status?: string,
-  type?: string | null,
+  status?: string | null,
+  type?: "free" | "premium" | "premium-plus" | null,
 ): Promise<void> {
   if (!userId) {
     throw new Error("userId es requerido");
@@ -176,7 +176,7 @@ export async function cancelSubscription(userId: string): Promise<void> {
 
 export async function setPaymentDetails(
   userId: string,
-  status: string,
+  status: "paid" | "pending",
   amount: number | null,
   currency: string,
   processedAt: Date,
@@ -197,7 +197,7 @@ export async function setPaymentDetails(
 
 export async function updatePaymentDetails(
   userId: string,
-  status: string,
+  status: "paid" | "pending",
   processedAt: Date,
 ) {
   try {

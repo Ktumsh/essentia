@@ -3,7 +3,7 @@
 import { AuthError } from "next-auth";
 
 import { createUser } from "@/db/querys/user-querys";
-import { registerSchema } from "@/modules/auth/lib/form";
+import { RegisterFormData, registerSchema } from "@/modules/auth/lib/form";
 import { ResultCode } from "@/utils/code";
 
 interface Result {
@@ -17,10 +17,24 @@ export async function signup(
   _prevState: Result | undefined,
   formData: FormData,
 ): Promise<Result | undefined> {
-  const entries = formData.entries();
-  const parsedCredentials = registerSchema.safeParse(
-    Object.fromEntries(entries),
-  );
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const username = formData.get("username") as string;
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const birthdateStr = formData.get("birthdate") as string;
+  const birthdate = new Date(birthdateStr);
+
+  const registerData: RegisterFormData = {
+    email,
+    password,
+    username,
+    firstName,
+    lastName,
+    birthdate,
+  };
+
+  const parsedCredentials = registerSchema.safeParse(registerData);
 
   if (parsedCredentials.success) {
     const { email, password, username, firstName, lastName, birthdate } =

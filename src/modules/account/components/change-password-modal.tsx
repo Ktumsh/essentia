@@ -276,7 +276,7 @@ const ChangePasswordModal = ({
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Cambiar contraseña</DrawerTitle>
-            <DrawerDescription className="mt-4 px-6">
+            <DrawerDescription className="mt-4 px-4">
               Actualiza tu contraseña ingresando la información requerida.
               Asegúrate de usar una contraseña segura.
             </DrawerDescription>

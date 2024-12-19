@@ -42,6 +42,13 @@ export async function authenticate(
         };
       }
 
+      if (user.status === "disabled") {
+        return {
+          type: "error",
+          resultCode: ResultCode.INVALID_CREDENTIALS,
+        };
+      }
+
       const result = await signIn("credentials", {
         email,
         password,

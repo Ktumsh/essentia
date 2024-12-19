@@ -94,14 +94,14 @@ const PricingCard = ({
   const cardClassName = useMemo(
     () =>
       cn(
-        "relative rounded-xl bg-white shadow-md dark:bg-full-dark",
+        "relative rounded-xl bg-white dark:bg-full-dark shrink-0 md:max-w-[352px] snap-start",
         !isPremiumPlan &&
           !isPremiumPlusPlan &&
           "border border-gray-300 dark:border-accent-dark",
         isPremiumPlan &&
-          "z-10 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
+          "z-10 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[11px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
         isPremiumPlusPlan &&
-          "z-0 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[12px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
+          "z-0 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[11px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
       ),
     [isPremiumPlan, isPremiumPlusPlan],
   );
@@ -145,7 +145,7 @@ const PricingCard = ({
               <span className="z-10">{subtitle}</span>
             </div>
           </div>
-          <p className="min-h-[40px] text-sm text-main-h dark:text-main-dark-h lg:min-h-[60px]">
+          <p className="min-h-[40px] text-sm text-main-h dark:text-main-dark lg:min-h-[60px]">
             {description}
           </p>
           <p className="inline-block whitespace-nowrap leading-none">

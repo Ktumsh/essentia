@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 import postgres from "postgres";
 
 import { user, type User, userProfile, subscription } from "@/db/schema";
-import { sendEmail } from "@/modules/auth/lib/send-email";
+import { sendEmailVerification } from "@/modules/auth/lib/send-email-verification";
 import { ResultCode } from "@/utils/code";
 
 import { insertEmailVerificationToken } from "./email-querys";
@@ -63,7 +63,7 @@ export async function createUser(
     const token = nanoid();
     await insertEmailVerificationToken(userId, token);
 
-    const emailResult = await sendEmail(email, token);
+    const emailResult = await sendEmailVerification(email, token);
     if (!emailResult.success) {
       throw new Error("Error al enviar el email de verificación");
     }
@@ -123,6 +123,29 @@ export async function updateUserPassword(id: string, password: string) {
       .where(eq(user.id, id));
   } catch (error) {
     console.error("Error al actualizar la contraseña del usuario:", error);
+    throw error;
+  }
+}
+
+export async function deleteUser(id: string) {
+  try {
+    await db.update(user).set({ status: "disabled" }).where(eq(user.id, id));
+  } catch (error) {
+    console.error("Error al eliminar el usuario:", error);
+    throw error;
+  }
+}
+
+export async function getUserState(id: string): Promise<string> {
+  try {
+    const [userData] = await db
+      .select({ status: user.status })
+      .from(user)
+      .where(eq(user.id, id));
+
+    return userData.status;
+  } catch (error) {
+    console.error("Error al obtener el estado del usuario:", error);
     throw error;
   }
 }

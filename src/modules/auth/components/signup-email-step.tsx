@@ -22,11 +22,11 @@ import { getMessageFromCode, ResultCode } from "@/utils/code";
 import { SubmitButton } from "./submit-button";
 import { emailSchema } from "../lib/form";
 
-interface Step1Props {
+interface SignupEmailStepProps {
   onSuccess: (email: string) => void;
 }
 
-const SignupFormStep1: React.FC<Step1Props> = ({ onSuccess }) => {
+const SignupEmailStep = ({ onSuccess }: SignupEmailStepProps) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof emailSchema>>({
@@ -98,4 +98,4 @@ const SignupFormStep1: React.FC<Step1Props> = ({ onSuccess }) => {
   );
 };
 
-export default SignupFormStep1;
+export default SignupEmailStep;

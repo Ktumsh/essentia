@@ -124,7 +124,7 @@ const About = ({ session, isPremium }: AboutProps) => {
                 <Link
                   type="button"
                   className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
-                  href="/premium"
+                  href="/pricing"
                 >
                   <span className="mr-2">
                     <StarsIcon
@@ -148,7 +148,7 @@ const About = ({ session, isPremium }: AboutProps) => {
                 <Link
                   type="button"
                   className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-light-gradient px-4 text-lg font-medium text-white transition hover:shadow-[0_8px_8px_rgba(0,0,0,0.2)] active:scale-[.98] active:shadow-none active:brightness-90 active:transition-none sm:px-8"
-                  href="/premium"
+                  href="/pricing"
                 >
                   Revisa tus beneficios
                 </Link>

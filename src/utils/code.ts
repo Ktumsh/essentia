@@ -1,6 +1,7 @@
 export enum ResultCode {
   USER_CREATED = "USER_CREATED",
   USER_LOGGED_IN = "USER_LOGGED_IN",
+  USER_DISABLED = "USER_DISABLED",
   REQUIRED_EMAIL = "REQUIRED_EMAIL",
   REQUIRED_PASSWORD = "REQUIRED_PASSWORD",
   REQUIRED_USERNAME = "REQUIRED_USERNAME",
@@ -35,12 +36,14 @@ export enum ResultCode {
   PASSWORD_CHANGED = "PASSWORD_CHANGED",
   INVALID_CURRENT_PASSWORD = "INVALID_CURRENT_PASSWORD",
   PASSWORD_CHANGE_FAILED = "PASSWORD_CHANGE_FAILED",
+  PASSWORDS_DO_NOT_MATCH = "PASSWORDS_DO_NOT_MATCH",
 }
 
 const resultMessages: Record<ResultCode, string> = {
   [ResultCode.USER_CREATED]:
     "¡Usuario creado! Verifica tu correo para activar tu cuenta",
   [ResultCode.USER_LOGGED_IN]: "¡Bienvenido de nuevo!",
+  [ResultCode.USER_DISABLED]: "¡Usuario deshabilitado!",
   [ResultCode.REQUIRED_EMAIL]:
     "Por favor, ingresa un correo electrónico válido",
   [ResultCode.REQUIRED_PASSWORD]: "Por favor, ingresa tu contraseña",
@@ -50,7 +53,7 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.REQUIRED_BIRTHDATE]: "Por favor, ingresa tu fecha de nacimiento",
   [ResultCode.ALL_FIELDS_REQUIRED]: "Por favor, rellena todos los campos",
   [ResultCode.INVALID_LENGTH_USERNAME]:
-    "Tu nombre de usuario debe tener entre 3 y 30 caracteres",
+    "Tu nombre de usuario debe tener entre 3 y 20 caracteres",
   [ResultCode.INVALID_STRING_USERNAME]:
     "Tu nombre de usuario solo puede contener letras, números y guiones bajos",
   [ResultCode.INVALID_START_USERNAME]:
@@ -89,6 +92,7 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.INVALID_CURRENT_PASSWORD]: "La contraseña actual es incorrecta",
   [ResultCode.PASSWORD_CHANGE_FAILED]:
     "No se pudo cambiar la contraseña, intenta de nuevo",
+  [ResultCode.PASSWORDS_DO_NOT_MATCH]: "Las contraseñas no coinciden",
 };
 
 export const getMessageFromCode = (resultCode: ResultCode): string => {

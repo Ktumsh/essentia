@@ -1,10 +1,7 @@
 import {
-  BadgeCheck,
   BadgeInfo,
   ChevronsUpDown,
-  HelpCircle,
   LogOut,
-  Settings,
   Sparkles,
   SunMoon,
 } from "lucide-react";
@@ -19,7 +16,11 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -30,6 +31,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
+import { siteConfig } from "@/config/site";
 import { StarsIcon } from "@/modules/icons/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
@@ -49,11 +51,14 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
   const { isMobile } = useSidebar();
 
   if (isMobile) return null;
+
+  const menuLinks = siteConfig.menuFooterLinks;
+
   return (
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
@@ -91,7 +96,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
             >
               <DropdownMenuLabel className="p-0 font-normal">
                 <DropdownMenuItem asChild>
-                  <Link href={user ? `/profile/${username}` : "/login"}>
+                  <Link href={user ? "/account/profile" : "/login"}>
                     <Avatar className="size-8 rounded-lg">
                       {profileImage && (
                         <AvatarImage src={profileImage} alt={username} />
@@ -131,7 +136,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
                       <Link
-                        href="/premium"
+                        href="/pricing"
                         className="justify-center rounded-md bg-light-gradient-v2 text-sm text-white focus:text-white dark:bg-dark-gradient"
                       >
                         <StarsIcon
@@ -162,41 +167,55 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
               )}
               <DropdownMenuGroup>
                 {user ? (
-                  <DropdownMenuItem asChild>
-                    <Link href="/account">
-                      <BadgeCheck strokeWidth={1.5} />
-                      Cuenta
-                    </Link>
-                  </DropdownMenuItem>
+                  <>
+                    {menuLinks.account.slice(0, -1).map((link, index) => (
+                      <DropdownMenuItem asChild key={index}>
+                        <Link href={link.link || "#"}>
+                          <link.icon strokeWidth={1.5} />
+                          {link.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </>
                 ) : (
-                  <DropdownMenuItem asChild>
-                    <Link href="/about">
-                      <BadgeInfo strokeWidth={1.5} />
-                      Descubre Essentia
-                    </Link>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/about">
+                        <BadgeInfo strokeWidth={1.5} />
+                        Descubre Essentia
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/pricing">
+                        <Sparkles strokeWidth={1.5} />
+                        Planes y Precios
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
                 )}
-                <DropdownMenuItem asChild>
-                  <Link href="/premium">
-                    <Sparkles strokeWidth={1.5} />
-                    Premium
-                  </Link>
-                </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <Link href="#">
-                    <Settings strokeWidth={1.5} />
-                    Configuración
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/premium">
-                    <HelpCircle strokeWidth={1.5} />
-                    Soporte
-                  </Link>
-                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    Configuración y soporte
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      {menuLinks.config.map((link, index) => (
+                        <DropdownMenuItem asChild key={index}>
+                          <Link href={link.link || "#"}>
+                            <link.icon strokeWidth={1.5} />
+                            {link.name}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
                 <DropdownMenuItem className="cursor-default justify-between hover:!bg-transparent hover:!text-inherit focus:!bg-transparent focus:!text-inherit">
                   <span className="inline-flex items-center gap-1.5">
                     <SunMoon strokeWidth={1.5} />

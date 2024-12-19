@@ -2,13 +2,13 @@ import {
   BadgeCheck,
   Bug,
   Cookie,
+  CreditCard,
   FileText,
   HelpCircle,
   Info,
   Lock,
   LogOut,
   Settings,
-  Sparkles,
   User,
 } from "lucide-react";
 
@@ -187,9 +187,9 @@ export const siteConfig: SiteConfig = {
       },
     ],
     account: [
-      { name: "Perfil", icon: User },
       { name: "Cuenta", link: "/account", icon: BadgeCheck },
-      { name: "Premium", link: "/premium", icon: Sparkles },
+      { name: "Perfil", link: "/account/profile", icon: User },
+      { name: "Suscripción", link: "/account/subscription", icon: CreditCard },
       { name: "Cerrar sesión", icon: LogOut },
     ],
   },

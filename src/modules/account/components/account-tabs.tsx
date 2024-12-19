@@ -5,22 +5,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import ProfileInfo from "@/modules/profile/components/profile-info";
 import { UserProfileData } from "@/types/session";
 
 import AccountDetails from "./account-details";
-import BillingDetails from "./billing-details";
+import SubscriptionDetails from "./subscription-details";
 
 import type { Payment, Subscription } from "@/db/schema";
 
 interface AccountTabsProps {
-  subscription: Subscription;
   user: UserProfileData | null;
-  billingDetail: Payment;
+  subscription: Subscription;
+  susbscriptionDetails: Payment | null;
 }
 
 const AccountTabs = ({
   subscription,
-  billingDetail,
+  susbscriptionDetails,
   user,
 }: AccountTabsProps) => {
   const pathname = usePathname();
@@ -53,7 +54,7 @@ const AccountTabs = ({
           tab: "max-w-fit px-4 h-12",
           tabContent:
             "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
-          panel: "w-full px-6 py-10 pb-16 bg-white dark:bg-full-dark",
+          panel: "w-full px-6 py-10 pb-16 md:pb-6 bg-white dark:bg-full-dark",
         }}
       >
         <Tab
@@ -71,19 +72,33 @@ const AccountTabs = ({
           </div>
         </Tab>
         <Tab
-          key="/account/billing"
+          key="/account/profile"
           as={Link}
-          href="/account/billing"
+          href="/account/profile"
           title={
             <div className="flex items-center space-x-2">
-              <span>Detalles del plan</span>
+              <span>Mi perfil</span>
             </div>
           }
         >
           <div className="flex flex-col gap-4 lg:flex-row">
-            <BillingDetails
+            <ProfileInfo user={user} isOwnProfile={true} />
+          </div>
+        </Tab>
+        <Tab
+          key="/account/subscription"
+          as={Link}
+          href="/account/subscription"
+          title={
+            <div className="flex items-center space-x-2">
+              <span>Mi suscripción</span>
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <SubscriptionDetails
               subscription={subscription}
-              billingDetail={billingDetail}
+              subscriptionDetails={susbscriptionDetails}
             />
           </div>
         </Tab>

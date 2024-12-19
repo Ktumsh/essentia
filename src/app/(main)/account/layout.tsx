@@ -16,9 +16,13 @@ export default async function AccountLayout({
     return redirect("/");
   }
 
-  const [subscription] = await getSubscription(session?.user?.id as string);
+  const [subscription] = session
+    ? await getSubscription(session?.user?.id as string)
+    : [];
 
-  const [billingDetail] = await getPaymentDetails(session?.user?.id as string);
+  const [subscriptionDetails] = session
+    ? await getPaymentDetails(session?.user?.id as string)
+    : [];
 
   const userData = session ? await getUserProfileData({ session }) : null;
 
@@ -26,9 +30,9 @@ export default async function AccountLayout({
     <div className="mx-auto h-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:h-auto md:border md:border-y-0">
       {children}
       <AccountTabs
-        subscription={subscription}
-        billingDetail={billingDetail}
         user={userData}
+        subscription={subscription}
+        susbscriptionDetails={subscriptionDetails}
       />
     </div>
   );
