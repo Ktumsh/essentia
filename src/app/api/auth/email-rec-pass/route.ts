@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     const templatePath = path.join(
       process.cwd(),
-      "src/modules/auth/lib/send-email-verification.html",
+      "src/modules/auth/lib/email-rec-pass.html",
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
@@ -43,10 +43,10 @@ export async function POST(req: NextRequest) {
     htmlContent = htmlContent
       .replace("{{username}}", username)
       .replaceAll(
-        "{{verificationLink}}",
-        `${baseUrl}/verify-email?email=${email}&token=${token}`,
+        "{{recoveryLink}}",
+        `${baseUrl}/recover-password?email=${email}&token=${token}`,
       )
-      .replace("{{verificationCode}}", code)
+      .replace("{{recoveryCode}}", code)
       .replace(
         "{{logoUrl}}",
         `https://raw.githubusercontent.com/Ktumsh/essentia/main/public/essentia_x512.png`,

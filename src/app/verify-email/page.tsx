@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { getUserByEmail } from "@/db/querys/user-querys";
 import VerifyEmail from "@/modules/auth/components/verify-email";
 
 export const metadata: Metadata = {
@@ -23,19 +22,7 @@ const VerifyEmailPage = async (props: Props) => {
     return redirect("/login");
   }
 
-  const [user] = await getUserByEmail(email);
-
-  if (!user) {
-    return redirect("/login");
-  }
-
-  const userId = user.id;
-
-  if (!userId) {
-    return redirect("/login");
-  }
-
-  return <VerifyEmail email={email} userId={userId} />;
+  return <VerifyEmail email={email} />;
 };
 
 export default VerifyEmailPage;

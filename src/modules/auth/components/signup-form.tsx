@@ -52,7 +52,7 @@ const SignupForm = () => {
     <motion.div
       layout
       style={{ height: "auto" }}
-      transition={{ ease: "easeInOut", duration: 0.5 }}
+      transition={{ ease: "easeInOut", duration: 0.3 }}
       className="relative mb-9 flex items-center justify-center overflow-hidden rounded-xl bg-transparent px-6 text-left font-normal sm:w-[500px] sm:bg-white sm:dark:bg-full-dark md:p-8"
     >
       <AnimatePresence mode="popLayout">

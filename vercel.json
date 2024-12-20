@@ -5,7 +5,7 @@
       "schedule": "0 0 * * *"
     },
     {
-      "path": "/api/auth/delete-unverified-users",
+      "path": "/api/auth/del-unverify-u",
       "schedule": "0 1 * * *"
     }
   ]

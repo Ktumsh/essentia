@@ -57,6 +57,13 @@
       "when": 1734650562986,
       "tag": "0007_romantic_hammerhead",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1734710102032,
+      "tag": "0008_massive_ego",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-export async function sendEmailVerification(
+export async function sendEmailRecoveryPass(
   email: string,
   code: string,
   token: string,
@@ -7,7 +7,7 @@ export async function sendEmailVerification(
     ? "http://localhost:3000"
     : "https://essentia-web.vercel.app";
 
-  const res = await fetch(`${baseUrl}/api/auth/send-email-verification`, {
+  const res = await fetch(`${baseUrl}/api/auth/email-rec-pass`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export async function sendEmailVerification(
     const data = JSON.parse(responseText);
     if (!res.ok) {
       throw new Error(
-        data.error || "Error al enviar el correo de verificación",
+        data.error || "Error al enviar el correo de recuperación de contraseña",
       );
     }
     return data;

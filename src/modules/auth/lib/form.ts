@@ -33,6 +33,8 @@ export const emailSchema = z.object({
     .email({ message: getMessageFromCode(ResultCode.REQUIRED_EMAIL) }),
 });
 
+export type EmailFormData = z.infer<typeof emailSchema>;
+
 export const infoSchema = z.object({
   email: z
     .string()
@@ -110,6 +112,34 @@ export const passwordSchema = z
 
 export type InfoFormData = z.infer<typeof infoSchema>;
 export type PasswordFormData = z.infer<typeof passwordSchema>;
+
+export const newPasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8, {
+        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+      })
+      .regex(/[A-Z]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[a-z]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[0-9]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[^A-Za-z0-9]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
+    path: ["confirmPassword"],
+  });
+
+export type NewPasswordFormData = z.infer<typeof newPasswordSchema>;
 
 export const registerSchema = z.object({
   email: z.string().email({
