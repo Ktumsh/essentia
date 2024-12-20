@@ -33,32 +33,16 @@ export async function insertEmailVerificationToken(
 
 export async function getVerificationCode(
   code: string,
-): Promise<{ success: boolean; record?: EmailVerification; error?: string }> {
+): Promise<Array<EmailVerification>> {
   try {
-    console.log({ code });
-    const verificationCodeRecord = await db
+    return await db
       .select()
       .from(emailVerification)
       .where(eq(emailVerification.code, code))
       .limit(1);
-
-    console.log({ verificationCodeRecord });
-
-    if (verificationCodeRecord.length === 0) {
-      return { success: false, error: "Código no encontrado" };
-    }
-
-    const { expiresAt } = verificationCodeRecord[0];
-    const currentDate = new Date();
-
-    if (currentDate > expiresAt) {
-      return { success: false, error: "El código ha expirado" };
-    }
-
-    return { success: true, record: verificationCodeRecord[0] };
   } catch (error) {
     console.error("Error al obtener el código de verificación:", error);
-    return { success: false, error: "Error interno al validar el código" };
+    throw new Error("Error interno al consultar el código de verificación.");
   }
 }
 
