@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { verifyEmail } from "@/app/verify-email/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,10 +21,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import {
-  getVerificationCode,
-  resendEmailVerification,
-} from "@/db/querys/email-querys";
+import { resendEmailVerification } from "@/db/querys/email-querys";
 import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
@@ -57,13 +55,13 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   const handleVerifyCode = async (codeToVerify: string) => {
     setIsVerifying(true);
     try {
-      const response = await getVerificationCode(codeToVerify);
+      const response = await verifyEmail(codeToVerify);
 
       if (response.success) {
-        toast.success("¡Tu correo se ha verificado!");
+        toast.success(response.message);
         router.push("/login");
       } else {
-        toast.error(response.error || "Código incorrecto.");
+        toast.error(response.message);
       }
     } catch (error) {
       console.error("Error al verificar el código:", error);
