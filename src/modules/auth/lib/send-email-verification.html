@@ -47,9 +47,14 @@
         width: 100%;
         margin-top: 40px;
       }
-      a {
+      div.footer-text {
         width: 100%;
         margin-top: 40px;
+        text-decoration: none;
+      }
+      div a {
+        width: 100%;
+        color: #0366d6;
         text-decoration: none;
       }
       span {
@@ -93,7 +98,9 @@
         <div class="button-wrapper">
           <span>{{verificationCode}}</span>
         </div>
-        <a href="{{verificationLink}}">{{verificationLink}}</a>
+        <div class="footer-text">
+          <a href="{{verificationLink}}">{{verificationLink}}</a>
+        </div>
       </div>
       <p class="text tiny">
         Si crees que esto fue un error, por favor ignora este correo.
