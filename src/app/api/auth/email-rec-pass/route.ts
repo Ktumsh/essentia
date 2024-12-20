@@ -36,16 +36,8 @@ export async function POST(req: NextRequest) {
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
-    const baseUrl = process.env.DEVELOPMENT
-      ? "http://localhost:3000"
-      : "https://essentia-web.vercel.app";
-
     htmlContent = htmlContent
       .replace("{{username}}", username)
-      .replaceAll(
-        "{{recoveryLink}}",
-        `${baseUrl}/recover-password?email=${email}&token=${token}`,
-      )
       .replace("{{recoveryCode}}", code)
       .replace(
         "{{logoUrl}}",
