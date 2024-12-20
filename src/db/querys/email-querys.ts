@@ -101,13 +101,13 @@ export async function resendEmailVerification(userId: string, email: string) {
     await sendEmailVerification(email, newCode, newToken);
     return {
       status: "success",
-      message: "Se ha enviado un nuevo correo de verificación.",
+      message: "Se ha enviado un nuevo código de verificación.",
     };
   } catch (error) {
-    console.error("Error al reenviar el correo de verificación:", error);
+    console.error("Error al reenviar el código de verificación:", error);
     return {
       status: "error",
-      message: "Ocurrio un error al reenviar el correo de verificación.",
+      message: "Ocurrio un error al reenviar el código de verificación.",
     };
   }
 }

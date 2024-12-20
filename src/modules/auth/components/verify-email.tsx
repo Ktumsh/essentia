@@ -28,7 +28,7 @@ import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
   email: string;
-  userId: string | null;
+  userId: string;
 }
 
 const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
@@ -40,7 +40,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailVerification(userId!, email);
+      const response = await resendEmailVerification(userId, email);
 
       if (response?.status === "success") {
         toast.success(response.message);

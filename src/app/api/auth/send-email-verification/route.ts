@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     htmlContent = htmlContent
       .replace("{{username}}", username)
-      .replace(
+      .replaceAll(
         "{{verificationLink}}",
         `${baseUrl}/verify-email?email=${email}&token=${token}`,
       )
