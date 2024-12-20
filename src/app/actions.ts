@@ -2,7 +2,9 @@
 
 import { cookies } from "next/headers";
 
+import { HEALTH_FACTS } from "@/consts/health-facts";
 import { getRandomFacts } from "@/modules/core/lib/utils";
+import { HealthFact } from "@/types/common";
 
 export const getReusableCookie = async (cookieName: string) => {
   const cookieStore = await cookies();
@@ -57,28 +59,49 @@ export const deleteReusableCookie = async (cookieName: string) => {
   });
 };
 
-export const dailyFacts = async () => {
+export const dailyFacts = async (): Promise<HealthFact[]> => {
   const cookieStore = await cookies();
   const today = new Date().toISOString().split("T")[0];
 
   const savedData = cookieStore.get("dailyHealthFacts");
 
-  if (!savedData || JSON.parse(savedData.value).date !== today) {
-    const newFacts = getRandomFacts(1);
-
-    cookieStore.set(
-      "dailyHealthFacts",
-      JSON.stringify({ date: today, facts: newFacts }),
-      {
-        path: "/",
-        httpOnly: true,
-        secure: true,
-        maxAge: 86400,
-      },
-    );
-
-    return newFacts;
+  let usedFacts: HealthFact[] = [];
+  if (savedData) {
+    const parsedData: {
+      date: string;
+      facts: HealthFact[];
+      usedFacts: HealthFact[];
+    } = JSON.parse(savedData.value);
+    if (parsedData.date === today) {
+      return parsedData.facts;
+    }
+    usedFacts = parsedData.usedFacts || [];
   }
 
-  return JSON.parse(savedData.value).facts;
+  const remainingFacts: HealthFact[] = HEALTH_FACTS.filter(
+    (fact) => !usedFacts.some((usedFact) => usedFact.fact === fact.fact),
+  );
+
+  let newFacts: HealthFact[];
+  if (remainingFacts.length === 0) {
+    usedFacts = [];
+    newFacts = getRandomFacts(1);
+  } else {
+    newFacts = getRandomFacts(1, remainingFacts);
+  }
+
+  usedFacts.push(...newFacts);
+
+  cookieStore.set(
+    "dailyHealthFacts",
+    JSON.stringify({ date: today, facts: newFacts, usedFacts }),
+    {
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      maxAge: 86400,
+    },
+  );
+
+  return newFacts;
 };
