@@ -35,11 +35,14 @@ export async function getVerificationCode(
   code: string,
 ): Promise<{ success: boolean; record?: EmailVerification; error?: string }> {
   try {
+    console.log({ code });
     const verificationCodeRecord = await db
       .select()
       .from(emailVerification)
       .where(eq(emailVerification.code, code))
       .limit(1);
+
+    console.log({ verificationCodeRecord });
 
     if (verificationCodeRecord.length === 0) {
       return { success: false, error: "Código no encontrado" };

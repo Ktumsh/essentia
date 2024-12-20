@@ -28,7 +28,7 @@ import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
   email: string;
-  userId: string;
+  userId: string | null;
 }
 
 const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
@@ -40,7 +40,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailVerification(userId, email);
+      const response = await resendEmailVerification(userId!, email);
 
       if (response?.status === "success") {
         toast.success(response.message);
@@ -54,16 +54,16 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
     }
   };
 
-  const handleVerifyCode = async () => {
+  const handleVerifyCode = async (codeToVerify: string) => {
     setIsVerifying(true);
     try {
-      const response = await getVerificationCode(code);
+      const response = await getVerificationCode(codeToVerify);
 
       if (response.success) {
         toast.success("¡Tu correo se ha verificado!");
         router.push("/login");
       } else {
-        toast.error("Código incorrecto.");
+        toast.error(response.error || "Código incorrecto.");
       }
     } catch (error) {
       console.error("Error al verificar el código:", error);
@@ -77,7 +77,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
     setCode(value);
 
     if (value.length === 6) {
-      handleVerifyCode();
+      handleVerifyCode(value);
     }
   };
 

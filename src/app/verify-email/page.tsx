@@ -25,11 +25,7 @@ const VerifyEmailPage = async (props: Props) => {
 
   const [user] = await getUserByEmail(email);
 
-  if (!user) {
-    return redirect("/login");
-  }
-
-  const userId = user.id;
+  const userId = user ? user.id : null;
 
   if (!userId) {
     return redirect("/login");
