@@ -2,7 +2,7 @@
 
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
-import { genSaltSync, hashSync } from "bcrypt-ts";
+import { compare, genSaltSync, hashSync } from "bcrypt-ts";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
@@ -151,4 +151,17 @@ export async function getUserState(id: string): Promise<string> {
     console.error("Error al obtener el estado del usuario:", error);
     throw error;
   }
+}
+
+export async function verifySamePassword(
+  userId: string,
+  newPassword: string,
+): Promise<boolean> {
+  const [user] = await getUserById(userId);
+
+  if (!user) {
+    throw new Error("Usuario no encontrado.");
+  }
+
+  return await compare(newPassword, user.password);
 }

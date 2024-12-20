@@ -10,8 +10,13 @@ import { sendRecoveryEmail, verifyCode } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { resendEmailVerification } from "@/db/querys/email-querys";
-import { getUserByEmail, updateUserPassword } from "@/db/querys/user-querys";
+import {
+  getUserByEmail,
+  updateUserPassword,
+  verifySamePassword,
+} from "@/db/querys/user-querys";
 import { BackIcon } from "@/modules/icons/navigation";
+import { cn } from "@/utils/common";
 
 import StepEmail from "./step-email";
 import StepResetPassword from "./step-reset-password";
@@ -108,6 +113,17 @@ const RecoverPass = () => {
 
         const userId = user?.id;
 
+        const isSamePassword = await verifySamePassword(
+          userId,
+          data.newPassword,
+        );
+        if (isSamePassword) {
+          toast.error(
+            "La contraseña no cumple con los requisitos de seguridad. Intenta con una diferente.",
+          );
+          return;
+        }
+
         const res = await updateUserPassword(userId, data.newPassword);
 
         if (res) {
@@ -132,7 +148,12 @@ const RecoverPass = () => {
 
   return (
     <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 text-main dark:text-main-dark">
-      <Card className="w-full min-w-full max-w-[500px] rounded-xl border-none bg-transparent dark:bg-transparent md:bg-white md:dark:bg-full-dark">
+      <Card
+        className={cn(
+          "w-full min-w-full rounded-xl border-none bg-transparent dark:bg-transparent md:bg-white md:dark:bg-full-dark",
+          step === 1 ? "max-w-[500px]" : "max-w-md",
+        )}
+      >
         {step === 1 && (
           <StepEmail onSubmit={handleSendEmail} isPending={isPending} />
         )}
