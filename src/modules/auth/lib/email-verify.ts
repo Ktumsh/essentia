@@ -1,14 +1,18 @@
-export async function sendEmailAccountDeleted(email: string, token: string) {
+export async function sendEmailVerification(
+  email: string,
+  code: string,
+  token: string,
+) {
   const baseUrl = process.env.DEVELOPMENT
     ? "http://localhost:3000"
     : "https://essentia-web.vercel.app";
 
-  const res = await fetch(`${baseUrl}/api/auth/send-email-account-deleted`, {
+  const res = await fetch(`${baseUrl}/api/auth/email-verify`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, token }),
+    body: JSON.stringify({ email, code, token }),
   });
 
   const responseText = await res.text();

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { verifyEmail } from "@/app/verify-email/actions";
+import { verifyCode } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,11 +26,11 @@ import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
   email: string;
-  userId: string;
 }
 
-const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
+const VerifyEmail = ({ email }: VerifyEmailProps) => {
   const router = useRouter();
+
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [code, setCode] = useState<string>("");
@@ -38,7 +38,10 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailVerification(userId, email);
+      const response = await resendEmailVerification(
+        email,
+        "email_verification",
+      );
 
       if (response?.status === "success") {
         toast.success(response.message);
@@ -55,7 +58,7 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
   const handleVerifyCode = async (codeToVerify: string) => {
     setIsVerifying(true);
     try {
-      const response = await verifyEmail(codeToVerify);
+      const response = await verifyCode(codeToVerify, "email_verification");
 
       if (response.success) {
         toast.success(response.message);
@@ -102,33 +105,33 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
                 para que puedas activar tu cuenta. Introdúcelo a continuación.
               </p>
             </CardDescription>
-            <CardContent className="pt-3">
-              {isVerifying ? (
-                <div className="inline-flex h-12 items-center justify-center gap-2">
-                  <span>Verificando</span>
-                  <Loader className="size-4 animate-spin" />
-                </div>
-              ) : (
-                <InputOTP
-                  maxLength={6}
-                  pattern={REGEXP_ONLY_DIGITS}
-                  value={code}
-                  onChange={handleCodeChange}
-                  containerClassName="justify-center"
-                >
-                  <InputOTPGroup>
-                    {[...Array(6)].map((_, index) => (
-                      <InputOTPSlot
-                        key={index}
-                        className="size-12"
-                        index={index}
-                      />
-                    ))}
-                  </InputOTPGroup>
-                </InputOTP>
-              )}
-            </CardContent>
           </CardHeader>
+          <CardContent className="pb-10">
+            {isVerifying ? (
+              <div className="inline-flex h-12 items-center justify-center gap-2">
+                <span>Verificando</span>
+                <Loader className="size-4 animate-spin" />
+              </div>
+            ) : (
+              <InputOTP
+                maxLength={6}
+                pattern={REGEXP_ONLY_DIGITS}
+                value={code}
+                onChange={handleCodeChange}
+                containerClassName="justify-center"
+              >
+                <InputOTPGroup>
+                  {[...Array(6)].map((_, index) => (
+                    <InputOTPSlot
+                      key={index}
+                      className="size-12"
+                      index={index}
+                    />
+                  ))}
+                </InputOTPGroup>
+              </InputOTP>
+            )}
+          </CardContent>
         </Card>
       </div>
 
@@ -146,8 +149,11 @@ const VerifyEmail = ({ email, userId }: VerifyEmailProps) => {
           variant="outline"
           onClick={handleResendEmail}
         >
-          {isSending ? <Loader className="size-4 animate-spin" /> : null}
-          {!isSending && "Reenviar código"}
+          {isSending ? (
+            <Loader className="size-4 animate-spin" />
+          ) : (
+            "Reenviar código"
+          )}
         </Button>
       </div>
     </div>

@@ -9,11 +9,11 @@ import { nanoid } from "nanoid";
 import postgres from "postgres";
 
 import { user, type User, userProfile, subscription } from "@/db/schema";
-import { sendEmailVerification } from "@/modules/auth/lib/send-email-verification";
+import { sendEmailVerification } from "@/modules/auth/lib/email-verify";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 import { ResultCode } from "@/utils/code";
 
-import { insertEmailVerificationToken } from "./email-querys";
+import { insertEmailVerificationCode } from "./email-querys";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -64,7 +64,7 @@ export async function createUser(
     const code = generateVerificationCode();
     const token = nanoid(64);
 
-    await insertEmailVerificationToken(userId, code);
+    await insertEmailVerificationCode(userId, code, "email_verification");
 
     const emailResult = await sendEmailVerification(email, code, token);
     if (!emailResult.success) {

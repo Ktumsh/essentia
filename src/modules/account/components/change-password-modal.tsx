@@ -143,10 +143,13 @@ const ChangePasswordModal = ({
               name="currentPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contraseña actual</FormLabel>
+                  <FormLabel htmlFor="currentPassword">
+                    Contraseña actual
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
+                        id="currentPassword"
                         type={isVisibleCurrent ? "text" : "password"}
                         autoComplete="current-password"
                         {...field}
@@ -176,10 +179,11 @@ const ChangePasswordModal = ({
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nueva contraseña</FormLabel>
+                  <FormLabel htmlFor="newPassword">Nueva contraseña</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
+                        id="newPassword"
                         type={isVisibleNew ? "text" : "password"}
                         autoComplete="new-password"
                         {...field}
@@ -207,10 +211,13 @@ const ChangePasswordModal = ({
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirmar nueva contraseña</FormLabel>
+                  <FormLabel htmlFor="confirmPassword">
+                    Confirmar nueva contraseña
+                  </FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
+                        id="confirmPassword"
                         type={isVisibleConfirm ? "text" : "password"}
                         autoComplete="new-password"
                         {...field}

@@ -25,7 +25,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { deleteUser } from "@/db/querys/user-querys";
-import { sendEmailAccountDeleted } from "@/modules/auth/lib/send-email-account-deleted";
+import { sendEmailAccountDeleted } from "@/modules/auth/lib/email-acc-del";
 
 interface DeleteAccountModalProps {
   userId: string;
