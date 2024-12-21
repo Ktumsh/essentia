@@ -79,21 +79,21 @@ export const payment = table("payment", {
 
 export type Payment = InferSelectModel<typeof payment>;
 
-export const emailVerification = table("email_verification", {
+export const emailSends = table("email_sends", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   code: varchar("code", { length: 6 }),
   actionType: varchar("action_type", {
-    enum: ["email_verification", "password_recovery"],
+    enum: ["email_verification", "password_recovery", "email_change"],
   }),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   verifiedAt: timestamp("verified_at").default(sql`NULL`),
 });
 
-export type EmailVerification = InferSelectModel<typeof emailVerification>;
+export type EmailSends = InferSelectModel<typeof emailSends>;
 
 export const chat = table("chat", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),

@@ -25,7 +25,7 @@ import {
   FormControl,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getProfileNameByEmail } from "@/db/querys/profile-querys";
+import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
@@ -68,11 +68,22 @@ const LoginForm = () => {
         localStorage.removeItem("rememberedEmail");
       }
 
-      const [userName] = await getProfileNameByEmail(data.email);
-      if (userName) {
-        toast.success(`¡Bienvenid@, ${userName.firstName}!`);
+      const [user] = await getUserProfileByEmail(data.email);
+      const isMale = user.profile.genre === "Masculino";
+      const isFemale = user.profile.genre === "Femenino";
+
+      const welcome = isMale
+        ? "Bienvenido"
+        : isFemale
+          ? "Bienvenida"
+          : "Bienvenid@";
+
+      const firstName = user.profile.firstName;
+
+      if (user) {
+        toast.success(`${welcome}, ${firstName}!`);
       } else {
-        toast.success(`¡Bienvenid@!`);
+        toast.success("¡Bienvenid@!");
       }
       router.replace(redirectUrl);
     },

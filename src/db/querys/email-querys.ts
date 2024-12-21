@@ -5,26 +5,33 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
 
-import { user, emailVerification, type EmailVerification } from "@/db/schema";
+import { sendEmailChange } from "@/modules/auth/lib/email-change";
 import { sendEmailRecoveryPass } from "@/modules/auth/lib/email-rec-pass";
 import { sendEmailVerification } from "@/modules/auth/lib/email-verify";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 
 import { getUserByEmail } from "./user-querys";
+import { type EmailSends, emailSends, user } from "../schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
 
-export async function insertEmailVerificationCode(
+export async function insertEmailSendsCode(
   userId: string,
   code: string,
-  actionType: "email_verification" | "password_recovery",
+  actionType: "email_verification" | "password_recovery" | "email_change",
 ) {
   const expiresAt = new Date();
   expiresAt.setMinutes(expiresAt.getMinutes() + 10);
 
   try {
-    return await db.insert(emailVerification).values({
+    const verification = await getVerificationCode(code, actionType);
+
+    if (verification.length > 0) {
+      await deleteVerificationCode(code, actionType);
+    }
+
+    return await db.insert(emailSends).values({
       userId,
       code,
       actionType,
@@ -38,17 +45,14 @@ export async function insertEmailVerificationCode(
 
 export async function getVerificationCode(
   code: string,
-  actionType: "email_verification" | "password_recovery",
-): Promise<Array<EmailVerification>> {
+  actionType: "email_verification" | "password_recovery" | "email_change",
+): Promise<Array<EmailSends>> {
   try {
     return await db
       .select()
-      .from(emailVerification)
+      .from(emailSends)
       .where(
-        and(
-          eq(emailVerification.code, code),
-          eq(emailVerification.actionType, actionType),
-        ),
+        and(eq(emailSends.code, code), eq(emailSends.actionType, actionType)),
       )
       .limit(1);
   } catch (error) {
@@ -57,15 +61,16 @@ export async function getVerificationCode(
   }
 }
 
-export async function resendEmailVerification(
+export async function resendEmailSendsCode(
   email: string,
-  actionType: "email_verification" | "password_recovery",
+  actionType: "email_verification" | "password_recovery" | "email_change",
+  newEmail?: string,
 ) {
   const newCode = generateVerificationCode();
   const newToken = nanoid(64);
 
   const expiresAt = new Date();
-  expiresAt.setMinutes(expiresAt.getMinutes() + 10);
+  expiresAt.setMinutes(expiresAt.getMinutes() + 15);
 
   try {
     const user = await getUserByEmail(email);
@@ -87,23 +92,26 @@ export async function resendEmailVerification(
     const userId = user[0].id;
 
     await db
-      .update(emailVerification)
+      .update(emailSends)
       .set({
         code: newCode,
         expiresAt: expiresAt,
       })
       .where(
         and(
-          eq(emailVerification.userId, userId),
-          eq(emailVerification.actionType, actionType),
+          eq(emailSends.userId, userId),
+          eq(emailSends.actionType, actionType),
         ),
       );
 
     if (actionType === "email_verification") {
       await sendEmailVerification(email, newCode, newToken);
-    } else {
+    } else if (actionType === "password_recovery") {
       await sendEmailRecoveryPass(email, newCode, newToken);
+    } else {
+      await sendEmailChange(email, newEmail!, newCode, newToken);
     }
+
     return {
       status: "success",
       message: "Se ha enviado un nuevo código de verificación.",
@@ -117,30 +125,25 @@ export async function resendEmailVerification(
   }
 }
 
-export async function updateEmailVerified(userId: string) {
+export async function updateEmailSends(
+  userId: string,
+  actionType: "email_verification" | "password_recovery" | "email_change",
+) {
   try {
-    const userRecord = await db
-      .select()
-      .from(user)
-      .where(eq(user.id, userId))
-      .limit(1);
-
-    if (userRecord.length === 0) {
-      throw new Error("Usuario no encontrado");
+    if (actionType === "email_verification") {
+      await db
+        .update(user)
+        .set({ emailVerified: true, updatedAt: new Date() })
+        .where(eq(user.id, userId));
     }
 
     await db
-      .update(user)
-      .set({ emailVerified: true, updatedAt: new Date() })
-      .where(eq(user.id, userId));
-
-    await db
-      .update(emailVerification)
+      .update(emailSends)
       .set({ verifiedAt: new Date() })
       .where(
         and(
-          eq(emailVerification.userId, userId),
-          eq(emailVerification.actionType, "email_verification"),
+          eq(emailSends.userId, userId),
+          eq(emailSends.actionType, actionType),
         ),
       );
   } catch (error) {
@@ -151,17 +154,13 @@ export async function updateEmailVerified(userId: string) {
 
 export async function deleteVerificationCode(
   code: string,
-  actionType: "email_verification" | "password_recovery",
+  actionType: "email_verification" | "password_recovery" | "email_change",
 ) {
   try {
     await db
-      .update(emailVerification)
-      .set({ code: null })
+      .delete(emailSends)
       .where(
-        and(
-          eq(emailVerification.code, code),
-          eq(emailVerification.actionType, actionType),
-        ),
+        and(eq(emailSends.code, code), eq(emailSends.actionType, actionType)),
       );
   } catch (error) {
     console.error("Error al eliminar el code de verificación:", error);

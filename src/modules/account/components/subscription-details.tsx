@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -59,6 +60,10 @@ const SubscriptionDetails = ({
                 {planType}
               </div>
             </CardTitle>
+            <CardDescription className="space-y-1">
+              <p>Este es el resumen de tu plan de Essentia.</p>
+              <p>Puedes cambiar o mejorar tu plan en cualquier momento.</p>
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">

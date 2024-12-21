@@ -18,7 +18,6 @@ import {
 
 interface StepVerifyCodeProps {
   email: string;
-  onVerifyCode: (codeToVerify: string) => Promise<void>;
   isVerifying: boolean;
   code: string;
   onCodeChange: (value: string) => void;

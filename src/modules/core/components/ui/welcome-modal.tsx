@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,8 +14,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { LinkIcon } from "@/modules/icons/action";
 
 const WelcomeModal = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -38,10 +42,10 @@ const WelcomeModal = () => {
             <DialogHeader className="items-center px-6 py-4">
               <div className="absolute -left-1/2 top-[-820px] -z-10 size-[900px] -translate-x-32 rounded-full border-4 border-gray-200 bg-light-gradient-v2 dark:border-dark dark:bg-dark-gradient"></div>
               <DialogTitle className="text-3xl font-bold text-white">
-                ¡Bienvenido!
+                ¡Bienvenid@!
               </DialogTitle>
               <DialogDescription className="sr-only">
-                Una alerta de bienvenida
+                Un mensaje de bienvenida
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-1 flex-col gap-3 px-6 py-2 pt-6 text-center text-main dark:text-main-dark">
@@ -50,8 +54,7 @@ const WelcomeModal = () => {
                   src="/logo-essentia.webp"
                   alt="Welcome"
                   width={40}
-                  height={60}
-                  className="w-10"
+                  height={40}
                 />
               </div>
               <div className="prose-sm">
@@ -60,26 +63,37 @@ const WelcomeModal = () => {
                   <span className="font-semibold">Essentia</span> es tu
                   plataforma esencial de salud y bienestar 🌿
                 </p>
+                <Link
+                  href="/about"
+                  target="_blank"
+                  className="inline-flex flex-1 justify-center gap-1 leading-4 text-blue-600 hover:underline"
+                >
+                  <span className="font-semibold">Descubre Essentia</span>
+                  <LinkIcon />
+                </Link>
                 <p>
-                  Nos alegra que nos acompañes. Aún estamos en desarrollo, así
-                  que tu ayuda probando la web será muy valiosa para mejorarla.
-                  ¡Gracias por tu apoyo!
+                  Aún estamos en desarrollo, así que tu ayuda probando la web
+                  será muy valiosa para mejorarla. ¡Gracias por tu apoyo!
                 </p>
               </div>
             </div>
             <DialogFooter className="flex !flex-col justify-end gap-2 px-6 py-4 sm:space-x-0">
-              <Link
-                href="/login"
-                className="inline-flex h-8 w-full items-center justify-center rounded-full bg-gray-100 px-3 text-sm font-medium dark:bg-dark/50"
+              <button className="sr-only"></button>
+              <Button
+                radius="full"
+                variant="outline"
+                onClick={() => router.push("/login")}
               >
                 Inicia sesión
-              </Link>
-              <Link
-                href="/signup"
-                className="inline-flex h-8 w-full items-center justify-center rounded-full bg-light-gradient from-cerise-red-600 to-cerise-red-800 px-3 text-sm font-medium text-white dark:bg-gradient-to-r"
+              </Button>
+              <Button
+                radius="full"
+                variant="alternative"
+                className="text-sm"
+                onClick={() => router.push("/signup")}
               >
                 Crea una cuenta
-              </Link>
+              </Button>
             </DialogFooter>
           </>
         </DialogContent>

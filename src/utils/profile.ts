@@ -1,7 +1,6 @@
 import { Session } from "next-auth";
 
 import {
-  getUserProfileByEmail,
   getUserProfileById,
   getUserProfileByUsername,
 } from "@/db/querys/profile-querys";
@@ -23,8 +22,8 @@ export async function getUserProfileData({
     [userProfile] = await getUserProfileById(userId);
   } else if (username) {
     [userProfile] = await getUserProfileByUsername(username);
-  } else if (session?.user?.email) {
-    [userProfile] = await getUserProfileByEmail(session.user.email);
+  } else if (session?.user?.id) {
+    [userProfile] = await getUserProfileById(session.user.id);
   } else {
     throw new Error("Sesión no válida o username no proporcionado.");
   }

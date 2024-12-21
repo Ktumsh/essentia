@@ -4,16 +4,17 @@ import { nanoid } from "nanoid";
 
 import {
   getVerificationCode,
-  insertEmailVerificationCode,
-  updateEmailVerified,
+  insertEmailSendsCode,
+  updateEmailSends,
 } from "@/db/querys/email-querys";
 import { getUserByEmail } from "@/db/querys/user-querys";
+import { sendEmailChange } from "@/modules/auth/lib/email-change";
 import { sendEmailRecoveryPass } from "@/modules/auth/lib/email-rec-pass";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 
 export async function verifyCode(
   code: string,
-  actionType: "email_verification" | "password_recovery",
+  actionType: "email_verification" | "password_recovery" | "email_change",
 ): Promise<{ success: boolean; message: string }> {
   try {
     const [verification] = await getVerificationCode(code, actionType);
@@ -29,14 +30,16 @@ export async function verifyCode(
       return { success: false, message: "El código ha expirado" };
     }
 
-    await updateEmailVerified(userId);
+    await updateEmailSends(userId, actionType);
 
     return {
       success: true,
       message:
         actionType === "email_verification"
           ? "¡Tu correo ha sido verificado!"
-          : "Código verificado",
+          : actionType === "password_recovery"
+            ? "Código verificado"
+            : "Se ha cambiado tu correo electrónico",
     };
   } catch (error) {
     console.error("Error al verificar el correo:", error);
@@ -65,9 +68,45 @@ export async function sendRecoveryEmail(
     const code = generateVerificationCode();
     const token = nanoid(64);
 
-    await insertEmailVerificationCode(userId, code, "password_recovery");
+    await insertEmailSendsCode(userId, code, "password_recovery");
 
     const emailResult = await sendEmailRecoveryPass(email, code, token);
+
+    if (!emailResult) {
+      return { status: "error", message: "Error al enviar el correo" };
+    }
+
+    return { status: "success", message: "Correo enviado" };
+  } catch (error) {
+    console.error("Error al enviar el correo de recuperación:", error);
+    throw error;
+  }
+}
+
+export async function sendChangeEmail(
+  currentEmail: string,
+  newEmail: string,
+): Promise<{ status: string; message: string }> {
+  try {
+    const [user] = await getUserByEmail(currentEmail);
+
+    if (!user) {
+      return { status: "error", message: "Correo inválido." };
+    }
+
+    const userId = user.id;
+
+    const code = generateVerificationCode();
+    const token = nanoid(64);
+
+    await insertEmailSendsCode(userId, code, "email_change");
+
+    const emailResult = await sendEmailChange(
+      currentEmail,
+      newEmail,
+      code,
+      token,
+    );
 
     if (!emailResult) {
       return { status: "error", message: "Error al enviar el correo" };

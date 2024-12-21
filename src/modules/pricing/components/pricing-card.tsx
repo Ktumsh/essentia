@@ -79,14 +79,14 @@ const PricingCard = ({
       if (session) {
         setIsOpenCancelModal(true);
       } else {
-        router.push("/login?redirect=/premium");
+        router.push("/login?redirect=/pricing");
       }
     } else {
       if (session) {
         setSelectedPlan(priceId);
         setIsOpenConfirmPlanModal(true);
       } else {
-        router.push("/login?redirect=/premium");
+        router.push("/login?redirect=/pricing");
       }
     }
   };
