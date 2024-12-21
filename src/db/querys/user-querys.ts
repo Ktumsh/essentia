@@ -13,7 +13,7 @@ import { sendEmailVerification } from "@/modules/auth/lib/email-verify";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 import { ResultCode } from "@/utils/code";
 
-import { insertEmailVerificationCode } from "./email-querys";
+import { insertEmailSendsCode } from "./email-querys";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -64,7 +64,7 @@ export async function createUser(
     const code = generateVerificationCode();
     const token = nanoid(64);
 
-    await insertEmailVerificationCode(userId, code, "email_verification");
+    await insertEmailSendsCode(userId, code, "email_verification");
 
     const emailResult = await sendEmailVerification(email, code, token);
     if (!emailResult.success) {
@@ -109,6 +109,20 @@ export async function getUserByUsername(
     return await db.select().from(user).where(eq(user.username, username));
   } catch (error) {
     console.error("Error al obtener el usuario por username:", error);
+    throw error;
+  }
+}
+
+export async function updateUserEmail(id: string, email: string) {
+  try {
+    return await db
+      .update(user)
+      .set({
+        email,
+      })
+      .where(eq(user.id, id));
+  } catch (error) {
+    console.error("Error al actualizar el email del usuario:", error);
     throw error;
   }
 }

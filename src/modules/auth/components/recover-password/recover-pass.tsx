@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { sendRecoveryEmail, verifyCode } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { resendEmailVerification } from "@/db/querys/email-querys";
+import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import {
   getUserByEmail,
   updateUserPassword,
@@ -47,9 +47,6 @@ const RecoverPass = () => {
         } else {
           toast.error(res.message);
         }
-
-        setEmail(data.email);
-        setStep(2);
       });
     } catch {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
@@ -59,10 +56,7 @@ const RecoverPass = () => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailVerification(
-        email,
-        "password_recovery",
-      );
+      const response = await resendEmailSendsCode(email, "password_recovery");
 
       if (response?.status === "success") {
         toast.success(response.message);
@@ -119,7 +113,7 @@ const RecoverPass = () => {
         );
         if (isSamePassword) {
           toast.error(
-            "La contraseña no cumple con los requisitos de seguridad. Intenta con una diferente.",
+            "Haz utilizado esta contraseña anteriormente. Intenta una diferente.",
           );
           return;
         }
@@ -160,7 +154,6 @@ const RecoverPass = () => {
         {step === 2 && (
           <StepVerifyCode
             email={email}
-            onVerifyCode={handleVerifyCode}
             isVerifying={isVerifying}
             code={code}
             onCodeChange={onCodeChange}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar } from "lucide-react";
+import { Calendar, Mail } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
 import { UserProfileData } from "@/types/session";
 import { formatDate } from "@/utils/format";
 
+import ChangeEmailModal from "./change-email/change-email-modal";
 import ChangePasswordModal from "./change-password-modal";
 import DeleteAccountModal from "./delete-account-modal";
 
@@ -23,14 +24,15 @@ interface AccountDetailsProps {
 }
 
 const AccountDetails = ({ user }: AccountDetailsProps) => {
-  const [isOpenChange, setIsOpenChange] = useState(false);
+  const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
+  const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   if (!user) {
     return null;
   }
 
-  const { id, email, firstName, lastName, username, createdAt } = user;
+  const { id, email, createdAt } = user;
 
   return (
     <>
@@ -40,31 +42,28 @@ const AccountDetails = ({ user }: AccountDetailsProps) => {
             <CardTitle className="text-base">
               Información de tu Cuenta
             </CardTitle>
+            <CardDescription className="space-y-1">
+              <p>Esta es la información de tu cuenta.</p>
+              <p>
+                Puedes cambiar la dirección de tu correo electrónico y
+                actualizar tu contraseña.
+              </p>
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-              <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
+              <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2">
                 <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
-                    Nombre
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {firstName} {lastName}
-                  </div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
-                    Correo electrónico
+                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
+                    <span>
+                      <Mail
+                        strokeWidth={1.5}
+                        className="size-3 text-main-m dark:text-main-dark-m"
+                      />
+                    </span>
+                    <span>Correo electrónico</span>
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">{email}</div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
-                    Nombre de usuario
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {username}
-                  </div>
                 </span>
                 <span className="flex flex-col">
                   <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-m dark:text-main-dark-m">
@@ -88,7 +87,14 @@ const AccountDetails = ({ user }: AccountDetailsProps) => {
               <Button
                 radius="lg"
                 variant="outline"
-                onClick={() => setIsOpenChange(true)}
+                onClick={() => setIsOpenChangeEmail(true)}
+              >
+                Cambiar correo electrónico
+              </Button>
+              <Button
+                radius="lg"
+                variant="outline"
+                onClick={() => setIsOpenChangePass(true)}
               >
                 Cambiar contraseña
               </Button>
@@ -126,7 +132,15 @@ const AccountDetails = ({ user }: AccountDetailsProps) => {
           </CardFooter>
         </Card>
       </div>
-      <ChangePasswordModal isOpen={isOpenChange} setIsOpen={setIsOpenChange} />
+      <ChangeEmailModal
+        currentEmail={email}
+        isOpen={isOpenChangeEmail}
+        setIsOpen={setIsOpenChangeEmail}
+      />
+      <ChangePasswordModal
+        isOpen={isOpenChangePass}
+        setIsOpen={setIsOpenChangePass}
+      />
       <DeleteAccountModal
         userId={id}
         email={email}

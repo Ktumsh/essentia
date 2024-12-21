@@ -21,7 +21,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { resendEmailVerification } from "@/db/querys/email-querys";
+import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
@@ -38,10 +38,7 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailVerification(
-        email,
-        "email_verification",
-      );
+      const response = await resendEmailSendsCode(email, "email_verification");
 
       if (response?.status === "success") {
         toast.success(response.message);

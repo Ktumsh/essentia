@@ -17,36 +17,36 @@ const smtpEmail = new brevo.SendSmtpEmail();
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, code, token } = await req.json();
+    const { currentEmail, newEmail, code, token } = await req.json();
 
-    if (!email || !code || !token) {
+    if (!currentEmail || !newEmail || !code || !token) {
       return NextResponse.json(
         { error: "Email and token are required" },
         { status: 400 },
       );
     }
 
-    const [user] = await getUserByEmail(email);
+    const [user] = await getUserByEmail(currentEmail);
 
     const username = user.username;
 
     const templatePath = path.join(
       process.cwd(),
-      "src/modules/auth/lib/email-rec-pass.html",
+      "src/modules/auth/lib/email-change.html",
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 
     htmlContent = htmlContent
       .replace("{{username}}", username)
-      .replace("{{recoveryCode}}", code)
+      .replace("{{changeCode}}", code)
       .replace(
         "{{logoUrl}}",
         `https://raw.githubusercontent.com/Ktumsh/essentia/main/public/essentia_x512.png`,
       );
 
-    smtpEmail.subject = "Recuperar contraseña";
+    smtpEmail.subject = "Cambio de dirección de correo electrónico";
     smtpEmail.sender = { name: "Essentia", email: process.env.EMAIL_FROM };
-    smtpEmail.to = [{ email, name: username }];
+    smtpEmail.to = [{ email: newEmail, name: username }];
     smtpEmail.htmlContent = htmlContent;
 
     await apiInstance.sendTransacEmail(smtpEmail);

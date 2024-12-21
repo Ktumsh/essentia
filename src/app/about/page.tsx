@@ -8,7 +8,7 @@ import AboutHeader from "@/modules/about/components/about-header";
 import ButtonUp from "@/modules/core/components/ui/buttons/button-up";
 
 export const metadata: Metadata = {
-  title: "Desubre" + siteConfig.name,
+  title: "Descubre " + siteConfig.name,
   alternates: {
     canonical: "/about",
   },

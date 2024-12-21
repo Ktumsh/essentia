@@ -4,10 +4,9 @@
   "short_name": "Essentia",
   "description": "Essentia es una plataforma educativa de información sobre salud que proporciona recursos y herramientas para mejorar tu bienestar.",
   "theme_color": "#000",
-  "background_color": "#d5d8eb",
+  "background_color": "#fff",
   "start_url": "/",
   "display": "standalone",
-  "display_override": ["window-controls-overlay"],
   "orientation": "portrait",
   "version": "pre-alpha-1.0.0",
   "protocol_handlers": [
