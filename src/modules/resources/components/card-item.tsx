@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { EyeIcon } from "@/modules/icons/status";
 import { ResourceCard } from "@/types/resource";
@@ -88,4 +88,4 @@ const CardItem = ({ item, type }: CardItemProps) => {
   );
 };
 
-export default CardItem;
+export default memo(CardItem);

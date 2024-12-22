@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { changePassword } from "@/app/(main)/account/actions";
+import { changePassword } from "@/app/(main)/(account)/actions";
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {

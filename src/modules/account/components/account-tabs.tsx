@@ -72,9 +72,9 @@ const AccountTabs = ({
           </div>
         </Tab>
         <Tab
-          key="/account/profile"
+          key="/profile"
           as={Link}
-          href="/account/profile"
+          href="/profile"
           title={
             <div className="flex items-center space-x-2">
               <span>Mi perfil</span>
@@ -86,9 +86,9 @@ const AccountTabs = ({
           </div>
         </Tab>
         <Tab
-          key="/account/subscription"
+          key="/subscription"
           as={Link}
-          href="/account/subscription"
+          href="/subscription"
           title={
             <div className="flex items-center space-x-2">
               <span>Mi suscripción</span>

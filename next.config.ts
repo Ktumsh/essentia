@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   transpilePackages: ["geist"],
@@ -33,6 +39,11 @@ const nextConfig: NextConfig = {
       {
         source: "/adicionales",
         destination: "/adicionales/guias",
+        permanent: true,
+      },
+      {
+        source: "/recursos",
+        destination: "/recursos/salud-y-bienestar",
         permanent: true,
       },
     ];

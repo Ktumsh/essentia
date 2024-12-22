@@ -96,7 +96,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
             >
               <DropdownMenuLabel className="p-0 font-normal">
                 <DropdownMenuItem asChild>
-                  <Link href={user ? "/account/profile" : "/login"}>
+                  <Link href={user ? "/profile" : "/login"}>
                     <Avatar className="size-8 rounded-lg">
                       {profileImage && (
                         <AvatarImage src={profileImage} alt={username} />

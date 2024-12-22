@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   },
 };
 
-const AccountPage = () => {
+const AccountPage = async () => {
   return <AccountHeader title="Cuenta" />;
 };
 

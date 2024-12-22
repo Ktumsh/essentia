@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import { ARTICLES_BY_RESOURCE } from "@/consts/articles-data";
 import RESOURCES_VIDEOS from "@/consts/resources-videos";
 import { ROUTINES } from "@/consts/routines-data";
@@ -45,4 +47,4 @@ const CardList = ({ resource, type }: CardList) => {
   );
 };
 
-export default CardList;
+export default memo(CardList);

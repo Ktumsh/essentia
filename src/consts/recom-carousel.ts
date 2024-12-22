@@ -12,6 +12,9 @@ import type { MaincapResources } from "@/types/resource";
 const nutritionalPlan = INITIAL_CHAT_MESSAGES[4].action;
 const healthRisk = INITIAL_CHAT_MESSAGES[5].action;
 
+const BASE_URL =
+  "https://res.cloudinary.com/dcub4itgg/image/upload/f_auto,q_auto/v1/essentia/maincap";
+
 export const MAINCAP_RESOURCES: MaincapResources[] = [
   {
     id: 1,
@@ -19,7 +22,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     description:
       "Crea planes nutricionales personalizados, diseña rutinas diarias, recibe recomendaciones de actividades de bienestar y utiliza nuestro seguidor de ánimo. ¡Descubre lo que podemos hacer por ti!",
     link: "/essentia-ai",
-    image: "/capsules/capsule-01.png",
+    image: `${BASE_URL}/cap-01`,
     icon: AIFillIcon,
     requiresPremium: false,
   },
@@ -29,7 +32,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     description:
       "Genera un plan adaptado a tus necesidades y objetivos gracias a nuestra tecnología avanzada. ¡Empieza hoy mismo!",
     link: `/essentia-ai?search=${encodeURIComponent(nutritionalPlan)}`,
-    image: "/extras/meal-nutritional-plan-top.jpg",
+    image: `${BASE_URL}/cap-02`,
     icon: FruitFillIcon,
     requiresPremium: true,
   },
@@ -39,7 +42,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     description:
       "Obtén un análisis detallado de tus riesgos de salud con recomendaciones específicas para mejorar tu bienestar.",
     link: `/essentia-ai?search=${encodeURIComponent(healthRisk)}`,
-    image: "/extras/health-risk-banner.jpg",
+    image: `${BASE_URL}/cap-03`,
     icon: HeartbeatIcon,
     requiresPremium: true,
   },
@@ -49,7 +52,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     description:
       "Ubica fácilmente centros de salud cercanos con nuestra herramienta práctica y rápida.",
     link: "/centros-de-salud",
-    image: "/capsules/capsule-03.webp",
+    image: `${BASE_URL}/cap-04`,
     icon: HealthCentersFillIcon,
     requiresPremium: false,
   },
@@ -59,7 +62,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     description:
       "Encuentra recursos y herramientas para cuidar tu salud mental, mejorar tu estado de ánimo y enfrentar los desafíos diarios.",
     link: "/bienestar-emocional",
-    image: "/extras/mood-tracking-top.webp",
+    image: `${BASE_URL}/cap-05`,
     icon: HeartbeatIcon,
     requiresPremium: false,
   },
@@ -69,7 +72,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     description:
       "Explora guías, recomendaciones y herramientas gratuitas diseñadas para mejorar tu bienestar.",
     link: "/adicionales",
-    image: "/capsules/capsule-04.webp",
+    image: `${BASE_URL}/cap-06`,
     icon: AdditionalFillIcon,
     requiresPremium: false,
   },
