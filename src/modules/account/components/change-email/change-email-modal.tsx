@@ -7,7 +7,7 @@ import { useCallback, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { sendChangeEmail, verifyCode } from "@/app/(auth)/actions";
+import { onSendEmail, verifyCode } from "@/app/(auth)/actions";
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
@@ -68,27 +68,24 @@ const ChangeEmailModal = ({
           const [user] = await getUserByEmail(currentEmail);
 
           if (!user) {
-            toast.error("No se encontró el usuario.");
-            return;
-          }
-
-          if (user.email === data.email) {
-            toast.error(
-              "La nueva dirección de correo debe ser diferente a la actual.",
-            );
+            toast.error("El correo actual no existe.");
             return;
           }
 
           setEmail(data.email);
 
-          const res = await sendChangeEmail(currentEmail, data.email);
+          const res = await onSendEmail("email_change", {
+            currentEmail,
+            newEmail: data.email,
+          });
 
-          if (res.status === "success") {
-            setUserId(user.id);
-            setStep(2);
-          } else {
+          if (!res.status) {
             toast.error(res.message);
+            return;
           }
+
+          setUserId(user.id);
+          setStep(2);
         });
       } catch (error) {
         console.error("Error al enviar el correo:", error);
@@ -101,17 +98,18 @@ const ChangeEmailModal = ({
   const handleResendEmail = useCallback(async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailSendsCode(
+      const res = await resendEmailSendsCode(
         currentEmail,
         "email_change",
         email,
       );
 
-      if (response?.status === "success") {
-        toast.success(response.message);
-      } else {
-        toast.error(response?.message);
+      if (!res.status) {
+        toast.error(res.message);
+        return;
       }
+
+      toast.success(res.message);
     } catch {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
     } finally {
@@ -123,16 +121,17 @@ const ChangeEmailModal = ({
     async (codeToVerify: string) => {
       setIsVerifying(true);
       try {
-        const response = await verifyCode(codeToVerify, "email_change");
+        const res = await verifyCode(codeToVerify, "email_change");
 
-        if (response.success) {
-          await updateUserEmail(userId, email);
-          toast.success(response.message);
-          setIsOpen(false);
-          router.refresh();
-        } else {
-          toast.error(response.message);
+        if (!res.success) {
+          toast.error(res.message);
+          return;
         }
+
+        await updateUserEmail(userId, email);
+        toast.success(res.message);
+        setIsOpen(false);
+        router.refresh();
       } catch (error) {
         console.error("Error al verificar el código:", error);
         toast.error("Ocurrió un error. Inténtalo nuevamente.");

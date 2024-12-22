@@ -6,7 +6,7 @@ import { useState, useTransition } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
-import { sendRecoveryEmail, verifyCode } from "@/app/(auth)/actions";
+import { onSendEmail, verifyCode } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
@@ -42,14 +42,17 @@ const RecoverPass = () => {
         const formData = new FormData();
         formData.append("email", data.email);
 
-        const res = await sendRecoveryEmail(data.email);
+        const res = await onSendEmail("password_recovery", {
+          email: data.email,
+        });
 
-        if (res.status === "success") {
-          setEmail(data.email);
-          setStep(2);
-        } else {
+        if (!res.status) {
           toast.error(res.message);
+          return;
         }
+
+        setEmail(data.email);
+        setStep(2);
       });
     } catch {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
@@ -59,13 +62,14 @@ const RecoverPass = () => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailSendsCode(email, "password_recovery");
+      const res = await resendEmailSendsCode(email, "password_recovery");
 
-      if (response?.status === "success") {
-        toast.success(response.message);
-      } else {
-        toast.error(response?.message);
+      if (!res.status) {
+        toast.error(res?.message);
+        return;
       }
+
+      toast.success(res.message);
     } catch {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
     } finally {
@@ -76,13 +80,14 @@ const RecoverPass = () => {
   const handleVerifyCode = async (codeToVerify: string) => {
     setIsVerifying(true);
     try {
-      const response = await verifyCode(codeToVerify, "password_recovery");
+      const res = await verifyCode(codeToVerify, "password_recovery");
 
-      if (response.success) {
-        setStep(3);
-      } else {
-        toast.error(response.message);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
       }
+
+      setStep(3);
     } catch (error) {
       console.error("Error al verificar el código:", error);
       toast.error("Ocurrió un error. Inténtalo nuevamente.");

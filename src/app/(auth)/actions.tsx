@@ -52,72 +52,89 @@ export async function verifyCode(
   }
 }
 
-export async function sendRecoveryEmail(
-  email: string,
-): Promise<{ status: string; message: string }> {
+type EmailBasePayload = {
+  email: string;
+};
+
+type EmailChangePayload = {
+  currentEmail: string;
+  newEmail: string;
+};
+
+type Payload = EmailChangePayload | EmailBasePayload;
+
+export async function onSendEmail(
+  actionType: "password_recovery" | "email_change",
+  payload: Payload,
+): Promise<{ status: boolean; message: string }> {
   try {
-    const [user] = await getUserByEmail(email);
+    const isPasswordRecovery = actionType === "password_recovery";
+    const basePayload = payload as EmailBasePayload;
+    const changePayload = payload as EmailChangePayload;
+
+    const emailToCheck = isPasswordRecovery
+      ? basePayload.email
+      : changePayload.currentEmail;
+
+    if (!emailToCheck) {
+      return {
+        status: false,
+        message: "Correo inválido.",
+      };
+    }
+
+    const [user] = await getUserByEmail(emailToCheck);
 
     if (!user) {
-      return { status: "error", message: "Correo inválido." };
+      return {
+        status: false,
+        message: "Correo inválido.",
+      };
+    }
+
+    if (isPasswordRecovery && user.status === "disabled") {
+      return { status: false, message: "Usuario deshabilitado." };
+    }
+
+    if (!isPasswordRecovery && user.email === changePayload.newEmail) {
+      return {
+        status: false,
+        message: "El correo electrónico nuevo no puede ser igual al actual.",
+      };
     }
 
     const userId = user.id;
-
     const code = generateVerificationCode();
     const token = nanoid(64);
 
-    await insertEmailSendsCode(userId, code, "password_recovery");
+    await insertEmailSendsCode(userId, code, actionType);
 
-    const emailResult = await sendEmailAction("password_recovery", {
-      email,
+    const emailResult = await sendEmailAction(actionType, {
       code,
       token,
+      ...(actionType === "password_recovery"
+        ? {
+            email: basePayload.email,
+          }
+        : {
+            currentEmail: changePayload.currentEmail,
+            newEmail: changePayload.newEmail,
+          }),
     });
 
     if (!emailResult) {
-      return { status: "error", message: "Error al enviar el correo" };
+      return {
+        status: false,
+        message: "Error al enviar el correo",
+      };
     }
 
-    return { status: "success", message: "Correo enviado" };
+    return {
+      status: true,
+      message: "Correo enviado",
+    };
   } catch (error) {
-    console.error("Error al enviar el correo de recuperación:", error);
-    throw error;
-  }
-}
-
-export async function sendChangeEmail(
-  currentEmail: string,
-  newEmail: string,
-): Promise<{ status: string; message: string }> {
-  try {
-    const [user] = await getUserByEmail(currentEmail);
-
-    if (!user) {
-      return { status: "error", message: "Correo inválido." };
-    }
-
-    const userId = user.id;
-
-    const code = generateVerificationCode();
-    const token = nanoid(64);
-
-    await insertEmailSendsCode(userId, code, "email_change");
-
-    const emailResult = await sendEmailAction("email_change", {
-      currentEmail,
-      newEmail,
-      code,
-      token,
-    });
-
-    if (!emailResult) {
-      return { status: "error", message: "Error al enviar el correo" };
-    }
-
-    return { status: "success", message: "Correo enviado" };
-  } catch (error) {
-    console.error("Error al enviar el correo de recuperación:", error);
+    console.error(`Error al enviar el correo (${actionType}):`, error);
     throw error;
   }
 }

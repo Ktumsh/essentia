@@ -38,13 +38,14 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
   const handleResendEmail = async () => {
     setIsSending(true);
     try {
-      const response = await resendEmailSendsCode(email, "email_verification");
+      const res = await resendEmailSendsCode(email, "email_verification");
 
-      if (response?.status === "success") {
-        toast.success(response.message);
-      } else {
-        toast.error(response?.message);
+      if (!res.status) {
+        toast.error(res.message);
+        return;
       }
+
+      toast.success(res.message);
     } catch {
       toast.error("Ocurrió un error. Inténtelo nuevamente.");
     } finally {
@@ -55,14 +56,15 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
   const handleVerifyCode = async (codeToVerify: string) => {
     setIsVerifying(true);
     try {
-      const response = await verifyCode(codeToVerify, "email_verification");
+      const res = await verifyCode(codeToVerify, "email_verification");
 
-      if (response.success) {
-        toast.success(response.message);
-        router.push("/login");
-      } else {
-        toast.error(response.message);
+      if (!res.success) {
+        toast.error(res.message);
+        return;
       }
+
+      toast.success(res.message);
+      router.push("/login");
     } catch (error) {
       console.error("Error al verificar el código:", error);
       toast.error("Ocurrió un error. Inténtalo nuevamente.");
