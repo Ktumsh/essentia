@@ -55,7 +55,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       </Link>
 
       {!isMobile && (
-        <Card className="hidden min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 hover:shadow-md dark:shadow-white/10 md:block">
+        <Card className="hover:shadow-pretty hidden min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 md:block">
           <CardHeader className="pb-0">
             <div
               className={cn(

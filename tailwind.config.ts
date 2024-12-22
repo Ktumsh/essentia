@@ -24,6 +24,8 @@ const config: Config = {
     extend: {
       boxShadow: {
         "bento-shadow": "var(--bento-shadow)",
+        pretty: "var(--pretty-shadow)",
+        "little-pretty": "var(--little-pretty-shadow)",
       },
       borderRadius: {
         "4xl": "2rem",

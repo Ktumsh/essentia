@@ -60,7 +60,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
                       content: suggestedAction.action,
                     });
                   }}
-                  className="h-auto min-w-60 flex-col items-start gap-0 bg-white p-4 text-start text-main shadow-none will-change-transform hover:bg-white hover:shadow-md active:scale-[.97] dark:bg-full-dark dark:text-main-dark dark:shadow-white/10 dark:hover:bg-full-dark sm:min-w-0 md:hover:-translate-y-1"
+                  className="hover:shadow-little-pretty h-auto min-w-60 flex-col items-start gap-0 bg-white p-4 text-start text-main shadow-none will-change-transform hover:bg-white active:scale-[.97] dark:bg-full-dark dark:text-main-dark dark:shadow-white/10 dark:hover:bg-full-dark sm:min-w-0 md:hover:-translate-y-1"
                 >
                   <suggestedAction.icon
                     className={cn("size-4", suggestedAction.iconColor)}

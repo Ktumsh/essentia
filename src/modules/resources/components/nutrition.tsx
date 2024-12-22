@@ -51,7 +51,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
               radius="full"
               size="sm"
               onClick={onCreatePlan}
-              className="absolute right-0 top-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="relative z-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
             >
               <StarsIcon
                 aria-hidden="true"
@@ -67,7 +67,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
           <Button
             fullWidth
             onClick={onCreatePlan}
-            className="mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
+            className="relative z-0 mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
           >
             <StarsIcon
               aria-hidden="true"
