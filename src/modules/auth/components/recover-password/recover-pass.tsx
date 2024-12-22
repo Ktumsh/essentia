@@ -21,7 +21,10 @@ import { cn } from "@/utils/common";
 import StepEmail from "./step-email";
 import StepResetPassword from "./step-reset-password";
 import StepVerifyCode from "./step-verify-code";
-import { EmailFormData, NewPasswordFormData } from "../../lib/form";
+import {
+  EmailFormData,
+  NewPasswordFormData,
+} from "../../../core/lib/form-schemas";
 
 const RecoverPass = () => {
   const router = useRouter();

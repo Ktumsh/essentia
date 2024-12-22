@@ -178,7 +178,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
               <p className="text-balance text-center text-sm md:text-base">
                 Este chat está en modo lectura, le pertenece al usuario{" "}
                 <Link
-                  href={`/profile/${username}`}
+                  href={`/profiles/${username}`}
                   className="inline-flex flex-1 justify-center gap-1 font-semibold leading-4 hover:underline"
                 >
                   @{username}

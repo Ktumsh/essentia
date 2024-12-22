@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/drawer";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import { getUserByEmail, updateUserEmail } from "@/db/querys/user-querys";
-import { EmailFormData, emailSchema } from "@/modules/auth/lib/form";
+import { EmailFormData, emailSchema } from "@/modules/core/lib/form-schemas";
 
 import StepEmail from "./step-email";
 import StepVerifyCode from "./step-verify-code";

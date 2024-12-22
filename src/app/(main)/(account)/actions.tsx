@@ -1,15 +1,14 @@
 "use server";
 
-import { z } from "zod";
-
 import { auth } from "@/app/(auth)/auth";
 import { getUserById, updateUserPassword } from "@/db/querys/user-querys";
-import { changePasswordSchema } from "@/utils/account";
+import {
+  ChangePasswordFormData,
+  changePasswordSchema,
+} from "@/modules/core/lib/form-schemas";
 import { ResultCode } from "@/utils/code";
 
-type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
-
-export async function changePassword(input: ChangePasswordInput) {
+export async function changePassword(input: ChangePasswordFormData) {
   const parseResult = changePasswordSchema.safeParse(input);
   if (!parseResult.success) {
     return {

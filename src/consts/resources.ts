@@ -7,6 +7,9 @@ import Wellbeing from "@/modules/resources/components/wellbeing";
 
 import type { Resources } from "@/types/resource";
 
+const BASE_URL =
+  "https://res.cloudinary.com/dcub4itgg/image/upload/f_auto,q_auto/v1/essentia/resource";
+
 export const RESOURCES: Resources[] = [
   {
     id: 1,
@@ -21,7 +24,7 @@ export const RESOURCES: Resources[] = [
     videoLink: "ErfB8ga-PfA",
     videoImage: "/videos/miniatura-salud-1920x1080.webp",
     image: "/extras/salud-600x400.webp",
-    imageFull: "/extras/salud-1920x1280.webp",
+    imageFull: `${BASE_URL}/r-01`,
     resource: "salud-y-bienestar",
     component: HealthWellness,
   },
@@ -38,7 +41,7 @@ export const RESOURCES: Resources[] = [
     videoLink: "XrcPlkvysEY",
     videoImage: "/videos/miniatura-fitness-1920x1080.webp",
     image: "/extras/ejercicio-600x400.webp",
-    imageFull: "/extras/ejercicio-1920x1280.webp",
+    imageFull: `${BASE_URL}/r-02`,
     resource: "ejercicios-y-fitness",
     component: ExcerciseFitness,
   },
@@ -54,7 +57,7 @@ export const RESOURCES: Resources[] = [
     videoLink: "Hrk9ivVbuso",
     videoImage: "/videos/miniatura-nutricion-1920x1080.webp",
     image: "/extras/nutricion-600x400.webp",
-    imageFull: "/extras/nutricion-1920x1280.webp",
+    imageFull: `${BASE_URL}/r-03`,
     resource: "nutricion-y-alimentacion",
     component: Nutrition,
   },
@@ -71,7 +74,7 @@ export const RESOURCES: Resources[] = [
     videoLink: "KI3o-4hI0kw",
     videoImage: "/videos/miniatura-bienestar-1920x1080.webp",
     image: "/extras/bienestar-600x400.webp",
-    imageFull: "/extras/bienestar-1920x1280.webp",
+    imageFull: `${BASE_URL}/r-04`,
     resource: "bienestar-emocional",
     component: Wellbeing,
   },
@@ -88,7 +91,7 @@ export const RESOURCES: Resources[] = [
     videoLink: "2G0QKNHH9KI",
     videoImage: "/videos/miniatura-sexualidad-1920x1080.webp",
     image: "/extras/sexualidad-600x400.webp",
-    imageFull: "/extras/sexualidad-1920x1280.webp",
+    imageFull: `${BASE_URL}/r-05`,
     resource: "salud-y-educacion-sexual",
     component: SexEducation,
   },
@@ -105,7 +108,7 @@ export const RESOURCES: Resources[] = [
     videoLink: "vvsxRdfAtTA",
     videoImage: "/videos/miniatura-edades-1920x1080.webp",
     image: "/extras/edades-600x400.webp",
-    imageFull: "/extras/edades-1920x1280.webp",
+    imageFull: `${BASE_URL}/r-06`,
     resource: "salud-en-todas-las-edades",
     component: ForAllAges,
   },

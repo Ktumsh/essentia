@@ -23,7 +23,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 
-import { NewPasswordFormData, newPasswordSchema } from "../../lib/form";
+import {
+  NewPasswordFormData,
+  newPasswordSchema,
+} from "../../../core/lib/form-schemas";
 
 interface StepResetPasswordProps {
   onSubmit: (data: NewPasswordFormData) => void;

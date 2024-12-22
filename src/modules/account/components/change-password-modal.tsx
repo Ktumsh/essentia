@@ -4,9 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useCallback, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
-import { changePassword } from "@/app/(main)/account/actions";
+import { changePassword } from "@/app/(main)/(account)/actions";
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,36 +35,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  ChangePasswordFormData,
+  changePasswordSchema,
+} from "@/modules/core/lib/form-schemas";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
-
-const formSchema = z
-  .object({
-    currentPassword: z
-      .string()
-      .min(6, { message: "Este campo es obligatorio." }),
-    newPassword: z
-      .string()
-      .min(8, { message: "Debe tener al menos 8 caracteres." })
-      .regex(/[a-z]/, { message: "Debe incluir al menos una letra minúscula." })
-      .regex(/[A-Z]/, { message: "Debe incluir al menos una letra mayúscula." })
-      .regex(/\d/, { message: "Debe incluir al menos un número." })
-      .regex(/[\W_]/, {
-        message: "Debe incluir al menos un carácter especial.",
-      }),
-    confirmPassword: z
-      .string()
-      .min(6, { message: "Este campo es obligatorio." }),
-  })
-  .superRefine(({ confirmPassword, newPassword }, ctx) => {
-    if (confirmPassword !== newPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Las contraseñas no coinciden.",
-        path: ["confirmPassword"],
-      });
-    }
-  });
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -84,7 +59,7 @@ const ChangePasswordModal = ({
   const isMobile = useIsMobile();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -106,7 +81,7 @@ const ChangePasswordModal = ({
   );
 
   const onSubmit = useCallback(
-    async (values: z.infer<typeof formSchema>) => {
+    async (values: ChangePasswordFormData) => {
       startTransition(() => {
         toast.promise(changePassword(values), {
           loading: "Cambiando contraseña...",

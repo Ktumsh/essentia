@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/app/(auth)/auth";
 import { getUserProfileData } from "@/utils/profile";
 
-const ProfilePage = async () => {
+const ProfilesPage = async () => {
   const session = await auth();
 
   if (!session) {
@@ -12,7 +12,7 @@ const ProfilePage = async () => {
 
   const profileData = await getUserProfileData({ session });
 
-  redirect("/profile/" + profileData.username);
+  redirect("/profiles/" + profileData.username);
 };
 
-export default ProfilePage;
+export default ProfilesPage;

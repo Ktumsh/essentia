@@ -8,8 +8,7 @@ import {
   updateEmailSends,
 } from "@/db/querys/email-querys";
 import { getUserByEmail } from "@/db/querys/user-querys";
-import { sendEmailChange } from "@/modules/auth/lib/email-change";
-import { sendEmailRecoveryPass } from "@/modules/auth/lib/email-rec-pass";
+import { sendEmailAction } from "@/modules/auth/lib/email-action";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 
 export async function verifyCode(
@@ -70,7 +69,11 @@ export async function sendRecoveryEmail(
 
     await insertEmailSendsCode(userId, code, "password_recovery");
 
-    const emailResult = await sendEmailRecoveryPass(email, code, token);
+    const emailResult = await sendEmailAction("password_recovery", {
+      email,
+      code,
+      token,
+    });
 
     if (!emailResult) {
       return { status: "error", message: "Error al enviar el correo" };
@@ -101,12 +104,12 @@ export async function sendChangeEmail(
 
     await insertEmailSendsCode(userId, code, "email_change");
 
-    const emailResult = await sendEmailChange(
+    const emailResult = await sendEmailAction("email_change", {
       currentEmail,
       newEmail,
       code,
       token,
-    );
+    });
 
     if (!emailResult) {
       return { status: "error", message: "Error al enviar el correo" };

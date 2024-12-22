@@ -31,7 +31,7 @@ import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
-import { LoginFormData, loginSchema } from "../lib/form";
+import { LoginFormData, loginSchema } from "../../core/lib/form-schemas";
 
 const LoginForm = () => {
   const router = useRouter();

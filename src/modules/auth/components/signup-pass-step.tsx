@@ -23,7 +23,7 @@ import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { ResultCode, getMessageFromCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
-import { passwordSchema, PasswordFormData } from "../lib/form";
+import { passwordSchema, PasswordFormData } from "../../core/lib/form-schemas";
 
 interface SignupPassStepProps {
   email: string;

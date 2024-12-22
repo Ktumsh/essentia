@@ -14,7 +14,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return {
     title: `Perfil de ${username}`,
     alternates: {
-      canonical: `/profile/${username}`,
+      canonical: `/profiles/${username}`,
     },
   };
 }

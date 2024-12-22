@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "@/styles/lite-youtube.css";
@@ -139,7 +139,7 @@ const ResourceWrapper = ({ params, isPremium }: ResourceWrapperProps) => {
                     priority
                     width={780}
                     height={330}
-                    quality={90}
+                    quality={80}
                     src={imageFull}
                     alt={title}
                     className="relative z-0 flex aspect-[908/384] size-full !max-w-full items-center justify-center rounded-none object-cover object-center brightness-95"
@@ -245,4 +245,4 @@ const ResourceWrapper = ({ params, isPremium }: ResourceWrapperProps) => {
   );
 };
 
-export default ResourceWrapper;
+export default memo(ResourceWrapper);

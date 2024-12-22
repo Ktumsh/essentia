@@ -25,7 +25,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { deleteUser } from "@/db/querys/user-querys";
-import { sendEmailAccountDeleted } from "@/modules/auth/lib/email-acc-del";
+import { sendEmailAction } from "@/modules/auth/lib/email-action";
 
 interface DeleteAccountModalProps {
   userId: string;
@@ -45,13 +45,19 @@ const DeleteAccountModal = ({
   const handleDeleteUser = async () => {
     try {
       startTransition(async () => {
-        await deleteUser(userId);
+        const res = await deleteUser(userId);
+
+        if (!res.success) {
+          toast.error(res.error);
+          return;
+        }
+
         const token = nanoid();
-        await sendEmailAccountDeleted(email, token);
-        signOut({ callbackUrl: "/account-deleted" });
+        await sendEmailAction("account_deleted", { email, token });
+        await signOut({ callbackUrl: "/account-deleted" });
       });
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error("Error eliminando el usuario:", error);
       toast.error("No se pudo eliminar la cuenta.");
     }
   };
