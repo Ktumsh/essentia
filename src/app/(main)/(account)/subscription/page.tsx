@@ -5,7 +5,7 @@ import AccountHeader from "@/modules/account/components/account-header";
 export const metadata: Metadata = {
   title: "Suscripción",
   alternates: {
-    canonical: "/account/billing",
+    canonical: "/billing",
   },
 };
 

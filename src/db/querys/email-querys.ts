@@ -63,7 +63,7 @@ export async function resendEmailSendsCode(
   email: string,
   actionType: "email_verification" | "password_recovery" | "email_change",
   newEmail?: string,
-) {
+): Promise<{ status: boolean; message: string }> {
   const newCode = generateVerificationCode();
   const newToken = nanoid(64);
 
@@ -75,14 +75,14 @@ export async function resendEmailSendsCode(
 
     if (user.length === 0) {
       return {
-        status: "error",
+        status: false,
         message: "Correo inválido.",
       };
     }
 
     if (actionType === "email_verification" && user[0].emailVerified) {
       return {
-        status: "error",
+        status: false,
         message: "El correo ya está verificado.",
       };
     }
@@ -126,13 +126,13 @@ export async function resendEmailSendsCode(
     }
 
     return {
-      status: "success",
+      status: true,
       message: "Se ha enviado un nuevo código de verificación.",
     };
   } catch (error) {
     console.error("Error al reenviar el código de verificación:", error);
     return {
-      status: "error",
+      status: false,
       message: "Ocurrio un error al reenviar el código de verificación.",
     };
   }

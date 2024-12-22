@@ -5,7 +5,7 @@ import AccountHeader from "@/modules/account/components/account-header";
 export const metadata: Metadata = {
   title: "Perfil",
   alternates: {
-    canonical: "/account/profile",
+    canonical: "/profile",
   },
 };
 
