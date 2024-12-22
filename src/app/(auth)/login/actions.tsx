@@ -4,7 +4,7 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/app/(auth)/auth";
 import { getUserByEmail } from "@/db/querys/user-querys";
-import { loginSchema } from "@/modules/auth/lib/form";
+import { loginSchema } from "@/modules/core/lib/form-schemas";
 import { ResultCode } from "@/utils/code";
 
 interface Result {

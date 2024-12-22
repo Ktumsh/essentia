@@ -5,9 +5,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
 
-import { sendEmailChange } from "@/modules/auth/lib/email-change";
-import { sendEmailRecoveryPass } from "@/modules/auth/lib/email-rec-pass";
-import { sendEmailVerification } from "@/modules/auth/lib/email-verify";
+import { sendEmailAction } from "@/modules/auth/lib/email-action";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 
 import { getUserByEmail } from "./user-querys";
@@ -105,11 +103,26 @@ export async function resendEmailSendsCode(
       );
 
     if (actionType === "email_verification") {
-      await sendEmailVerification(email, newCode, newToken);
+      await sendEmailAction("email_verification", {
+        email,
+        code: newCode,
+        token: newToken,
+      });
     } else if (actionType === "password_recovery") {
-      await sendEmailRecoveryPass(email, newCode, newToken);
+      await sendEmailAction("password_recovery", {
+        email,
+        code: newCode,
+        token: newToken,
+      });
     } else {
-      await sendEmailChange(email, newEmail!, newCode, newToken);
+      if (newEmail !== undefined) {
+        await sendEmailAction("email_change", {
+          currentEmail: email,
+          newEmail,
+          code: newCode,
+          token: newToken,
+        });
+      }
     }
 
     return {
@@ -187,7 +200,11 @@ export async function sendVerificationReminderToUsers(users: Array<any>) {
       const newCode = generateVerificationCode();
       const newToken = nanoid(64);
 
-      const result = await sendEmailVerification(user.email, newCode, newToken);
+      const result = await sendEmailAction("email_verification", {
+        email: user.email,
+        code: newCode,
+        token: newToken,
+      });
 
       if (result.success) {
         console.log(`Recordatorio enviado a ${user.email}.`);

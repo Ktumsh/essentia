@@ -9,6 +9,7 @@ import { cn } from "@/utils/common";
 
 const NotFoundWrapper = () => {
   const router = useRouter();
+
   return (
     <>
       <div

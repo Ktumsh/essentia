@@ -3,13 +3,13 @@
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { compare, genSaltSync, hashSync } from "bcrypt-ts";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
 
 import { user, type User, userProfile, subscription } from "@/db/schema";
-import { sendEmailVerification } from "@/modules/auth/lib/email-verify";
+import { sendEmailAction } from "@/modules/auth/lib/email-action";
 import { generateVerificationCode } from "@/modules/core/lib/utils";
 import { ResultCode } from "@/utils/code";
 
@@ -66,7 +66,11 @@ export async function createUser(
 
     await insertEmailSendsCode(userId, code, "email_verification");
 
-    const emailResult = await sendEmailVerification(email, code, token);
+    const emailResult = await sendEmailAction("email_verification", {
+      email,
+      code,
+      token,
+    });
     if (!emailResult.success) {
       throw new Error("Error al enviar el email de verificación");
     }
@@ -144,12 +148,34 @@ export async function updateUserPassword(id: string, password: string) {
   }
 }
 
-export async function deleteUser(id: string) {
+export async function deleteUser(
+  id: string,
+): Promise<{ success: boolean; error?: string }> {
   try {
+    const [userToDelete] = await getUserById(id);
+    if (!userToDelete) {
+      return {
+        success: false,
+        error: "Usuario no encontrado.",
+      };
+    }
+
+    if (userToDelete.role === "admin") {
+      const adminCount = await getAdminCount();
+      if (adminCount <= 1) {
+        return {
+          success: false,
+          error: "No se puede eliminar el único administrador.",
+        };
+      }
+    }
+
     await db.update(user).set({ status: "disabled" }).where(eq(user.id, id));
+
+    return { success: true };
   } catch (error) {
     console.error("Error al eliminar el usuario:", error);
-    throw error;
+    return { success: false, error: "Error al eliminar el usuario." };
   }
 }
 
@@ -178,4 +204,17 @@ export async function verifySamePassword(
   }
 
   return await compare(newPassword, user.password);
+}
+
+export async function getAdminCount(): Promise<number> {
+  try {
+    const admins = await db
+      .select()
+      .from(user)
+      .where(and(eq(user.role, "admin"), eq(user.status, "enabled")));
+    return admins.length;
+  } catch (error) {
+    console.error("Error al obtener el conteo de administradores:", error);
+    throw error;
+  }
 }

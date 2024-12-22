@@ -113,34 +113,6 @@ export const passwordSchema = z
 export type InfoFormData = z.infer<typeof infoSchema>;
 export type PasswordFormData = z.infer<typeof passwordSchema>;
 
-export const newPasswordSchema = z
-  .object({
-    newPassword: z
-      .string()
-      .min(8, {
-        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
-      })
-      .regex(/[A-Z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
-      })
-      .regex(/[a-z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
-      })
-      .regex(/[0-9]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
-      })
-      .regex(/[^A-Za-z0-9]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
-      }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
-    path: ["confirmPassword"],
-  });
-
-export type NewPasswordFormData = z.infer<typeof newPasswordSchema>;
-
 export const registerSchema = z.object({
   email: z.string().email({
     message: getMessageFromCode(ResultCode.REQUIRED_EMAIL),
@@ -206,3 +178,69 @@ export const registerSchema = z.object({
 });
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
+
+export const newPasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8, {
+        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+      })
+      .regex(/[A-Z]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[a-z]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[0-9]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[^A-Za-z0-9]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
+    path: ["confirmPassword"],
+  });
+
+export type NewPasswordFormData = z.infer<typeof newPasswordSchema>;
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(8, { message: getMessageFromCode(ResultCode.REQUIRED_FIELD) }),
+    newPassword: z
+      .string()
+      .min(8, {
+        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+      })
+      .regex(/[a-z]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[A-Z]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/\d/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      })
+      .regex(/[\W_]/, {
+        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: getMessageFromCode(ResultCode.REQUIRED_FIELD) }),
+  })
+  .superRefine(({ confirmPassword, newPassword }, ctx) => {
+    if (confirmPassword !== newPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
+        path: ["confirmPassword"],
+      });
+    }
+  });
+
+export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;

@@ -23,7 +23,7 @@ import { ArrowRightV2Icon } from "@/modules/icons/navigation";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
-import { InfoFormData, infoSchema } from "../lib/form";
+import { InfoFormData, infoSchema } from "../../core/lib/form-schemas";
 
 interface SignupInfoStepProps {
   email: string;

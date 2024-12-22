@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 
-import { EmailFormData, emailSchema } from "../../lib/form";
+import { EmailFormData, emailSchema } from "../../../core/lib/form-schemas";
 
 interface StepEmailProps {
   onSubmit: (data: EmailFormData) => void;

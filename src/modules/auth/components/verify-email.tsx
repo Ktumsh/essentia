@@ -82,7 +82,7 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
   return (
     <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
       <div className="w-full max-w-md">
-        <Card className="dark:bg-dark/30 dark:text-white">
+        <Card className="border-none dark:text-white">
           <CardHeader className="prose prose-sm w-full items-center space-y-0">
             <Image
               src="/extras/verify-email.webp"
@@ -145,6 +145,7 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
           disabled={isSending}
           variant="outline"
           onClick={handleResendEmail}
+          className="border-none"
         >
           {isSending ? (
             <Loader className="size-4 animate-spin" />

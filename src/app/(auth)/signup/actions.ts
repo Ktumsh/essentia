@@ -4,7 +4,10 @@ import { set } from "date-fns";
 import { AuthError } from "next-auth";
 
 import { createUser } from "@/db/querys/user-querys";
-import { RegisterFormData, registerSchema } from "@/modules/auth/lib/form";
+import {
+  RegisterFormData,
+  registerSchema,
+} from "@/modules/core/lib/form-schemas";
 import { ResultCode } from "@/utils/code";
 
 interface Result {

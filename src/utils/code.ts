@@ -8,6 +8,7 @@ export enum ResultCode {
   REQUIRED_NAME = "REQUIRED_NAME",
   REQUIRED_LASTNAME = "REQUIRED_LASTNAME",
   REQUIRED_BIRTHDATE = "REQUIRED_BIRTHDATE",
+  REQUIRED_FIELD = "REQUIRED_FIELD",
   ALL_FIELDS_REQUIRED = "ALL_FIELDS_REQUIRED",
   INVALID_LENGTH_USERNAME = "INVALID_LENGTH_USERNAME",
   INVALID_STRING_USERNAME = "INVALID_STRING_USERNAME",
@@ -51,6 +52,7 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.REQUIRED_NAME]: "Por favor, ingresa tu nombre",
   [ResultCode.REQUIRED_LASTNAME]: "Por favor, ingresa tu apellido",
   [ResultCode.REQUIRED_BIRTHDATE]: "Por favor, ingresa tu fecha de nacimiento",
+  [ResultCode.REQUIRED_FIELD]: "Este campo es obligatorio",
   [ResultCode.ALL_FIELDS_REQUIRED]: "Por favor, rellena todos los campos",
   [ResultCode.INVALID_LENGTH_USERNAME]:
     "Tu nombre de usuario debe tener entre 3 y 20 caracteres",

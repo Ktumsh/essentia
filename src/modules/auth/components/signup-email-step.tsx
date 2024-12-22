@@ -20,7 +20,7 @@ import { getUserByEmail } from "@/db/querys/user-querys";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
-import { emailSchema } from "../lib/form";
+import { emailSchema } from "../../core/lib/form-schemas";
 
 interface SignupEmailStepProps {
   onSuccess: (email: string) => void;
