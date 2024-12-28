@@ -13,7 +13,6 @@ export interface MaincapResources {
 }
 
 export interface Resources {
-  id: number;
   title: string;
   subtitle: string;
   intro: string;
@@ -25,7 +24,44 @@ export interface Resources {
   image: string;
   imageFull: string;
   resource: string;
-  component: FC<{ isPremium?: boolean | null }>;
+  component: FC<{
+    isPremium?: boolean | null;
+    resource: {
+      resourceId: string;
+      resourceName: string;
+    };
+    modules: Modules[];
+    about: string;
+    slug: string;
+    completedLessons: string[];
+    progress: { [moduleId: string]: number };
+    totalProgress: number;
+  }>;
+}
+
+export interface Modules {
+  module: {
+    id: string;
+    title: string;
+    slug: string;
+    description: string | null;
+    objectives: string | null;
+    order: number;
+  };
+  lessons: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    objective: string | null;
+    content: string | null;
+    order: number;
+  }>;
+  exam: {
+    id: string;
+    title: string;
+    slug: string;
+    instructions: string;
+  } | null;
 }
 
 export interface Video {

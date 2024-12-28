@@ -9,7 +9,7 @@ const Resources = () => {
       subtitle,
       quote,
       image,
-      href: `/recursos/${resource}`,
+      href: `/${resource}`,
     }),
   );
   return (

@@ -12,7 +12,6 @@ const BASE_URL =
 
 export const RESOURCES: Resources[] = [
   {
-    id: 1,
     title: "Salud y Bienestar",
     subtitle: "Para tu salud",
     intro: `Encuentra una amplia variedad de consejos sobre **hábitos saludables** hasta métodos para **potenciar tu salud mental y emocional**, encontrarás recursos variados para impulsar tu bienestar en todos los aspectos de la vida.`,
@@ -29,7 +28,6 @@ export const RESOURCES: Resources[] = [
     component: HealthWellness,
   },
   {
-    id: 2,
     title: "Ejercicios y Fitness",
     subtitle: "Para tu físico",
     intro: `Aprende a abordar nuevos deportes, **trabajar en tu propio físico** y llevar una vida más activa, adaptada a tus necesidades. Mejorarás tu rendimiento en las actividades diarias y **te sentirás más enérgico**.`,
@@ -46,7 +44,6 @@ export const RESOURCES: Resources[] = [
     component: ExcerciseFitness,
   },
   {
-    id: 3,
     title: "Nutrición y Alimentación",
     subtitle: "Para tu dieta",
     intro: `Te brindamos soluciones para una **alimentación equilibrada** que te permitirán alcanzar tus objetivos, promoviendo un estilo de vida más **saludable y sostenible** a largo plazo.`,
@@ -62,7 +59,6 @@ export const RESOURCES: Resources[] = [
     component: Nutrition,
   },
   {
-    id: 4,
     title: "Bienestar Emocional",
     subtitle: "Para tu mente",
     intro: `En esta sección encontrarás consejos, métodos para **manejar el estrés** y **mejorar la salud mental**, promoviendo así la armonía emocional en tu día a día.`,
@@ -79,7 +75,6 @@ export const RESOURCES: Resources[] = [
     component: Wellbeing,
   },
   {
-    id: 5,
     title: "Salud y Educación Sexual",
     subtitle: "Para tu sexualidad",
     intro: `Proveemos información y recursos educativos sobre sexualidad, incluyendo métodos anticonceptivos y **consejos de cuidado**, para fomentar el entendimiento y **cuidado de la diversidad y salud sexual**.`,
@@ -96,7 +91,6 @@ export const RESOURCES: Resources[] = [
     component: SexEducation,
   },
   {
-    id: 6,
     title: "Salud en Todas las Edades",
     subtitle: "Para un futuro saludable",
     intro: `Desde la infancia hasta la vejez, nuestra sección **Salud en Todas las Edades** ofrece información relevante y específica para cada etapa de la vida. Encuentra consejos útiles y recursos para cuidar la salud en todas las etapas del desarrollo.`,

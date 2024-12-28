@@ -1,10 +1,41 @@
-import ComingSoon from "@/modules/core/components/ui/layout/coming-soon";
+"use client";
 
-const ForAllAges = () => {
+import CourseList from "./course-list";
+
+import type { Modules } from "@/types/resource";
+
+interface ForAllAgesProps {
+  resource: {
+    resourceId: string;
+    resourceName: string;
+  };
+  modules: Modules[];
+  about: string;
+  slug: string;
+  completedLessons: string[];
+  progress: { [moduleId: string]: number };
+  totalProgress: number;
+}
+
+const ForAllAges = ({
+  resource,
+  modules,
+  about,
+  slug,
+  completedLessons,
+  progress,
+  totalProgress,
+}: ForAllAgesProps) => {
   return (
-    <section className="mb-14 mt-12 flex h-full flex-1 flex-col items-center py-5 md:my-0 md:py-0">
-      <ComingSoon />
-    </section>
+    <CourseList
+      resource={resource}
+      modules={modules}
+      about={about}
+      slug={slug}
+      completedLessons={completedLessons}
+      progress={progress}
+      totalProgress={totalProgress}
+    />
   );
 };
 

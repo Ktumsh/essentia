@@ -39,15 +39,18 @@ const LayoutWrapper = ({
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
-  const isProfile = pathname.startsWith("/profile");
-  const isAccount = pathname.startsWith("/account");
+  const isProfiles = pathname.startsWith("/profiles");
+  const isAccount =
+    pathname.startsWith("/account") ||
+    pathname.startsWith("/profile") ||
+    pathname.startsWith("/subscription");
   const isPremiumPage = pathname.startsWith("/pricing");
   const isEssentiaAI = pathname.startsWith("/essentia-ai");
   const isShare = pathname.startsWith("/share");
   const isAIorShare = isEssentiaAI || isShare;
 
   const backgroundClasses = useMemo(() => {
-    if (!isPremiumPage && !isProfile && !isAccount) {
+    if (!isPremiumPage && !isProfiles && !isAccount) {
       return cn(
         "z-[-1] before:absolute before:top-0 before:left-1/2 before:h-[800px] before:w-full sm:before:w-[1080px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-tr from-gray-50 to-[#c0c6e6] before:blur-[80px] before:content-[''] before:opacity-0 md:before:opacity-100 before:dark:h-[600px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-[#ff7373] before:dark:opacity-0 md:before:dark:opacity-30 after:absolute after:top-[10%] after:left-[20%] after:z-10 after:h-[580px] after:w-full sm:after:w-[540px] after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:blur-[80px] after:content-[''] after:rounded-full after:opacity-0 md:after:opacity-50 after:dark:top-1/4 after:dark:left-2/3 after:dark:h-[120px] sm:after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-full-dark after:dark:via-[#ff7373] after:dark:opacity-0 md:after:dark:opacity-60 after:dark:blur-3xl after:dark:rounded-none",
         isAIorShare &&
@@ -58,7 +61,7 @@ const LayoutWrapper = ({
         "z-[-1] before:absolute before:top-0 before:left-1/2 before:h-[800px] before:w-full sm:before:w-[1080px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-t from-gray-50 to-[#c0c6e6] before:blur-[80px] before:content-[''] before:dark:h-[600px] before:dark:w-[980px] before:dark:bg-gradient-to-b before:dark:from-transparent before:dark:to-[#ff7373] before:dark:opacity-50 after:absolute after:top-[10%] after:left-1/2 after:z-10 after:h-[580px] after:w-full sm:after:w-[540px] after:-translate-x-1/2 after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:blur-[80px] after:content-[''] after:rounded-full after:opacity-100 after:dark:top-1/4 after:dark:left-1/2 after:dark:h-[180px] after:dark:w-[260px] after:dark:bg-gradient-to-br after:dark:from-full-dark after:dark:via-[#ff7373] after:dark:opacity-80 after:dark:blur-3xl after:dark:rounded-none",
       );
     }
-  }, [isPremiumPage, isProfile, isAccount, isAIorShare]);
+  }, [isPremiumPage, isProfiles, isAIorShare, isAccount]);
 
   const motionContainerClasses = cn(
     "fixed inset-0 z-0 overflow-hidden pointer-events-none",

@@ -140,3 +140,133 @@ export const chatVote = table(
 );
 
 export type ChatVote = InferSelectModel<typeof chatVote>;
+
+export const resource = table("resource", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  slug: varchar("slug", { length: 100 }).unique().notNull(),
+  name: varchar("name", { length: 100 }).unique().notNull(),
+  description: text("description").notNull(),
+  about: text("about").notNull(),
+});
+
+export type Resource = InferSelectModel<typeof resource>;
+
+export const resourceModule = table("module", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  resourceId: uuid("resource_id")
+    .notNull()
+    .references(() => resource.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 150 }).notNull(),
+  slug: varchar("slug", { length: 100 }).notNull(),
+  description: text("description"),
+  objectives: text("objectives"),
+  order: integer("order").notNull(),
+});
+
+export type Module = InferSelectModel<typeof resourceModule>;
+
+export const lesson = table("lesson", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  moduleId: uuid("module_id")
+    .notNull()
+    .references(() => resourceModule.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 150 }).notNull(),
+  slug: varchar("slug", { length: 100 }).notNull(),
+  objective: text("objective"),
+  content: text("content"),
+  order: integer("order").notNull(),
+});
+
+export type Lesson = InferSelectModel<typeof lesson>;
+
+export const exam = table("exam", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  moduleId: uuid("module_id")
+    .notNull()
+    .references(() => resourceModule.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 150 }).notNull(),
+  slug: varchar("slug", { length: 100 }).notNull(),
+  instructions: text("instructions").notNull(),
+});
+
+export type Exam = InferSelectModel<typeof exam>;
+
+export const examQuestion = table("exam_question", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  examId: uuid("exam_id")
+    .notNull()
+    .references(() => exam.id, { onDelete: "cascade" }),
+  question: text("question").notNull(),
+  options: text("options").notNull(),
+  answer: integer("answer").notNull(),
+});
+
+export type Question = InferSelectModel<typeof examQuestion>;
+
+export const userModuleProgress = table(
+  "user_module_progress",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    moduleId: uuid("module_id")
+      .notNull()
+      .references(() => resourceModule.id, { onDelete: "cascade" }),
+    completed: boolean("completed").notNull().default(false),
+    progress: integer("progress").default(0),
+    startedAt: timestamp("started_at").defaultNow(),
+    completedAt: timestamp("completed_at"),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.userId, table.moduleId] }),
+    };
+  },
+);
+
+export type UserModuleProgress = InferSelectModel<typeof userModuleProgress>;
+
+export const userLessonProgress = table(
+  "user_lesson_progress",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lesson.id, { onDelete: "cascade" }),
+    completed: boolean("completed").notNull().default(false),
+    startedAt: timestamp("started_at").defaultNow(),
+    completedAt: timestamp("completed_at"),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.userId, table.lessonId] }),
+    };
+  },
+);
+
+export type UserLessonProgress = InferSelectModel<typeof userLessonProgress>;
+
+export const userExamProgress = table(
+  "user_exam_progress",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    examId: uuid("exam_id")
+      .notNull()
+      .references(() => exam.id, { onDelete: "cascade" }),
+    completed: boolean("completed").default(false),
+    score: integer("score").default(0),
+    startedAt: timestamp("started_at").defaultNow(),
+    completedAt: timestamp("completed_at"),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.userId, table.examId] }),
+    };
+  },
+);
+
+export type UserExamProgress = InferSelectModel<typeof userExamProgress>;
