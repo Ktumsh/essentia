@@ -61,7 +61,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
               />
             </div>
             <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
-              <span className="text-xxs font-bold uppercase text-white/60">
+              <span className="text-xxs font-bold uppercase tracking-wide text-white/60">
                 {category}
               </span>
               <h2 className="font-semibold text-white md:text-xl">{title}</h2>

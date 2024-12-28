@@ -41,11 +41,6 @@ const nextConfig: NextConfig = {
         destination: "/adicionales/guias",
         permanent: true,
       },
-      {
-        source: "/recursos",
-        destination: "/recursos/salud-y-bienestar",
-        permanent: true,
-      },
     ];
   },
 };

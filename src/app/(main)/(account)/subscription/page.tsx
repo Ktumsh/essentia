@@ -5,12 +5,12 @@ import AccountHeader from "@/modules/account/components/account-header";
 export const metadata: Metadata = {
   title: "Suscripción",
   alternates: {
-    canonical: "/billing",
+    canonical: "/suscripcion",
   },
 };
 
-const BillingPage = () => {
+const SubscriptionPage = () => {
   return <AccountHeader title="Suscripción" />;
 };
 
-export default BillingPage;
+export default SubscriptionPage;

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, Info } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,6 +27,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { WarningCircledIcon } from "@/modules/icons/common";
 import { SiteConfig } from "@/types/common";
 
 interface MainNavInfoProps {
@@ -52,7 +53,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
               <>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip="Información">
-                    <Info strokeWidth={1.5} />
+                    <WarningCircledIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
                     <span>Información</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
@@ -75,7 +76,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton tooltip="Información">
-                    <Info strokeWidth={1.5} />
+                    <WarningCircledIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
                     <span>Información</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>

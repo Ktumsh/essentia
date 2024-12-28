@@ -5,9 +5,9 @@ import { GeistSans } from "geist/font/sans";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { Session } from "next-auth";
-import { Toaster } from "sonner";
 
 import { auth } from "@/app/(auth)/auth";
+import { Toaster } from "@/components/ui/sonner";
 import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
 import { Providers } from "@/modules/core/components/ui/providers";
@@ -104,13 +104,7 @@ export default async function RootLayout({
         )}
       >
         <PreloadResources />
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            className:
-              "bg-white dark:bg-full-dark border-gray-200 dark:border-dark text-main dark:text-main-dark",
-          }}
-        />
+        <Toaster />
         <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
           <div className="relative flex size-full min-h-dvh flex-col md:flex-row">
             {children}

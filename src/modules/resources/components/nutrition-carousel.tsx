@@ -1,7 +1,5 @@
 "use client";
 
-import { FC } from "react";
-
 import {
   Carousel,
   CarouselContent,
@@ -14,13 +12,17 @@ import { ResourceCard } from "@/types/resource";
 
 import NutritionCarouselItem from "./nutrition-carousel-item";
 
-interface Props {
+interface NutritionCarouselProps {
   data: Array<ResourceCard>;
   startIndex: number;
   totalItems: number;
 }
 
-const NutritionCarousel: FC<Props> = ({ data, startIndex, totalItems }) => {
+const NutritionCarousel = ({
+  data,
+  startIndex,
+  totalItems,
+}: NutritionCarouselProps) => {
   const windowSize = useWindowSize();
   const { width } = windowSize;
 

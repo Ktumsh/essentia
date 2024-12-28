@@ -35,7 +35,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         )}
       >
         <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
-          <span className="text-xxs font-bold uppercase text-white/60">
+          <span className="text-xxs font-bold uppercase tracking-wide text-white/60">
             {subtitle}
           </span>
           <h3 className="text-lg font-semibold text-white sm:text-xl">
@@ -55,7 +55,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       </Link>
 
       {!isMobile && (
-        <Card className="hover:shadow-pretty hidden min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 md:block">
+        <Card className="hidden min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 hover:shadow-pretty md:block">
           <CardHeader className="pb-0">
             <div
               className={cn(
@@ -67,7 +67,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
                 className={cn("size-5", getResourceColor(index, "text"))}
               />
             </div>
-            <span className="absolute right-6 top-6 !mt-0 text-xxs font-bold uppercase text-main-m dark:text-main-dark-m">
+            <span className="absolute right-6 top-6 !mt-0 text-xxs font-bold uppercase tracking-wide text-main-m dark:text-main-dark-m">
               {subtitle}
             </span>
           </CardHeader>

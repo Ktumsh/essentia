@@ -1,73 +1,103 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { Slash } from "lucide-react";
 import Link from "next/link";
-import { type JSX } from "react";
+import { useParams, usePathname } from "next/navigation";
+import { Fragment } from "react";
 
-import { BetterTooltip } from "@/components/ui/tooltip";
-import { IconSvgProps } from "@/types/common";
-import { cn } from "@/utils/common";
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import useChatName from "@/modules/core/hooks/use-chat-name";
+import useLessonName from "@/modules/core/hooks/use-lesson-name";
+import { formatSegment } from "@/utils/format";
 
-interface Page {
-  name: string;
-  href: string;
-  icon: (props: IconSvgProps) => JSX.Element;
-  activeIcon: (props: IconSvgProps) => JSX.Element;
-  active: boolean;
-}
+const NavbarLinks = () => {
+  const pathname = usePathname();
+  const params = useParams();
 
-interface NavbarLinksProps {
-  pages: Page[];
-}
+  const resourceSlug = params.resource as string;
+  const moduleSlug = params.module as string;
+  const lessonSlug = params.lesson as string;
 
-const NavbarLinks = ({ pages }: NavbarLinksProps) => {
+  const pathSegments = pathname.split("/").filter(Boolean);
+
+  const isLesson = pathname.includes(`/${lessonSlug}`);
+  const isChat = pathname.includes("/chat");
+  const isLastHome = pathSegments.length === 0;
+
+  const chatId = isChat ? pathSegments[pathSegments.length - 1] : null;
+
+  const chatName = useChatName(chatId) || null;
+  const lessonName =
+    useLessonName(resourceSlug, moduleSlug, lessonSlug) || null;
+
   return (
-    <nav
-      role="navigation"
-      className="relative inline-flex items-center justify-center gap-4"
-    >
-      <ul className="relative z-10 flex space-x-4">
-        {pages.map(
-          (
-            { name, href, icon: Icon, activeIcon: ActiveIcon, active },
-            index,
-          ) => (
-            <li
-              key={href}
-              className="relative flex w-20 items-center justify-center"
-            >
-              <BetterTooltip content={name}>
-                <Link
-                  id={`navbar_link_${index + 1}`}
-                  aria-label={`Ir a ${name}`}
-                  href={href}
-                  className={cn(
-                    "pointer-events-auto relative inline-flex size-full max-h-12 items-center justify-center rounded-lg px-3 py-2 text-white transition-colors",
-                    !active &&
-                      "text-main-h hover:bg-gray-200 dark:text-main-dark-h dark:hover:bg-dark",
-                  )}
-                >
-                  {active && (
-                    <motion.div
-                      layoutId="navbar-underline"
-                      className="absolute inset-0 z-[-1] rounded-lg bg-danger"
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  {active ? (
-                    <ActiveIcon className="size-5" aria-hidden="true" />
-                  ) : (
-                    <Icon className="size-5" aria-hidden="true" />
-                  )}
-                </Link>
-              </BetterTooltip>
-            </li>
-          ),
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          {isLastHome ? (
+            <BreadcrumbPage>Inicio</BreadcrumbPage>
+          ) : (
+            <BreadcrumbLink asChild>
+              <Link href="/">Inicio</Link>
+            </BreadcrumbLink>
+          )}
+        </BreadcrumbItem>
+        {pathSegments.length > 0 && (
+          <BreadcrumbSeparator>
+            <Slash />
+          </BreadcrumbSeparator>
         )}
-      </ul>
-    </nav>
+        {pathSegments.map((segment, index) => {
+          if (segment === "chat" || segment === moduleSlug) {
+            return null;
+          }
+
+          const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
+
+          let linkName = formatSegment(segment);
+
+          const isLast = index === pathSegments.length - 1;
+
+          if (isChat && index === pathSegments.length - 1 && chatName) {
+            linkName = chatName;
+          }
+
+          if (isLesson && index === pathSegments.length - 1 && lessonName) {
+            linkName = lessonName;
+          }
+
+          return (
+            <Fragment key={index}>
+              <BreadcrumbItem>
+                {(isChat && !chatName && isLast) ||
+                (isLesson && !lessonName && isLast) ? (
+                  <BreadcrumbEllipsis />
+                ) : isLast ? (
+                  <BreadcrumbPage>{linkName}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link href={href}>{linkName}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+              {pathSegments.length !== index + 1 && (
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+              )}
+            </Fragment>
+          );
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 };
 

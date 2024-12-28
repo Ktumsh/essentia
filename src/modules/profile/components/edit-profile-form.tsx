@@ -149,7 +149,7 @@ const EditProfileForm = ({
           });
 
           if (data.username !== profileData?.username) {
-            router.replace("/account/profile");
+            router.replace("/profile");
           }
         } catch (error) {
           console.error("Error al actualizar el perfil:", error);

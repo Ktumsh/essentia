@@ -105,37 +105,37 @@ export const siteConfig: SiteConfig = {
   asideMenuLinks: [
     {
       name: "Salud y bienestar",
-      link: "/recursos/salud-y-bienestar",
+      link: "/salud-y-bienestar",
       icon: HealthIcon,
       activeIcon: HealthFillIcon,
     },
     {
       name: "Ejercicios y fitness",
-      link: "/recursos/ejercicios-y-fitness",
+      link: "/ejercicios-y-fitness",
       icon: ExerciseIcon,
       activeIcon: ExerciseFillIcon,
     },
     {
       name: "Nutrición y alimentación",
-      link: "/recursos/nutricion-y-alimentacion",
+      link: "/nutricion-y-alimentacion",
       icon: NutritionIcon,
       activeIcon: NutritionFillIcon,
     },
     {
       name: "Bienestar emocional",
-      link: "/recursos/bienestar-emocional",
+      link: "/bienestar-emocional",
       icon: WellbeingIcon,
       activeIcon: WellbeingFillIcon,
     },
     {
       name: "Salud y educación sexual",
-      link: "/recursos/salud-y-educacion-sexual",
+      link: "/salud-y-educacion-sexual",
       icon: SexualityIcon,
       activeIcon: SexualityFillIcon,
     },
     {
       name: "Salud en todas las edades",
-      link: "/recursos/salud-en-todas-las-edades",
+      link: "/salud-en-todas-las-edades",
       icon: ForAllAgesIcon,
       activeIcon: ForAllAgesFillIcon,
     },
