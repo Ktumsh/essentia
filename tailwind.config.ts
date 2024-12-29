@@ -204,7 +204,7 @@ const config: Config = {
         sans: ["var(--font-geist-sans)"],
       },
       fontSize: {
-        xxs: "0.625rem",
+        xxs: ["0.625rem", { lineHeight: "1rem" }],
       },
       backgroundImage: {
         "landing-gradient": "var(--landing-gradient)",

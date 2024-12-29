@@ -1,5 +1,6 @@
 "use client";
 
+import { Command } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,20 @@ const AppSidebarToggle = () => {
       : "Mostrar barra lateral";
 
   return (
-    <BetterTooltip content={tooltipContent} align="start">
+    <BetterTooltip
+      content={
+        <div className="inline-flex">
+          <span>{tooltipContent}</span>
+          <kbd className="pointer-events-none inline-flex select-none items-center gap-1 px-1.5 text-xs">
+            <Command className="size-2.5" />B
+            <span className="sr-only">
+              Ctrl o Command + B para abrir la búsqueda rápida
+            </span>
+          </kbd>
+        </div>
+      }
+      align="start"
+    >
       <Button
         variant="ghost"
         onClick={() => toggleSidebar()}
