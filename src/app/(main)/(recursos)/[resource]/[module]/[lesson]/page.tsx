@@ -77,6 +77,7 @@ const LessonPage = async (props: LessonPageProps) => {
       isCompleted={progress.completed}
       completedLessons={completedLessons}
       moduleProgress={moduleProgress}
+      isCourseCompleted={course.completed}
     />
   );
 };
