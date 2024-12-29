@@ -8,6 +8,8 @@ import {
   exam,
   lesson,
   resourceModule,
+  UserCourseProgress,
+  userCourseProgress,
   userExamProgress,
   userLessonProgress,
   userModuleProgress,
@@ -26,68 +28,111 @@ export async function initializeCourseProgress(
       .from(resourceModule)
       .where(eq(resourceModule.resourceId, resourceId));
 
-    for (const mod of modules) {
-      const existingModule = await db
-        .select()
-        .from(userModuleProgress)
-        .where(
-          eq(userModuleProgress.userId, userId) &&
-            eq(userModuleProgress.moduleId, mod.id),
-        );
+    const moduleIds = modules.map((mod) => mod.id);
 
-      if (existingModule.length === 0) {
-        await db.insert(userModuleProgress).values({
-          userId,
-          moduleId: mod.id,
-          completed: false,
-        });
-      }
+    const existingModules = await db
+      .select({ moduleId: userModuleProgress.moduleId })
+      .from(userModuleProgress)
+      .where(
+        and(
+          eq(userModuleProgress.userId, userId),
+          inArray(userModuleProgress.moduleId, moduleIds),
+        ),
+      );
 
-      const lessons = await db
-        .select()
-        .from(lesson)
-        .where(eq(lesson.moduleId, mod.id));
+    const existingModuleIds = existingModules.map((m) => m.moduleId);
+    const newModules = moduleIds.filter(
+      (id) => !existingModuleIds.includes(id),
+    );
 
-      for (const les of lessons) {
-        const existingLesson = await db
-          .select()
-          .from(userLessonProgress)
-          .where(
-            eq(userLessonProgress.userId, userId) &&
-              eq(userLessonProgress.lessonId, les.id),
-          );
+    if (newModules.length > 0) {
+      const insertModules = newModules.map((id) => ({
+        userId,
+        moduleId: id,
+        completed: false,
+        progress: 0,
+      }));
+      await db.insert(userModuleProgress).values(insertModules);
+    }
 
-        if (existingLesson.length === 0) {
-          await db.insert(userLessonProgress).values({
-            userId,
-            lessonId: les.id,
-            completed: false,
-          });
-        }
-      }
+    const lessons = await db
+      .select()
+      .from(lesson)
+      .where(inArray(lesson.moduleId, moduleIds));
 
-      const exams = await db
-        .select()
-        .from(exam)
-        .where(eq(exam.moduleId, mod.id));
+    const exams = await db
+      .select()
+      .from(exam)
+      .where(inArray(exam.moduleId, moduleIds));
 
-      for (const ex of exams) {
-        const existingExam = await db
-          .select()
-          .from(userExamProgress)
-          .where(
-            eq(userExamProgress.userId, userId) &&
-              eq(userExamProgress.examId, ex.id),
-          );
+    const lessonIds = lessons.map((les) => les.id);
+    const examIds = exams.map((ex) => ex.id);
 
-        if (existingExam.length === 0) {
-          await db.insert(userExamProgress).values({
-            userId,
-            examId: ex.id,
-            completed: false,
-          });
-        }
-      }
+    const existingLessons = await db
+      .select({ lessonId: userLessonProgress.lessonId })
+      .from(userLessonProgress)
+      .where(
+        and(
+          eq(userLessonProgress.userId, userId),
+          inArray(userLessonProgress.lessonId, lessonIds),
+        ),
+      );
+
+    const existingLessonIds = existingLessons.map((l) => l.lessonId);
+    const newLessons = lessonIds.filter(
+      (id) => !existingLessonIds.includes(id),
+    );
+
+    if (newLessons.length > 0) {
+      const insertLessons = newLessons.map((id) => ({
+        userId,
+        lessonId: id,
+        completed: false,
+      }));
+      await db.insert(userLessonProgress).values(insertLessons);
+    }
+
+    const existingExams = await db
+      .select({ examId: userExamProgress.examId })
+      .from(userExamProgress)
+      .where(
+        and(
+          eq(userExamProgress.userId, userId),
+          inArray(userExamProgress.examId, examIds),
+        ),
+      );
+
+    const existingExamIds = existingExams.map((e) => e.examId);
+    const newExams = examIds.filter((id) => !existingExamIds.includes(id));
+
+    if (newExams.length > 0) {
+      const insertExams = newExams.map((id) => ({
+        userId,
+        examId: id,
+        completed: false,
+      }));
+      await db.insert(userExamProgress).values(insertExams);
+    }
+
+    const existingCourseProgress = await db
+      .select()
+      .from(userCourseProgress)
+      .where(
+        and(
+          eq(userCourseProgress.userId, userId),
+          eq(userCourseProgress.courseId, resourceId),
+        ),
+      )
+      .limit(1);
+
+    if (existingCourseProgress.length === 0) {
+      await db.insert(userCourseProgress).values({
+        userId,
+        courseId: resourceId,
+        completed: false,
+        progress: 0,
+        startedAt: new Date(),
+      });
     }
 
     console.log("Progreso inicializado correctamente.");
@@ -100,28 +145,29 @@ export async function initializeCourseProgress(
 export async function checkCourseProgress(
   userId: string,
   resourceId: string,
-): Promise<boolean> {
-  const modules = await db
-    .select({ id: resourceModule.id })
-    .from(resourceModule)
-    .where(eq(resourceModule.resourceId, resourceId));
+): Promise<{ completed: boolean; progress: number }> {
+  try {
+    const courseProgress = await getCourseProgress(userId, resourceId);
 
-  const moduleIds = modules.map((mod) => mod.id);
+    if (courseProgress) {
+      return {
+        completed: courseProgress.completed,
+        progress: courseProgress.progress,
+      };
+    }
 
-  const result = await db
-    .select()
-    .from(userModuleProgress)
-    .where(
-      and(
-        eq(userModuleProgress.userId, userId),
-        inArray(userModuleProgress.moduleId, moduleIds),
-      ),
-    );
-
-  return result.length > 0;
+    return { completed: false, progress: 0 };
+  } catch (error) {
+    console.error("Error al verificar el progreso del curso:", error);
+    throw error;
+  }
 }
 
-export async function updateLessonProgress(userId: string, lessonId: string) {
+export async function updateLessonProgress(
+  userId: string,
+  lessonId: string,
+  courseId: string,
+) {
   const existingProgress = await db
     .select()
     .from(userLessonProgress)
@@ -146,6 +192,22 @@ export async function updateLessonProgress(userId: string, lessonId: string) {
         eq(userLessonProgress.lessonId, lessonId),
       ),
     );
+
+  const lessonRecord = await db
+    .select()
+    .from(lesson)
+    .where(eq(lesson.id, lessonId))
+    .limit(1);
+
+  if (lessonRecord.length === 0) {
+    throw new Error("Lección no encontrada.");
+  }
+
+  const moduleId = lessonRecord[0].moduleId;
+
+  await updateModuleProgress(userId, moduleId, courseId);
+
+  await updateCourseProgress(userId, courseId);
 }
 
 export async function checkLessonCompleted(
@@ -166,7 +228,11 @@ export async function checkLessonCompleted(
   return result.map((row) => row.lessonId);
 }
 
-export async function updateModuleProgress(userId: string, moduleId: string) {
+export async function updateModuleProgress(
+  userId: string,
+  moduleId: string,
+  courseId: string,
+) {
   try {
     const lessons = await db
       .select({ id: lesson.id })
@@ -211,6 +277,8 @@ export async function updateModuleProgress(userId: string, moduleId: string) {
       );
 
     console.log(`Progreso actualizado: ${progress}%`);
+
+    await updateCourseProgress(userId, courseId);
   } catch (error) {
     console.error("Error al actualizar el progreso del módulo:", error);
     throw error;
@@ -298,6 +366,222 @@ export async function getModuleProgress(userId: string, moduleId: string) {
     return result[0];
   } catch (error) {
     console.error("Error al obtener el progreso del módulo:", error);
+    throw error;
+  }
+}
+
+export async function updateCourseProgress(
+  userId: string,
+  courseId: string,
+): Promise<void> {
+  try {
+    const modules = await db
+      .select()
+      .from(resourceModule)
+      .where(eq(resourceModule.resourceId, courseId));
+
+    const moduleIds = modules.map((mod) => mod.id);
+    const totalModules = moduleIds.length;
+
+    if (totalModules === 0) {
+      await db
+        .update(userCourseProgress)
+        .set({ progress: 0 })
+        .where(
+          and(
+            eq(userCourseProgress.userId, userId),
+            eq(userCourseProgress.courseId, courseId),
+          ),
+        );
+      return;
+    }
+
+    const moduleProgresses = await db
+      .select()
+      .from(userModuleProgress)
+      .where(
+        and(
+          eq(userModuleProgress.userId, userId),
+          inArray(userModuleProgress.moduleId, moduleIds),
+        ),
+      );
+
+    const totalProgress = moduleProgresses.reduce(
+      (acc, mod) => acc + (mod?.progress ?? 0),
+      0,
+    );
+    const progress = Math.floor(totalProgress / totalModules);
+
+    await db
+      .update(userCourseProgress)
+      .set({ progress })
+      .where(
+        and(
+          eq(userCourseProgress.userId, userId),
+          eq(userCourseProgress.courseId, courseId),
+        ),
+      );
+
+    console.log(`Progreso del curso actualizado: ${progress}%`);
+  } catch (error) {
+    console.error("Error al actualizar el progreso del curso:", error);
+    throw error;
+  }
+}
+
+export async function getCourseProgress(
+  userId: string,
+  courseId: string,
+): Promise<UserCourseProgress | null> {
+  try {
+    const progress = await db
+      .select()
+      .from(userCourseProgress)
+      .where(
+        and(
+          eq(userCourseProgress.userId, userId),
+          eq(userCourseProgress.courseId, courseId),
+        ),
+      )
+      .limit(1);
+
+    return progress[0] || null;
+  } catch (error) {
+    console.error("Error al obtener el progreso del curso:", error);
+    throw error;
+  }
+}
+
+export async function markCourseAsCompleted(
+  userId: string,
+  courseId: string,
+): Promise<void> {
+  try {
+    const existingProgress = await db
+      .select()
+      .from(userCourseProgress)
+      .where(
+        and(
+          eq(userCourseProgress.userId, userId),
+          eq(userCourseProgress.courseId, courseId),
+        ),
+      )
+      .limit(1);
+
+    if (existingProgress.length === 0) {
+      await db.insert(userCourseProgress).values({
+        userId,
+        courseId,
+        completed: true,
+        progress: 100,
+        completedAt: new Date(),
+      });
+    } else {
+      if (!existingProgress[0].completed) {
+        await db
+          .update(userCourseProgress)
+          .set({
+            completed: true,
+            progress: 100,
+            completedAt: new Date(),
+          })
+          .where(
+            and(
+              eq(userCourseProgress.userId, userId),
+              eq(userCourseProgress.courseId, courseId),
+            ),
+          );
+      }
+    }
+
+    console.log("Curso marcado como completado.");
+  } catch (error) {
+    console.error("Error al marcar el curso como completado:", error);
+    throw error;
+  }
+}
+
+export async function completeCourse(userId: string, courseId: string) {
+  try {
+    const courseProgress = await getCourseProgress(userId, courseId);
+    if (courseProgress?.completed) {
+      console.log("El curso ya está completado.");
+      return;
+    }
+
+    const modules = await db
+      .select()
+      .from(resourceModule)
+      .where(eq(resourceModule.resourceId, courseId));
+
+    for (const mod of modules) {
+      const lessons = await db
+        .select()
+        .from(lesson)
+        .where(eq(lesson.moduleId, mod.id));
+
+      const lessonIds = lessons.map((les) => les.id);
+
+      const completedLessons = await db
+        .select()
+        .from(userLessonProgress)
+        .where(
+          and(
+            eq(userLessonProgress.userId, userId),
+            eq(userLessonProgress.completed, true),
+            inArray(userLessonProgress.lessonId, lessonIds),
+          ),
+        );
+
+      if (completedLessons.length !== lessons.length) {
+        throw new Error("No has completado todas las lecciones del curso.");
+      }
+    }
+
+    await markCourseAsCompleted(userId, courseId);
+  } catch (error) {
+    console.error("Error al completar el curso:", error);
+    throw error;
+  }
+}
+
+export async function areAllPreviousLessonsCompleted(
+  userId: string,
+  courseId: string,
+): Promise<boolean> {
+  try {
+    const modules = await db
+      .select()
+      .from(resourceModule)
+      .where(eq(resourceModule.resourceId, courseId));
+
+    for (const mod of modules) {
+      const lessons = await db
+        .select()
+        .from(lesson)
+        .where(eq(lesson.moduleId, mod.id));
+
+      const lessonIds = lessons.map((les) => les.id);
+
+      const completedLessons = await db
+        .select()
+        .from(userLessonProgress)
+        .where(
+          and(
+            eq(userLessonProgress.userId, userId),
+            eq(userLessonProgress.completed, true),
+            inArray(userLessonProgress.lessonId, lessonIds),
+          ),
+        );
+
+      if (completedLessons.length !== lessons.length) {
+        return false;
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error al verificar lecciones completadas:", error);
     throw error;
   }
 }

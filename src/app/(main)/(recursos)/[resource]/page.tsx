@@ -4,6 +4,7 @@ import { auth } from "@/app/(auth)/auth";
 import { RESOURCES } from "@/consts/resources";
 import {
   getCompletedLessons,
+  getCourseProgress,
   getModuleProgress,
 } from "@/db/querys/progress-query";
 import { getModules, getResourceBySlug } from "@/db/querys/resource-query";
@@ -68,19 +69,12 @@ const ResourcePage = async (props: Props) => {
     moduleProgress[mod.module.id] = progressData.progress || 0;
   }
 
-  const totalLessons = modules.reduce(
-    (sum, mod) => sum + mod.lessons.length,
-    0,
-  );
+  const course = await getCourseProgress(userId, resource.id);
 
-  const totalProgress = modules.reduce((sum, mod) => {
-    const modProgress = moduleProgress[mod.module.id] || 0;
-    const lessonCount = mod.lessons.length;
-    return sum + (modProgress * lessonCount) / 100;
-  }, 0);
-
-  const courseProgress =
-    totalLessons > 0 ? Math.round((totalProgress / totalLessons) * 100) : 0;
+  const courseProgress = {
+    completed: course?.completed || false,
+    progress: course?.progress || 0,
+  };
 
   return (
     <ResourceWrapper
@@ -88,8 +82,9 @@ const ResourcePage = async (props: Props) => {
       resource={resource}
       modules={modules}
       completedLessons={completedLessons}
-      progress={moduleProgress}
-      totalProgress={courseProgress}
+      moduleProgress={moduleProgress}
+      courseProgress={courseProgress}
+      courseInitialized={!!course}
     />
   );
 };

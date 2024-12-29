@@ -28,8 +28,9 @@ interface ResourceWrapperProps {
   modules: Modules[];
   isPremium?: boolean | null;
   completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
+  moduleProgress: { [moduleId: string]: number };
+  courseProgress: { completed: boolean; progress: number };
+  courseInitialized: boolean;
 }
 
 const ResourceWrapper = ({
@@ -37,8 +38,9 @@ const ResourceWrapper = ({
   modules,
   isPremium,
   completedLessons,
-  progress,
-  totalProgress,
+  moduleProgress,
+  courseProgress,
+  courseInitialized,
 }: ResourceWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
@@ -103,6 +105,18 @@ const ResourceWrapper = ({
   const transitionSettings = {
     x: { ease: "easeInOut", duration: 0.3 },
     opacity: { ease: "linear", duration: 0.3 },
+  };
+
+  const componentProps = {
+    resource: { resourceId: id, resourceName: name },
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+    isPremium,
   };
 
   return (
@@ -229,16 +243,7 @@ const ResourceWrapper = ({
           </div>
         </div>
       </section>
-      <Component
-        resource={{ resourceId: id, resourceName: name }}
-        modules={modules}
-        about={about}
-        slug={slug}
-        isPremium={isPremium}
-        completedLessons={completedLessons}
-        progress={progress}
-        totalProgress={totalProgress}
-      />
+      <Component {...componentProps} />
       <VideoModal video={video} modal={modal} />
     </>
   );

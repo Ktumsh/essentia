@@ -13,32 +13,25 @@ import { StarsIcon } from "@/modules/icons/common";
 import CardList from "./card-list";
 import CourseList from "./course-list";
 
-import type { Modules } from "@/types/resource";
+import type { Course } from "@/types/resource";
 
-interface ExerciseFitnessProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-  };
-  modules: Modules[];
-  about: string;
-  slug: string;
-  completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
+interface ExerciseFitnessProps extends Course {
   isPremium?: boolean | null;
 }
 
-const ExcerciseFitness = ({
-  resource,
-  modules,
-  about,
-  slug,
-  completedLessons,
-  progress,
-  totalProgress,
-  isPremium,
-}: ExerciseFitnessProps) => {
+const ExcerciseFitness = (props: ExerciseFitnessProps) => {
+  const {
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+    isPremium,
+  } = props;
+
   const router = useRouter();
 
   const searchTerm = INITIAL_CHAT_MESSAGES[1].action;
@@ -61,8 +54,9 @@ const ExcerciseFitness = ({
         about={about}
         slug={slug}
         completedLessons={completedLessons}
-        progress={progress}
-        totalProgress={totalProgress}
+        moduleProgress={moduleProgress}
+        courseProgress={courseProgress}
+        courseInitialized={courseInitialized}
       />
       <section className="col-[1/2] mt-5 px-6 py-4 lg:col-[1/3] lg:p-0">
         <div className="relative flex w-full select-none justify-between">

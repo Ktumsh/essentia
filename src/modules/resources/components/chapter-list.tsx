@@ -21,7 +21,7 @@ interface ChapterListProps {
   modules?: Modules[];
   resourceSlug?: string;
   completedLessons?: string[];
-  progress: { [moduleId: string]: number };
+  moduleProgress: { [moduleId: string]: number };
   onLessonClick?: (href: string) => void;
 }
 
@@ -29,7 +29,7 @@ const ChapterList = ({
   modules,
   resourceSlug,
   completedLessons = [],
-  progress,
+  moduleProgress,
   onLessonClick,
 }: ChapterListProps) => {
   const pathname = usePathname();
@@ -63,13 +63,13 @@ const ChapterList = ({
           >
             <AccordionTrigger className="gap-4 px-6 py-4 underline-offset-2 md:hover:no-underline">
               <CircularProgress
-                aria-label={progress[item.module.id] + "%"}
-                value={progress[item.module.id]}
+                aria-label={moduleProgress[item.module.id] + "%"}
+                value={moduleProgress[item.module.id]}
                 strokeWidth={3}
                 classNames={{
                   svg: "!size-8",
                   track: "stroke-gray-200 dark:stroke-dark",
-                  indicator: getProgressColor(progress[item.module.id]),
+                  indicator: getProgressColor(moduleProgress[item.module.id]),
                 }}
               />
               <div className="w-full">

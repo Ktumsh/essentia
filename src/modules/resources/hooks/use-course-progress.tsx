@@ -1,12 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import {
   initializeCourseProgress,
-  checkCourseProgress,
   getLastCompletedLesson,
 } from "@/db/querys/progress-query";
 
@@ -25,30 +24,9 @@ export const useCourseProgress = ({
   firstModule,
   firstLesson,
 }: UseCourseProgressProps) => {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
+
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchProgress = async () => {
-      if (!userId || !resourceId) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const progress = await checkCourseProgress(userId, resourceId);
-        setIsInitialized(progress);
-      } catch (error) {
-        console.error("Error al verificar el progreso:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProgress();
-  }, [userId, resourceId]);
 
   const startCourse = async () => {
     try {
@@ -60,7 +38,6 @@ export const useCourseProgress = ({
         (async () => {
           await initializeCourseProgress(userId, resourceId);
 
-          setIsInitialized(true);
           setProcessing(false);
 
           router.push(`/${slug}/${firstModule}/${firstLesson}`);
@@ -98,5 +75,9 @@ export const useCourseProgress = ({
     }
   };
 
-  return { isInitialized, loading, processing, startCourse, continueCourse };
+  return {
+    processing,
+    startCourse,
+    continueCourse,
+  };
 };

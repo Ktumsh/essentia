@@ -2,30 +2,20 @@
 
 import CourseList from "./course-list";
 
-import type { Modules } from "@/types/resource";
+import type { Course } from "@/types/resource";
 
-interface ForAllAgesProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-  };
-  modules: Modules[];
-  about: string;
-  slug: string;
-  completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
-}
+const ForAllAges = (props: Course) => {
+  const {
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+  } = props;
 
-const ForAllAges = ({
-  resource,
-  modules,
-  about,
-  slug,
-  completedLessons,
-  progress,
-  totalProgress,
-}: ForAllAgesProps) => {
   return (
     <CourseList
       resource={resource}
@@ -33,8 +23,9 @@ const ForAllAges = ({
       about={about}
       slug={slug}
       completedLessons={completedLessons}
-      progress={progress}
-      totalProgress={totalProgress}
+      moduleProgress={moduleProgress}
+      courseProgress={courseProgress}
+      courseInitialized={courseInitialized}
     />
   );
 };

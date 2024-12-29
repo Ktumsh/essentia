@@ -1,6 +1,7 @@
 import {
   BookCheck,
   BookOpenText,
+  CheckCheck,
   HashIcon,
   LibraryBig,
   Loader,
@@ -9,9 +10,10 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,8 +42,10 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Progress } from "@/components/ui/progress";
+import { getResourceColor, getResourceIndex } from "@/modules/core/lib/utils";
 import { PlayIcon2 } from "@/modules/icons/action";
 import { Modules } from "@/types/resource";
+import { cn } from "@/utils/common";
 
 import ChapterList from "./chapter-list";
 import { useCourseProgress } from "../hooks/use-course-progress";
@@ -55,8 +59,9 @@ interface CourseListProps {
   about: string;
   slug: string;
   completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
+  moduleProgress: { [moduleId: string]: number };
+  courseProgress: { completed: boolean; progress: number };
+  courseInitialized: boolean;
 }
 
 const CourseList = ({
@@ -65,8 +70,9 @@ const CourseList = ({
   about,
   slug,
   completedLessons,
-  progress,
-  totalProgress,
+  moduleProgress,
+  courseProgress,
+  courseInitialized,
 }: CourseListProps) => {
   const { resourceId, resourceName } = resource || {};
 
@@ -86,6 +92,11 @@ const CourseList = ({
   const classes = modules.reduce((acc, curr) => acc + curr.lessons.length, 0);
   const exams = modules.reduce((acc, curr) => acc + (curr.exam ? 1 : 0), 0);
 
+  const resourceIndex = useMemo(
+    () => getResourceIndex(resourceName),
+    [resourceName],
+  );
+
   const getProgressColor = (value: number) => {
     if (value === 0) return "bg-transparent";
     if (value <= 25) return "bg-red-500";
@@ -94,17 +105,16 @@ const CourseList = ({
     return "bg-green-500";
   };
 
-  const { isInitialized, loading, processing, startCourse, continueCourse } =
-    useCourseProgress({
-      userId,
-      resourceId,
-      slug,
-      firstModule,
-      firstLesson,
-    });
+  const { processing, startCourse, continueCourse } = useCourseProgress({
+    userId,
+    resourceId,
+    slug,
+    firstModule,
+    firstLesson,
+  });
 
   const handleLessonClick = (href: string) => {
-    if (!isInitialized) {
+    if (!courseInitialized) {
       setIsOpen(true);
     } else {
       router.push(href);
@@ -137,23 +147,42 @@ const CourseList = ({
     <>
       <div className="relative grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
         <section className="col-[1/2] row-[1/2] px-6 lg:px-0">
-          <h3 className="text-main dark:text-white">
-            <Link
-              id={`aprende-sobre-${slug}`}
-              data-id={`aprende-sobre-${slug}`}
-              data-name={`Aprende sobre ${resourceName}`}
-              href={`#aprende-sobre-${slug}`}
-              className="group mb-2 inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
-            >
-              Aprende sobre {resourceName}
-              <HashIcon
-                strokeWidth={1.5}
-                className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
-              />
-            </Link>
-          </h3>
+          <div className="relative flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
+            <h3 className="text-main dark:text-white">
+              <Link
+                id={`aprende-sobre-${slug}`}
+                data-id={`aprende-sobre-${slug}`}
+                data-name={`Aprende sobre ${resourceName}`}
+                href={`#aprende-sobre-${slug}`}
+                className="group mb-2 inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
+              >
+                Aprende sobre {resourceName}
+                <HashIcon
+                  strokeWidth={1.5}
+                  className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+                />
+              </Link>
+            </h3>
+            {courseInitialized && (
+              <Badge
+                variant="outline"
+                className={cn(
+                  "w-fit py-1.5",
+                  courseProgress.completed &&
+                    "border-transparent bg-gradient-to-br !text-white shadow",
+                  getResourceColor(resourceIndex, "gradient"),
+                )}
+              >
+                {courseProgress.completed
+                  ? "Curso finalizado"
+                  : "Curso en progreso"}
+                {courseProgress.completed && (
+                  <CheckCheck className="ml-1.5 size-3.5" />
+                )}
+              </Badge>
+            )}
+          </div>
           <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
-            <h4 className="text-lg font-semibold">Descripción</h4>
             <p className="prose-sm text-main-h md:prose dark:text-main-dark">
               {about}
             </p>
@@ -172,7 +201,7 @@ const CourseList = ({
             modules={modules}
             resourceSlug={slug}
             completedLessons={completedLessons}
-            progress={progress}
+            moduleProgress={moduleProgress}
             onLessonClick={handleLessonClick}
           />
         </section>
@@ -234,13 +263,13 @@ const CourseList = ({
                 variant="destructive"
                 fullWidth
                 radius="full"
-                disabled={loading || processing}
-                onClick={isInitialized ? continueCourse : startCourse}
+                disabled={processing}
+                onClick={courseInitialized ? continueCourse : startCourse}
               >
-                {!loading && !processing && <PlayIcon2 strokeWidth={1.5} />}
-                {loading || processing ? (
+                {!processing && <PlayIcon2 strokeWidth={1.5} />}
+                {processing ? (
                   <Loader className="animate-spin" />
-                ) : isInitialized ? (
+                ) : courseInitialized ? (
                   "Continuar curso"
                 ) : (
                   "Iniciar curso"
@@ -254,10 +283,12 @@ const CourseList = ({
                 <CardTitle className="text-lg tracking-normal">
                   Tu progreso del curso
                 </CardTitle>
-                <CardDescription>{totalProgress}% completado</CardDescription>
+                <CardDescription>
+                  {courseProgress.progress}% completado
+                </CardDescription>
                 <Progress
-                  value={totalProgress}
-                  indicatorColor={getProgressColor(totalProgress)}
+                  value={courseProgress.progress}
+                  indicatorColor={getProgressColor(courseProgress.progress)}
                 />
               </CardHeader>
             </Card>
@@ -278,13 +309,13 @@ const CourseList = ({
             </DrawerHeader>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button variant="outline" disabled={loading || processing}>
+                <Button variant="outline" disabled={processing}>
                   Cancelar
                 </Button>
               </DrawerClose>
               <Button
                 variant="destructive"
-                disabled={loading || processing}
+                disabled={processing}
                 onClick={handleStartCourse}
               >
                 Iniciar curso
@@ -304,16 +335,16 @@ const CourseList = ({
             </DialogHeader>
             <DialogFooter isSecondary>
               <DialogClose asChild>
-                <Button variant="outline" disabled={loading || processing}>
+                <Button variant="outline" disabled={processing}>
                   Cancelar
                 </Button>
               </DialogClose>
               <Button
                 variant="destructive"
-                disabled={loading || processing}
+                disabled={processing}
                 onClick={handleStartCourse}
               >
-                {loading || processing ? (
+                {processing ? (
                   <Loader className="animate-spin" />
                 ) : (
                   "Iniciar curso"

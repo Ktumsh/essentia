@@ -13,32 +13,25 @@ import { StarsIcon } from "@/modules/icons/common";
 import CourseList from "./course-list";
 import NutritionCarousel from "./nutrition-carousel";
 
-import type { Modules } from "@/types/resource";
+import type { Course } from "@/types/resource";
 
-interface NutritionProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-  };
-  modules: Modules[];
-  about: string;
-  slug: string;
-  completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
+interface NutritionProps extends Course {
   isPremium?: boolean | null;
 }
 
-const Nutrition = ({
-  resource,
-  modules,
-  about,
-  slug,
-  completedLessons,
-  progress,
-  totalProgress,
-  isPremium,
-}: NutritionProps) => {
+const Nutrition = (props: NutritionProps) => {
+  const {
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+    isPremium,
+  } = props;
+
   const router = useRouter();
 
   const isMobile = useIsMobile();
@@ -61,8 +54,9 @@ const Nutrition = ({
         about={about}
         slug={slug}
         completedLessons={completedLessons}
-        progress={progress}
-        totalProgress={totalProgress}
+        moduleProgress={moduleProgress}
+        courseProgress={courseProgress}
+        courseInitialized={courseInitialized}
       />
       <section className="col-[1/2] mt-5 px-6 py-4 lg:col-[1/3] lg:p-0">
         <div className="relative flex w-full select-none justify-between">
