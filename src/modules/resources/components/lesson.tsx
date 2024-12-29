@@ -53,6 +53,7 @@ interface LessonProps {
   isCompleted: boolean;
   completedLessons?: string[];
   moduleProgress: { [moduleId: string]: number };
+  isCourseCompleted: boolean;
 }
 
 const Lesson = ({
@@ -62,6 +63,7 @@ const Lesson = ({
   isCompleted,
   completedLessons,
   moduleProgress,
+  isCourseCompleted,
 }: LessonProps) => {
   const { resourceId, resourceName, resourceSlug } = resource;
   const isMobile = useIsMobile();
@@ -242,7 +244,7 @@ const Lesson = ({
       toast.promise(
         (async () => {
           await updateLessonProgress(userId, lesson.id, resourceId);
-          await completeCourse(userId, resourceSlug);
+          await completeCourse(userId, resourceId);
         })(),
         {
           loading: "Finalizando curso...",
@@ -340,7 +342,7 @@ const Lesson = ({
               {resourceName}
             </Link>
             <div className="flex flex-wrap items-center gap-2 text-sm text-main-h dark:text-main-dark-h">
-              <span>Capítulo {chapter}</span>
+              <span>Módulo {chapter}</span>
               <span aria-hidden="true">•</span>
               <span>
                 Clase {lesson.order} de {totalLessons}
@@ -390,7 +392,7 @@ const Lesson = ({
               <ArrowLeft />
               Clase anterior
             </Button>
-            {isLastLesson ? (
+            {isLastLesson && !isCourseCompleted ? (
               <Button
                 radius="full"
                 variant="outline"
@@ -444,7 +446,7 @@ const Lesson = ({
       </section>
       <section className="sticky top-0 px-6 py-5 lg:col-[2/3] lg:row-[1/3] lg:px-0">
         <h3 className="mb-2 text-lg font-semibold text-main dark:text-white">
-          Capítulos
+          Módulos
         </h3>
         <ChapterList
           modules={modules}
@@ -452,6 +454,17 @@ const Lesson = ({
           completedLessons={completedLessons}
           moduleProgress={moduleProgress}
         />
+        <div className="inline-flex w-full items-center justify-center">
+          <Badge
+            variant="outline"
+            className={cn(
+              "mt-6 w-fit border-transparent bg-gradient-to-br py-1.5 !text-white shadow",
+              getResourceColor(resourceIndex, "gradient"),
+            )}
+          >
+            ¡Felicidades! Haz finalizado este curso.
+          </Badge>
+        </div>
       </section>
     </>
   );

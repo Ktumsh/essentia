@@ -74,7 +74,7 @@ const ChapterList = ({
               />
               <div className="w-full">
                 <span className="text-nowrap text-sm font-normal">
-                  Capítulo {item.module.order}
+                  Módulo {item.module.order}
                 </span>
                 <h4 className="text-base text-main dark:text-white">
                   {item.module.title}
