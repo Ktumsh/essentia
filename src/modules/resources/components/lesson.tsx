@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
@@ -54,6 +55,8 @@ const Lesson = ({
   progress,
 }: LessonProps) => {
   const { resourceName, resourceSlug } = resource;
+
+  const isMobile = useIsMobile();
 
   const resourceIndex = getResourceIndex(resourceName);
 
@@ -303,15 +306,21 @@ const Lesson = ({
           </CardFooter>
         </Card>
         {!isCompleted && (
-          <p className="mt-2 text-balance text-center text-xs md:text-sm">
-            *Para marcar la clase como{" "}
-            <span className="font-semibold text-green-500">completada</span>{" "}
-            debes hacer click en el botón de{" "}
-            <span className="font-semibold text-main dark:text-white">
-              &apos;Clase siguiente&apos;
-            </span>
-            *
-          </p>
+          <>
+            <p className="mt-2 text-center text-xs md:text-sm">
+              *Para marcar la clase como{" "}
+              <span className="font-semibold text-green-500">completada</span>{" "}
+              debes {isMobile ? "presionar " : "hacer clic "}en el botón de{" "}
+              <span className="font-semibold text-main dark:text-white">
+                Clase siguiente
+              </span>
+              .
+            </p>
+            <p className="mt-2 text-center text-xs md:text-sm">
+              *Recuerda que debes completar las clases en orden para poder
+              avanzar.
+            </p>
+          </>
         )}
       </section>
       <section className="sticky top-0 px-6 py-5 lg:col-[2/3] lg:row-[1/3] lg:px-0">
