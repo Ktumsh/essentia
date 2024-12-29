@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import {
   completeCourse,
@@ -285,7 +285,18 @@ const Lesson = ({
     <>
       <section className="relative space-y-5 px-6 pt-5 text-main dark:text-white lg:lg:col-[1/2] lg:row-[1/2] lg:px-0">
         <div className="relative flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
-          <h1 className="text-2xl font-bold md:text-3xl">{lesson.title}</h1>
+          <div className="inline-flex items-center gap-2">
+            <Button
+              size="icon"
+              radius="lg"
+              variant="ghost"
+              className="shrink-0 self-start"
+              onClick={() => router.push(`/${resourceSlug}`)}
+            >
+              <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
+            </Button>
+            <h1 className="text-2xl font-bold md:text-3xl">{lesson.title}</h1>
+          </div>
           <BetterTooltip
             content={
               isCompleted
@@ -349,18 +360,23 @@ const Lesson = ({
       </section>
       <section className="relative px-6 lg:col-[1/2] lg:row-[2/4] lg:px-0">
         <Card className="rounded-xl">
-          <div className="p-5">
+          <CardContent className="p-5">
             <Markdown prose="!max-w-full">{lesson.content as string}</Markdown>
-          </div>
+          </CardContent>
           <CardFooter
             isSecondary
-            className="flex-col gap-2 !p-5 sm:flex-row sm:justify-between"
+            className={cn(
+              "flex-col gap-2 !p-5 sm:flex-row sm:justify-between",
+              {
+                "sm:!justify-end": !findPreviousLesson(),
+              },
+            )}
           >
             <Button
               radius="full"
               variant="outline"
-              className={cn("invisible w-full sm:w-fit", {
-                visible: findPreviousLesson(),
+              className={cn("hidden w-full sm:w-fit", {
+                "inline-flex": findPreviousLesson(),
               })}
               onClick={() => {
                 const prevLesson = findPreviousLesson();
@@ -401,19 +417,28 @@ const Lesson = ({
         </Card>
         {!isCompleted && (
           <>
-            <p className="mt-2 text-center text-xs md:text-sm">
-              *Para marcar la clase como{" "}
-              <span className="font-semibold text-green-500">completada</span>{" "}
-              debes {isMobile ? "presionar " : "hacer clic "}en el botón de{" "}
-              <span className="font-semibold text-main dark:text-white">
-                Clase siguiente
-              </span>
-              .
-            </p>
-            <p className="mt-2 text-center text-xs md:text-sm">
-              *Recuerda que debes completar las clases en orden para poder
-              avanzar.
-            </p>
+            {!isLastLesson && (
+              <p className="mt-2 text-center text-xs md:text-sm">
+                *Para marcar la clase como{" "}
+                <span className="font-semibold text-green-500">completada</span>{" "}
+                debes {isMobile ? "presionar " : "hacer clic "}en el botón de{" "}
+                <span className="font-semibold text-main dark:text-white">
+                  Clase siguiente
+                </span>
+                .
+              </p>
+            )}
+            {isLastLesson ? (
+              <p className="mt-2 text-center text-xs md:text-sm">
+                *Para poder finalizar el curso asegúrate de haber completado
+                todas las clases anteriores.
+              </p>
+            ) : (
+              <p className="mt-2 text-center text-xs md:text-sm">
+                *Recuerda que debes completar las clases en orden para poder
+                avanzar.
+              </p>
+            )}
           </>
         )}
       </section>
