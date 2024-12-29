@@ -68,7 +68,7 @@ const CourseList = ({
     return "bg-green-500";
   };
 
-  const { isInitialized, loading, startCourse, continueCourse } =
+  const { isInitialized, loading, processing, startCourse, continueCourse } =
     useCourseProgress({
       userId,
       resourceId,
@@ -91,7 +91,7 @@ const CourseList = ({
   }
   return (
     <div className="relative grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
-      <section className="col-[1/2] row-[3/4] px-6 lg:row-[1/2] lg:px-0">
+      <section className="col-[1/2] row-[1/2] px-6 lg:px-0">
         <h3 className="text-main dark:text-white">
           <Link
             id={`aprende-sobre-${slug}`}
@@ -114,7 +114,7 @@ const CourseList = ({
           </p>
         </div>
       </section>
-      <section className="col-[1/2] row-[5/6] flex select-none flex-col justify-start px-6 lg:row-[2/6] lg:px-0">
+      <section className="col-[1/2] row-[3/4] flex select-none flex-col justify-start px-6 lg:row-[2/6] lg:px-0">
         <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
           <h4 className="text-lg font-semibold">Contenido del curso</h4>
           <div className="flex flex-wrap items-center gap-2 text-sm text-main-m dark:text-main-dark-m">
@@ -130,7 +130,7 @@ const CourseList = ({
           progress={progress}
         />
       </section>
-      <section className="sticky top-5 col-[1/2] row-[4/5] lg:col-[2/3] lg:row-[1/4]">
+      <section className="sticky top-5 col-[1/2] row-[2/3] lg:col-[2/3] lg:row-[1/4]">
         <Card className="rounded-none border-y bg-gray-100 text-main dark:bg-dark/50 dark:text-white md:rounded-xl md:border">
           <CardHeader isSecondary>
             <CardTitle className="text-center text-lg tracking-normal">
@@ -188,11 +188,11 @@ const CourseList = ({
               variant="destructive"
               fullWidth
               radius="full"
-              disabled={loading}
+              disabled={loading || processing}
               onClick={isInitialized ? continueCourse : startCourse}
             >
-              {!loading && <PlayIcon2 strokeWidth={1.5} />}
-              {loading ? (
+              {!loading && !processing && <PlayIcon2 strokeWidth={1.5} />}
+              {loading || processing ? (
                 <Loader className="animate-spin" />
               ) : isInitialized ? (
                 "Continuar curso"

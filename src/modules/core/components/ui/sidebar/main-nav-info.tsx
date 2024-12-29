@@ -31,7 +31,7 @@ import { WarningCircledIcon } from "@/modules/icons/common";
 import { SiteConfig } from "@/types/common";
 
 interface MainNavInfoProps {
-  items: SiteConfig["footerLinks"]["more"];
+  items: SiteConfig["menuFooterLinks"]["extras"];
   isCollapsed?: boolean;
 }
 
@@ -61,10 +61,13 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
                 <CollapsibleContent className="transition-height">
                   <SidebarMenuSub>
                     {items.map((link) => (
-                      <SidebarMenuSubItem key={link.text}>
-                        <SidebarMenuSubButton asChild>
-                          <Link href={link.href} role="link" target="_self">
-                            {link.text}
+                      <SidebarMenuSubItem key={link.name}>
+                        <SidebarMenuSubButton
+                          asChild
+                          className="shrink-0 text-nowrap"
+                        >
+                          <Link href={link.link} role="link" target="_self">
+                            {link.name}
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
@@ -84,9 +87,10 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
                 <DropdownMenuContent side="right" align="start" sideOffset={4}>
                   <DropdownMenuGroup>
                     {items.map((link) => (
-                      <DropdownMenuItem key={link.text}>
-                        <Link href={link.href} role="link" target="_self">
-                          <span>{link.text}</span>
+                      <DropdownMenuItem key={link.name}>
+                        <link.icon strokeWidth={1.5} />
+                        <Link href={link.link} role="link" target="_self">
+                          <span>{link.name}</span>
                         </Link>
                       </DropdownMenuItem>
                     ))}

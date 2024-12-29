@@ -63,6 +63,8 @@ const Lesson = ({
     module.lessons.some((l) => l.slug === lesson.slug),
   )[0].module.order;
 
+  const totalLessons = modules[lesson.order]?.lessons.length || 0;
+
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
@@ -243,7 +245,9 @@ const Lesson = ({
             <div className="flex flex-wrap items-center gap-2 text-sm text-main-h dark:text-main-dark-h">
               <span>Capítulo {chapter}</span>
               <span aria-hidden="true">•</span>
-              <span>Clase {lesson.order}</span>
+              <span>
+                Clase {lesson.order} de {totalLessons}
+              </span>
             </div>
           </div>
         </div>
@@ -260,7 +264,7 @@ const Lesson = ({
       <section className="relative px-6 lg:col-[1/2] lg:row-[2/4] lg:px-0">
         <Card className="rounded-xl">
           <div className="p-5">
-            <Markdown>{lesson.content as string}</Markdown>
+            <Markdown prose="!max-w-full">{lesson.content as string}</Markdown>
           </div>
           <CardFooter
             isSecondary

@@ -22,7 +22,6 @@ import AlertPanel from "./alert-panel";
 import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
 import { PreviewAttachment } from "./ui/preview-attachment";
-import FooterText from "../components/ui/footer-text";
 
 export interface ChatPanelProps {
   input: string;
@@ -108,7 +107,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
               isPremium={isPremium}
               append={append}
             />
-            <div className="relative border-t border-gray-200 bg-white px-4 py-0 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4">
+            <div className="relative border-t border-gray-200 bg-white px-4 py-0 pb-16 dark:border-dark dark:bg-full-dark md:rounded-t-xl md:border md:py-4">
               <motion.div
                 initial={{ opacity: 1, y: 0, scale: 1 }}
                 animate={
@@ -121,7 +120,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                     ? { ease: "easeInOut", duration: 0.5, delay: 0.3 }
                     : { ease: "easeInOut", duration: 1, delay: 0.3 }
                 }
-                className="space-y-4"
+                className="space-y-4 md:pb-6"
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
                   <div className="mt-3 flex flex-wrap items-end gap-2 overflow-x-auto md:mt-0">
@@ -163,7 +162,6 @@ const ChatPanel: FC<ChatPanelProps> = ({
                   setUploadQueue={setUploadQueue}
                   isPremium={isPremium}
                 />
-                <FooterText className="hidden md:block" />
               </motion.div>
               <AlertPanel
                 session={session}

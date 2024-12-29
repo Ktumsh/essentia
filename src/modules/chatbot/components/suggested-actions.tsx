@@ -39,7 +39,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
             initial={{ opacity: 1 }}
             animate={!isPremium ? { opacity: 0 } : { opacity: 1 }}
             transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
-            className="mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 scrollbar-hide sm:grid sm:px-0 md:overflow-visible"
+            className="mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 scrollbar-hide md:grid md:overflow-visible md:px-0"
           >
             {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
               <motion.div
@@ -60,7 +60,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
                       content: suggestedAction.action,
                     });
                   }}
-                  className="hover:shadow-little-pretty h-auto min-w-60 flex-col items-start gap-0 bg-white p-4 text-start text-main shadow-none will-change-transform hover:bg-white active:scale-[.97] dark:bg-full-dark dark:text-main-dark dark:shadow-white/10 dark:hover:bg-full-dark sm:min-w-0 md:hover:-translate-y-1"
+                  className="h-auto min-w-60 flex-col items-start gap-0 bg-white p-4 text-start text-main shadow-none will-change-transform hover:bg-white hover:shadow-little-pretty active:scale-[.97] dark:bg-full-dark dark:text-main-dark dark:shadow-white/10 dark:hover:bg-full-dark md:min-w-0 md:hover:-translate-y-1"
                 >
                   <suggestedAction.icon
                     className={cn("size-4", suggestedAction.iconColor)}
