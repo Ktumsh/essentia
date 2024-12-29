@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getYear } from "date-fns";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
@@ -19,7 +20,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { getUserByUsername } from "@/db/querys/user-querys";
-import { ArrowRightV2Icon } from "@/modules/icons/navigation";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
@@ -102,7 +102,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
           onClick={onBack}
           className="bg-transparent px-2 shadow-none dark:bg-transparent sm:bg-gray-100 sm:dark:bg-dark"
         >
-          <ArrowRightV2Icon className="!size-6 rotate-180 text-main-h dark:text-main-dark" />
+          <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
         </Button>
         <div className="w-full text-sm text-main-h dark:text-main-dark">
           <p>

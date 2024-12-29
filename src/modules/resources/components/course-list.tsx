@@ -147,14 +147,14 @@ const CourseList = ({
     <>
       <div className="relative grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
         <section className="col-[1/2] row-[1/2] px-6 lg:px-0">
-          <div className="relative flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
+          <div className="relative mb-2 flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
             <h3 className="text-main dark:text-white">
               <Link
                 id={`aprende-sobre-${slug}`}
                 data-id={`aprende-sobre-${slug}`}
                 data-name={`Aprende sobre ${resourceName}`}
                 href={`#aprende-sobre-${slug}`}
-                className="group mb-2 inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
+                className="group inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
               >
                 Aprende sobre {resourceName}
                 <HashIcon
