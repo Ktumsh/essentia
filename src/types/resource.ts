@@ -1,5 +1,7 @@
 import { FC, type JSX } from "react";
 
+import { Exam, Lesson, Module } from "@/db/schema";
+
 import { IconSvgProps } from "./common";
 
 export interface MaincapResources {
@@ -11,6 +13,26 @@ export interface MaincapResources {
   icon: (props: IconSvgProps) => JSX.Element;
   requiresPremium?: boolean;
 }
+
+export interface Modules {
+  module: Module;
+  lessons: Lesson[];
+  exam: Exam | null;
+}
+
+export type Course = {
+  resource: {
+    resourceId: string;
+    resourceName: string;
+  };
+  modules: Modules[];
+  about: string;
+  slug: string;
+  completedLessons: string[];
+  moduleProgress: { [moduleId: string]: number };
+  courseProgress: { completed: boolean; progress: number };
+  courseInitialized: boolean;
+};
 
 export interface Resources {
   title: string;
@@ -24,44 +46,7 @@ export interface Resources {
   image: string;
   imageFull: string;
   resource: string;
-  component: FC<{
-    isPremium?: boolean | null;
-    resource: {
-      resourceId: string;
-      resourceName: string;
-    };
-    modules: Modules[];
-    about: string;
-    slug: string;
-    completedLessons: string[];
-    progress: { [moduleId: string]: number };
-    totalProgress: number;
-  }>;
-}
-
-export interface Modules {
-  module: {
-    id: string;
-    title: string;
-    slug: string;
-    description: string | null;
-    objectives: string | null;
-    order: number;
-  };
-  lessons: Array<{
-    id: string;
-    title: string;
-    slug: string;
-    objective: string | null;
-    content: string | null;
-    order: number;
-  }>;
-  exam: {
-    id: string;
-    title: string;
-    slug: string;
-    instructions: string;
-  } | null;
+  component: FC<{ isPremium?: boolean | null } & Course>;
 }
 
 export interface Video {

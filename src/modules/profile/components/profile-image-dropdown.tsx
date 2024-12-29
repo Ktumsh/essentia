@@ -56,16 +56,18 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
               </DrawerHeader>
               <DrawerFooter>
                 <Button
-                  variant="secondary"
+                  variant="mobile"
                   onClick={() => handleMenuAction(fileInputRef, "upload")}
                 >
+                  <Upload strokeWidth={1.5} />
                   Subir foto de perfil
                 </Button>
                 {hasImage && (
                   <Button
-                    variant="destructive"
+                    variant="mobile"
                     onClick={() => handleMenuAction(fileInputRef, "delete")}
                   >
+                    <Trash2 strokeWidth={1.5} />
                     Eliminar
                   </Button>
                 )}
@@ -90,14 +92,14 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
             <DropdownMenuItem
               onSelect={() => handleMenuAction(fileInputRef, "upload")}
             >
-              <Upload className="size-4" />
+              <Upload strokeWidth={1.5} />
               Subir foto de perfil
             </DropdownMenuItem>
             {hasImage && (
               <DropdownMenuItem
                 onSelect={() => handleMenuAction(fileInputRef, "delete")}
               >
-                <Trash2 className="size-4" />
+                <Trash2 strokeWidth={1.5} />
                 Eliminar
               </DropdownMenuItem>
             )}

@@ -60,28 +60,9 @@ export async function getModules(resourceId: string): Promise<Array<Modules>> {
   try {
     const result = await db
       .select({
-        module: {
-          id: resourceModule.id,
-          title: resourceModule.title,
-          slug: resourceModule.slug,
-          description: resourceModule.description,
-          objectives: resourceModule.objectives,
-          order: resourceModule.order,
-        },
-        lesson: {
-          id: lesson.id,
-          title: lesson.title,
-          slug: lesson.slug,
-          objective: lesson.objective,
-          content: lesson.content,
-          order: lesson.order,
-        },
-        exam: {
-          id: exam.id,
-          title: exam.title,
-          slug: exam.slug,
-          instructions: exam.instructions,
-        },
+        module: resourceModule,
+        lesson,
+        exam,
       })
       .from(resourceModule)
       .leftJoin(lesson, eq(resourceModule.id, lesson.moduleId))
@@ -101,13 +82,13 @@ export async function getModules(resourceId: string): Promise<Array<Modules>> {
         existingModule = {
           module: row.module,
           lessons: [],
-          exam: row.exam || null,
+          exam: row.exam,
         };
         modules.push(existingModule);
       }
 
       if (row.lesson?.title) {
-        existingModule.lessons.push(row.lesson);
+        existingModule?.lessons.push(row.lesson);
       }
     }
 

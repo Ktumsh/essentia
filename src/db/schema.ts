@@ -203,6 +203,29 @@ export const examQuestion = table("exam_question", {
 
 export type Question = InferSelectModel<typeof examQuestion>;
 
+export const userCourseProgress = table(
+  "user_course_progress",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    courseId: uuid("course_id")
+      .notNull()
+      .references(() => resource.id, { onDelete: "cascade" }),
+    completed: boolean("completed").notNull().default(false),
+    progress: integer("progress").default(0).notNull(),
+    completedAt: timestamp("completed_at").default(sql`NULL`),
+    startedAt: timestamp("started_at").defaultNow(),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.userId, table.courseId] }),
+    };
+  },
+);
+
+export type UserCourseProgress = InferSelectModel<typeof userCourseProgress>;
+
 export const userModuleProgress = table(
   "user_module_progress",
   {

@@ -1,6 +1,9 @@
+import { redirect } from "next/navigation";
+
 import { auth } from "@/app/(auth)/auth";
 import {
   getCompletedLessons,
+  getCourseProgress,
   getLessonProgress,
   getModuleProgress,
 } from "@/db/querys/progress-query";
@@ -55,9 +58,16 @@ const LessonPage = async (props: LessonPageProps) => {
   }
 
   const resourceData = {
+    resourceId: resource.id,
     resourceName: resource.name,
     resourceSlug: resource.slug,
   };
+
+  const course = await getCourseProgress(userId, resource.id);
+
+  if (!course) {
+    redirect(`/${resourceSlug}`);
+  }
 
   return (
     <Lesson
@@ -66,7 +76,7 @@ const LessonPage = async (props: LessonPageProps) => {
       resource={resourceData}
       isCompleted={progress.completed}
       completedLessons={completedLessons}
-      progress={moduleProgress}
+      moduleProgress={moduleProgress}
     />
   );
 };

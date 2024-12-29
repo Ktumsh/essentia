@@ -7,30 +7,20 @@ import Link from "next/link";
 import CardList from "./card-list";
 import CourseList from "./course-list";
 
-import type { Modules } from "@/types/resource";
+import type { Course } from "@/types/resource";
 
-interface HealthWellnessProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-  };
-  modules: Modules[];
-  about: string;
-  slug: string;
-  completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
-}
+const HealthWellness = (props: Course) => {
+  const {
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+  } = props;
 
-const HealthWellness = ({
-  resource,
-  modules,
-  about,
-  slug,
-  completedLessons,
-  progress,
-  totalProgress,
-}: HealthWellnessProps) => {
   return (
     <>
       <CourseList
@@ -39,8 +29,9 @@ const HealthWellness = ({
         about={about}
         slug={slug}
         completedLessons={completedLessons}
-        progress={progress}
-        totalProgress={totalProgress}
+        moduleProgress={moduleProgress}
+        courseProgress={courseProgress}
+        courseInitialized={courseInitialized}
       />
       <section className="col-[1/2] mt-5 px-6 py-4 lg:col-[1/3] lg:p-0">
         <div className="flex w-full select-none flex-col justify-start">

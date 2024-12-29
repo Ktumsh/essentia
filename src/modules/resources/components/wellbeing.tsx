@@ -2,30 +2,20 @@
 
 import CourseList from "./course-list";
 
-import type { Modules } from "@/types/resource";
+import type { Course } from "@/types/resource";
 
-interface WellbeingProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-  };
-  modules: Modules[];
-  about: string;
-  slug: string;
-  completedLessons: string[];
-  progress: { [moduleId: string]: number };
-  totalProgress: number;
-}
+const Wellbeing = (props: Course) => {
+  const {
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+  } = props;
 
-const Wellbeing = ({
-  modules,
-  resource,
-  about,
-  slug,
-  completedLessons,
-  progress,
-  totalProgress,
-}: WellbeingProps) => {
   return (
     <CourseList
       resource={resource}
@@ -33,8 +23,9 @@ const Wellbeing = ({
       about={about}
       slug={slug}
       completedLessons={completedLessons}
-      progress={progress}
-      totalProgress={totalProgress}
+      moduleProgress={moduleProgress}
+      courseProgress={courseProgress}
+      courseInitialized={courseInitialized}
     />
   );
 };

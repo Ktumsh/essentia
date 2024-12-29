@@ -7,8 +7,10 @@ import {
   CheckCircle,
   CircleDashed,
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
@@ -17,8 +19,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import {
+  completeCourse,
   updateLessonProgress,
-  updateModuleProgress,
 } from "@/db/querys/progress-query";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import {
@@ -34,8 +36,15 @@ import ResourceBadge from "./resource-badge";
 
 import type { Lesson } from "@/db/schema";
 
+type LessonNavigation = {
+  moduleSlug: string;
+  lessonSlug: string;
+  lessonId: string;
+};
+
 interface LessonProps {
   resource: {
+    resourceId: string;
     resourceName: string;
     resourceSlug: string;
   };
@@ -43,7 +52,7 @@ interface LessonProps {
   modules: Modules[];
   isCompleted: boolean;
   completedLessons?: string[];
-  progress: { [moduleId: string]: number };
+  moduleProgress: { [moduleId: string]: number };
 }
 
 const Lesson = ({
@@ -52,50 +61,56 @@ const Lesson = ({
   modules,
   isCompleted,
   completedLessons,
-  progress,
+  moduleProgress,
 }: LessonProps) => {
-  const { resourceName, resourceSlug } = resource;
-
+  const { resourceId, resourceName, resourceSlug } = resource;
   const isMobile = useIsMobile();
-
-  const resourceIndex = getResourceIndex(resourceName);
-
-  const resourceDetails = getResourceDetails(resourceName);
-
-  const chapter = modules.filter((module) =>
-    module.lessons.some((l) => l.slug === lesson.slug),
-  )[0].module.order;
-
-  const totalLessons = modules[lesson.order]?.lessons.length || 0;
-
+  const resourceIndex = useMemo(
+    () => getResourceIndex(resourceName),
+    [resourceName],
+  );
+  const resourceDetails = useMemo(
+    () => getResourceDetails(resourceName),
+    [resourceName],
+  );
   const { data: session } = useSession();
   const userId = session?.user?.id;
-
   const router = useRouter();
 
-  const findNextLesson = () => {
-    const currentModuleIndex = modules.findIndex((module) =>
+  const { currentModuleIndex, currentLessonIndex, chapter } = useMemo(() => {
+    const moduleIdx = modules.findIndex((module) =>
       module.lessons.some((l) => l.id === lesson.id),
     );
+    if (moduleIdx === -1) {
+      return { currentModuleIndex: -1, currentLessonIndex: -1, chapter: 0 };
+    }
+    const currentModule = modules[moduleIdx];
+    const lessonIdx = currentModule.lessons.findIndex(
+      (l) => l.id === lesson.id,
+    );
+    return {
+      currentModuleIndex: moduleIdx,
+      currentLessonIndex: lessonIdx,
+      chapter: currentModule.module.order,
+    };
+  }, [modules, lesson.id]);
 
-    if (currentModuleIndex === -1) return null;
-
+  const totalLessons = useMemo(() => {
     const currentModule = modules[currentModuleIndex];
+    return currentModule?.lessons.length || 0;
+  }, [modules, currentModuleIndex]);
 
-    if (!currentModule || !currentModule.lessons) return null;
-
-    const lessons = currentModule.lessons;
-    const currentLessonIndex = lessons.findIndex((l) => l.id === lesson.id);
-
-    if (currentLessonIndex + 1 < lessons.length) {
-      const nextLesson = lessons[currentLessonIndex + 1];
+  const findNextLesson = useCallback((): LessonNavigation | null => {
+    if (currentModuleIndex === -1 || currentLessonIndex === -1) return null;
+    const currentModule = modules[currentModuleIndex];
+    if (currentLessonIndex + 1 < currentModule.lessons.length) {
+      const nextLesson = currentModule.lessons[currentLessonIndex + 1];
       return {
         moduleSlug: currentModule.module.slug,
         lessonSlug: nextLesson.slug,
         lessonId: nextLesson.id,
       };
     }
-
     const nextModule = modules[currentModuleIndex + 1];
     if (nextModule && nextModule.lessons.length > 0) {
       const firstLesson = nextModule.lessons[0];
@@ -105,33 +120,20 @@ const Lesson = ({
         lessonId: firstLesson.id,
       };
     }
-
     return null;
-  };
+  }, [modules, currentModuleIndex, currentLessonIndex]);
 
-  const findPreviousLesson = () => {
-    const currentModuleIndex = modules.findIndex((module) =>
-      module.lessons.some((l) => l.id === lesson.id),
-    );
-
-    if (currentModuleIndex === -1) return null;
-
+  const findPreviousLesson = useCallback((): LessonNavigation | null => {
+    if (currentModuleIndex === -1 || currentLessonIndex === -1) return null;
     const currentModule = modules[currentModuleIndex];
-
-    if (!currentModule || !currentModule.lessons) return null;
-
-    const lessons = currentModule.lessons;
-    const currentLessonIndex = lessons.findIndex((l) => l.id === lesson.id);
-
     if (currentLessonIndex > 0) {
-      const prevLesson = lessons[currentLessonIndex - 1];
+      const prevLesson = currentModule.lessons[currentLessonIndex - 1];
       return {
         moduleSlug: currentModule.module.slug,
         lessonSlug: prevLesson.slug,
         lessonId: prevLesson.id,
       };
     }
-
     const prevModule = modules[currentModuleIndex - 1];
     if (prevModule && prevModule.lessons.length > 0) {
       const lastLesson = prevModule.lessons[prevModule.lessons.length - 1];
@@ -141,21 +143,39 @@ const Lesson = ({
         lessonId: lastLesson.id,
       };
     }
-
     return null;
-  };
+  }, [modules, currentModuleIndex, currentLessonIndex]);
 
-  const handleLessonComplete = async () => {
+  const isLastLesson = useMemo(() => {
+    if (currentModuleIndex === -1 || currentLessonIndex === -1) return false;
+    const isLastModule = currentModuleIndex === modules.length - 1;
+    if (!isLastModule) return false;
+    const currentModule = modules[currentModuleIndex];
+    return currentLessonIndex === currentModule.lessons.length - 1;
+  }, [currentModuleIndex, currentLessonIndex, modules]);
+
+  const areAllPreviousLessonsCompleted = useCallback((): boolean => {
+    for (const currentModule of modules) {
+      for (const lessonItem of currentModule.lessons) {
+        if (lessonItem.id === lesson.id) {
+          return true;
+        }
+        if (!completedLessons?.includes(lessonItem.id)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }, [modules, lesson.id, completedLessons]);
+
+  const handleLessonComplete = useCallback(async () => {
     if (!userId) return;
 
-    const prevLesson = findPreviousLesson();
     const next = findNextLesson();
 
     if (isCompleted) {
       if (next) {
-        router.push(
-          `/${resource.resourceSlug}/${next.moduleSlug}/${next.lessonSlug}`,
-        );
+        router.push(`/${resourceSlug}/${next.moduleSlug}/${next.lessonSlug}`);
       } else {
         toast.info("No hay más clases disponibles.");
       }
@@ -163,13 +183,14 @@ const Lesson = ({
     }
 
     try {
+      const prevLesson = findPreviousLesson();
       if (prevLesson && !completedLessons?.includes(prevLesson.lessonId)) {
         toast.error("Para continuar debes completar la clase anterior", {
           action: {
             label: "Ir",
             onClick: () => {
               router.push(
-                `/${resource.resourceSlug}/${prevLesson.moduleSlug}/${prevLesson.lessonSlug}`,
+                `/${resourceSlug}/${prevLesson.moduleSlug}/${prevLesson.lessonSlug}`,
               );
             },
           },
@@ -179,8 +200,7 @@ const Lesson = ({
 
       toast.promise(
         (async () => {
-          await updateLessonProgress(userId, lesson.id);
-          await updateModuleProgress(userId, lesson.moduleId);
+          await updateLessonProgress(userId, lesson.id, resourceId);
         })(),
         {
           loading: "Avanzando a la siguiente clase...",
@@ -188,18 +208,78 @@ const Lesson = ({
           error: "Error al avanzar a la siguiente clase",
         },
       );
-
-      router.refresh();
-
       if (next) {
-        router.push(
-          `/${resource.resourceSlug}/${next.moduleSlug}/${next.lessonSlug}`,
-        );
+        router.push(`/${resourceSlug}/${next.moduleSlug}/${next.lessonSlug}`);
       }
     } catch (error) {
       console.error("Error al completar la lección:", error);
+    } finally {
+      router.refresh();
     }
-  };
+  }, [
+    userId,
+    findNextLesson,
+    isCompleted,
+    findPreviousLesson,
+    completedLessons,
+    lesson.id,
+    resourceId,
+    resourceSlug,
+    router,
+  ]);
+
+  const handleFinishCourse = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      if (!areAllPreviousLessonsCompleted()) {
+        toast.error(
+          "Para finalizar el curso debes haber completado todas las clases anteriores",
+        );
+        return;
+      }
+
+      toast.promise(
+        (async () => {
+          await updateLessonProgress(userId, lesson.id, resourceId);
+          await completeCourse(userId, resourceSlug);
+        })(),
+        {
+          loading: "Finalizando curso...",
+          success: `¡Haz finalizado el curso de ${resourceName}!`,
+          error: "Error al finalizar el curso",
+        },
+      );
+
+      router.push(`/${resourceSlug}`);
+    } catch (error) {
+      console.error("Error al finalizar el curso:", error);
+      toast.error(
+        "Hubo un error al finalizar el curso. Por favor, intenta nuevamente.",
+      );
+    } finally {
+      router.refresh();
+    }
+  }, [
+    userId,
+    lesson.id,
+    resourceId,
+    resourceName,
+    resourceSlug,
+    router,
+    areAllPreviousLessonsCompleted,
+  ]);
+
+  if (currentModuleIndex === -1 || currentLessonIndex === -1) {
+    return (
+      <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
+        <CardFooter className="flex-row items-center gap-2">
+          <CheckCircle className="size-5 text-red-500" />
+          <p className="!mt-0 text-base">Lección no encontrada.</p>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -232,19 +312,22 @@ const Lesson = ({
           </BetterTooltip>
         </div>
         <div className="inline-flex items-center gap-4">
-          <ResourceBadge
-            resourceIndex={resourceIndex}
-            resourceDetails={resourceDetails}
-          />
+          <Link href={`/${resourceSlug}`}>
+            <ResourceBadge
+              resourceIndex={resourceIndex}
+              resourceDetails={resourceDetails}
+            />
+          </Link>
           <div className="leading-tight">
-            <span
+            <Link
+              href={`/${resourceSlug}`}
               className={cn(
-                "block font-semibold",
+                "block w-fit font-semibold",
                 getResourceColor(resourceIndex, "text"),
               )}
             >
               {resourceName}
-            </span>
+            </Link>
             <div className="flex flex-wrap items-center gap-2 text-sm text-main-h dark:text-main-dark-h">
               <span>Capítulo {chapter}</span>
               <span aria-hidden="true">•</span>
@@ -291,17 +374,28 @@ const Lesson = ({
               <ArrowLeft />
               Clase anterior
             </Button>
-
-            {findNextLesson() && (
+            {isLastLesson ? (
               <Button
                 radius="full"
                 variant="outline"
                 className="w-full sm:w-fit"
-                onClick={handleLessonComplete}
+                onClick={handleFinishCourse}
               >
-                Clase siguiente
-                <ArrowRight />
+                Finalizar Curso
+                <CheckCheck />
               </Button>
+            ) : (
+              findNextLesson() && (
+                <Button
+                  radius="full"
+                  variant="outline"
+                  className="w-full sm:w-fit"
+                  onClick={handleLessonComplete}
+                >
+                  Clase siguiente
+                  <ArrowRight />
+                </Button>
+              )
             )}
           </CardFooter>
         </Card>
@@ -331,7 +425,7 @@ const Lesson = ({
           modules={modules}
           resourceSlug={resourceSlug}
           completedLessons={completedLessons}
-          progress={progress}
+          moduleProgress={moduleProgress}
         />
       </section>
     </>
