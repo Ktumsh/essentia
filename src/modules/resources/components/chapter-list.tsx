@@ -4,6 +4,7 @@ import { CircularProgress } from "@nextui-org/progress";
 import { CheckCircle, CircleDashed } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { MouseEvent } from "react";
 
 import {
   Accordion,
@@ -21,6 +22,7 @@ interface ChapterListProps {
   resourceSlug?: string;
   completedLessons?: string[];
   progress: { [moduleId: string]: number };
+  onLessonClick?: (href: string) => void;
 }
 
 const ChapterList = ({
@@ -28,8 +30,19 @@ const ChapterList = ({
   resourceSlug,
   completedLessons = [],
   progress,
+  onLessonClick,
 }: ChapterListProps) => {
   const pathname = usePathname();
+
+  const handleLessonClick = (
+    e: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (onLessonClick) {
+      e.preventDefault();
+      onLessonClick(href);
+    }
+  };
 
   const getProgressColor = (value: number) => {
     if (value === 0) return "stroke-transparent";
@@ -61,7 +74,7 @@ const ChapterList = ({
               />
               <div className="w-full">
                 <span className="text-nowrap text-sm font-normal">
-                  Capítulo {index + 1}
+                  Capítulo {item.module.order}
                 </span>
                 <h4 className="text-base text-main dark:text-white">
                   {item.module.title}
@@ -76,11 +89,13 @@ const ChapterList = ({
                 {item.lessons.map((lesson) => {
                   const isActive = pathname.includes(lesson.slug);
                   const completed = completedLessons.includes(lesson.id);
+                  const href = `/${resourceSlug}/${item.module.slug}/${lesson.slug}`;
 
                   return (
                     <li key={lesson.slug}>
                       <Link
-                        href={`/${resourceSlug}/${item.module.slug}/${lesson.slug}`}
+                        href={href}
+                        onClick={(e) => handleLessonClick(e, href)}
                         className={cn(
                           "relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm text-main-h transition-colors duration-150 hover:bg-gray-200 hover:text-main dark:text-main-dark dark:hover:bg-dark dark:hover:text-white",
                           {

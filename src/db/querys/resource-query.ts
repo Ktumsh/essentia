@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -87,6 +87,7 @@ export async function getModules(resourceId: string): Promise<Array<Modules>> {
       .leftJoin(lesson, eq(resourceModule.id, lesson.moduleId))
       .leftJoin(exam, eq(resourceModule.id, exam.moduleId))
       .where(eq(resourceModule.resourceId, resourceId))
+      .orderBy(asc(resourceModule.order), asc(lesson.order))
       .execute();
 
     const modules: Array<Modules> = [];
