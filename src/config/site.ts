@@ -9,6 +9,7 @@ import {
   Lock,
   LogOut,
   Settings,
+  Stars,
   User,
 } from "lucide-react";
 
@@ -173,6 +174,7 @@ export const siteConfig: SiteConfig = {
   menuFooterLinks: {
     extras: [
       { name: "Descubre Essentia", link: "/about", icon: Info },
+      { name: "Planes y Precios", link: "/pricing", icon: Stars },
       { name: "Privacidad", link: "#", icon: Lock },
       { name: "Términos", link: "#", icon: FileText },
       { name: "Cookies", link: "#", icon: Cookie },

@@ -183,7 +183,7 @@ const PurePromptForm = ({
 
   return (
     <form ref={formRef} onSubmit={submitForm}>
-      <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden border-gray-200 bg-white px-8 dark:border-dark dark:bg-transparent sm:rounded-md sm:border sm:px-12 sm:dark:bg-dark/50">
+      <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden border-gray-200 bg-white px-8 dark:border-dark dark:bg-transparent md:rounded-md md:border md:px-12 md:dark:bg-dark/50">
         <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
 
         <input
@@ -249,7 +249,7 @@ function PureAttachmentsButton({
         radius="full"
         variant="ghost"
         disabled={isLoading}
-        className="absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:border-accent-dark dark:text-main-dark sm:left-4"
+        className="absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:border-accent-dark dark:text-main-dark md:left-4"
         onClick={() => fileInputRef.current?.click()}
       >
         <span className="sr-only">Adjuntar archivo</span>
@@ -273,7 +273,7 @@ function PureStopButton({
       size="icon"
       radius="full"
       variant="destructive"
-      className="absolute right-0 top-[13px] size-9 sm:right-4"
+      className="absolute right-0 top-[13px] size-9 md:right-4"
       onClick={(event) => {
         event.preventDefault();
         stop();
@@ -304,7 +304,7 @@ function PureSendButton({
       size="icon"
       radius="full"
       variant="destructive"
-      className="absolute right-0 top-[13px] size-9 sm:right-4"
+      className="absolute right-0 top-[13px] size-9 md:right-4"
       onClick={handleSubmit}
       disabled={input.length === 0 || uploadQueue.length > 0 || !isPremium}
     >

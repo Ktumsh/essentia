@@ -203,7 +203,7 @@ const ResourceWrapper = ({
         ref={sectionRef}
         className="custom-scroll v2 group col-[1/2] row-[2/3] inline-flex flex-1 snap-x snap-mandatory overflow-x-auto lg:hidden"
       >
-        <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
+        <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between px-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
           <Markdown prose="prose-sm">{intro}</Markdown>
           <div className="mt-2 flex w-full justify-end">
             <button
@@ -214,7 +214,7 @@ const ResourceWrapper = ({
             </button>
           </div>
         </div>
-        <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between p-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
+        <div className="prose-sm relative flex max-w-full shrink-0 snap-center flex-col justify-between px-6 pb-2 text-main dark:prose-invert dark:text-main-dark md:w-full">
           <h3 className="font-semibold text-[#111827] dark:text-white">
             ¿Qué es {name}?
           </h3>
