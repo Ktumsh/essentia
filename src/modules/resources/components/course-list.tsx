@@ -68,7 +68,7 @@ const CourseList = ({
     return "bg-green-500";
   };
 
-  const { isInitialized, loading, startCourse, continueCourse } =
+  const { isInitialized, loading, processing, startCourse, continueCourse } =
     useCourseProgress({
       userId,
       resourceId,
@@ -188,11 +188,11 @@ const CourseList = ({
               variant="destructive"
               fullWidth
               radius="full"
-              disabled={loading}
+              disabled={loading || processing}
               onClick={isInitialized ? continueCourse : startCourse}
             >
-              {!loading && <PlayIcon2 strokeWidth={1.5} />}
-              {loading ? (
+              {!loading && !processing && <PlayIcon2 strokeWidth={1.5} />}
+              {loading || processing ? (
                 <Loader className="animate-spin" />
               ) : isInitialized ? (
                 "Continuar curso"

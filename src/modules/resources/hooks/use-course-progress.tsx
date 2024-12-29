@@ -59,6 +59,11 @@ export const useCourseProgress = ({
       toast.promise(
         (async () => {
           await initializeCourseProgress(userId, resourceId);
+
+          setIsInitialized(true);
+          setProcessing(false);
+
+          router.push(`/${slug}/${firstModule}/${firstLesson}`);
         })(),
         {
           loading: "¡El curso está por comenzar!",
@@ -66,13 +71,8 @@ export const useCourseProgress = ({
           error: "Error al iniciar el curso",
         },
       );
-      setIsInitialized(true);
-
-      router.push(`/${slug}/${firstModule}/${firstLesson}`);
     } catch (error) {
       console.error("Error al iniciar el curso:", error);
-    } finally {
-      setProcessing(false);
     }
   };
 
