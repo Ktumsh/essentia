@@ -1,7 +1,7 @@
 "use client";
 
 import "@/styles/map.css";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
 
 import { LocationSelfIcon } from "@/modules/icons/status";

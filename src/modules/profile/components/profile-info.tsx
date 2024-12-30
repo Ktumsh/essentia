@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   Cake,
   MapPin,
@@ -9,6 +8,7 @@ import {
   ScrollText,
   Weight,
 } from "lucide-react";
+import { motion } from "motion/react";
 import { memo, useState } from "react";
 
 import { Button } from "@/components/ui/button";

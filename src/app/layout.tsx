@@ -15,8 +15,6 @@ import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indic
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 import { cn } from "@/utils/common";
 
-import { PreloadResources } from "./preload-resources";
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -103,7 +101,6 @@ export default async function RootLayout({
           "font-sans",
         )}
       >
-        <PreloadResources />
         <Toaster />
         <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
           <div className="relative flex size-full min-h-dvh flex-col md:flex-row">

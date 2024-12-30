@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import Image from "next/image";
 import { memo, useRef, useState } from "react";
 

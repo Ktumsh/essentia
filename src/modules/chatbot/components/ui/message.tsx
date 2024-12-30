@@ -1,7 +1,7 @@
 "use client";
 
 import equal from "fast-deep-equal";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { memo, useState } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";

@@ -1,4 +1,4 @@
-import withPWAInit from "@ducanh2912/next-pwa";
+import withSerwistInit from "@serwist/next";
 import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -25,15 +25,6 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: ["geist"],
-  experimental: {
-    ppr: true,
-    serverActions: {
-      allowedOrigins: [
-        "localhost:3000",
-        "https://3xfnptdk-3000.brs.devtunnels.ms",
-      ],
-    },
-  },
   async redirects() {
     return [
       {
@@ -45,10 +36,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withPWA = withPWAInit({
-  dest: "public",
-  register: true,
+const withPWA = withSerwistInit({
   disable: process.env.NODE_ENV === "development",
+  swSrc: "sw.ts",
+  swDest: "public/sw.js",
 });
 
 export default withPWA({

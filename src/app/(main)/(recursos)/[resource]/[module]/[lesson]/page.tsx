@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
@@ -15,8 +16,37 @@ import {
 import Lesson from "@/modules/resources/components/lesson";
 
 type LessonPageProps = {
-  params: Promise<{ resource: string; lesson: string }>;
+  params: Promise<{ resource: string; module: string; lesson: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: LessonPageProps): Promise<Metadata> {
+  const resourceSlug = (await params).resource;
+  const moduleSlug = (await params).module;
+  const lessonSlug = (await params).lesson;
+
+  const resource = await getResourceBySlug(resourceSlug);
+
+  const modules = await getModules(resource.id);
+
+  const currentModule = modules.find((mod) =>
+    mod.lessons.some((l) => l.slug === lessonSlug),
+  );
+
+  if (!currentModule) {
+    return { title: "Clase no encontrada" };
+  }
+
+  const lesson = await getLessonBySlug(currentModule.module.id, lessonSlug);
+
+  return {
+    title: lesson.title,
+    alternates: {
+      canonical: `/${resourceSlug}/${moduleSlug}/${lessonSlug}`,
+    },
+  };
+}
 
 const LessonPage = async (props: LessonPageProps) => {
   const params = await props.params;

@@ -1,7 +1,7 @@
 "use client";
 
 import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Session } from "next-auth";

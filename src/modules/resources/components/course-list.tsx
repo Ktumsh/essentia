@@ -218,7 +218,7 @@ const CourseList = ({
                   <div>
                     <div className="inline-flex items-center gap-2">
                       <span className="block text-sm text-main-m dark:text-main-dark-m">
-                        Capítulos
+                        Módulos
                       </span>
                       <LibraryBig
                         strokeWidth={1.5}
