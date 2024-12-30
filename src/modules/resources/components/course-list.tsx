@@ -258,24 +258,26 @@ const CourseList = ({
                 </li>
               </ul>
             </CardContent>
-            <CardFooter>
-              <Button
-                variant="destructive"
-                fullWidth
-                radius="full"
-                disabled={processing}
-                onClick={courseInitialized ? continueCourse : startCourse}
-              >
-                {!processing && <PlayIcon2 strokeWidth={1.5} />}
-                {processing ? (
-                  <Loader className="animate-spin" />
-                ) : courseInitialized ? (
-                  "Continuar curso"
-                ) : (
-                  "Iniciar curso"
-                )}
-              </Button>
-            </CardFooter>
+            {!courseProgress.completed && (
+              <CardFooter>
+                <Button
+                  variant="destructive"
+                  fullWidth
+                  radius="full"
+                  disabled={processing}
+                  onClick={courseInitialized ? continueCourse : startCourse}
+                >
+                  {!processing && <PlayIcon2 strokeWidth={1.5} />}
+                  {processing ? (
+                    <Loader className="animate-spin" />
+                  ) : courseInitialized ? (
+                    "Continuar curso"
+                  ) : (
+                    "Iniciar curso"
+                  )}
+                </Button>
+              </CardFooter>
+            )}
           </Card>
           <div className="px-6 lg:px-0">
             <Card className="mt-5 rounded-xl text-main dark:text-white">
