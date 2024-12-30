@@ -454,17 +454,11 @@ const Lesson = ({
           completedLessons={completedLessons}
           moduleProgress={moduleProgress}
         />
-        <div className="inline-flex w-full items-center justify-center">
-          <Badge
-            variant="outline"
-            className={cn(
-              "mt-6 w-fit border-transparent bg-gradient-to-br py-1.5 !text-white shadow",
-              getResourceColor(resourceIndex, "gradient"),
-            )}
-          >
-            ¡Felicidades! Haz finalizado este curso.
-          </Badge>
-        </div>
+        {isCourseCompleted && (
+          <div className="mt-6 inline-flex w-full items-center justify-center text-sm">
+            <p>¡Felicidades! Haz finalizado este curso 🎉</p>
+          </div>
+        )}
       </section>
     </>
   );
