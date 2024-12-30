@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { CircleAlert, Stars } from "lucide-react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { Session } from "next-auth";
 import { useState } from "react";

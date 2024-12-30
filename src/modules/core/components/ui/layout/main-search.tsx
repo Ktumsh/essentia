@@ -30,7 +30,7 @@ import {
   MAX_RECENT_SEARCHES,
   MAX_RESULTS,
 } from "@/consts/search-constants";
-import { searchData, SearchResult } from "@/consts/search-data";
+import { SearchResult, useSearchData } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
 import { SearchAIIcon } from "@/modules/icons/action";
 import { HashFillIcon } from "@/modules/icons/common";
@@ -60,6 +60,8 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 150);
 
+  const searchData = useSearchData();
+
   const recommendedItems = useMemo(() => {
     const lvl1WithIntroduction = searchData.filter(
       (item) => item.type === "lvl1" && item.content.includes("Introducción"),
@@ -70,7 +72,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
     );
 
     return [...lvl1WithIntroduction, ...otherLvl1];
-  }, []);
+  }, [searchData]);
 
   useEffect(() => {
     if (debouncedSearchTerm.length < 2) {
@@ -86,7 +88,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
       }).slice(0, MAX_RESULTS);
       setSearchResults(results);
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, searchData]);
 
   const saveRecentSearch = useCallback(
     (search: SearchResult) => {

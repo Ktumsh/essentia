@@ -7,7 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { addYears, format } from "date-fns";
 import { es } from "date-fns/locale";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useState, FormEvent } from "react";
 import { toast } from "sonner";
 

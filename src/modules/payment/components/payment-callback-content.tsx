@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Loader } from "lucide-react";
+import { motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
