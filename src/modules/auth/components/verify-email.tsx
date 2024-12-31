@@ -107,7 +107,7 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
           </CardHeader>
           <CardContent className="pb-10">
             {isVerifying ? (
-              <div className="inline-flex h-12 items-center justify-center gap-2">
+              <div className="inline-flex h-12 w-full items-center justify-center gap-2">
                 <span>Verificando</span>
                 <Loader className="size-4 animate-spin" />
               </div>

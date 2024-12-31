@@ -64,7 +64,7 @@ const ChapterList = ({
             <AccordionTrigger className="gap-4 px-6 py-4 underline-offset-2 md:hover:no-underline">
               <CircularProgress
                 aria-label={moduleProgress[item.module.id] + "%"}
-                value={moduleProgress[item.module.id]}
+                value={moduleProgress[item.module.id] || 0}
                 strokeWidth={3}
                 classNames={{
                   svg: "!size-8",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { VisibilitySelector } from "@/modules/chatbot/components/visibility-selector";
@@ -18,6 +18,7 @@ const DesktopHeader = ({ user }: DesktopHeaderProps) => {
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
   const router = useRouter();
+  const pathname = usePathname();
   const params = useParams();
 
   const chatId = params.id;
@@ -46,7 +47,13 @@ const DesktopHeader = ({ user }: DesktopHeaderProps) => {
               {!user && (
                 <Button
                   variant="gradient"
-                  onClick={() => router.push("/login")}
+                  onClick={() => {
+                    if (pathname === "/") {
+                      router.push("/login");
+                    } else {
+                      router.push(`/login?redirect=${pathname}`);
+                    }
+                  }}
                 >
                   Inicia sesión
                 </Button>

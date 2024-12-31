@@ -64,12 +64,15 @@ const ResourcePage = async (props: Props) => {
 
   const moduleProgress: { [key: string]: number } = {};
 
-  for (const mod of modules) {
-    const progressData = (await getModuleProgress(userId, mod.module.id)) || {};
-    moduleProgress[mod.module.id] = progressData.progress || 0;
+  if (userId) {
+    for (const mod of modules) {
+      const progressData =
+        (await getModuleProgress(userId, mod.module.id)) || {};
+      moduleProgress[mod.module.id] = progressData.progress || 0;
+    }
   }
 
-  const course = await getCourseProgress(userId, resource.id);
+  const course = userId ? await getCourseProgress(userId, resource.id) : null;
 
   const courseProgress = {
     completed: course?.completed || false,
