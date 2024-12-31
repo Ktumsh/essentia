@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { memo, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
@@ -97,14 +98,6 @@ const CourseList = ({
     [resourceName],
   );
 
-  const getProgressColor = (value: number) => {
-    if (value === 0) return "bg-transparent";
-    if (value <= 25) return "bg-red-500";
-    if (value <= 50) return "bg-amber-500";
-    if (value <= 75) return "bg-lime-500";
-    return "bg-green-500";
-  };
-
   const { processing, startCourse, continueCourse } = useCourseProgress({
     userId,
     resourceId,
@@ -113,7 +106,25 @@ const CourseList = ({
     firstLesson,
   });
 
+  const getProgressColor = (value: number) => {
+    if (value === 0) return "bg-transparent";
+    if (value <= 25) return "bg-red-500";
+    if (value <= 50) return "bg-amber-500";
+    if (value <= 75) return "bg-lime-500";
+    return "bg-green-500";
+  };
+
   const handleLessonClick = (href: string) => {
+    if (!session) {
+      toast("¡Hola usuario!", {
+        description: "Inicia sesión para continuar con el curso",
+        action: {
+          label: "Inicia sesión",
+          onClick: () => router.push(`/login?redirect=/${slug}`),
+        },
+      });
+      return;
+    }
     if (!courseInitialized) {
       setIsOpen(true);
     } else {
@@ -265,15 +276,25 @@ const CourseList = ({
                   fullWidth
                   radius="full"
                   disabled={processing}
-                  onClick={courseInitialized ? continueCourse : startCourse}
+                  onClick={
+                    session
+                      ? courseInitialized
+                        ? continueCourse
+                        : startCourse
+                      : () => router.push(`/login?redirect=/${slug}`)
+                  }
                 >
                   {!processing && <PlayIcon2 strokeWidth={1.5} />}
-                  {processing ? (
-                    <Loader className="animate-spin" />
-                  ) : courseInitialized ? (
-                    "Continuar curso"
+                  {session ? (
+                    processing ? (
+                      <Loader className="animate-spin" />
+                    ) : courseInitialized ? (
+                      "Continuar curso"
+                    ) : (
+                      "Iniciar curso"
+                    )
                   ) : (
-                    "Iniciar curso"
+                    "Inicia sesión para continuar"
                   )}
                 </Button>
               </CardFooter>

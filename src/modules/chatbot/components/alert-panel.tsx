@@ -1,12 +1,13 @@
 "use client";
 
-import { CircleAlert, Stars } from "lucide-react";
+import { CircleAlert } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Session } from "next-auth";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { StarsIcon } from "@/modules/icons/common";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import WarningModal from "@/modules/payment/components/warning-premium-modal";
 import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
@@ -43,7 +44,7 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
               ? { ease: "easeInOut", duration: 1, delay: 0.3 }
               : { ease: "easeInOut", duration: 0.5, delay: 0.3 }
           }
-          className="absolute inset-x-3 top-6 flex justify-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs text-main shadow-lg dark:border-dark dark:bg-full-dark dark:text-main-dark md:inset-3 md:items-center md:gap-4 md:p-4 md:text-base"
+          className="absolute inset-x-3 top-6 flex justify-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs text-main shadow-pretty dark:border-dark dark:bg-full-dark dark:text-main-dark md:inset-3 md:items-center md:gap-4 md:p-4 md:text-base"
         >
           <span className="inline-flex gap-2 md:items-center">
             <CircleAlert className="size-5 text-main-m dark:text-main-dark-m" />
@@ -57,11 +58,11 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
             <Button
               radius="sm"
               onClick={() => handleOpenPaymentModal(setIsPaymentModalOpen)}
-              className="inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="relative z-0 inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
             >
-              <Stars
+              <StarsIcon
                 aria-hidden="true"
-                className="stars-icon !size-5 focus:outline-none"
+                className="stars-icon !size-5 focus:outline-none [&_*]:transition"
               />
               <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
                 Hazte premium

@@ -56,6 +56,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
             </p>
           </div>
           <DialogFooter className="justify-center p-3 !pt-0 md:p-6">
+            <button aria-hidden className="sr-only"></button>
             <Button
               radius="full"
               fullWidth
@@ -63,7 +64,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
                 setIsOpen(false);
                 setIsOpenPayment(true);
               }}
-              className="hover :shadow-lg group h-12 gap-3 bg-light-gradient-v2 px-6 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:transition before:content-[''] hover:scale-105 hover:saturate-200 hover:before:opacity-0 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="group relative z-0 h-12 gap-3 bg-light-gradient-v2 px-6 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:transition before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 hover:before:opacity-0 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
             >
               <StarsIcon
                 aria-hidden="true"
