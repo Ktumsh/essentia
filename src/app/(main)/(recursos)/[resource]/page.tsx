@@ -81,6 +81,7 @@ const ResourcePage = async (props: Props) => {
 
   return (
     <ResourceWrapper
+      userId={userId}
       isPremium={isPremium}
       resource={resource}
       modules={modules}

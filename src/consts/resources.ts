@@ -16,7 +16,7 @@ export const RESOURCES: Resources[] = [
     subtitle: "Para tu salud",
     intro: `Encuentra una amplia variedad de consejos sobre **hábitos saludables** hasta métodos para **potenciar tu salud mental y emocional**, encontrarás recursos variados para impulsar tu bienestar en todos los aspectos de la vida.`,
     description:
-      "Salud y bienestar se refiere a la **condición general del cuerpo y la mente**, en la que una persona está libre de enfermedad y se siente **satisfecha y funcional en su vida diaria**. Esto incluye la **práctica de hábitos saludables** y el mantenimiento de un **equilibrio físico, mental y emocional**.",
+      "Salud y bienestar es la **condición general del cuerpo y la mente**, libre de enfermedad, donde una persona se siente **satisfecha y funcional**. Incluye la **práctica de hábitos saludables** y el mantenimiento de un **equilibrio físico, mental y emocional**.",
     quote:
       "El mayor tesoro es la salud, y el conocimiento es la llave para preservarla.",
     videoTitle: "¿Qué es Salud y Bienestar?",

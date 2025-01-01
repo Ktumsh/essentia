@@ -6,6 +6,8 @@ import type { Course } from "@/types/resource";
 
 const ForAllAges = (props: Course) => {
   const {
+    userId,
+
     resource,
     modules,
     about,
@@ -18,6 +20,7 @@ const ForAllAges = (props: Course) => {
 
   return (
     <CourseList
+      userId={userId}
       resource={resource}
       modules={modules}
       about={about}

@@ -21,6 +21,7 @@ interface NutritionProps extends Course {
 
 const Nutrition = (props: NutritionProps) => {
   const {
+    userId,
     resource,
     modules,
     about,
@@ -49,6 +50,7 @@ const Nutrition = (props: NutritionProps) => {
   return (
     <>
       <CourseList
+        userId={userId}
         resource={resource}
         modules={modules}
         about={about}
