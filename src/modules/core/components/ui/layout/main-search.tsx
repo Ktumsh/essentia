@@ -335,7 +335,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
             <SearchIcon className="!size-6" aria-hidden="true" />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="max-h-[47dvh] min-h-[47dvh]">
+        <DrawerContent className="h-full">
           <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
             <DrawerTitle>Buscar</DrawerTitle>
             <Search />
