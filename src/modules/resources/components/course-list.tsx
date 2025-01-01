@@ -271,18 +271,20 @@ const CourseList = ({
                 </Button>
               </CardFooter>
             ) : (
-              <CardFooter>
-                <Button
-                  variant="destructive"
-                  fullWidth
-                  radius="full"
-                  disabled={processing}
-                  onClick={() => router.push(`/login?redirect=/${slug}`)}
-                >
-                  {!processing && <PlayIcon2 strokeWidth={1.5} />}
-                  Inicia sesión para continuar
-                </Button>
-              </CardFooter>
+              !courseProgress.completed && (
+                <CardFooter>
+                  <Button
+                    variant="destructive"
+                    fullWidth
+                    radius="full"
+                    disabled={processing}
+                    onClick={() => router.push(`/login?redirect=/${slug}`)}
+                  >
+                    {!processing && <PlayIcon2 strokeWidth={1.5} />}
+                    Inicia sesión para continuar
+                  </Button>
+                </CardFooter>
+              )
             )}
           </Card>
           <div className="px-6 lg:px-0">
