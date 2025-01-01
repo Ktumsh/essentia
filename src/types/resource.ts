@@ -21,6 +21,7 @@ export interface Modules {
 }
 
 export type Course = {
+  userId: string;
   resource: {
     resourceId: string;
     resourceName: string;

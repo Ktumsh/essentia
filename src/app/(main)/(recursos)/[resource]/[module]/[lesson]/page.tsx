@@ -74,6 +74,10 @@ const LessonPage = async (props: LessonPageProps) => {
 
   const session = await auth();
 
+  if (!session) {
+    redirect(`/${resourceSlug}`);
+  }
+
   const userId = session?.user?.id as string;
 
   const completedLessons = session

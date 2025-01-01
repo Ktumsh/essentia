@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { memo, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -45,27 +44,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { getResourceColor, getResourceIndex } from "@/modules/core/lib/utils";
 import { PlayIcon2 } from "@/modules/icons/action";
-import { Modules } from "@/types/resource";
+import { Course } from "@/types/resource";
 import { cn } from "@/utils/common";
 
 import ChapterList from "./chapter-list";
 import { useCourseProgress } from "../hooks/use-course-progress";
 
-interface CourseListProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-  };
-  modules: Modules[];
-  about: string;
-  slug: string;
-  completedLessons: string[];
-  moduleProgress: { [moduleId: string]: number };
-  courseProgress: { completed: boolean; progress: number };
-  courseInitialized: boolean;
-}
-
 const CourseList = ({
+  userId,
   resource,
   modules,
   about,
@@ -74,18 +60,14 @@ const CourseList = ({
   moduleProgress,
   courseProgress,
   courseInitialized,
-}: CourseListProps) => {
+}: Course) => {
   const { resourceId, resourceName } = resource || {};
 
   const router = useRouter();
 
   const isMobile = useIsMobile();
 
-  const { data: session } = useSession();
-
   const [isOpen, setIsOpen] = useState(false);
-
-  const userId = session?.user?.id;
 
   const firstModule = modules?.[0].module.slug;
   const firstLesson = modules?.[0].lessons[0].slug;
@@ -115,7 +97,7 @@ const CourseList = ({
   };
 
   const handleLessonClick = (href: string) => {
-    if (!session) {
+    if (!userId) {
       toast("¡Hola usuario!", {
         description: "Inicia sesión para continuar con el curso",
         action: {
@@ -269,33 +251,36 @@ const CourseList = ({
                 </li>
               </ul>
             </CardContent>
-            {!courseProgress.completed && (
+            {!courseProgress.completed && userId ? (
               <CardFooter>
                 <Button
                   variant="destructive"
                   fullWidth
                   radius="full"
                   disabled={processing}
-                  onClick={
-                    session
-                      ? courseInitialized
-                        ? continueCourse
-                        : startCourse
-                      : () => router.push(`/login?redirect=/${slug}`)
-                  }
+                  onClick={courseInitialized ? continueCourse : startCourse}
                 >
                   {!processing && <PlayIcon2 strokeWidth={1.5} />}
-                  {session ? (
-                    processing ? (
-                      <Loader className="animate-spin" />
-                    ) : courseInitialized ? (
-                      "Continuar curso"
-                    ) : (
-                      "Iniciar curso"
-                    )
+                  {processing ? (
+                    <Loader className="animate-spin" />
+                  ) : courseInitialized ? (
+                    "Continuar curso"
                   ) : (
-                    "Inicia sesión para continuar"
+                    "Iniciar curso"
                   )}
+                </Button>
+              </CardFooter>
+            ) : (
+              <CardFooter>
+                <Button
+                  variant="destructive"
+                  fullWidth
+                  radius="full"
+                  disabled={processing}
+                  onClick={() => router.push(`/login?redirect=/${slug}`)}
+                >
+                  {!processing && <PlayIcon2 strokeWidth={1.5} />}
+                  Inicia sesión para continuar
                 </Button>
               </CardFooter>
             )}

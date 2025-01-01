@@ -1,5 +1,6 @@
 "use client";
 
+import { TextSearch } from "lucide-react";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import Image from "next/image";
 import { memo, useRef, useState } from "react";
@@ -12,7 +13,6 @@ import { BetterTooltip } from "@/components/ui/tooltip";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import { getResourceDetails, getResourceIndex } from "@/modules/core/lib/utils";
 import { PlayIcon2 } from "@/modules/icons/action";
-import { TouchIcon } from "@/modules/icons/interface";
 import { NextArrowIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
@@ -24,6 +24,7 @@ import type { Resource } from "@/db/schema";
 import type { Modules, Resources } from "@/types/resource";
 
 interface ResourceWrapperProps {
+  userId: string;
   resource: Resource & Resources;
   modules: Modules[];
   isPremium?: boolean | null;
@@ -34,6 +35,7 @@ interface ResourceWrapperProps {
 }
 
 const ResourceWrapper = ({
+  userId,
   resource,
   modules,
   isPremium,
@@ -108,6 +110,7 @@ const ResourceWrapper = ({
   };
 
   const componentProps = {
+    userId,
     resource: { resourceId: id, resourceName: name },
     modules,
     about,
@@ -172,11 +175,7 @@ const ResourceWrapper = ({
           </BetterTooltip>
         </div>
       </section>
-      <section
-        onMouseEnter={() => setShowIntro(false)}
-        onMouseLeave={() => setShowIntro(true)}
-        className="group col-[2/3] row-[1/2] hidden items-center md:max-w-md lg:flex"
-      >
+      <section className="group relative col-[2/3] row-[1/2] hidden items-center md:max-w-md lg:flex">
         <AnimatePresence mode="wait">
           <motion.div
             key={showIntro ? "intro" : "description"}
@@ -192,14 +191,6 @@ const ResourceWrapper = ({
                 "rounded-xl border border-gray-200 bg-gray-100 dark:border-dark dark:bg-dark/50",
             )}
           >
-            {showIntro && (
-              <div
-                aria-hidden="true"
-                className="absolute -right-1 top-1 text-main-l dark:text-main-dark-m"
-              >
-                <TouchIcon className="animate-bounce-rotate size-10" />
-              </div>
-            )}
             <div className="prose text-main antialiased will-change-transform dark:prose-invert dark:text-main-dark">
               {showIntro ? (
                 <Markdown>{intro}</Markdown>
@@ -212,6 +203,31 @@ const ResourceWrapper = ({
             </div>
           </motion.div>
         </AnimatePresence>
+        <motion.div
+          key={showIntro ? "intro" : "description"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: showIntro ? 0.8 : 1.4,
+            ease: "easeInOut",
+          }}
+          className="absolute bottom-0 right-0 flex px-5"
+        >
+          <button
+            aria-label={
+              showIntro ? "Mostrar descripción" : "Mostrar introducción"
+            }
+            className="text-main-l dark:text-main-dark-l"
+            onClick={() => setShowIntro(!showIntro)}
+          >
+            {showIntro ? (
+              <TextSearch className="size-8" />
+            ) : (
+              <NextArrowIcon className="size-8 rotate-180" />
+            )}
+          </button>
+        </motion.div>
       </section>
       <section
         ref={sectionRef}
