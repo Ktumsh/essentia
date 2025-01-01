@@ -11,6 +11,7 @@ import type { Course } from "@/types/resource";
 
 const HealthWellness = (props: Course) => {
   const {
+    userId,
     resource,
     modules,
     about,
@@ -25,6 +26,7 @@ const HealthWellness = (props: Course) => {
     <>
       {modules && (
         <CourseList
+          userId={userId}
           resource={resource}
           modules={modules}
           about={about}

@@ -6,6 +6,7 @@ import type { Course } from "@/types/resource";
 
 const Wellbeing = (props: Course) => {
   const {
+    userId,
     resource,
     modules,
     about,
@@ -18,6 +19,7 @@ const Wellbeing = (props: Course) => {
 
   return (
     <CourseList
+      userId={userId}
       resource={resource}
       modules={modules}
       about={about}

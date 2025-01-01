@@ -21,6 +21,7 @@ interface ExerciseFitnessProps extends Course {
 
 const ExcerciseFitness = (props: ExerciseFitnessProps) => {
   const {
+    userId,
     resource,
     modules,
     about,
@@ -49,6 +50,7 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
   return (
     <>
       <CourseList
+        userId={userId}
         resource={resource}
         modules={modules}
         about={about}
