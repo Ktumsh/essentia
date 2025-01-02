@@ -35,6 +35,16 @@ export type Course = {
   courseInitialized: boolean;
 };
 
+export type Courses = {
+  courseId: string;
+  courseName: string;
+  courseSlug: string;
+  progress: number;
+  completed: boolean;
+  startedAt: Date | null;
+  completedAt: Date | null;
+}[];
+
 export interface Resources {
   title: string;
   subtitle: string;

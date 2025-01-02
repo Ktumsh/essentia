@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 import ProfileInfo from "@/modules/profile/components/profile-info";
+import { Courses } from "@/types/resource";
 import { UserProfileData } from "@/types/session";
 
 import AccountDetails from "./account-details";
@@ -17,12 +18,14 @@ interface AccountTabsProps {
   user: UserProfileData | null;
   subscription: Subscription;
   susbscriptionDetails: Payment | null;
+  courses: Courses;
 }
 
 const AccountTabs = ({
   subscription,
   susbscriptionDetails,
   user,
+  courses,
 }: AccountTabsProps) => {
   const pathname = usePathname();
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -68,7 +71,7 @@ const AccountTabs = ({
           }
         >
           <div className="flex flex-col gap-4 lg:flex-row">
-            <AccountDetails user={user} />
+            <AccountDetails user={user} courses={courses} />
           </div>
         </Tab>
         <Tab
