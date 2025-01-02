@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: ["geist"],
+  reactStrictMode: true,
   async redirects() {
     return [
       {

@@ -308,9 +308,9 @@ const Lesson = ({
           >
             <Badge
               className={cn(
-                "w-fit bg-amber-500 py-1.5 !text-white hover:bg-amber-500 dark:bg-amber-700 dark:hover:bg-amber-700",
+                "w-fit bg-amber-500 py-1.5 !text-white hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-600",
                 {
-                  "bg-green-500 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-700":
+                  "bg-green-500 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-600":
                     isCompleted,
                 },
               )}
@@ -430,17 +430,18 @@ const Lesson = ({
                 .
               </p>
             )}
-            {isLastLesson ? (
-              <p className="mt-2 text-center text-xs md:text-sm">
-                *Para poder finalizar el curso asegúrate de haber completado
-                todas las clases anteriores.
-              </p>
-            ) : (
-              <p className="mt-2 text-center text-xs md:text-sm">
-                *Recuerda que debes completar las clases en orden para poder
-                avanzar.
-              </p>
-            )}
+            {!isCourseCompleted &&
+              (isLastLesson ? (
+                <p className="mt-2 text-center text-xs md:text-sm">
+                  *Para poder finalizar el curso asegúrate de haber completado
+                  todas las clases anteriores.
+                </p>
+              ) : (
+                <p className="mt-2 text-center text-xs md:text-sm">
+                  *Recuerda que debes completar las clases en orden para poder
+                  avanzar.
+                </p>
+              ))}
           </>
         )}
       </section>

@@ -1,5 +1,6 @@
 "use client";
 
+import { BadgeDollarSign } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Payment, Subscription } from "@/db/schema";
+import { CalendarSync } from "@/modules/icons/miscellaneus";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import { cn } from "@/utils/common";
 import { formatDate } from "@/utils/format";
@@ -44,7 +46,7 @@ const SubscriptionDetails = ({
 
   return (
     <>
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-8">
         <Card className="text-main dark:text-white">
           <CardHeader>
             <CardTitle className="flex flex-wrap items-center gap-x-2 text-base">
@@ -69,16 +71,24 @@ const SubscriptionDetails = ({
             <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
               <div className="grid flex-1 grid-cols-2 gap-4 md:grid-cols-6">
                 <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
-                    Precio/{planType === "Premium Plus" ? "Año" : "Mes"}
+                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                    <span>
+                      <BadgeDollarSign strokeWidth={1.5} className="size-3" />
+                    </span>
+                    <span>
+                      Precio/{planType === "Premium Plus" ? "Año" : "Mes"}
+                    </span>
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
                     ${price}
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-m dark:text-main-dark-m">
-                    Fecha de renovación
+                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                    <span>
+                      <CalendarSync strokeWidth={1.5} className="size-3" />
+                    </span>
+                    <span>Fecha de renovación</span>
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
                     {renewalDate}

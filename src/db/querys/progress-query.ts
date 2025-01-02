@@ -1,12 +1,13 @@
 "use server";
 
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import {
   exam,
   lesson,
+  resource,
   resourceModule,
   UserCourseProgress,
   userCourseProgress,
@@ -448,6 +449,30 @@ export async function getCourseProgress(
     return progress[0] || null;
   } catch (error) {
     console.error("Error al obtener el progreso del curso:", error);
+    throw error;
+  }
+}
+
+export async function getAllCoursesProgress(userId: string) {
+  try {
+    const progress = await db
+      .select({
+        courseId: userCourseProgress.courseId,
+        courseName: resource.name,
+        courseSlug: resource.slug,
+        progress: userCourseProgress.progress,
+        completed: userCourseProgress.completed,
+        startedAt: userCourseProgress.startedAt,
+        completedAt: userCourseProgress.completedAt,
+      })
+      .from(userCourseProgress)
+      .innerJoin(resource, eq(userCourseProgress.courseId, resource.id))
+      .where(eq(userCourseProgress.userId, userId))
+      .orderBy(asc(userCourseProgress.progress));
+
+    return progress;
+  } catch (error) {
+    console.error("Error al obtener el progreso de todos los cursos:", error);
     throw error;
   }
 }
