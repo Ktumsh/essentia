@@ -4,7 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useMemo } from "react";
 
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { SearchIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 import { formatPathName } from "@/utils/format";
@@ -54,7 +56,17 @@ const BottomNav = ({ user }: BottomNavProps) => {
         <Fragment key={index}>
           {item.isSearch ? (
             <li className="relative flex size-full items-center justify-center">
-              <MainSearch isPremium={isPremium!} />
+              <MainSearch isPremium={isPremium!}>
+                <Button
+                  aria-label="Busca rápida"
+                  variant="ghost"
+                  fullWidth
+                  className="inline-flex !h-full min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:!bg-transparent active:!bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:!bg-dark/50 md:hidden"
+                >
+                  <span className="sr-only">Busca rápida</span>
+                  <SearchIcon className="!size-6" aria-hidden="true" />
+                </Button>
+              </MainSearch>
             </li>
           ) : (
             <li className="relative flex size-full items-center justify-center">

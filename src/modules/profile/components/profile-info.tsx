@@ -76,7 +76,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
         "px-6 py-10": !isOwnProfile,
       })}
     >
-      <div className="flex w-full flex-col gap-8">
+      <div className="mb-5 flex w-full flex-col gap-8 md:mb-0">
         <Card className="flex flex-col justify-between text-main dark:text-white md:flex-row">
           <CardHeader>
             <CardTitle className="mb-2 text-base">Avatar</CardTitle>

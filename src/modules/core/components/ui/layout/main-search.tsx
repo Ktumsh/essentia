@@ -4,7 +4,7 @@ import { useLocalStorage } from "@rehooks/local-storage";
 import { SearchIcon, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback, useMemo, FC, useId } from "react";
+import { useState, useEffect, useCallback, useMemo, useId, memo } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -41,10 +41,10 @@ import { formatText } from "@/utils/format";
 
 interface MainSearchProps {
   isPremium: boolean;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
+const MainSearch = ({ isPremium, children }: MainSearchProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const id = useId();
   const router = useRouter();
@@ -324,17 +324,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerTrigger asChild>
-          <Button
-            aria-label="Busca rápida"
-            variant="ghost"
-            fullWidth
-            className="inline-flex !h-full min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:!bg-transparent active:!bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:!bg-dark/50 md:hidden"
-          >
-            <span className="sr-only">Busca rápida</span>
-            <SearchIcon className="!size-6" aria-hidden="true" />
-          </Button>
-        </DrawerTrigger>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent className="h-full">
           <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
             <DrawerTitle>Buscar</DrawerTitle>
@@ -367,4 +357,4 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
   }
 };
 
-export default MainSearch;
+export default memo(MainSearch);

@@ -5,11 +5,12 @@ import {
   Sparkles,
   SunMoon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,7 +37,7 @@ import { StarsIcon } from "@/modules/icons/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
 
-import { ThemeToggle } from "../buttons/theme-toggle";
+import ThemeToggle from "../buttons/theme-toggle";
 
 interface MainNavUserProps {
   user: UserProfileData | null;
@@ -66,12 +67,23 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 className={isCollapsed ? "!size-8 p-0" : ""}
               >
                 <>
-                  <Avatar className="size-8 rounded-lg">
-                    <AvatarImage src={profileImage || ""} alt={username} />
-                    <AvatarFallback className="rounded-lg">
-                      <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
-                    </AvatarFallback>
-                  </Avatar>
+                  {profileImage ? (
+                    <Avatar className="size-8 rounded-lg">
+                      <Image
+                        priority
+                        src={profileImage}
+                        width={32}
+                        height={32}
+                        alt={username!}
+                      />
+                    </Avatar>
+                  ) : (
+                    <Avatar className="size-8 rounded-lg">
+                      <AvatarFallback className="rounded-lg">
+                        <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
                       {fullName !== "undefined undefined"
@@ -97,14 +109,23 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
               <DropdownMenuLabel className="p-0 font-normal">
                 <DropdownMenuItem asChild>
                   <Link href={user ? "/profile" : "/login"}>
-                    <Avatar className="size-8 rounded-lg">
-                      {profileImage && (
-                        <AvatarImage src={profileImage} alt={username} />
-                      )}
-                      <AvatarFallback className="rounded-lg">
-                        <AvatarIcon className="text-main-h dark:text-main-dark-h" />
-                      </AvatarFallback>
-                    </Avatar>
+                    {profileImage ? (
+                      <Avatar className="size-8 rounded-lg">
+                        <Image
+                          priority
+                          src={profileImage}
+                          width={32}
+                          height={32}
+                          alt={username!}
+                        />
+                      </Avatar>
+                    ) : (
+                      <Avatar className="size-8 rounded-lg">
+                        <AvatarFallback className="rounded-lg">
+                          <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
                         {fullName !== "undefined undefined"

@@ -130,7 +130,7 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 
 ## 🛠️ Tecnologías Utilizadas
 
-- [![Next.js][nextjs-badge]][nextjs-url] Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 14).
+- [![Next.js][nextjs-badge]][nextjs-url] Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 15).
 - [![Typescript][typescript-badge]][typescript-url] JavaScript con sintaxis para tipos.
 - [![Tailwind CSS][tailwind-badge]][tailwind-url] Un marco de utilidad CSS para crear rápidamente diseños personalizados.
 
