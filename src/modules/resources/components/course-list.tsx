@@ -287,9 +287,14 @@ const CourseList = ({
                   Tu progreso del curso
                 </CardTitle>
                 <CardDescription>
-                  {courseProgress.progress}% completado
+                  <div className="inline font-semibold text-main dark:text-white">
+                    <span>{courseProgress.progress}</span>
+                    <span className="text-xs">%</span>{" "}
+                  </div>
+                  <span className="ml-1">completado</span>
                 </CardDescription>
                 <Progress
+                  aria-label={`${courseProgress.progress}%`}
                   value={courseProgress.progress}
                   indicatorColor={getProgressColor(courseProgress.progress)}
                 />
