@@ -25,6 +25,7 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
     >
       <div className="bg-base flex min-w-20 flex-col items-center justify-center gap-1 text-xxs md:min-w-0 md:flex-row md:justify-start md:gap-2 md:text-sm">
         <Switch
+          aria-label="Cambiar entre centros y farmacias"
           checked={isSelected}
           onCheckedChange={handleSwitchChange}
           className="pointer-events-auto shadow-md data-[state=checked]:bg-danger data-[state=unchecked]:bg-danger dark:data-[state=checked]:bg-danger dark:data-[state=unchecked]:bg-danger md:shadow-none"

@@ -165,12 +165,14 @@ const ResourceWrapper = ({
         <div className="absolute bottom-0 right-0 z-20 px-5 py-3">
           <BetterTooltip content="Ver video presentación">
             <Button
+              aria-label="Ver video presentación"
               variant="ghost"
               radius="lg"
               className="z-10 aspect-video h-8 bg-black/40 backdrop-blur-sm backdrop-saturate-150 !transition hover:!bg-black/60"
               onClick={() => setIsOpen(true)}
             >
               <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
+              <span className="sr-only">Ver video presentación</span>
             </Button>
           </BetterTooltip>
         </div>
