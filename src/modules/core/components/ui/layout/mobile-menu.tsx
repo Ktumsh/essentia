@@ -7,12 +7,13 @@ import {
   Menu,
   SunMoon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -45,7 +46,7 @@ import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
-import { ThemeToggle } from "../buttons/theme-toggle";
+import ThemeToggle from "../buttons/theme-toggle";
 import Greeting from "../greeting";
 import Logo from "../utils/logo";
 
@@ -164,14 +165,15 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               </CollapsibleTrigger>
               <CollapsibleContent className="transition-height">
                 {menuFooterLinks.extras.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.link}
-                    className="inline-flex w-full items-center gap-3 py-1.5"
-                  >
-                    <item.icon strokeWidth={1.5} className="size-3.5" />
-                    <span>{item.name}</span>
-                  </Link>
+                  <SheetClose asChild key={item.name}>
+                    <Link
+                      href={item.link}
+                      className="inline-flex w-full items-center gap-3 py-1.5"
+                    >
+                      <item.icon strokeWidth={1.5} className="size-3.5" />
+                      <span>{item.name}</span>
+                    </Link>
+                  </SheetClose>
                 ))}
               </CollapsibleContent>
             </Collapsible>
@@ -209,15 +211,23 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                   className="relative inline-flex w-full items-center gap-2"
                   onClick={() => setIsDrawerOpen(true)}
                 >
-                  <Avatar className="size-8 rounded-lg">
-                    <AvatarImage
-                      src={profileImage || ""}
-                      alt={username || "Invitado"}
-                    />
-                    <AvatarFallback className="rounded-lg">
-                      <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
-                    </AvatarFallback>
-                  </Avatar>
+                  {profileImage ? (
+                    <Avatar className="size-8 rounded-lg">
+                      <Image
+                        priority
+                        src={profileImage}
+                        width={32}
+                        height={32}
+                        alt={username || "Invitado"}
+                      />
+                    </Avatar>
+                  ) : (
+                    <Avatar className="size-8 rounded-lg">
+                      <AvatarFallback className="rounded-lg">
+                        <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
                       {fullName !== "undefined undefined"
@@ -239,7 +249,6 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 onClick={() => setIsDrawerOpen(true)}
               >
                 <Avatar className="size-8 rounded-lg">
-                  <AvatarImage src={""} alt="Invitado" />
                   <AvatarFallback className="rounded-lg">
                     <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
                   </AvatarFallback>

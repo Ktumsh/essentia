@@ -1,3 +1,5 @@
+"use server";
+
 import { Session } from "next-auth";
 
 import {

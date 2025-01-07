@@ -46,9 +46,6 @@ const PricingCard = ({
 
   const { free } = siteConfig.planPrices;
 
-  console.log("isPremiumPlan", isPremiumPlan);
-  console.log("isPremiumPlusPlan", isPremiumPlusPlan);
-
   const [isOpenConfirmPlanModal, setIsOpenConfirmPlanModal] = useState(false);
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
 

@@ -60,7 +60,7 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
         courseProgress={courseProgress}
         courseInitialized={courseInitialized}
       />
-      <section className="col-[1/2] mt-5 px-6 py-4 lg:col-[1/3] lg:p-0">
+      <section className="col-[1/2] px-6 py-4 lg:col-[1/3] lg:p-0">
         <div className="relative flex w-full select-none justify-between">
           <h3 className="text-main dark:text-white">
             <Link

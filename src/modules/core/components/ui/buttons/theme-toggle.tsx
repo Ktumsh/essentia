@@ -1,7 +1,8 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
@@ -11,8 +12,11 @@ import { cn } from "@/utils/common";
 
 type Theme = "light" | "dark" | "system";
 
-export const ThemeToggle = ({ className = "!size-6" }) => {
-  const { theme, setTheme } = useTheme();
+const ThemeToggle = ({ className = "!size-6" }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -22,7 +26,25 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
   if (!mounted) return null;
 
   const handleThemeChange = (newTheme: Theme) => {
-    setTheme(newTheme);
+    if (newTheme !== theme) {
+      let systemTheme = newTheme;
+
+      if (newTheme === "system") {
+        const isDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        systemTheme = isDark ? "dark" : "light";
+      }
+
+      if (systemTheme !== resolvedTheme) {
+        setTheme(newTheme);
+        if (pathname === "/centros-de-salud") {
+          router.replace("/centros-de-salud");
+        }
+      } else {
+        setTheme(newTheme);
+      }
+    }
   };
 
   return (
@@ -90,3 +112,5 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
     </div>
   );
 };
+
+export default memo(ThemeToggle);

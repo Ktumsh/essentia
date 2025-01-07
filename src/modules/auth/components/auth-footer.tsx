@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { siteConfig } from "@/config/site";
-import { ThemeToggle } from "@/modules/core/components/ui/buttons/theme-toggle";
+import ThemeToggle from "@/modules/core/components/ui/buttons/theme-toggle";
 import Logo from "@/modules/core/components/ui/utils/logo";
 import { InstagramIcon, TwitterIcon, GithubIcon } from "@/modules/icons/media";
 
@@ -15,7 +15,7 @@ const AuthFooter = () => {
           <div className="inline-flex w-full items-center justify-between">
             <div className="flex items-center justify-center gap-3">
               <Link href="/">
-                <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-logo">
                   <Logo className="h-4" />
                 </div>
               </Link>

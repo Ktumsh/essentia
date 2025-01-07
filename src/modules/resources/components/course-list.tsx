@@ -131,7 +131,7 @@ const CourseList = ({
   }
   return (
     <>
-      <div className="relative grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
+      <div className="relative mb-5 grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
         <section className="col-[1/2] row-[1/2] px-6 lg:px-0">
           <div className="relative mb-2 flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
             <h3 className="text-main dark:text-white">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 interface UseMapInstanceProps {
@@ -9,6 +10,8 @@ interface UseMapInstanceProps {
 
 const useMapInstance = ({ mapRef, isLoaded }: UseMapInstanceProps) => {
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     if (isLoaded && mapRef.current && !mapInstance) {
@@ -20,7 +23,7 @@ const useMapInstance = ({ mapRef, isLoaded }: UseMapInstanceProps) => {
       const mapOptions: google.maps.MapOptions = {
         zoom: 17,
         center: locationInMap,
-        mapId: "13605448a0dcb21f",
+        mapId: isDark ? "13605448a0dcb21f" : "40c47f09fdadcd",
         minZoom: 3,
         mapTypeControl: false,
         zoomControl: false,
@@ -44,7 +47,7 @@ const useMapInstance = ({ mapRef, isLoaded }: UseMapInstanceProps) => {
       const map = new google.maps.Map(mapRef.current, mapOptions);
       setMapInstance(map);
     }
-  }, [isLoaded, mapRef, mapInstance]);
+  }, [isLoaded, mapRef, mapInstance, isDark]);
 
   return mapInstance;
 };
