@@ -37,6 +37,11 @@ const useGeolocation = () => {
           () => {
             handleLocationError(true, infoWindow, map);
           },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+          },
         );
       } else {
         handleLocationError(false, infoWindow, map);

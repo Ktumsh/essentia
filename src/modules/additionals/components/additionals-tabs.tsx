@@ -42,7 +42,7 @@ export default function AdditionalsTabs() {
           panel: "w-full px-6 pt-10 pb-6 bg-white dark:bg-full-dark",
         }}
       >
-        {additionalTabs.map((tab, index) => (
+        {additionalTabs.slice(0, 2).map((tab, index) => (
           <Tab
             key={tab.href}
             as={Link}
