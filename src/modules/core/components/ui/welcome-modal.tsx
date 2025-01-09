@@ -78,7 +78,7 @@ const WelcomeModal = () => {
               </div>
             </div>
             <DialogFooter className="flex !flex-col justify-end gap-2 px-6 py-4 sm:space-x-0">
-              <button className="sr-only"></button>
+              <button aria-hidden="true" className="sr-only"></button>
               <Button
                 radius="full"
                 variant="outline"
