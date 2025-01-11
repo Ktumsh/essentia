@@ -93,8 +93,8 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
     },
     { title: "Biografía", value: bio, icon: ScrollText },
     { title: "Ubicación", value: location, icon: MapPin },
-    { title: "Peso", value: weight, icon: Weight },
-    { title: "Altura", value: height, icon: Ruler },
+    { title: "Peso", value: weight + " kg", icon: Weight },
+    { title: "Altura", value: height + " cm", icon: Ruler },
     { title: "Género", value: genre, icon: PersonStanding },
   ];
 
@@ -266,7 +266,7 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                     <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
                       <div className="flex items-center gap-4">
                         {index > 2 && item.icon && (
-                          <item.icon className="size-4" />
+                          <item.icon className="size-4 shrink-0" />
                         )}
                         <div className="flex flex-col items-start">
                           <span>{item.title}</span>
@@ -281,7 +281,7 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 self-end px-6 md:px-0">
+              <div className="mt-4 w-full self-end px-6 md:px-0">
                 <Button
                   variant="outline"
                   className="w-full md:w-fit"
