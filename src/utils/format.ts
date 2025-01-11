@@ -1,6 +1,13 @@
-import { format } from "date-fns";
+import {
+  addMonths,
+  addYears,
+  differenceInDays,
+  differenceInMonths,
+  differenceInYears,
+  format,
+} from "date-fns";
 import { es } from "date-fns/locale";
-import { formatInTimeZone } from "date-fns-tz";
+import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 
 export function formatDate(
   input: Date,
@@ -16,10 +23,74 @@ export function formatDate(
   return formattedDate;
 }
 
+export function formatDateWithAutoTimezone(
+  input: Date,
+  formatStr: string = "d MMM. yyyy HH:mm:ss",
+): string {
+  const date = new Date(input);
+
+  if (isNaN(date.getTime())) {
+    throw new Error("Fecha inválida proporcionada.");
+  }
+
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const zonedDate = toZonedTime(date, timeZone);
+
+  const regionName =
+    new Intl.DateTimeFormat("es", {
+      timeZoneName: "long",
+      timeZone,
+    })
+      .formatToParts(zonedDate)
+      .find((part) => part.type === "timeZoneName")?.value || timeZone;
+
+  const formattedDate = format(zonedDate, formatStr, { locale: es });
+
+  return `${formattedDate} (${regionName})`;
+}
+
 export function formatDateInTimezone(date: Date, formatStr: string) {
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return formatInTimeZone(date, userTimeZone, formatStr, { locale: es });
+}
+
+export function getPreciseAge(birthdate: string | Date): string {
+  const today = new Date();
+  const birthDate = new Date(birthdate);
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const isBirthdayPassed =
+    today.getMonth() > birthDate.getMonth() ||
+    (today.getMonth() === birthDate.getMonth() &&
+      today.getDate() >= birthDate.getDate());
+
+  if (!isBirthdayPassed) {
+    age -= 1;
+  }
+
+  return `${age} años`;
+}
+
+export function getTimeOnPlatform(createdAt: Date): string {
+  const now = new Date();
+
+  const years = differenceInYears(now, createdAt);
+  const adjustedDate = addYears(createdAt, years);
+  const months = differenceInMonths(now, adjustedDate);
+  const adjustedMonthDate = addMonths(adjustedDate, months);
+  const days = differenceInDays(now, adjustedMonthDate);
+
+  const parts: string[] = [];
+  if (years > 0) parts.push(`${years} año${years > 1 ? "s" : ""}`);
+  if (months > 0) parts.push(`${months} mes${months > 1 ? "es" : ""}`);
+  if (days > 0) parts.push(`${days} día${days > 1 ? "s" : ""}`);
+
+  return parts.length > 1
+    ? parts.slice(0, -1).join(", ") + " y " + parts[parts.length - 1]
+    : parts[0] || "Hoy";
 }
 
 export const formatNumber = (value: number) =>
@@ -54,6 +125,10 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
   account: "Cuenta",
   profile: "Perfil",
   subscription: "Suscripción",
+  settings: "Configuración",
+  "account-profile": "Cuenta y perfil",
+  accesibility: "Preferencias y accesibilidad",
+  support: "Ayuda y soporte",
 };
 
 export const formatSegment = (segment: string) => {

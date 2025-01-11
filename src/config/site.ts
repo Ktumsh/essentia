@@ -1,7 +1,6 @@
 import {
   BadgeCheck,
   Bug,
-  Cookie,
   CreditCard,
   FileText,
   HelpCircle,
@@ -175,12 +174,15 @@ export const siteConfig: SiteConfig = {
     extras: [
       { name: "Descubre Essentia", link: "/about", icon: Info },
       { name: "Planes y Precios", link: "/pricing", icon: Stars },
-      { name: "Privacidad", link: "#", icon: Lock },
-      { name: "Términos", link: "#", icon: FileText },
-      { name: "Cookies", link: "#", icon: Cookie },
+      { name: "Términos y Condiciones", link: "#", icon: FileText },
+      { name: "Política de Privacidad", link: "#", icon: Lock },
     ],
     config: [
-      { name: "Configuración", link: "#", icon: Settings },
+      {
+        name: "Configuración",
+        link: "/settings/account-profile",
+        icon: Settings,
+      },
       { name: "Soporte", link: "#", icon: HelpCircle },
       {
         name: "Reportar un error",

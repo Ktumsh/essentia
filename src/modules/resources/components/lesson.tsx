@@ -290,7 +290,7 @@ const Lesson = ({
           <div className="inline-flex items-center gap-2">
             <Button
               size="icon"
-              radius="lg"
+              radius="full"
               variant="ghost"
               className="shrink-0 self-start"
               onClick={() => router.push(`/${resourceSlug}`)}
