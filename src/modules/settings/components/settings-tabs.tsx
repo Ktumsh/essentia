@@ -27,8 +27,10 @@ const SettingsTabs = ({ user }: SettingsTabsProps) => {
   useEffect(() => {
     if (pathname === "/settings") {
       setTabValue("/settings/account-profile");
+    } else {
+      setTabValue(pathname);
     }
-  }, [pathname, isMobile]);
+  }, [pathname]);
 
   if (isMobile) return null;
 
