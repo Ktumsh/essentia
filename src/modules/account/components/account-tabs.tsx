@@ -57,7 +57,7 @@ const AccountTabs = ({
           tab: "max-w-fit px-4 h-12",
           tabContent:
             "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
-          panel: "w-full px-6 py-10 pb-16 md:pb-6 bg-white dark:bg-full-dark",
+          panel: "w-full px-6 py-10 pb-16 md:pb-6",
         }}
       >
         <Tab

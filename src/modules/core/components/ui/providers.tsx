@@ -4,6 +4,7 @@ import { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { ReducedMotionProvider } from "@/modules/settings/hooks/use-reduce-motion";
 
 import { ChatProvider } from "../../hooks/use-chat-context";
 import { PlanProvider } from "../../hooks/use-current-plan";
@@ -20,7 +21,11 @@ export function Providers({
       <PlanProvider currentPlan={currentPlan}>
         <SidebarProvider defaultOpen={defaultOpen}>
           <ChatProvider>
-            <ThemeProvider disableTransitionOnChange>{children}</ThemeProvider>
+            <ReducedMotionProvider>
+              <ThemeProvider disableTransitionOnChange>
+                {children}
+              </ThemeProvider>
+            </ReducedMotionProvider>
           </ChatProvider>
         </SidebarProvider>
       </PlanProvider>

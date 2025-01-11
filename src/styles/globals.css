@@ -507,3 +507,8 @@
 .nav_link:hover::after {
   transform: scaleX(1);
 }
+
+.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+}

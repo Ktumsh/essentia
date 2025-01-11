@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { memo, RefObject, useRef } from "react";
 import { toast } from "sonner";
 
 import { deleteFile } from "@/app/(main)/(account)/profile/actions";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
 
@@ -74,14 +75,23 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
 
   return (
     <div className="group relative z-0 aspect-square size-20 rounded-full">
-      <Avatar className="size-full border border-gray-200 dark:border-dark">
-        {previewProfileImage && (
-          <AvatarImage src={previewProfileImage} alt={username} />
-        )}
-        <AvatarFallback>
-          <AvatarIcon className="size-3/5" />
-        </AvatarFallback>
-      </Avatar>
+      {previewProfileImage ? (
+        <Avatar className="size-full border border-gray-200 dark:border-dark">
+          <Image
+            priority
+            src={previewProfileImage}
+            width={78}
+            height={78}
+            alt={username}
+          />
+        </Avatar>
+      ) : (
+        <Avatar className="size-full border border-gray-200 dark:border-dark">
+          <AvatarFallback>
+            <AvatarIcon className="size-3/5" />
+          </AvatarFallback>
+        </Avatar>
+      )}
       {isOwnProfile && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-full opacity-100 transition md:opacity-0 md:group-hover:bg-black/50 md:group-hover:opacity-75">
           <div className="flex items-center justify-center">

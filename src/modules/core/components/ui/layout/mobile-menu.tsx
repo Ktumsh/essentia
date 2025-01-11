@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -66,6 +67,8 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
@@ -185,15 +188,22 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 </button>
               </CollapsibleTrigger>
               <CollapsibleContent className="transition-height">
-                {menuFooterLinks.config.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.link}
-                    className="inline-flex w-full items-center gap-3 py-1.5"
-                  >
-                    <item.icon strokeWidth={1.5} className="size-3.5" />
-                    <span>{item.name}</span>
-                  </Link>
+                {menuFooterLinks.config.map((item, index) => (
+                  <SheetClose asChild key={item.name}>
+                    <Link
+                      href={
+                        index === 0
+                          ? isMobile
+                            ? "/settings"
+                            : item.link
+                          : item.link
+                      }
+                      className="inline-flex w-full items-center gap-3 py-1.5"
+                    >
+                      <item.icon strokeWidth={1.5} className="size-3.5" />
+                      <span>{item.name}</span>
+                    </Link>
+                  </SheetClose>
                 ))}
               </CollapsibleContent>
             </Collapsible>
