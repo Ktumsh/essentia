@@ -1,6 +1,6 @@
 "use client";
 
-import { TextSearch } from "lucide-react";
+import { ChevronsLeft, TextSearch } from "lucide-react";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import Image from "next/image";
 import { memo, useRef, useState } from "react";
@@ -12,8 +12,7 @@ import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
 import { getResourceDetails, getResourceIndex } from "@/modules/core/lib/utils";
-import { PlayIcon2 } from "@/modules/icons/action";
-import { NextArrowIcon } from "@/modules/icons/navigation";
+import { PlayIcon } from "@/modules/icons/action";
 import { cn } from "@/utils/common";
 import { formatTitle } from "@/utils/format";
 
@@ -171,7 +170,7 @@ const ResourceWrapper = ({
               className="z-10 aspect-video h-8 bg-black/40 backdrop-blur-sm backdrop-saturate-150 !transition hover:!bg-black/60"
               onClick={() => setIsOpen(true)}
             >
-              <PlayIcon2 className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
+              <PlayIcon className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
               <span className="sr-only">Ver video presentación</span>
             </Button>
           </BetterTooltip>
@@ -226,7 +225,7 @@ const ResourceWrapper = ({
             {showIntro ? (
               <TextSearch className="size-8" />
             ) : (
-              <NextArrowIcon className="size-8 rotate-180" />
+              <ChevronsLeft className="size-8" />
             )}
           </button>
         </motion.div>
@@ -242,7 +241,7 @@ const ResourceWrapper = ({
               aria-label="Ir al final"
               onClick={() => scrollTo({ to: "end" })}
             >
-              <NextArrowIcon className="size-8 text-main-l dark:text-main-dark-l" />
+              <ChevronsLeft className="size-8 rotate-180 text-main-l dark:text-main-dark-l" />
             </button>
           </div>
         </div>
@@ -256,7 +255,7 @@ const ResourceWrapper = ({
               aria-label="Ir al final"
               onClick={() => scrollTo({ to: "start" })}
             >
-              <NextArrowIcon className="size-8 rotate-180 text-main-l dark:text-main-dark-l" />
+              <ChevronsLeft className="size-8 text-main-l dark:text-main-dark-l" />
             </button>
           </div>
         </div>

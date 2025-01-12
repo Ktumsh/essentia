@@ -1,6 +1,6 @@
 "use client";
 
-import { HashIcon } from "lucide-react";
+import { Hash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -71,7 +71,7 @@ const Nutrition = (props: NutritionProps) => {
               className="group mb-4 inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
             >
               Recetas
-              <HashIcon
+              <Hash
                 strokeWidth={1.5}
                 className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
               />
@@ -118,7 +118,7 @@ const Nutrition = (props: NutritionProps) => {
                 className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80 lg:px-0"
               >
                 Desayunos Saludables
-                <HashIcon
+                <Hash
                   strokeWidth={1.5}
                   className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
                 />
@@ -143,7 +143,7 @@ const Nutrition = (props: NutritionProps) => {
                 className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80"
               >
                 Almuerzos y Cenas Saludables
-                <HashIcon
+                <Hash
                   strokeWidth={1.5}
                   className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
                 />
@@ -168,7 +168,7 @@ const Nutrition = (props: NutritionProps) => {
                 className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80"
               >
                 Onces Saludables
-                <HashIcon
+                <Hash
                   strokeWidth={1.5}
                   className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
                 />

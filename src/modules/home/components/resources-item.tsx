@@ -1,13 +1,12 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Card, CardHeader } from "@/components/ui/card";
 import { getResourceColor, getResourceDetails } from "@/modules/core/lib/utils";
 import { cn } from "@/utils/common";
-
-import { ArrowRightV2Icon } from "../../icons/navigation";
 
 type ResoucesItemProps = {
   index: number;
@@ -48,7 +47,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
           </div>
           <div className="inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-md dark:bg-full-dark">
             <div className="text-sm font-normal text-main dark:text-white">
-              <ArrowRightV2Icon className="size-5" />
+              <ArrowRight className="size-5" />
             </div>
           </div>
         </div>

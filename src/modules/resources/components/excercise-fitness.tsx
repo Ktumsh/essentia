@@ -1,7 +1,7 @@
 "use client";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { HashIcon } from "lucide-react";
+import { Hash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -71,7 +71,7 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
               className="group mb-4 inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
             >
               Rutinas de Ejercicios
-              <HashIcon
+              <Hash
                 strokeWidth={1.5}
                 className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
               />

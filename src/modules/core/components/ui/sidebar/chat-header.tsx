@@ -1,5 +1,6 @@
 "use client";
 
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import React from "react";
@@ -14,7 +15,6 @@ import {
 } from "@/components/ui/sidebar";
 import { deleteAllChatsByUserId } from "@/db/querys/chat-querys";
 import { Chat } from "@/db/schema";
-import { NewIcon } from "@/modules/icons/action";
 
 import ChatClearHistory from "./chat-clear-history";
 
@@ -45,7 +45,7 @@ const ChatHeader = ({ session, history }: ChatSidebarProps) => {
             }}
             className="rounded-md bg-gray-100 text-sm focus-visible:outline-none dark:bg-dark"
           >
-            <NewIcon />
+            <Plus strokeWidth={1.5} />
             <span>Nuevo chat</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

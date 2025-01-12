@@ -1,6 +1,6 @@
 "use client";
 
-import { TriangleAlert } from "lucide-react";
+import { Hash, TriangleAlert } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
@@ -11,7 +11,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { FIRST_AID } from "@/consts/firts-aid";
-import { HashIcon } from "@/modules/icons/common";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
 
@@ -49,7 +48,10 @@ const FirstAid = () => {
             <TriangleAlert strokeWidth={1.5} className="size-3.5" />
             <h3>Primeros auxilios</h3>
           </Badge>
-          <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+          <Hash
+            strokeWidth={1.5}
+            className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+          />
         </Link>
       </div>
       <div className="flex max-h-[1000px] flex-col space-y-2 md:max-h-[700px] md:px-0">

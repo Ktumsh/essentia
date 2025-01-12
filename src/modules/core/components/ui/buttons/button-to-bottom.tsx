@@ -1,9 +1,8 @@
 "use client";
 
-import { FC } from "react";
+import { ArrowDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { ArrowUpIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
 interface ButtonToBottomProps {
@@ -11,11 +10,11 @@ interface ButtonToBottomProps {
   scrollToBottom: () => void;
 }
 
-const ButtonToBottom: FC<ButtonToBottomProps> = ({
+const ButtonToBottom = ({
   isAtBottom,
   scrollToBottom,
   ...props
-}) => {
+}: ButtonToBottomProps) => {
   return (
     <Button
       id="scroll-to-top"
@@ -28,7 +27,7 @@ const ButtonToBottom: FC<ButtonToBottomProps> = ({
       onClick={scrollToBottom}
       {...props}
     >
-      <ArrowUpIcon className="size-4 rotate-180 transition-transform" />
+      <ArrowDown className="size-4" />
       <span className="sr-only">Scroll to bottom</span>
     </Button>
   );
