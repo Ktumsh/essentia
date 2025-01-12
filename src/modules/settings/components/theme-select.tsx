@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Monitor, MoonStar, Sun } from "lucide-react";
+import { ChevronDown, Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -44,7 +44,7 @@ const ThemeSelect = () => {
       case "light":
         return <Sun strokeWidth={1.5} className="size-3.5" />;
       case "dark":
-        return <MoonStar strokeWidth={1.5} className="size-3.5" />;
+        return <Moon strokeWidth={1.5} className="size-3.5" />;
       default:
         return <Monitor strokeWidth={1.5} className="size-3.5" />;
     }
@@ -82,7 +82,7 @@ const ThemeSelect = () => {
           </SelectItem>
           <SelectItem value="dark">
             <div className="inline-flex items-center gap-2">
-              <MoonStar strokeWidth={1.5} className="size-3.5" />
+              <Moon strokeWidth={1.5} className="size-3.5" />
               <span>Oscuro</span>
             </div>
           </SelectItem>

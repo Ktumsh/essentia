@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader } from "lucide-react";
+import { ArrowLeft, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { SubmitHandler } from "react-hook-form";
@@ -15,7 +15,6 @@ import {
   updateUserPassword,
   verifySamePassword,
 } from "@/db/querys/user-querys";
-import { BackIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
 import StepEmail from "./step-email";
@@ -182,7 +181,7 @@ const RecoverPass = () => {
             className="pl-2 hover:!bg-transparent"
             onClick={() => router.back()}
           >
-            <BackIcon className="size-3.5" />
+            <ArrowLeft className="size-3.5" />
             Volver
           </Button>
         )}

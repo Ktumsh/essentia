@@ -2,7 +2,7 @@ import {
   BookCheck,
   BookOpenText,
   CheckCheck,
-  HashIcon,
+  Hash,
   LibraryBig,
   Loader,
   TriangleAlert,
@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/drawer";
 import { Progress } from "@/components/ui/progress";
 import { getResourceColor, getResourceIndex } from "@/modules/core/lib/utils";
-import { PlayIcon2 } from "@/modules/icons/action";
+import { PlayIcon } from "@/modules/icons/action";
 import { Course } from "@/types/resource";
 import { cn } from "@/utils/common";
 
@@ -143,7 +143,7 @@ const CourseList = ({
                 className="group inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
               >
                 Aprende sobre {resourceName}
-                <HashIcon
+                <Hash
                   strokeWidth={1.5}
                   className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
                 />
@@ -253,7 +253,7 @@ const CourseList = ({
                   disabled={processing}
                   onClick={courseInitialized ? continueCourse : startCourse}
                 >
-                  {!processing && <PlayIcon2 strokeWidth={1.5} />}
+                  {!processing && <PlayIcon strokeWidth={1.5} />}
                   {processing ? (
                     <Loader className="animate-spin" />
                   ) : courseInitialized ? (
@@ -273,7 +273,7 @@ const CourseList = ({
                     disabled={processing}
                     onClick={() => router.push(`/login?redirect=/${slug}`)}
                   >
-                    {!processing && <PlayIcon2 strokeWidth={1.5} />}
+                    {!processing && <PlayIcon strokeWidth={1.5} />}
                     Inicia sesión para continuar
                   </Button>
                 </CardFooter>

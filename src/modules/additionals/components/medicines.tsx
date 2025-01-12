@@ -1,4 +1,4 @@
-import { TriangleAlert } from "lucide-react";
+import { Hash, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +7,6 @@ import {
   MEDICINES_DATA_GROUP_1,
   MEDICINES_DATA_GROUP_2,
 } from "@/consts/medicines-data";
-import { HashIcon } from "@/modules/icons/common";
 
 import MedicineCategory from "./medicine-category";
 
@@ -26,7 +25,10 @@ const Medicines = () => {
             <TriangleAlert strokeWidth={1.5} className="size-3.5" />
             <h3>Medicamentos para un botiquín</h3>
           </Badge>
-          <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+          <Hash
+            strokeWidth={1.5}
+            className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+          />
         </Link>
       </div>
       <div className="flex w-full">

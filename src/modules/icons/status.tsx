@@ -3,6 +3,7 @@ import { IconSvgProps } from "@/types/common";
 const EyeIcon = ({ id, ...props }: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       id={id}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -21,6 +22,7 @@ const EyeIcon = ({ id, ...props }: IconSvgProps) => {
 const EyeOffIcon = ({ id, ...props }: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       id={id}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -39,6 +41,7 @@ const EyeOffIcon = ({ id, ...props }: IconSvgProps) => {
 const ClockIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -60,6 +63,7 @@ const ClockIcon = (props: IconSvgProps) => {
 const CalendarFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       width="24"
@@ -81,30 +85,10 @@ const CalendarFillIcon = (props: IconSvgProps) => {
   );
 };
 
-const CalendarIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M8 4h-.8c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C4 5.52 4 6.08 4 7.2V8m4-4h8M8 4V2m8 2h.8c1.12 0 1.68 0 2.107.218c.377.192.683.497.875.874c.218.427.218.987.218 2.105V8m-4-4V2M4 8v8.8c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.427.218.987.218 2.105.218h9.606c1.118 0 1.677 0 2.104-.218c.377-.192.683-.498.875-.874c.218-.428.218-.986.218-2.104V8M4 8h16m-4 8h.002v.002H16zm-4 0h.002v.002H12zm-4 0h.002v.002H8zm8.002-4v.002H16V12zM12 12h.002v.002H12zm-4 0h.002v.002H8z"
-      />
-    </svg>
-  );
-};
-
 const CenterLocationIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="32"
       height="32"
@@ -119,26 +103,10 @@ const CenterLocationIcon = (props: IconSvgProps) => {
   );
 };
 
-const LocationIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="m12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zm4.95-7.778a7 7 0 1 0-9.9 0L12 20.9zM12 13a2 2 0 1 1 0-4a2 2 0 0 1 0 4"
-      />
-    </svg>
-  );
-};
-
 const LocationSelfIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -153,26 +121,10 @@ const LocationSelfIcon = (props: IconSvgProps) => {
   );
 };
 
-const SystemIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M8 21v-2h2v-2H4q-.825 0-1.412-.587T2 15V5q0-.825.588-1.412T4 3h16q.825 0 1.413.588T22 5v10q0 .825-.587 1.413T20 17h-6v2h2v2zm-4-6h16V5H4zm0 0V5z"
-      />
-    </svg>
-  );
-};
-
 const PhoneIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -190,6 +142,7 @@ const PhoneIcon = (props: IconSvgProps) => {
 const SpinnerIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -229,38 +182,13 @@ const SpinnerIcon = (props: IconSvgProps) => {
   );
 };
 
-const CheckCircleFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      height="24"
-      strokeLinejoin="round"
-      viewBox="0 0 16 16"
-      width="24"
-      style={{ color: "currentcolor" }}
-      {...props}
-      className="-rotate-45"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM11.5303 6.53033L12.0607 6L11 4.93934L10.4697 5.46967L6.5 9.43934L5.53033 8.46967L5 7.93934L3.93934 9L4.46967 9.53033L5.96967 11.0303C6.26256 11.3232 6.73744 11.3232 7.03033 11.0303L11.5303 6.53033Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
 export {
   EyeIcon,
   EyeOffIcon,
   ClockIcon,
   CalendarFillIcon,
-  CalendarIcon,
   CenterLocationIcon,
-  LocationIcon,
   LocationSelfIcon,
-  SystemIcon,
   PhoneIcon,
   SpinnerIcon,
-  CheckCircleFillIcon,
 };

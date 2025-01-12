@@ -1,10 +1,10 @@
 "use client";
 
+import { ArrowUp } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import useScrollToUp from "@/modules/core/hooks/use-scroll-to-up";
-import { ArrowUpIcon } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
 interface ButtonUpProps {
@@ -38,7 +38,7 @@ const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
         )}
         onClick={scrollToTop}
       >
-        <ArrowUpIcon className="size-4 rotate-0 transition-transform group-hover:rotate-0 md:rotate-45" />
+        <ArrowUp className="size-4 rotate-0 transition-transform group-hover:rotate-0 md:rotate-45" />
       </Button>
     </div>
   );

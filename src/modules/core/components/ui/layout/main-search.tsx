@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalStorage } from "@rehooks/local-storage";
-import { SearchIcon, X } from "lucide-react";
+import { ChevronRight, SearchIcon, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, useId, memo } from "react";
@@ -34,7 +34,6 @@ import { SearchResult, useSearchData } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
 import { SearchAIIcon } from "@/modules/icons/action";
 import { HashFillIcon } from "@/modules/icons/common";
-import { Chevron } from "@/modules/icons/navigation";
 import { searchStyles } from "@/styles/search-styles";
 import { cn } from "@/utils/common";
 import { formatText } from "@/utils/format";
@@ -170,7 +169,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
               {item.content}
             </h3>
           </div>
-          <Chevron className={cn("size-5 rotate-180", searchStyles.dataText)} />
+          <ChevronRight className={cn("size-5", searchStyles.dataText)} />
         </Button>
       );
     },

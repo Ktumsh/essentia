@@ -3,6 +3,7 @@ import { IconSvgProps } from "@/types/common";
 const GoogleIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       width="24"
       height="24"
       viewBox="0 0 256 262"
@@ -32,6 +33,7 @@ const GoogleIcon = (props: IconSvgProps) => {
 const GithubIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       viewBox="0 0 256 250"
       width="24"
       height="24"
@@ -47,6 +49,7 @@ const GithubIcon = (props: IconSvgProps) => {
 const FacebookIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -68,6 +71,7 @@ const FacebookIcon = (props: IconSvgProps) => {
 const InstagramIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -85,6 +89,7 @@ const InstagramIcon = (props: IconSvgProps) => {
 const TwitterIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"

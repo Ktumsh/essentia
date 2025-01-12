@@ -1,7 +1,7 @@
 "use client";
 
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { Loader } from "lucide-react";
+import { ArrowLeft, Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,7 +22,6 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
-import { BackIcon } from "@/modules/icons/navigation";
 
 interface VerifyEmailProps {
   email: string;
@@ -140,7 +139,7 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
           className="pl-2"
           onClick={() => router.push("/login")}
         >
-          <BackIcon className="size-3.5" />
+          <ArrowLeft className="size-3.5" />
           Volver
         </Button>
         <Button
