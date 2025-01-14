@@ -9,29 +9,37 @@ import { ReducedMotionProvider } from "@/modules/settings/hooks/use-reduce-motio
 
 import { ChatProvider } from "../../hooks/use-chat-context";
 import { PlanProvider } from "../../hooks/use-current-plan";
+import { NotificationProvider } from "../../hooks/use-notification";
 import SessionProviderComponent from "../../hooks/use-session";
 import { ThemeProvider } from "../../hooks/use-theme";
 
 export function Providers({
+  userId,
   currentPlan,
   defaultOpen,
   children,
-}: { currentPlan: string | null; defaultOpen?: boolean } & ThemeProviderProps) {
+}: {
+  userId: string;
+  currentPlan: string | null;
+  defaultOpen?: boolean;
+} & ThemeProviderProps) {
   return (
     <SessionProviderComponent>
-      <MobileProvider>
-        <PlanProvider currentPlan={currentPlan}>
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <ChatProvider>
-              <ReducedMotionProvider>
-                <ThemeProvider disableTransitionOnChange>
-                  {children}
-                </ThemeProvider>
-              </ReducedMotionProvider>
-            </ChatProvider>
-          </SidebarProvider>
-        </PlanProvider>
-      </MobileProvider>
+      <NotificationProvider userId={userId}>
+        <MobileProvider>
+          <PlanProvider currentPlan={currentPlan}>
+            <SidebarProvider defaultOpen={defaultOpen}>
+              <ChatProvider>
+                <ReducedMotionProvider>
+                  <ThemeProvider disableTransitionOnChange>
+                    {children}
+                  </ThemeProvider>
+                </ReducedMotionProvider>
+              </ChatProvider>
+            </SidebarProvider>
+          </PlanProvider>
+        </MobileProvider>
+      </NotificationProvider>
     </SessionProviderComponent>
   );
 }

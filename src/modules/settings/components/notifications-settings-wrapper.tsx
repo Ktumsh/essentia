@@ -9,7 +9,7 @@ const NotificationsSettingsWrapper = () => {
 
   if (!isMobile) return null;
 
-  return <PushNotificationManager />;
+  return <PushNotificationManager isMobile={isMobile} />;
 };
 
 export default NotificationsSettingsWrapper;

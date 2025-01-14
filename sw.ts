@@ -26,7 +26,7 @@ self.addEventListener("push", (event) => {
     const data = event.data.json();
     const options = {
       body: data.body,
-      icon: data.icon || "/icon.png",
+      icon: data.icon || "/src/app/icon.png",
       badge: "/web-app-manifest-192x192.png",
       vibrate: [100, 50, 100],
       data: {
@@ -39,7 +39,8 @@ self.addEventListener("push", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
-  console.log("Notification click received.");
+  const targetUrl =
+    event.notification.data?.url || "https://essentia-web.vercel.app";
   event.notification.close();
-  event.waitUntil(self.clients.openWindow("https://essentia-web.vercel.app"));
+  event.waitUntil(self.clients.openWindow(targetUrl));
 });
