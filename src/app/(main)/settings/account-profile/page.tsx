@@ -5,7 +5,7 @@ import AccountSettingsWrapper from "@/modules/settings/components/account-settin
 import { getUserProfileData } from "@/utils/profile";
 
 export const metadata: Metadata = {
-  title: "Configuración - Cuenta y perfil",
+  title: "Configuración / Cuenta y perfil",
   alternates: {
     canonical: "/settings/account-profile",
   },

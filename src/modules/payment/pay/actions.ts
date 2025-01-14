@@ -69,6 +69,9 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionType = subscription.items.data[0].price?.recurring
     ?.interval as string;
   const type = subscriptionType === "month" ? "premium" : "premium-plus";
+  const amount = invoice.amount_paid;
+  const currency = invoice.currency;
+
   try {
     const [subscription] = await getSubscriptionByClientId(clientId);
 
@@ -80,7 +83,21 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
       type,
     );
 
-    await updatePaymentDetails(subscription.userId, paymentStatus, processedAt);
+    const updated = await updatePaymentDetails(
+      subscription.userId,
+      paymentStatus,
+      processedAt,
+    );
+
+    if (updated === 0) {
+      await setPaymentDetails(
+        subscription.userId,
+        paymentStatus,
+        amount,
+        currency,
+        processedAt,
+      );
+    }
 
     if (invoice.payment_intent) {
       const paymentIntent = await stripe.paymentIntents.retrieve(

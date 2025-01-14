@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Configuración - Ayuda y soporte",
+  title: "Configuración / Soporte",
   alternates: {
     canonical: "/settings/support",
   },

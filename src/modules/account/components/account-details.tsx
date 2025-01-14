@@ -38,7 +38,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
     return null;
   }
 
-  const { id, email, createdAt } = user;
+  const { id, email, createdAt, genre } = user;
 
   return (
     <>
@@ -46,7 +46,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
         <Card className="text-main dark:text-white">
           <CardHeader>
             <CardTitle className="text-base">
-              Información de tu Cuenta
+              Información de tu cuenta
             </CardTitle>
             <CardDescription className="space-y-1">
               <p>Esta es la información de tu cuenta.</p>
@@ -103,7 +103,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
         </Card>
         <Card className="text-main dark:text-white">
           <CardHeader>
-            <CardTitle className="text-base">Progreso de tus Cursos</CardTitle>
+            <CardTitle className="text-base">Progreso de tus cursos</CardTitle>
             <CardDescription className="space-y-1">
               <p>
                 Estos son los cursos en los que te has inscrito. Revisa tu
@@ -124,7 +124,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
         </Card>
         <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
           <CardHeader>
-            <CardTitle className="mb-2 text-base">Elimina tu Cuenta</CardTitle>
+            <CardTitle className="mb-2 text-base">Elimina tu cuenta</CardTitle>
             <CardDescription className="space-y-1">
               <p>
                 Elimina permanentemente tu cuenta y todo su contenido de
@@ -167,6 +167,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
         email={email}
         isOpen={isOpenDelete}
         setIsOpen={setIsOpenDelete}
+        genre={genre}
       />
     </>
   );

@@ -68,13 +68,13 @@ export async function sendAndSaveNotification({
             JSON.stringify({
               title,
               body: message,
-              badge: "/web-app-manifest-192x192.png",
+              icon: "/icon.png",
+              badge: "/icon.png",
               url,
             }),
           );
         } catch (error: any) {
           if (error.statusCode === 410) {
-            console.warn(`Eliminando suscripción expirada: ${sub.endpoint}`);
             await unsubscribeNotifications(sub.endpoint);
           } else {
             console.error("Error enviando notificación:", error);

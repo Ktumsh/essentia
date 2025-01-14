@@ -44,6 +44,8 @@ export const NotificationProvider = ({
   const [message, setMessage] = useState("");
 
   async function registerServiceWorker() {
+    if (process.env.NODE_ENV === "development") return;
+
     const registration = await navigator.serviceWorker.register("/sw.js", {
       scope: "/",
       updateViaCache: "none",
@@ -103,9 +105,19 @@ export const NotificationProvider = ({
         setIsSupported(true);
         await registerServiceWorker();
 
+        const ALREADY_ASKED_KEY = "N8ox7_4e3K";
+
+        const alreadyAskedThisSession =
+          sessionStorage.getItem(ALREADY_ASKED_KEY);
+
         if (Notification.permission === "granted") {
           await subscribeToPush();
-        } else if (Notification.permission === "default") {
+        } else if (
+          Notification.permission === "default" &&
+          !alreadyAskedThisSession
+        ) {
+          sessionStorage.setItem(ALREADY_ASKED_KEY, "true");
+
           const permission = await Notification.requestPermission();
           if (permission === "granted") {
             await subscribeToPush();
@@ -116,6 +128,16 @@ export const NotificationProvider = ({
 
     initializeSubscription();
   }, [subscribeToPush]);
+
+  useEffect(() => {
+    async function checkPermissions() {
+      if (Notification.permission !== "granted" && subscription) {
+        await unsubscribeUser(subscription.endpoint);
+        setSubscription(null);
+      }
+    }
+    checkPermissions();
+  }, [subscription]);
 
   async function notifyUser(title: string, message: string, url?: string) {
     await sendAndSaveNotification({ userId, title, message, url });

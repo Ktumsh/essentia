@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -199,18 +199,20 @@ export async function updatePaymentDetails(
   userId: string,
   status: "paid" | "pending",
   processedAt: Date,
-) {
+): Promise<number> {
   try {
-    await db
+    const result = await db
       .update(payment)
       .set({ status, processedAt })
-      .where(eq(payment.userId, userId));
+      .where(and(eq(payment.userId, userId), eq(payment.status, "pending")))
+      .returning();
+
+    return result.length;
   } catch (error) {
     console.error("Error al actualizar los detalles de pago:", error);
     throw error;
   }
 }
-
 export async function getPaymentDetails(
   userId: string,
 ): Promise<Array<Payment>> {

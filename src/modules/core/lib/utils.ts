@@ -104,3 +104,12 @@ export function urlBase64ToUint8Array(base64String: string) {
   }
   return outputArray;
 }
+
+export const getSureLabel = (genre?: string | null) => {
+  if (genre === "Femenino") {
+    return "segura";
+  } else if (genre === "Masculino") {
+    return "seguro";
+  }
+  return "segur@";
+};

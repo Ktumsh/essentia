@@ -26,17 +26,20 @@ import {
 } from "@/components/ui/drawer";
 import { deleteUser } from "@/db/querys/user-querys";
 import { sendEmailAction } from "@/modules/auth/lib/email-action";
+import { getSureLabel } from "@/modules/core/lib/utils";
 
 interface DeleteAccountModalProps {
   userId: string;
   email: string;
   isOpen: boolean;
+  genre: string | null;
   setIsOpen: (value: boolean) => void;
 }
 const DeleteAccountModal = ({
   userId,
   email,
   isOpen,
+  genre,
   setIsOpen,
 }: DeleteAccountModalProps) => {
   const isMobile = useIsMobile();
@@ -62,6 +65,8 @@ const DeleteAccountModal = ({
     }
   };
 
+  const sureLabel = getSureLabel(genre);
+
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
@@ -74,7 +79,9 @@ const DeleteAccountModal = ({
                   Elimina permanentemente tu cuenta y todo su contenido de
                   Essentia.
                 </p>
-                <p className="font-semibold">¿Estás absolutamente seguro?</p>
+                <p className="font-semibold">
+                  ¿Estás absolutamente {sureLabel}?
+                </p>
               </div>
             </DrawerDescription>
             <DrawerFooter>
@@ -101,21 +108,24 @@ const DeleteAccountModal = ({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent isSecondary>
           <DialogHeader isSecondary>
-            <DialogTitle>Eliminar Cuenta</DialogTitle>
+            <DialogTitle>Eliminar cuenta</DialogTitle>
             <DialogDescription asChild>
               <div>
                 <p>
                   Elimina permanentemente tu cuenta y todo su contenido de
                   Essentia.
                 </p>
-                <p className="font-semibold">¿Estás absolutamente seguro?</p>
+                <p className="font-semibold">
+                  ¿Estás absolutamente {sureLabel}?
+                </p>
               </div>
             </DialogDescription>
           </DialogHeader>
           <div className="p-6">
             <div className="rounded-md bg-red-100 px-3 py-2 dark:bg-red-950">
               <p className="text-sm font-medium text-red-500">
-                Esta acción NO es reversible. Por favor, debes estar segur@.
+                Esta acción NO es reversible. Por favor, debes estar {sureLabel}
+                .
               </p>
             </div>
           </div>

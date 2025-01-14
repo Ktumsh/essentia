@@ -34,11 +34,11 @@ const AccesibilitySettings = ({
             <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
           </Button>
           <div className="ml-12">
-            <SettingsOptsHeader title="Preferencias y accesibilidad" />
+            <SettingsOptsHeader title="Accesibilidad y pantalla" />
           </div>
         </div>
       ) : (
-        <SettingsOptsHeader title="Preferencias y accesibilidad" />
+        <SettingsOptsHeader title="Accesibilidad y pantalla" />
       )}
 
       <div className="mt-1 flex flex-1 flex-col">
