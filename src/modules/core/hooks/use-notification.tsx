@@ -63,10 +63,9 @@ export const NotificationProvider = ({
       await registration.pushManager.getSubscription();
 
     if (existingSubscription) {
-      setSubscription(existingSubscription);
-
       const serializedSub = JSON.parse(JSON.stringify(existingSubscription));
       await subscribeUser(userId, serializedSub);
+      setSubscription(existingSubscription);
       return;
     }
 
@@ -76,6 +75,7 @@ export const NotificationProvider = ({
         process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
       ),
     });
+
     setSubscription(newSubscription);
 
     const serializedSub = JSON.parse(JSON.stringify(newSubscription));
