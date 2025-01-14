@@ -4,7 +4,7 @@ import webpush from "web-push";
 
 // eslint-disable-next-line import/no-named-as-default-member
 webpush.setVapidDetails(
-  "mailto:ktumsh@gmail.com",
+  "mailto:essentia.app.cl@gmail.com",
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
   process.env.VAPID_PRIVATE_KEY!,
 );

@@ -1,6 +1,11 @@
 "use client";
 
-import { Accessibility, ChevronRight, UserRoundPenIcon } from "lucide-react";
+import {
+  Accessibility,
+  Bell,
+  ChevronRight,
+  UserRoundPenIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
@@ -55,6 +60,21 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
               <div className="flex items-center gap-4">
                 <Accessibility className="size-4 shrink-0" />
                 <span>Preferencias y accesibilidad</span>
+              </div>
+              <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+            </Button>
+          </li>
+          <li>
+            <Button
+              variant="ghost"
+              fullWidth
+              radius="none"
+              className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
+              onClick={() => router.push("/settings/notifications")}
+            >
+              <div className="flex items-center gap-4">
+                <Bell className="size-4 shrink-0" />
+                <span>Alertas y Notificaciones</span>
               </div>
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Button>
