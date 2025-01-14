@@ -58,7 +58,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
             isLoading={isLoading}
           />
         </SidebarContent>
-        <AppFooter user={user} />
+        <AppFooter session={session} user={user} />
       </Sidebar>
     );
 
@@ -79,7 +79,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
             <SidebarContent>
               <MainSidebar isCollapsed isPremium={isPremium} />
             </SidebarContent>
-            <AppFooter user={user} isCollapsed />
+            <AppFooter session={session} user={user} isCollapsed />
           </Sidebar>
           <Sidebar
             collapsible="none"
@@ -102,7 +102,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
           <SidebarContent>
             <MainSidebar isPremium={isPremium} />
           </SidebarContent>
-          <AppFooter user={user} />
+          <AppFooter session={session} user={user} />
         </>
       )}
       <SidebarRail />

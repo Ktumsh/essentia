@@ -10,9 +10,9 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { memo, useMemo, useState } from "react";
-import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
+import { useToast } from "@/components/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +42,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Progress } from "@/components/ui/progress";
+import { ToastAction } from "@/components/ui/toast";
 import { getResourceColor, getResourceIndex } from "@/modules/core/lib/utils";
 import { PlayIcon } from "@/modules/icons/action";
 import { Course } from "@/types/resource";
@@ -70,6 +71,8 @@ const CourseList = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const { toast } = useToast();
+
   const firstModule = modules?.[0].module.slug;
   const firstLesson = modules?.[0].lessons[0].slug;
 
@@ -91,12 +94,17 @@ const CourseList = ({
 
   const handleLessonClick = (href: string) => {
     if (!userId) {
-      toast("¡Hola usuario!", {
+      toast({
+        title: "¡Hola usuario!",
         description: "Inicia sesión para continuar con el curso",
-        action: {
-          label: "Inicia sesión",
-          onClick: () => router.push(`/login?redirect=/${slug}`),
-        },
+        action: (
+          <ToastAction
+            altText="Inicia sesión"
+            onClick={() => router.push(`/login?redirect=/${slug}`)}
+          >
+            Inicia sesión
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -280,27 +288,29 @@ const CourseList = ({
               )
             )}
           </Card>
-          <div className="px-6 lg:px-0">
-            <Card className="mt-5 rounded-xl text-main dark:text-white">
-              <CardHeader isSecondary className="space-y-4">
-                <CardTitle className="text-lg tracking-normal">
-                  Tu progreso del curso
-                </CardTitle>
-                <CardDescription>
-                  <div className="inline font-semibold text-main dark:text-white">
-                    <span>{courseProgress.progress}</span>
-                    <span className="text-xs">%</span>{" "}
-                  </div>
-                  <span className="ml-1">completado</span>
-                </CardDescription>
-                <Progress
-                  aria-label={`${courseProgress.progress}%`}
-                  value={courseProgress.progress}
-                  indicatorColor={getProgressColor(courseProgress.progress)}
-                />
-              </CardHeader>
-            </Card>
-          </div>
+          {courseInitialized && (
+            <div className="px-6 lg:px-0">
+              <Card className="mt-5 rounded-xl text-main dark:text-white">
+                <CardHeader isSecondary className="space-y-4">
+                  <CardTitle className="text-lg tracking-normal">
+                    Tu progreso del curso
+                  </CardTitle>
+                  <CardDescription>
+                    <div className="inline font-semibold text-main dark:text-white">
+                      <span>{courseProgress.progress}</span>
+                      <span className="text-xs">%</span>{" "}
+                    </div>
+                    <span className="ml-1">completado</span>
+                  </CardDescription>
+                  <Progress
+                    aria-label={`${courseProgress.progress}%`}
+                    value={courseProgress.progress}
+                    indicatorColor={getProgressColor(courseProgress.progress)}
+                  />
+                </CardHeader>
+              </Card>
+            </div>
+          )}
         </section>
       </div>
       {isMobile ? (

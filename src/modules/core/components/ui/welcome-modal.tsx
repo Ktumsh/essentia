@@ -21,11 +21,13 @@ const WelcomeModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const hasShown = sessionStorage.getItem("welcome");
+    const sessionKey = "usrWlcShwn";
+
+    const hasShown = sessionStorage.getItem(sessionKey);
 
     if (!hasShown) {
       setIsOpen(true);
-      sessionStorage.setItem("welcome", "true");
+      sessionStorage.setItem(sessionKey, "true");
     }
   }, [setIsOpen]);
 

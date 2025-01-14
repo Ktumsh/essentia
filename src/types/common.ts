@@ -44,6 +44,8 @@ export interface HealthFact {
 }
 
 export type SiteConfig = {
+  appId: string;
+
   name: string;
 
   description: string;

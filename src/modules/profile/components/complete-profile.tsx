@@ -22,30 +22,33 @@ interface CompleteProfileProps {
 }
 
 const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
+  const { profileImage, bio, location, weight, height, genre } =
+    completeProfileData[0];
+
   const data = [
     {
       description: "Añade una foto de perfil",
-      value: completeProfileData[0].profileImage,
+      value: profileImage,
     },
     {
       description: "Añade una biografía",
-      value: completeProfileData[0].bio,
+      value: bio,
     },
     {
       description: "Añade tu ubicación",
-      value: completeProfileData[0].location,
+      value: location,
     },
     {
       description: "Añade tu peso",
-      value: completeProfileData[0].weight,
+      value: weight,
     },
     {
-      description: "Añade tu altura",
-      value: completeProfileData[0].height,
+      description: "Añade tu estatura",
+      value: height,
     },
     {
       description: "Añade tu género",
-      value: completeProfileData[0].genre,
+      value: genre,
     },
   ];
 
@@ -81,7 +84,7 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
           indicatorColor={getIndicatorColor(
             (data.filter((item) => item.value).length * 100) / data.length,
           )}
-          className="mb-4"
+          className="mb-4 md:max-w-[73%]"
         />
         <div className="flex flex-col gap-2 md:flex-row">
           {data.map((item, index) => (

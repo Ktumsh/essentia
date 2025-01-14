@@ -27,7 +27,7 @@ interface ChatItemProps {
 
 const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
   const { setOpenMobile } = useSidebar();
-  const [newChatId, setNewChatId] = useLocalStorage("newChatId", null);
+  const [newChatId, setNewChatId] = useLocalStorage("new-chat-id", null);
   const shouldAnimate = index === 0 && isActive && newChatId;
   const { visibilityType } = useChatVisibility({
     chatId: chat.id,

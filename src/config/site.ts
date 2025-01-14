@@ -51,6 +51,7 @@ import {
 import { SiteConfig } from "@/types/common";
 
 export const siteConfig: SiteConfig = {
+  appId: "essentia-web",
   name: "Essentia",
   description:
     "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",

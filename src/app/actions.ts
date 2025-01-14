@@ -63,7 +63,9 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
   const cookieStore = await cookies();
   const today = new Date().toISOString().split("T")[0];
 
-  const savedData = cookieStore.get("dailyHealthFacts");
+  const COOKIE_NAME = "_usrData_hF";
+
+  const savedData = cookieStore.get(COOKIE_NAME);
 
   let usedFacts: HealthFact[] = [];
   if (savedData) {
@@ -93,7 +95,7 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
   usedFacts.push(...newFacts);
 
   cookieStore.set(
-    "dailyHealthFacts",
+    COOKIE_NAME,
     JSON.stringify({ date: today, facts: newFacts, usedFacts }),
     {
       path: "/",

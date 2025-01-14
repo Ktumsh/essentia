@@ -206,28 +206,3 @@ export async function updateUserPhoto(
     throw error;
   }
 }
-
-export async function deleteUserPhoto(userId: string) {
-  if (!userId) {
-    return { error: "ID de usuario es requerido" };
-  }
-  try {
-    const res = await db
-      .update(userProfile)
-      .set({
-        profileImage: null,
-        updatedAt: new Date(),
-      })
-      .where(eq(userProfile.userId, userId));
-
-    if (res.count === 0) {
-      console.error("Error al eliminar: Usuario no encontrado");
-      return { error: "Usuario no encontrado" };
-    }
-
-    return res;
-  } catch (error) {
-    console.error("Error al eliminar la foto de perfil:", error);
-    throw error;
-  }
-}

@@ -244,3 +244,66 @@ export const changePasswordSchema = z
   });
 
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+
+export const profileSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
+  lastName: z
+    .string()
+    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
+  username: z
+    .string()
+    .min(3, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME) })
+    .max(20, {
+      message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME),
+    })
+    .regex(/^[a-zA-Z0-9_]+$/, {
+      message: getMessageFromCode(ResultCode.INVALID_STRING_USERNAME),
+    }),
+  bio: z
+    .string()
+    .max(180, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_BIO) })
+    .optional(),
+  genre: z.string().optional(),
+  weight: z
+    .number()
+    .min(1, { message: getMessageFromCode(ResultCode.INVALID_WEIGHT) })
+    .max(300, { message: getMessageFromCode(ResultCode.INVALID_WEIGHT) })
+    .nullable(),
+  height: z
+    .number()
+    .min(40, { message: getMessageFromCode(ResultCode.INVALID_HEIGHT) })
+    .max(250, { message: getMessageFromCode(ResultCode.INVALID_HEIGHT) })
+    .nullable(),
+  location: z
+    .string()
+    .max(50, {
+      message: getMessageFromCode(ResultCode.INVALID_LENGTH_LOCATION),
+    })
+    .optional(),
+  birthdate: z.coerce.date().refine(
+    (date) => {
+      const today = new Date();
+      const age = today.getFullYear() - date.getFullYear();
+      const monthDifference = today.getMonth() - date.getMonth();
+      const dayDifference = today.getDate() - date.getDate();
+
+      if (date.getFullYear() < 1900 || date > today) {
+        return false;
+      }
+
+      if (age > 13) return true;
+      if (age === 13 && monthDifference > 0) return true;
+      if (age === 13 && monthDifference === 0 && dayDifference >= 0) {
+        return true;
+      }
+      return false;
+    },
+    {
+      message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
+    },
+  ),
+});
+
+export type ProfileFormData = z.infer<typeof profileSchema>;

@@ -35,7 +35,7 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
       <SidebarGroup>
         <SidebarGroupContent>
           <div className="flex items-center justify-center">
-            <p className="text-sm text-main-l dark:text-main-dark-l">
+            <p className="text-nowrap text-sm text-main-l dark:text-main-dark-l">
               Sin historial de chat
             </p>
           </div>

@@ -177,7 +177,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
           render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel htmlFor="confirmPassword">
-                Confirmar Contraseña
+                Confirmar contraseña
               </FormLabel>
               <FormControl>
                 <div className="relative">

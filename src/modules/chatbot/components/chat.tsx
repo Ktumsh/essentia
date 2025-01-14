@@ -13,10 +13,10 @@ import { UserProfileData } from "@/types/session";
 import { fetcher } from "@/utils/common";
 
 import ChatPanel from "./chat-panel";
-import { Messages } from "./messages";
 import { VisibilityType } from "./visibility-selector";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 import { useUserMessageId } from "../hooks/use-user-message-id";
+import { Messages } from "./ui/messages";
 
 import type { ChatVote } from "@/db/schema";
 
@@ -55,7 +55,7 @@ export function Chat({
   const { mutate } = useSWRConfig();
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setNewChatId] = useLocalStorage("newChatId", id);
+  const [_, setNewChatId] = useLocalStorage("new-chat-id", id);
 
   const { setChatData } = useChatContext();
 

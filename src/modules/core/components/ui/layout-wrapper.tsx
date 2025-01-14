@@ -1,12 +1,14 @@
 "use client";
 
 import { motion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
+import { useToast } from "@/components/hooks/use-toast";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { ToastAction } from "@/components/ui/toast";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
@@ -33,10 +35,53 @@ const LayoutWrapper = ({
   isPremium,
   children,
 }: LayoutWrapperProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const { toast } = useToast();
+
+  const { id, bio, location, height, weight, genre, firstName } = user || {};
+
+  useEffect(() => {
+    if (!session || !id || pathname.startsWith("/profile")) return;
+
+    const sessionKey = `usrPflCmplt-${id}`;
+
+    const hasShownToast = sessionStorage.getItem(sessionKey);
+
+    if (!hasShownToast && (!bio || !location || !height || !weight || !genre)) {
+      toast({
+        duration: 1000000,
+        title: "¡Completa tu perfil!",
+        description: `Hola ${firstName}! Disfruta de una mejor experiencia completando tu perfil.`,
+        action: (
+          <ToastAction
+            altText="Completar perfil"
+            onClick={() => router.push("/profile")}
+          >
+            Completar perfil
+          </ToastAction>
+        ),
+      });
+    }
+
+    sessionStorage.setItem(sessionKey, "true");
+  }, [
+    session,
+    pathname,
+    id,
+    bio,
+    location,
+    height,
+    weight,
+    genre,
+    firstName,
+    toast,
+    router,
+  ]);
 
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
   const isProfiles = pathname.startsWith("/profiles");

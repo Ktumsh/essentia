@@ -38,6 +38,7 @@ export const BetterTooltip = ({
   children,
   align = "center",
   side,
+  sideOffset = 4,
   className,
   hidden,
   ...props
@@ -45,6 +46,7 @@ export const BetterTooltip = ({
   content: JSX.Element | string;
   align?: "center" | "end" | "start";
   side?: "top" | "right" | "bottom" | "left";
+  sideOffset?: number;
   className?: string;
   hidden?: boolean;
 }) => {
@@ -57,6 +59,7 @@ export const BetterTooltip = ({
         <TooltipContent
           align={align}
           side={side}
+          sideOffset={sideOffset}
           className={className}
           hidden={isMobile || hidden}
         >
