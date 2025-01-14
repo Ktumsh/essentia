@@ -50,7 +50,7 @@ const SubscriptionDetails = ({
         <Card className="text-main dark:text-white">
           <CardHeader>
             <CardTitle className="flex flex-wrap items-center gap-x-2 text-base">
-              <span>Resumen del Plan</span>
+              <span>Resumen del plan</span>
               <div
                 className={cn(
                   "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs",

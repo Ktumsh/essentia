@@ -61,11 +61,11 @@ function NotificationsSettings({
             <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
           </Button>
           <div className="ml-12">
-            <SettingsOptsHeader title="Alertas y notificaciones" />
+            <SettingsOptsHeader title="Notificaciones" />
           </div>
         </div>
       ) : (
-        <SettingsOptsHeader title="Alertas y notificaciones" />
+        <SettingsOptsHeader title="Notificaciones" />
       )}
 
       <div className="mt-1 flex flex-1 flex-col">

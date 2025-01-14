@@ -72,7 +72,7 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
             className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
           >
             <Link href="/settings/accesibility">
-              <span>Preferencias y accesibilidad</span>
+              <span>Accesibilidad y pantalla</span>
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Link>
           </TabsTrigger>
@@ -82,7 +82,7 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
             className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
           >
             <Link href="/settings/notifications">
-              <span>Alertas y notificaciones</span>
+              <span>Notificaciones</span>
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Link>
           </TabsTrigger>
@@ -92,7 +92,7 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
             className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
           >
             <Link href="/settings/support">
-              <span>Ayuda y soporte</span>
+              <span>Soporte</span>
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Link>
           </TabsTrigger> */}
@@ -119,7 +119,7 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
           value="/settings/support"
           className="flex-1 pb-16 pl-6 md:pb-6"
         >
-          <SettingsOptsHeader title="Ayuda y soporte" />
+          <SettingsOptsHeader title="Soporte" />
         </TabsContent>
       </Tabs>
     </div>

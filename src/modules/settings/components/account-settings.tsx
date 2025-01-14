@@ -19,6 +19,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ChangeEmailModal from "@/modules/account/components/change-email/change-email-modal";
 import ChangePasswordModal from "@/modules/account/components/change-password-modal";
+import DeleteAccountModal from "@/modules/account/components/delete-account-modal";
 import EditProfileForm from "@/modules/profile/components/edit-profile-form";
 import { UserProfileData } from "@/types/session";
 import {
@@ -42,6 +43,7 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
   const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
   const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [displayData, setDisplayData] = useState<UserProfileData | null>(user);
 
   const [section, setSection] = useState<Section>("options");
@@ -53,6 +55,7 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
   }
 
   const {
+    id,
     email,
     createdAt,
     firstName,
@@ -180,12 +183,27 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                   title="Tiempo en la plataforma"
                   value={getTimeOnPlatform(createdAt)}
                 />
+                <InfoField
+                  title="Eliminar cuenta"
+                  value="Elimina permanentemente tu cuenta y todo su contenido de Essentia"
+                  hasBorder
+                  isButton
+                  className="bg-red-50 !text-red-500 hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950"
+                  buttonAction={() => setIsOpenDelete(true)}
+                />
               </ul>
             </div>
             <ChangeEmailModal
               currentEmail={email}
               isOpen={isOpenChangeEmail}
               setIsOpen={setIsOpenChangeEmail}
+            />
+            <DeleteAccountModal
+              userId={id}
+              email={email}
+              isOpen={isOpenDelete}
+              setIsOpen={setIsOpenDelete}
+              genre={genre}
             />
           </>
         )}

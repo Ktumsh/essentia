@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     title: siteConfig.name,
-    startupImage: "apple-icon.png",
+    startupImage: "/apple-icon.png",
   },
   keywords: siteConfig.keywords,
   robots: {
@@ -109,18 +109,18 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "icon.png",
+        url: "/icon.png",
         rel: "icon",
         type: "image/png",
       },
       {
-        url: "icon.svg",
+        url: "/icon.svg",
         rel: "icon",
         type: "image/svg+xml",
       },
     ],
     shortcut: {
-      url: "favicon.ico",
+      url: "/favicon.ico",
     },
     apple: {
       url: "/apple-icon.png",
