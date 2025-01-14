@@ -14,12 +14,28 @@ export async function subscribeNotifications(
   userId: string,
   subscription: webpush.PushSubscription,
 ) {
-  await db.insert(notificationSubscription).values({
-    userId,
-    endpoint: subscription.endpoint,
-    p256dh: subscription.keys.p256dh!,
-    auth: subscription.keys.auth!,
-  });
+  const existingSubscription = await db
+    .select()
+    .from(notificationSubscription)
+    .where(eq(notificationSubscription.endpoint, subscription.endpoint));
+
+  if (existingSubscription.length > 0) {
+    await db
+      .update(notificationSubscription)
+      .set({
+        userId,
+        p256dh: subscription.keys.p256dh!,
+        auth: subscription.keys.auth!,
+      })
+      .where(eq(notificationSubscription.endpoint, subscription.endpoint));
+  } else {
+    await db.insert(notificationSubscription).values({
+      userId,
+      endpoint: subscription.endpoint,
+      p256dh: subscription.keys.p256dh!,
+      auth: subscription.keys.auth!,
+    });
+  }
 }
 
 export async function unsubscribeNotifications(endpoint: string) {

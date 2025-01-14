@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import {
   subscribeUser,
@@ -37,35 +43,44 @@ export const NotificationProvider = ({
   );
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      setIsSupported(true);
-      registerServiceWorker();
-    }
-  }, []);
-
   async function registerServiceWorker() {
     const registration = await navigator.serviceWorker.register("/sw.js", {
       scope: "/",
       updateViaCache: "none",
     });
-    const sub = await registration.pushManager.getSubscription();
-    setSubscription(sub);
+
+    const existingSubscription =
+      await registration.pushManager.getSubscription();
+    if (existingSubscription) {
+      setSubscription(existingSubscription);
+    }
   }
 
-  async function subscribeToPush() {
+  const subscribeToPush = useCallback(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const sub = await registration.pushManager.subscribe({
+
+    const existingSubscription =
+      await registration.pushManager.getSubscription();
+
+    if (existingSubscription) {
+      setSubscription(existingSubscription);
+
+      const serializedSub = JSON.parse(JSON.stringify(existingSubscription));
+      await subscribeUser(userId, serializedSub);
+      return;
+    }
+
+    const newSubscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(
         process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
       ),
     });
-    setSubscription(sub);
+    setSubscription(newSubscription);
 
-    const serializedSub = JSON.parse(JSON.stringify(sub));
+    const serializedSub = JSON.parse(JSON.stringify(newSubscription));
     await subscribeUser(userId, serializedSub);
-  }
+  }, [userId]);
 
   async function unsubscribeFromPush() {
     if (subscription) {
@@ -74,6 +89,26 @@ export const NotificationProvider = ({
       setSubscription(null);
     }
   }
+
+  useEffect(() => {
+    async function initializeSubscription() {
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        setIsSupported(true);
+        await registerServiceWorker();
+
+        if (Notification.permission === "granted") {
+          await subscribeToPush();
+        } else if (Notification.permission === "default") {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            await subscribeToPush();
+          }
+        }
+      }
+    }
+
+    initializeSubscription();
+  }, [subscribeToPush]);
 
   async function notifyUser(title: string, message: string, url?: string) {
     await sendAndSaveNotification({ userId, title, message, url });
