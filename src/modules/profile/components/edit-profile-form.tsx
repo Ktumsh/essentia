@@ -48,10 +48,19 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { updateUserProfile } from "@/db/querys/profile-querys";
 import { getUserByUsername } from "@/db/querys/user-querys";
+import {
+  ProfileFormData,
+  profileSchema,
+} from "@/modules/core/lib/form-schemas";
 import { UserProfileData } from "@/types/session";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
-import { ProfileFormData, profileSchema } from "../lib/utils";
+import {
+  PopoverBioFormat,
+  PopoverHeightFormat,
+  PopoverLocationFormat,
+  PopoverWeightFormat,
+} from "./info-popover";
 
 interface EditProfileFormProps {
   profileData: UserProfileData | null;
@@ -244,12 +253,15 @@ const EditProfileForm = ({
               name="bio"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Biografía</FormLabel>
+                  <div className="inline-flex items-center gap-1.5">
+                    <FormLabel>Biografía</FormLabel>
+                    <PopoverBioFormat />
+                  </div>
                   <FormControl>
                     <Textarea
                       {...field}
                       placeholder="Cuéntanos algo sobre ti"
-                      maxLength={160}
+                      maxLength={180}
                       className="min-h-20 w-full resize-none"
                     />
                   </FormControl>
@@ -293,7 +305,10 @@ const EditProfileForm = ({
                 name="weight"
                 render={({ field, fieldState }) => (
                   <FormItem>
-                    <FormLabel>Peso (kg)</FormLabel>
+                    <div className="inline-flex items-center gap-1.5">
+                      <FormLabel>Peso (kg)</FormLabel>
+                      <PopoverWeightFormat />
+                    </div>
                     <FormControl>
                       <NumberInput
                         {...field}
@@ -318,7 +333,10 @@ const EditProfileForm = ({
                 name="height"
                 render={({ field, fieldState }) => (
                   <FormItem>
-                    <FormLabel>Estatura (cm)</FormLabel>
+                    <div className="inline-flex items-center gap-1.5">
+                      <FormLabel>Estatura (cm)</FormLabel>
+                      <PopoverHeightFormat />
+                    </div>
                     <FormControl>
                       <NumberInput
                         {...field}
@@ -345,9 +363,16 @@ const EditProfileForm = ({
               name="location"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Ubicación</FormLabel>
+                  <div className="inline-flex items-center gap-1.5">
+                    <FormLabel>Ubicación</FormLabel>
+                    <PopoverLocationFormat />
+                  </div>
                   <FormControl>
-                    <Input {...field} placeholder="Ingresa tu ubicación" />
+                    <Input
+                      {...field}
+                      placeholder="Ingresa tu ubicación"
+                      maxLength={50}
+                    />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
@@ -391,7 +416,7 @@ const EditProfileForm = ({
     } else {
       return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent isSecondary>
+          <DialogContent isSecondary className="overflow-visible">
             <ScrollArea className="overflow-y-auto">
               <DialogHeader isSecondary>
                 <DialogTitle>Editar perfil</DialogTitle>

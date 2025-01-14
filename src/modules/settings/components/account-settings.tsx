@@ -21,7 +21,6 @@ import ChangeEmailModal from "@/modules/account/components/change-email/change-e
 import ChangePasswordModal from "@/modules/account/components/change-password-modal";
 import EditProfileForm from "@/modules/profile/components/edit-profile-form";
 import { UserProfileData } from "@/types/session";
-import { cn } from "@/utils/common";
 import {
   formatDate,
   formatDateWithAutoTimezone,
@@ -29,6 +28,7 @@ import {
   getTimeOnPlatform,
 } from "@/utils/format";
 
+import InfoField from "./info-field";
 import SettingsOptsHeader from "./settings-opts-header";
 
 interface AccountSettingsProps {
@@ -74,28 +74,6 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
     },
     { title: "Información personal", value: "personalInfo", icon: User },
     { title: "Cambiar contraseña", value: "changePassword", icon: LockKeyhole },
-  ];
-
-  const accountInfo = [
-    { title: "Correo electrónico", value: email, icon: Mail },
-    { title: "Fecha de creación", value: createdAt },
-    { title: "Tiempo en la plataforma", value: getTimeOnPlatform(createdAt) },
-  ];
-
-  const personalInfo = [
-    { title: "Nombre", value: firstName },
-    { title: "Apellido", value: lastName },
-    { title: "Nombre de usuario", value: username },
-    { title: "Fecha de cumpleaños", value: birthdate },
-    {
-      title: "Edad",
-      value: getPreciseAge(birthdate!),
-    },
-    { title: "Biografía", value: bio, icon: ScrollText },
-    { title: "Ubicación", value: location, icon: MapPin },
-    { title: "Peso", value: weight + " kg", icon: Weight },
-    { title: "Altura", value: height + " cm", icon: Ruler },
-    { title: "Género", value: genre, icon: PersonStanding },
   ];
 
   const handleSection = (section: Section) => {
@@ -183,59 +161,25 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                 Información de tu cuenta
               </h4>
               <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
-                {accountInfo.map((item, index) => {
-                  if (index === 0) {
-                    return (
-                      <li key={index}>
-                        <Button
-                          variant="ghost"
-                          fullWidth
-                          radius="none"
-                          className="h-auto min-h-11 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:px-4 md:py-2"
-                          onClick={() => setIsOpenChangeEmail(true)}
-                        >
-                          <div className="flex items-center gap-4">
-                            <Mail className="size-4" />
-                            <div className="flex flex-col items-start">
-                              <span>Correo electrónico</span>
-                              <p className="text-main-m dark:text-main-dark-m">
-                                {email}
-                              </p>
-                            </div>
-                          </div>
-                          <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
-                        </Button>
-                      </li>
-                    );
-                  } else {
-                    return (
-                      <li
-                        key={index}
-                        className={cn({
-                          "border-t border-gray-200 dark:border-dark":
-                            index === 1,
-                        })}
-                      >
-                        <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
-                          <div className="flex items-center gap-4">
-                            {item.icon && <item.icon className="size-4" />}
-                            <div className="flex flex-col items-start">
-                              <span>{item.title}</span>
-                              <p className="font-normal text-main-m dark:text-main-dark-m">
-                                {index === 1 && item.value instanceof Date
-                                  ? formatDateWithAutoTimezone(
-                                      createdAt,
-                                      "d 'de' MMMM, yyyy 'a las' HH:mm:ss",
-                                    )
-                                  : String(item.value)}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  }
-                })}
+                <InfoField
+                  title="Correo electrónico"
+                  value={email}
+                  icon={Mail}
+                  isButton
+                  buttonAction={() => setIsOpenChangeEmail(true)}
+                />
+                <InfoField
+                  title="Fecha de creación"
+                  value={formatDateWithAutoTimezone(
+                    createdAt,
+                    "d 'de' MMMM, yyyy 'a las' HH:mm:ss",
+                  )}
+                  hasBorder
+                />
+                <InfoField
+                  title="Tiempo en la plataforma"
+                  value={getTimeOnPlatform(createdAt)}
+                />
               </ul>
             </div>
             <ChangeEmailModal
@@ -252,34 +196,41 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                 Información personal
               </h4>
               <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
-                {personalInfo.map((item, index) => (
-                  <li
-                    key={index}
-                    className={cn({
-                      "border-t border-gray-200 dark:border-dark":
-                        index === 3 ||
-                        index === 5 ||
-                        index === 7 ||
-                        index === 9,
-                    })}
-                  >
-                    <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
-                      <div className="flex items-center gap-4">
-                        {index > 2 && item.icon && (
-                          <item.icon className="size-4 shrink-0" />
-                        )}
-                        <div className="flex flex-col items-start">
-                          <span>{item.title}</span>
-                          <p className="font-normal text-main-m dark:text-main-dark-m">
-                            {index === 3 && item.value instanceof Date
-                              ? formatDate(item.value, "d 'de' MMMM, yyyy")
-                              : String(item.value) || "Sin información"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                <InfoField title="Nombre" value={firstName} />
+                <InfoField title="Apellido" value={lastName} />
+                <InfoField title="Nombre de usuario" value={username} />
+                <InfoField
+                  title="Fecha de nacimiento"
+                  value={formatDate(birthdate!, "d 'de' MMMM, yyyy")}
+                  hasBorder
+                />
+                <InfoField title="Edad" value={getPreciseAge(birthdate!)} />
+                <InfoField
+                  title="Biografía"
+                  value={bio}
+                  icon={ScrollText}
+                  hasBorder
+                />
+                <InfoField title="Ubicación" value={location} icon={MapPin} />
+                <InfoField
+                  title="Peso"
+                  value={weight}
+                  icon={Weight}
+                  suffix="kg"
+                  hasBorder
+                />
+                <InfoField
+                  title="Altura"
+                  value={height}
+                  icon={Ruler}
+                  suffix="cm"
+                />
+                <InfoField
+                  title="Género"
+                  value={genre}
+                  icon={PersonStanding}
+                  hasBorder
+                />
               </ul>
               <div className="mt-4 w-full self-end px-6 md:px-0">
                 <Button

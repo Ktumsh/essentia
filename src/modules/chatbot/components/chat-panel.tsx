@@ -18,9 +18,9 @@ import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-botto
 import { LinkIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 
-import AlertPanel from "./alert-panel";
 import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
+import AlertPanel from "./ui/alert-panel";
 import { PreviewAttachment } from "./ui/preview-attachment";
 
 export interface ChatPanelProps {

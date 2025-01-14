@@ -1,5 +1,7 @@
 "use server";
 
+import { toast } from "sonner";
+
 import { auth } from "@/app/(auth)/auth";
 import { getUserById, updateUserPassword } from "@/db/querys/user-querys";
 import {
@@ -53,4 +55,40 @@ export async function changePassword(input: ChangePasswordFormData) {
     console.error("Error al cambiar la contraseña:", error);
     return { success: false, message: ResultCode.UNKNOWN_ERROR };
   }
+}
+
+export async function uploadFile(file: File, userId: string) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("userId", userId);
+
+  const uploadPromise = fetch("/api/files/upload-profile", {
+    method: "POST",
+    body: formData,
+  });
+
+  return toast.promise(uploadPromise, {
+    loading: "Subiendo foto de perfil...",
+    success: async () => {
+      const response = await uploadPromise;
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Error al subir la imagen");
+      }
+
+      return result.success || "Foto de perfil actualizada";
+    },
+
+    error: async () => {
+      const response = await uploadPromise.catch(() => null);
+
+      if (response) {
+        const result = await response.json();
+        return result.error || "Error desconocido al subir la foto";
+      }
+
+      return "Error al subir la imagen, revisa tu conexión";
+    },
+  });
 }

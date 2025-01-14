@@ -7,7 +7,8 @@ import { cookies } from "next/headers";
 import { Session } from "next-auth";
 
 import { auth } from "@/app/(auth)/auth";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster as Sooner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
 import { Providers } from "@/modules/core/components/ui/providers";
@@ -22,9 +23,52 @@ export const metadata: Metadata = {
     default: siteConfig.name,
   },
   description: siteConfig.description,
-  manifest: "/manifest.json",
+  manifest: "manifest.ts",
   alternates: {
     canonical: "/",
+  },
+  applicationName: siteConfig.name,
+  appLinks: {
+    android: {
+      url: siteConfig.url,
+      package: "com.essentia.web",
+    },
+    ipad: {
+      url: siteConfig.url,
+      app_store_id: siteConfig.appId,
+    },
+    iphone: {
+      url: siteConfig.url,
+      app_store_id: siteConfig.appId,
+    },
+    windows: {
+      url: siteConfig.url,
+      app_id: siteConfig.appId,
+      app_name: siteConfig.name,
+    },
+    windows_phone: {
+      url: siteConfig.url,
+      app_id: siteConfig.appId,
+      app_name: siteConfig.name,
+    },
+    windows_universal: {
+      url: siteConfig.url,
+      app_id: siteConfig.appId,
+      app_name: siteConfig.name,
+    },
+    ios: [
+      {
+        url: siteConfig.url,
+        app_store_id: siteConfig.appId,
+      },
+    ],
+    web: {
+      url: siteConfig.url,
+    },
+  },
+  appleWebApp: {
+    title: siteConfig.name,
+    startupImage: "apple-icon.png",
   },
   keywords: siteConfig.keywords,
   robots: {
@@ -63,7 +107,25 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: "/logo-essentia.webp",
+    icon: [
+      {
+        url: "icon.png",
+        rel: "icon",
+        type: "image/png",
+      },
+      {
+        url: "icon.svg",
+        rel: "icon",
+        type: "image/svg+xml",
+      },
+    ],
+    shortcut: {
+      url: "favicon.ico",
+    },
+    apple: {
+      url: "/apple-icon.png",
+      rel: "apple-touch-icon",
+    },
   },
 };
 
@@ -100,6 +162,7 @@ export default async function RootLayout({
           "font-sans",
         )}
       >
+        <Sooner />
         <Toaster />
         <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
           <div className="relative flex size-full min-h-dvh flex-col md:flex-row">

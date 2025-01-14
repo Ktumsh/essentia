@@ -123,6 +123,8 @@ export async function POST(request: Request) {
     premiumExpiresAt,
   });
 
+  console.log({ systemPrompt });
+
   return createDataStreamResponse({
     execute: (dataStream) => {
       dataStream.writeData({

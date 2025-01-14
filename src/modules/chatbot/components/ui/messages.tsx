@@ -3,8 +3,8 @@ import { memo } from "react";
 
 import { UserProfileData } from "@/types/session";
 
+import { PreviewMessage, ThinkingMessage } from "./message";
 import Overview from "./overview";
-import { PreviewMessage, ThinkingMessage } from "./ui/message";
 
 import type { ChatVote } from "@/db/schema";
 import type { ChatRequestOptions, Message } from "ai";
@@ -76,6 +76,7 @@ export const Messages = memo(PureMessages, (prevProps, nextProps) => {
   if (prevProps.isLoading !== nextProps.isLoading) return false;
   if (prevProps.isLoading && nextProps.isLoading) return false;
   if (prevProps.messages.length !== nextProps.messages.length) return false;
+  if (!equal(prevProps.messages, nextProps.messages)) return false;
   if (!equal(prevProps.votes, nextProps.votes)) return false;
 
   return true;

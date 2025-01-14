@@ -11,6 +11,7 @@ import {
 import { motion } from "motion/react";
 import { memo, useState } from "react";
 
+import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,11 +25,20 @@ import { BetterTooltip } from "@/components/ui/tooltip";
 import { StarsIcon } from "@/modules/icons/common";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
+import { formatDate } from "@/utils/format";
 
 import CompleteProfile from "./complete-profile";
 import EditProfileForm from "./edit-profile-form";
+import {
+  PopoverBioReason,
+  PopoverBirthdate,
+  PopoverGenre,
+  PopoverHeightReason,
+  PopoverLocationReason,
+  PopoverWeightReason,
+  PublicInfoPopover,
+} from "./info-popover";
 import ProfileAvatar from "./profile-avatar";
-import { formatFullDate } from "../lib/utils";
 
 interface ProfileInfoProps {
   user: UserProfileData | null;
@@ -39,6 +49,8 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [displayData, setDisplayData] = useState<UserProfileData | null>(user);
+
+  const isMobile = useIsMobile();
 
   const {
     firstName,
@@ -88,8 +100,8 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
               </p>
               {isOwnProfile && (
                 <p>
-                  Presiona en tu avatar para cargar uno personalizado desde tus
-                  archivos.
+                  {isMobile ? "Presiona" : "Haz clic"} en tu avatar para cargar
+                  uno personalizado desde tus archivos.
                 </p>
               )}
             </CardDescription>
@@ -115,10 +127,11 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
 
         <Card className="text-main dark:text-white">
           <CardHeader>
-            <CardTitle className="mb-2 text-base">
+            <CardTitle className="mb-2 inline-flex items-center text-base">
               {isOwnProfile
-                ? "Información de tu Perfil"
+                ? "Información de tu perfil"
                 : "Información de su perfil"}
+              {isOwnProfile && <PublicInfoPopover />}
             </CardTitle>
             <CardDescription className="space-y-1">
               <p>
@@ -166,99 +179,129 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                     <span>
                       <Cake strokeWidth={1.5} className="size-3" />
                     </span>
-                    <span>Fecha de cumpleaños</span>
+                    <span>Fecha de nacimiento</span>
+                    {isOwnProfile && <PopoverBirthdate />}
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
-                    {formatFullDate(birthdate!)}
+                    {formatDate(birthdate!, "d 'de' MMMM 'de' yyyy")}
                   </div>
                 </span>
               </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-                <div className="grid-cols grid flex-1 gap-4">
-                  <span className="flex flex-col">
-                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
-                      <span>
-                        <ScrollText strokeWidth={1.5} className="size-3" />
+            {isOwnProfile && (
+              <>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                    <div className="grid-cols grid flex-1 gap-4">
+                      <span className="flex flex-col">
+                        <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                          <span>
+                            <ScrollText strokeWidth={1.5} className="size-3" />
+                          </span>
+                          <span>Biografía</span>
+                          <PopoverBioReason />
+                        </div>
+                        <div className="flex-1 pt-1 text-sm font-medium">
+                          {bio || "---"}
+                        </div>
                       </span>
-                      <span>Biografía</span>
                     </div>
-                    <div className="flex-1 pt-1 text-sm font-medium">
-                      {bio || "---"}
-                    </div>
-                  </span>
-                </div>
-              </div>
-              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-                <div className="grid-cols grid flex-1 gap-4">
-                  <span className="flex flex-col">
-                    <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
-                      <span>
-                        <MapPin strokeWidth={1.5} className="size-3" />
+                  </div>
+                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                    <div className="grid-cols grid flex-1 gap-4">
+                      <span className="flex flex-col">
+                        <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                          <span>
+                            <MapPin strokeWidth={1.5} className="size-3" />
+                          </span>
+                          <span>Ubicación</span>
+                          <PopoverLocationReason />
+                        </div>
+                        <div className="flex-1 pt-1 text-sm font-medium">
+                          {location || "---"}
+                        </div>
                       </span>
-                      <span>Ubicación</span>
                     </div>
-                    <div className="flex-1 pt-1 text-sm font-medium">
-                      {location || "---"}
-                    </div>
-                  </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="grid-cols grid flex-1 gap-4 md:grid-cols-3">
-              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-                <span className="flex flex-col">
-                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
-                    <span>
-                      <Weight strokeWidth={1.5} className="size-3" />
+                <div className="grid-cols grid flex-1 gap-4 md:grid-cols-3">
+                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                    <span className="flex flex-col">
+                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                        <span>
+                          <Weight strokeWidth={1.5} className="size-3" />
+                        </span>
+                        <span>Peso</span>
+                        <PopoverWeightReason />
+                      </div>
+                      <div className="flex-1 pt-1 text-sm font-medium">
+                        {(weight && weight + " kg") || "---"}
+                      </div>
                     </span>
-                    <span>Peso</span>
                   </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {(weight && weight + "kg") || "---"}
-                  </div>
-                </span>
-              </div>
-              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-                <span className="flex flex-col">
-                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
-                    <span>
-                      <Ruler strokeWidth={1.5} className="size-3" />
+                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                    <span className="flex flex-col">
+                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                        <span>
+                          <Ruler strokeWidth={1.5} className="size-3" />
+                        </span>
+                        <span>Estatura</span>
+                        <PopoverHeightReason />
+                      </div>
+                      <div className="flex-1 pt-1 text-sm font-medium">
+                        {(height && height + " cm") || "---"}
+                      </div>
                     </span>
-                    <span>Estatura</span>
                   </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {(height && height + "cm") || "---"}
-                  </div>
-                </span>
-              </div>
-              <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
-                <span className="flex flex-col">
-                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
-                    <span>
-                      <PersonStanding strokeWidth={1.5} className="size-3" />
+                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                    <span className="flex flex-col">
+                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                        <span>
+                          <PersonStanding
+                            strokeWidth={1.5}
+                            className="size-3"
+                          />
+                        </span>
+                        <span>Género</span>
+                        <PopoverGenre />
+                      </div>
+                      <div className="flex-1 pt-1 text-sm font-medium">
+                        {genre || "---"}
+                      </div>
                     </span>
-                    <span>Género</span>
                   </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {genre || "---"}
-                  </div>
-                </span>
-              </div>
-            </div>
-            {isPremium && (
-              <BetterTooltip
-                content={isOwnProfile ? "Cuenta Premium" : "Usuario Premium"}
-              >
-                <div className="absolute right-0 top-0 m-6 !mt-6 inline-flex shrink-0 items-center justify-center gap-1 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
-                  <StarsIcon className="size-3.5 [&_*]:fill-white" />
-                  <span className="sr-only">
-                    {isOwnProfile ? "Cuenta Premium" : "Usuario Premium"}
-                  </span>
                 </div>
-              </BetterTooltip>
+              </>
             )}
+            <BetterTooltip
+              hidden={!isOwnProfile && !isPremium}
+              sideOffset={20}
+              content={
+                isPremium
+                  ? isOwnProfile
+                    ? "Tienes una suscripción premium"
+                    : `${username} tiene una suscripción premium`
+                  : "No tienes una suscripción premium activa"
+              }
+            >
+              <div
+                className={cn(
+                  "absolute right-0 top-0 m-6 !mt-6 inline-flex shrink-0 items-center justify-center gap-1 rounded-full border border-gray-200 px-2 py-1 text-xs text-main-h shadow-sm dark:border-dark dark:text-main-dark",
+                  {
+                    "border-none bg-light-gradient-v2 text-white dark:bg-dark-gradient":
+                      isPremium,
+                  },
+                  { hidden: !isOwnProfile && !isPremium },
+                )}
+              >
+                {isPremium && (
+                  <StarsIcon className="size-3.5 [&_*]:fill-white" />
+                )}
+                <span className="font-medium">
+                  {isPremium ? "Premium" : "Gratis"}
+                </span>
+              </div>
+            </BetterTooltip>
           </CardContent>
           {isOwnProfile && (
             <CardFooter isSecondary>

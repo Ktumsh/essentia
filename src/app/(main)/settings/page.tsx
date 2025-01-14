@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+import { auth } from "@/app/(auth)/auth";
 import SettingsWrapper from "@/modules/settings/components/settings-wrapper";
 
 export const metadata: Metadata = {
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
 };
 
 const SettingsPage = async () => {
-  return <SettingsWrapper />;
+  const session = await auth();
+  return <SettingsWrapper session={session} />;
 };
 
 export default SettingsPage;

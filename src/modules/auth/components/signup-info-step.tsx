@@ -52,7 +52,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
   const onError = (errors: FieldErrors<InfoFormData>) => {
     const hasRequiredErrors = Object.values(errors).some((error) => {
       const errorType = String(error?.type);
-      return errorType && ["required", "too_small"].includes(errorType);
+      return errorType && ["required"].includes(errorType);
     });
 
     if (hasRequiredErrors) {
@@ -117,7 +117,6 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
         onSubmit={handleSubmit(onSubmit, onError)}
         className="flex flex-col items-start justify-center space-y-5"
       >
-        {/* Nombre y Apellido */}
         <div className="flex w-full gap-5">
           <FormField
             control={form.control}
@@ -167,7 +166,6 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
           />
         </div>
 
-        {/* Nombre de Usuario */}
         <FormField
           control={form.control}
           name="username"
@@ -193,7 +191,6 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
           )}
         />
 
-        {/* Fecha de Nacimiento con Popover de Ayuda */}
         <FormField
           control={form.control}
           name="birthdate"

@@ -52,8 +52,10 @@ const LoginForm = () => {
 
   const { handleSubmit, setValue } = form;
 
+  const STORAGE_KEY = "remembered-email";
+
   useEffect(() => {
-    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedEmail = localStorage.getItem(STORAGE_KEY);
     if (savedEmail) {
       setValue("email", savedEmail);
       setValue("remember", true);
@@ -63,9 +65,9 @@ const LoginForm = () => {
   const handleSuccess = useCallback(
     async (data: LoginFormData) => {
       if (data.remember) {
-        localStorage.setItem("rememberedEmail", data.email);
+        localStorage.setItem(STORAGE_KEY, data.email);
       } else {
-        localStorage.removeItem("rememberedEmail");
+        localStorage.removeItem(STORAGE_KEY);
       }
 
       const [user] = await getUserProfileByEmail(data.email);

@@ -76,7 +76,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
                     <span>Fecha de creación</span>
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
-                    {formatDate(createdAt, "dd 'de' MMMM, yyyy")}
+                    {formatDate(createdAt, "d 'de' MMMM, yyyy")}
                   </div>
                 </span>
               </div>

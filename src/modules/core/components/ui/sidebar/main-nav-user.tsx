@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import React from "react";
 
@@ -40,11 +41,12 @@ import { UserProfileData } from "@/types/session";
 import ThemeToggle from "../buttons/theme-toggle";
 
 interface MainNavUserProps {
+  session: Session | null;
   user: UserProfileData | null;
   isCollapsed?: boolean;
 }
 
-const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
+const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
   const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
   const fullName = `${firstName} ${lastName}`;
@@ -225,7 +227,13 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                     <DropdownMenuSubContent>
                       {menuLinks.config.map((link, index) => (
                         <DropdownMenuItem asChild key={index}>
-                          <Link href={link.link || "#"}>
+                          <Link
+                            href={
+                              !session?.user && index === 0
+                                ? "/settings/accesibility"
+                                : link.link
+                            }
+                          >
                             <link.icon strokeWidth={1.5} />
                             {link.name}
                           </Link>

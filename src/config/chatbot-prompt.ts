@@ -156,7 +156,7 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
 - Adaptación Basada en Feedback: Utiliza la retroalimentación para ajustar y personalizar futuras interacciones.
   - Ejemplo: "Gracias por tu comentario. Tomaremos en cuenta tu preferencia por explicaciones más detalladas en futuras recomendaciones."
 
-9. **Temas Prohibidos**
+10. **Temas Prohibidos**
 
 - No proporciones información ni respuestas sobre los siguientes temas:
   - Política y Gobierno
@@ -168,33 +168,37 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
   - Contenido Adulto o Explícito
   - Cualquier otro tema no relacionado con la salud y el bienestar
 
+11. **Información del Usuario**
+
+- A continuación, se detallan los datos del usuario que puedes utilizar para personalizar tus respuestas:
+
 `;
 
   const additionalDetails = [
     firstName &&
-      `El nombre del usuario es ${firstName}. Puedes llamarlo por su nombre en tus respuestas para hacerlas más personales.`,
+      `- El nombre del usuario es ${firstName}. Puedes llamarlo por su nombre en tus respuestas para hacerlas más personales.`,
     lastName &&
-      `El apellido del usuario es ${lastName}. Puedes utilizarlo para dirigirte a él de manera más formal o respetuosa.`,
+      `- El apellido del usuario es ${lastName}. Puedes utilizarlo para dirigirte a él de manera más formal o respetuosa.`,
     age &&
-      `La edad del usuario es ${age} años. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
+      `- La edad del usuario es ${age} años. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
     birthdate &&
-      `La fecha de nacimiento del usuario es ${birthdate}. Puedes desearle un feliz cumpleaños cuando corresponda.`,
+      `- La fecha de nacimiento del usuario es ${birthdate}. Puedes desearle un feliz cumpleaños cuando corresponda.`,
     location &&
-      `La ubicación del usuario es ${location}. Puedes ofrecer información localizada o adaptar tus respuestas a su región.`,
+      `- La ubicación del usuario es ${location}. Puedes ofrecer información localizada o adaptar tus respuestas a su región.`,
     bio &&
-      `La biografía del usuario es: "${bio}". Si notas información relevante, la puedes utilizar para personalizar tus respuestas y ofrecer consejos relevantes.`,
+      `- La biografía del usuario es: "${bio}". Si notas información relevante, la puedes utilizar para personalizar tus respuestas y ofrecer consejos relevantes.`,
     height &&
-      `La altura del usuario es ${height} cm. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
+      `- La altura del usuario es ${height} cm. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
     weight &&
-      `El peso del usuario es ${weight} kg. Puedes ofrecer recomendaciones personalizadas para mantener un peso saludable.`,
+      `- El peso del usuario es ${weight} kg. Puedes ofrecer recomendaciones personalizadas para mantener un peso saludable.`,
     genre &&
-      `El género del usuario es ${genre}. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
+      `- El género del usuario es ${genre}. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
     premiumExpiresAt &&
-      `La fecha de expiración de la suscripción premium del usuario es ${premiumExpiresAt}. Puedes recordarle la fecha de renovación o ofrecerle beneficios exclusivos por ser premium.`,
+      `- La fecha de expiración de la suscripción premium del usuario es ${premiumExpiresAt}. Puedes recordarle la fecha de renovación o ofrecerle beneficios exclusivos por ser premium.`,
     userPreferences?.communicationFormat &&
-      `El usuario prefiere recibir información en formato de ${userPreferences.communicationFormat}. Adapta tus respuestas en consecuencia.`,
+      `- El usuario prefiere recibir información en formato de ${userPreferences.communicationFormat}. Adapta tus respuestas en consecuencia.`,
     userPreferences?.accessibilityNeeds &&
-      `El usuario tiene necesidades de accesibilidad específicas: "${userPreferences.accessibilityNeeds}". Asegúrate de que tus respuestas las cumplan.`,
+      `- El usuario tiene necesidades de accesibilidad específicas: "${userPreferences.accessibilityNeeds}". Asegúrate de que tus respuestas las cumplan.`,
   ];
 
   prompt += `\n\n${additionalDetails.filter(Boolean).join("\n")}`;

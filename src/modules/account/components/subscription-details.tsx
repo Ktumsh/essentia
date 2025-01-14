@@ -41,7 +41,7 @@ const SubscriptionDetails = ({
   const price = isPremium ? amount?.toLocaleString("es-CL") : "0";
 
   const renewalDate = isPremium
-    ? formatDate(expiresAt!, "dd 'de' MMM, yyyy")
+    ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
     : "No aplica";
 
   return (
@@ -80,7 +80,7 @@ const SubscriptionDetails = ({
                     </span>
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
-                    ${price}
+                    $ {price}
                   </div>
                 </span>
                 <span className="flex flex-col">
