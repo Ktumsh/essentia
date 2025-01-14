@@ -68,6 +68,7 @@ export async function sendAndSaveNotification({
             JSON.stringify({
               title,
               body: message,
+              badge: "/web-app-manifest-192x192.png",
               url,
             }),
           );

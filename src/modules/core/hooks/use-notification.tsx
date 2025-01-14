@@ -69,6 +69,7 @@ export const NotificationProvider = ({
       return;
     }
 
+    // Crea una nueva suscripción si no existe
     const newSubscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(
@@ -76,17 +77,23 @@ export const NotificationProvider = ({
       ),
     });
 
-    setSubscription(newSubscription);
-
     const serializedSub = JSON.parse(JSON.stringify(newSubscription));
     await subscribeUser(userId, serializedSub);
+    setSubscription(newSubscription);
   }, [userId]);
 
   async function unsubscribeFromPush() {
     if (subscription) {
-      await subscription.unsubscribe();
-      await unsubscribeUser(subscription.endpoint);
-      setSubscription(null);
+      try {
+        const isUnsubscribed = await subscription.unsubscribe();
+        if (isUnsubscribed) {
+          console.log("Suscripción cancelada en el navegador.");
+          await unsubscribeUser(subscription.endpoint);
+        }
+        setSubscription(null);
+      } catch (error) {
+        console.error("Error al desuscribirse:", error);
+      }
     }
   }
 
