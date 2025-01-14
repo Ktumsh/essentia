@@ -72,10 +72,7 @@ function NotificationsSettings({
         <div className="flex flex-col">
           <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
             <li>
-              <div
-                className="inline-flex h-auto min-h-11 w-full items-center justify-between gap-2 px-6 py-2 text-sm font-medium text-main-h dark:text-main-dark md:px-4"
-                onClick={isSubscribed ? unsubscribeFromPush : subscribeToPush}
-              >
+              <div className="inline-flex h-auto min-h-11 w-full items-center justify-between gap-2 px-6 py-2 text-sm font-medium text-main-h dark:text-main-dark md:px-4">
                 <div className="flex items-center gap-4">
                   <BellRing className="size-4 shrink-0" />
                   <div className="flex flex-col items-start">
