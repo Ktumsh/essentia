@@ -12,7 +12,7 @@ import { UserProfileData } from "@/types/session";
 
 import AccesibilitySettings from "./accesibility-settings";
 import AccountSettings from "./account-settings";
-import PushNotificationManager from "./push-notifications-manager";
+import PushNotificationManager from "./notifications-settings";
 import SettingsOptsHeader from "./settings-opts-header";
 
 interface SettingsTabsProps {
@@ -82,7 +82,7 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
             className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
           >
             <Link href="/settings/notifications">
-              <span>Notificaciones</span>
+              <span>Alertas y Notificaciones</span>
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Link>
           </TabsTrigger>
@@ -113,7 +113,7 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
           value="/settings/notifications"
           className="flex-1 pb-16 pl-6 md:pb-6"
         >
-          <SettingsOptsHeader title="Notificaciones" />
+          <SettingsOptsHeader title="Alertas y Notificaciones" />
           <PushNotificationManager />
         </TabsContent>
         <TabsContent

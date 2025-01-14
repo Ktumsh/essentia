@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 
+import NotificationsSettingsWrapper from "@/modules/settings/components/notifications-settings-wrapper";
+
 export const metadata: Metadata = {
   title: "Configuración - Notificaciones",
   alternates: {
@@ -8,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const NotificationsSettingsPage = () => {
-  return null;
+  return <NotificationsSettingsWrapper />;
 };
 
 export default NotificationsSettingsPage;

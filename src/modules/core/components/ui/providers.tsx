@@ -3,6 +3,7 @@
 import { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 
+import { MobileProvider } from "@/components/hooks/use-mobile";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ReducedMotionProvider } from "@/modules/settings/hooks/use-reduce-motion";
 
@@ -18,17 +19,19 @@ export function Providers({
 }: { currentPlan: string | null; defaultOpen?: boolean } & ThemeProviderProps) {
   return (
     <SessionProviderComponent>
-      <PlanProvider currentPlan={currentPlan}>
-        <SidebarProvider defaultOpen={defaultOpen}>
-          <ChatProvider>
-            <ReducedMotionProvider>
-              <ThemeProvider disableTransitionOnChange>
-                {children}
-              </ThemeProvider>
-            </ReducedMotionProvider>
-          </ChatProvider>
-        </SidebarProvider>
-      </PlanProvider>
+      <MobileProvider>
+        <PlanProvider currentPlan={currentPlan}>
+          <SidebarProvider defaultOpen={defaultOpen}>
+            <ChatProvider>
+              <ReducedMotionProvider>
+                <ThemeProvider disableTransitionOnChange>
+                  {children}
+                </ThemeProvider>
+              </ReducedMotionProvider>
+            </ChatProvider>
+          </SidebarProvider>
+        </PlanProvider>
+      </MobileProvider>
     </SessionProviderComponent>
   );
 }

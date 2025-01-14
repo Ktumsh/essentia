@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight } from "lucide-react";
+import { BellRing, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import {
@@ -23,6 +23,7 @@ function PushNotificationManager() {
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
       setIsSupported(true);
+      if (process.env.NODE_ENV === "development") return;
       registerServiceWorker();
     }
   }, []);
@@ -63,7 +64,21 @@ function PushNotificationManager() {
   }
 
   if (!isSupported) {
-    return <p>Las notificaciones push no están soportadas en este navegador</p>;
+    return (
+      <div className="flex flex-col">
+        <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+          <li>
+            <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
+              <div className="flex items-center gap-4">
+                <p>
+                  Las notificaciones push no están soportadas en este navegador.
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    );
   }
 
   return (
@@ -78,6 +93,7 @@ function PushNotificationManager() {
             onClick={subscription ? unsubscribeFromPush : subscribeToPush}
           >
             <div className="flex items-center gap-4">
+              <BellRing className="size-4 shrink-0" />
               <div className="flex flex-col items-start">
                 <span>
                   {subscription
