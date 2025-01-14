@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 "use server";
 
 import webpush from "web-push";
@@ -10,7 +11,6 @@ import {
   unsubscribeNotifications,
 } from "@/db/querys/notification-querys";
 
-// eslint-disable-next-line import/no-named-as-default-member
 webpush.setVapidDetails(
   "mailto:essentia.app.cl@gmail.com",
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
@@ -56,22 +56,29 @@ export async function sendAndSaveNotification({
 
     for (const sub of subscriptions) {
       if (sub.userId === userId) {
-        // eslint-disable-next-line import/no-named-as-default-member
-        await webpush.sendNotification(
-          {
-            endpoint: sub.endpoint,
-            keys: {
-              p256dh: sub.p256dh,
-              auth: sub.auth,
+        try {
+          await webpush.sendNotification(
+            {
+              endpoint: sub.endpoint,
+              keys: {
+                p256dh: sub.p256dh,
+                auth: sub.auth,
+              },
             },
-          },
-          JSON.stringify({
-            title,
-            body: message,
-            icon: "/web-app-manifest-192x192.png",
-            url,
-          }),
-        );
+            JSON.stringify({
+              title,
+              body: message,
+              url,
+            }),
+          );
+        } catch (error: any) {
+          if (error.statusCode === 410) {
+            console.warn(`Eliminando suscripción expirada: ${sub.endpoint}`);
+            await unsubscribeNotifications(sub.endpoint);
+          } else {
+            console.error("Error enviando notificación:", error);
+          }
+        }
       }
     }
 

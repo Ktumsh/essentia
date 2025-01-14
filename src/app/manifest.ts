@@ -20,38 +20,8 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     icons: [
       {
-        sizes: "48x48",
-        src: "essentia_x48.png",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        sizes: "72x72",
-        src: "essentia_x72.png",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        sizes: "96x96",
-        src: "essentia_x96.png",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        sizes: "128x128",
-        src: "essentia_x128.png",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
         sizes: "192x192",
         src: "web-app-manifest-192x192.png",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        sizes: "384x384",
-        src: "essentia_x384.png",
         type: "image/png",
         purpose: "maskable",
       },
@@ -60,18 +30,6 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "web-app-manifest-512x512.png",
         type: "image/png",
         purpose: "maskable",
-      },
-      {
-        sizes: "192x192",
-        src: "essentia_x192.png",
-        type: "image/png",
-        purpose: "any",
-      },
-      {
-        sizes: "512x512",
-        src: "essentia_x512.png",
-        type: "image/png",
-        purpose: "any",
       },
       {
         src: "/screenshots/screenshot-wide.png",
