@@ -2,6 +2,14 @@
 
 import webpush from "web-push";
 
+import { siteConfig } from "@/config/site";
+import {
+  createNotification,
+  getAllSubscriptions,
+  subscribeNotifications,
+  unsubscribeNotifications,
+} from "@/db/querys/notification-querys";
+
 // eslint-disable-next-line import/no-named-as-default-member
 webpush.setVapidDetails(
   "mailto:essentia.app.cl@gmail.com",
@@ -9,40 +17,69 @@ webpush.setVapidDetails(
   process.env.VAPID_PRIVATE_KEY!,
 );
 
-let subscription: webpush.PushSubscription | null = null;
-
-export async function subscribeUser(sub: webpush.PushSubscription) {
-  subscription = sub;
-  // In a production environment, you would want to store the subscription in a database
-  // For example: await db.subscriptions.create({ data: sub })
-  return { success: true };
-}
-
-export async function unsubscribeUser() {
-  subscription = null;
-  // In a production environment, you would want to remove the subscription from the database
-  // For example: await db.subscriptions.delete({ where: { ... } })
-  return { success: true };
-}
-
-export async function sendNotification(title: string, message: string) {
-  if (!subscription) {
-    throw new Error("No subscription available");
-  }
-
+export async function subscribeUser(
+  userId: string,
+  subscription: webpush.PushSubscription,
+) {
   try {
-    // eslint-disable-next-line import/no-named-as-default-member
-    await webpush.sendNotification(
-      subscription,
-      JSON.stringify({
-        title: title,
-        body: message,
-        icon: "/web-app-manifest-192x192.png",
-      }),
-    );
+    await subscribeNotifications(userId, subscription);
     return { success: true };
   } catch (error) {
-    console.error("Error sending push notification:", error);
-    return { success: false, error: "Failed to send notification" };
+    console.error("Error subscribing user:", error);
+    return { success: false, error: "Failed to subscribe user" };
+  }
+}
+
+export async function unsubscribeUser(endpoint: string) {
+  try {
+    await unsubscribeNotifications(endpoint);
+    return { success: true };
+  } catch (error) {
+    console.error("Error unsubscribing user:", error);
+    return { success: false, error: "Failed to unsubscribe user" };
+  }
+}
+
+export async function sendAndSaveNotification({
+  userId,
+  title = "Notificación",
+  message,
+  url = siteConfig.url,
+}: {
+  userId: string;
+  title?: string;
+  message: string;
+  url?: string;
+}) {
+  try {
+    const subscriptions = await getAllSubscriptions();
+
+    for (const sub of subscriptions) {
+      if (sub.userId === userId) {
+        // eslint-disable-next-line import/no-named-as-default-member
+        await webpush.sendNotification(
+          {
+            endpoint: sub.endpoint,
+            keys: {
+              p256dh: sub.p256dh,
+              auth: sub.auth,
+            },
+          },
+          JSON.stringify({
+            title,
+            body: message,
+            icon: "/web-app-manifest-192x192.png",
+            url,
+          }),
+        );
+      }
+    }
+
+    await createNotification({ userId, title, message, url });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending or saving notification:", error);
+    return { success: false, error: "Failed to send or save notification" };
   }
 }

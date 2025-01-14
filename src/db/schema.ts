@@ -293,3 +293,32 @@ export const userExamProgress = table(
 );
 
 export type UserExamProgress = InferSelectModel<typeof userExamProgress>;
+
+export const notificationSubscription = table("notification_subscription", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  endpoint: text("endpoint").notNull(),
+  p256dh: text("p256dh").notNull(),
+  auth: text("auth").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type NotificationSubscription = InferSelectModel<
+  typeof notificationSubscription
+>;
+
+export const userNotification = table("user_notification", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  url: text("url"),
+  isRead: boolean("is_read").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type UserNotification = InferSelectModel<typeof userNotification>;

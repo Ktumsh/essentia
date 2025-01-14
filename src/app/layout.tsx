@@ -164,7 +164,11 @@ export default async function RootLayout({
       >
         <Sooner />
         <Toaster />
-        <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
+        <Providers
+          currentPlan={currentPlan}
+          defaultOpen={!isCollapsed}
+          userId={session?.user?.id as string}
+        >
           <div className="relative flex size-full min-h-dvh flex-col md:flex-row">
             {children}
           </div>
