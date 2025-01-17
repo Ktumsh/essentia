@@ -54,6 +54,7 @@ interface LessonProps {
   completedLessons?: string[];
   moduleProgress: { [moduleId: string]: number };
   isCourseCompleted: boolean;
+  isPremium?: boolean | null;
 }
 
 const Lesson = ({
@@ -64,17 +65,22 @@ const Lesson = ({
   completedLessons,
   moduleProgress,
   isCourseCompleted,
+  isPremium,
 }: LessonProps) => {
   const { resourceId, resourceName, resourceSlug } = resource;
+
   const isMobile = useIsMobile();
+
   const resourceIndex = useMemo(
     () => getResourceIndex(resourceName),
     [resourceName],
   );
+
   const resourceDetails = useMemo(
     () => getResourceDetails(resourceName),
     [resourceName],
   );
+
   const { data: session } = useSession();
   const userId = session?.user?.id;
   const router = useRouter();
@@ -271,6 +277,17 @@ const Lesson = ({
     router,
     areAllPreviousLessonsCompleted,
   ]);
+
+  const isPremiumResource =
+    [
+      "ejercicios-y-fitness",
+      "nutricion-y-alimentacion",
+      "bienestar-emocional",
+      "salud-y-educacion-sexual",
+      "salud-en-todas-las-edades",
+    ].includes(resourceSlug) && !isPremium;
+
+  if (isPremiumResource) return null;
 
   if (currentModuleIndex === -1 || currentLessonIndex === -1) {
     return (

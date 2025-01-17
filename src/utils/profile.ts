@@ -40,7 +40,7 @@ export async function getUserProfileData({
 
   const id = user.id;
   const email = user.email;
-  const isPremium = subscription.isPremium || null;
+  const isPremium = subscription.isPremium;
   const firstName = profile.firstName || "Usuario";
   const lastName = profile.lastName || "";
   const profileImage = profile.profileImage || null;

@@ -23,6 +23,7 @@ interface ChapterListProps {
   completedLessons?: string[];
   moduleProgress: { [moduleId: string]: number };
   onLessonClick?: (href: string) => void;
+  isDisaled?: boolean;
 }
 
 const ChapterList = ({
@@ -31,6 +32,7 @@ const ChapterList = ({
   completedLessons = [],
   moduleProgress,
   onLessonClick,
+  isDisaled = false,
 }: ChapterListProps) => {
   const pathname = usePathname();
 
@@ -53,10 +55,11 @@ const ChapterList = ({
   };
 
   return (
-    <Accordion type="multiple" className="w-full space-y-4">
+    <Accordion type="multiple" className="!mt-0 w-full space-y-4">
       {modules?.map((item, index) => {
         return (
           <AccordionItem
+            disabled={isDisaled}
             key={item.module.title}
             value={`module-${index}`}
             className="rounded-lg border"

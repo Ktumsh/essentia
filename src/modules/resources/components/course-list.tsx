@@ -45,6 +45,8 @@ import { Progress } from "@/components/ui/progress";
 import { ToastAction } from "@/components/ui/toast";
 import { getResourceColor, getResourceIndex } from "@/modules/core/lib/utils";
 import { PlayIcon } from "@/modules/icons/action";
+import { StarsIcon } from "@/modules/icons/common";
+import PaymentModal from "@/modules/payment/components/payment-modal";
 import { Course } from "@/types/resource";
 import { cn } from "@/utils/common";
 
@@ -62,6 +64,7 @@ const CourseList = ({
   moduleProgress,
   courseProgress,
   courseInitialized,
+  isPremium,
 }: Course) => {
   const { resourceId, resourceName } = resource || {};
 
@@ -70,6 +73,7 @@ const CourseList = ({
   const isMobile = useIsMobile();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
 
   const { toast } = useToast();
 
@@ -91,6 +95,15 @@ const CourseList = ({
     firstModule,
     firstLesson,
   });
+
+  const isPremiumResource =
+    [
+      "ejercicios-y-fitness",
+      "nutricion-y-alimentacion",
+      "bienestar-emocional",
+      "salud-y-educacion-sexual",
+      "salud-en-todas-las-edades",
+    ].includes(slug) && !isPremium;
 
   const handleLessonClick = (href: string) => {
     if (!userId) {
@@ -191,15 +204,51 @@ const CourseList = ({
               <span>{classes} clases</span>
             </div>
           </div>
-          <ChapterList
-            modules={modules}
-            resourceSlug={slug}
-            completedLessons={completedLessons}
-            moduleProgress={moduleProgress}
-            onLessonClick={handleLessonClick}
-          />
+          {isPremiumResource ? (
+            <div className="relative mb-4 flex flex-col space-y-1 text-main">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 animate-fade-in rounded-lg border border-gray-200 bg-white/50 p-6 backdrop-blur-sm duration-2000 ease-in-out dark:border-dark dark:bg-black/10"
+              >
+                <div className="slideup flex size-full flex-col items-center justify-center gap-4">
+                  <p className="text-center font-semibold text-main dark:text-white md:text-lg">
+                    ¡Este curso es exclusivo para usuarios premium! 🌟
+                  </p>
+                  <Button
+                    variant="gradient"
+                    fullWidth
+                    radius="full"
+                    onClick={() => setIsOpenPayment(true)}
+                    className="max-w-60 shadow-pretty focus:text-white active:shadow-sm"
+                  >
+                    <StarsIcon
+                      aria-hidden="true"
+                      className="size-4 focus:outline-none [&_*]:fill-white"
+                    />
+                    Hazte premium
+                  </Button>
+                </div>
+              </div>
+              <ChapterList
+                modules={modules}
+                resourceSlug={slug}
+                completedLessons={completedLessons}
+                moduleProgress={moduleProgress}
+                onLessonClick={handleLessonClick}
+                isDisaled
+              />
+            </div>
+          ) : (
+            <ChapterList
+              modules={modules}
+              resourceSlug={slug}
+              completedLessons={completedLessons}
+              moduleProgress={moduleProgress}
+              onLessonClick={handleLessonClick}
+            />
+          )}
         </section>
-        <section className="sticky top-5 col-[1/2] row-[2/3] lg:col-[2/3] lg:row-[1/4]">
+        <section className="top-5 col-[1/2] row-[2/3] lg:sticky lg:col-[2/3] lg:row-[1/4]">
           <Card className="rounded-none border-y bg-gray-100 text-main dark:bg-dark/50 dark:text-white md:rounded-xl md:border">
             <CardHeader isSecondary>
               <CardTitle className="text-center text-lg tracking-normal">
@@ -252,7 +301,7 @@ const CourseList = ({
                 </li>
               </ul>
             </CardContent>
-            {!courseProgress.completed && userId ? (
+            {!courseProgress.completed && !isPremiumResource && userId ? (
               <CardFooter>
                 <Button
                   variant="destructive"
@@ -272,7 +321,8 @@ const CourseList = ({
                 </Button>
               </CardFooter>
             ) : (
-              !courseProgress.completed && (
+              !courseProgress.completed &&
+              !isPremiumResource && (
                 <CardFooter>
                   <Button
                     variant="destructive"
@@ -372,6 +422,7 @@ const CourseList = ({
           </DialogContent>
         </Dialog>
       )}
+      <PaymentModal isOpen={isOpenPayment} setIsOpen={setIsOpenPayment} />
     </>
   );
 };

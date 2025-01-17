@@ -4,30 +4,20 @@ import { ArrowLeft, BellRing } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useNotification } from "@/modules/core/hooks/use-notification";
 
 import SettingsOptsHeader from "./settings-opts-header";
 
-interface NotificationsSettingsProps {
+interface NotificationsStgProps {
   isMobile?: boolean;
 }
 
-function NotificationsSettings({
-  isMobile = false,
-}: NotificationsSettingsProps) {
+function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
   const router = useRouter();
 
-  const {
-    isSupported,
-    isSubscribed,
-    message,
-    setMessage,
-    subscribeToPush,
-    unsubscribeFromPush,
-    notifyUser,
-  } = useNotification();
+  const { isSupported, isSubscribed, subscribeToPush, unsubscribeFromPush } =
+    useNotification();
 
   if (!isSupported) {
     return (
@@ -91,7 +81,7 @@ function NotificationsSettings({
                 />
               </div>
             </li>
-            {isSubscribed && (
+            {/* {isSubscribed && (
               <li className="border-t border-gray-200 dark:border-dark">
                 <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
                   <div className="flex items-center gap-4">
@@ -115,7 +105,7 @@ function NotificationsSettings({
                   </div>
                 </div>
               </li>
-            )}
+            )} */}
           </ul>
         </div>
       </div>
@@ -123,4 +113,4 @@ function NotificationsSettings({
   );
 }
 
-export default NotificationsSettings;
+export default NotificationsStg;

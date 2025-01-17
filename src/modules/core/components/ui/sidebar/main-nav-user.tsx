@@ -7,11 +7,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import React from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,6 +49,8 @@ interface MainNavUserProps {
 }
 
 const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
+  const router = useRouter();
+
   const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
   const fullName = `${firstName} ${lastName}`;
@@ -158,16 +162,18 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                 <>
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link
-                        href="/pricing"
-                        className="justify-center rounded-md bg-light-gradient-v2 text-sm text-white focus:text-white dark:bg-dark-gradient"
+                      <Button
+                        variant="gradient"
+                        fullWidth
+                        onClick={() => router.push("/pricing")}
+                        className="transition focus:text-white"
                       >
                         <StarsIcon
                           aria-hidden="true"
                           className="size-4 focus:outline-none [&_*]:fill-white"
                         />
                         Hazte premium
-                      </Link>
+                      </Button>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
@@ -177,12 +183,14 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                 <>
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link
-                        href="/login"
-                        className="justify-center rounded-md bg-light-gradient-v2 text-sm text-white focus:text-white dark:bg-dark-gradient"
+                      <Button
+                        variant="gradient"
+                        fullWidth
+                        onClick={() => router.push("/login")}
+                        className="transition focus:text-white"
                       >
                         Inicia sesión
-                      </Link>
+                      </Button>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />

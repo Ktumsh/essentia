@@ -16,6 +16,7 @@ const ForAllAges = (props: Course) => {
     moduleProgress,
     courseProgress,
     courseInitialized,
+    isPremium,
   } = props;
 
   return (
@@ -29,6 +30,7 @@ const ForAllAges = (props: Course) => {
       moduleProgress={moduleProgress}
       courseProgress={courseProgress}
       courseInitialized={courseInitialized}
+      isPremium={isPremium}
     />
   );
 };

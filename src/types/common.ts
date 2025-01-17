@@ -7,6 +7,8 @@ import {
   type JSX,
 } from "react";
 
+import { Payment } from "@/db/schema";
+
 declare global {
   interface Window {
     YT: any;
@@ -159,3 +161,8 @@ export type ModalSize =
   | "5xl"
   | "full"
   | undefined;
+
+export type PaymentHistory = {
+  payment: Payment;
+  type: "free" | "premium" | "premium-plus" | null;
+};

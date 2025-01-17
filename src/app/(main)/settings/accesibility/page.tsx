@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import AccesibilitySettingsWrapper from "@/modules/settings/components/accesiblity-settings-wrapper";
+import AccesibilityStgWrp from "@/modules/settings/components/accesiblity-stg-wrp";
 
 export const metadata: Metadata = {
   title: "Configuración / Accesibilidad y pantalla",
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   },
 };
 
-const AccesibilitySettingsPage = () => {
-  return <AccesibilitySettingsWrapper />;
+const AccesibilityStgPage = () => {
+  return <AccesibilityStgWrp />;
 };
 
-export default AccesibilitySettingsPage;
+export default AccesibilityStgPage;

@@ -33,6 +33,7 @@ export type Course = {
   moduleProgress: { [moduleId: string]: number };
   courseProgress: { completed: boolean; progress: number };
   courseInitialized: boolean;
+  isPremium?: boolean | null;
 };
 
 export type Courses = {

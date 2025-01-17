@@ -262,7 +262,7 @@ const EditProfileForm = ({
                       {...field}
                       placeholder="Cuéntanos algo sobre ti"
                       maxLength={180}
-                      className="min-h-20 w-full resize-none"
+                      className="min-h-20 w-full resize-none text-sm"
                     />
                   </FormControl>
                   <FormMessage>{fieldState.error?.message}</FormMessage>

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
-import NotificationsSettingsWrapper from "@/modules/settings/components/notifications-settings-wrapper";
+import { auth } from "@/app/(auth)/auth";
+import NotificationsStgWrp from "@/modules/settings/components/notifications-stg-wrp";
 
 export const metadata: Metadata = {
   title: "Configuración / Notificaciones",
@@ -9,8 +10,12 @@ export const metadata: Metadata = {
   },
 };
 
-const NotificationsSettingsPage = () => {
-  return <NotificationsSettingsWrapper />;
+const NotificationsStgPage = async () => {
+  const session = await auth();
+
+  if (!session?.user) return null;
+
+  return <NotificationsStgWrp />;
 };
 
-export default NotificationsSettingsPage;
+export default NotificationsStgPage;
