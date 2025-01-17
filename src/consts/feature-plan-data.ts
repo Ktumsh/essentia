@@ -1,14 +1,5 @@
-import { siteConfig } from "@/config/site";
-
-type PlanDetails = {
-  name: string;
-  description: string;
-  subname: string;
-  feature: string[];
-};
-
-export const planDetails: Record<string, PlanDetails> = {
-  [siteConfig.planPrices.free]: {
+export const FEATURE_PLAN_DATA = {
+  free: {
     name: "Gratis",
     description: "Plan básico con acceso limitado a funcionalidades.",
     subname: "Predeterminado",
@@ -20,7 +11,7 @@ export const planDetails: Record<string, PlanDetails> = {
       "Recomendaciones básicas de salud",
     ],
   },
-  [siteConfig.planPrices.premium]: {
+  premium: {
     name: "Premium",
     description:
       "Plan mensual que incluye acceso completo a todas las funcionalidades de Essentia AI.",
@@ -38,7 +29,7 @@ export const planDetails: Record<string, PlanDetails> = {
       "Recomendaciones personalizadas basadas en tus objetivos",
     ],
   },
-  [siteConfig.planPrices.premiumPlus]: {
+  "premium-plus": {
     name: "Premium Plus",
     description:
       "Plan anual con todas las funcionalidades de Essentia AI y algunos beneficios adicionales.",
@@ -51,21 +42,4 @@ export const planDetails: Record<string, PlanDetails> = {
   },
 };
 
-export const getPlanName = (planId: string) => {
-  return planDetails[planId].name;
-};
-
-export const getPlanSubname = (
-  currentPriceId: string | null,
-  priceId: string,
-) => {
-  return currentPriceId === priceId ? "Actual" : planDetails[priceId].subname;
-};
-
-export const getPlanDescription = (planId: string) => {
-  return planDetails[planId].description;
-};
-
-export const getPlanFeatures = (planId: string) => {
-  return planDetails[planId].feature || [];
-};
+export type FeaturePlanData = typeof FEATURE_PLAN_DATA;

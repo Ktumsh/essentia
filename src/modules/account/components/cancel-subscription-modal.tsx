@@ -4,7 +4,7 @@ import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
-import { useCallback, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
@@ -124,17 +124,24 @@ const CancelSubscriptionModal = ({
     );
   }, [planType, price, selectedReasons]);
 
+  const description = useMemo(() => {
+    return (
+      <p>
+        Tu plan permanecerá activo hasta el final de tu período de facturación
+        actual, <strong>{renewalDate}</strong>. Después de esa fecha, tu plan
+        cambiará a gratuito y perderás acceso a las funcionalidades Premium.
+      </p>
+    );
+  }, [renewalDate]);
+
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Cancelar suscripción</DrawerTitle>
-            <DrawerDescription className="mt-4 px-4 text-start">
-              Tu plan permanecerá activo hasta el final de tu período de
-              facturación actual, {renewalDate}. Después de esa fecha, tu plan
-              cambiará a gratuito y perderás acceso a las funcionalidades
-              Premium.
+            <DrawerDescription asChild className="mt-4 px-4 text-start">
+              {description}
             </DrawerDescription>
           </DrawerHeader>
           <Content />
@@ -161,11 +168,7 @@ const CancelSubscriptionModal = ({
       <DialogContent isSecondary>
         <DialogHeader isSecondary>
           <DialogTitle>Cancelar suscripción</DialogTitle>
-          <DialogDescription>
-            Tu plan permanecerá activo hasta el final de tu período de
-            facturación actual, {renewalDate}. Después de esa fecha, tu plan
-            cambiará a gratuito y perderás acceso a las funcionalidades Premium.
-          </DialogDescription>
+          <DialogDescription asChild>{description}</DialogDescription>
         </DialogHeader>
         <Content />
         <DialogFooter isSecondary>

@@ -219,7 +219,7 @@ const ChangePasswordModal = ({
           {isMobile ? (
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button variant="secondary" disabled={isPending}>
+                <Button variant="outline" disabled={isPending}>
                   Cancelar
                 </Button>
               </DrawerClose>

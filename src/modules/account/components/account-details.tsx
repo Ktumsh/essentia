@@ -3,7 +3,6 @@
 import { Calendar, Mail } from "lucide-react";
 import { useState } from "react";
 
-import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,8 +27,6 @@ interface AccountDetailsProps {
 }
 
 const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
-  const isMobile = useIsMobile();
-
   const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
   const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -38,7 +35,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
     return null;
   }
 
-  const { id, email, createdAt, genre } = user;
+  const { id, email, createdAt, genre, isPremium } = user;
 
   return (
     <>
@@ -118,7 +115,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
             <CourseProgressTable
               userId={id}
               courses={courses}
-              isMobile={isMobile}
+              isPremium={isPremium}
             />
           </CardContent>
         </Card>

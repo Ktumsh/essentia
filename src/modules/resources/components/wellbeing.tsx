@@ -15,6 +15,7 @@ const Wellbeing = (props: Course) => {
     moduleProgress,
     courseProgress,
     courseInitialized,
+    isPremium,
   } = props;
 
   return (
@@ -28,6 +29,7 @@ const Wellbeing = (props: Course) => {
       moduleProgress={moduleProgress}
       courseProgress={courseProgress}
       courseInitialized={courseInitialized}
+      isPremium={isPremium}
     />
   );
 };

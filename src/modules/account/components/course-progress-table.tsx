@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 
 import { Progress } from "@/components/ui/progress";
 import {
@@ -28,41 +29,53 @@ import { formatDate } from "@/utils/format";
 interface CourseProgressTableProps {
   userId: string;
   courses: Courses;
-  isMobile: boolean;
+  isPremium: boolean | null;
 }
 
 const CourseProgressTable = ({
   userId,
   courses,
-  isMobile,
+  isPremium,
 }: CourseProgressTableProps) => {
   const router = useRouter();
 
-  const continueCourse = async ({
-    resourceId,
-    resourceSlug,
-  }: {
-    resourceId: string;
-    resourceSlug: string;
-  }) => {
-    try {
-      if (!userId || !resourceId) return;
+  const continueCourse = useCallback(
+    async ({
+      resourceId,
+      resourceSlug,
+    }: {
+      resourceId: string;
+      resourceSlug: string;
+    }) => {
+      const isPremiumResource =
+        [
+          "ejercicios-y-fitness",
+          "nutricion-y-alimentacion",
+          "bienestar-emocional",
+          "salud-y-educacion-sexual",
+          "salud-en-todas-las-edades",
+        ].includes(resourceSlug) && !isPremium;
 
-      const lastLesson = await getLastCompletedLesson(userId, resourceId);
+      try {
+        if (!userId || !resourceId || isPremiumResource) return;
 
-      if (lastLesson) {
-        router.push(
-          `/${resourceSlug}/${lastLesson.moduleSlug}/${lastLesson.lessonSlug}`,
-        );
-      } else {
-        router.push(`/${resourceSlug}#aprende-sobre-${resourceSlug}`);
+        const lastLesson = await getLastCompletedLesson(userId, resourceId);
+
+        if (lastLesson) {
+          router.push(
+            `/${resourceSlug}/${lastLesson.moduleSlug}/${lastLesson.lessonSlug}`,
+          );
+        } else {
+          router.push(`/${resourceSlug}#aprende-sobre-${resourceSlug}`);
+        }
+      } catch (error) {
+        console.error("Error al continuar el curso:", error);
       }
-    } catch (error) {
-      console.error("Error al continuar el curso:", error);
-    }
-  };
+    },
+    [userId, isPremium, router],
+  );
 
-  return (
+  return courses.length > 0 ? (
     <Table>
       <TableHeader>
         <TableRow>
@@ -141,27 +154,24 @@ const CourseProgressTable = ({
             </TableCell>
           </TableRow>
         ))}
-        {courses.length === 0 && (
-          <TableRow>
-            <TableCell colSpan={isMobile ? 2 : 5} className="py-10 text-center">
-              <div className="flex flex-col items-center justify-center gap-4 text-main-m dark:text-main-dark-m">
-                <BookOpenText strokeWidth={1.5} className="size-8" />
-                <p className="text-xs md:text-sm">
-                  Aún no te has inscrito en ningún curso. ¡Es un buen momento
-                  para empezar a aprender algo nuevo!
-                </p>
-                <Link
-                  href="/salud-y-bienestar#aprende-sobre-salud-y-bienestar"
-                  className="text-sm font-medium text-blue-600 hover:underline"
-                >
-                  Empieza a aprender
-                </Link>
-              </div>
-            </TableCell>
-          </TableRow>
-        )}
       </TableBody>
     </Table>
+  ) : (
+    <div className="py-10 text-center">
+      <div className="flex flex-col items-center justify-center gap-4 text-main-m dark:text-main-dark-m">
+        <BookOpenText strokeWidth={1.5} className="size-8" />
+        <p className="text-xs md:text-sm">
+          Aún no te has inscrito en ningún curso. ¡Es un buen momento para
+          empezar a aprender algo nuevo!
+        </p>
+        <Link
+          href="/salud-y-bienestar#aprende-sobre-salud-y-bienestar"
+          className="text-sm font-medium text-blue-600 hover:underline"
+        >
+          Empieza a aprender
+        </Link>
+      </div>
+    </div>
   );
 };
 

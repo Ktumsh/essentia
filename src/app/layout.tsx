@@ -162,13 +162,13 @@ export default async function RootLayout({
           "font-sans",
         )}
       >
-        <Sooner />
-        <Toaster />
         <Providers
           currentPlan={currentPlan}
           defaultOpen={!isCollapsed}
           userId={session?.user?.id as string}
         >
+          <Toaster />
+          <Sooner />
           <div className="relative flex size-full min-h-dvh flex-col md:flex-row">
             {children}
           </div>

@@ -10,13 +10,11 @@ import SettingsOptsHeader from "./settings-opts-header";
 import ThemeSelect from "./theme-select";
 import { useReducedMotion } from "../hooks/use-reduce-motion";
 
-interface AccesibilitySettingsProps {
+interface AccesibilityStgProps {
   isMobile?: boolean;
 }
 
-const AccesibilitySettings = ({
-  isMobile = false,
-}: AccesibilitySettingsProps) => {
+const AccesibilityStg = ({ isMobile = false }: AccesibilityStgProps) => {
   const { isReducedMotion, toggleReducedMotion } = useReducedMotion();
   const router = useRouter();
 
@@ -96,4 +94,4 @@ const AccesibilitySettings = ({
   );
 };
 
-export default AccesibilitySettings;
+export default AccesibilityStg;

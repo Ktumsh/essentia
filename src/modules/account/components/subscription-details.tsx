@@ -1,6 +1,6 @@
 "use client";
 
-import { BadgeDollarSign } from "lucide-react";
+import { CalendarSync, CircleDollarSign } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Payment, Subscription } from "@/db/schema";
-import { CalendarSync } from "@/modules/icons/miscellaneus";
 import PaymentModal from "@/modules/payment/components/payment-modal";
 import { cn } from "@/utils/common";
 import { formatDate } from "@/utils/format";
@@ -73,7 +72,7 @@ const SubscriptionDetails = ({
                 <span className="flex flex-col">
                   <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
                     <span>
-                      <BadgeDollarSign strokeWidth={1.5} className="size-3" />
+                      <CircleDollarSign strokeWidth={1.5} className="size-3" />
                     </span>
                     <span>
                       Precio/{planType === "Premium Plus" ? "Año" : "Mes"}

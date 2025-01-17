@@ -8,19 +8,32 @@ import { useEffect, useState } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PaymentHistory } from "@/types/common";
 import { UserProfileData } from "@/types/session";
 
-import AccesibilitySettings from "./accesibility-settings";
-import AccountSettings from "./account-settings";
-import PushNotificationManager from "./notifications-settings";
+import AccesibilityStg from "./accesibility-stg";
+import AccountStg from "./account-stg";
+import NotificationsStg from "./notifications-stg";
 import SettingsOptsHeader from "./settings-opts-header";
+import SubscriptionsStg from "./subscriptions-stg";
+
+import type { Payment, Subscription } from "@/db/schema";
 
 interface SettingsTabsProps {
   user: UserProfileData | null;
   session: Session | null;
+  subscription: Subscription;
+  subscriptionDetails: Payment | null;
+  paymentHistory: PaymentHistory[];
 }
 
-const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
+const SettingsTabs = ({
+  user,
+  session,
+  subscription,
+  subscriptionDetails,
+  paymentHistory,
+}: SettingsTabsProps) => {
   const pathname = usePathname();
 
   const [tabValue, setTabValue] = useState<string>(pathname);
@@ -55,16 +68,28 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
             </h1>
           </div>
           {session?.user && (
-            <TabsTrigger
-              asChild
-              value="/settings/account-profile"
-              className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
-            >
-              <Link href="/settings/account-profile">
-                <span>Cuenta y perfil</span>
-                <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
-              </Link>
-            </TabsTrigger>
+            <>
+              <TabsTrigger
+                asChild
+                value="/settings/account-profile"
+                className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+              >
+                <Link href="/settings/account-profile">
+                  <span>Cuenta y perfil</span>
+                  <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+                </Link>
+              </TabsTrigger>
+              <TabsTrigger
+                asChild
+                value="/settings/subscriptions"
+                className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+              >
+                <Link href="/settings/subscriptions">
+                  <span>Suscripciones</span>
+                  <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+                </Link>
+              </TabsTrigger>
+            </>
           )}
           <TabsTrigger
             asChild
@@ -76,16 +101,18 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Link>
           </TabsTrigger>
-          <TabsTrigger
-            asChild
-            value="/settings/notifications"
-            className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
-          >
-            <Link href="/settings/notifications">
-              <span>Notificaciones</span>
-              <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
-            </Link>
-          </TabsTrigger>
+          {session?.user && (
+            <TabsTrigger
+              asChild
+              value="/settings/notifications"
+              className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+            >
+              <Link href="/settings/notifications">
+                <span>Notificaciones</span>
+                <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+              </Link>
+            </TabsTrigger>
+          )}
           {/* <TabsTrigger
             asChild
             value="/settings/support"
@@ -101,19 +128,29 @@ const SettingsTabs = ({ user, session }: SettingsTabsProps) => {
           value="/settings/account-profile"
           className="flex-1 pb-16 pl-6 md:pb-6"
         >
-          <AccountSettings user={user} />
+          <AccountStg user={user} />
+        </TabsContent>
+        <TabsContent
+          value="/settings/subscriptions"
+          className="flex-1 pb-16 pl-6 md:pb-6"
+        >
+          <SubscriptionsStg
+            subscription={subscription}
+            subscriptionDetails={subscriptionDetails}
+            paymentHistory={paymentHistory}
+          />
         </TabsContent>
         <TabsContent
           value="/settings/accesibility"
           className="flex-1 pb-16 pl-6 md:pb-6"
         >
-          <AccesibilitySettings />
+          <AccesibilityStg />
         </TabsContent>
         <TabsContent
           value="/settings/notifications"
           className="flex-1 pb-16 pl-6 md:pb-6"
         >
-          <PushNotificationManager />
+          <NotificationsStg />
         </TabsContent>
         <TabsContent
           value="/settings/support"

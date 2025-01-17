@@ -3,7 +3,6 @@
 import {
   ArrowLeft,
   BadgeCheck,
-  ChevronRight,
   LockKeyhole,
   Mail,
   MapPin,
@@ -32,14 +31,14 @@ import {
 import InfoField from "./info-field";
 import SettingsOptsHeader from "./settings-opts-header";
 
-interface AccountSettingsProps {
+interface AccountStgProps {
   user: UserProfileData | null;
   isMobile?: boolean;
 }
 
 type Section = "accountInfo" | "personalInfo" | "options";
 
-const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
+const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
   const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
   const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
@@ -68,16 +67,6 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
     height,
     genre,
   } = displayData as UserProfileData;
-
-  const sections = [
-    {
-      title: "Información de tu cuenta",
-      value: "accountInfo",
-      icon: BadgeCheck,
-    },
-    { title: "Información personal", value: "personalInfo", icon: User },
-    { title: "Cambiar contraseña", value: "changePassword", icon: LockKeyhole },
-  ];
 
   const handleSection = (section: Section) => {
     setSection(section);
@@ -125,36 +114,22 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
           <>
             <div className="flex flex-col gap-1">
               <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
-                {sections.map((section, index) => (
-                  <li key={index}>
-                    <Button
-                      variant="ghost"
-                      fullWidth
-                      radius="none"
-                      className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
-                      onClick={() => {
-                        if (index !== 2 && section.value) {
-                          handleSection(section.value as Section);
-                        } else {
-                          setIsOpenChangePass(true);
-                        }
-                      }}
-                    >
-                      <div className="flex items-center gap-4">
-                        <section.icon />
-                        <span>{section.title}</span>
-                      </div>
-                      <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
-                    </Button>
-                  </li>
-                ))}
+                <InfoField
+                  title="Información de tu cuenta"
+                  hasValue={false}
+                  icon={BadgeCheck}
+                  isButton
+                  buttonAction={() => handleSection("accountInfo")}
+                />
+                <InfoField
+                  title="Información personal"
+                  hasValue={false}
+                  icon={User}
+                  isButton
+                  buttonAction={() => handleSection("personalInfo")}
+                />
               </ul>
             </div>
-
-            <ChangePasswordModal
-              isOpen={isOpenChangePass}
-              setIsOpen={setIsOpenChangePass}
-            />
           </>
         )}
         {section === "accountInfo" && (
@@ -170,6 +145,13 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                   icon={Mail}
                   isButton
                   buttonAction={() => setIsOpenChangeEmail(true)}
+                />
+                <InfoField
+                  title="Cambiar contraseña"
+                  hasValue={false}
+                  icon={LockKeyhole}
+                  isButton
+                  buttonAction={() => setIsOpenChangePass(true)}
                 />
                 <InfoField
                   title="Fecha de creación"
@@ -188,7 +170,7 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
                   value="Elimina permanentemente tu cuenta y todo su contenido de Essentia"
                   hasBorder
                   isButton
-                  className="bg-red-50 !text-red-500 hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950"
+                  isDanger
                   buttonAction={() => setIsOpenDelete(true)}
                 />
               </ul>
@@ -197,6 +179,10 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
               currentEmail={email}
               isOpen={isOpenChangeEmail}
               setIsOpen={setIsOpenChangeEmail}
+            />
+            <ChangePasswordModal
+              isOpen={isOpenChangePass}
+              setIsOpen={setIsOpenChangePass}
             />
             <DeleteAccountModal
               userId={id}
@@ -274,4 +260,4 @@ const AccountSettings = ({ user, isMobile = false }: AccountSettingsProps) => {
   );
 };
 
-export default AccountSettings;
+export default AccountStg;

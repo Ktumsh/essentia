@@ -59,6 +59,7 @@ const Nutrition = (props: NutritionProps) => {
         moduleProgress={moduleProgress}
         courseProgress={courseProgress}
         courseInitialized={courseInitialized}
+        isPremium={isPremium}
       />
       <section className="col-[1/2] px-6 py-4 lg:col-[1/3] lg:p-0">
         <div className="relative flex w-full select-none justify-between">

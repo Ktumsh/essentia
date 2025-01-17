@@ -117,12 +117,13 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               )}
             </Link>
             {!user && (
-              <Link
-                href="/login"
-                className="box-border inline-flex h-8 w-full min-w-16 select-none appearance-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md bg-light-gradient-v2 px-5 text-sm font-normal text-white subpixel-antialiased tap-highlight-transparent transition-transform-colors-opacity active:scale-[0.97] motion-reduce:transition-none dark:bg-dark-gradient-v2"
+              <Button
+                variant="gradient"
+                fullWidth
+                onClick={() => router.push("/login")}
               >
                 Inicia sesión
-              </Link>
+              </Button>
             )}
           </SheetHeader>
           <Separator />

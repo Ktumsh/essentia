@@ -20,6 +20,7 @@ const HealthWellness = (props: Course) => {
     moduleProgress,
     courseProgress,
     courseInitialized,
+    isPremium,
   } = props;
 
   return (
@@ -35,6 +36,7 @@ const HealthWellness = (props: Course) => {
           moduleProgress={moduleProgress}
           courseProgress={courseProgress}
           courseInitialized={courseInitialized}
+          isPremium={isPremium}
         />
       )}
       <section className="col-[1/2] px-6 py-4 lg:col-[1/3] lg:p-0">

@@ -4,6 +4,7 @@ import {
   Accessibility,
   Bell,
   ChevronRight,
+  CreditCard,
   UserRoundPenIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,21 +34,38 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
       <div className="mt-1 flex flex-col gap-1">
         <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
           {session?.user && (
-            <li>
-              <Button
-                variant="ghost"
-                fullWidth
-                radius="none"
-                className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
-                onClick={() => router.push("/settings/account-profile")}
-              >
-                <div className="flex items-center gap-4">
-                  <UserRoundPenIcon className="size-4 shrink-0" />
-                  <span>Cuenta y perfil</span>
-                </div>
-                <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
-              </Button>
-            </li>
+            <>
+              <li>
+                <Button
+                  variant="ghost"
+                  fullWidth
+                  radius="none"
+                  className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
+                  onClick={() => router.push("/settings/account-profile")}
+                >
+                  <div className="flex items-center gap-4">
+                    <UserRoundPenIcon className="size-4 shrink-0" />
+                    <span>Cuenta y perfil</span>
+                  </div>
+                  <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+                </Button>
+              </li>
+              <li>
+                <Button
+                  variant="ghost"
+                  fullWidth
+                  radius="none"
+                  className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
+                  onClick={() => router.push("/settings/subscriptions")}
+                >
+                  <div className="flex items-center gap-4">
+                    <CreditCard className="size-4 shrink-0" />
+                    <span>Suscripciones</span>
+                  </div>
+                  <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+                </Button>
+              </li>
+            </>
           )}
           <li>
             <Button
@@ -64,21 +82,23 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
               <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
             </Button>
           </li>
-          <li>
-            <Button
-              variant="ghost"
-              fullWidth
-              radius="none"
-              className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
-              onClick={() => router.push("/settings/notifications")}
-            >
-              <div className="flex items-center gap-4">
-                <Bell className="size-4 shrink-0" />
-                <span>Alertas y notificaciones</span>
-              </div>
-              <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
-            </Button>
-          </li>
+          {session?.user && (
+            <li>
+              <Button
+                variant="ghost"
+                fullWidth
+                radius="none"
+                className="h-12 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:h-11 md:px-4 md:py-2"
+                onClick={() => router.push("/settings/notifications")}
+              >
+                <div className="flex items-center gap-4">
+                  <Bell className="size-4 shrink-0" />
+                  <span>Alertas y notificaciones</span>
+                </div>
+                <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
+              </Button>
+            </li>
+          )}
           {/* <li>
             <Button
               variant="ghost"

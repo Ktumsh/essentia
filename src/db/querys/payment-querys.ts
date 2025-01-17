@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -12,6 +12,7 @@ import {
   type Payment,
 } from "@/db/schema";
 import { calculatePremiumExpiresAt } from "@/modules/payment/lib/utils";
+import { PaymentHistory } from "@/types/common";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -222,6 +223,26 @@ export async function getPaymentDetails(
       .from(payment)
       .where(eq(payment.userId, userId))
       .limit(1);
+  } catch (error) {
+    console.error("Error al obtener la suscripción del usuario:", error);
+    throw error;
+  }
+}
+
+export async function getPaymentHistory(
+  userId: string,
+): Promise<Array<PaymentHistory>> {
+  try {
+    return await db
+      .select({
+        payment: payment,
+        type: subscription.type,
+      })
+      .from(payment)
+      .innerJoin(subscription, eq(payment.userId, subscription.userId))
+      .where(eq(payment.userId, userId))
+      .orderBy(desc(payment.processedAt))
+      .limit(10);
   } catch (error) {
     console.error("Error al obtener la suscripción del usuario:", error);
     throw error;
