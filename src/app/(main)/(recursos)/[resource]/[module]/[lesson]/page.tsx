@@ -14,6 +14,7 @@ import {
   getResourceBySlug,
 } from "@/db/querys/resource-query";
 import Lesson from "@/modules/resources/components/lesson";
+import { getUserProfileData } from "@/utils/profile";
 
 type LessonPageProps = {
   params: Promise<{ resource: string; module: string; lesson: string }>;
@@ -103,6 +104,10 @@ const LessonPage = async (props: LessonPageProps) => {
     redirect(`/${resourceSlug}`);
   }
 
+  const userData = session ? await getUserProfileData({ session }) : null;
+
+  const { isPremium } = userData || {};
+
   return (
     <Lesson
       lesson={lesson}
@@ -112,6 +117,7 @@ const LessonPage = async (props: LessonPageProps) => {
       completedLessons={completedLessons}
       moduleProgress={moduleProgress}
       isCourseCompleted={course.completed}
+      isPremium={isPremium ?? false}
     />
   );
 };

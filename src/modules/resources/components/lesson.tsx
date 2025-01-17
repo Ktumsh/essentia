@@ -54,7 +54,7 @@ interface LessonProps {
   completedLessons?: string[];
   moduleProgress: { [moduleId: string]: number };
   isCourseCompleted: boolean;
-  isPremium: boolean | null;
+  isPremium?: boolean | null;
 }
 
 const Lesson = ({
