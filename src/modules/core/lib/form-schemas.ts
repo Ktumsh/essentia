@@ -307,3 +307,20 @@ export const profileSchema = z.object({
 });
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
+
+export const taskSchema = z.object({
+  frequency: z.enum([
+    "No se repite",
+    "Diariamente",
+    "Semanalmente",
+    "Mensualmente",
+    "Anualmente",
+  ]),
+  time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
+  exactDate: z.date().optional().nullable(),
+  weekDay: z.string().optional().nullable(),
+  monthDay: z.number().optional().nullable(),
+  month: z.string().optional().nullable(),
+});
+
+export type TaskFormData = z.infer<typeof taskSchema>;

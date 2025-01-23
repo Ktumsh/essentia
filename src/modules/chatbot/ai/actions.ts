@@ -7,6 +7,8 @@ import {
   PLAN_PROMPT,
   RISK_ASSESSMENT_PROMPT,
   ROUTINE_PROMPT,
+  TRACK_TASK_PROMPT,
+  TRACK_TASK_SYSTEM_PROMPT,
 } from "@/config/tools-prompt";
 
 import {
@@ -14,9 +16,10 @@ import {
   nutritionalPlanSchema,
   riskAssessmentSchema,
   routineSchema,
+  taskSchema,
 } from "../components/tools/tool-schemas";
 
-import { gptFlashModel } from ".";
+import { gptFlashModel, gptProModel } from ".";
 
 type Routine = {
   objective: string;
@@ -49,6 +52,18 @@ type MoodTracking = {
   mood: string;
 };
 
+type Task = {
+  name: string;
+  schedule: {
+    frequency: string;
+    time: string;
+    exactDate?: Date | null;
+    weekDay?: string | null;
+    monthDay?: number | null;
+    month?: string | null;
+  };
+};
+
 export async function generateExerciseRoutine(props: Routine) {
   const { object: routine } = await generateObject({
     model: gptFlashModel,
@@ -79,14 +94,23 @@ export async function generateNutritionalPlan(props: Plan) {
   return plan;
 }
 
-export async function generateMoodTracking({ mood }: MoodTracking) {
+export async function generateMoodTracking(props: MoodTracking) {
   const { object: moodTracking } = await generateObject({
     model: gptFlashModel,
-    prompt: MOOD_TRACKING_PROMPT({
-      mood,
-    }),
+    prompt: MOOD_TRACKING_PROMPT(props),
     schema: moodTrackingSchema,
   });
 
   return moodTracking;
+}
+
+export async function generateTaskTracking(props: Task) {
+  const { object: task } = await generateObject({
+    model: gptProModel,
+    system: TRACK_TASK_SYSTEM_PROMPT,
+    prompt: TRACK_TASK_PROMPT(props),
+    schema: taskSchema,
+  });
+
+  return task;
 }

@@ -11,11 +11,15 @@ interface ChatContextProps {
     isReadonly: boolean;
     selectedVisibilityType: VisibilityType;
   }) => void;
+  activeChatId: string | null;
+  setActiveChatId: (id: string | null) => void;
 }
 
 const ChatContext = createContext<ChatContextProps | undefined>(undefined);
 
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
+  const [activeChatId, setActiveChatId] = useState<string | null>(null);
+
   const [isReadonly, setIsReadonly] = useState(false);
   const [selectedVisibilityType, setSelectedVisibilityType] =
     useState<VisibilityType>("private");
@@ -30,7 +34,13 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ChatContext.Provider
-      value={{ isReadonly, selectedVisibilityType, setChatData }}
+      value={{
+        isReadonly,
+        selectedVisibilityType,
+        setChatData,
+        activeChatId,
+        setActiveChatId,
+      }}
     >
       {children}
     </ChatContext.Provider>

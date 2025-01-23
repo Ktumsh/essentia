@@ -32,7 +32,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { siteConfig } from "@/config/site";
@@ -54,10 +53,6 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
   const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
   const fullName = `${firstName} ${lastName}`;
-
-  const { isMobile } = useSidebar();
-
-  if (isMobile) return null;
 
   const menuLinks = siteConfig.menuFooterLinks;
 

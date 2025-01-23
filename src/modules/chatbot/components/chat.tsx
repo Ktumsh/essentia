@@ -2,7 +2,6 @@
 
 import { Attachment, type Message } from "ai";
 import { useChat } from "ai/react";
-import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
@@ -53,7 +52,6 @@ export function Chat({
   user,
 }: ChatProps) {
   const { mutate } = useSWRConfig();
-  const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setNewChatId] = useLocalStorage("new-chat-id", id);
 
@@ -76,9 +74,9 @@ export function Chat({
     id,
     body: { id },
     initialMessages,
+    experimental_throttle: 100,
     onFinish: () => {
       mutate("/api/chat/history");
-      router.replace(`/essentia-ai/chat/${id}`);
     },
   });
 
@@ -128,6 +126,7 @@ export function Chat({
       />
 
       <ChatPanel
+        chatId={id}
         input={input}
         setInput={setInput}
         stop={stop}

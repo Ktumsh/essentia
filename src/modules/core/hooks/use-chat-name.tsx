@@ -1,31 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 
-import { getChatById } from "@/db/querys/chat-querys";
+import { fetcher } from "@/utils/common";
 
 const useChatName = (chatId: string | null) => {
-  const [chatName, setChatName] = useState<string | null>(null);
+  const { data, error, isLoading } = useSWR(
+    chatId ? `/api/chat/chat-title?id=${chatId}` : null,
+    fetcher,
+  );
 
-  useEffect(() => {
-    const fetchChatName = async () => {
-      if (!chatId) {
-        return setChatName(null);
-      }
-      try {
-        const chat = await getChatById({ id: chatId });
-        setChatName(chat.title);
-      } catch {
-        setChatName("Chat desconocido");
-      }
-    };
-
-    if (chatId) {
-      fetchChatName();
-    }
-  }, [chatId]);
-
-  return chatName;
+  return {
+    chatName: data?.title ?? null,
+    isLoading,
+    error,
+  };
 };
 
 export default useChatName;

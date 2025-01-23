@@ -13,6 +13,7 @@ const db = drizzle(client);
 export async function subscribeNotifications(
   userId: string,
   subscription: webpush.PushSubscription,
+  timezone: string,
 ) {
   const existingSubscription = await db
     .select()
@@ -26,6 +27,7 @@ export async function subscribeNotifications(
         userId,
         p256dh: subscription.keys.p256dh!,
         auth: subscription.keys.auth!,
+        timezone,
       })
       .where(eq(notificationSubscription.endpoint, subscription.endpoint));
   } else {
@@ -34,6 +36,7 @@ export async function subscribeNotifications(
       endpoint: subscription.endpoint,
       p256dh: subscription.keys.p256dh!,
       auth: subscription.keys.auth!,
+      timezone,
     });
   }
 }

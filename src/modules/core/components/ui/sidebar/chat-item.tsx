@@ -3,6 +3,8 @@
 import { Globe } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { KeyedMutator } from "swr";
 
 import {
@@ -12,6 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { useChatVisibility } from "@/modules/chatbot/hooks/use-chat-visibility";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
 
 import ChatActions from "./chat-actions";
@@ -27,12 +30,33 @@ interface ChatItemProps {
 
 const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
   const { setOpenMobile } = useSidebar();
+
+  const pathname = usePathname();
+
+  const [previousPathname, setPreviousPathname] = useState(pathname);
+
+  const { activeChatId, setActiveChatId } = useChatContext();
+
   const [newChatId, setNewChatId] = useLocalStorage("new-chat-id", null);
+
   const shouldAnimate = index === 0 && isActive && newChatId;
+
   const { visibilityType } = useChatVisibility({
     chatId: chat.id,
     initialVisibility: chat.visibility,
   });
+
+  useEffect(() => {
+    if (!activeChatId) return;
+
+    if (
+      pathname === `/essentia-ai/chat/${chat.id}` &&
+      previousPathname !== pathname
+    ) {
+      setActiveChatId(null);
+    }
+    setPreviousPathname(pathname);
+  }, [activeChatId, pathname, chat.id, previousPathname, setActiveChatId]);
 
   if (!chat?.id) return null;
 

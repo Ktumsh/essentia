@@ -11,17 +11,22 @@ import { ChatProvider } from "../../hooks/use-chat-context";
 import { PlanProvider } from "../../hooks/use-current-plan";
 import { NotificationProvider } from "../../hooks/use-notification";
 import SessionProviderComponent from "../../hooks/use-session";
+import { TasksProvider } from "../../hooks/use-task";
 import { ThemeProvider } from "../../hooks/use-theme";
+
+import type { UserTask } from "@/db/schema";
 
 export function Providers({
   userId,
   currentPlan,
   defaultOpen,
+  initialTasks,
   children,
 }: {
   userId: string;
   currentPlan: string | null;
   defaultOpen?: boolean;
+  initialTasks: UserTask[];
 } & ThemeProviderProps) {
   return (
     <SessionProviderComponent>
@@ -30,11 +35,13 @@ export function Providers({
           <PlanProvider currentPlan={currentPlan}>
             <SidebarProvider defaultOpen={defaultOpen}>
               <ChatProvider>
-                <ReducedMotionProvider>
-                  <ThemeProvider disableTransitionOnChange>
-                    {children}
-                  </ThemeProvider>
-                </ReducedMotionProvider>
+                <TasksProvider initialTasks={initialTasks}>
+                  <ReducedMotionProvider>
+                    <ThemeProvider disableTransitionOnChange>
+                      {children}
+                    </ThemeProvider>
+                  </ReducedMotionProvider>
+                </TasksProvider>
               </ChatProvider>
             </SidebarProvider>
           </PlanProvider>

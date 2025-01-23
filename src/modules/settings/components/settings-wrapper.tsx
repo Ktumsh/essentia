@@ -93,7 +93,7 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
               >
                 <div className="flex items-center gap-4">
                   <Bell className="size-4 shrink-0" />
-                  <span>Alertas y notificaciones</span>
+                  <span>Notificaciones y recordatorios</span>
                 </div>
                 <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
               </Button>

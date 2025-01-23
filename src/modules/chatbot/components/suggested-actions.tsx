@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { cn, shuffleArray } from "@/utils/common";
 
 interface SuggestedActionsProps {
+  chatId: string;
   messages: Message[];
   attachments: Attachment[];
   uploadQueue: string[];
@@ -20,11 +22,14 @@ interface SuggestedActionsProps {
 }
 
 const SuggestedActions = (props: SuggestedActionsProps) => {
-  const { messages, attachments, uploadQueue, isPremium, append } = props;
+  const { chatId, messages, attachments, uploadQueue, isPremium, append } =
+    props;
 
   const [suggestedActions, setSuggestedActions] = useState(
     INITIAL_CHAT_MESSAGES,
   );
+
+  const { setActiveChatId } = useChatContext();
 
   useEffect(() => {
     setSuggestedActions((prevMessages) => shuffleArray([...prevMessages]));
@@ -55,6 +60,13 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
                   fullWidth
                   radius="lg"
                   onClick={async () => {
+                    window.history.replaceState(
+                      {},
+                      "",
+                      `/essentia-ai/chat/${chatId}`,
+                    );
+                    setActiveChatId(chatId);
+
                     append({
                       role: "user",
                       content: suggestedAction.action,

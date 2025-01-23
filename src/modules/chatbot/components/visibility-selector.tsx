@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Globe, Lock } from "lucide-react";
+import { ChevronDown, ChevronsUpDown, Globe, Lock } from "lucide-react";
 import { ReactNode, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -41,9 +41,11 @@ export function VisibilitySelector({
   chatId,
   className,
   selectedVisibilityType,
+  isMobile = false,
 }: {
   chatId: string;
   selectedVisibilityType: VisibilityType;
+  isMobile?: boolean;
 } & React.ComponentProps<typeof Button>) {
   const [open, setOpen] = useState(false);
 
@@ -62,14 +64,18 @@ export function VisibilitySelector({
       <DropdownMenuTrigger
         asChild
         className={cn(
-          "text-main data-[state=open]:bg-gray-100 data-[state=open]:text-main-m dark:text-main-dark dark:data-[state=open]:bg-dark/50 dark:data-[state=open]:text-main-dark-m",
+          "w-full text-main data-[state=open]:bg-gray-100 data-[state=open]:text-main-m dark:text-main-dark dark:data-[state=open]:bg-dark/50 dark:data-[state=open]:text-main-dark-m md:w-auto",
           className,
         )}
       >
         <Button variant="outline" className="px-3">
           {selectedVisibility?.icon}
           {selectedVisibility?.label}
-          <ChevronDown />
+          {isMobile ? (
+            <ChevronsUpDown className="ml-auto size-4" />
+          ) : (
+            <ChevronDown />
+          )}
         </Button>
       </DropdownMenuTrigger>
 

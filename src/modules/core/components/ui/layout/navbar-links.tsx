@@ -14,6 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import useChatName from "@/modules/core/hooks/use-chat-name";
 import useLessonName from "@/modules/core/hooks/use-lesson-name";
 import { formatSegment } from "@/utils/format";
@@ -21,6 +22,8 @@ import { formatSegment } from "@/utils/format";
 const NavbarLinks = () => {
   const pathname = usePathname();
   const params = useParams();
+
+  const { activeChatId } = useChatContext();
 
   const resourceSlug = params.resource as string;
   const moduleSlug = params.module as string;
@@ -34,7 +37,7 @@ const NavbarLinks = () => {
 
   const chatId = isChat ? pathSegments[pathSegments.length - 1] : null;
 
-  const chatName = useChatName(chatId) || null;
+  const { chatName } = useChatName(chatId || activeChatId) || null;
   const lessonName =
     useLessonName(resourceSlug, moduleSlug, lessonSlug) || null;
 

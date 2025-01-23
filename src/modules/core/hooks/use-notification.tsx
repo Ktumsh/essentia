@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "sonner";
 
 import {
   subscribeUser,
@@ -24,6 +25,8 @@ interface NotificationContextProps {
   subscribeToPush: () => Promise<void>;
   unsubscribeFromPush: () => Promise<void>;
   notifyUser: (title: string, message: string, url?: string) => Promise<void>;
+  permission: NotificationPermission;
+  openPermissionSettings: () => void;
 }
 
 const NotificationContext = createContext<NotificationContextProps | undefined>(
@@ -37,11 +40,14 @@ export const NotificationProvider = ({
   userId: string;
   children: React.ReactNode;
 }) => {
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported, setIsSupported] = useState(true);
   const [subscription, setSubscription] = useState<PushSubscription | null>(
     null,
   );
   const [message, setMessage] = useState("");
+  const [permission, setPermission] = useState<NotificationPermission>(
+    Notification.permission,
+  );
 
   async function registerServiceWorker() {
     if (process.env.NODE_ENV === "development") return;
@@ -59,45 +65,66 @@ export const NotificationProvider = ({
   }
 
   const subscribeToPush = useCallback(async () => {
+    if (permission === "denied") {
+      console.warn("Permiso de notificaciones denegado.");
+      return;
+    }
+
     const registration = await navigator.serviceWorker.ready;
 
     const existingSubscription =
       await registration.pushManager.getSubscription();
 
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     if (existingSubscription) {
       const serializedSub = JSON.parse(JSON.stringify(existingSubscription));
-      await subscribeUser(userId, serializedSub);
+      await subscribeUser(userId, serializedSub, timezone);
       setSubscription(existingSubscription);
       return;
     }
 
-    // Crea una nueva suscripción si no existe
-    const newSubscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(
-        process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-      ),
-    });
+    try {
+      const newSubscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(
+          process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+        ),
+      });
 
-    const serializedSub = JSON.parse(JSON.stringify(newSubscription));
-    await subscribeUser(userId, serializedSub);
-    setSubscription(newSubscription);
-  }, [userId]);
+      const serializedSub = JSON.parse(JSON.stringify(newSubscription));
+      await subscribeUser(userId, serializedSub, timezone);
+      setSubscription(newSubscription);
+    } catch (error) {
+      console.error("Error al suscribirse a Push:", error);
+      setPermission(Notification.permission);
+    }
+  }, [userId, permission]);
 
-  async function unsubscribeFromPush() {
+  const unsubscribeFromPush = useCallback(async () => {
     if (subscription) {
       try {
         const isUnsubscribed = await subscription.unsubscribe();
         if (isUnsubscribed) {
           console.log("Suscripción cancelada en el navegador.");
-          await unsubscribeUser(subscription.endpoint);
+
+          const registration = await navigator.serviceWorker.ready;
+          const existingSubscription =
+            await registration.pushManager.getSubscription();
+
+          if (!existingSubscription) {
+            console.log("La suscripción ya no existe en el navegador.");
+            await unsubscribeUser(subscription.endpoint);
+            setSubscription(null);
+          } else {
+            console.error("La suscripción todavía existe en el navegador.");
+          }
         }
-        setSubscription(null);
       } catch (error) {
         console.error("Error al desuscribirse:", error);
       }
     }
-  }
+  }, [subscription]);
 
   useEffect(() => {
     async function initializeSubscription() {
@@ -118,16 +145,35 @@ export const NotificationProvider = ({
         ) {
           sessionStorage.setItem(ALREADY_ASKED_KEY, "true");
 
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
+          const permissionResult = await Notification.requestPermission();
+          setPermission(permissionResult);
+
+          if (permissionResult === "granted") {
             await subscribeToPush();
           }
         }
+      } else {
+        setIsSupported(false);
       }
     }
 
     initializeSubscription();
   }, [subscribeToPush]);
+
+  useEffect(() => {
+    const handlePermissionChange = () => {
+      setPermission(Notification.permission);
+      if (Notification.permission === "denied" && subscription) {
+        unsubscribeFromPush();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handlePermissionChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handlePermissionChange);
+    };
+  }, [subscription, unsubscribeFromPush]);
 
   useEffect(() => {
     async function checkPermissions() {
@@ -143,6 +189,12 @@ export const NotificationProvider = ({
     await sendAndSaveNotification({ userId, title, message, url });
   }
 
+  const openPermissionSettings = () => {
+    toast.info(
+      "Para habilitar las notificaciones, por favor ve a la configuración de tu navegador y permite las notificaciones para este sitio.",
+    );
+  };
+
   return (
     <NotificationContext.Provider
       value={{
@@ -153,6 +205,8 @@ export const NotificationProvider = ({
         subscribeToPush,
         unsubscribeFromPush,
         notifyUser,
+        permission,
+        openPermissionSettings,
       }}
     >
       {children}

@@ -169,7 +169,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
   const { ref, downloadImage } = useDownloadTool("exercise-routine.png");
 
   if (!routine)
-    return toast.error("Hubo un error al generar la rutina de ejercicio");
+    return toast.error("Hubo un error al generar la rutina de ejercicios");
 
   return (
     <Card ref={ref} className="group/card overflow-hidden rounded-xl">

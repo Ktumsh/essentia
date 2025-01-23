@@ -350,6 +350,38 @@
   animation-range: 0 100px;
 }
 
+.skeleton {
+  * {
+    pointer-events: none !important;
+  }
+
+  *[class^="text-"] {
+    color: transparent !important;
+    @apply animate-pulse select-none rounded-md bg-gray-200 dark:bg-dark;
+  }
+
+  .skeleton-text {
+    color: transparent !important;
+    @apply animate-pulse select-none rounded-md bg-gray-200 dark:bg-dark;
+  }
+
+  .skeleton-gradient {
+    @apply !border-transparent bg-gradient-to-tr from-white to-white dark:from-full-dark dark:to-full-dark;
+  }
+
+  .skeleton-bg {
+    @apply bg-white dark:bg-full-dark;
+  }
+
+  .skeleton-div {
+    @apply animate-pulse bg-gray-200 dark:bg-dark;
+  }
+
+  .skeleton-svg > * {
+    @apply hidden;
+  }
+}
+
 @keyframes bounce-rotate {
   0%,
   10% {

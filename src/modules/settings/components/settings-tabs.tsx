@@ -108,7 +108,7 @@ const SettingsTabs = ({
               className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
             >
               <Link href="/settings/notifications">
-                <span>Notificaciones</span>
+                <span>Notificaciones y recordatorios</span>
                 <ChevronRight className="size-4 shrink-0 text-main-h dark:text-main-dark-h" />
               </Link>
             </TabsTrigger>

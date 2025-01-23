@@ -1,12 +1,15 @@
 "use client";
 
-import { ArrowLeft, BellRing } from "lucide-react";
+import { AlarmClock, ArrowLeft, BellRing } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import TaskList from "@/modules/chatbot/components/tools/task-list";
 import { useNotification } from "@/modules/core/hooks/use-notification";
 
+import InfoField from "./info-field";
 import SettingsOptsHeader from "./settings-opts-header";
 
 interface NotificationsStgProps {
@@ -16,8 +19,16 @@ interface NotificationsStgProps {
 function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
   const router = useRouter();
 
-  const { isSupported, isSubscribed, subscribeToPush, unsubscribeFromPush } =
-    useNotification();
+  const [isOpenList, setIsOpenList] = useState(false);
+
+  const {
+    isSupported,
+    isSubscribed,
+    subscribeToPush,
+    unsubscribeFromPush,
+    permission,
+    openPermissionSettings,
+  } = useNotification();
 
   if (!isSupported) {
     return (
@@ -51,11 +62,14 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
             <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
           </Button>
           <div className="ml-12">
-            <SettingsOptsHeader title="Notificaciones" />
+            <SettingsOptsHeader title="Notificaciones y recordatorios" />
           </div>
         </div>
       ) : (
-        <SettingsOptsHeader title="Notificaciones" />
+        <SettingsOptsHeader
+          title="Notificaciones y recordatorios"
+          description="Configura cómo recibes las notificaciones y recordatorios."
+        />
       )}
 
       <div className="mt-1 flex flex-1 flex-col">
@@ -76,7 +90,13 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
                 <Switch
                   checked={isSubscribed}
                   onCheckedChange={
-                    isSubscribed ? unsubscribeFromPush : subscribeToPush
+                    permission === "denied"
+                      ? () => {
+                          openPermissionSettings();
+                        }
+                      : isSubscribed
+                        ? unsubscribeFromPush
+                        : subscribeToPush
                   }
                 />
               </div>
@@ -106,6 +126,14 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
                 </div>
               </li>
             )} */}
+            <InfoField
+              title="Tareas programadas"
+              value="Recibe notificaciones sobre tareas programadas y recordatorios."
+              icon={AlarmClock}
+              isButton
+              buttonAction={() => setIsOpenList(true)}
+            />
+            <TaskList isOpen={isOpenList} setIsOpen={setIsOpenList} />
           </ul>
         </div>
       </div>

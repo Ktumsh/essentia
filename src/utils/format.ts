@@ -127,8 +127,10 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
   subscription: "Suscripción",
   settings: "Configuración",
   "account-profile": "Cuenta y perfil",
-  accesibility: "Preferencias y accesibilidad",
-  support: "Ayuda y soporte",
+  subscriptions: "Suscripciones",
+  accesibility: "Accesibilidad y pantalla",
+  notifications: "Notificaciones y recordatorios",
+  support: "Soporte",
 };
 
 export const formatSegment = (segment: string) => {

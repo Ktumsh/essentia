@@ -2,12 +2,14 @@
 
 import equal from "fast-deep-equal";
 import { motion } from "motion/react";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { useSWRConfig } from "swr";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { Markdown } from "@/modules/core/components/ui/renderers/markdown";
+import { useTasks } from "@/modules/core/hooks/use-task";
 import { PencilEditIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
@@ -24,10 +26,8 @@ import { InitialLoading } from "./initial-loading";
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
 import { PreviewAttachment } from "./preview-attachment";
-import { Routine } from "../tools/excercise-routine-stock";
-import { RiskAssessment } from "../tools/health-risk-stock";
-import { MoodTracking } from "../tools/mood-tracking-stock";
-import { Plan } from "../tools/nutrition-plan-stock";
+import TrackTaskStock from "../tools/track-task-stock";
+import { Weather } from "../tools/weather";
 
 import type { ChatVote } from "@/db/schema";
 import type { ChatRequestOptions, Message } from "ai";
@@ -67,6 +67,46 @@ const PurePreviewMessage = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<"view" | "edit">("view");
+
+  const { mutate } = useSWRConfig();
+
+  const { tasks, isLoading: isTaskLoading } = useTasks();
+
+  useEffect(() => {
+    if (!toolInvocations) return;
+
+    toolInvocations.forEach((toolInvocation) => {
+      if (
+        toolInvocation.state === "result" &&
+        toolInvocation.toolName === "trackTask" &&
+        toolInvocation.result?.task
+      ) {
+        mutate(
+          "/api/tasks",
+          async (tasks: any) => {
+            const task = tasks.find(
+              (t: any) => t.id === toolInvocation.result.task.id,
+            );
+            if (!task) return tasks;
+            return tasks.map((t: any) => (t.id === task.id ? task : t));
+          },
+          false,
+        );
+      }
+    });
+  }, [mutate, toolInvocations]);
+
+  if (
+    role === "assistant" &&
+    toolInvocations &&
+    toolInvocations.some(
+      (invocation) =>
+        invocation.state === "result" && invocation.result?.error !== undefined,
+    )
+  ) {
+    return null;
+  }
+
   return (
     <motion.div
       initial={{ y: 5, opacity: 0 }}
@@ -156,29 +196,48 @@ const PurePreviewMessage = ({
           {toolInvocations &&
             toolInvocations.map((toolInvocation) => {
               const { toolName, toolCallId, state } = toolInvocation;
-
               if (state === "result") {
                 const { result } = toolInvocation;
 
+                const taskProps = tasks.find((t) => t.id === result.id);
+
                 return (
                   <div key={toolCallId}>
-                    {toolName === "recommendExercise" ? (
-                      <ExerciseRoutineStock props={result.routine as Routine} />
+                    {toolName === "getWeather" ? (
+                      <Weather weatherAtLocation={result} />
+                    ) : toolName === "recommendExercise" ? (
+                      <ExerciseRoutineStock props={result.routine} />
                     ) : toolName === "healthRiskAssessment" ? (
-                      <HealthRiskStock
-                        props={result.riskAssessment as RiskAssessment}
-                      />
+                      <HealthRiskStock props={result.riskAssessment} />
                     ) : toolName === "nutritionalAdvice" ? (
-                      <NutritionPlanStock props={result.plan as Plan} />
+                      <NutritionPlanStock props={result.plan} />
                     ) : toolName === "moodTracking" ? (
-                      <MoodTrackingStock
-                        props={result.moodTracking as MoodTracking}
+                      <MoodTrackingStock props={result.moodTracking} />
+                    ) : toolName === "trackTask" ? (
+                      <TrackTaskStock
+                        props={taskProps}
+                        isLoading={isTaskLoading}
                       />
                     ) : null}
                   </div>
                 );
               } else {
-                return <InitialLoading key={toolCallId} />;
+                return (
+                  <div
+                    key={toolCallId}
+                    className={cn({
+                      skeleton: ["getWeather", "trackTask"].includes(toolName),
+                    })}
+                  >
+                    {toolName === "getWeather" ? (
+                      <Weather />
+                    ) : toolName === "trackTask" ? (
+                      <TrackTaskStock />
+                    ) : (
+                      <InitialLoading />
+                    )}
+                  </div>
+                );
               }
             })}
           {!isReadonly && (
