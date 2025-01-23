@@ -1,3 +1,5 @@
+import { AlarmClockCheck } from "lucide-react";
+
 import {
   AcademicIcon,
   BrainIcon,
@@ -49,5 +51,12 @@ export const INITIAL_CHAT_MESSAGES = [
     action: `Evalua mis riesgos de salud y recomiéndame acciones para prevenirlos`,
     icon: HeartbeatIcon,
     iconColor: "text-blue-500",
+  },
+  {
+    heading: "Organiza tus",
+    subheading: "recordatorios y tareas",
+    action: `Ayúdame a configurar recordatorios periódicos para tareas importantes o hábitos diarios`,
+    icon: AlarmClockCheck,
+    iconColor: "text-purple-500",
   },
 ];

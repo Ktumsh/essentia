@@ -8,6 +8,7 @@ import { Session } from "next-auth";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { LinkIcon } from "@/modules/icons/action";
 import { UserProfileData } from "@/types/session";
 
@@ -74,19 +75,31 @@ const ChatPanel = (props: ChatPanelProps) => {
 
   const hasProcessedQueryRef = useRef(false);
 
+  const { setActiveChatId } = useChatContext();
+
   const { isPremium = false, username } = user || {};
 
   useEffect(() => {
     if (searchQuery && !hasProcessedQueryRef.current) {
       hasProcessedQueryRef.current = true;
-      router.replace(pathname);
       append({
         role: "user",
         content: searchQuery,
       });
       handleSubmit();
+
+      window.history.replaceState({}, "", `/essentia-ai/chat/${chatId}`);
+      setActiveChatId(chatId);
     }
-  }, [searchQuery, router, pathname, append, handleSubmit]);
+  }, [
+    searchQuery,
+    router,
+    pathname,
+    append,
+    handleSubmit,
+    setActiveChatId,
+    chatId,
+  ]);
 
   return (
     <>
