@@ -302,6 +302,7 @@ export const notificationSubscription = table("notification_subscription", {
   endpoint: text("endpoint").notNull(),
   p256dh: text("p256dh").notNull(),
   auth: text("auth").notNull(),
+  timezone: text("timezone").notNull().default("UTC"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
@@ -322,3 +323,36 @@ export const userNotification = table("user_notification", {
 });
 
 export type UserNotification = InferSelectModel<typeof userNotification>;
+
+export const userTask = table("user_task", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 80 }).notNull(),
+  chatId: uuid("chat_id")
+    .notNull()
+    .references(() => chat.id, { onDelete: "cascade" }),
+  instructions: varchar("instructions", { length: 100 }).notNull(),
+  frequency: varchar("frequency", {
+    enum: [
+      "No se repite",
+      "Diariamente",
+      "Semanalmente",
+      "Mensualmente",
+      "Anualmente",
+    ],
+  }).notNull(),
+  time: varchar("time", { length: 5 }).notNull(),
+  exactDate: timestamp("exact_date").default(sql`NULL`),
+  weekDay: varchar("week_day", { length: 20 }),
+  monthDay: integer("month_day"),
+  month: varchar("month", { length: 20 }),
+  status: varchar("status", { enum: ["active", "paused", "completed"] })
+    .notNull()
+    .default("active"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type UserTask = InferSelectModel<typeof userTask>;

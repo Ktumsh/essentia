@@ -91,7 +91,10 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
             </div>
           </div>
         ) : (
-          <SettingsOptsHeader title="Cuenta y perfil" />
+          <SettingsOptsHeader
+            title="Cuenta y perfil"
+            description="Actualiza la configuración de tu cuenta y de tu perfil."
+          />
         )
       ) : (
         <div className="relative px-6 md:px-0">

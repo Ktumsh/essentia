@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuAction } from "@/components/ui/sidebar";
 import { useChatVisibility } from "@/modules/chatbot/hooks/use-chat-visibility";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { cn } from "@/utils/common";
 
 import ChatShareModal from "./chat-share-action";
@@ -50,6 +51,9 @@ interface ChatActionsProps {
 const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
   const { id } = useParams();
   const router = useRouter();
+
+  const { activeChatId } = useChatContext();
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -85,7 +89,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
 
     setShowDeleteDialog(false);
 
-    if (deleteId === id) {
+    if (deleteId === id || deleteId === activeChatId) {
       router.push("/essentia-ai");
     }
   };

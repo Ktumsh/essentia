@@ -20,9 +20,10 @@ webpush.setVapidDetails(
 export async function subscribeUser(
   userId: string,
   subscription: webpush.PushSubscription,
+  timeZone: string,
 ) {
   try {
-    await subscribeNotifications(userId, subscription);
+    await subscribeNotifications(userId, subscription, timeZone);
     return { success: true };
   } catch (error) {
     console.error("Error subscribing user:", error);

@@ -20,6 +20,7 @@ import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { BetterTooltip } from "@/components/ui/tooltip";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { StopIcon } from "@/modules/icons/action";
 
 import { useAdjustHeight } from "../hooks/use-adjust-height";
@@ -27,6 +28,7 @@ import { useEnterSubmit } from "../hooks/use-enter-submit";
 import { sanitizeUIMessages } from "../lib/utils";
 
 interface PromptFormProps {
+  chatId: string;
   input: string;
   setInput: (value: string) => void;
   isLoading: boolean;
@@ -46,6 +48,7 @@ interface PromptFormProps {
 }
 
 const PurePromptForm = ({
+  chatId,
   input,
   setInput,
   isLoading,
@@ -61,6 +64,8 @@ const PurePromptForm = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isMobile = useIsMobile();
+
+  const { setActiveChatId } = useChatContext();
 
   const { textareaRef, adjustHeight } = useAdjustHeight();
 
@@ -90,9 +95,12 @@ const PurePromptForm = ({
   }, [input, adjustHeight]);
 
   const submitForm = useCallback(
-    (event: FormEvent) => {
-      if (event?.preventDefault) {
-        event.preventDefault();
+    (e: FormEvent) => {
+      window.history.replaceState({}, "", `/essentia-ai/chat/${chatId}`);
+      setActiveChatId(chatId);
+
+      if (e?.preventDefault) {
+        e.preventDefault();
       }
 
       handleSubmit(undefined, {
@@ -108,8 +116,10 @@ const PurePromptForm = ({
       }
     },
     [
+      chatId,
       attachments,
       handleSubmit,
+      setActiveChatId,
       setAttachments,
       setLocalStorageInput,
       setInput,

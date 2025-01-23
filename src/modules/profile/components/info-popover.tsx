@@ -20,7 +20,9 @@ type PopoverContentType =
   | "heightFormat"
   | "heightReason"
   | "locationFormat"
-  | "locationReason";
+  | "locationReason"
+  | "taskName"
+  | "taskInstructions";
 
 type PopoverContent = {
   title: string;
@@ -38,7 +40,7 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     title: "Formato de biografía",
     content: [
       "Comparte un breve resumen sobre ti en un máximo de 180 caracteres.",
-      'Por ejemplo: "Amante del deporte y la vida saludable, buscando nuevas metas".',
+      'Por ejemplo, "Amante del deporte y la vida saludable, buscando nuevas metas".',
     ],
   },
   bioReason: {
@@ -94,6 +96,20 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
       "Nos permite brindarte contenido y recomendaciones más relevantes, adaptadas a tu entorno geográfico, optimizando tu experiencia.",
     ],
   },
+  taskName: {
+    title: "Formato de nombre de tarea",
+    content: [
+      "Introduce un nombre breve para tu tarea o recordatorio en un máximo de 80 caracteres.",
+      'Por ejemplo, "Beber agua"',
+    ],
+  },
+  taskInstructions: {
+    title: "Formato de instrucciones de tarea",
+    content: [
+      "Proporciona instrucciones claras y concisas para tu tarea o recordatorio en un máximo de 100 caracteres.",
+      'Por ejemplo, "Dime que tome un vaso de agua".',
+    ],
+  },
 };
 
 function InfoPopover({ type }: { type: PopoverContentType }) {
@@ -118,6 +134,10 @@ function InfoPopover({ type }: { type: PopoverContentType }) {
       case "locationFormat":
       case "locationReason":
         return initMessage + "la ubicación";
+      case "taskName":
+        return initMessage + "el nombre de la tarea";
+      case "taskInstructions":
+        return initMessage + "las instrucciones de la tarea";
     }
   }, [type]);
 
@@ -169,6 +189,10 @@ export const PopoverLocationFormat = memo(() => (
 export const PopoverLocationReason = memo(() => (
   <InfoPopover type="locationReason" />
 ));
+export const PopoverTaskName = memo(() => <InfoPopover type="taskName" />);
+export const PopoverTaskInstructions = memo(() => (
+  <InfoPopover type="taskInstructions" />
+));
 
 PopoverBirthdate.displayName = "PopoverBirthdate";
 PopoverBioFormat.displayName = "PopoverBioFormat";
@@ -180,6 +204,8 @@ PopoverHeightFormat.displayName = "PopoverHeightFormat";
 PopoverHeightReason.displayName = "PopoverHeightReason";
 PopoverLocationFormat.displayName = "PopoverLocationFormat";
 PopoverLocationReason.displayName = "PopoverLocationReason";
+PopoverTaskName.displayName = "PopoverTaskName";
+PopoverTaskInstructions.displayName = "PopoverTaskInstructions";
 
 function PurePublicInfoPopover() {
   return (

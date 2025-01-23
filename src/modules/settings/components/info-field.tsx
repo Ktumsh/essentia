@@ -62,7 +62,7 @@ const InfoField = ({
             <div className="flex flex-col items-start">
               <span>{title}</span>
               {hasValue && (
-                <p className="font-normal text-main-m dark:text-main-dark-m">
+                <p className="text-wrap text-start font-normal text-main-m dark:text-main-dark-m">
                   {value ? `${value}${suffix}` : "Sin información"}
                 </p>
               )}

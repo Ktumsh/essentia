@@ -11,6 +11,7 @@ import { Toaster as Sooner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
+import { getUserTasks } from "@/db/querys/task-querys";
 import { Providers } from "@/modules/core/components/ui/providers";
 import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
@@ -149,6 +150,10 @@ export default async function RootLayout({
   const isCollapsed = cookieStore.get("sidebar:state")?.value !== "true";
   const currentPlan = session ? await getUserCurrentPlan(session) : null;
 
+  const userId = session?.user?.id as string;
+
+  const initialTasks = session ? await getUserTasks(userId) : [];
+
   return (
     <html suppressHydrationWarning lang="es">
       <head />
@@ -165,7 +170,8 @@ export default async function RootLayout({
         <Providers
           currentPlan={currentPlan}
           defaultOpen={!isCollapsed}
-          userId={session?.user?.id as string}
+          userId={userId}
+          initialTasks={initialTasks}
         >
           <Toaster />
           <Sooner />

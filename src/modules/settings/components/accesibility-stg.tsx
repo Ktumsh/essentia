@@ -36,7 +36,10 @@ const AccesibilityStg = ({ isMobile = false }: AccesibilityStgProps) => {
           </div>
         </div>
       ) : (
-        <SettingsOptsHeader title="Accesibilidad y pantalla" />
+        <SettingsOptsHeader
+          title="Accesibilidad y pantalla"
+          description="Configura las opciones de accesibilidad y visualización de la aplicación."
+        />
       )}
 
       <div className="mt-1 flex flex-1 flex-col">

@@ -77,6 +77,21 @@ export async function getChatById({ id }: { id: string }) {
   }
 }
 
+export async function getChatTitle({ id }: { id: string }) {
+  try {
+    const [selectedChat] = await db
+      .select({ title: chat.title })
+      .from(chat)
+      .where(eq(chat.id, id))
+      .limit(1);
+
+    return selectedChat?.title;
+  } catch (error) {
+    console.error("Error al obtener el título del chat:", error);
+    throw error;
+  }
+}
+
 export async function saveMessages({
   messages,
 }: {

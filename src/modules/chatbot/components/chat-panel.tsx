@@ -5,14 +5,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
 import { LinkIcon } from "@/modules/icons/action";
@@ -24,6 +17,7 @@ import AlertPanel from "./ui/alert-panel";
 import { PreviewAttachment } from "./ui/preview-attachment";
 
 export interface ChatPanelProps {
+  chatId: string;
   input: string;
   setInput: (value: string) => void;
   stop: () => void;
@@ -49,23 +43,26 @@ export interface ChatPanelProps {
   user: UserProfileData | null;
 }
 
-const ChatPanel: FC<ChatPanelProps> = ({
-  input,
-  setInput,
-  stop,
-  append,
-  handleSubmit,
-  attachments,
-  setAttachments,
-  messages,
-  setMessages,
-  isLoading,
-  session,
-  scrollToBottom,
-  isAtBottom,
-  isReadonly,
-  user,
-}) => {
+const ChatPanel = (props: ChatPanelProps) => {
+  const {
+    chatId,
+    input,
+    setInput,
+    stop,
+    append,
+    handleSubmit,
+    attachments,
+    setAttachments,
+    messages,
+    setMessages,
+    isLoading,
+    session,
+    scrollToBottom,
+    isAtBottom,
+    isReadonly,
+    user,
+  } = props;
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -101,6 +98,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
         {!isReadonly ? (
           <div className="relative flex w-full flex-col">
             <SuggestedActions
+              chatId={chatId}
               messages={messages}
               attachments={attachments}
               uploadQueue={uploadQueue}
@@ -150,6 +148,7 @@ const ChatPanel: FC<ChatPanelProps> = ({
                   </div>
                 )}
                 <PromptForm
+                  chatId={chatId}
                   isLoading={isLoading}
                   handleSubmit={handleSubmit}
                   stop={stop}

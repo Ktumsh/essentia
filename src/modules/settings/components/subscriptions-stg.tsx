@@ -129,7 +129,10 @@ const SubscriptionsStg = ({
             </div>
           </div>
         ) : (
-          <SettingsOptsHeader title="Suscripciones" />
+          <SettingsOptsHeader
+            title="Suscripciones"
+            description="Configura y gestiona tus suscripciones."
+          />
         )
       ) : (
         <div className="relative px-6 md:px-0">

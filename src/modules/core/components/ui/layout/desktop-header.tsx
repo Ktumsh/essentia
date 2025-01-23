@@ -3,6 +3,7 @@
 import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { VisibilitySelector } from "@/modules/chatbot/components/visibility-selector";
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
 import { useChatContext } from "@/modules/core/hooks/use-chat-context";
@@ -33,6 +34,7 @@ const DesktopHeader = ({ user }: DesktopHeaderProps) => {
           <div className="absolute left-0 top-0 z-40">
             <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
               <AppSidebarToggle />
+              <Separator orientation="vertical" className="-ml-2.5 h-4" />
               <NavbarLinks />
             </div>
           </div>
