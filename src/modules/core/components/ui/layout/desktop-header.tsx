@@ -4,7 +4,6 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { UserNotification } from "@/db/schema";
 import { VisibilitySelector } from "@/modules/chatbot/components/visibility-selector";
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
 import { useChatContext } from "@/modules/core/hooks/use-chat-context";
@@ -15,10 +14,9 @@ import NotificationList from "./notifications-list";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;
-  notifications: UserNotification[];
 }
 
-const DesktopHeader = ({ user, notifications }: DesktopHeaderProps) => {
+const DesktopHeader = ({ user }: DesktopHeaderProps) => {
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
   const router = useRouter();
@@ -63,12 +61,7 @@ const DesktopHeader = ({ user, notifications }: DesktopHeaderProps) => {
                   Inicia sesión
                 </Button>
               )}
-              {user && (
-                <NotificationList
-                  userId={user.id}
-                  notifications={notifications}
-                />
-              )}
+              {user && <NotificationList userId={user.id} />}
             </div>
           </div>
         </div>

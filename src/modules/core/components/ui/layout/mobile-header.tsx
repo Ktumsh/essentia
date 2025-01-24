@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { UserNotification } from "@/db/schema";
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
 import { UserProfileData } from "@/types/session";
 
@@ -13,10 +12,9 @@ import Logo from "../utils/logo";
 
 interface MobileHeaderProps {
   user: UserProfileData | null;
-  notifications: UserNotification[];
 }
 
-const MobileHeader = ({ user, notifications }: MobileHeaderProps) => {
+const MobileHeader = ({ user }: MobileHeaderProps) => {
   const pathname = usePathname();
 
   const isAIPage = pathname.startsWith("/essentia-ai");
@@ -36,9 +34,7 @@ const MobileHeader = ({ user, notifications }: MobileHeaderProps) => {
           )}
         </Link>
         <div className="inline-flex items-center gap-4">
-          {user && (
-            <NotificationsList userId={user.id} notifications={notifications} />
-          )}
+          {user && <NotificationsList userId={user.id} />}
           <MobileMenu user={user} />
         </div>
       </header>
