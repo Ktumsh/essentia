@@ -2,9 +2,12 @@
 
 import { AlarmClock, ArrowLeft, BellRing } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
+import { sendAndSaveNotification } from "@/app/(main)/settings/actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import TaskList from "@/modules/chatbot/components/tools/task-list";
 import { useNotification } from "@/modules/core/hooks/use-notification";
@@ -19,7 +22,12 @@ interface NotificationsStgProps {
 function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
   const router = useRouter();
 
+  const { data: session } = useSession();
+
+  const userId = session?.user?.id as string;
+
   const [isOpenList, setIsOpenList] = useState(false);
+  const [message, setMessage] = useState("");
 
   const {
     isSupported,
@@ -101,31 +109,36 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
                 />
               </div>
             </li>
-            {/* {isSubscribed && (
-              <li className="border-t border-gray-200 dark:border-dark">
-                <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
-                  <div className="flex items-center gap-4">
-                    <div className="flex flex-col items-start">
-                      <Input
-                        type="text"
-                        placeholder="Ingresa un mensaje de notificación"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
+            {isSubscribed &&
+              userId === "3a25cc78-2d6b-4c83-8af2-7970e5849ae4" && (
+                <li className="border-t border-gray-200 dark:border-dark">
+                  <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
+                    <div className="flex items-center gap-4">
+                      <div className="flex flex-col items-start">
+                        <Input
+                          type="text"
+                          placeholder="Ingresa un mensaje de notificación"
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                        />
+                      </div>
+                      <Button
+                        variant="link"
+                        className="text-main-m dark:text-main-dark-m"
+                        onClick={() =>
+                          sendAndSaveNotification({
+                            userId,
+                            title: "Notificación de prueba",
+                            message,
+                          })
+                        }
+                      >
+                        Enviar notificación de prueba
+                      </Button>
                     </div>
-                    <Button
-                      variant="link"
-                      className="text-main-m dark:text-main-dark-m"
-                      onClick={() =>
-                        notifyUser("Notificación de prueba", message)
-                      }
-                    >
-                      Enviar notificación de prueba
-                    </Button>
                   </div>
-                </div>
-              </li>
-            )} */}
+                </li>
+              )}
             <InfoField
               title="Tareas programadas"
               value="Recibe notificaciones sobre tareas programadas y recordatorios."

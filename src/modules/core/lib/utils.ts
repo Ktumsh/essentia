@@ -219,3 +219,33 @@ export function isSameDate(date1: Date, date2: Date): boolean {
     date1.getDate() === date2.getDate()
   );
 }
+
+export interface ServerPushSubscription {
+  endpoint: string;
+  keys: {
+    p256dh: string;
+    auth: string;
+  };
+}
+
+export function convertSubscriptionToServerFormat(
+  subscription: PushSubscription,
+): ServerPushSubscription {
+  const p256dh = subscription.getKey("p256dh");
+  const auth = subscription.getKey("auth");
+
+  const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return btoa(binary);
+  };
+
+  return {
+    endpoint: subscription.endpoint,
+    keys: {
+      p256dh: p256dh ? arrayBufferToBase64(p256dh) : "",
+      auth: auth ? arrayBufferToBase64(auth) : "",
+    },
+  };
+}

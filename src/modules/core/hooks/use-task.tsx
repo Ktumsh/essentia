@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, ReactNode, useCallback, useContext } from "react";
 import useSWR from "swr";
 
 import { deleteUserTask, updateUserTaskStatus } from "@/db/querys/task-querys";
@@ -16,7 +10,7 @@ import type { UserTask } from "@/db/schema";
 
 interface TasksContextType {
   tasks: UserTask[];
-  setTasks: React.Dispatch<React.SetStateAction<UserTask[]>>;
+  setTasks: (tasks: UserTask[] | ((tasks: UserTask[]) => UserTask[])) => void;
   updateTask: (taskId: string, updatedData: Partial<UserTask>) => void;
   addTask: (newTask: UserTask) => void;
   deleteTask: (taskId: string) => Promise<void>;
@@ -44,12 +38,6 @@ export const TasksProvider: React.FC<{
     mutate: setTasks,
     isLoading,
   } = useSWR("/api/tasks", fetcher, { fallbackData: initialTasks });
-
-  useEffect(() => {
-    if (tasks.length > 0) {
-      setTasks(tasks);
-    }
-  }, [tasks, setTasks]);
 
   const updateTask = useCallback(
     (taskId: string, updatedData: Partial<UserTask>) => {
@@ -94,6 +82,7 @@ export const TasksProvider: React.FC<{
     },
     [updateTask],
   );
+
   return (
     <TasksContext.Provider
       value={{

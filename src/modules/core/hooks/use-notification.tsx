@@ -13,9 +13,14 @@ import {
   subscribeUser,
   unsubscribeUser,
   sendAndSaveNotification,
+  getUserSubscriptions,
 } from "@/app/(main)/settings/actions";
 
-import { urlBase64ToUint8Array } from "../lib/utils";
+import {
+  convertSubscriptionToServerFormat,
+  ServerPushSubscription,
+  urlBase64ToUint8Array,
+} from "../lib/utils";
 
 interface NotificationContextProps {
   isSupported: boolean;
@@ -48,6 +53,7 @@ export const NotificationProvider = ({
   const [permission, setPermission] = useState<NotificationPermission>(
     Notification.permission,
   );
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   async function registerServiceWorker() {
     if (process.env.NODE_ENV === "development") return;
@@ -78,9 +84,19 @@ export const NotificationProvider = ({
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     if (existingSubscription) {
-      const serializedSub = JSON.parse(JSON.stringify(existingSubscription));
-      await subscribeUser(userId, serializedSub, timezone);
-      setSubscription(existingSubscription);
+      const serverSubscription: ServerPushSubscription =
+        convertSubscriptionToServerFormat(existingSubscription);
+      const response = await subscribeUser(
+        userId,
+        serverSubscription,
+        timezone,
+      );
+      if (response.success) {
+        setSubscription(existingSubscription);
+        setIsSubscribed(true);
+      } else {
+        console.error("Error al suscribirse en el servidor:", response.error);
+      }
       return;
     }
 
@@ -92,9 +108,19 @@ export const NotificationProvider = ({
         ),
       });
 
-      const serializedSub = JSON.parse(JSON.stringify(newSubscription));
-      await subscribeUser(userId, serializedSub, timezone);
-      setSubscription(newSubscription);
+      const serverSubscription: ServerPushSubscription =
+        convertSubscriptionToServerFormat(newSubscription);
+      const response = await subscribeUser(
+        userId,
+        serverSubscription,
+        timezone,
+      );
+      if (response.success) {
+        setSubscription(newSubscription);
+        setIsSubscribed(true);
+      } else {
+        console.error("Error al suscribirse en el servidor:", response.error);
+      }
     } catch (error) {
       console.error("Error al suscribirse a Push:", error);
       setPermission(Notification.permission);
@@ -114,8 +140,16 @@ export const NotificationProvider = ({
 
           if (!existingSubscription) {
             console.log("La suscripción ya no existe en el navegador.");
-            await unsubscribeUser(subscription.endpoint);
-            setSubscription(null);
+            const response = await unsubscribeUser(subscription.endpoint);
+            if (response.success) {
+              setSubscription(null);
+              setIsSubscribed(false);
+            } else {
+              console.error(
+                "Error al desuscribirse en el servidor:",
+                response.error,
+              );
+            }
           } else {
             console.error("La suscripción todavía existe en el navegador.");
           }
@@ -125,6 +159,50 @@ export const NotificationProvider = ({
       }
     }
   }, [subscription]);
+
+  const syncSubscriptions = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const serverSubscriptions = await getUserSubscriptions(userId);
+      const isServerSubscribed = serverSubscriptions.length > 0;
+
+      const registration = await navigator.serviceWorker.ready;
+      const clientSubscription =
+        await registration.pushManager.getSubscription();
+      const isClientSubscribed = !!clientSubscription;
+
+      if (isServerSubscribed && isClientSubscribed) {
+        setIsSubscribed(true);
+      } else if (isServerSubscribed && !isClientSubscribed) {
+        for (const sub of serverSubscriptions) {
+          await unsubscribeUser(sub.endpoint);
+        }
+        setIsSubscribed(false);
+      } else if (!isServerSubscribed && isClientSubscribed) {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const serverSubscription: ServerPushSubscription =
+          convertSubscriptionToServerFormat(clientSubscription);
+        const response = await subscribeUser(
+          userId,
+          serverSubscription,
+          timezone,
+        );
+        if (response.success) {
+          setIsSubscribed(true);
+        } else {
+          console.error(
+            "Error al sincronizar suscripción al servidor:",
+            response.error,
+          );
+        }
+      } else {
+        setIsSubscribed(false);
+      }
+    } catch (error) {
+      console.error("Error al sincronizar suscripciones:", error);
+    }
+  }, [userId]);
 
   useEffect(() => {
     async function initializeSubscription() {
@@ -152,13 +230,23 @@ export const NotificationProvider = ({
             await subscribeToPush();
           }
         }
+
+        await syncSubscriptions();
       } else {
         setIsSupported(false);
       }
     }
 
     initializeSubscription();
-  }, [subscribeToPush]);
+  }, [subscribeToPush, syncSubscriptions]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      syncSubscriptions();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [syncSubscriptions]);
 
   useEffect(() => {
     const handlePermissionChange = () => {
@@ -180,6 +268,7 @@ export const NotificationProvider = ({
       if (Notification.permission !== "granted" && subscription) {
         await unsubscribeUser(subscription.endpoint);
         setSubscription(null);
+        setIsSubscribed(false);
       }
     }
     checkPermissions();
@@ -199,7 +288,7 @@ export const NotificationProvider = ({
     <NotificationContext.Provider
       value={{
         isSupported,
-        isSubscribed: !!subscription,
+        isSubscribed,
         message,
         setMessage,
         subscribeToPush,

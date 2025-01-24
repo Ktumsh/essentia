@@ -92,3 +92,13 @@ export async function sendAndSaveNotification({
     return { success: false, error: "Failed to send or save notification" };
   }
 }
+
+export async function getUserSubscriptions(userId: string) {
+  try {
+    const subscriptions = await getAllSubscriptions();
+    return subscriptions.filter((sub) => sub.userId === userId);
+  } catch (error) {
+    console.error("Error obteniendo suscripciones del usuario:", error);
+    return [];
+  }
+}
