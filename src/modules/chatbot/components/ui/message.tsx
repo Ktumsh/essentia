@@ -3,7 +3,6 @@
 import equal from "fast-deep-equal";
 import { motion } from "motion/react";
 import { memo, useEffect, useState } from "react";
-import { useSWRConfig } from "swr";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -68,9 +67,7 @@ const PurePreviewMessage = ({
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<"view" | "edit">("view");
 
-  const { mutate } = useSWRConfig();
-
-  const { tasks, isLoading: isTaskLoading } = useTasks();
+  const { tasks, setTasks, isLoading: isTaskLoading } = useTasks();
 
   useEffect(() => {
     if (!toolInvocations) return;
@@ -81,20 +78,17 @@ const PurePreviewMessage = ({
         toolInvocation.toolName === "trackTask" &&
         toolInvocation.result?.task
       ) {
-        mutate(
-          "/api/tasks",
-          async (tasks: any) => {
-            const task = tasks.find(
-              (t: any) => t.id === toolInvocation.result.task.id,
-            );
-            if (!task) return tasks;
-            return tasks.map((t: any) => (t.id === task.id ? task : t));
-          },
-          false,
-        );
+        setTasks((currentTasks) => {
+          if (!currentTasks) return [];
+          return currentTasks.map((t) =>
+            t.id === toolInvocation.result.task.id
+              ? toolInvocation.result.task
+              : t,
+          );
+        });
       }
     });
-  }, [mutate, toolInvocations]);
+  }, [setTasks, toolInvocations]);
 
   if (
     role === "assistant" &&

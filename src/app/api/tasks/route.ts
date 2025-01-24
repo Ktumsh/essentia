@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { auth } from "@/app/(auth)/auth";
@@ -17,8 +16,6 @@ export async function GET() {
     const userId = session.user.id;
 
     const tasks = await getUserTasks(userId);
-
-    revalidatePath("/", "layout");
 
     return NextResponse.json(tasks);
   } catch (error) {

@@ -90,3 +90,14 @@ export async function deleteNotification(notificationId: string) {
     .delete(userNotification)
     .where(eq(userNotification.id, notificationId));
 }
+
+export async function deleteAllNotifications(userId: string) {
+  await db.delete(userNotification).where(eq(userNotification.userId, userId));
+}
+
+export async function markAllNotificationsAsRead(userId: string) {
+  await db
+    .update(userNotification)
+    .set({ isRead: true })
+    .where(eq(userNotification.userId, userId));
+}

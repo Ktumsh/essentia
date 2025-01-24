@@ -9,6 +9,7 @@ import { useIsMobile } from "@/components/hooks/use-mobile";
 import { useToast } from "@/components/hooks/use-toast";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { ToastAction } from "@/components/ui/toast";
+import { UserNotification } from "@/db/schema";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
@@ -26,6 +27,7 @@ interface LayoutWrapperProps {
   session: Session | null;
   user: UserProfileData | null;
   isPremium: boolean;
+  notifications: UserNotification[];
   children: React.ReactNode;
 }
 
@@ -33,6 +35,7 @@ const LayoutWrapper = ({
   session,
   user,
   isPremium,
+  notifications,
   children,
 }: LayoutWrapperProps) => {
   const router = useRouter();
@@ -128,7 +131,7 @@ const LayoutWrapper = ({
       </motion.div>
 
       {/* Mobile Header */}
-      <MobileHeader user={user} />
+      <MobileHeader user={user} notifications={notifications} />
 
       {/* Sidebar */}
       <AppSidebar session={session} user={user} isPremium={isPremium} />
@@ -136,7 +139,7 @@ const LayoutWrapper = ({
       {/* Main content */}
       <SidebarInset>
         {/* Desktop Header */}
-        <DesktopHeader user={user} />
+        <DesktopHeader user={user} notifications={notifications} />
 
         {isEssentiaAI ? (
           <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col">
