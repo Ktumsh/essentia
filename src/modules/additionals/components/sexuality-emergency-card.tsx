@@ -51,7 +51,7 @@ const SexualityEmergencyCard = () => {
                       <ul className="inline-flex pl-0">
                         <Badge
                           variant="primary"
-                          className="mr-2 flex !size-6 min-w-0 max-w-full justify-center !bg-pink-600 !text-white hover:!bg-pink-600/80"
+                          className="mr-2 flex size-6! min-w-0 max-w-full justify-center bg-pink-600! text-white! hover:bg-pink-600/80!"
                         >
                           {step.step}
                         </Badge>

@@ -38,7 +38,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
           isBlurred
           overlayClassName="bg-white/50 dark:bg-black/80"
           closeButton={false}
-          className="max-w-sm gap-0 rounded-3xl border-none bg-light-gradient-v2 p-0 before:absolute before:inset-[2px] before:z-[-1] before:rounded-[23px] before:bg-white before:content-[''] dark:bg-dark-gradient-v2 before:dark:bg-full-dark sm:rounded-3xl"
+          className="max-w-sm gap-0 rounded-3xl border-none bg-light-gradient-v2 p-0 before:absolute before:inset-[2px] before:z-[-1] before:rounded-[23px] before:bg-white before:content-[''] dark:bg-dark-gradient-v2 dark:before:bg-full-dark sm:rounded-3xl"
         >
           <DialogHeader className="flex-col items-center justify-center rounded-3xl bg-light-gradient-v2 p-3 text-center text-main dark:bg-dark-gradient-v2 dark:text-white md:p-6">
             <DialogTitle className="font-sans text-2xl font-extrabold uppercase leading-normal tracking-widest text-white">
@@ -55,7 +55,7 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
               funcionalidades de Essentia AI.
             </p>
           </div>
-          <DialogFooter className="justify-center p-3 !pt-0 md:p-6">
+          <DialogFooter className="justify-center p-3 pt-0! md:p-6">
             <button aria-hidden className="sr-only"></button>
             <Button
               radius="full"
@@ -64,11 +64,11 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
                 setIsOpen(false);
                 setIsOpenPayment(true);
               }}
-              className="group relative z-0 h-12 gap-3 bg-light-gradient-v2 px-6 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:transition before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 hover:before:opacity-0 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="group relative z-0 h-12 gap-3 bg-light-gradient-v2 px-6 shadow-none transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:transition before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 hover:before:opacity-0 dark:bg-dark-gradient-v2 dark:before:bg-full-dark"
             >
               <StarsIcon
                 aria-hidden="true"
-                className="stars-icon !size-5 focus:outline-none [&_*]:transition [&_*]:group-hover:fill-white"
+                className="stars-icon size-5! focus:outline-hidden **:transition group-hover:**:fill-white"
               />
               <span className="bg-light-gradient-v2 bg-clip-text text-base font-extrabold tracking-widest text-transparent transition-colors group-hover:text-white dark:bg-dark-gradient-v2">
                 Hazte premium

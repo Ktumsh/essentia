@@ -66,14 +66,14 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
     <Sidebar
       collapsible="icon"
       className={
-        isCollapsed ? "overflow-hidden [&>[data-sidebar=sidebar]]:flex-row" : ""
+        isCollapsed ? "overflow-hidden *:data-[sidebar=sidebar]:flex-row" : ""
       }
     >
       {isAIPage && session ? (
         <>
           <Sidebar
             collapsible="none"
-            className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r border-gray-200 dark:border-dark"
+            className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r border-gray-200 dark:border-dark"
           >
             <AppHeader isCollapsed />
             <SidebarContent>

@@ -55,16 +55,16 @@ const AssesHealthRiskStock = ({
             className="aspect-auto h-36 object-cover object-top md:h-52"
           />
         </div>
-        <div className="absolute inset-x-0 top-0 z-10 !mt-0 flex w-full justify-between p-6">
+        <div className="absolute inset-x-0 top-0 z-10 mt-0! flex w-full justify-between p-6">
           <Badge className="shadow-md">Tu riesgo de salud</Badge>
 
           <BetterTooltip content="Descargar como imagen">
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
+              className="absolute right-6 top-6 z-10 size-8 bg-black/20! text-white shadow-none hover:bg-black/30! active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
             >
-              <ArrowDownToLine className="!size-3.5" />
+              <ArrowDownToLine className="size-3.5!" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </BetterTooltip>
@@ -85,7 +85,7 @@ const AssesHealthRiskStock = ({
             </p>
           </div>
           <div className="flex items-center gap-2 md:flex-col">
-            <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-gradient-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white before:dark:bg-full-dark">
+            <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-linear-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white dark:before:bg-full-dark">
               <span className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white bg-danger dark:border-full-dark">
                 <HeartbeatIcon className="size-5 text-white" />
               </span>
@@ -103,7 +103,7 @@ const AssesHealthRiskStock = ({
             <div className="rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-dark">
               <p
                 className={cn(
-                  "text-center !text-xxs text-main-h first-letter:uppercase dark:text-main-dark md:!text-xs",
+                  "text-center text-xxs! text-main-h first-letter:uppercase dark:text-main-dark md:text-xs!",
                 )}
               >
                 {riskAssessment.bmiLevel}

@@ -50,7 +50,7 @@ const VideoModal = ({ video, modal }: VideoModalProps) => {
           <LiteYouTubeEmbed
             id={videoLink || ""}
             title={videoTitle || ""}
-            wrapperClass="yt-wrap !rounded-none"
+            wrapperClass="yt-wrap rounded-none!"
             playerClass="yt-player"
             activatedClass="yt-activated"
             poster="maxresdefault"

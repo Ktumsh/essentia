@@ -178,7 +178,7 @@ const RecoverPass = () => {
         {step === 1 && (
           <Button
             variant="ghost"
-            className="pl-2 hover:!bg-transparent"
+            className="pl-2 hover:bg-transparent!"
             onClick={() => router.back()}
           >
             <ArrowLeft className="size-3.5" />

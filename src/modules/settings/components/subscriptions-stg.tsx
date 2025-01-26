@@ -122,7 +122,7 @@ const SubscriptionsStg = ({
               className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
               onClick={() => router.push("/settings")}
             >
-              <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
+              <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
             </Button>
             <div className="ml-12">
               <SettingsOptsHeader title="Suscripciones" />
@@ -143,7 +143,7 @@ const SubscriptionsStg = ({
             className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
             onClick={() => handleSection("options")}
           >
-            <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
+            <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
           </Button>
           <div className="ml-12">
             <SettingsOptsHeader title="Suscripciones" />

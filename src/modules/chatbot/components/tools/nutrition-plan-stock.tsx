@@ -55,7 +55,7 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
           <BetterTooltip content="Horario">
             <Badge
               variant="secondary"
-              className="gap-1 border border-danger/30 px-2 !text-danger"
+              className="gap-1 border border-danger/30 px-2 text-danger!"
             >
               <Clock className="size-3" />
               <span className="text-xs">{mealTime}</span>
@@ -142,9 +142,9 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
+              className="absolute right-6 top-6 z-10 size-8 bg-black/20! text-white shadow-none hover:bg-black/30! active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
             >
-              <ArrowDownToLine className="!size-3.5" />
+              <ArrowDownToLine className="size-3.5!" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </BetterTooltip>
@@ -191,7 +191,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
             </div>
           )}
           <div className="flex flex-col gap-2">
-            <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-gradient-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white before:dark:bg-full-dark">
+            <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-linear-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white dark:before:bg-full-dark">
               <span className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white bg-danger dark:border-full-dark">
                 <CaloriesIcon className="size-5 text-white" />
               </span>

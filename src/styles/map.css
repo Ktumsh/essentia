@@ -1,3 +1,7 @@
+@import "tailwindcss";
+
+@config "../../tailwind.config.ts";
+
 :-webkit-full-screen {
   width: 100%;
   height: 100%;
@@ -19,14 +23,14 @@
 }
 
 .pac-container {
-  @apply mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-md dark:bg-full-dark;
+  @apply dark:bg-full-dark mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-md;
 
   & .pac-item {
-    @apply rounded-lg border-t-0 text-main-m dark:!text-main-dark-m;
+    @apply text-main-m dark:!text-main-dark-m rounded-lg border-t-0;
   }
 
   & .pac-item:hover {
-    @apply cursor-pointer bg-gray-200 dark:bg-dark;
+    @apply dark:bg-dark cursor-pointer bg-gray-200;
   }
 
   & .pac-item-query {
@@ -35,67 +39,68 @@
 }
 
 .pac-logo:after {
-  @apply !hidden;
+  @apply hidden!;
 }
 
 .gm-style .gm-style-iw-c {
-  @apply rounded-xl bg-white !p-4 text-main-h shadow-md dark:bg-full-dark dark:text-main-dark-h;
+  @apply text-main-h dark:bg-full-dark dark:text-main-dark-h rounded-xl bg-white p-4! shadow-md;
 
   & .gm-style-iw-chr {
-    @apply absolute right-0 top-0;
+    @apply absolute top-0 right-0;
   }
 
   & .gm-ui-hover-effect {
-    @apply !m-2 !flex !size-7 items-center justify-center rounded-full !bg-black/10 !opacity-100 dark:!bg-white/10;
+    @apply m-2! flex! size-7! items-center justify-center rounded-full bg-black/10! opacity-100! dark:bg-white/10!;
 
     &:hover {
-      @apply !opacity-80;
+      @apply opacity-80!;
     }
     & span {
-      @apply !m-0 !size-4 text-clip drop-shadow;
+      @apply m-0! size-4! text-clip drop-shadow;
     }
   }
 
   & .gm-style-iw-d {
-    @apply !scrollbar-hide;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
   }
 
   & *:not(.gm-ui-hover-effect > *) {
-    @apply !bg-transparent;
+    @apply bg-transparent!;
   }
 
   & .transit-title > span {
-    @apply !hidden;
+    @apply hidden!;
   }
 
   & .view-link {
-    @apply !hidden;
+    @apply hidden!;
   }
 }
 
 .gmnoprint {
-  @apply !hidden;
+  @apply hidden!;
 }
 
 .gm-style-cc {
-  @apply !hidden;
+  @apply hidden!;
 }
 
 .gm-style a > div > img {
-  @apply !hidden;
+  @apply hidden!;
 }
 
 .gm-style-iw-d {
-  @apply !mt-6;
+  @apply mt-6!;
   & .address {
-    @apply !flex flex-col gap-1;
+    @apply flex! flex-col gap-1;
 
     & * {
-      @apply text-main-h dark:!text-main-dark-h;
+      @apply text-main-h dark:text-main-dark-h!;
     }
   }
 }
 
 .gm-title.gm-full-width {
-  @apply !fixed left-0 top-0 !m-4 capitalize !text-main dark:!text-main-dark;
+  @apply text-main! dark:text-main-dark! fixed! top-0 left-0 m-4! capitalize;
 }

@@ -23,7 +23,7 @@ const ProfilePhotoModal = ({ children }: ProfilePhotoModalProps) => {
       <DialogContent
         isBlurred
         closeButtonClass="text-white"
-        className="!mx-0 !max-h-full max-w-full rounded-none bg-transparent p-0 shadow-none"
+        className="mx-0! max-h-full! max-w-full rounded-none bg-transparent p-0 shadow-none"
       >
         <DialogTitle className="sr-only">Perfil de usuario</DialogTitle>
         <DialogDescription className="sr-only">

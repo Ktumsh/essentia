@@ -54,7 +54,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             <div className="inline-flex h-16 items-center justify-center gap-4">
               <StarsIcon
                 aria-hidden="true"
-                className="size-7 focus:outline-none [&_*]:fill-white"
+                className="size-7 focus:outline-hidden **:fill-white"
               />
               <h2 className="text-2xl font-extrabold leading-none text-white">
                 Hazte Premium

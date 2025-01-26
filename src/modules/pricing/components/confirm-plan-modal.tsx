@@ -96,7 +96,7 @@ const ConfirmPlanModal = ({
             </DrawerDescription>
           </DrawerHeader>
         ) : (
-          <DialogHeader isSecondary className="!pb-6">
+          <DialogHeader isSecondary className="pb-6!">
             <DialogTitle>{modalTitle}</DialogTitle>
             <DialogDescription>
               <Description />

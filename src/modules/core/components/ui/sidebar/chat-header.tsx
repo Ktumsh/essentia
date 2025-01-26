@@ -43,7 +43,7 @@ const ChatHeader = ({ session, history }: ChatSidebarProps) => {
               router.push("/essentia-ai");
               router.refresh();
             }}
-            className="rounded-md bg-gray-100 text-sm focus-visible:outline-none dark:bg-dark"
+            className="rounded-md bg-gray-100 text-sm focus-visible:outline-hidden dark:bg-dark"
           >
             <Plus strokeWidth={1.5} />
             <span>Nuevo chat</span>

@@ -101,7 +101,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
           onClick={onBack}
           className="bg-transparent px-2 shadow-none dark:bg-transparent sm:bg-gray-100 sm:dark:bg-dark"
         >
-          <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
+          <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
         </Button>
         <div className="w-full text-sm text-main-h dark:text-main-dark">
           <p>
@@ -148,7 +148,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
                     variant="ghost"
                     size="sm"
                     onClick={() => setIsVisiblePassword(!isVisiblePassword)}
-                    className="absolute right-0 top-0 h-full px-3 text-main-m hover:!bg-transparent dark:text-main-dark-m dark:hover:!bg-transparent"
+                    className="absolute right-0 top-0 h-full px-3 text-main-m hover:bg-transparent! dark:text-main-dark-m dark:hover:bg-transparent!"
                   >
                     {isVisiblePassword ? (
                       <EyeOffIcon className="size-6" />
@@ -196,7 +196,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
                     onClick={() =>
                       setIsVisibleConfirmPassword(!isVisibleConfirmPassword)
                     }
-                    className="absolute right-0 top-0 h-full px-3 text-main-m hover:!bg-transparent dark:text-main-dark-m dark:hover:!bg-transparent"
+                    className="absolute right-0 top-0 h-full px-3 text-main-m hover:bg-transparent! dark:text-main-dark-m dark:hover:bg-transparent!"
                   >
                     {isVisibleConfirmPassword ? (
                       <EyeOffIcon className="size-6" />

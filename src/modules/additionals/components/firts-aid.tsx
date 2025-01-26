@@ -111,7 +111,7 @@ const FirstAid = () => {
                       <ul className="flex items-center pl-0">
                         <Badge
                           variant="primary"
-                          className="flex size-6 items-center justify-center !bg-cyan-600 font-bold !text-white hover:!bg-cyan-600/80"
+                          className="flex size-6 items-center justify-center bg-cyan-600! font-bold text-white! hover:bg-cyan-600/80!"
                         >
                           {step.step}
                         </Badge>

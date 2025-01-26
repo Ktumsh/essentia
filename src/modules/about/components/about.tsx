@@ -57,7 +57,7 @@ const About = ({ session, isPremium }: AboutProps) => {
 
   return (
     <article className="z-40 size-full overflow-hidden text-clip break-words bg-white font-normal text-main">
-      <div className="relative mx-auto flex min-h-[80dvh] max-w-screen-xl px-6 pb-10 pt-36 md:min-h-[85dvh] md:pb-24 md:pt-48">
+      <div className="relative mx-auto flex min-h-[80dvh] max-w-(--breakpoint-xl) px-6 pb-10 pt-36 md:min-h-[85dvh] md:pb-24 md:pt-48">
         <div className="m-auto flex h-full flex-col items-center justify-between gap-44 md:gap-14">
           <div className="flex flex-col items-center gap-14 text-center">
             <h1 className="max-w-5xl font-grotesk text-4xl font-semibold sm:text-5xl md:text-7xl">
@@ -129,7 +129,7 @@ const About = ({ session, isPremium }: AboutProps) => {
                   <span className="mr-2">
                     <StarsIcon
                       aria-hidden="true"
-                      className="size-5 focus:outline-none [&_*]:fill-white"
+                      className="size-5 focus:outline-hidden **:fill-white"
                     />
                   </span>
                   Hazte premium

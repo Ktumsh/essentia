@@ -92,9 +92,9 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
               key={index}
               className={cn(
                 item.value
-                  ? "!text-green-500"
+                  ? "text-green-500!"
                   : "text-main-m dark:text-main-dark-m",
-                "gap-1 !bg-transparent pl-0 hover:!bg-inherit",
+                "gap-1 bg-transparent! pl-0 hover:bg-inherit!",
               )}
             >
               <CheckCircledIcon className="size-4" />

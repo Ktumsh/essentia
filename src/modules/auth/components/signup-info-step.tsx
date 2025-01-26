@@ -102,7 +102,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
           onClick={onBack}
           className="bg-transparent px-2 shadow-none dark:bg-transparent sm:bg-gray-100 sm:dark:bg-dark"
         >
-          <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
+          <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
         </Button>
         <div className="w-full text-sm text-main-h dark:text-main-dark">
           <p>

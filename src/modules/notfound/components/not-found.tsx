@@ -19,10 +19,10 @@ const NotFoundWrapper = () => {
         <div
           className={cn(
             "z-[-1]",
-            "from-gray-50 to-[#c0c6e6] before:absolute before:left-1/2 before:top-0 before:h-[800px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-tr before:blur-[80px] before:content-[''] sm:before:w-[1080px]",
-            "before:dark:h-[600px] before:dark:w-[980px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-[#ff7373] before:dark:opacity-20",
-            "after:absolute after:left-[20%] after:top-[10%] after:z-10 after:h-[580px] after:w-full after:rounded-full after:bg-gradient-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-50 after:blur-[80px] after:content-[''] sm:after:w-[540px]",
-            "after:dark:left-2/3 after:dark:top-1/4 after:dark:h-[180px] after:dark:w-[260px] after:dark:rounded-none after:dark:bg-gradient-to-br after:dark:from-full-dark after:dark:via-[#ff7373] after:dark:opacity-50 after:dark:blur-3xl",
+            "from-gray-50 to-[#c0c6e6] before:absolute before:left-1/2 before:top-0 before:h-[800px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-linear-to-tr before:blur-[80px] before:content-[''] sm:before:w-[1080px]",
+            "dark:before:h-[600px] dark:before:w-[980px] dark:before:bg-linear-to-br dark:before:from-transparent dark:before:to-[#ff7373] dark:before:opacity-20",
+            "after:absolute after:left-[20%] after:top-[10%] after:z-10 after:h-[580px] after:w-full after:rounded-full after:bg-linear-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-50 after:blur-[80px] after:content-[''] sm:after:w-[540px]",
+            "dark:after:left-2/3 dark:after:top-1/4 dark:after:h-[180px] dark:after:w-[260px] dark:after:rounded-none dark:after:bg-linear-to-br dark:after:from-full-dark dark:after:via-[#ff7373] dark:after:opacity-50 dark:after:blur-3xl",
           )}
         ></div>
       </div>
@@ -31,7 +31,7 @@ const NotFoundWrapper = () => {
           <div className="flex h-full flex-col gap-4 text-center md:h-auto md:text-start">
             <h1 className="text-wrap font-sans text-3xl font-bold md:text-6xl">
               Parece que esta página ha perdido su{" "}
-              <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-300 bg-clip-text text-transparent drop-shadow">
+              <span className="bg-linear-to-r from-indigo-600 via-blue-600 to-indigo-300 bg-clip-text text-transparent drop-shadow-sm">
                 esencia
               </span>
               .

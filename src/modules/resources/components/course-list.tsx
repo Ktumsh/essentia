@@ -143,7 +143,7 @@ const CourseList = ({
       <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
         <CardHeader className="flex-row items-center gap-2">
           <TriangleAlert className="size-5 text-red-500" />
-          <CardDescription className="!mt-0 text-base">
+          <CardDescription className="mt-0! text-base">
             Hubo un error al cargar el contenido del curso.
           </CardDescription>
         </CardHeader>
@@ -166,7 +166,7 @@ const CourseList = ({
                 Aprende sobre {resourceName}
                 <Hash
                   strokeWidth={1.5}
-                  className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+                  className="ml-1 size-5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
                 />
               </Link>
             </h3>
@@ -174,15 +174,16 @@ const CourseList = ({
               <Badge
                 variant="outline"
                 className={cn(
-                  "w-fit py-1.5",
+                  "w-fit shrink-0 border-amber-600/60 bg-amber-600/10 text-amber-500 hover:bg-amber-600/10 dark:border-amber-600/60 dark:bg-amber-600/10 dark:text-amber-500",
                   courseProgress.completed &&
-                    "border-transparent bg-gradient-to-br !text-white shadow",
+                    "border-transparent! bg-linear-to-br text-white! shadow-sm",
                   getResourceColor(resourceIndex, "gradient"),
                 )}
               >
-                {courseProgress.completed
-                  ? "Curso finalizado"
-                  : "Curso en progreso"}
+                {!courseProgress.completed && (
+                  <span className="mr-2 size-1.5 rounded-full bg-amber-500" />
+                )}
+                {courseProgress.completed ? "Finalizado" : "En progreso"}
                 {courseProgress.completed && (
                   <CheckCheck className="ml-1.5 size-3.5" />
                 )}
@@ -208,7 +209,7 @@ const CourseList = ({
             <div className="relative mb-4 flex flex-col space-y-1 text-main">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 animate-fade-in rounded-lg border border-gray-200 bg-white/50 p-6 backdrop-blur-sm duration-2000 ease-in-out dark:border-dark dark:bg-black/10"
+                className="absolute inset-0 animate-fade-in rounded-lg border border-gray-200 bg-white/50 p-6 backdrop-blur-xs duration-2000 ease-in-out dark:border-dark dark:bg-black/10"
               >
                 <div className="slideup flex size-full flex-col items-center justify-center gap-4">
                   <p className="text-center font-semibold text-main dark:text-white md:text-lg">
@@ -219,11 +220,11 @@ const CourseList = ({
                     fullWidth
                     radius="full"
                     onClick={() => setIsOpenPayment(true)}
-                    className="max-w-60 shadow-pretty focus:text-white active:shadow-sm"
+                    className="max-w-60 shadow-pretty focus:text-white active:shadow-xs"
                   >
                     <StarsIcon
                       aria-hidden="true"
-                      className="size-4 focus:outline-none [&_*]:fill-white"
+                      className="size-4 focus:outline-hidden **:fill-white"
                     />
                     Hazte premium
                   </Button>
@@ -394,7 +395,7 @@ const CourseList = ({
       ) : (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent isSecondary>
-            <DialogHeader isSecondary className="!pb-6">
+            <DialogHeader isSecondary className="pb-6!">
               <DialogTitle>Iniciar curso</DialogTitle>
               <DialogDescription>
                 Para comenzar con esta lección, debes iniciar el curso. ¿Deseas

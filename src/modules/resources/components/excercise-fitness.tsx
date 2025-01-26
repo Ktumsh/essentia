@@ -83,11 +83,11 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
               radius="full"
               size="sm"
               onClick={onCreateRoutine}
-              className="relative z-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="relative z-0 shrink-0 bg-light-gradient-v2 transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 dark:before:bg-full-dark"
             >
               <StarsIcon
                 aria-hidden="true"
-                className="stars-icon !size-3.5 focus:outline-none"
+                className="stars-icon size-3.5! focus:outline-hidden"
               />
               <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
                 Crea tu rutina
@@ -99,11 +99,11 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
         <Button
           fullWidth
           onClick={onCreateRoutine}
-          className="relative z-0 mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
+          className="relative z-0 mb-4 h-14 rounded-2xl bg-light-gradient-v2 transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 dark:before:bg-full-dark md:hidden"
         >
           <StarsIcon
             aria-hidden="true"
-            className="stars-icon !size-5 focus:outline-none"
+            className="stars-icon size-5! focus:outline-hidden"
           />
           <span className="bg-light-gradient-v2 bg-clip-text text-lg font-extrabold text-transparent dark:bg-dark-gradient-v2">
             Crea tu rutina

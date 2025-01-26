@@ -152,7 +152,7 @@ function InfoPopover({ type }: { type: PopoverContentType }) {
             radius="full"
             className="relative my-auto size-3 after:absolute after:-inset-2 after:content-['']"
           >
-            <QuestionMarkIcon className="!size-2.5" />
+            <QuestionMarkIcon className="size-2.5!" />
             <span className="sr-only">{moreInfoMessage}</span>
           </Button>
         </PopoverTrigger>
@@ -221,7 +221,7 @@ function PurePublicInfoPopover() {
             size="icon"
             className="relative ml-2 size-auto font-normal after:absolute after:-inset-2 after:content-['']"
           >
-            <Info className="!size-3.5 text-main-h dark:text-main-dark" />
+            <Info className="size-3.5! text-main-h dark:text-main-dark" />
             <span className="sr-only">Más información acerca de tu perfil</span>
           </Button>
         </PopoverTrigger>

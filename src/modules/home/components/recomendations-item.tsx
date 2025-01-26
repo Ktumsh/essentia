@@ -46,7 +46,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
   }, [index]);
 
   return (
-    <Card className="group min-h-52 select-none overflow-hidden rounded-xl border-none !bg-transparent shadow-none">
+    <Card className="group min-h-52 select-none overflow-hidden rounded-xl border-none bg-transparent! shadow-none">
       {image && (
         <Image
           priority={index < 2}
@@ -57,7 +57,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
           className="absolute inset-0 z-[-1] aspect-auto w-full object-cover object-center brightness-75"
         />
       )}
-      <div className="absolute inset-0 z-[-1] bg-gradient-to-t from-black/30 from-40% to-transparent backdrop-blur-sm transition duration-500 group-hover:backdrop-blur-0"></div>
+      <div className="absolute inset-0 z-[-1] bg-linear-to-t from-black/30 from-40% to-transparent backdrop-blur-xs transition duration-500 group-hover:backdrop-blur-0"></div>
       <CardHeader className="pb-0">
         <div
           className={cn(

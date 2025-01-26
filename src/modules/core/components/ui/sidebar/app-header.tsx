@@ -23,7 +23,7 @@ const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
           <SidebarMenuButton
             size="lg"
             asChild
-            className={isCollapsed ? "!size-8 p-0" : ""}
+            className={isCollapsed ? "size-8! p-0" : ""}
           >
             <Link href="/">
               <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">

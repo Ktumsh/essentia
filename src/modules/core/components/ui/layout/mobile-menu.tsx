@@ -99,7 +99,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             </SheetDescription>
             <Link
               href="/"
-              className="relative !mt-0 inline-flex items-center gap-2"
+              className="relative mt-0! inline-flex items-center gap-2"
             >
               <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-logo">
                 <Logo width={16} height={16} className="h-4" />
@@ -111,8 +111,8 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 </span>
               </div>
               {isPremium && (
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 rounded bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
-                  <StarsIcon className="size-3.5 [&_*]:fill-white" />
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 rounded-sm bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
+                  <StarsIcon className="size-3.5 **:fill-white" />
                 </div>
               )}
             </Link>
@@ -159,7 +159,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             </div>
           </div>
           <SheetFooter className="text-sm">
-            <Separator className="!my-4" />
+            <Separator className="my-4!" />
             <Collapsible className="group/collapsible">
               <CollapsibleTrigger asChild>
                 <button className="inline-flex w-full items-center py-1.5">
@@ -213,9 +213,9 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 <SunMoon className="size-3.5" />
                 <span>Tema</span>
               </div>
-              <ThemeToggle className="!size-8" />
+              <ThemeToggle className="size-8!" />
             </div>
-            <Separator className="!my-4" />
+            <Separator className="my-4!" />
             {user ? (
               <SheetClose asChild>
                 <button

@@ -91,7 +91,7 @@ const AboutHeader = ({ session, isPremium }: AboutHeaderProps) => {
         id="nav"
         className={cn(
           "z-50 mx-auto flex max-w-full flex-1 items-center justify-center bg-white px-3 text-main transition-all md:max-w-7xl md:bg-transparent",
-          isChanged && "mt-4 !bg-white px-28 md:rounded-full",
+          isChanged && "mt-4 bg-white! px-28 md:rounded-full",
         )}
       >
         <div className="flex h-14 w-full items-center gap-0 sm:gap-3">
@@ -149,7 +149,7 @@ const AboutHeader = ({ session, isPremium }: AboutHeaderProps) => {
                 variant="gradient"
                 onClick={() => router.push("/pricing")}
               >
-                <StarsIcon className="size-4 focus:outline-none [&_*]:fill-white" />
+                <StarsIcon className="size-4 focus:outline-hidden **:fill-white" />
                 Hazte premium
               </Button>
             )}

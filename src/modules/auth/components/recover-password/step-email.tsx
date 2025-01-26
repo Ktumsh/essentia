@@ -86,7 +86,7 @@ const StepEmail = ({ onSubmit, isPending }: StepEmailProps) => {
               radius="full"
               variant="alternative"
               disabled={isPending}
-              className="!mt-8 h-10 w-full"
+              className="mt-8! h-10 w-full"
             >
               {isPending ? (
                 <Loader className="size-4 animate-spin" />

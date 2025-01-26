@@ -81,7 +81,8 @@ const NavbarLinks = () => {
             <Fragment key={index}>
               <BreadcrumbItem>
                 {(isChat && !chatName && isLast) ||
-                (isLesson && !lessonName && isLast) ? (
+                (isLesson && !lessonName && isLast) ||
+                linkName === "Profiles" ? (
                   <BreadcrumbEllipsis />
                 ) : isLast ? (
                   <BreadcrumbPage>{linkName}</BreadcrumbPage>

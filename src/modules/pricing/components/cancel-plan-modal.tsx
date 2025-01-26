@@ -73,7 +73,7 @@ const CancelPlanModal = ({
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent isSecondary>
-          <DialogHeader isSecondary className="!pb-6">
+          <DialogHeader isSecondary className="pb-6!">
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>
               <Description />

@@ -33,7 +33,7 @@ const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
         size="icon"
         radius="full"
         className={cn(
-          "group !size-9 min-w-0 border border-gray-300 bg-white px-0 text-main hover:border-bittersweet-400 hover:bg-white hover:text-bittersweet-400 hover:!opacity-100 hover:shadow-md dark:border-accent-dark dark:bg-dark dark:text-main-dark dark:hover:bg-full-dark",
+          "group size-9! min-w-0 border border-gray-300 bg-white px-0 text-main hover:border-bittersweet-400 hover:bg-white hover:text-bittersweet-400 hover:opacity-100! hover:shadow-md dark:border-accent-dark dark:bg-dark dark:text-main-dark dark:hover:bg-full-dark",
           isVisible ? "cursor-pointer" : "cursor-default",
         )}
         onClick={scrollToTop}

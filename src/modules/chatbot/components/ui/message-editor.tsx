@@ -73,7 +73,7 @@ export function MessageEditor({
   return (
     <div className="flex w-full flex-col gap-2 rounded-xl bg-background px-2.5 py-1.5 outline outline-2 outline-danger/50 md:px-4 md:py-2.5">
       <Textarea
-        className="!h-auto max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto border-none p-0 !text-base text-main-h shadow-none [field-sizing:content] focus-visible:ring-0 dark:text-main-dark"
+        className="h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto border-none p-0 text-base! text-main-h shadow-none [field-sizing:content] focus-visible:ring-0 dark:text-main-dark"
         value={draftContent}
         onChange={handleInput}
       />

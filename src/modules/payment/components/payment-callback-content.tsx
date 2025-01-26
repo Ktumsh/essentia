@@ -193,7 +193,7 @@ const PaymentCallbackContent = ({
 
       <h1 className={cn("text-2xl font-semibold", titleColor)}>{title}</h1>
 
-      {message && <p className="!mt-2 text-center text-sm">{message}</p>}
+      {message && <p className="mt-2! text-center text-sm">{message}</p>}
 
       {titleStatus === "success" && paymentDetails && (
         <div className="w-full max-w-lg">

@@ -96,9 +96,9 @@ const PricingCard = ({
           !isPremiumPlusPlan &&
           "border border-gray-300 dark:border-accent-dark",
         isPremiumPlan &&
-          "z-10 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[11px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark/40",
+          "z-10 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[11px] after:bg-white/40 after:content-[''] dark:bg-dark-gradient-v2 dark:text-white dark:after:bg-full-dark/40",
         isPremiumPlusPlan &&
-          "z-0 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[11px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white after:dark:bg-full-dark",
+          "z-0 border-none bg-light-gradient-v2 after:absolute after:inset-px after:rounded-[11px] after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:text-white dark:after:bg-full-dark",
       ),
     [isPremiumPlan, isPremiumPlusPlan],
   );
@@ -106,11 +106,11 @@ const PricingCard = ({
   const cardHeaderClassName = useMemo(
     () =>
       cn(
-        "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-main after:-z-10 after:border-b after:border-gray-300 dark:text-white after:dark:border-accent-dark md:p-6",
-        !isPremiumPlan && !isPremiumPlusPlan && "after:!inset-0",
+        "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-main after:-z-10 after:border-b after:border-gray-300 dark:text-white dark:after:border-accent-dark md:p-6",
+        !isPremiumPlan && !isPremiumPlusPlan && "after:inset-0!",
         isPremiumPlan
-          ? "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:content-[''] after:dark:border-full-dark after:dark:bg-full-dark/80"
-          : "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:content-[''] after:dark:bg-dark/50",
+          ? "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-white/80 after:content-[''] dark:after:border-full-dark dark:after:bg-full-dark/80"
+          : "after:absolute after:inset-px after:bottom-0 after:rounded-[12px] after:rounded-b-none after:bg-gray-100 after:content-[''] dark:after:bg-dark/50",
       ),
     [isPremiumPlan, isPremiumPlusPlan],
   );
@@ -135,7 +135,7 @@ const PricingCard = ({
               className={cn(
                 "relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs text-main-h dark:text-main-dark",
                 isPremiumPlan
-                  ? "bg-light-gradient-v2 after:absolute after:inset-px after:z-0 after:rounded-full after:bg-white after:content-[''] dark:bg-dark-gradient-v2 after:dark:bg-full-dark"
+                  ? "bg-light-gradient-v2 after:absolute after:inset-px after:z-0 after:rounded-full after:bg-white after:content-[''] dark:bg-dark-gradient-v2 dark:after:bg-full-dark"
                   : "border border-gray-300 bg-white dark:border-accent-dark dark:bg-full-dark",
               )}
             >

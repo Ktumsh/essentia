@@ -127,7 +127,7 @@ const ResourceWrapper = ({
         id={`introduccion-a-${formatedTitle}`}
         data-id={`introduccion-a-${formatedTitle}`}
         data-name={`Introducción a ${name}`}
-        className="relative z-10 col-[1/2] row-[1/2] flex aspect-[908/384] flex-1 flex-col overflow-hidden lg:flex-row lg:rounded-b-xl"
+        className="relative z-10 col-[1/2] row-[1/2] flex aspect-908/384 flex-1 flex-col overflow-hidden lg:flex-row lg:rounded-b-xl"
       >
         <ResourceBadge
           resourceIndex={resourceIndex}
@@ -157,9 +157,9 @@ const ResourceWrapper = ({
             quality={80}
             src={imageFull}
             alt={name || title}
-            className="relative z-0 flex aspect-[908/384] size-full !max-w-full items-center justify-center rounded-none object-cover object-center brightness-95"
+            className="relative z-0 flex aspect-908/384 size-full max-w-full! items-center justify-center rounded-none object-cover object-center brightness-95"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-full-dark/50 to-black/0 to-40%"></div>
+          <div className="absolute inset-0 bg-linear-to-b from-full-dark/50 to-black/0 to-40%"></div>
         </div>
         <div className="absolute bottom-0 right-0 z-20 px-5 py-3">
           <BetterTooltip content="Ver video presentación">
@@ -167,7 +167,7 @@ const ResourceWrapper = ({
               aria-label="Ver video presentación"
               variant="ghost"
               radius="lg"
-              className="z-10 aspect-video h-8 bg-black/40 backdrop-blur-sm backdrop-saturate-150 !transition hover:!bg-black/60"
+              className="z-10 aspect-video h-8 bg-black/40 backdrop-blur-xs backdrop-saturate-150 transition! hover:bg-black/60!"
               onClick={() => setIsOpen(true)}
             >
               <PlayIcon className="group absolute left-1/2 top-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />

@@ -23,7 +23,7 @@ const FAQItems = ({ faqs }: FAQItemProps) => {
           <AccordionTrigger className="py-4 underline-offset-2 md:px-6">
             {faq.question}
           </AccordionTrigger>
-          <AccordionContent className="prose-sm !pt-0 pb-4 pr-10 text-left text-main-h dark:text-main-dark-h md:px-6 md:pr-12">
+          <AccordionContent className="prose-sm pt-0! pb-4 pr-10 text-left text-main-h dark:text-main-dark-h md:px-6 md:pr-12">
             {faq.answer}
           </AccordionContent>
         </AccordionItem>

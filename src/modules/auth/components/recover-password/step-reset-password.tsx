@@ -83,7 +83,7 @@ const StepResetPassword = ({ onSubmit, isPending }: StepResetPasswordProps) => {
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleNew(!isVisibleNew)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:!bg-transparent dark:hover:!bg-transparent"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
                       >
                         {isVisibleNew ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -120,7 +120,7 @@ const StepResetPassword = ({ onSubmit, isPending }: StepResetPasswordProps) => {
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleConfirm(!isVisibleConfirm)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:!bg-transparent dark:hover:!bg-transparent"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
                       >
                         {isVisibleConfirm ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -138,7 +138,7 @@ const StepResetPassword = ({ onSubmit, isPending }: StepResetPasswordProps) => {
               radius="full"
               variant="alternative"
               disabled={isPending}
-              className="!mt-8 h-10 w-full"
+              className="mt-8! h-10 w-full"
             >
               {isPending ? (
                 <Loader className="animate-spin" />

@@ -25,7 +25,7 @@ const ResourceBadge = ({
     <div className={cn("z-20", className)}>
       <div
         className={cn(
-          "flex size-10 items-center justify-center rounded-lg bg-gradient-to-br shadow",
+          "flex size-10 items-center justify-center rounded-lg bg-linear-to-br shadow-sm",
           getResourceColor(resourceIndex, "gradient"),
         )}
       >

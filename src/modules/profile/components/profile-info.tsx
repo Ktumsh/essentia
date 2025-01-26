@@ -84,12 +84,12 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
 
   return (
     <div
-      className={cn("w-full bg-white dark:bg-full-dark", {
+      className={cn("dark:bg-full-dark w-full bg-white", {
         "px-6 py-10": !isOwnProfile,
       })}
     >
       <div className="mb-5 flex w-full flex-col gap-8 md:mb-0">
-        <Card className="flex flex-col justify-between text-main dark:text-white md:flex-row">
+        <Card className="text-main flex flex-col justify-between md:flex-row dark:text-white">
           <CardHeader>
             <CardTitle className="mb-2 text-base">Avatar</CardTitle>
             <CardDescription className="space-y-1">
@@ -148,10 +148,10 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+            <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
                 <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-h dark:text-main-dark-h">
+                  <div className="text-main-h dark:text-main-dark-h flex-1 text-xs font-normal">
                     Nombre
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
@@ -159,7 +159,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-h dark:text-main-dark-h">
+                  <div className="text-main-h dark:text-main-dark-h flex-1 text-xs font-normal">
                     Apellido
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
@@ -167,7 +167,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="flex-1 text-xs font-normal text-main-h dark:text-main-dark-h">
+                  <div className="text-main-h dark:text-main-dark-h flex-1 text-xs font-normal">
                     Nombre de usuario
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
@@ -175,7 +175,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                  <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                     <span>
                       <Cake strokeWidth={1.5} className="size-3" />
                     </span>
@@ -191,10 +191,10 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
             {isOwnProfile && (
               <>
                 <div className="grid gap-4 md:grid-cols-2">
-                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                  <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
                       <span className="flex flex-col">
-                        <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                        <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                           <span>
                             <ScrollText strokeWidth={1.5} className="size-3" />
                           </span>
@@ -207,10 +207,10 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                       </span>
                     </div>
                   </div>
-                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                  <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
                       <span className="flex flex-col">
-                        <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                        <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                           <span>
                             <MapPin strokeWidth={1.5} className="size-3" />
                           </span>
@@ -224,10 +224,10 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                     </div>
                   </div>
                 </div>
-                <div className="grid-cols grid flex-1 gap-4 md:grid-cols-3">
-                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                <div className="grid-cols !mb-0 grid flex-1 gap-4 md:grid-cols-3">
+                  <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
                     <span className="flex flex-col">
-                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                      <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                         <span>
                           <Weight strokeWidth={1.5} className="size-3" />
                         </span>
@@ -239,9 +239,9 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                       </div>
                     </span>
                   </div>
-                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                  <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
                     <span className="flex flex-col">
-                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                      <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                         <span>
                           <Ruler strokeWidth={1.5} className="size-3" />
                         </span>
@@ -253,9 +253,9 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                       </div>
                     </span>
                   </div>
-                  <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+                  <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
                     <span className="flex flex-col">
-                      <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                      <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                         <span>
                           <PersonStanding
                             strokeWidth={1.5}
@@ -286,17 +286,15 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
             >
               <div
                 className={cn(
-                  "absolute right-0 top-0 m-6 !mt-6 inline-flex shrink-0 items-center justify-center gap-1 rounded-full border border-gray-200 px-2 py-1 text-xs text-main-h shadow-sm dark:border-dark dark:text-main-dark",
+                  "text-main-h dark:border-dark dark:text-main-dark absolute top-0 right-0 m-6 mt-6! inline-flex shrink-0 items-center justify-center gap-1 rounded-full border border-gray-200 px-2 py-1 text-xs shadow-xs",
                   {
-                    "border-none bg-light-gradient-v2 text-white dark:bg-dark-gradient":
+                    "bg-light-gradient-v2 dark:bg-dark-gradient border-none text-white!":
                       isPremium,
                   },
                   { hidden: !isOwnProfile && !isPremium },
                 )}
               >
-                {isPremium && (
-                  <StarsIcon className="size-3.5 [&_*]:fill-white" />
-                )}
+                {isPremium && <StarsIcon className="size-3.5 **:fill-white" />}
                 <span className="font-medium">
                   {isPremium ? "Premium" : "Gratis"}
                 </span>

@@ -9,7 +9,7 @@ const SignInWith = () => {
       <Button
         id="loginWithGoogle"
         variant="ghost"
-        className="rounded border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
+        className="rounded-sm border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
         onClick={async () =>
           await signIn("google", { callbackUrl: "/", redirect: false })
         }
@@ -21,7 +21,7 @@ const SignInWith = () => {
       <Button
         id="loginWithFacebook"
         variant="ghost"
-        className="rounded border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
+        className="rounded-sm border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
         onClick={async () =>
           await signIn("facebook", { callbackUrl: "/", redirect: false })
         }
@@ -33,7 +33,7 @@ const SignInWith = () => {
       <Button
         id="loginWithX"
         variant="ghost"
-        className="rounded border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
+        className="rounded-sm border border-gray-200/30 bg-black/30 text-sm text-white sm:border-gray-200 sm:bg-transparent sm:text-main-h"
         onClick={async () =>
           await signIn("twitter", { callbackUrl: "/", redirect: false })
         }

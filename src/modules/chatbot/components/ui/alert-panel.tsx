@@ -58,11 +58,11 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
             <Button
               radius="sm"
               onClick={() => handleOpenPaymentModal(setIsPaymentModalOpen)}
-              className="relative z-0 inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="relative z-0 inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 dark:before:bg-full-dark"
             >
               <StarsIcon
                 aria-hidden="true"
-                className="stars-icon !size-5 focus:outline-none [&_*]:transition"
+                className="stars-icon size-5! focus:outline-hidden **:transition"
               />
               <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
                 Hazte premium
@@ -71,7 +71,7 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
           ) : (
             <Link
               href="/login?redirect=/essentia-ai"
-              className="inline-flex h-8 min-w-10 shrink-0 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
+              className="inline-flex h-8 min-w-10 shrink-0 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white duration-150! data-[hover=true]:text-white dark:bg-dark-gradient"
             >
               Inicia sesión
             </Link>

@@ -30,11 +30,11 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         href={href}
         className={cn(
           getResourceColor(index, "gradient"),
-          "relative aspect-auto h-44 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-main transition active:scale-[0.97] dark:border-full-dark dark:text-main-dark sm:h-64 md:hidden",
+          "text-main dark:border-full-dark dark:text-main-dark relative aspect-auto h-44 flex-col items-center justify-center rounded-2xl bg-linear-to-br transition active:scale-[0.97] sm:h-64 md:hidden",
         )}
       >
         <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
-          <span className="text-xxs font-bold uppercase tracking-wide text-white/60">
+          <span className="text-xxs font-bold tracking-wide text-white/60 uppercase">
             {subtitle}
           </span>
           <h3 className="text-lg font-semibold text-white sm:text-xl">
@@ -45,8 +45,8 @@ const ResourcesItem = (props: ResoucesItemProps) => {
           <div>
             <resourceDetails.activeIcon className="size-7 text-white" />
           </div>
-          <div className="inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-md dark:bg-full-dark">
-            <div className="text-sm font-normal text-main dark:text-white">
+          <div className="dark:bg-full-dark inline-flex h-8 w-12 items-center justify-center rounded-full bg-white shadow-md">
+            <div className="text-main text-sm font-normal dark:text-white">
               <ArrowRight className="size-5" />
             </div>
           </div>
@@ -54,8 +54,8 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       </Link>
 
       {!isMobile && (
-        <Card className="hidden min-h-52 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 hover:shadow-pretty md:block">
-          <CardHeader className="pb-0">
+        <Card className="hover:shadow-pretty hidden min-h-52 min-w-64 rounded-xl border-none shadow-none transition will-change-transform hover:-translate-y-1 md:block">
+          <CardHeader className="space-y-0 pb-0">
             <div
               className={cn(
                 "flex size-10 items-center justify-center rounded-lg",
@@ -66,12 +66,12 @@ const ResourcesItem = (props: ResoucesItemProps) => {
                 className={cn("size-5", getResourceColor(index, "text"))}
               />
             </div>
-            <span className="absolute right-6 top-6 !mt-0 text-xxs font-bold uppercase tracking-wide text-main-m dark:text-main-dark-m">
+            <span className="text-xxs text-main-m dark:text-main-dark-m absolute top-6 right-6 font-bold tracking-wide uppercase">
               {subtitle}
             </span>
           </CardHeader>
           <div className="p-6 pt-3">
-            <h3 className="text-lg font-bold text-main dark:text-white">
+            <h3 className="text-main text-lg font-bold dark:text-white">
               {title}
             </h3>
             <p className="prose-sm text-main-m dark:text-main-dark-h">

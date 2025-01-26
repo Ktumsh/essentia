@@ -39,7 +39,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
 
   return (
     <>
-      <div className="mb-5 flex w-full flex-col gap-8">
+      <div className="flex w-full flex-col gap-8">
         <Card className="text-main dark:text-white">
           <CardHeader>
             <CardTitle className="text-base">
@@ -54,10 +54,10 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="rounded-lg border border-gray-200 px-4 py-3 dark:border-dark">
+            <div className="dark:border-dark rounded-lg border border-gray-200 px-4 py-3">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2">
                 <span className="flex flex-col">
-                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                  <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                     <span>
                       <Mail strokeWidth={1.5} className="size-3" />
                     </span>
@@ -66,7 +66,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
                   <div className="flex-1 pt-1 text-sm font-medium">{email}</div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-main-h dark:text-main-dark-h">
+                  <div className="text-main-h dark:text-main-dark-h inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                     <span>
                       <Calendar strokeWidth={1.5} className="size-3" />
                     </span>
@@ -119,7 +119,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
             />
           </CardContent>
         </Card>
-        <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
+        <Card className="text-main border-red-200 dark:border-red-900 dark:text-white">
           <CardHeader>
             <CardTitle className="mb-2 text-base">Elimina tu cuenta</CardTitle>
             <CardDescription className="space-y-1">
@@ -142,7 +142,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
                 radius="lg"
                 variant="outline"
                 onClick={() => setIsOpenDelete(true)}
-                className="border-none !bg-red-500 text-white"
+                className="border-none bg-red-500! text-white"
               >
                 Eliminar cuenta
               </Button>

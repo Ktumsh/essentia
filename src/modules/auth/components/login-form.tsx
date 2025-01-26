@@ -192,12 +192,12 @@ const LoginForm = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisible(!isVisible)}
-                        className="absolute right-0 top-0 h-full px-3 text-main-m hover:!bg-transparent dark:text-main-dark-m dark:hover:!bg-transparent"
+                        className="absolute right-0 top-0 h-full px-3 text-main-m hover:bg-transparent! dark:text-main-dark-m dark:hover:bg-transparent!"
                       >
                         {isVisible ? (
-                          <EyeOffIcon className="!size-5" />
+                          <EyeOffIcon className="size-5!" />
                         ) : (
-                          <EyeIcon className="!size-5" />
+                          <EyeIcon className="size-5!" />
                         )}
                         <span className="sr-only">
                           {isVisible
@@ -228,7 +228,7 @@ const LoginForm = () => {
                         className="shadow-none"
                       />
                     </FormControl>
-                    <FormLabel htmlFor="remember" className="!mt-0">
+                    <FormLabel htmlFor="remember" className="mt-0!">
                       Recordarme
                     </FormLabel>
                   </FormItem>

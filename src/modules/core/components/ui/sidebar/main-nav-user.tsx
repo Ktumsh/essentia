@@ -65,7 +65,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
               <SidebarMenuButton
                 size="lg"
                 tooltip="Perfil"
-                className={isCollapsed ? "!size-8 p-0" : ""}
+                className={isCollapsed ? "size-8! p-0" : ""}
               >
                 <>
                   {profileImage ? (
@@ -102,7 +102,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+              className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
               side="right"
               align="end"
               sideOffset={4}
@@ -144,7 +144,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
                           <StarsIcon
                             aria-hidden="true"
-                            className="stars-icon v2 !size-5 focus:outline-none"
+                            className="stars-icon v2 size-5! focus:outline-hidden"
                           />
                         </div>
                       </BetterTooltip>
@@ -165,7 +165,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                       >
                         <StarsIcon
                           aria-hidden="true"
-                          className="size-4 focus:outline-none [&_*]:fill-white"
+                          className="size-4 focus:outline-hidden **:fill-white"
                         />
                         Hazte premium
                       </Button>
@@ -248,7 +248,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="cursor-default justify-between hover:!bg-transparent hover:!text-inherit focus:!bg-transparent focus:!text-inherit">
+                <DropdownMenuItem className="cursor-default justify-between hover:bg-transparent! hover:text-inherit! focus:bg-transparent! focus:text-inherit!">
                   <span className="inline-flex items-center gap-1.5">
                     <SunMoon strokeWidth={1.5} />
                     Tema

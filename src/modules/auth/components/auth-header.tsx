@@ -16,7 +16,7 @@ const AuthHeader = () => {
   if (isVerifyEmail) return null;
 
   return (
-    <div role="banner" className="animate-enchance fixed top-0 z-[100] w-full">
+    <div role="banner" className="animate-enchance fixed top-0 z-100 w-full">
       <div className="flex h-14 w-full items-center justify-between gap-5 px-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-logo">

@@ -61,7 +61,7 @@ const SettingsTabs = ({
         value={tabValue}
         className="inset-y-0 flex flex-1"
       >
-        <TabsList className="max-w-xs flex-1 shrink-0 rounded-none border-r border-gray-200 !bg-transparent p-0 pb-16 pr-6 dark:border-dark md:pb-6">
+        <TabsList className="max-w-xs flex-1 shrink-0 rounded-none border-r border-gray-200 bg-transparent! p-0 pb-16 pr-6 dark:border-dark md:pb-6">
           <div className="w-full pb-4 pt-8">
             <h1 className="text-xl font-semibold leading-none tracking-tight dark:text-white">
               Configuración
@@ -72,7 +72,7 @@ const SettingsTabs = ({
               <TabsTrigger
                 asChild
                 value="/settings/account-profile"
-                className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+                className="h-10 justify-between! px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
               >
                 <Link href="/settings/account-profile">
                   <span>Cuenta y perfil</span>
@@ -82,7 +82,7 @@ const SettingsTabs = ({
               <TabsTrigger
                 asChild
                 value="/settings/subscriptions"
-                className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+                className="h-10 justify-between! px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
               >
                 <Link href="/settings/subscriptions">
                   <span>Suscripciones</span>
@@ -94,7 +94,7 @@ const SettingsTabs = ({
           <TabsTrigger
             asChild
             value="/settings/accesibility"
-            className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+            className="h-10 justify-between! px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
           >
             <Link href="/settings/accesibility">
               <span>Accesibilidad y pantalla</span>
@@ -105,7 +105,7 @@ const SettingsTabs = ({
             <TabsTrigger
               asChild
               value="/settings/notifications"
-              className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+              className="h-10 justify-between! px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
             >
               <Link href="/settings/notifications">
                 <span>Notificaciones y recordatorios</span>
@@ -116,7 +116,7 @@ const SettingsTabs = ({
           {/* <TabsTrigger
             asChild
             value="/settings/support"
-            className="h-10 !justify-between px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+            className="h-10 justify-between! px-4 data-[state=active]:bg-gray-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
           >
             <Link href="/settings/support">
               <span>Soporte</span>

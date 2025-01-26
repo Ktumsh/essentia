@@ -50,7 +50,7 @@ const InfoField = ({
           className={cn(
             "h-auto min-h-11 justify-between px-6 py-3 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white md:px-4 md:py-2",
             {
-              "bg-red-50 !text-red-500 hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950":
+              "bg-red-50 text-red-500! hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950":
                 isDanger,
             },
             className,
@@ -75,7 +75,7 @@ const InfoField = ({
           className={cn(
             "inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2",
             {
-              "bg-red-50 !text-red-500 hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950":
+              "bg-red-50 text-red-500! hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950":
                 isDanger,
             },
             className,
