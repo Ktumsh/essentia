@@ -1,10 +1,10 @@
 "use client";
 
-import { Tabs, Tab } from "@heroui/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useMemo } from "react";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileInfo from "@/modules/profile/components/profile-info";
 import { Courses } from "@/types/resource";
 import { UserProfileData } from "@/types/session";
@@ -28,83 +28,61 @@ const AccountTabs = ({
   courses,
 }: AccountTabsProps) => {
   const pathname = usePathname();
-  const tabListRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (tabListRef.current) {
-      const activeTab = tabListRef.current.querySelector(
-        `[data-key="${pathname}"]`,
-      );
-      if (activeTab) {
-        activeTab.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-    }
-  }, [pathname]);
+  const tabs = useMemo(() => {
+    return [
+      {
+        value: "/account",
+        label: "Mi cuenta",
+        component: <AccountDetails user={user} courses={courses} />,
+      },
+      {
+        value: "/profile",
+        label: "Mi perfil",
+        component: <ProfileInfo user={user} isOwnProfile={true} />,
+      },
+      {
+        value: "/subscription",
+        label: "Mi suscripción",
+        component: (
+          <SubscriptionDetails
+            subscription={subscription}
+            subscriptionDetails={susbscriptionDetails}
+          />
+        ),
+      },
+    ];
+  }, [user, courses, subscription, susbscriptionDetails]);
 
   return (
     <div className="flex flex-col">
       <Tabs
-        ref={tabListRef}
-        selectedKey={pathname}
+        value={pathname}
         aria-label="Options"
-        variant="underlined"
-        fullWidth
-        classNames={{
-          base: "z-10 z-0",
-          tabList:
-            "p-0 mx-6 gap-0 rounded-none border-b border-gray-200 dark:border-dark",
-          cursor: "w-full bg-danger",
-          tab: "max-w-fit px-4 h-12",
-          tabContent:
-            "text-main-h dark:text-main-dark-h group-data-[selected=true]:text-bittersweet-400 dark:group-data-[selected=true]:text-cerise-red-600",
-          panel: "w-full px-6 py-10 pb-16 md:pb-6",
-        }}
+        className="flex flex-col space-y-10 px-6 pb-16 md:pb-6"
       >
-        <Tab
-          key="/account"
-          as={Link}
-          href="/account"
-          title={
-            <div className="flex items-center space-x-2">
-              <span>Mi cuenta</span>
+        <TabsList className="h-12 w-full justify-start rounded-none border-b border-gray-200 !bg-transparent p-0 dark:border-dark">
+          {tabs.map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className="h-full w-fit rounded-none border-b-2 border-transparent px-4 font-normal data-[state=active]:border-danger data-[state=active]:!text-danger data-[state=active]:shadow-none"
+            >
+              <Link href={tab.value}>
+                <div className="flex items-center space-x-2">
+                  <span>{tab.label}</span>
+                </div>
+              </Link>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {tabs.map((tab) => (
+          <TabsContent key={tab.value} value={tab.value}>
+            <div className="flex flex-col gap-4 lg:flex-row">
+              {tab.component}
             </div>
-          }
-        >
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <AccountDetails user={user} courses={courses} />
-          </div>
-        </Tab>
-        <Tab
-          key="/profile"
-          as={Link}
-          href="/profile"
-          title={
-            <div className="flex items-center space-x-2">
-              <span>Mi perfil</span>
-            </div>
-          }
-        >
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <ProfileInfo user={user} isOwnProfile={true} />
-          </div>
-        </Tab>
-        <Tab
-          key="/subscription"
-          as={Link}
-          href="/subscription"
-          title={
-            <div className="flex items-center space-x-2">
-              <span>Mi suscripción</span>
-            </div>
-          }
-        >
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <SubscriptionDetails
-              subscription={subscription}
-              subscriptionDetails={susbscriptionDetails}
-            />
-          </div>
-        </Tab>
+          </TabsContent>
+        ))}
       </Tabs>
     </div>
   );

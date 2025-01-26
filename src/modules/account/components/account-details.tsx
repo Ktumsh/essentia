@@ -39,7 +39,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
 
   return (
     <>
-      <div className="mb-5 flex w-full flex-col gap-8">
+      <div className="flex w-full flex-col gap-8">
         <Card className="text-main dark:text-white">
           <CardHeader>
             <CardTitle className="text-base">

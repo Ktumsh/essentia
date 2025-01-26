@@ -288,7 +288,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                 className={cn(
                   "absolute right-0 top-0 m-6 !mt-6 inline-flex shrink-0 items-center justify-center gap-1 rounded-full border border-gray-200 px-2 py-1 text-xs text-main-h shadow-sm dark:border-dark dark:text-main-dark",
                   {
-                    "border-none bg-light-gradient-v2 text-white dark:bg-dark-gradient":
+                    "border-none bg-light-gradient-v2 !text-white dark:bg-dark-gradient":
                       isPremium,
                   },
                   { hidden: !isOwnProfile && !isPremium },

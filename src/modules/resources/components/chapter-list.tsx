@@ -1,6 +1,5 @@
 "use client";
 
-import { CircularProgress } from "@heroui/progress";
 import { CheckCircle, CircleDashed } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { cn } from "@/utils/common";
 
 import type { Modules } from "@/types/resource";
@@ -57,6 +57,8 @@ const ChapterList = ({
   return (
     <Accordion type="multiple" className="!mt-0 w-full space-y-4">
       {modules?.map((item, index) => {
+        console.log(moduleProgress[item.module.id]);
+
         return (
           <AccordionItem
             disabled={isDisaled}
@@ -68,12 +70,13 @@ const ChapterList = ({
               <CircularProgress
                 aria-label={moduleProgress[item.module.id] + "%"}
                 value={moduleProgress[item.module.id] || 0}
+                showLabel
+                labelClassName="text-xxs"
+                size={32}
                 strokeWidth={3}
-                classNames={{
-                  svg: "!size-8",
-                  track: "stroke-gray-200 dark:stroke-dark",
-                  indicator: getProgressColor(moduleProgress[item.module.id]),
-                }}
+                progressClassName={getProgressColor(
+                  moduleProgress[item.module.id],
+                )}
               />
               <div className="w-full">
                 <span className="text-nowrap text-sm font-normal">

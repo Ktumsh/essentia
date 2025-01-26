@@ -166,7 +166,7 @@ const CourseList = ({
                 Aprende sobre {resourceName}
                 <Hash
                   strokeWidth={1.5}
-                  className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+                  className="ml-1 size-5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
                 />
               </Link>
             </h3>
@@ -174,15 +174,16 @@ const CourseList = ({
               <Badge
                 variant="outline"
                 className={cn(
-                  "w-fit py-1.5",
+                  "w-fit shrink-0 border-amber-600/60 bg-amber-600/10 text-amber-500 hover:bg-amber-600/10 dark:border-amber-600/60 dark:bg-amber-600/10 dark:text-amber-500",
                   courseProgress.completed &&
-                    "border-transparent bg-gradient-to-br !text-white shadow",
+                    "!border-transparent bg-gradient-to-br !text-white shadow",
                   getResourceColor(resourceIndex, "gradient"),
                 )}
               >
-                {courseProgress.completed
-                  ? "Curso finalizado"
-                  : "Curso en progreso"}
+                {!courseProgress.completed && (
+                  <span className="mr-2 size-1.5 rounded-full bg-amber-500" />
+                )}
+                {courseProgress.completed ? "Finalizado" : "En progreso"}
                 {courseProgress.completed && (
                   <CheckCheck className="ml-1.5 size-3.5" />
                 )}
