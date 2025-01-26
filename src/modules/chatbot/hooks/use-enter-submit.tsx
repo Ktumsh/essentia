@@ -5,7 +5,6 @@ export function useEnterSubmit(): {
   onKeyDown: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 } {
   const formRef = useRef<HTMLFormElement>(null);
-
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLTextAreaElement>,
   ): void => {
@@ -18,6 +17,5 @@ export function useEnterSubmit(): {
       event.preventDefault();
     }
   };
-
   return { formRef, onKeyDown: handleKeyDown };
 }

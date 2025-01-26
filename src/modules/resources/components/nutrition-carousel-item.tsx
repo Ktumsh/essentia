@@ -43,11 +43,11 @@ const NutritionCarouselItem = ({ item }: Props) => {
         <div className="h-full rounded border border-altern-accent bg-altern p-2.5 dark:border-accent-dark dark:bg-dark">
           <div className="relative overflow-hidden rounded">
             <Image
-              width={242}
-              height={256}
+              width={540}
+              height={312}
               src={image}
               alt={title}
-              className="animate-fade-in z-0 aspect-auto h-64 w-full object-cover [content-visibility:auto] md:w-auto"
+              className="z-0 aspect-auto h-64 w-full animate-fade-in object-cover [content-visibility:auto] md:w-auto"
             />
             <div className="absolute inset-0 z-10 p-4">
               <div className="flex h-full translate-y-full flex-col rounded bg-gray-100/80 transition-transform duration-300 will-change-transform group-hover:translate-y-0 dark:bg-gray-900/90">
@@ -74,7 +74,7 @@ const NutritionCarouselItem = ({ item }: Props) => {
                       setIsOpen(true);
                       history.replaceState(null, "", `#${slug}`);
                     }}
-                    className="border border-main font-spacemono font-medium uppercase text-main hover:!bg-main hover:text-white dark:border-white dark:text-white dark:hover:!bg-white dark:hover:text-main"
+                    className="rounded-sm border border-main font-spacemono font-semibold uppercase text-main will-change-transform hover:!bg-main hover:text-white dark:border-main-dark dark:text-white dark:hover:!bg-white dark:hover:text-main"
                   >
                     Ver receta
                   </Button>

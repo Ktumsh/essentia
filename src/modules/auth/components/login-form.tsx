@@ -9,6 +9,13 @@ import { toast } from "sonner";
 
 import { authenticate } from "@/app/(auth)/login/actions";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -18,15 +25,15 @@ import {
   FormControl,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getProfileNameByEmail } from "@/db/profile-querys";
+import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { MailIcon } from "@/modules/icons/miscellaneus";
 import { EyeIcon, EyeOffIcon } from "@/modules/icons/status";
 import { getMessageFromCode, ResultCode } from "@/utils/code";
 
 import { SubmitButton } from "./submit-button";
-import { LoginFormData, loginSchema } from "../lib/form";
+import { LoginFormData, loginSchema } from "../../core/lib/form-schemas";
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/";
@@ -45,8 +52,10 @@ const LoginForm: React.FC = () => {
 
   const { handleSubmit, setValue } = form;
 
+  const STORAGE_KEY = "remembered-email";
+
   useEffect(() => {
-    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedEmail = localStorage.getItem(STORAGE_KEY);
     if (savedEmail) {
       setValue("email", savedEmail);
       setValue("remember", true);
@@ -56,18 +65,29 @@ const LoginForm: React.FC = () => {
   const handleSuccess = useCallback(
     async (data: LoginFormData) => {
       if (data.remember) {
-        localStorage.setItem("rememberedEmail", data.email);
+        localStorage.setItem(STORAGE_KEY, data.email);
       } else {
-        localStorage.removeItem("rememberedEmail");
+        localStorage.removeItem(STORAGE_KEY);
       }
 
-      const userName = await getProfileNameByEmail(data.email);
-      if (userName) {
-        toast.success(`¡Hola de nuevo, ${userName.first_name}!`);
+      const [user] = await getUserProfileByEmail(data.email);
+      const isMale = user.profile.genre === "Masculino";
+      const isFemale = user.profile.genre === "Femenino";
+
+      const welcome = isMale
+        ? "Bienvenido"
+        : isFemale
+          ? "Bienvenida"
+          : "Bienvenid@";
+
+      const firstName = user.profile.firstName;
+
+      if (user) {
+        toast.success(`${welcome}, ${firstName}!`);
       } else {
-        toast.success(`¡Hola de nuevo!`);
+        toast.success("¡Bienvenid@!");
       }
-      router.push(redirectUrl);
+      router.replace(redirectUrl);
     },
     [router, redirectUrl],
   );
@@ -106,143 +126,144 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-xl border-transparent bg-transparent px-6 text-left font-normal dark:border-dark sm:min-w-[500px] sm:bg-white sm:dark:bg-full-dark md:border md:p-8">
-      <Form {...form}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mb-4 flex size-full select-none flex-col items-start justify-center gap-5"
-        >
-          <div>
-            <h2 className="font-sans text-xl font-extrabold text-main dark:text-white sm:text-2xl">
-              Bienvenid@,
-            </h2>
-            <div className="w-full text-sm text-main-h dark:text-main-dark-h">
-              <p>
-                Ingresa tus credenciales para acceder a tu cuenta de Essentia.
-              </p>
-            </div>
-          </div>
-
-          {/* Email */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="email">Correo electrónico</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      {...field}
-                      id="email"
-                      type="email"
-                      placeholder="Ingresa tu correo electrónico"
-                      required
-                      autoFocus
-                      isAuth
-                    />
-                    <div className="absolute right-0 top-0 inline-flex h-full items-center justify-center px-3 text-main-m dark:text-main-dark-m">
-                      <MailIcon className="size-5" />
-                    </div>
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          {/* Password */}
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="password">Contraseña</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      {...field}
-                      id="password"
-                      type={isVisible ? "text" : "password"}
-                      placeholder="Ingresa tu contraseña"
-                      required
-                      isAuth
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsVisible(!isVisible)}
-                      className="absolute right-0 top-0 h-full px-3 text-main-m hover:!bg-transparent dark:text-main-dark-m dark:hover:!bg-transparent"
-                    >
-                      {isVisible ? (
-                        <EyeOffIcon className="!size-5" />
-                      ) : (
-                        <EyeIcon className="!size-5" />
-                      )}
-                      <span className="sr-only">
-                        {isVisible
-                          ? "Ocultar contraseña"
-                          : "Mostrar contraseña"}
-                      </span>
-                    </Button>
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          {/* Remember Me y Forgot Password */}
-          <div className="mx-0 mt-[-15px] flex w-full justify-between text-xs text-main-h dark:text-main-dark-h">
+    <Card className="w-full rounded-xl border-none bg-transparent dark:bg-transparent md:min-w-[500px] md:bg-white md:dark:bg-full-dark">
+      <CardHeader className="p-8">
+        <CardTitle className="font-extrabold dark:text-white">
+          Bienvenid@,
+        </CardTitle>
+        <CardDescription className="text-main dark:text-main-dark">
+          <p>Ingresa tus credenciales para acceder a tu cuenta de Essentia.</p>
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="p-8 pt-0">
+        <Form {...form}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex size-full select-none flex-col items-start justify-center space-y-5"
+          >
+            {/* Email */}
             <FormField
               control={form.control}
-              name="remember"
+              name="email"
               render={({ field }) => (
-                <FormItem className="inline-flex w-auto flex-row items-center gap-2">
+                <FormItem>
+                  <FormLabel htmlFor="email">Correo electrónico</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      id="remember"
-                      checked={field.value}
-                      onCheckedChange={(checked: boolean) =>
-                        field.onChange(checked)
-                      }
-                      className="shadow-none"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        id="email"
+                        type="email"
+                        placeholder="Ingresa tu correo electrónico"
+                        autoComplete="email"
+                        required
+                        autoFocus
+                        isAuth
+                      />
+                      <div className="absolute right-0 top-0 inline-flex h-full items-center justify-center px-3 text-main-m dark:text-main-dark-m">
+                        <MailIcon className="size-5" />
+                      </div>
+                    </div>
                   </FormControl>
-                  <FormLabel htmlFor="remember" className="!mt-0">
-                    Recordarme
-                  </FormLabel>
                 </FormItem>
               )}
             />
+
+            {/* Password */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="password">Contraseña</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        id="password"
+                        type={isVisible ? "text" : "password"}
+                        placeholder="Ingresa tu contraseña"
+                        autoComplete="current-password"
+                        required
+                        isAuth
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setIsVisible(!isVisible)}
+                        className="absolute right-0 top-0 h-full px-3 text-main-m hover:!bg-transparent dark:text-main-dark-m dark:hover:!bg-transparent"
+                      >
+                        {isVisible ? (
+                          <EyeOffIcon className="!size-5" />
+                        ) : (
+                          <EyeIcon className="!size-5" />
+                        )}
+                        <span className="sr-only">
+                          {isVisible
+                            ? "Ocultar contraseña"
+                            : "Mostrar contraseña"}
+                        </span>
+                      </Button>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* Remember Me y Forgot Password */}
+            <div className="mx-0 flex w-full justify-between text-xs text-main-h dark:text-main-dark-h">
+              <FormField
+                control={form.control}
+                name="remember"
+                render={({ field }) => (
+                  <FormItem className="inline-flex w-auto flex-row items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        id="remember"
+                        checked={field.value}
+                        onCheckedChange={(checked: boolean) =>
+                          field.onChange(checked)
+                        }
+                        className="shadow-none"
+                      />
+                    </FormControl>
+                    <FormLabel htmlFor="remember" className="!mt-0">
+                      Recordarme
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+              <Link
+                href="/recover-password"
+                className="underline-offset-2 hover:underline"
+                aria-label="¿Olvidaste tu contraseña?"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+
+            {/* Submit Button */}
+            <SubmitButton isPending={isPending}>Iniciar sesión</SubmitButton>
+          </form>
+        </Form>
+
+        {/* Link a Registro */}
+        <div className="mt-5 flex items-center justify-center self-center text-center text-[13px] text-main-h dark:text-main-dark-h">
+          <p>
+            ¿No tienes una cuenta?{" "}
             <Link
-              href="#"
-              className="underline-offset-2 hover:underline"
-              aria-label="¿Olvidaste tu contraseña?"
+              id="register-base-color"
+              className="register-base-color font-bold text-blue-600 sm:font-medium"
+              href="/signup"
+              aria-label="Regístrate"
             >
-              ¿Olvidaste tu contraseña?
+              Regístrate
             </Link>
-          </div>
-
-          {/* Submit Button */}
-          <SubmitButton isPending={isPending}>Iniciar sesión</SubmitButton>
-        </form>
-      </Form>
-
-      {/* Link a Registro */}
-      <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-main-h dark:text-main-dark-h">
-        <p>
-          ¿No tienes una cuenta?{" "}
-          <Link
-            id="register-base-color"
-            className="register-base-color font-bold text-orient-700 sm:font-medium"
-            href="/signup"
-            aria-label="Regístrate"
-          >
-            Regístrate
-          </Link>
-        </p>
-      </div>
-    </div>
+          </p>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

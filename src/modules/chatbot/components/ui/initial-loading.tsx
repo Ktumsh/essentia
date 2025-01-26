@@ -1,39 +1,32 @@
 "use client";
 
-import { motion } from "framer-motion";
-
-import { spinner } from "./spinner";
+import { motion } from "motion/react";
 
 const InitialLoading = () => {
+  const shimmerVariants = {
+    initial: {
+      opacity: 0.5,
+    },
+    animate: {
+      opacity: 1,
+    },
+  };
+
   return (
-    <div className="inline-flex items-center gap-1">
-      <div className="flex h-[24px] flex-1 flex-row items-center space-y-2 overflow-hidden">
-        {spinner}
-      </div>
+    <div className="inline-flex items-center overflow-hidden">
       <span className="text-main-m dark:text-main-dark-m">
         {"Poniendo un poco de esencia".split("").map((character, index) => (
           <motion.span
             key={index}
-            variants={{
-              initial: {
-                opacity: 0.5,
-                x: -100,
-              },
-              animate: {
-                opacity: 1,
-                x: 0,
-              },
-            }}
+            variants={shimmerVariants}
             initial="initial"
             animate="animate"
             transition={{
-              duration: 0.25,
-              ease: "easeIn",
-              delay: index * 0.05,
-              staggerChildren: 0.05,
+              duration: 1,
+              ease: "easeInOut",
+              delay: index * 0.15,
               repeat: Infinity,
-              repeatType: "mirror",
-              repeatDelay: 1,
+              repeatType: "reverse",
             }}
           >
             {character === " " ? "\u00A0" : character}

@@ -7,28 +7,47 @@ export const routineSchema = z.object({
         name: z.string().describe("Nombre del ejercicio"),
         reps: z
           .number()
+          .nullable()
           .optional()
           .describe("Número de repeticiones por serie"),
-        sets: z.number().optional().describe("Número de series por ejercicio"),
+        sets: z
+          .number()
+          .nullable()
+          .optional()
+          .describe("Número de series por ejercicio"),
         duration: z
           .string()
+          .nullable()
           .optional()
           .describe("Duración del ejercicio o serie"),
         rest: z
           .string()
+          .nullable()
           .optional()
           .describe("Tiempo de descanso entre series o ejercicios"),
         progression: z
           .string()
+          .nullable()
+          .optional()
           .describe("Instrucciones para aumentar la dificultad"),
-        equipment: z.string().optional().describe("Equipamiento necesario"),
+        equipment: z
+          .string()
+          .nullable()
+          .optional()
+          .describe("Equipamiento necesario"),
         instructions: z
           .string()
+          .nullable()
           .optional()
           .describe("Instrucciones detalladas del ejercicio"),
-        benefits: z.string().optional().describe("Beneficios para la salud"),
+        benefits: z
+          .string()
+          .nullable()
+          .optional()
+          .describe("Beneficios para la salud"),
         modifications: z
           .string()
+          .nullable()
           .optional()
           .describe("Modificaciones para distintos niveles o limitaciones"),
       }),
@@ -38,10 +57,12 @@ export const routineSchema = z.object({
     fitnessLevel: z.string().describe("Nivel de condición física del usuario"),
     warmUp: z
       .string()
+      .nullable()
       .optional()
       .describe("Recomendaciones para el calentamiento"),
     coolDown: z
       .string()
+      .nullable()
       .optional()
       .describe("Recomendaciones para el enfriamiento"),
 
@@ -54,10 +75,12 @@ export const routineSchema = z.object({
             .describe("Ejercicios programados para el día"),
         }),
       )
+      .nullable()
       .optional()
       .describe("Programa semanal de ejercicios"),
     recommendations: z
       .string()
+      .nullable()
       .optional()
       .describe("Recomendaciones finales basadas en el progreso esperado"),
   }),
@@ -239,5 +262,79 @@ export const moodTrackingSchema = z.object({
         author: z.string().describe("Autor real de la frase poética."),
       })
       .optional(),
+  }),
+});
+
+export const taskSchema = z.object({
+  task: z.object({
+    name: z.string().max(80).describe("Nombre de la tarea"),
+    instructions: z
+      .string()
+      .max(100)
+      .describe(
+        "Instrucción breve y estructurada para generar un mensaje de notificación",
+      ),
+    schedule: z.object({
+      frequency: z
+        .enum([
+          "No se repite",
+          "Diariamente",
+          "Semanalmente",
+          "Mensualmente",
+          "Anualmente",
+        ])
+        .describe("Frecuencia de la tarea"),
+      time: z
+        .string()
+        .regex(
+          /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
+          "Hora en formato 24 horas (hh:mm)",
+        )
+        .describe("Hora específica para realizar la tarea"),
+      exactDate: z
+        .union([z.string(), z.date()])
+        .transform((val) => (typeof val === "string" ? new Date(val) : val))
+        .nullable()
+        .optional()
+        .describe("Fecha exacta para tareas únicas"),
+      weekDay: z
+        .enum([
+          "lunes",
+          "martes",
+          "miércoles",
+          "jueves",
+          "viernes",
+          "sábado",
+          "domingo",
+        ])
+        .nullable()
+        .optional()
+        .describe("Día de la semana para tareas semanales o sin repetición"),
+      monthDay: z
+        .number()
+        .nullable()
+        .optional()
+        .describe(
+          "Día del mes para tareas mensuales, anuales o sin repetición",
+        ),
+      month: z
+        .enum([
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre",
+        ])
+        .nullable()
+        .optional()
+        .describe("Mes para tareas anuales o sin repetición"),
+    }),
   }),
 });

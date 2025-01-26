@@ -1,11 +1,10 @@
 "use client";
 
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
-import { useCallback, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
@@ -31,20 +30,25 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site";
+import { Payment, Subscription } from "@/db/schema";
 import { setUserPlan } from "@/modules/payment/pay/actions";
-import ReasonCheckbox from "@/modules/premium/components/reason-checkbox";
-import { Session } from "@/types/session";
+import ReasonCheckbox from "@/modules/pricing/components/reason-checkbox";
+import { formatDate } from "@/utils/format";
+
+import { getPlanType } from "../lib/utils";
 
 interface CancelSubscriptionModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  billingDetails: any;
+  subscriptionDetails: Payment;
+  subscription: Subscription;
 }
 
 const CancelSubscriptionModal = ({
   isOpen,
   setIsOpen,
-  billingDetails,
+  subscriptionDetails,
+  subscription,
 }: CancelSubscriptionModalProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -52,19 +56,16 @@ const CancelSubscriptionModal = ({
   const [cancelReason, setCancelReason] = useState<string>("");
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
 
+  const { amount } = subscriptionDetails;
+  const { type, expiresAt } = subscription;
+
   const isMobile = useIsMobile();
 
-  const subscription = billingDetails.subscription;
-  const subscriptionItems = subscription.items.data[0].price;
-  const planType = subscriptionItems.nickname ?? "N/A";
+  const planType = getPlanType(type!);
 
-  const price = subscriptionItems.unit_amount.toLocaleString("es-CL");
+  const price = amount?.toLocaleString("es-CL");
 
-  const renewalDate = format(
-    new Date(subscription.current_period_end * 1000),
-    "dd 'de' MMM, yyyy",
-    { locale: es },
-  );
+  const renewalDate = formatDate(expiresAt!, "dd 'de' MMM, yyyy");
 
   const handleSetFreePlan = async () => {
     const combinedReasons = [...selectedReasons, cancelReason]
@@ -123,23 +124,30 @@ const CancelSubscriptionModal = ({
     );
   }, [planType, price, selectedReasons]);
 
+  const description = useMemo(() => {
+    return (
+      <p>
+        Tu plan permanecerá activo hasta el final de tu período de facturación
+        actual, <strong>{renewalDate}</strong>. Después de esa fecha, tu plan
+        cambiará a gratuito y perderás acceso a las funcionalidades Premium.
+      </p>
+    );
+  }, [renewalDate]);
+
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Cancelar suscripción</DrawerTitle>
-            <DrawerDescription className="mt-4 px-4 text-start">
-              Tu plan permanecerá activo hasta el final de tu período de
-              facturación actual, {renewalDate}. Después de esa fecha, tu plan
-              cambiará a gratuito y perderás acceso a las funcionalidades
-              Premium.
+            <DrawerDescription asChild className="mt-4 px-4 text-start">
+              {description}
             </DrawerDescription>
           </DrawerHeader>
           <Content />
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button variant="secondary">Cancelar</Button>
+              <Button variant="outline">Cancelar</Button>
             </DrawerClose>
             <Button
               variant="destructive"
@@ -147,7 +155,7 @@ const CancelSubscriptionModal = ({
               onClick={handleSetFreePlan}
             >
               {isPending && <Loader className="size-4 animate-spin" />}
-              {isPending ? "Cancelando plan" : "Confirmar"}
+              {isPending ? null : "Confirmar"}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -160,11 +168,7 @@ const CancelSubscriptionModal = ({
       <DialogContent isSecondary>
         <DialogHeader isSecondary>
           <DialogTitle>Cancelar suscripción</DialogTitle>
-          <DialogDescription>
-            Tu plan permanecerá activo hasta el final de tu período de
-            facturación actual, {renewalDate}. Después de esa fecha, tu plan
-            cambiará a gratuito y perderás acceso a las funcionalidades Premium.
-          </DialogDescription>
+          <DialogDescription asChild>{description}</DialogDescription>
         </DialogHeader>
         <Content />
         <DialogFooter isSecondary>
@@ -177,7 +181,7 @@ const CancelSubscriptionModal = ({
             onClick={handleSetFreePlan}
           >
             {isPending && <Loader className="size-4 animate-spin" />}
-            {isPending ? "Cancelando plan" : "Confirmar"}
+            {isPending ? null : "Confirmar"}
           </Button>
         </DialogFooter>
       </DialogContent>

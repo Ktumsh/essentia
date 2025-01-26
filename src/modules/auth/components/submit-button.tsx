@@ -22,7 +22,7 @@ export function SubmitButton({
     >
       {isPending && <Loader className="size-4 animate-spin" />}
 
-      {children}
+      {!isPending && children}
 
       <output aria-live="polite" className="sr-only">
         {isPending ? "Cargando" : "Enviar formulario"}

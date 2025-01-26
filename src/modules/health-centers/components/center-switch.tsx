@@ -23,16 +23,17 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
       content={isSelected ? "Buscar farmacias" : "Buscar centros"}
       side="bottom"
     >
-      <div className="bg-base flex min-w-20 flex-col items-center justify-center gap-1 text-xs md:min-w-0 md:flex-row md:justify-start md:gap-2 md:text-sm">
+      <div className="bg-base flex min-w-20 flex-col items-center justify-center gap-1 text-xxs md:min-w-0 md:flex-row md:justify-start md:gap-2 md:text-sm">
         <Switch
+          aria-label="Cambiar entre centros y farmacias"
           checked={isSelected}
           onCheckedChange={handleSwitchChange}
-          className="pointer-events-auto data-[state=checked]:bg-white data-[state=unchecked]:bg-white dark:data-[state=checked]:bg-full-dark dark:data-[state=unchecked]:bg-full-dark md:data-[state=checked]:bg-main md:data-[state=unchecked]:bg-main dark:md:data-[state=checked]:bg-main-dark dark:md:data-[state=unchecked]:bg-main-dark"
-          thumbClass="bg-main md:bg-white text-main-dark dark:bg-main-dark dark:md:bg-full-dark dark:text-main md:text-main dark:md:text-main-dark"
+          className="pointer-events-auto shadow-md data-[state=checked]:bg-danger data-[state=unchecked]:bg-danger dark:data-[state=checked]:bg-danger dark:data-[state=unchecked]:bg-danger md:shadow-none"
+          thumbClass="bg-main bg-white text-main-dark dark:bg-full-dark dark:text-main text-main dark:text-main-dark"
         >
           {isSelected ? <HospitalIcon /> : <PharmacyIcon />}
         </Switch>
-        <span className="w-full self-start text-center text-main-dark sm:hidden">
+        <span className="w-full self-start text-center font-medium text-main dark:text-white md:sr-only">
           {isSelected ? "Centros" : "Farmacias"}
         </span>
       </div>

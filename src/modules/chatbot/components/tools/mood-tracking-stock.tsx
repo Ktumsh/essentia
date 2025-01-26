@@ -76,8 +76,8 @@ const MoodTrackingStock = ({
               Actividades recomendadas
             </h3>
           </div>
-          <Badge className="py-1.5">
-            <HeartIcon className="size-4 text-main-h dark:text-main-dark-h" />
+          <Badge className="bg-rose-100 py-1.5 dark:bg-rose-950">
+            <HeartIcon className="size-4 text-rose-500" />
           </Badge>
         </div>
         <ul className="list-inside list-disc space-y-3">
@@ -86,11 +86,11 @@ const MoodTrackingStock = ({
               key={index}
               className="flex flex-col justify-center text-xs md:text-sm"
             >
-              <Badge className="gap-2 !bg-transparent px-0 text-sm hover:!bg-inherit sm:text-base">
-                <span className="size-2 rounded-full bg-black/10 dark:bg-white/10"></span>
-                {mood.activity}
-              </Badge>
-              <p className="ml-4 text-main-h dark:text-main-dark-h">
+              <div className="mb-1 ml-1.5 inline-flex items-center gap-3 text-sm md:text-base">
+                <span className="size-1.5 rounded-full bg-black/10 dark:bg-white/10"></span>
+                <span className="font-semibold">{mood.activity}</span>
+              </div>
+              <p className="ml-6 text-main-h dark:text-main-dark-h">
                 {mood.description}
               </p>
             </li>
@@ -98,15 +98,15 @@ const MoodTrackingStock = ({
         </ul>
         <Separator />
         <div className="mt-4 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
-          <div className="rounded-lg bg-gray-100 p-3 text-sm text-main-h dark:bg-dark dark:text-white">
-            <h3 className="font-sans text-xl font-extrabold uppercase">
+          <div className="rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
+            <h3 className="font-sans text-base font-extrabold uppercase md:text-xl">
               Recomendación
             </h3>
             <p className="text-main-h dark:text-main-dark">
               {moodTracking.suggestion}
             </p>
           </div>
-          <div className="rounded-3xl border-4 border-gray-100 p-3 text-sm text-main-h dark:border-dark dark:text-white">
+          <div className="rounded-lg border-4 border-gray-100 p-3 text-xs text-main-h dark:border-dark dark:text-white md:text-sm">
             <p className="text-main-h dark:text-main-dark">
               {moodTracking.tip}
             </p>

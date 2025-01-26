@@ -1,11 +1,21 @@
-import { Bug, ChevronRight, Info } from "lucide-react";
+"use client";
+
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,58 +25,81 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { WarningCircledIcon } from "@/modules/icons/common";
 import { SiteConfig } from "@/types/common";
 
 interface MainNavInfoProps {
-  items: SiteConfig["footerLinks"]["more"];
+  items: SiteConfig["menuFooterLinks"]["extras"];
   isCollapsed?: boolean;
 }
 
 const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
+  const pathname = usePathname();
+
+  const isAIPage = pathname.startsWith("/essentia-ai");
+
+  const { state } = useSidebar();
   return (
     <SidebarGroup>
       <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
-        Extras
+        Adicional
       </SidebarGroupLabel>
       <SidebarMenu>
         <Collapsible asChild className="group/collapsible">
           <SidebarMenuItem>
-            <CollapsibleTrigger asChild>
-              <SidebarMenuButton tooltip="Información">
-                <Info strokeWidth={1.5} />
-                <span>Información</span>
-                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-              </SidebarMenuButton>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarMenuSub>
-                {items.map((link) => (
-                  <SidebarMenuSubItem key={link.text}>
-                    <SidebarMenuSubButton asChild>
-                      <Link href={link.href} role="link" target="_self">
-                        <span>{link.text}</span>
-                      </Link>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
-                ))}
-              </SidebarMenuSub>
-            </CollapsibleContent>
+            {state === "expanded" && !isAIPage ? (
+              <>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton tooltip="Información">
+                    <WarningCircledIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
+                    <span>Información</span>
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="transition-height">
+                  <SidebarMenuSub>
+                    {items.map((link) => (
+                      <SidebarMenuSubItem key={link.name}>
+                        <SidebarMenuSubButton
+                          asChild
+                          className="shrink-0 text-nowrap"
+                        >
+                          <Link href={link.link} role="link" target="_self">
+                            {link.name}
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+              </>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton tooltip="Información">
+                    <WarningCircledIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
+                    <span>Información</span>
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="right" align="start" sideOffset={4}>
+                  <DropdownMenuGroup>
+                    {items.map((link) => (
+                      <DropdownMenuItem key={link.name}>
+                        <link.icon strokeWidth={1.5} />
+                        <Link href={link.link} role="link" target="_self">
+                          <span>{link.name}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </SidebarMenuItem>
         </Collapsible>
-      </SidebarMenu>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton tooltip="Reportar un error" asChild>
-            <Link
-              href="https://github.com/Ktumsh/essentia/issues/new"
-              target="_blank"
-            >
-              <Bug strokeWidth={1.5} />
-              <span>Reportar un error</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   );

@@ -24,6 +24,15 @@ const config: Config = {
     extend: {
       boxShadow: {
         "bento-shadow": "var(--bento-shadow)",
+        pretty: "var(--pretty-shadow)",
+        "little-pretty": "var(--little-pretty-shadow)",
+      },
+      borderRadius: {
+        "4xl": "2rem",
+        "5xl": "2.5rem",
+        "6xl": "3rem",
+        "7xl": "3.5rem",
+        "8xl": "4rem",
       },
       colors: {
         main: "var(--text-main)",
@@ -136,6 +145,7 @@ const config: Config = {
           "900": "#084da0",
           "950": "#061b37",
         },
+        logo: "hsl(var(--logo))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -189,16 +199,14 @@ const config: Config = {
       },
       fontFamily: {
         grotesk: ["var(--font-space-grotesk)", ...fontFamily.sans],
-        motivasans: ["var(--font-motiva-sans)", ...fontFamily.sans],
         spacemono: ["var(--font-space-mono)", ...fontFamily.mono],
         dmsans: ["var(--font-dm-sans)", ...fontFamily.sans],
         sans: ["var(--font-geist-sans)"],
       },
       fontSize: {
-        xxs: "0.625rem",
+        xxs: ["0.625rem", { lineHeight: "1rem" }],
       },
       backgroundImage: {
-        noise: "url(/extras/noise.webp)",
         "landing-gradient": "var(--landing-gradient)",
         "bento-gradient": "var(--bg-bento-gradient)",
         "light-gradient": "var(--light-gradient)",
@@ -216,6 +224,12 @@ const config: Config = {
         "shine-infinite": "shine 2s ease-in-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "collapsible-down": "collapsible-down 0.2s ease-out",
+        "collapsible-up": "collapsible-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
+        "fade-in": "fade-in 0.2s ease-in",
+        "float-up-down": "float-up-down 8s ease-in-out infinite",
+        "float-wave": "float-wave 10s ease-in-out infinite",
       },
       keyframes: {
         shine: {
@@ -240,6 +254,40 @@ const config: Config = {
           },
           to: {
             height: "0",
+          },
+        },
+        "collapsible-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-collapsible-content-height)" },
+        },
+        "collapsible-up": {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: "0" },
+        },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "float-up-down": {
+          "0%, 100%": { transform: "translateY(0) translateX(0)" },
+          "25%": { transform: "translateY(-20px) translateX(-15px)" },
+          "50%": { transform: "translateY(20px) translateX(15px)" },
+          "75%": { transform: "translateY(-10px) translateX(-10px)" },
+        },
+        "float-wave": {
+          "0%, 100%": { transform: "translateY(0) translateX(0) rotate(0deg)" },
+          "25%": {
+            transform: "translateY(-15px) translateX(10px) rotate(5deg)",
+          },
+          "50%": {
+            transform: "translateY(15px) translateX(-15px) rotate(-5deg)",
+          },
+          "75%": {
+            transform: "translateY(-10px) translateX(5px) rotate(3deg)",
           },
         },
       },

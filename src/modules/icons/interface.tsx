@@ -3,6 +3,7 @@ import { IconSvgProps } from "@/types/common";
 const AdditionalIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -26,6 +27,7 @@ const AdditionalIcon = (props: IconSvgProps) => {
 const AdditionalFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -43,6 +45,7 @@ const AdditionalFillIcon = (props: IconSvgProps) => {
 const AIIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -64,6 +67,7 @@ const AIIcon = (props: IconSvgProps) => {
 const AIFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -78,50 +82,10 @@ const AIFillIcon = (props: IconSvgProps) => {
   );
 };
 
-const AIGradientIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <defs>
-        {/* Define gradients */}
-        <linearGradient
-          id="ai-light-gradient-v2"
-          gradientTransform="rotate(68.4)"
-        >
-          <stop offset="0.5%" stopColor="rgb(248, 182, 204)" />
-          <stop offset="49%" stopColor="rgb(192, 198, 230)" />
-          <stop offset="99.8%" stopColor="rgb(225, 246, 240)" />
-        </linearGradient>
-        <linearGradient id="ai-dark-gradient" gradientTransform="rotate(111.1)">
-          <stop offset="-4.8%" stopColor="rgb(6, 27, 55)" />
-          <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
-          <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />
-        </linearGradient>
-        <linearGradient
-          id="ai-dark-gradient-v2"
-          gradientTransform="rotate(111.1)"
-        >
-          <stop offset="82.7%" stopColor="rgb(255, 115, 115)" />
-          <stop offset="97.2%" stopColor="rgb(255, 175, 123)" />
-        </linearGradient>
-      </defs>
-
-      <path
-        fill="url(#ai-light-gradient-v2)" // Use the default light gradient
-        d="M22 14h-1c0-3.87-3.13-7-7-7h-1V5.73A2 2 0 1 0 10 4c0 .74.4 1.39 1 1.73V7h-1c-3.87 0-7 3.13-7 7H2c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h1v1a2 2 0 0 0 2 2h14c1.11 0 2-.89 2-2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1M9.79 16.5C9.4 15.62 8.53 15 7.5 15s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1m9 0c-.39-.88-1.29-1.5-2.29-1.5s-1.9.62-2.29 1.5c-.13-.31-.21-.64-.21-1a2.5 2.5 0 0 1 5 0c0 .36-.08.69-.21 1"
-      />
-    </svg>
-  );
-};
-
 const HomeIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -139,6 +103,7 @@ const HomeIcon = (props: IconSvgProps) => {
 const HomeFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -153,170 +118,10 @@ const HomeFillIcon = (props: IconSvgProps) => {
   );
 };
 
-const NewsIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-      >
-        <path d="M3 4v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8h-4" />
-        <path d="M3 4h14v14a2 2 0 0 0 2 2v0M13 8H7m6 4H9" />
-      </g>
-    </svg>
-  );
-};
-
-const NewsFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        fillRule="evenodd"
-        d="M18 4v3h3a1 1 0 0 1 1 1v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1m2 14a1 1 0 1 1-2 0V9h2zM6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1m2 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-};
-
-const ResourcesIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M3 22q-.425 0-.713-.288T2 21v-1.25q0-.775.4-1.413t1.1-.987q1.3-.65 2.688-1T9.024 16q1.45 0 2.838.35t2.662 1q.675.35 1.075.988t.4 1.412V21q0 .425-.288.713T15 22H3Zm17 0h-2.475q.225-.175.35-.438t.125-.587V19.5q0-.95-.488-1.775t-1.212-1.45q.8.2 1.588.438t1.512.612q.65.35 1.125.9T21 19.5V21q0 .425-.287.712T20 22ZM9 15q-1.45 0-2.475-1.025T5.5 11.5q0-1.45 1.025-2.475T9 8q1.45 0 2.475 1.025T12.5 11.5q0 1.45-1.025 2.475T9 15Zm8.5-3.5q0 1.45-1.025 2.475T14 15q-.2 0-.362-.013t-.338-.062q.625-.725.913-1.6T14.5 11.5q0-.95-.288-1.825t-.912-1.6q.175-.05.338-.062T14 8q1.45 0 2.475 1.025T17.5 11.5ZM4 20h10v-.225q0-.2-.113-.388t-.312-.287q-1.075-.55-2.225-.825T9 18q-1.2 0-2.35.275t-2.225.825q-.2.1-.312.275t-.113.4V20Zm5-7q.625 0 1.063-.438T10.5 11.5q0-.625-.438-1.063T9 10q-.625 0-1.063.438T7.5 11.5q0 .625.438 1.063T9 13Zm9.5-3q0-1.875-1.313-3.188T14 5.5q1.875 0 3.188-1.313T18.5 1q0 1.875 1.313 3.188T23 5.5q-1.875 0-3.188 1.313T18.5 10ZM9 20Zm0-8.5Z"
-      />
-    </svg>
-  );
-};
-
-const ResourcesFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M3 22q-.425 0-.713-.288T2 21v-1.25q0-.775.4-1.413t1.1-.987q1.3-.65 2.688-1T9.024 16q1.45 0 2.838.35t2.662 1q.675.35 1.075.988t.4 1.412V21q0 .425-.288.713T15 22H3Zm17 0h-2.475q.225-.175.35-.438t.125-.587V19.5q0-.95-.488-1.775t-1.212-1.45q.8.2 1.588.438t1.512.612q.65.35 1.125.9T21 19.5V21q0 .425-.287.712T20 22ZM9 15q-1.45 0-2.475-1.025T5.5 11.5q0-1.45 1.025-2.475T9 8q1.45 0 2.475 1.025T12.5 11.5q0 1.45-1.025 2.475T9 15Zm8.5-3.5q0 1.45-1.025 2.475T14 15q-.2 0-.362-.013t-.338-.062q.625-.725.913-1.6T14.5 11.5q0-.95-.288-1.825t-.912-1.6q.175-.05.338-.062T14 8q1.45 0 2.475 1.025T17.5 11.5Zm1-1.5q0-1.875-1.313-3.188T14 5.5q1.875 0 3.188-1.313T18.5 1q0 1.875 1.313 3.188T23 5.5q-1.875 0-3.188 1.313T18.5 10Z"
-      />
-    </svg>
-  );
-};
-
-const SupportIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 12 12"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M3.5 2a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1M2 2.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0M3.5 9a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v.167c0 .587-.357 1.058-.808 1.358C7.237 10.83 6.637 11 6 11s-1.237-.171-1.692-.475c-.45-.3-.808-.771-.808-1.358zm1 0v.167c0 .149.09.345.363.526c.27.18.67.307 1.137.307s.868-.127 1.137-.307c.272-.181.363-.377.363-.526V9zM8 2.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0M8.5 1a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3M6 5a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1m-1.5.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0M3.55 5H2a1 1 0 0 0-1 1v.207c0 .596.343 1.086.797 1.407c.272.193.597.336.952.42a2 2 0 0 1 1.208-.96q-.215.045-.457.046c-.461 0-.858-.133-1.126-.322C2.105 6.608 2 6.39 2 6.207V6h1.55a2.5 2.5 0 0 1 0-1m4.9 1H10v.207c0 .184-.105.4-.374.59c-.268.19-.665.323-1.126.323q-.242 0-.457-.045c.52.146.953.496 1.208.959c.355-.084.68-.227.952-.42c.454-.32.797-.811.797-1.407V6a1 1 0 0 0-1-1H8.45a2.5 2.5 0 0 1 0 1"
-      />
-    </svg>
-  );
-};
-
-const SupportFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 12 12"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M5 2.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0M6 7a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3M3.55 5H2a1 1 0 0 0-1 1v.207c0 .596.343 1.086.797 1.407c.272.193.597.336.952.42c.269-.488.736-.85 1.292-.981A2.49 2.49 0 0 1 3.55 5m4.41 2.053a2 2 0 0 1 1.291.98c.355-.083.68-.226.952-.419c.454-.32.797-.811.797-1.407V6a1 1 0 0 0-1-1H8.45a2.51 2.51 0 0 1-.49 2.053M4.5 8a1 1 0 0 0-1 1v.167c0 .587.357 1.058.808 1.358C4.763 10.83 5.363 11 6 11s1.237-.171 1.692-.475c.45-.3.808-.771.808-1.358V9a1 1 0 0 0-1-1zM9 4a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3"
-      />
-    </svg>
-  );
-};
-
-const StoriesIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M12 20q-1.2-.95-2.6-1.475T6.5 18q-1.05 0-2.062.275T2.5 19.05q-.525.275-1.012-.025T1 18.15V6.1q0-.275.138-.525T1.55 5.2q1.15-.6 2.4-.9T6.5 4q1.45 0 2.838.375T12 5.5v12.1q1.275-.8 2.675-1.2T17.5 16q.9 0 1.763.15T21 16.6v-12q.375.125.738.263t.712.337q.275.125.413.375T23 6.1v12.05q0 .575-.487.875t-1.013.025q-.925-.5-1.937-.775T17.5 18q-1.5 0-2.9.525T12 20m2-5V5.5l5-5v10zm-4 1.625v-9.9q-.825-.35-1.713-.537T6.5 6q-.925 0-1.8.175T3 6.7v9.925q.875-.325 1.738-.475T6.5 16t1.763.15t1.737.475m0 0v-9.9z"
-      />
-    </svg>
-  );
-};
-
-const StoriesFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M12 20q-1.2-.95-2.6-1.475T6.5 18q-1.05 0-2.062.275T2.5 19.05q-.525.275-1.012-.025T1 18.15V6.1q0-.275.138-.525T1.55 5.2q1.15-.6 2.4-.9T6.5 4q1.45 0 2.838.375T12 5.5v12.1q1.275-.8 2.675-1.2T17.5 16q.9 0 1.763.15T21 16.6v-12q.375.125.738.263t.712.337q.275.125.413.375T23 6.1v12.05q0 .575-.487.875t-1.013.025q-.925-.5-1.937-.775T17.5 18q-1.5 0-2.9.525T12 20m2-5V5.5l5-5v10z"
-      />
-    </svg>
-  );
-};
-
-const CommunityIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M7.5 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6M2 10.768C2 9.79 2.791 9 3.768 9h4.767A4 4 0 0 0 8 11a4 4 0 0 0 1.354 3H8.268a2.77 2.77 0 0 0-2.593 1.796c-1.498-.366-2.427-1.183-2.974-2.093C2 12.536 2 11.336 2 11.127zM16 11a4 4 0 0 0-.535-2h4.767C21.21 9 22 9.791 22 10.768v.36c0 .207 0 1.408-.7 2.575c-.548.91-1.477 1.727-2.975 2.093A2.77 2.77 0 0 0 15.732 14h-1.086A4 4 0 0 0 16 11m3.5-6a3 3 0 1 1-6 0a3 3 0 0 1 6 0m-13 11.768C6.5 15.79 7.291 15 8.268 15h7.464c.977 0 1.768.791 1.768 1.768v.36c0 .207 0 1.408-.7 2.575C16.057 20.937 14.613 22 12 22s-4.058-1.063-4.8-2.297c-.7-1.167-.7-2.367-.7-2.576zM12 14a3 3 0 1 0 0-6a3 3 0 0 0 0 6"
-      ></path>
-    </svg>
-  );
-};
-
 const HealthIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -336,6 +141,7 @@ const HealthIcon = (props: IconSvgProps) => {
 const HealthFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -353,6 +159,7 @@ const HealthFillIcon = (props: IconSvgProps) => {
 const ExerciseIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -382,6 +189,7 @@ const ExerciseIcon = (props: IconSvgProps) => {
 const ExerciseFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -403,6 +211,7 @@ const ExerciseFillIcon = (props: IconSvgProps) => {
 const NutritionIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="32"
       height="32"
@@ -429,6 +238,7 @@ const NutritionIcon = (props: IconSvgProps) => {
 const NutritionFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -450,6 +260,7 @@ const NutritionFillIcon = (props: IconSvgProps) => {
 const WellbeingIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -470,6 +281,7 @@ const WellbeingIcon = (props: IconSvgProps) => {
 const WellbeingFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -489,6 +301,7 @@ const WellbeingFillIcon = (props: IconSvgProps) => {
 const SexualityIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -507,6 +320,7 @@ const SexualityIcon = (props: IconSvgProps) => {
 const SexualityFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -525,6 +339,7 @@ const SexualityFillIcon = (props: IconSvgProps) => {
 const ForAllAgesIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -544,6 +359,7 @@ const ForAllAgesIcon = (props: IconSvgProps) => {
 const ForAllAgesFillIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -568,125 +384,354 @@ const ForAllAgesFillIcon = (props: IconSvgProps) => {
   );
 };
 
-const BillingIcon = (props: IconSvgProps) => {
+const SunLoopIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
+      <g
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M12 19H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4.5M3 10h18m-5 9h6m-3-3l3 3l-3 3M7.005 15h.005M11 15h2"
-      />
-    </svg>
-  );
-};
-
-const PricingIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="m14.5 10l-.035-.139A2.46 2.46 0 0 0 12.082 8h-.522a1.841 1.841 0 0 0-.684 3.55l2.248.9A1.841 1.841 0 0 1 12.44 16h-.521a2.46 2.46 0 0 1-2.384-1.861L9.5 14M12 6v2m0 8v2m9-6a9 9 0 1 1-18 0a9 9 0 0 1 18 0"
-      />
-    </svg>
-  );
-};
-
-const PricingFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <g fill="currentColor">
-        <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.3 2.3 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004s.152-.691.546-1.004m2.286 6.916v-2.824c.347.085.664.228.921.421c.427.32.579.686.579.991s-.152.671-.579.991a2.5 2.5 0 0 1-.921.42" />
+        strokeWidth="2"
+      >
         <path
-          fillRule="evenodd"
-          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75s9.75-4.365 9.75-9.75S17.385 2.25 12 2.25M12.75 6a.75.75 0 0 0-1.5 0v.816a3.84 3.84 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178c0 .829.4 1.612 1.113 2.178c.502.4 1.102.647 1.719.756v2.978a2.5 2.5 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.1 4.1 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191s-.434-1.632-1.179-2.191a4.1 4.1 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.84 3.84 0 0 0-1.719-.755z"
-          clipRule="evenodd"
-        />
+          fill="currentColor"
+          fillOpacity="0"
+          strokeDasharray="36"
+          strokeDashoffset="36"
+          d="M12 7c2.76 0 5 2.24 5 5c0 2.76 -2.24 5 -5 5c-2.76 0 -5 -2.24 -5 -5c0 -2.76 2.24 -5 5 -5"
+        >
+          <animate
+            fill="freeze"
+            attributeName="fill-opacity"
+            begin="1s"
+            dur="0.5s"
+            values="0;1"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            dur="0.5s"
+            values="36;0"
+          />
+        </path>
+        <path
+          strokeDasharray="2"
+          strokeDashoffset="2"
+          d="M12 19v1M19 12h1M12 5v-1M5 12h-1"
+          opacity="0"
+        >
+          <animate
+            fill="freeze"
+            attributeName="d"
+            begin="0.6s"
+            dur="0.2s"
+            values="M12 19v1M19 12h1M12 5v-1M5 12h-1;M12 21v1M21 12h1M12 3v-1M3 12h-1"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.6s"
+            dur="0.2s"
+            values="2;0"
+          />
+          <set fill="freeze" attributeName="opacity" begin="0.6s" to="1" />
+          <animateTransform
+            attributeName="transform"
+            dur="30s"
+            repeatCount="indefinite"
+            type="rotate"
+            values="0 12 12;360 12 12"
+          />
+        </path>
+        <path
+          strokeDasharray="2"
+          strokeDashoffset="2"
+          d="M17 17l0.5 0.5M17 7l0.5 -0.5M7 7l-0.5 -0.5M7 17l-0.5 0.5"
+          opacity="0"
+        >
+          <animate
+            fill="freeze"
+            attributeName="d"
+            begin="0.8s"
+            dur="0.2s"
+            values="M17 17l0.5 0.5M17 7l0.5 -0.5M7 7l-0.5 -0.5M7 17l-0.5 0.5;M18.5 18.5l0.5 0.5M18.5 5.5l0.5 -0.5M5.5 5.5l-0.5 -0.5M5.5 18.5l-0.5 0.5"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.8s"
+            dur="0.2s"
+            values="2;0"
+          />
+          <set fill="freeze" attributeName="opacity" begin="0.8s" to="1" />
+          <animateTransform
+            attributeName="transform"
+            dur="30s"
+            repeatCount="indefinite"
+            type="rotate"
+            values="0 12 12;360 12 12"
+          />
+        </path>
       </g>
     </svg>
   );
 };
 
-const AccountIcon = (props: IconSvgProps) => {
+const MoonLoopIcon = (props: IconSvgProps) => {
   return (
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeDasharray="4"
+        strokeDashoffset="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M13 4h1.5M13 4h-1.5M13 4v1.5M13 4v-1.5">
+          <animate
+            id="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0"
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.6s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+6s"
+            dur="0.4s"
+            values="4;0"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+4s"
+            dur="0.4s"
+            values="4;0"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+1.2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+3.2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+5.2s"
+            dur="0.4s"
+            values="0;4"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+1.8s"
+            to="M12 5h1.5M12 5h-1.5M12 5v1.5M12 5v-1.5"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+3.8s"
+            to="M12 4h1.5M12 4h-1.5M12 4v1.5M12 4v-1.5"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition0.begin+5.8s"
+            to="M13 4h1.5M13 4h-1.5M13 4v1.5M13 4v-1.5"
+          />
+        </path>
+        <path d="M19 11h1.5M19 11h-1.5M19 11v1.5M19 11v-1.5">
+          <animate
+            id="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1"
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="1s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+6s"
+            dur="0.4s"
+            values="4;0"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+4s"
+            dur="0.4s"
+            values="4;0"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+1.2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+3.2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+5.2s"
+            dur="0.4s"
+            values="0;4"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+1.8s"
+            to="M17 11h1.5M17 11h-1.5M17 11v1.5M17 11v-1.5"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+3.8s"
+            to="M18 12h1.5M18 12h-1.5M18 12v1.5M18 12v-1.5"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition1.begin+5.8s"
+            to="M19 11h1.5M19 11h-1.5M19 11v1.5M19 11v-1.5"
+          />
+        </path>
+        <path d="M19 4h1.5M19 4h-1.5M19 4v1.5M19 4v-1.5">
+          <animate
+            id="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2"
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="2.8s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2.begin+6s"
+            dur="0.4s"
+            values="4;0"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2.begin+2s"
+            dur="0.4s"
+            values="4;0"
+          />
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2.begin+1.2s;lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2.begin+3.2s"
+            dur="0.4s"
+            values="0;4"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2.begin+1.8s"
+            to="M20 5h1.5M20 5h-1.5M20 5v1.5M20 5v-1.5"
+          />
+          <set
+            fill="freeze"
+            attributeName="d"
+            begin="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition2.begin+5.8s"
+            to="M19 4h1.5M19 4h-1.5M19 4v1.5M19 4v-1.5"
+          />
+        </path>
+      </g>
+      <g
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M20 21c0-2.761-3.582-5-8-5s-8 2.239-8 5m8-8a5 5 0 1 1 0-10a5 5 0 0 1 0 10"
-      />
-    </svg>
-  );
-};
-
-const AccountFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 56 56"
-      {...props}
-    >
-      <path
+        strokeWidth="2"
+      >
+        <g>
+          <path
+            strokeDasharray="2"
+            strokeDashoffset="4"
+            d="M12 21v1M21 12h1M12 3v-1M3 12h-1"
+          >
+            <animate
+              fill="freeze"
+              attributeName="stroke-dashoffset"
+              dur="0.2s"
+              values="4;2"
+            />
+          </path>
+          <path
+            strokeDasharray="2"
+            strokeDashoffset="4"
+            d="M18.5 18.5l0.5 0.5M18.5 5.5l0.5 -0.5M5.5 5.5l-0.5 -0.5M5.5 18.5l-0.5 0.5"
+          >
+            <animate
+              fill="freeze"
+              attributeName="stroke-dashoffset"
+              begin="0.2s"
+              dur="0.2s"
+              values="4;2"
+            />
+          </path>
+          <set fill="freeze" attributeName="opacity" begin="0.5s" to="0" />
+        </g>
+        <path
+          fill="currentColor"
+          d="M7 6 C7 12.08 11.92 17 18 17 C18.53 17 19.05 16.96 19.56 16.89 C17.95 19.36 15.17 21 12 21 C7.03 21 3 16.97 3 12 C3 8.83 4.64 6.05 7.11 4.44 C7.04 4.95 7 5.47 7 6 Z"
+          opacity="0"
+        >
+          <set fill="freeze" attributeName="opacity" begin="0.5s" to="1" />
+        </path>
+      </g>
+      <mask id="lineMdSunnyFilledLoopToMoonFilledAltLoopTransition3">
+        <circle cx="12" cy="12" r="12" fill="#fff" />
+        <circle cx="22" cy="2" r="3" fill="#fff">
+          <animate
+            fill="freeze"
+            attributeName="cx"
+            begin="0.1s"
+            dur="0.4s"
+            values="22;18"
+          />
+          <animate
+            fill="freeze"
+            attributeName="cy"
+            begin="0.1s"
+            dur="0.4s"
+            values="2;6"
+          />
+          <animate
+            fill="freeze"
+            attributeName="r"
+            begin="0.1s"
+            dur="0.4s"
+            values="3;12"
+          />
+        </circle>
+        <circle cx="22" cy="2" r="1">
+          <animate
+            fill="freeze"
+            attributeName="cx"
+            begin="0.1s"
+            dur="0.4s"
+            values="22;18"
+          />
+          <animate
+            fill="freeze"
+            attributeName="cy"
+            begin="0.1s"
+            dur="0.4s"
+            values="2;6"
+          />
+          <animate
+            fill="freeze"
+            attributeName="r"
+            begin="0.1s"
+            dur="0.4s"
+            values="1;10"
+          />
+        </circle>
+      </mask>
+      <circle
+        cx="12"
+        cy="12"
+        r="6"
+        mask="url(#lineMdSunnyFilledLoopToMoonFilledAltLoopTransition3)"
         fill="currentColor"
-        d="M28.012 27.367c5.039 0 9.375-4.5 9.375-10.36c0-5.788-4.36-10.077-9.375-10.077c-5.016 0-9.375 4.383-9.375 10.125c0 5.812 4.36 10.312 9.375 10.312M13.293 49.07h29.438c3.68 0 4.992-1.054 4.992-3.117c0-6.047-7.57-14.39-19.711-14.39c-12.164 0-19.735 8.343-19.735 14.39c0 2.063 1.313 3.117 5.016 3.117"
-      />
-    </svg>
-  );
-};
-
-const TouchIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M7.78 13.957V9.493m0 0V3.978c0-.82.683-1.48 1.503-1.48s1.466.66 1.466 1.48v3.996m-2.97 1.52c-1.314 1.19-2.73 2.694-2.92 3.08c-.886 1.348-.793 2.001.195 3.652a41 41 0 0 0 2.033 3.032c.67.759.537.76 1.51 1.472c.867.602 2.667 1.022 6.887.602c3.437-.53 4.26-3.53 4.243-4.963v-3.54c.214-2.942-1.016-3.074-3.25-3.364m-5.728-1.491v2.523m0-2.523c.557-.909 2.582-.541 2.976 1.174m.036 1.345v-1q0-.119-.015-.236m-.02-.109l.004.022q.01.043.016.087m-.02-.109q.005.053.02.11m-.02-.11c-.14-1.196 2.891-.904 3.015 1.2v1.142"
-        color="currentColor"
-      />
+      >
+        <animate
+          fill="freeze"
+          attributeName="r"
+          begin="0.1s"
+          dur="0.4s"
+          values="6;10"
+        />
+        <set fill="freeze" attributeName="opacity" begin="0.5s" to="0" />
+      </circle>
     </svg>
   );
 };
@@ -696,18 +741,8 @@ export {
   AdditionalFillIcon,
   AIIcon,
   AIFillIcon,
-  AIGradientIcon,
   HomeIcon,
   HomeFillIcon,
-  NewsIcon,
-  NewsFillIcon,
-  ResourcesIcon,
-  ResourcesFillIcon,
-  SupportIcon,
-  SupportFillIcon,
-  StoriesIcon,
-  StoriesFillIcon,
-  CommunityIcon,
   HealthIcon,
   HealthFillIcon,
   ExerciseIcon,
@@ -720,10 +755,6 @@ export {
   SexualityFillIcon,
   ForAllAgesIcon,
   ForAllAgesFillIcon,
-  BillingIcon,
-  PricingIcon,
-  PricingFillIcon,
-  AccountIcon,
-  AccountFillIcon,
-  TouchIcon,
+  SunLoopIcon,
+  MoonLoopIcon,
 };

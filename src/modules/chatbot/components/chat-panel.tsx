@@ -1,33 +1,24 @@
 "use client";
 
 import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Session } from "next-auth";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import ButtonToBottom from "@/modules/core/components/ui/buttons/button-to-bottom";
-import { StarsIcon, WarningCircledIcon } from "@/modules/icons/common";
-import { useWarningModal } from "@/modules/payment/hooks/use-warning-modal";
-import { Session } from "@/types/session";
-import { cn, shuffleArray } from "@/utils/common";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
+import { LinkIcon } from "@/modules/icons/action";
+import { UserProfileData } from "@/types/session";
 
-import PromptForm from "./prompt-form";
+import { PromptForm } from "./prompt-form";
+import SuggestedActions from "./suggested-actions";
+import AlertPanel from "./ui/alert-panel";
 import { PreviewAttachment } from "./ui/preview-attachment";
-import PaymentModal from "../../payment/components/payment-modal";
-import WarningModal from "../../payment/components/warning-premium-modal";
-import FooterText from "../components/ui/footer-text";
 
 export interface ChatPanelProps {
+  chatId: string;
   input: string;
   setInput: (value: string) => void;
   stop: () => void;
@@ -44,31 +35,34 @@ export interface ChatPanelProps {
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
   messages: Array<Message>;
+  setMessages: Dispatch<SetStateAction<Array<Message>>>;
   isLoading: boolean;
-  isPremium: boolean | null;
-  session: Session | undefined;
+  session: Session | null;
   scrollToBottom: () => void;
   isAtBottom: boolean;
+  isReadonly: boolean;
+  user: UserProfileData | null;
 }
 
-const ChatPanel: FC<ChatPanelProps> = ({
-  input,
-  setInput,
-  stop,
-  append,
-  handleSubmit,
-  attachments,
-  setAttachments,
-  messages,
-  isLoading,
-  isPremium,
-  session,
-  scrollToBottom,
-  isAtBottom,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { isWarningModalOpen, handleOpenPaymentModal } =
-    useWarningModal(isPremium);
+const ChatPanel = (props: ChatPanelProps) => {
+  const {
+    chatId,
+    input,
+    setInput,
+    stop,
+    append,
+    handleSubmit,
+    attachments,
+    setAttachments,
+    messages,
+    setMessages,
+    isLoading,
+    session,
+    scrollToBottom,
+    isAtBottom,
+    isReadonly,
+    user,
+  } = props;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -77,31 +71,35 @@ const ChatPanel: FC<ChatPanelProps> = ({
 
   const isChat = pathname.startsWith("/essentia-ai/chat");
 
-  const [isVisible, setIsVisible] = useState(true);
-
-  const initialMessages = INITIAL_CHAT_MESSAGES;
-
-  const [suggestedActions, setSuggestedActions] = useState(initialMessages);
-
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
 
-  useEffect(() => {
-    setSuggestedActions((prevMessages) => shuffleArray([...prevMessages]));
-  }, []);
-
   const hasProcessedQueryRef = useRef(false);
+
+  const { setActiveChatId } = useChatContext();
+
+  const { isPremium = false, username } = user || {};
 
   useEffect(() => {
     if (searchQuery && !hasProcessedQueryRef.current) {
       hasProcessedQueryRef.current = true;
-      router.replace(pathname);
       append({
         role: "user",
         content: searchQuery,
       });
       handleSubmit();
+
+      window.history.replaceState({}, "", `/essentia-ai/chat/${chatId}`);
+      setActiveChatId(chatId);
     }
-  }, [searchQuery, router, pathname, append, handleSubmit]);
+  }, [
+    searchQuery,
+    router,
+    pathname,
+    append,
+    handleSubmit,
+    setActiveChatId,
+    chatId,
+  ]);
 
   return (
     <>
@@ -110,170 +108,98 @@ const ChatPanel: FC<ChatPanelProps> = ({
           isAtBottom={isAtBottom}
           scrollToBottom={scrollToBottom}
         />
-        <div className="relative flex w-full flex-col">
-          {messages.length === 0 &&
-            attachments.length === 0 &&
-            uploadQueue.length === 0 && (
+        {!isReadonly ? (
+          <div className="relative flex w-full flex-col">
+            <SuggestedActions
+              chatId={chatId}
+              messages={messages}
+              attachments={attachments}
+              uploadQueue={uploadQueue}
+              isPremium={isPremium}
+              append={append}
+            />
+            <div className="relative border-t border-gray-200 bg-white px-4 py-0 pb-16 dark:border-dark dark:bg-full-dark md:rounded-t-xl md:border md:py-4">
               <motion.div
-                initial={{ opacity: 1 }}
-                animate={!isPremium ? { opacity: 0 } : { opacity: 1 }}
-                transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
-                className="mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 scrollbar-hide sm:grid sm:px-0"
-              >
-                {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: 0.1 * index }}
-                    key={index}
-                    className="w-full"
-                  >
-                    <Button
-                      disabled={!isPremium}
-                      fullWidth
-                      radius="lg"
-                      className="h-auto min-w-60 flex-col items-start gap-0 border border-gray-200 bg-white p-4 text-start text-main shadow-none hover:bg-gray-100 active:scale-[.97] dark:border-dark dark:bg-full-dark dark:text-main-dark sm:min-w-0"
-                      onClick={async () => {
-                        append({
-                          role: "user",
-                          content: suggestedAction.action,
-                        });
-                      }}
-                    >
-                      <suggestedAction.icon
-                        className={cn("size-4", suggestedAction.iconColor)}
-                      />
-                      <span className="text-nowrap text-sm font-semibold">
-                        {suggestedAction.heading}
-                      </span>
-                      <span className="text-nowrap text-sm text-main-m dark:text-main-dark-m">
-                        {suggestedAction.subheading}
-                      </span>
-                    </Button>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-          <div className="relative border-t border-gray-200 bg-white px-4 py-2 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4">
-            <motion.div
-              initial={{ opacity: 1, y: 0, scale: 1 }}
-              animate={
-                !isPremium
-                  ? { opacity: 0, y: 150, scale: 0.9 }
-                  : { opacity: 1, y: 0, scale: 1 }
-              }
-              transition={
-                !isPremium
-                  ? { ease: "easeInOut", duration: 0.5, delay: 0.3 }
-                  : { ease: "easeInOut", duration: 1, delay: 0.3 }
-              }
-              className="space-y-4"
-            >
-              {(attachments.length > 0 || uploadQueue.length > 0) && (
-                <div className="flex flex-wrap gap-2">
-                  {attachments.map((attachment, index) => (
-                    <PreviewAttachment
-                      key={attachment.url || index}
-                      attachment={attachment}
-                      onRemove={() => {
-                        setAttachments((prevAttachments) =>
-                          prevAttachments.filter((_, i) => i !== index),
-                        );
-                      }}
-                    />
-                  ))}
-
-                  {uploadQueue.map((filename) => (
-                    <PreviewAttachment
-                      key={filename}
-                      attachment={{
-                        url: "",
-                        name: filename,
-                        contentType: "",
-                      }}
-                      isUploading={true}
-                    />
-                  ))}
-                </div>
-              )}
-              <PromptForm
-                isLoading={isLoading}
-                handleSubmit={handleSubmit}
-                stop={stop}
-                input={input}
-                setInput={setInput}
-                attachments={attachments}
-                setAttachments={setAttachments}
-                uploadQueue={uploadQueue}
-                setUploadQueue={setUploadQueue}
-                isPremium={isPremium}
-              />
-              <FooterText className="hidden md:block" />
-            </motion.div>
-            {isVisible && (
-              <motion.div
-                initial={{ opacity: 0, y: 150, scale: 0.9 }}
+                initial={{ opacity: 1, y: 0, scale: 1 }}
                 animate={
                   !isPremium
-                    ? { opacity: 1, y: -30, scale: 1 }
-                    : { opacity: 0, y: 150, scale: 0.9 }
+                    ? { opacity: 0, y: 150, scale: 0.9 }
+                    : { opacity: 1, y: 0, scale: 1 }
                 }
-                onAnimationComplete={() => {
-                  if (isPremium) {
-                    setIsVisible(false);
-                  }
-                }}
                 transition={
                   !isPremium
-                    ? { ease: "easeInOut", duration: 1, delay: 0.3 }
-                    : { ease: "easeInOut", duration: 0.5, delay: 0.3 }
+                    ? { ease: "easeInOut", duration: 0.5, delay: 0.3 }
+                    : { ease: "easeInOut", duration: 1, delay: 0.3 }
                 }
-                className="absolute inset-3 flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white p-2 text-xs text-main shadow-lg dark:border-dark dark:bg-full-dark dark:text-main-dark md:gap-4 md:p-4 md:text-base"
+                className="space-y-4 md:pb-6"
               >
-                <span className="inline-flex items-center gap-2">
-                  <WarningCircledIcon className="size-5 text-main-m dark:text-main-dark-m" />
-                  {session ? (
-                    <>Actualiza tu plan para poder usar Essentia AI</>
-                  ) : (
-                    <>Inicia sesión para acceder a Essentia AI</>
-                  )}
-                </span>
-                {session ? (
-                  <Button
-                    radius="sm"
-                    onClick={() => handleOpenPaymentModal(setIsOpen)}
-                    className="inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
-                  >
-                    <StarsIcon
-                      aria-hidden="true"
-                      className="stars-icon !size-5 focus:outline-none"
-                    />
-                    <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
-                      Hazte premium
-                    </span>
-                  </Button>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="inline-flex h-8 min-w-10 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white !duration-150 data-[hover=true]:text-white dark:bg-dark-gradient"
-                  >
-                    Iniciar sesión
-                  </Link>
+                {(attachments.length > 0 || uploadQueue.length > 0) && (
+                  <div className="mt-3 flex items-end gap-2 overflow-x-auto md:mt-0">
+                    {attachments.map((attachment, index) => (
+                      <PreviewAttachment
+                        key={attachment.url || index}
+                        attachment={attachment}
+                        onRemove={() => {
+                          setAttachments((prevAttachments) =>
+                            prevAttachments.filter((_, i) => i !== index),
+                          );
+                        }}
+                      />
+                    ))}
+
+                    {uploadQueue.map((filename) => (
+                      <PreviewAttachment
+                        key={filename}
+                        attachment={{
+                          url: "",
+                          name: filename,
+                          contentType: "",
+                        }}
+                        isUploading={true}
+                      />
+                    ))}
+                  </div>
                 )}
+                <PromptForm
+                  chatId={chatId}
+                  isLoading={isLoading}
+                  handleSubmit={handleSubmit}
+                  stop={stop}
+                  input={input}
+                  setInput={setInput}
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  setMessages={setMessages}
+                  uploadQueue={uploadQueue}
+                  setUploadQueue={setUploadQueue}
+                  isPremium={isPremium}
+                />
               </motion.div>
-            )}
+              <AlertPanel
+                session={session}
+                isPremium={isPremium}
+                isChat={isChat}
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="relative w-full border-t border-gray-200 bg-white px-4 py-0 pb-16 dark:border-dark dark:bg-full-dark sm:rounded-t-xl sm:border sm:py-4">
+            <div className="inline-flex w-full items-center justify-center px-2 py-3">
+              <p className="text-balance text-center text-sm md:text-base">
+                Este chat está en modo lectura, le pertenece al usuario{" "}
+                <Link
+                  href={`/profiles/${username}`}
+                  className="inline-flex flex-1 justify-center gap-1 font-semibold leading-4 hover:underline"
+                >
+                  @{username}
+                  <LinkIcon />
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+        )}
       </div>
-      {/* Modal de advertencia para Premium */}
-      {!isPremium && session && isWarningModalOpen && !isChat && (
-        <WarningModal isPremium={isPremium} isPaymentModalOpen={isOpen} />
-      )}
-      {/* Modal de Pago */}
-      {!isPremium && session && (
-        <PaymentModal isOpen={isOpen} setIsOpen={setIsOpen} />
-      )}
     </>
   );
 };

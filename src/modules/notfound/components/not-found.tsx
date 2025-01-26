@@ -9,6 +9,7 @@ import { cn } from "@/utils/common";
 
 const NotFoundWrapper = () => {
   const router = useRouter();
+
   return (
     <>
       <div
@@ -25,10 +26,10 @@ const NotFoundWrapper = () => {
           )}
         ></div>
       </div>
-      <div className="relative flex min-h-dvh flex-col items-center gap-5 overflow-hidden px-5 text-main dark:text-white md:justify-center md:px-40">
+      <div className="relative flex min-h-dvh flex-1 flex-col items-center gap-5 overflow-hidden px-5 text-main dark:text-white md:justify-center md:px-40">
         <div className="left-1/4 top-52 flex max-w-xl flex-col justify-center space-y-5 md:absolute">
           <div className="flex h-full flex-col gap-4 text-center md:h-auto md:text-start">
-            <h1 className="text-wrap font-sans text-3xl font-extrabold md:text-6xl">
+            <h1 className="text-wrap font-sans text-3xl font-bold md:text-6xl">
               Parece que esta página ha perdido su{" "}
               <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-300 bg-clip-text text-transparent drop-shadow">
                 esencia

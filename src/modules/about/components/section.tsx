@@ -7,50 +7,37 @@ import { cn } from "@/utils/common";
 import SectionItem from "./section-item";
 import useAnimateOnScroll from "../hooks/use-animate-on-scroll";
 
-type Props = {
-  sectionId: string;
-  classSection?: string;
-  wrapper: string;
-  inner: string;
-  sectionName: string;
+type SectionProps = {
+  index: number;
+  slug: string;
+  section: string;
   title: string;
   description: string;
   img: string;
-  imgAlt: string;
+  video: string;
   children?: React.ReactNode;
 };
 
-const Section = ({
-  sectionId,
-  classSection,
-  wrapper,
-  inner,
-  sectionName,
-  title,
-  description,
-  img,
-  imgAlt,
-  children,
-}: Props) => {
+const Section = (props: SectionProps) => {
+  const { index, slug, children } = props;
   const slideLeftRef = useRef<HTMLDivElement | null>(null);
   const slideRightRef = useRef<HTMLDivElement | null>(null);
 
   useAnimateOnScroll([slideLeftRef, slideRightRef]);
 
   return (
-    <section id={sectionId} className="relative mx-auto flex w-full flex-col">
+    <section id={slug} className="relative mx-auto flex w-full flex-col">
       {children}
-      <div className={cn(classSection, "lg:max-h-[1030px]")}>
+      <div
+        className={cn(
+          "max-h-[1030px] py-28 md:py-40",
+          index === 0 && "md:pt-56",
+        )}
+      >
         <div className="px-5 sm:px-10">
           <div className="relative mx-auto w-full max-w-7xl">
             <SectionItem
-              wrapper={wrapper}
-              inner={inner}
-              sectionName={sectionName}
-              title={title}
-              description={description}
-              img={img}
-              imgAlt={imgAlt}
+              {...props}
               slideLeftRef={slideLeftRef}
               slideRightRef={slideRightRef}
             />

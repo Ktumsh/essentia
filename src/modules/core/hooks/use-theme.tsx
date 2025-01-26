@@ -8,7 +8,7 @@ import {
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const pathname = usePathname();
-  const isAbout = pathname.startsWith("/about-essentia");
+  const isAbout = pathname.startsWith("/about");
   return (
     <NextThemesProvider
       {...props}

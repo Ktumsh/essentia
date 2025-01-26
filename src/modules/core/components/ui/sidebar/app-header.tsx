@@ -26,7 +26,7 @@ const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
             className={isCollapsed ? "!size-8 p-0" : ""}
           >
             <Link href="/">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-[#d5d8eb]">
+              <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
                 <Logo width={16} height={16} className="h-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">

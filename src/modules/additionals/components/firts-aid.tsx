@@ -1,5 +1,7 @@
-import { motion } from "framer-motion";
-import { TriangleAlert } from "lucide-react";
+"use client";
+
+import { Hash, TriangleAlert } from "lucide-react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 
@@ -9,7 +11,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { FIRST_AID } from "@/consts/firts-aid";
-import { HashIcon } from "@/modules/icons/common";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
 
@@ -44,10 +45,13 @@ const FirstAid = () => {
           className="group flex h-auto w-fit items-center p-0 text-xl font-semibold transition active:scale-100"
         >
           <Badge variant="primary" className="gap-1 py-1">
-            <TriangleAlert className="size-3.5" />
+            <TriangleAlert strokeWidth={1.5} className="size-3.5" />
             <h3>Primeros auxilios</h3>
           </Badge>
-          <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+          <Hash
+            strokeWidth={1.5}
+            className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+          />
         </Link>
       </div>
       <div className="flex max-h-[1000px] flex-col space-y-2 md:max-h-[700px] md:px-0">
@@ -91,23 +95,23 @@ const FirstAid = () => {
             >
               <Separator />
             </motion.div>
-            <CardContent className="flex flex-col overflow-hidden p-3">
-              <ScrollArea>
+            <CardContent className="flex flex-col overflow-hidden p-0">
+              <ScrollArea className="flex flex-col p-3 pr-5">
                 <ol
                   className={cn(
                     "space-y-4 opacity-0 transition-all [interpolate-size:allow-keywords]",
-                    openCard === index ? "h-auto opacity-100" : "h-0",
+                    openCard === index ? "opacity-100" : "h-0",
                   )}
                 >
                   {cardInfo.steps.map((step, stepIndex) => (
                     <li
                       key={stepIndex}
-                      className="space-y-1.5 text-start text-sm"
+                      className="prose-sm space-y-1.5 text-start"
                     >
-                      <ul className="flex">
+                      <ul className="flex items-center pl-0">
                         <Badge
                           variant="primary"
-                          className="mr-2 flex size-6 items-center justify-center !bg-cyan-600 font-bold !text-white hover:!bg-cyan-600/80"
+                          className="flex size-6 items-center justify-center !bg-cyan-600 font-bold !text-white hover:!bg-cyan-600/80"
                         >
                           {step.step}
                         </Badge>

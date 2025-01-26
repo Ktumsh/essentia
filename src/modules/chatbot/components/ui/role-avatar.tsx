@@ -5,7 +5,7 @@ import { AvatarIcon } from "@/modules/icons/miscellaneus";
 
 export const BotAvatar = () => {
   return (
-    <div className="flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg bg-white dark:bg-[#d5d8eb]">
+    <div className="flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg bg-white dark:bg-logo">
       <Image
         width={16}
         height={16}
@@ -25,7 +25,7 @@ export const UserAvatar = ({
   username?: string;
 }) => {
   return (
-    <div className="flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg">
+    <div className="order-1 flex size-6 shrink-0 select-none items-center justify-center overflow-hidden rounded-lg">
       <Avatar className="size-6 rounded-lg">
         <AvatarImage src={profileImage || ""} alt={username} />
         <AvatarFallback className="rounded-lg">

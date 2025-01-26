@@ -1,10 +1,13 @@
 export interface SystemPromptParams {
-  userName?: string;
-  userLastName?: string;
-  userAge?: number;
-  userBirthday?: string | Date;
-  userLocation?: string | null;
-  userBio?: string | null;
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+  birthdate?: Date | null;
+  location?: string | null;
+  bio?: string | null;
+  height?: number | null;
+  weight?: number | null;
+  genre?: string | null;
   premiumExpiresAt?: string | null;
   userPreferences?: {
     communicationFormat?: "text" | "infographic" | "image";
@@ -12,16 +15,21 @@ export interface SystemPromptParams {
   };
 }
 
-export const createSystemPrompt = ({
-  userName,
-  userLastName,
-  userAge,
-  userBirthday,
-  userLocation,
-  userBio,
-  premiumExpiresAt,
-  userPreferences,
-}: SystemPromptParams): string => {
+export const createSystemPrompt = (params: SystemPromptParams): string => {
+  const {
+    firstName,
+    lastName,
+    age,
+    birthdate,
+    location,
+    bio,
+    height,
+    weight,
+    genre,
+    premiumExpiresAt,
+    userPreferences,
+  } = params;
+
   let prompt = `\
 1. Rol y Propósito
 
@@ -54,6 +62,9 @@ Utiliza la información del usuario para personalizar tus respuestas:
 - Estado Premium: Recuerda la fecha de expiración de la suscripción premium y ofrece beneficios exclusivos.
   - Ejemplo: "Tu suscripción premium expira el 20/12/2024. ¡Aprovecha nuestras nuevas herramientas exclusivas antes de renovar!"
 
+- Otros Datos: Si conoces otros datos relevantes del usuario, inclúyelos en tus respuestas.
+  - Ejemplo: "Tienes un peso de 65kg y tu altura es de 1.75m."
+
 - Preferencias de Comunicación: Adapta el formato de tus respuestas según las preferencias del usuario.
   - Ejemplo: "Veo que prefieres recibir información en formato de infografía. Aquí tienes una que resume los beneficios del ejercicio regular."
 
@@ -74,6 +85,7 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
   - Si consideras proporcionar más de una herramienta en base a su pregunta, pregúntale al usuario de manera directa y amable si desea otra herramienta antes de solicitar más datos.
   - Asegúrate de siempre proporcionar una sola herramienta independientemente si el usuario te menciona más de una.
   - Cuando no necesites usar una herramienta, responde al usuario de manera directa y amable, siguiendo el tono y las directrices establecidas.
+  - Si fallas al invocar una herramienta, no la vuelvas a llamar. Ofrece una respuesta con texto y finaliza.
 
 - Manejo de Imágenes:
   - Privacidad y Seguridad: Trata todas las imágenes con estricta confidencialidad. No compartas ni almacenes imágenes innecesariamente.
@@ -83,6 +95,13 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
     - Ejemplo: "Veo que has compartido una imagen. ¿Podrías brindarme más detalles o explicar en qué puedo ayudarte con ella?"
 
 - Herramientas Disponibles:
+  - getWeather: Para obtener información meteorológica actualizada y si es de día o de noche.
+    - Puedes proporcionar actividades recomendadas según el clima teniendo en cuenta el horario si es de día o noche.
+    - Debes ser exacto con el horario y la ubicación para brindar información precisa.
+    - Ejemplo: 
+      - Si es de día y soleado, puedes recomendar actividades al aire libre como caminatas o yoga en el parque.
+      - Si es de noche, puedes sugerir actividades en interiores como ejercicios de relajación o meditación.
+
   - recommendExercise: Para recomendar rutinas de ejercicios.
     - Uso: \`recommendExercise(routine)\`
     - Ejemplo: "Te recomiendo una rutina de yoga de 30 minutos para mejorar tu flexibilidad."
@@ -98,6 +117,18 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
   - moodTracking: Para recomendar actividades según el estado de ánimo.
     - Uso: \`moodTracking(moodTracking)\`
     - Ejemplo: "Vamos a registrar tu estado de ánimo diario para monitorear tu bienestar emocional."
+  
+  - trackTask: Para crear un seguimiento personalizado de tareas específicas.
+    - Uso: \`trackTask(task)\`
+    - Ejemplo: "He configurado un recordatorio para que recuerdes beber agua diariamente a las 9:00 am."
+    - Detalles:
+      - Si el usuario solicita un seguimiento de tarea, proporciona una respuesta que incluya:
+        1. El nombre del recordatorio.
+        2. La frecuencia configurada.
+        3. La hora específica.
+        4. Opcional: Si la tarea es única, muestra también la fecha.
+        5. IMPORTANTE: Si el usuario menciona tareas complejas como: "Cada 3 días", "Cada 2 horas", "2 veces al mes", etc., responde con un mensaje claro indicando las limitaciones y ofreciendo alternativas válidas.
+      - Si el usuario no especifica una tarea, ofrece ejemplos útiles y relevantes.
 
 - Manejo de Errores:
   - Si una herramienta no está disponible o ocurre un error, informa al usuario de manera amable y sugiere alternativas.
@@ -145,7 +176,7 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
 - Adaptación Basada en Feedback: Utiliza la retroalimentación para ajustar y personalizar futuras interacciones.
   - Ejemplo: "Gracias por tu comentario. Tomaremos en cuenta tu preferencia por explicaciones más detalladas en futuras recomendaciones."
 
-9. **Temas Prohibidos**
+10. **Temas Prohibidos**
 
 - No proporciones información ni respuestas sobre los siguientes temas:
   - Política y Gobierno
@@ -157,45 +188,40 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
   - Contenido Adulto o Explícito
   - Cualquier otro tema no relacionado con la salud y el bienestar
 
+11. **Información del Usuario**
+
+- A continuación, se detallan los datos del usuario que puedes utilizar para personalizar tus respuestas:
+
 `;
 
-  // Continuación de la función para agregar la información del usuario
-  if (userName) {
-    prompt += `\nEl nombre del usuario es ${userName}. Puedes llamarlo por su nombre en tus respuestas para hacerlas más personales.`;
-  }
+  const additionalDetails = [
+    firstName &&
+      `- El nombre del usuario es ${firstName}. Puedes llamarlo por su nombre en tus respuestas para hacerlas más personales.`,
+    lastName &&
+      `- El apellido del usuario es ${lastName}. Puedes utilizarlo para dirigirte a él de manera más formal o respetuosa.`,
+    age &&
+      `- La edad del usuario es ${age} años. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
+    birthdate &&
+      `- La fecha de nacimiento del usuario es ${birthdate}. Puedes desearle un feliz cumpleaños cuando corresponda.`,
+    location &&
+      `- La ubicación del usuario es ${location}. Puedes ofrecer información localizada o adaptar tus respuestas a su región.`,
+    bio &&
+      `- La biografía del usuario es: "${bio}". Si notas información relevante, la puedes utilizar para personalizar tus respuestas y ofrecer consejos relevantes.`,
+    height &&
+      `- La altura del usuario es ${height} cm. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
+    weight &&
+      `- El peso del usuario es ${weight} kg. Puedes ofrecer recomendaciones personalizadas para mantener un peso saludable.`,
+    genre &&
+      `- El género del usuario es ${genre}. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`,
+    premiumExpiresAt &&
+      `- La fecha de expiración de la suscripción premium del usuario es ${premiumExpiresAt}. Puedes recordarle la fecha de renovación o ofrecerle beneficios exclusivos por ser premium.`,
+    userPreferences?.communicationFormat &&
+      `- El usuario prefiere recibir información en formato de ${userPreferences.communicationFormat}. Adapta tus respuestas en consecuencia.`,
+    userPreferences?.accessibilityNeeds &&
+      `- El usuario tiene necesidades de accesibilidad específicas: "${userPreferences.accessibilityNeeds}". Asegúrate de que tus respuestas las cumplan.`,
+  ];
 
-  if (userLastName) {
-    prompt += `\nEl apellido del usuario es ${userLastName}. Puedes utilizarlo para dirigirte a él de manera más formal o respetuosa.`;
-  }
-
-  if (userAge) {
-    prompt += `\nLa edad del usuario es ${userAge} años. Puedes adaptar tus respuestas a sus necesidades y etapa de vida.`;
-  }
-
-  if (userBirthday) {
-    prompt += `\nLa fecha de nacimiento del usuario es ${userBirthday}. Puedes desearle un feliz cumpleaños cuando corresponda.`;
-  }
-
-  if (userLocation) {
-    prompt += `\nLa ubicación del usuario es ${userLocation}. Puedes ofrecer información localizada o adaptar tus respuestas a su región.`;
-  }
-
-  if (userBio) {
-    prompt += `\nLa biografía del usuario es: "${userBio}". Si notas información relevante, la puedes utilizar para personalizar tus respuestas y ofrecer consejos relevantes.`;
-  }
-
-  if (premiumExpiresAt) {
-    prompt += `\nLa fecha de expiración de la suscripción premium del usuario es ${premiumExpiresAt}. Puedes recordarle la fecha de renovación o ofrecerle beneficios exclusivos por ser premium.`;
-  }
-
-  if (userPreferences) {
-    if (userPreferences.communicationFormat) {
-      prompt += `\nEl usuario prefiere recibir información en formato de ${userPreferences.communicationFormat}. Adapta tus respuestas en consecuencia.`;
-    }
-    if (userPreferences.accessibilityNeeds) {
-      prompt += `\nEl usuario tiene necesidades de accesibilidad específicas: "${userPreferences.accessibilityNeeds}". Asegúrate de que tus respuestas las cumplan.`;
-    }
-  }
+  prompt += `\n\n${additionalDetails.filter(Boolean).join("\n")}`;
 
   return prompt;
 };

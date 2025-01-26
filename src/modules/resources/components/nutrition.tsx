@@ -1,5 +1,6 @@
 "use client";
 
+import { Hash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -7,15 +8,31 @@ import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { RECIPES } from "@/consts/recipes-data";
-import { HashIcon, StarsIcon } from "@/modules/icons/common";
+import { StarsIcon } from "@/modules/icons/common";
 
+import CourseList from "./course-list";
 import NutritionCarousel from "./nutrition-carousel";
 
-interface NutritionProps {
+import type { Course } from "@/types/resource";
+
+interface NutritionProps extends Course {
   isPremium?: boolean | null;
 }
 
-const Nutrition = ({ isPremium }: NutritionProps) => {
+const Nutrition = (props: NutritionProps) => {
+  const {
+    userId,
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+    isPremium,
+  } = props;
+
   const router = useRouter();
 
   const isMobile = useIsMobile();
@@ -26,24 +43,39 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
     if (isPremium) {
       router.push(`/essentia-ai?search=${encodeURIComponent(searchTerm)}`);
     } else {
-      router.push("/premium");
+      router.push("/pricing");
     }
   };
 
   return (
     <>
-      <section className="px-6 py-4 lg:p-0">
+      <CourseList
+        userId={userId}
+        resource={resource}
+        modules={modules}
+        about={about}
+        slug={slug}
+        completedLessons={completedLessons}
+        moduleProgress={moduleProgress}
+        courseProgress={courseProgress}
+        courseInitialized={courseInitialized}
+        isPremium={isPremium}
+      />
+      <section className="col-[1/2] px-6 py-4 lg:col-[1/3] lg:p-0">
         <div className="relative flex w-full select-none justify-between">
-          <h3 className="text-main-h dark:text-main-dark">
+          <h3 className="text-main dark:text-white">
             <Link
               id="recetas"
               data-id="recetas"
               data-name="Recetas"
               href="#recetas"
-              className="group mb-2 ml-3 inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 px-2 text-xl font-semibold tracking-tight transition hover:opacity-80 lg:px-0"
+              className="group mb-4 inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
             >
               Recetas
-              <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+              <Hash
+                strokeWidth={1.5}
+                className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+              />
             </Link>
           </h3>
           {!isMobile && (
@@ -51,7 +83,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
               radius="full"
               size="sm"
               onClick={onCreatePlan}
-              className="absolute right-0 top-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
+              className="relative z-0 shrink-0 bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:bg-white before:content-[''] hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark"
             >
               <StarsIcon
                 aria-hidden="true"
@@ -67,7 +99,7 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
           <Button
             fullWidth
             onClick={onCreatePlan}
-            className="mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
+            className="relative z-0 mb-4 h-14 rounded-2xl bg-light-gradient-v2 !transition before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:bg-white before:content-[''] active:shadow-lg active:saturate-200 dark:bg-dark-gradient-v2 before:dark:bg-full-dark md:hidden"
           >
             <StarsIcon
               aria-hidden="true"
@@ -87,7 +119,10 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
                 className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80 lg:px-0"
               >
                 Desayunos Saludables
-                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+                <Hash
+                  strokeWidth={1.5}
+                  className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+                />
               </Link>
             </h4>
             <p className="text-sm text-main-h dark:text-main-dark">
@@ -109,7 +144,10 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
                 className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80"
               >
                 Almuerzos y Cenas Saludables
-                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+                <Hash
+                  strokeWidth={1.5}
+                  className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+                />
               </Link>
             </h4>
             <p className="text-sm text-main-h dark:text-main-dark">
@@ -131,7 +169,10 @@ const Nutrition = ({ isPremium }: NutritionProps) => {
                 className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent p-0 text-sm font-semibold uppercase transition hover:opacity-80"
               >
                 Onces Saludables
-                <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+                <Hash
+                  strokeWidth={1.5}
+                  className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+                />
               </Link>
             </h4>
             <p className="text-sm text-main-h dark:text-main-dark">

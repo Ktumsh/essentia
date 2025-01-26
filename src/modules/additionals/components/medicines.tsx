@@ -1,4 +1,4 @@
-import { TriangleAlert } from "lucide-react";
+import { Hash, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +7,6 @@ import {
   MEDICINES_DATA_GROUP_1,
   MEDICINES_DATA_GROUP_2,
 } from "@/consts/medicines-data";
-import { HashIcon } from "@/modules/icons/common";
 
 import MedicineCategory from "./medicine-category";
 
@@ -23,15 +22,18 @@ const Medicines = () => {
           className="group flex h-auto w-fit items-center p-0 text-xl font-semibold transition active:scale-100"
         >
           <Badge variant="primary" className="gap-1 py-1">
-            <TriangleAlert className="size-3.5" />
+            <TriangleAlert strokeWidth={1.5} className="size-3.5" />
             <h3>Medicamentos para un botiquín</h3>
           </Badge>
-          <HashIcon className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100" />
+          <Hash
+            strokeWidth={1.5}
+            className="ml-1 size-5 opacity-0 transition-opacity group-hover:opacity-100"
+          />
         </Link>
       </div>
       <div className="flex w-full">
         <Card className="mt-2 flex h-auto flex-col overflow-hidden bg-gray-50 dark:bg-dark/30">
-          <CardContent className="scrollbar-hide relative z-10 flex h-auto w-full flex-auto snap-x snap-mandatory flex-row gap-6 overflow-auto break-words p-3 text-left">
+          <CardContent className="relative z-10 flex h-auto w-full flex-auto snap-x snap-mandatory flex-row gap-6 overflow-auto break-words p-3 text-left scrollbar-hide">
             <ul className="min-w-[90%] snap-center space-y-2 md:min-w-0">
               {MEDICINES_DATA_GROUP_1.map((category, index) => (
                 <MedicineCategory

@@ -1,10 +1,10 @@
 "use client";
 
 import { useLocalStorage } from "@rehooks/local-storage";
-import { X } from "lucide-react";
+import { ChevronRight, SearchIcon, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback, useMemo, FC, useId } from "react";
+import { useState, useEffect, useCallback, useMemo, useId, memo } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -30,21 +30,20 @@ import {
   MAX_RECENT_SEARCHES,
   MAX_RESULTS,
 } from "@/consts/search-constants";
-import { searchData, SearchResult } from "@/consts/search-data";
+import { SearchResult, useSearchData } from "@/consts/search-data";
 import useDebounce from "@/modules/core/hooks/use-debounce";
-import { SearchAIIcon, SearchIcon } from "@/modules/icons/action";
+import { SearchAIIcon } from "@/modules/icons/action";
 import { HashFillIcon } from "@/modules/icons/common";
-import { Chevron } from "@/modules/icons/navigation";
 import { searchStyles } from "@/styles/search-styles";
 import { cn } from "@/utils/common";
 import { formatText } from "@/utils/format";
 
 interface MainSearchProps {
-  isPremium?: boolean;
-  children?: React.ReactNode;
+  isPremium: boolean;
+  children: React.ReactNode;
 }
 
-const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
+const MainSearch = ({ isPremium, children }: MainSearchProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const id = useId();
   const router = useRouter();
@@ -60,6 +59,8 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 150);
 
+  const searchData = useSearchData();
+
   const recommendedItems = useMemo(() => {
     const lvl1WithIntroduction = searchData.filter(
       (item) => item.type === "lvl1" && item.content.includes("Introducción"),
@@ -70,7 +71,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
     );
 
     return [...lvl1WithIntroduction, ...otherLvl1];
-  }, []);
+  }, [searchData]);
 
   useEffect(() => {
     if (debouncedSearchTerm.length < 2) {
@@ -86,7 +87,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
       }).slice(0, MAX_RESULTS);
       setSearchResults(results);
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, searchData]);
 
   const saveRecentSearch = useCallback(
     (search: SearchResult) => {
@@ -161,14 +162,14 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
             )}
             <h3
               className={cn(
-                "select-none truncate text-sm text-main dark:text-main-dark",
+                "select-none truncate text-sm text-main-h dark:text-main-dark",
                 searchStyles.dataText,
               )}
             >
               {item.content}
             </h3>
           </div>
-          <Chevron className={cn("size-5 rotate-180", searchStyles.dataText)} />
+          <ChevronRight className={cn("size-5", searchStyles.dataText)} />
         </Button>
       );
     },
@@ -186,14 +187,10 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
       >
         {/* Búsquedas recientes */}
         {searchTerm.length < 1 && recentSearches.length > 0 && (
-          <div
-            role="presentation"
-            data-value="recent"
-            className="antialiased will-change-transform"
-          >
+          <div role="presentation" data-value="recent">
             <div id={id}>
               <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-sm text-main-m dark:text-main-dark-m">
+                <span className="text-xs text-main-m dark:text-main-dark-m">
                   Recientes
                 </span>
               </div>
@@ -205,14 +202,10 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
         )}
         {/* Búsquedas recomendadas */}
         {searchTerm.length < 1 && recommendedItems.length > 0 && (
-          <div
-            role="presentation"
-            data-value="recent"
-            className="antialiased will-change-transform"
-          >
+          <div role="presentation" data-value="recent">
             <div id={id}>
               <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-sm text-main-m dark:text-main-dark-m">
+                <span className="text-xs text-main-m dark:text-main-dark-m">
                   Recomendados
                 </span>
               </div>
@@ -227,12 +220,22 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
           <div role="presentation" data-value="no-results">
             <div className={cn(searchStyles.noResults)}>
               <div className="space-y-4">
-                <div className="text-sm antialiased will-change-transform">
+                <div className="text-sm">
                   <p>No hay resultados para &quot;{searchTerm}&quot;</p>
                   <p className="text-main-l dark:text-main-dark-l">
-                    {searchTerm.length < 6
-                      ? "Intenta agregar más caracteres al término de búsqueda."
-                      : `Intenta buscar otra cosa ${isPremium && " o prueba buscando con Essentia AI."}`}
+                    {isPremium ? (
+                      <>
+                        {searchTerm.length < 6
+                          ? "Intenta agregar más caracteres al término de búsqueda."
+                          : "Intenta buscar otra cosa o prueba buscando con Essentia AI."}
+                      </>
+                    ) : (
+                      <>
+                        {searchTerm.length < 6
+                          ? "Intenta agregar más caracteres al término de búsqueda."
+                          : "Intenta buscar otra cosa."}
+                      </>
+                    )}
                   </p>
                 </div>
                 {isPremium && (
@@ -243,7 +246,7 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
                       );
                       setIsOpen(false);
                     }}
-                    className="justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white antialiased will-change-transform data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
+                    className="justify-center rounded-md bg-light-gradient-v2 text-sm font-medium text-white data-[hover=true]:text-white data-[hover=true]:opacity-hover data-[hover=true]:transition dark:bg-dark-gradient"
                   >
                     Buscar con Essentia AI
                     <SearchAIIcon
@@ -277,9 +280,9 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
 
   const Search = useCallback(() => {
     return (
-      <div className={cn(searchStyles.modalHeader)}>
+      <>
         <div className={cn(searchStyles.inputWrapper)}>
-          <SearchIcon className="mr-1 size-7" />
+          <SearchIcon className="mr-2 size-4 shrink-0 opacity-50" />
           <Input
             role="combobox"
             autoFocus
@@ -298,40 +301,30 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
           {searchTerm.length > 0 && (
             <Button
               size="icon"
-              variant="outline"
-              radius="full"
+              variant="ghost"
               onClick={() => setSearchTerm("")}
               className={cn(searchStyles.clearButton)}
             >
               <X className="!size-3.5" />
             </Button>
           )}
+          <Button
+            onClick={() => setIsOpen(false)}
+            variant="outline"
+            className="ml-2 hidden h-fit px-2 py-0.5 text-xxs md:inline-flex"
+          >
+            Esc
+          </Button>
         </div>
-        <button
-          onClick={() => setIsOpen(false)}
-          className="ml-2 hidden rounded-md border border-gray-200 px-2 py-1 text-xxs font-medium transition-colors hover:bg-gray-100 dark:border-dark dark:hover:bg-dark/50 md:block"
-        >
-          ESC
-        </button>
-      </div>
+      </>
     );
-  }, [id, searchTerm, setIsOpen, handleSearchChange]);
+  }, [id, searchTerm, handleSearchChange]);
 
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerTrigger asChild>
-          <Button
-            aria-label="Busca rápida"
-            variant="ghost"
-            fullWidth
-            className="inline-flex !h-full min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:!bg-transparent active:!bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:!bg-dark/50 md:hidden"
-          >
-            <span className="sr-only">Busca rápida</span>
-            <SearchIcon className="!size-6" aria-hidden="true" />
-          </Button>
-        </DrawerTrigger>
-        <DrawerContent className="max-h-[50dvh] min-h-[560px]">
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerContent className="h-full">
           <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
             <DrawerTitle>Buscar</DrawerTitle>
             <Search />
@@ -344,7 +337,11 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent closeButton={false} className="gap-0 p-0">
+        <DialogContent
+          isSecondary
+          closeButton={false}
+          className="!max-h-[555px]"
+        >
           <DialogHeader className="border-b border-gray-200 dark:border-dark">
             <DialogTitle className="sr-only">Busca rápida</DialogTitle>
             <DialogDescription className="sr-only">
@@ -359,4 +356,4 @@ const MainSearch: FC<MainSearchProps> = ({ isPremium, children }) => {
   }
 };
 
-export default MainSearch;
+export default memo(MainSearch);

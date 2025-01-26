@@ -1,25 +1,30 @@
 import {
-  BadgeCheck,
   BadgeInfo,
   ChevronsUpDown,
-  HelpCircle,
   LogOut,
-  Settings,
   Sparkles,
   SunMoon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -27,34 +32,35 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
+import { siteConfig } from "@/config/site";
 import { StarsIcon } from "@/modules/icons/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
 import { UserProfileData } from "@/types/session";
 
-import { ThemeToggle } from "../buttons/theme-toggle";
+import ThemeToggle from "../buttons/theme-toggle";
 
 interface MainNavUserProps {
+  session: Session | null;
   user: UserProfileData | null;
   isCollapsed?: boolean;
 }
 
-const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
-  const { first_name, last_name, username, profile_image, is_premium } =
-    user || {};
+const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
+  const router = useRouter();
 
-  const fullName = `${first_name} ${last_name}`;
+  const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
-  const { isMobile } = useSidebar();
+  const fullName = `${firstName} ${lastName}`;
 
-  if (isMobile) return null;
+  const menuLinks = siteConfig.menuFooterLinks;
+
   return (
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
@@ -62,12 +68,23 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 className={isCollapsed ? "!size-8 p-0" : ""}
               >
                 <>
-                  <Avatar className="size-8 rounded-lg">
-                    <AvatarImage src={profile_image || ""} alt={username} />
-                    <AvatarFallback className="rounded-lg">
-                      <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
-                    </AvatarFallback>
-                  </Avatar>
+                  {profileImage ? (
+                    <Avatar className="size-8 rounded-lg">
+                      <Image
+                        priority
+                        src={profileImage}
+                        width={32}
+                        height={32}
+                        alt={username!}
+                      />
+                    </Avatar>
+                  ) : (
+                    <Avatar className="size-8 rounded-lg">
+                      <AvatarFallback className="rounded-lg">
+                        <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
                       {fullName !== "undefined undefined"
@@ -92,15 +109,24 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
             >
               <DropdownMenuLabel className="p-0 font-normal">
                 <DropdownMenuItem asChild>
-                  <Link href={user ? `/profile/${username}` : "/login"}>
-                    <Avatar className="size-8 rounded-lg">
-                      {profile_image && (
-                        <AvatarImage src={profile_image} alt={username} />
-                      )}
-                      <AvatarFallback className="rounded-lg">
-                        <AvatarIcon className="text-main-h dark:text-main-dark-h" />
-                      </AvatarFallback>
-                    </Avatar>
+                  <Link href={user ? "/profile" : "/login"}>
+                    {profileImage ? (
+                      <Avatar className="size-8 rounded-lg">
+                        <Image
+                          priority
+                          src={profileImage}
+                          width={32}
+                          height={32}
+                          alt={username!}
+                        />
+                      </Avatar>
+                    ) : (
+                      <Avatar className="size-8 rounded-lg">
+                        <AvatarFallback className="rounded-lg">
+                          <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
                         {fullName !== "undefined undefined"
@@ -113,7 +139,7 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                         </span>
                       )}
                     </div>
-                    {is_premium && (
+                    {isPremium && (
                       <BetterTooltip content="Cuenta Premium">
                         <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
                           <StarsIcon
@@ -127,20 +153,22 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 </DropdownMenuItem>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {!is_premium && user && (
+              {!isPremium && user && (
                 <>
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link
-                        href="/premium"
-                        className="justify-center rounded-md bg-light-gradient-v2 text-sm text-white focus:text-white dark:bg-dark-gradient"
+                      <Button
+                        variant="gradient"
+                        fullWidth
+                        onClick={() => router.push("/pricing")}
+                        className="transition focus:text-white"
                       >
                         <StarsIcon
                           aria-hidden="true"
                           className="size-4 focus:outline-none [&_*]:fill-white"
                         />
                         Hazte premium
-                      </Link>
+                      </Button>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
@@ -150,12 +178,14 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
                 <>
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link
-                        href="/login"
-                        className="justify-center rounded-md bg-light-gradient-v2 text-sm text-white focus:text-white dark:bg-dark-gradient"
+                      <Button
+                        variant="gradient"
+                        fullWidth
+                        onClick={() => router.push("/login")}
+                        className="transition focus:text-white"
                       >
                         Inicia sesión
-                      </Link>
+                      </Button>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
@@ -163,41 +193,61 @@ const MainNavUser = ({ user, isCollapsed }: MainNavUserProps) => {
               )}
               <DropdownMenuGroup>
                 {user ? (
-                  <DropdownMenuItem asChild>
-                    <Link href="/account">
-                      <BadgeCheck strokeWidth={1.5} />
-                      Cuenta
-                    </Link>
-                  </DropdownMenuItem>
+                  <>
+                    {menuLinks.account.slice(0, -1).map((link, index) => (
+                      <DropdownMenuItem asChild key={index}>
+                        <Link href={link.link || "#"}>
+                          <link.icon strokeWidth={1.5} />
+                          {link.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </>
                 ) : (
-                  <DropdownMenuItem asChild>
-                    <Link href="/about-essentia">
-                      <BadgeInfo strokeWidth={1.5} />
-                      Descubre Essentia
-                    </Link>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/about">
+                        <BadgeInfo strokeWidth={1.5} />
+                        Descubre Essentia
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/pricing">
+                        <Sparkles strokeWidth={1.5} />
+                        Planes y Precios
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
                 )}
-                <DropdownMenuItem asChild>
-                  <Link href="/premium">
-                    <Sparkles strokeWidth={1.5} />
-                    Premium
-                  </Link>
-                </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <Link href="#">
-                    <Settings strokeWidth={1.5} />
-                    Configuración
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/premium">
-                    <HelpCircle strokeWidth={1.5} />
-                    Soporte
-                  </Link>
-                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    Configuración y soporte
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      {menuLinks.config.map((link, index) => (
+                        <DropdownMenuItem asChild key={index}>
+                          <Link
+                            href={
+                              !session?.user && index === 0
+                                ? "/settings/accesibility"
+                                : link.link
+                            }
+                          >
+                            <link.icon strokeWidth={1.5} />
+                            {link.name}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
                 <DropdownMenuItem className="cursor-default justify-between hover:!bg-transparent hover:!text-inherit focus:!bg-transparent focus:!text-inherit">
                   <span className="inline-flex items-center gap-1.5">
                     <SunMoon strokeWidth={1.5} />

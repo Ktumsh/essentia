@@ -15,7 +15,7 @@ const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
         <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
           <div className="flex w-full flex-col">
             <h3 className="mb-2 ml-3 px-5 pt-3 font-semibold text-main dark:text-main-dark lg:px-0">
-              Consejo del día
+              Dato curioso del día
             </h3>
             <article className="flex h-full flex-col">
               {loading ? <Loading /> : <HealthFactsCard facts={facts} />}

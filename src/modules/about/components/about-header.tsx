@@ -1,159 +1,164 @@
 "use client";
 
-import Image from "next/image";
+import { motion } from "motion/react";
 import Link from "next/link";
-import { useRef, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
+import { useRef, useMemo, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import Logo from "@/modules/core/components/ui/utils/logo";
 import { StarsIcon } from "@/modules/icons/common";
-import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
 
-import { useActiveSection } from "../hooks/use-active-section";
+import useActiveSection from "../hooks/use-active-section";
 import { useNavbarChange } from "../hooks/use-navbar-change";
 import useSmoothScroll from "../hooks/use-smooth-scroll";
-
-type Section = {
-  id: string;
-  label: string;
-  scrollTo: () => void;
-};
+import { Section } from "../lib/utils";
 
 interface AboutHeaderProps {
   session: Session | null;
+  isPremium: boolean | null;
 }
 
-const AboutHeader = ({ session }: AboutHeaderProps) => {
+const AboutHeader = ({ session, isPremium }: AboutHeaderProps) => {
+  const router = useRouter();
   const headerRef = useRef<HTMLElement | null>(null);
 
-  const scrollToNuestrosRecursos = useSmoothScroll("#nuestros_recursos");
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
+  const [autoScrollTarget, setAutoScrollTarget] = useState("");
+
+  const { isChanged, isChanging } = useNavbarChange();
+
   const scrollToNuestroMetodo = useSmoothScroll("#nuestro_metodo");
+  const scrollToNuestrosRecursos = useSmoothScroll("#nuestros_recursos");
   const scrollToEssentiaAI = useSmoothScroll("#essentia_ai");
+  const scrollToProgreso = useSmoothScroll("#progreso");
+  const scrollToHistoriasYLogros = useSmoothScroll("#historias_y_logros");
   const scrollToTodoYMas = useSmoothScroll("#premium");
 
   const sections: Section[] = useMemo(
     () => [
-      {
-        id: "nuestros_recursos",
-        label: "Nuestros recursos",
-        scrollTo: scrollToNuestrosRecursos,
-      },
-      {
-        id: "nuestro_metodo",
-        label: "Nuestro método",
-        scrollTo: scrollToNuestroMetodo,
-      },
-      { id: "essentia_ai", label: "Essentia AI", scrollTo: scrollToEssentiaAI },
-      { id: "premium", label: "Premium", scrollTo: scrollToTodoYMas },
+      { id: "nuestro_metodo", label: "Nuestro método" },
+      { id: "nuestros_recursos", label: "Nuestros recursos" },
+      { id: "essentia_ai", label: "Essentia AI" },
+      { id: "progreso", label: "Progreso" },
+      { id: "historias_y_logros", label: "Historias y logros" },
+      { id: "premium", label: "Premium" },
     ],
-    [
-      scrollToNuestrosRecursos,
-      scrollToNuestroMetodo,
-      scrollToEssentiaAI,
-      scrollToTodoYMas,
-    ],
+    [],
   );
 
-  const vh = typeof window !== "undefined" ? window.innerHeight / 1.4 : 0;
-  const { isChanged, isChanging } = useNavbarChange(vh);
-  const activeSection = useActiveSection(sections);
+  const sectionScrollMap: Record<string, () => void> = {
+    nuestro_metodo: scrollToNuestroMetodo,
+    nuestros_recursos: scrollToNuestrosRecursos,
+    essentia_ai: scrollToEssentiaAI,
+    progreso: scrollToProgreso,
+    historias_y_logros: scrollToHistoriasYLogros,
+    premium: scrollToTodoYMas,
+  };
+
+  const onAutoScrollEnd = () => {
+    setIsAutoScrolling(false);
+    setAutoScrollTarget("");
+  };
+
+  const activeSection = useActiveSection(
+    sections,
+    isAutoScrolling,
+    autoScrollTarget,
+    onAutoScrollEnd,
+  );
+
+  const handleSectionClick = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsAutoScrolling(true);
+    setAutoScrollTarget(id);
+    sectionScrollMap[id]?.();
+  };
+
+  const contentVariants = {
+    entering: { opacity: 0, transition: { duration: 0.15 } },
+    visible: { opacity: 1, transition: { duration: 0.15 } },
+  };
 
   return (
     <header
       ref={headerRef}
-      id="header"
-      className="static inset-x-0 top-0 z-50 w-full transition-transform duration-300 ease-in-out md:fixed"
+      className={cn("sticky inset-x-0 top-0 z-50 flex md:fixed")}
     >
       <nav
         id="nav"
         className={cn(
-          "z-50 flex items-center justify-between px-5 text-main shadow-md transition-all duration-300 ease-in-out",
-          isChanged
-            ? "bg-white/50 text-main-h backdrop-blur-2xl"
-            : "bg-white sm:mx-5 sm:my-2 sm:rounded-lg",
+          "z-50 mx-auto flex max-w-full flex-1 items-center justify-center bg-white px-3 text-main transition-all md:max-w-7xl md:bg-transparent",
+          isChanged && "mt-4 !bg-white px-28 md:rounded-full",
         )}
       >
-        <div
-          className={`flex h-16 w-full items-center gap-0 sm:gap-3 ${
-            isChanged ? "justify-center md:justify-between" : "justify-between"
-          }`}
-        >
-          <div
-            id="nav_links"
-            className={`flex whitespace-nowrap font-light text-main transition-opacity duration-150 ${
-              isChanging ? "opacity-0" : "opacity-100"
-            }`}
+        <div className="flex h-14 w-full items-center gap-0 sm:gap-3">
+          <motion.div
+            className="flex flex-1 justify-between gap-5 whitespace-nowrap text-main"
+            variants={contentVariants}
+            initial={isChanging ? "entering" : "visible"}
+            animate={isChanging ? "entering" : "visible"}
           >
             {isChanged ? (
               sections.map((section) => (
                 <Link
                   key={section.id}
                   href={`#${section.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    section.scrollTo();
-                  }}
+                  onClick={handleSectionClick(section.id)}
                   className={cn(
-                    "nav_link mr-5 bg-clip-text px-2 font-medium transition-transform duration-100 hover:scale-105 hover:bg-light-gradient hover:text-transparent after:hover:bg-transparent after:hover:bg-light-gradient",
-                    activeSection === section.id && "active",
+                    "relative transition-transform-opacity after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-main after:transition-transform after:content-[''] hover:opacity-80",
+                    {
+                      "after:scale-x-100": activeSection === section.id,
+                    },
                   )}
                 >
                   {section.label}
                 </Link>
               ))
             ) : (
-              <div className="flex items-center gap-2">
-                <Link
-                  className="relative size-8 rounded-full transition-transform active:scale-95"
-                  href="/"
-                  aria-label="Página de inicio"
-                >
-                  <Image
-                    className="aspect-auto h-8 w-auto transition-all ease-in-out"
-                    width={32}
-                    height={32}
-                    quality={100}
-                    src="/logo-essentia.webp"
-                    alt="Logo de Essentia"
-                    priority
-                  />
-                </Link>
-                <Link
-                  href="/"
-                  className="hidden font-grotesk text-main dark:text-white/95 md:block"
-                >
-                  Essentia
-                </Link>
-              </div>
-            )}
-          </div>
-          <div
-            id="nav_btns"
-            className={cn(
-              "inline-flex items-center gap-4 font-normal text-main transition-opacity duration-150",
-              isChanging || isChanged
-                ? "pointer-events-none opacity-0"
-                : "opacity-100",
-            )}
-          >
-            {!session && (
-              <Link
-                href="/login"
-                className="inline-flex h-10 min-w-20 items-center justify-center gap-2 border border-gray-200 bg-white px-4 text-main hover:bg-gray-100 hover:opacity-80 dark:border-dark dark:bg-full-dark hover:dark:bg-dark"
-              >
-                Inicia sesión
+              <Link href="/" className="flex items-center gap-2">
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-logo">
+                  <Logo />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">Essentia</span>
+                </div>
               </Link>
             )}
-            <Link
-              href="/premium"
-              className="inline-flex h-10 min-w-20 items-center justify-center gap-2 rounded-md bg-light-gradient-v2 px-4 text-sm text-white !duration-150 hover:text-white hover:opacity-80 dark:bg-dark-gradient"
-            >
-              <StarsIcon
-                aria-hidden="true"
-                className="size-4 focus:outline-none [&_*]:fill-white"
-              />
-              Hazte premium
-            </Link>
-          </div>
+          </motion.div>
+
+          <motion.div
+            id="nav_btns"
+            className={cn(
+              "inline-flex items-center gap-4 font-normal text-main",
+              isChanged && "hidden",
+            )}
+            variants={contentVariants}
+            initial={isChanging ? "entering" : "visible"}
+            animate={isChanging ? "entering" : "visible"}
+          >
+            {!session && (
+              <Button variant="outline" onClick={() => router.push("/signup")}>
+                Regístrate
+              </Button>
+            )}
+            {session && !isPremium && (
+              <Button
+                variant="gradient"
+                onClick={() => router.push("/pricing")}
+              >
+                <StarsIcon className="size-4 focus:outline-none [&_*]:fill-white" />
+                Hazte premium
+              </Button>
+            )}
+            {session && isPremium && (
+              <Button variant="outline" onClick={() => router.push("/")}>
+                Volver al inicio
+              </Button>
+            )}
+          </motion.div>
         </div>
       </nav>
     </header>

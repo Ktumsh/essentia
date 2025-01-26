@@ -78,7 +78,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed left-1/2 top-1/2 z-[102] flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden border border-transparent bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] dark:border-dark sm:rounded-lg md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
+          "fixed left-1/2 top-1/2 z-[102] flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden border border-transparent bg-background p-6 shadow-lg duration-200 focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] dark:border-dark sm:rounded-lg md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
           className,
           isSecondary && "gap-0 p-0",
         )}
@@ -88,7 +88,7 @@ const DialogContent = React.forwardRef<
         {closeButton && (
           <DialogPrimitive.Close
             className={cn(
-              "tap-highlight-transparent focus-visible:outline-focus absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-black/10 dark:text-white/80 dark:hover:bg-white/5 dark:active:bg-white/10",
+              "absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 tap-highlight-transparent hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-black/10 dark:text-white/80 dark:hover:bg-white/5 dark:active:bg-white/10",
               closeButtonClass,
             )}
           >
@@ -128,7 +128,7 @@ const DialogFooter = ({
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className,
       isSecondary &&
-        "border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50 sm:justify-between",
+        "justify-between border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50",
     )}
     {...props}
   />
@@ -141,10 +141,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn(
-      "text-xl font-semibold leading-none tracking-tight",
-      className,
-    )}
+    className={cn("text-lg font-semibold", className)}
     {...props}
   />
 ));
@@ -156,7 +153,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-main-m dark:text-main-dark-m", className)}
+    className={cn("text-sm text-main-h dark:text-main-dark-h", className)}
     {...props}
   />
 ));

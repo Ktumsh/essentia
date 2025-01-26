@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recuperar contraseña - Essentia</title>
+    <style>
+      * {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      }
+      body {
+        background-color: #ffffff;
+        color: #24292e;
+      }
+      .container {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 20px 0 48px;
+      }
+      .section {
+        padding: 40px;
+        border: solid 1px #dedede;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .text {
+        margin: 20px 0 20px 0;
+        text-align: start;
+        color: rgb(0, 0, 0);
+      }
+      .text.center {
+        text-align: center;
+      }
+      .text.title {
+        font-size: 24px;
+        text-align: center;
+        font-weight: normal !important;
+        margin-bottom: 20px;
+      }
+      .text.tiny {
+        font-size: 12px;
+        text-align: center;
+        color: rgb(0, 0, 0, 0.6);
+      }
+      .button-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 40px;
+      }
+      div.footer-text {
+        width: 100%;
+        margin-top: 40px;
+        text-decoration: none;
+      }
+      div a {
+        width: 100%;
+        color: #0366d6;
+        text-decoration: none;
+      }
+      span {
+        width: 100%;
+        font-size: 14px;
+        background-color: #f3f4f6;
+        color: #050505 !important;
+        font-weight: 600;
+        line-height: 1.5;
+        padding: 12px 24px;
+        text-decoration: none;
+      }
+      .footer {
+        color: #6a737d;
+        font-size: 12px;
+        text-align: center;
+        margin-top: 60px;
+      }
+      .logo {
+        margin-bottom: 20px;
+      }
+      img {
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="section">
+        <div class="logo">
+          <img src="{{logoUrl}}" width="48" height="48" alt="Essentia" />
+        </div>
+        <h1 class="text title">Modificar tu correo electrónico</h1>
+        <p class="text">Hola <strong>{{username}}</strong>,</p>
+        <p class="text">
+          Hemos recibido una solicitud para modificar tu correo electrónico.
+        </p>
+        <p class="text">
+          Si realizaste la solicitud, ingresa el código de 6 dígitos en la
+          ventana original.
+        </p>
+        <div class="button-wrapper">
+          <span>{{changeCode}}</span>
+        </div>
+        <p class="text center">
+          <strong>
+            Tu código de verificación caducará dentro de 15 minutos.
+          </strong>
+        </p>
+      </div>
+      <p class="text tiny">
+        Si no realizaste esta solicitud, por favor ignora este correo o contacta
+        con nuestro soporte.
+      </p>
+      <p class="footer">© 2024 Essentia. Santiago de Chile.</p>
+    </div>
+  </body>
+</html>

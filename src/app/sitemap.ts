@@ -51,16 +51,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: "https://essentia-web.vercel.app/noticias",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-    {
-      url: "https://essentia-web.vercel.app/adicionales",
+      url: "https://essentia-web.vercel.app/adicionales/guias",
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.5,
+      priority: 0.8,
+    },
+    {
+      url: "https://essentia-web.vercel.app/adicionales/emergencias",
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.8,
+    },
+    {
+      url: "https://essentia-web.vercel.app/adicionales/enlaces",
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.1,
+    },
+    {
+      url: "https://essentia-web.vercel.app/adicionales/recomendaciones",
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.1,
+    },
+    {
+      url: "https://essentia-web.vercel.app/centros-de-salud",
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.8,
     },
   ];
 }

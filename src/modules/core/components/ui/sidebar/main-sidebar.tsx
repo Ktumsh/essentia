@@ -6,13 +6,13 @@ import MainNavResources from "./main-nav-resources";
 
 interface MainSidebarProps {
   isCollapsed?: boolean;
-  isPremium?: boolean;
+  isPremium: boolean;
 }
 
 const MainSidebar = ({ isCollapsed, isPremium }: MainSidebarProps) => {
   const mainLinks = siteConfig.navLinks;
   const resourceLinks = siteConfig.asideMenuLinks;
-  const infoLinks = siteConfig.footerLinks.more;
+  const infoLinks = siteConfig.menuFooterLinks.extras;
 
   return (
     <>

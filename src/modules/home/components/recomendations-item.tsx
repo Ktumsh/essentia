@@ -20,8 +20,10 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
   const { index } = props;
 
   const imageWidth = useMemo(() => {
-    if (index % 2 === 0) {
+    if (index % 2 === 0 && index !== 3) {
       return 661;
+    } else if (index === 3) {
+      return 640;
     } else {
       return 435;
     }
@@ -34,7 +36,9 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
       return 290;
     } else if (index === 2) {
       return 317;
-    } else if (index === 3 || index === 5) {
+    } else if (index === 3) {
+      return 360;
+    } else if (index === 5) {
       return 249;
     } else {
       return 330;
@@ -50,7 +54,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
           alt={title}
           width={imageWidth}
           height={imageHeight}
-          className="absolute inset-0 z-[-1] aspect-auto object-cover object-center brightness-75"
+          className="absolute inset-0 z-[-1] aspect-auto w-full object-cover object-center brightness-75"
         />
       )}
       <div className="absolute inset-0 z-[-1] bg-gradient-to-t from-black/30 from-40% to-transparent backdrop-blur-sm transition duration-500 group-hover:backdrop-blur-0"></div>

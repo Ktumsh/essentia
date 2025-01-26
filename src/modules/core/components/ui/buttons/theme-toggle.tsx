@@ -1,18 +1,21 @@
 "use client";
 
+import { Monitor, Moon, Sun } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { MoonIcon, SunIcon } from "@/modules/icons/common";
-import { SystemIcon } from "@/modules/icons/status";
 import { cn } from "@/utils/common";
 
 type Theme = "light" | "dark" | "system";
 
-export const ThemeToggle = ({ className = "!size-6" }) => {
-  const { theme, setTheme } = useTheme();
+const ThemeToggle = ({ className = "!size-6" }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -22,7 +25,25 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
   if (!mounted) return null;
 
   const handleThemeChange = (newTheme: Theme) => {
-    setTheme(newTheme);
+    if (newTheme !== theme) {
+      let systemTheme = newTheme;
+
+      if (newTheme === "system") {
+        const isDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        systemTheme = isDark ? "dark" : "light";
+      }
+
+      if (systemTheme !== resolvedTheme) {
+        setTheme(newTheme);
+        if (pathname === "/centros-de-salud") {
+          router.replace("/centros-de-salud");
+        }
+      } else {
+        setTheme(newTheme);
+      }
+    }
   };
 
   return (
@@ -38,14 +59,15 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onClick={() => handleThemeChange("system")}
           className={cn(
-            "min-w-6 !bg-transparent text-main-h !shadow-none focus-visible:ring-0 dark:text-gray-400",
-            theme === "system" && "!bg-gray-100 dark:!bg-dark",
+            "min-w-6 !bg-transparent text-main-m !shadow-none hover:text-main focus-visible:ring-0 dark:text-main-dark-h dark:hover:text-white",
+            theme === "system" &&
+              "!bg-gray-100 text-main dark:!bg-dark dark:text-white",
             className,
           )}
         >
-          <SystemIcon
+          <Monitor
             aria-hidden="true"
-            className={cn("!size-3", className === "!size-8" && "size-4")}
+            className={cn("!size-3.5", className === "!size-8" && "size-4")}
           />
         </Button>
       </BetterTooltip>
@@ -57,14 +79,15 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onClick={() => handleThemeChange("light")}
           className={cn(
-            "min-w-6 !bg-transparent text-main-h !shadow-none focus-visible:ring-0 dark:text-gray-400",
-            theme === "light" && "!bg-gray-100 dark:!bg-dark",
+            "min-w-6 !bg-transparent text-main-m !shadow-none hover:text-main focus-visible:ring-0 dark:text-main-dark-h dark:hover:text-white",
+            theme === "light" &&
+              "!bg-gray-100 text-main dark:!bg-dark dark:text-white",
             className,
           )}
         >
-          <SunIcon
+          <Sun
             aria-hidden="true"
-            className={cn("!size-3", className === "!size-8" && "size-4")}
+            className={cn("!size-3.5", className === "!size-8" && "size-4")}
           />
         </Button>
       </BetterTooltip>
@@ -76,17 +99,20 @@ export const ThemeToggle = ({ className = "!size-6" }) => {
           radius="full"
           onClick={() => handleThemeChange("dark")}
           className={cn(
-            "min-w-6 !bg-transparent text-main-h !shadow-none focus-visible:ring-0 dark:text-gray-400",
-            theme === "dark" && "!bg-gray-100 dark:!bg-dark",
+            "min-w-6 !bg-transparent text-main-m !shadow-none hover:text-main focus-visible:ring-0 dark:text-main-dark-h dark:hover:text-white",
+            theme === "dark" &&
+              "!bg-gray-100 text-main dark:!bg-dark dark:text-white",
             className,
           )}
         >
-          <MoonIcon
+          <Moon
             aria-hidden="true"
-            className={cn("!size-3", className === "!size-8" && "size-4")}
+            className={cn("!size-3.5", className === "!size-8" && "size-4")}
           />
         </Button>
       </BetterTooltip>
     </div>
   );
 };
+
+export default memo(ThemeToggle);

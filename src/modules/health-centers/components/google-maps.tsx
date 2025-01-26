@@ -1,7 +1,7 @@
 "use client";
 
 import "@/styles/map.css";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
 
 import { LocationSelfIcon } from "@/modules/icons/status";
@@ -112,6 +112,7 @@ const GoogleMaps = () => {
       getCurrentPosition(
         (pos) => {
           mapInstance.panTo(pos);
+          mapInstance.setZoom(18);
         },
         infoWindowRef.current,
         mapInstance,
@@ -173,7 +174,7 @@ const GoogleMaps = () => {
             ref={searchRef}
             type="text"
             placeholder="Buscar por nombre o ubicación"
-            className="!left-0 !top-0 ml-2 mt-2 h-10 w-56 rounded-full border-0 bg-white p-2 px-4 font-sans text-sm text-main shadow-md outline-none ring-0 transition placeholder:text-xs placeholder:text-main-m dark:bg-full-dark dark:text-main-dark dark:placeholder:text-main-dark-m sm:w-80 lg:placeholder:text-sm"
+            className="!left-0 !top-0 ml-2 mt-2 h-10 w-56 rounded-full border-0 p-2 px-4 font-sans text-sm text-main shadow-md outline-none ring-0 transition placeholder:text-xs placeholder:text-main-m dark:bg-full-dark dark:text-main-dark dark:placeholder:text-main-dark-m sm:w-80 lg:placeholder:text-sm"
           />
           <div ref={markerRef} className="rounded-full bg-white p-px">
             <LocationSelfIcon className="size-7 text-sky-500" />

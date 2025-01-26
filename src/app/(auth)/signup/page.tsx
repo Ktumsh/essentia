@@ -1,11 +1,14 @@
 import { Metadata } from "next";
 
-import SignupWrapper from "@/modules/auth/components/signup-wrapper";
+import SignupForm from "@/modules/auth/components/signup-form";
 
 export const metadata: Metadata = {
   title: "Registrarse",
+  alternates: {
+    canonical: "/signup",
+  },
 };
 
-export default async function LoginPage() {
-  return <SignupWrapper />;
+export default async function SignupPage() {
+  return <SignupForm />;
 }

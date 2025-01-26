@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/utils/common";
@@ -11,7 +11,19 @@ import AuthHeader from "./auth-header";
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
-  const logout = pathname.startsWith("/logout");
+  const isLogin = pathname.startsWith("/login");
+  const isSignup = pathname.startsWith("/signup");
+  const isLogout = pathname.startsWith("/logout");
+
+  const variants = {
+    initialLogin: { opacity: 0, x: -30 },
+    animateLogin: { opacity: 1, x: 0 },
+    exitLogin: { opacity: 0, x: 30 },
+    initialSignup: { opacity: 0, x: 30 },
+    animateSignup: { opacity: 1, x: 0 },
+    exitSignup: { opacity: 0, x: -30 },
+  };
+
   return (
     <div className="relative w-full overflow-hidden">
       <motion.div
@@ -31,9 +43,41 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
           )}
         ></div>
       </motion.div>
-      {!logout && <AuthHeader />}
-      {children}
-      {!logout && <AuthFooter />}
+      {!isLogout && <AuthHeader />}
+      <div className="relative size-full">
+        <div className="z-40 min-h-dvh w-full sm:min-h-dvh">
+          <div className="flex min-h-dvh w-full items-center justify-center">
+            {isLogin ? (
+              <motion.div
+                key="login"
+                initial="initialLogin"
+                animate="animateLogin"
+                exit="exitLogin"
+                variants={variants}
+                transition={{ ease: "easeInOut", duration: 0.5 }}
+                className="z-20 flex size-full flex-col sm:w-auto"
+              >
+                {children}
+              </motion.div>
+            ) : isSignup ? (
+              <motion.div
+                key="signup"
+                initial="initialSignup"
+                animate="animateSignup"
+                exit="exitSignup"
+                variants={variants}
+                transition={{ ease: "easeInOut", duration: 0.5 }}
+                className="z-20 flex size-full flex-col sm:w-auto"
+              >
+                {children}
+              </motion.div>
+            ) : (
+              children
+            )}
+          </div>
+        </div>
+      </div>
+      {!isLogout && <AuthFooter />}
     </div>
   );
 };

@@ -25,7 +25,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
       </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item, index) => {
-          const isActive = pathname === item.link;
+          const isActive = pathname.startsWith(item.link);
           return (
             <SidebarMenuItem key={index}>
               <SidebarMenuButton
@@ -34,7 +34,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
                 tooltip={item.name}
               >
                 <Link href={item.link}>
-                  {isActive ? <item.activeIcon /> : <item.icon />}
+                  <item.activeIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>

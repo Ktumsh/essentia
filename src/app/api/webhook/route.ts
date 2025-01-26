@@ -6,16 +6,12 @@ import {
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
   handleCustomerDeleted,
+  handleSubscriptionCreated,
 } from "@/modules/payment/pay/actions";
 import stripe from "@/utils/stripe";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
-/**
- * Maneja los eventos de Stripe Webhook.
- * @param request - Objeto NextRequest
- * @returns NextResponse
- */
 export async function POST(request: NextRequest) {
   const sig = request.headers.get("stripe-signature") as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -35,21 +31,24 @@ export async function POST(request: NextRequest) {
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
+  const invoice = event.data.object as Stripe.Invoice;
+  const subscription = event.data.object as Stripe.Subscription;
+  const customer = event.data.object as Stripe.Customer;
+
   switch (event.type) {
-    case "invoice.payment_succeeded":
-      const invoice = event.data.object as Stripe.Invoice;
-      await handlePaymentSucceeded(invoice);
+    case "customer.subscription.created":
+      await handleSubscriptionCreated(subscription);
       break;
     case "customer.subscription.updated":
-      const updatedSubscription = event.data.object as Stripe.Subscription;
-      await handleSubscriptionUpdated(updatedSubscription);
+      await handleSubscriptionUpdated(subscription);
+      break;
+    case "invoice.payment_succeeded":
+      await handlePaymentSucceeded(invoice);
       break;
     case "customer.subscription.deleted":
-      const subscription = event.data.object as Stripe.Subscription;
       await handleSubscriptionDeleted(subscription);
       break;
     case "customer.deleted":
-      const customer = event.data.object as Stripe.Customer;
       await handleCustomerDeleted(customer);
       break;
     default:

@@ -1,60 +1,23 @@
-export interface Session {
-  user: {
-    id: string;
-    email: string;
-    username?: string;
-    name?: string;
-    lastname?: string;
-    birthdate?: string;
-    image?: string;
-  };
-}
-
 export interface AuthResult {
   type: string;
   message: string;
 }
 
-export interface User extends Record<string, any> {
-  id: string;
-  email: string;
-  email_verified: boolean;
-  username: string;
-  password: string;
-  salt: string;
-  is_premium: boolean;
-  premium_expires_at: Date;
-  stripe_customer_id: string;
-  subscription_id: string;
-  subscription_status: string;
-  updated_at: Date;
-}
-
-export interface UserProfile {
-  first_name: string;
-  last_name: string;
-  birthdate: string | Date | undefined;
-  profile_image: string | null;
-  bio: string | null;
-  location: string | null;
-  banner_image: string | null;
-  created_at: Date;
-  updated_at: Date;
-}
-
 export interface UserProfileData {
   id: string;
   email: string;
-  is_premium: boolean;
-  first_name: string;
-  last_name: string;
   username: string;
-  profile_image: string | null;
-  birthdate: string | Date | undefined;
+  firstName: string;
+  lastName: string;
+  profileImage: string | null;
+  birthdate: Date | null;
+  genre: string | null;
+  weight: number | null;
+  height: number | null;
   bio: string | null;
   location: string | null;
-  banner_image: string | null;
-  created_at: Date;
+  isPremium: boolean | null;
+  createdAt: Date;
 }
 
 export interface UserMessageCount {

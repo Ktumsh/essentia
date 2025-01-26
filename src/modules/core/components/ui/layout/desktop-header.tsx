@@ -1,34 +1,29 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
-import { siteConfig } from "@/config/site";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { VisibilitySelector } from "@/modules/chatbot/components/visibility-selector";
 import AppSidebarToggle from "@/modules/core/components/ui/sidebar/app-sidebar-toggle";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { UserProfileData } from "@/types/session";
-import { formatPathName } from "@/utils/format";
 
 import NavbarLinks from "./navbar-links";
+import NotificationList from "./notifications-list";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;
 }
 
 const DesktopHeader = ({ user }: DesktopHeaderProps) => {
+  const { isReadonly, selectedVisibilityType } = useChatContext();
+
+  const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
 
-  const normalizedPath = formatPathName(pathname);
-
-  const essentiaAi = pathname.startsWith("/essentia-ai");
-
-  const pages = siteConfig.navLinks.map((page) => ({
-    ...page,
-    active:
-      normalizedPath === page.href ||
-      (page.href === "/adicionales" &&
-        normalizedPath.startsWith("/adicionales")) ||
-      (page.href === "/essentia-ai" && essentiaAi),
-  }));
+  const chatId = params.id;
 
   return (
     <>
@@ -36,26 +31,38 @@ const DesktopHeader = ({ user }: DesktopHeaderProps) => {
         role="banner"
         className="sticky inset-x-0 top-0 z-50 hidden md:block"
       >
-        <nav className="sticky inset-x-0 top-0 z-40 flex h-auto max-h-14 w-full items-center justify-center border-b border-gray-200 bg-white/80 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80">
-          <div className="relative z-40 flex h-14 w-full max-w-screen-sm flex-row flex-nowrap items-center justify-center gap-4 px-6">
-            <NavbarLinks pages={pages} />
+        <div className="flex h-14 w-full items-center justify-center border-b border-gray-200 bg-white/80 backdrop-blur-lg backdrop-saturate-150 dark:border-dark dark:bg-full-dark/80">
+          <div className="absolute left-0 top-0 z-40">
+            <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
+              <AppSidebarToggle />
+              <Separator orientation="vertical" className="-ml-2.5 h-4" />
+              <NavbarLinks />
+            </div>
           </div>
-        </nav>
-        <div className="absolute left-0 top-0 z-40">
-          <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
-            <AppSidebarToggle />
-          </div>
-        </div>
-        <div className="absolute right-0 top-0 z-40 h-14 px-6">
-          <div className="flex size-full items-center justify-center text-sm font-normal text-gray-500 dark:text-main-dark-h">
-            {!user && (
-              <Link
-                href="/login"
-                className="inline-flex h-8 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white transition-opacity hover:opacity-80 dark:bg-dark-gradient"
-              >
-                Inicia sesión
-              </Link>
-            )}
+          <div className="absolute right-0 top-0 z-40 h-14 px-6">
+            <div className="flex size-full items-center justify-center gap-4 text-sm font-normal text-gray-500 dark:text-main-dark-h">
+              {!isReadonly && chatId && (
+                <VisibilitySelector
+                  chatId={chatId as string}
+                  selectedVisibilityType={selectedVisibilityType || "private"}
+                />
+              )}
+              {!user && (
+                <Button
+                  variant="gradient"
+                  onClick={() => {
+                    if (pathname === "/") {
+                      router.push("/login");
+                    } else {
+                      router.push(`/login?redirect=${pathname}`);
+                    }
+                  }}
+                >
+                  Inicia sesión
+                </Button>
+              )}
+              {user && <NotificationList userId={user.id} />}
+            </div>
           </div>
         </div>
       </header>

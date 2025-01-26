@@ -1,10 +1,37 @@
-import ComingSoon from "@/modules/core/components/ui/layout/coming-soon";
+"use client";
 
-const SexEducation = () => {
+import CourseList from "./course-list";
+
+import type { Course } from "@/types/resource";
+
+const SexEducation = (props: Course) => {
+  const {
+    userId,
+
+    resource,
+    modules,
+    about,
+    slug,
+    completedLessons,
+    moduleProgress,
+    courseProgress,
+    courseInitialized,
+    isPremium,
+  } = props;
+
   return (
-    <section className="mb-14 mt-12 flex h-full flex-1 flex-col items-center py-5 md:my-0 md:py-0">
-      <ComingSoon />
-    </section>
+    <CourseList
+      userId={userId}
+      resource={resource}
+      modules={modules}
+      about={about}
+      slug={slug}
+      completedLessons={completedLessons}
+      moduleProgress={moduleProgress}
+      courseProgress={courseProgress}
+      courseInitialized={courseInitialized}
+      isPremium={isPremium}
+    />
   );
 };
 

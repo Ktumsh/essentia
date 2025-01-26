@@ -1,10 +1,12 @@
+"use client";
+
+import { ChevronRight } from "lucide-react";
 import { Fragment, useRef } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { EMERGENCY_STEPS } from "@/consts/emergency-steps";
-import { Chevron } from "@/modules/icons/navigation";
 import { cn } from "@/utils/common";
 
 const EmergencySteps = () => {
@@ -22,7 +24,7 @@ const EmergencySteps = () => {
   return (
     <section
       ref={sectionRef}
-      className="scrollbar-hide flex w-full max-w-6xl snap-x snap-mandatory items-center justify-between overflow-x-scroll md:mx-0"
+      className="flex w-full max-w-6xl snap-x snap-mandatory items-center justify-between overflow-x-scroll scrollbar-hide md:mx-0"
     >
       {EMERGENCY_STEPS.map((card, index) => (
         <Fragment key={index}>
@@ -61,7 +63,7 @@ const EmergencySteps = () => {
               onClick={scrollToEnd}
               className="motion-safe:animate-[pulse_4s_cubic-bezier(0.4,_0,_0.6,_1)_infinite] md:pointer-events-none"
             >
-              <Chevron className="size-16 rotate-180 text-main-m dark:text-main-dark-m" />
+              <ChevronRight className="size-16 text-main-m dark:text-main-dark-m" />
             </button>
           )}
         </Fragment>

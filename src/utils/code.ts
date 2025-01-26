@@ -1,12 +1,14 @@
 export enum ResultCode {
   USER_CREATED = "USER_CREATED",
   USER_LOGGED_IN = "USER_LOGGED_IN",
+  USER_DISABLED = "USER_DISABLED",
   REQUIRED_EMAIL = "REQUIRED_EMAIL",
   REQUIRED_PASSWORD = "REQUIRED_PASSWORD",
   REQUIRED_USERNAME = "REQUIRED_USERNAME",
   REQUIRED_NAME = "REQUIRED_NAME",
   REQUIRED_LASTNAME = "REQUIRED_LASTNAME",
   REQUIRED_BIRTHDATE = "REQUIRED_BIRTHDATE",
+  REQUIRED_FIELD = "REQUIRED_FIELD",
   ALL_FIELDS_REQUIRED = "ALL_FIELDS_REQUIRED",
   INVALID_LENGTH_USERNAME = "INVALID_LENGTH_USERNAME",
   INVALID_STRING_USERNAME = "INVALID_STRING_USERNAME",
@@ -16,6 +18,8 @@ export enum ResultCode {
   INVALID_STRING_PASSWORD = "INVALID_STRING_PASSWORD",
   INVALID_BIRTHDATE = "INVALID_BIRTHDATE",
   INVALID_LENGTH_BIO = "INVALID_LENGTH_BIO",
+  INVALID_WEIGHT = "INVALID_WEIGHT",
+  INVALID_HEIGHT = "INVALID_HEIGHT",
   INVALID_LENGTH_LOCATION = "INVALID_LENGTH_LOCATION",
   INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
   EMAIL_NOT_VERIFIED = "EMAIL_NOT_VERIFIED",
@@ -33,12 +37,14 @@ export enum ResultCode {
   PASSWORD_CHANGED = "PASSWORD_CHANGED",
   INVALID_CURRENT_PASSWORD = "INVALID_CURRENT_PASSWORD",
   PASSWORD_CHANGE_FAILED = "PASSWORD_CHANGE_FAILED",
+  PASSWORDS_DO_NOT_MATCH = "PASSWORDS_DO_NOT_MATCH",
 }
 
 const resultMessages: Record<ResultCode, string> = {
   [ResultCode.USER_CREATED]:
     "¡Usuario creado! Verifica tu correo para activar tu cuenta",
   [ResultCode.USER_LOGGED_IN]: "¡Bienvenido de nuevo!",
+  [ResultCode.USER_DISABLED]: "¡Usuario deshabilitado!",
   [ResultCode.REQUIRED_EMAIL]:
     "Por favor, ingresa un correo electrónico válido",
   [ResultCode.REQUIRED_PASSWORD]: "Por favor, ingresa tu contraseña",
@@ -46,9 +52,10 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.REQUIRED_NAME]: "Por favor, ingresa tu nombre",
   [ResultCode.REQUIRED_LASTNAME]: "Por favor, ingresa tu apellido",
   [ResultCode.REQUIRED_BIRTHDATE]: "Por favor, ingresa tu fecha de nacimiento",
+  [ResultCode.REQUIRED_FIELD]: "Este campo es obligatorio",
   [ResultCode.ALL_FIELDS_REQUIRED]: "Por favor, rellena todos los campos",
   [ResultCode.INVALID_LENGTH_USERNAME]:
-    "Tu nombre de usuario debe tener entre 3 y 30 caracteres",
+    "Tu nombre de usuario debe tener entre 3 y 20 caracteres",
   [ResultCode.INVALID_STRING_USERNAME]:
     "Tu nombre de usuario solo puede contener letras, números y guiones bajos",
   [ResultCode.INVALID_START_USERNAME]:
@@ -63,6 +70,9 @@ const resultMessages: Record<ResultCode, string> = {
     "Debes tener al menos 13 años y la fecha debe ser realista",
   [ResultCode.INVALID_LENGTH_BIO]:
     "Tu biografía debe tener menos de 160 caracteres",
+  [ResultCode.INVALID_WEIGHT]: "Tu peso debe estar entre 1 y 300 kilogramos",
+  [ResultCode.INVALID_HEIGHT]:
+    "Tu altura debe estar entre 40 y 250 centímetros",
   [ResultCode.INVALID_LENGTH_LOCATION]:
     "Tu ubicación debe tener menos de 50 caracteres",
   [ResultCode.INVALID_CREDENTIALS]: "¡Credenciales inválidas!",
@@ -84,6 +94,7 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.INVALID_CURRENT_PASSWORD]: "La contraseña actual es incorrecta",
   [ResultCode.PASSWORD_CHANGE_FAILED]:
     "No se pudo cambiar la contraseña, intenta de nuevo",
+  [ResultCode.PASSWORDS_DO_NOT_MATCH]: "Las contraseñas no coinciden",
 };
 
 export const getMessageFromCode = (resultCode: ResultCode): string => {

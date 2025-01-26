@@ -1,19 +1,31 @@
+"use server";
+
+import { Session } from "next-auth";
+
 import {
-  getUserProfileByEmail,
+  getUserProfileById,
   getUserProfileByUsername,
-} from "@/db/profile-querys";
-import { Session, UserProfileData } from "@/types/session";
+} from "@/db/querys/profile-querys";
+import { UserProfileData } from "@/types/session";
 
-export async function getUserProfileData(
-  session?: Session,
-  username?: string,
-): Promise<UserProfileData> {
+export async function getUserProfileData({
+  session,
+  username,
+  isOwn,
+  userId,
+}: {
+  session?: Session;
+  username?: string;
+  isOwn?: boolean;
+  userId?: string;
+}): Promise<UserProfileData> {
   let userProfile;
-
-  if (username) {
-    userProfile = await getUserProfileByUsername(username);
-  } else if (session?.user?.email) {
-    userProfile = await getUserProfileByEmail(session.user.email);
+  if (!isOwn && userId) {
+    [userProfile] = await getUserProfileById(userId);
+  } else if (username) {
+    [userProfile] = await getUserProfileByUsername(username);
+  } else if (session?.user?.id) {
+    [userProfile] = await getUserProfileById(session.user.id);
   } else {
     throw new Error("Sesión no válida o username no proporcionado.");
   }
@@ -22,31 +34,38 @@ export async function getUserProfileData(
     console.error("No se pudo obtener la información del perfil del usuario.");
   }
 
-  const userProfileData = userProfile?.profile;
-  const id = userProfile?.user.id as string;
-  const email = userProfile?.user.email as string;
-  const is_premium = userProfile?.user.is_premium as boolean;
-  const first_name = userProfileData?.first_name || "Usuario";
-  const last_name = userProfileData?.last_name || "";
-  const profile_image = userProfileData?.profile_image || null;
-  const birthdate = userProfileData?.birthdate;
-  const bio = userProfileData?.bio || null;
-  const location = userProfileData?.location || null;
-  const banner_image = userProfileData?.banner_image || null;
-  const created_at = userProfileData?.created_at as Date;
+  const user = userProfile.user;
+  const profile = userProfile.profile;
+  const subscription = userProfile.subscription;
+
+  const id = user.id;
+  const email = user.email;
+  const isPremium = subscription.isPremium;
+  const firstName = profile.firstName || "Usuario";
+  const lastName = profile.lastName || "";
+  const profileImage = profile.profileImage || null;
+  const birthdate = profile.birthdate;
+  const bio = profile.bio || null;
+  const genre = profile.genre || null;
+  const weight = profile.weight || null;
+  const height = profile.height || null;
+  const location = profile.location || null;
+  const createdAt = user.createdAt;
 
   return {
     id,
     email,
-    is_premium,
-    first_name,
-    last_name,
-    username: userProfile?.user.username as string,
-    profile_image,
+    isPremium,
+    firstName,
+    lastName,
+    username: user.username,
+    profileImage,
     birthdate,
     bio,
+    genre,
+    weight,
+    height,
     location,
-    banner_image,
-    created_at,
+    createdAt,
   };
 }

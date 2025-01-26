@@ -1,12 +1,10 @@
-<a name="readme-top"></a>
-
 <div align="center">
 
 <a href="https://github.com/Ktumsh/essentia">
   <img src="./public/essentia-1200x630.png" alt="Logo" />
 </a>
 
-# 🌟 Web oficial de Essentia®
+# 🌟 Desarrollo Oficial de Essentia Web
 
 Essentia es una plataforma web diseñada para ofrecer información y recursos completos sobre salud. Su principal objetivo es motivar a las personas a cuidar de su bienestar y aprender más sobre la salud de si mismas y de sus seres queridos. La plataforma busca centralizar el conocimiento sobre salud en un solo lugar, brindando a los usuarios acceso a una amplia gama de recursos que promuevan un estilo de vida saludable e informado.\
 [Reportar error](https://github.com/Ktumsh/essentia-web-oficial/issues) · [Sugerir algo](https://github.com/Ktumsh/essentia-web-oficial/issues)
@@ -16,12 +14,11 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 <details>
 <summary>Tabla de contenidos</summary>
 
-- [🌟 Web oficial de Essentia](#-web-oficial-de-essentia)
+- [🌟 Desarrollo Oficial de Essentia Web](#-desarrollo-oficial-de-essentia-web)
 - [✨ Características principales](#-características-principales)
 - [💡 Secciones Principales](#-secciones-principales)
-- [🦾 Para empezar](#-para-empezar)
-  - [📋 Prerequisitos](#-prerequisitos)
-  - [🚀 Instalación](#-instalación)
+- [📋 Prerequisitos](#-prerequisitos)
+- [🚀 Instalación](#-instalación)
 - [🗂️ Estructura del Proyecto](#-contribuir-al-proyecto)
 - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [📄 Licencia](#-licencia)
@@ -36,8 +33,6 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 - **Asistente de Salud**: Un asistente virtual para responder preguntas relacionadas con la salud.
 - **Buscador de Centros de Salud Cercanos**: Un buscador de estilo Google Maps pero para centros de salud.
 - **Panel de Control Personal**: Herramientas y recursos personalizados para cada usuario.
-
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
 ## 💡 Secciones Principales
 
@@ -55,8 +50,6 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 3. **🌐 Centros de Salud**: Apartado de búsqueda de centros de salud y farmacias cercanas.
 
 4. **📚 Recursos Adicionales**: Sección para recursos adicionales sobre salud.
-
-## 🦾 Para empezar
 
 ### 📋 Prerequisitos
 
@@ -77,7 +70,7 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 1. Clona el repositorio
 
    ```sh
-   git clone https://github.com/Ktumsh/essentia-web-oficial.git
+   git clone https://github.com/Ktumsh/essentia.git
    ```
 
 2. Instala los paquetes de NPM
@@ -92,14 +85,10 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
    pnpm run dev
    ```
 
-4. Uso de Essentia AI necesitarás una API key, si eres amigo del propietario puedes perdir
-
-5. Configura las variables de entorno necesarias para tu desarrollo local
-   - Genera un hash aleatorio, puedes usar el siguiente comando `openssl rand -hex 32` o en [esta página](https://generate-secret.vercel.app/)
-   - Crea un archivo llamado `.env.local` y copia el contenido de [.env.demo](.env.demo) en él
-   - Reemplaza el texto copiado de demo en `.env.local` con tu id, secreto y hash
-
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
+4. Configura las variables de entorno necesarias para tu desarrollo local
+   - Crea un archivo llamado `.env.local` y copia el contenido de [.env.demo](.env.demo) en él.
+   - Reemplaza el texto copiado de demo en `.env.local` con los datos requeridos.
+   - Contacta con el propietario para obtener la información.
 
 ## 🗂️ Estructura del Proyecto
 
@@ -134,17 +123,14 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 │   ├── /home/                     # Módulo página de inicio
 │   ├── /icons/                    # Íconos usados en la aplicación
 │   ├── /about/                    # Módulo de Acerca de
-│   ├── /news/                     # Módulo de Noticias
 │   ├── /notfound/                 # Módulo de error 404
 │   ├── /profile/                  # Módulo de Perfil de Usuario
 │   └── /resources/                # Módulo de Recursos Principales
 ```
 
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
-
 ## 🛠️ Tecnologías Utilizadas
 
-- [![Next.js][nextjs-badge]][nextjs-url] Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 14).
+- [![Next.js][nextjs-badge]][nextjs-url] Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 15).
 - [![Typescript][typescript-badge]][typescript-url] JavaScript con sintaxis para tipos.
 - [![Tailwind CSS][tailwind-badge]][tailwind-url] Un marco de utilidad CSS para crear rápidamente diseños personalizados.
 
@@ -158,9 +144,7 @@ Para más información o preguntas, puedes contactar al propietario en [jo.barra
 
 ---
 
-¡Gracias por utilizar Essentia! Esperamos que encuentres útil nuestra plataforma para mejorar tu salud y bienestar.
-
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
+¡Gracias por utilizar Essentia!
 
 [nextjs-url]: https://nextjs.org/
 [typescript-url]: https://www.typescriptlang.org/

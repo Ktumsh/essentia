@@ -17,7 +17,7 @@ import MainSearch from "../layout/main-search";
 
 interface MainNavMainProps {
   items: SiteConfig["navLinks"];
-  isPremium?: boolean;
+  isPremium: boolean;
 }
 
 const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
@@ -45,7 +45,7 @@ const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
                 tooltip={item.name}
               >
                 <Link href={item.href}>
-                  {isActive ? <item.activeIcon /> : <item.icon />}
+                  <item.activeIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>

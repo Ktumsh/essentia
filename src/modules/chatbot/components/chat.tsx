@@ -1,56 +1,109 @@
 "use client";
 
-import { Attachment, Message } from "ai";
+import { Attachment, type Message } from "ai";
 import { useChat } from "ai/react";
-import { ComponentProps, useEffect, useState } from "react";
-import { toast } from "sonner";
+import { Session } from "next-auth";
+import { useEffect, useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
 
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
 import { useLocalStorage } from "@/modules/core/hooks/use-local-storage";
-import { Session, UserProfileData } from "@/types/session";
+import { UserProfileData } from "@/types/session";
+import { fetcher } from "@/utils/common";
 
 import ChatPanel from "./chat-panel";
-import Overview from "./overview";
-import PreviewMessage from "../components/ui/message";
+import { VisibilityType } from "./visibility-selector";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
+import { useUserMessageId } from "../hooks/use-user-message-id";
+import { Messages } from "./ui/messages";
 
-export interface ChatProps extends ComponentProps<"div"> {
+import type { ChatVote } from "@/db/schema";
+
+type StreamingDelta = {
+  type:
+    | "text-delta"
+    | "code-delta"
+    | "title"
+    | "id"
+    | "suggestion"
+    | "clear"
+    | "finish"
+    | "user-message-id"
+    | "kind";
+
+  content: string;
+};
+
+export interface ChatProps {
   id: string;
-  session?: Session | undefined;
-  missingKeys: string[];
-  profileData: UserProfileData | null;
-  isPremium: boolean | null;
   initialMessages: Array<Message>;
+  isReadonly: boolean;
+  selectedVisibilityType: VisibilityType;
+  session: Session | null;
+  user: UserProfileData | null;
 }
 
 export function Chat({
   id,
-  session,
-  missingKeys,
-  profileData,
-  isPremium,
   initialMessages,
+  isReadonly,
+  selectedVisibilityType,
+  session,
+  user,
 }: ChatProps) {
+  const { mutate } = useSWRConfig();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setNewChatId] = useLocalStorage("newChatId", id);
-  const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
-    useChat({
-      id,
-      body: { id },
-      initialMessages,
-      onFinish: () => {
-        window.history.replaceState({}, "", `/essentia-ai/chat/${id}`);
-      },
-    });
+  const [_, setNewChatId] = useLocalStorage("new-chat-id", id);
 
-  useEffect(() => {
-    setNewChatId(id);
+  const { setChatData } = useChatContext();
+
+  const { setUserMessageIdFromServer } = useUserMessageId();
+
+  const {
+    messages,
+    setMessages,
+    handleSubmit,
+    input,
+    setInput,
+    append,
+    isLoading,
+    stop,
+    reload,
+    data: streamingData,
+  } = useChat({
+    id,
+    body: { id },
+    initialMessages,
+    experimental_throttle: 100,
+    onFinish: () => {
+      mutate("/api/chat/history");
+    },
   });
 
   useEffect(() => {
-    missingKeys.map((key) => {
-      toast.error(`Falta la variable de entorno ${key}!`);
+    setNewChatId(id);
+    setChatData({
+      isReadonly: isReadonly,
+      selectedVisibilityType: selectedVisibilityType,
     });
-  }, [missingKeys]);
+  });
+
+  useEffect(() => {
+    const mostRecentDelta = streamingData?.at(-1);
+    if (!mostRecentDelta) return;
+
+    const delta = mostRecentDelta as StreamingDelta;
+
+    if (delta.type === "user-message-id") {
+      setUserMessageIdFromServer(delta.content as string);
+      return;
+    }
+  }, [streamingData, setUserMessageIdFromServer]);
+
+  const { data: votes } = useSWR<Array<ChatVote>>(
+    `/api/chat/vote?chatId=${id}`,
+    fetcher,
+  );
 
   const [containerRef, endRef, scrollToBottom, isAtBottom] =
     useScrollToBottom<HTMLDivElement>();
@@ -59,24 +112,21 @@ export function Chat({
 
   return (
     <>
-      <div
-        className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-4"
-        ref={containerRef}
-      >
-        {messages.length === 0 && <Overview />}
-
-        {messages.map((message, index) => (
-          <PreviewMessage
-            key={`${message.id}-${index}`}
-            message={message}
-            profileData={profileData}
-            isLoading={isLoading && messages.length - 1 === index}
-          />
-        ))}
-        <div className="h-px w-full" ref={endRef} />
-      </div>
+      <Messages
+        chatId={id}
+        isLoading={isLoading}
+        votes={votes}
+        messages={messages}
+        isReadonly={isReadonly}
+        user={user}
+        containerRef={containerRef}
+        endRef={endRef}
+        setMessages={setMessages}
+        reload={reload}
+      />
 
       <ChatPanel
+        chatId={id}
         input={input}
         setInput={setInput}
         stop={stop}
@@ -85,11 +135,13 @@ export function Chat({
         attachments={attachments}
         setAttachments={setAttachments}
         messages={messages}
+        setMessages={setMessages}
         isLoading={isLoading}
-        isPremium={isPremium}
         session={session}
         scrollToBottom={scrollToBottom}
         isAtBottom={isAtBottom}
+        isReadonly={isReadonly}
+        user={user}
       />
     </>
   );

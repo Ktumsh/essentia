@@ -4,42 +4,74 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistSans } from "geist/font/sans";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
-import Script from "next/script";
-import { Toaster } from "sonner";
+import { Session } from "next-auth";
 
 import { auth } from "@/app/(auth)/auth";
-import { fontMotiva, spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
+import { Toaster as Sooner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
+import { getUserTasks } from "@/db/querys/task-querys";
 import { Providers } from "@/modules/core/components/ui/providers";
 import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
-import { Session } from "@/types/session";
 import { cn } from "@/utils/common";
 
-import { PreloadResources } from "./preload-resources";
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://essentia-web.vercel.app"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     template: `%s - ${siteConfig.name}`,
     default: siteConfig.name,
   },
   description: siteConfig.description,
-  manifest: "/manifest.json",
+  manifest: "manifest.ts",
   alternates: {
     canonical: "/",
   },
-  keywords: [
-    "essentia",
-    "salud",
-    "nutricion",
-    "alimentacion",
-    "bienestar",
-    "ejercicios",
-    "salud mental",
-    "esencial",
-    "salud rapida",
-  ],
+  applicationName: siteConfig.name,
+  appLinks: {
+    android: {
+      url: siteConfig.url,
+      package: "com.essentia.web",
+    },
+    ipad: {
+      url: siteConfig.url,
+      app_store_id: siteConfig.appId,
+    },
+    iphone: {
+      url: siteConfig.url,
+      app_store_id: siteConfig.appId,
+    },
+    windows: {
+      url: siteConfig.url,
+      app_id: siteConfig.appId,
+      app_name: siteConfig.name,
+    },
+    windows_phone: {
+      url: siteConfig.url,
+      app_id: siteConfig.appId,
+      app_name: siteConfig.name,
+    },
+    windows_universal: {
+      url: siteConfig.url,
+      app_id: siteConfig.appId,
+      app_name: siteConfig.name,
+    },
+    ios: [
+      {
+        url: siteConfig.url,
+        app_store_id: siteConfig.appId,
+      },
+    ],
+    web: {
+      url: siteConfig.url,
+    },
+  },
+  appleWebApp: {
+    title: siteConfig.name,
+    startupImage: "/apple-icon.png",
+  },
+  keywords: siteConfig.keywords,
   robots: {
     index: true,
     follow: true,
@@ -50,10 +82,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: siteConfig.name,
-    description:
-      "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+    description: siteConfig.description,
     type: "website",
-    url: "https://essentia-web.vercel.app",
+    url: siteConfig.url,
     siteName: siteConfig.name,
     images: [
       {
@@ -65,8 +96,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: siteConfig.name,
-    description:
-      "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+    description: siteConfig.description,
     card: "summary_large_image",
     creator: "@essentia_cl",
     images: [
@@ -78,13 +108,31 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: "/logo-essentia.webp",
+    icon: [
+      {
+        url: "/icon.png",
+        rel: "icon",
+        type: "image/png",
+      },
+      {
+        url: "/icon.svg",
+        rel: "icon",
+        type: "image/svg+xml",
+      },
+    ],
+    shortcut: {
+      url: "/favicon.ico",
+    },
+    apple: {
+      url: "/apple-icon.png",
+      rel: "apple-touch-icon",
+    },
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: light)", color: "#fff" },
     { media: "(prefers-color-scheme: dark)", color: "#030e1e" },
   ],
   colorScheme: "light dark",
@@ -102,34 +150,37 @@ export default async function RootLayout({
   const isCollapsed = cookieStore.get("sidebar:state")?.value !== "true";
   const currentPlan = session ? await getUserCurrentPlan(session) : null;
 
+  const userId = session?.user?.id as string;
+
+  const initialTasks = session ? await getUserTasks(userId) : [];
+
   return (
     <html suppressHydrationWarning lang="es">
       <head />
       <body
         className={cn(
           "isolate bg-gray-50 antialiased dark:bg-full-dark",
-          fontMotiva.variable,
           spaceGrotesk.variable,
           spaceMono.variable,
           dmSans.variable,
           GeistSans.variable,
-          "font-dmsans",
+          "font-sans",
         )}
       >
-        <PreloadResources />
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            className:
-              "bg-white dark:bg-full-dark border-gray-200 dark:border-dark text-main dark:text-main-dark",
-          }}
-        />
-        <Providers currentPlan={currentPlan} defaultOpen={!isCollapsed}>
-          <div className="relative size-full min-h-dvh">{children}</div>
+        <Providers
+          currentPlan={currentPlan}
+          defaultOpen={!isCollapsed}
+          userId={userId}
+          initialTasks={initialTasks}
+        >
+          <Toaster />
+          <Sooner />
+          <div className="relative flex size-full min-h-dvh flex-col md:flex-row">
+            {children}
+          </div>
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />
-        <Script src="https://js.stripe.com/v3/" strategy="lazyOnload" />
       </body>
     </html>
   );

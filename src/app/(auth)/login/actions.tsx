@@ -3,8 +3,8 @@
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/app/(auth)/auth";
-import { getUserByEmail } from "@/db/user-querys";
-import { loginSchema } from "@/modules/auth/lib/form";
+import { getUserByEmail } from "@/db/querys/user-querys";
+import { loginSchema } from "@/modules/core/lib/form-schemas";
 import { ResultCode } from "@/utils/code";
 
 interface Result {
@@ -25,7 +25,7 @@ export async function authenticate(
     const parsedCredentials = loginSchema.safeParse({ email, password });
 
     if (parsedCredentials.success) {
-      const user = await getUserByEmail(email);
+      const [user] = await getUserByEmail(email);
 
       if (!user) {
         return {
@@ -34,11 +34,18 @@ export async function authenticate(
         };
       }
 
-      if (!user.email_verified) {
+      if (!user.emailVerified) {
         return {
           type: "error",
           resultCode: ResultCode.EMAIL_NOT_VERIFIED,
           redirectUrl: `/verify-email?email=${email}`,
+        };
+      }
+
+      if (user.status === "disabled") {
+        return {
+          type: "error",
+          resultCode: ResultCode.INVALID_CREDENTIALS,
         };
       }
 

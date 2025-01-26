@@ -1,38 +1,64 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { Session } from "next-auth";
+import { useEffect } from "react";
+import useSWR from "swr";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
+import { Chat } from "@/db/schema";
 import ChatSidebar from "@/modules/core/components/ui/sidebar/chat-sidebar";
-import { Session, UserProfileData } from "@/types/session";
+import { UserProfileData } from "@/types/session";
+import { fetcher } from "@/utils/common";
 
 import AppFooter from "./app-footer";
 import AppHeader from "./app-header";
+import ChatHeader from "./chat-header";
 import MainSidebar from "./main-sidebar";
 
 interface AppSidebarProps {
-  session: Session;
+  session: Session | null;
   user: UserProfileData | null;
+  isPremium: boolean;
 }
 
-export function AppSidebar({ session, user }: AppSidebarProps) {
+export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
   const pathname = usePathname();
 
   const isMobile = useIsMobile();
 
   const isAIPage = pathname.startsWith("/essentia-ai");
 
-  const isCollapsed = isAIPage;
+  const isCollapsed = isAIPage && session;
+
+  const {
+    data: history,
+    mutate,
+    isLoading,
+  } = useSWR<Array<Chat>>(session?.user ? "/api/chat/history" : null, fetcher, {
+    fallbackData: [],
+  });
+
+  useEffect(() => {
+    if (!isMobile) {
+      mutate();
+    }
+  }, [isMobile, pathname, mutate]);
 
   if (isMobile)
     return (
       <Sidebar>
-        <AppHeader />
+        <ChatHeader session={session} history={history} />
         <SidebarContent>
-          <ChatSidebar session={session} />
+          <ChatSidebar
+            session={session}
+            history={history}
+            mutate={mutate}
+            isLoading={isLoading}
+          />
         </SidebarContent>
-        <AppFooter user={user} />
+        <AppFooter session={session} user={user} isMobile={isMobile} />
       </Sidebar>
     );
 
@@ -43,15 +69,7 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
         isCollapsed ? "overflow-hidden [&>[data-sidebar=sidebar]]:flex-row" : ""
       }
     >
-      {!isAIPage ? (
-        <>
-          <AppHeader />
-          <SidebarContent>
-            <MainSidebar isPremium={user?.is_premium} />
-          </SidebarContent>
-          <AppFooter user={user} />
-        </>
-      ) : (
+      {isAIPage && session ? (
         <>
           <Sidebar
             collapsible="none"
@@ -59,18 +77,37 @@ export function AppSidebar({ session, user }: AppSidebarProps) {
           >
             <AppHeader isCollapsed />
             <SidebarContent>
-              <MainSidebar isCollapsed />
+              <MainSidebar isCollapsed isPremium={isPremium} />
             </SidebarContent>
-            <AppFooter user={user} isCollapsed />
+            <AppFooter
+              session={session}
+              user={user}
+              isCollapsed
+              isMobile={isMobile}
+            />
           </Sidebar>
           <Sidebar
             collapsible="none"
             className="flex w-[calc(var(--sidebar-width-icon)_+_1px)] flex-1"
           >
+            <ChatHeader session={session} history={history} />
             <SidebarContent>
-              <ChatSidebar session={session} />
+              <ChatSidebar
+                session={session}
+                history={history}
+                mutate={mutate}
+                isLoading={isLoading}
+              />
             </SidebarContent>
           </Sidebar>
+        </>
+      ) : (
+        <>
+          <AppHeader />
+          <SidebarContent>
+            <MainSidebar isPremium={isPremium} />
+          </SidebarContent>
+          <AppFooter session={session} user={user} isMobile={isMobile} />
         </>
       )}
       <SidebarRail />

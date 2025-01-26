@@ -74,28 +74,27 @@ const AssesHealthRiskStock = ({
         <Separator className="mx-4 w-auto md:mx-6 md:hidden" />
         <HealthRiskDetails riskAssessment={riskAssessment} />
       </div>
-      <Separator className="mx-4 w-auto md:mx-6" />
-      <CardFooter className="items-center justify-center p-2 pt-4 md:p-6">
+      <CardFooter className="items-center justify-center p-2 pt-4 md:p-6 md:pt-0">
         <div className="flex flex-col-reverse items-center justify-center gap-2 md:flex-row md:gap-4">
-          <div className="rounded-lg bg-gray-100 p-3 text-sm text-main-h dark:bg-dark dark:text-white">
-            <h3 className="font-sans text-xl font-extrabold uppercase">
+          <div className="rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
+            <h3 className="font-sans text-base font-extrabold uppercase md:text-xl">
               Recomendación
             </h3>
             <p className="text-main-h dark:text-main-dark">
               {riskAssessment.recommendations}
             </p>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 md:flex-col">
             <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-gradient-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white before:dark:bg-full-dark">
               <span className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white bg-danger dark:border-full-dark">
                 <HeartbeatIcon className="size-5 text-white" />
               </span>
               <div className="z-10 flex flex-col">
-                <h3 className="text-lg font-medium text-main-h dark:text-main-dark">
+                <h3 className="text-sm font-medium text-main-h dark:text-main-dark md:text-lg">
                   IMC
                 </h3>
                 <BetterTooltip content="Índice de masa corporal">
-                  <span className="font-sans text-4xl font-extrabold uppercase">
+                  <span className="font-sans text-2xl font-extrabold uppercase md:text-4xl">
                     {riskAssessment.bmi}
                   </span>
                 </BetterTooltip>
@@ -104,7 +103,7 @@ const AssesHealthRiskStock = ({
             <div className="rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-dark">
               <p
                 className={cn(
-                  "text-center text-xs text-main-h first-letter:uppercase dark:text-main-dark",
+                  "text-center !text-xxs text-main-h first-letter:uppercase dark:text-main-dark md:!text-xs",
                 )}
               >
                 {riskAssessment.bmiLevel}

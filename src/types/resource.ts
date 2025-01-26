@@ -1,5 +1,7 @@
 import { FC, type JSX } from "react";
 
+import { Exam, Lesson, Module } from "@/db/schema";
+
 import { IconSvgProps } from "./common";
 
 export interface MaincapResources {
@@ -12,8 +14,39 @@ export interface MaincapResources {
   requiresPremium?: boolean;
 }
 
+export interface Modules {
+  module: Module;
+  lessons: Lesson[];
+  exam: Exam | null;
+}
+
+export type Course = {
+  userId: string;
+  resource: {
+    resourceId: string;
+    resourceName: string;
+  };
+  modules: Modules[];
+  about: string;
+  slug: string;
+  completedLessons: string[];
+  moduleProgress: { [moduleId: string]: number };
+  courseProgress: { completed: boolean; progress: number };
+  courseInitialized: boolean;
+  isPremium?: boolean | null;
+};
+
+export type Courses = {
+  courseId: string;
+  courseName: string;
+  courseSlug: string;
+  progress: number;
+  completed: boolean;
+  startedAt: Date | null;
+  completedAt: Date | null;
+}[];
+
 export interface Resources {
-  id: number;
   title: string;
   subtitle: string;
   intro: string;
@@ -25,7 +58,7 @@ export interface Resources {
   image: string;
   imageFull: string;
   resource: string;
-  component: FC<{ isPremium?: boolean | null }>;
+  component: FC<{ isPremium?: boolean | null } & Course>;
 }
 
 export interface Video {

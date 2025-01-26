@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowDownToLine } from "lucide-react";
+import { ArrowDownToLine, Clock } from "lucide-react";
 import Image from "next/image";
+import { Fragment } from "react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +15,6 @@ import {
   MealIcon,
   QuantityIcon,
 } from "@/modules/icons/miscellaneus";
-import { ClockIcon } from "@/modules/icons/status";
 
 import { useDownloadTool } from "../../hooks/use-download-tool";
 
@@ -48,16 +48,16 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
   return (
     <>
       <div className="flex w-full items-center justify-between">
-        <div className="inline-flex items-center gap-2">
-          <h3 className="text-lg font-medium capitalize text-main dark:text-white md:text-xl">
+        <div className="ml-6 inline-flex items-center gap-2">
+          <h3 className="text-lg font-semibold capitalize text-main dark:text-white md:text-xl">
             {mealType}
           </h3>
           <BetterTooltip content="Horario">
             <Badge
               variant="secondary"
-              className="gap-1 border border-danger/30 !text-danger"
+              className="gap-1 border border-danger/30 px-2 !text-danger"
             >
-              <ClockIcon className="size-3" />
+              <Clock className="size-3" />
               <span className="text-xs">{mealTime}</span>
             </Badge>
           </BetterTooltip>
@@ -72,11 +72,11 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
             key={index}
             className="flex flex-col justify-center gap-2 text-xs md:text-sm"
           >
-            <Badge className="gap-2 !bg-transparent px-0 text-sm hover:!bg-inherit sm:text-base">
-              <span className="size-2 rounded-full bg-black/10 dark:bg-white/10"></span>
-              {detail.name}
-            </Badge>
-            <div className="ml-3 inline-flex items-center gap-2 text-main-m dark:text-main-dark-m">
+            <div className="mb-1 ml-1.5 inline-flex items-center gap-3 text-sm md:text-base">
+              <span className="size-1.5 rounded-full bg-black/10 dark:bg-white/10"></span>
+              <span className="font-semibold">{detail.name}</span>
+            </div>
+            <div className="ml-6 inline-flex items-center gap-2 text-main-m dark:text-main-dark-m">
               <div className="inline-flex items-center gap-1">
                 <BetterTooltip content="Cantidad">
                   <div aria-hidden="true">
@@ -91,13 +91,12 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
                     <CaloriesIcon className="size-4" />
                   </div>
                 </BetterTooltip>
-                <span>{detail.calories}</span>
+                <span>{detail.calories} kcal</span>
               </div>
             </div>
           </li>
         ))}
       </ul>
-      <Separator />
     </>
   );
 };
@@ -105,16 +104,24 @@ const renderMealDetails = (mealDetails?: MealDetail[], mealType?: string) => {
 const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
   const { ref, downloadImage } = useDownloadTool("nutrition-plan.png");
 
-  const breakfast = plan?.breakfast?.[0]?.type;
-  const lunch = plan?.lunch?.[0]?.type;
-  const snack = plan?.snack?.[0]?.type;
-  const dinner = plan?.dinner?.[0]?.type;
-  const additional = plan?.additional?.[0]?.type;
+  const breakfast = plan.breakfast?.[0].type;
+  const lunch = plan.lunch?.[0].type;
+  const snack = plan.snack?.[0].type;
+  const dinner = plan.dinner?.[0].type;
+  const additional = plan.additional?.[0].type;
 
   if (!plan)
     return toast.error("Hubo un error al generar el plan de alimentación");
 
   const totalCalories = plan.totalCalories;
+
+  const mealTypes: { details?: MealDetail[]; type?: string }[] = [
+    { details: plan.breakfast, type: breakfast },
+    { details: plan.lunch, type: lunch },
+    { details: plan.snack, type: snack },
+    { details: plan.dinner, type: dinner },
+    { details: plan.additional, type: additional },
+  ].filter((meal) => meal.details && meal.type);
 
   return (
     <Card ref={ref} className="group/card overflow-hidden rounded-xl">
@@ -166,15 +173,16 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
             </p>
           </div>
         </div>
-        {renderMealDetails(plan.breakfast, breakfast)}
-        {renderMealDetails(plan.lunch, lunch)}
-        {renderMealDetails(plan.snack, snack)}
-        {renderMealDetails(plan.dinner, dinner)}
-        {renderMealDetails(plan.additional, additional)}
+        {mealTypes.map((meal, index) => (
+          <Fragment key={index}>
+            {renderMealDetails(meal.details, meal.type)}
+            {index < mealTypes.length - 1 && <Separator />}
+          </Fragment>
+        ))}
         <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
           {plan.recommendations && (
-            <div className="rounded-lg bg-gray-100 p-3 text-sm text-main-h dark:bg-dark dark:text-white">
-              <h3 className="font-sans text-xl font-extrabold uppercase">
+            <div className="rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
+              <h3 className="font-sans text-base font-extrabold uppercase md:text-xl">
                 Recomendaciones
               </h3>
               <p className="text-main-h dark:text-main-dark">
@@ -188,7 +196,7 @@ const NutritionPlanStock = ({ props: plan }: { props: Plan }) => {
                 <CaloriesIcon className="size-5 text-white" />
               </span>
               <div className="z-10 flex flex-col">
-                <h3 className="text-main-h dark:text-main-dark">
+                <h3 className="text-xs text-main-h dark:text-main-dark md:text-sm">
                   Total aproximado
                 </h3>
                 <BetterTooltip content="Calorías">

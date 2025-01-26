@@ -1,5 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
+import { useParams } from "next/navigation";
 import { Fragment } from "react";
 import { KeyedMutator } from "swr";
 
@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/sidebar";
 import { groupChatsByDate } from "@/modules/chatbot/lib/utils";
 import ChatItem from "@/modules/core/components/ui/sidebar/chat-item";
-import { Chat } from "@/types/chat";
+import { useChatContext } from "@/modules/core/hooks/use-chat-context";
+
+import type { Chat } from "@/db/schema";
 
 interface ChatHistoryProps {
   history?: Chat[];
@@ -19,7 +21,9 @@ interface ChatHistoryProps {
 }
 
 const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
-  const pathname = usePathname();
+  const { id } = useParams();
+
+  const { activeChatId } = useChatContext();
 
   const ChatDateTitle = ({ day }: { day: string }) => {
     return (
@@ -34,7 +38,7 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
       <SidebarGroup>
         <SidebarGroupContent>
           <div className="flex items-center justify-center">
-            <p className="text-sm text-main-l dark:text-main-dark-l">
+            <p className="text-nowrap text-sm text-main-l dark:text-main-dark-l">
               Sin historial de chat
             </p>
           </div>
@@ -62,7 +66,9 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
                                 <ChatItem
                                   index={index}
                                   chat={chat}
-                                  isActive={pathname === chat.path}
+                                  isActive={
+                                    chat.id === id || chat.id === activeChatId
+                                  }
                                   mutate={mutate}
                                 />
                               </motion.div>
@@ -79,7 +85,9 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
                                 <ChatItem
                                   index={index}
                                   chat={chat}
-                                  isActive={pathname === chat.path}
+                                  isActive={
+                                    chat.id === id || chat.id === activeChatId
+                                  }
                                   mutate={mutate}
                                 />
                               </motion.div>
@@ -96,7 +104,9 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
                                 <ChatItem
                                   index={index}
                                   chat={chat}
-                                  isActive={pathname === chat.path}
+                                  isActive={
+                                    chat.id === id || chat.id === activeChatId
+                                  }
                                   mutate={mutate}
                                 />
                               </motion.div>
@@ -113,7 +123,9 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
                                 <ChatItem
                                   index={index}
                                   chat={chat}
-                                  isActive={pathname === chat.path}
+                                  isActive={
+                                    chat.id === id || chat.id === activeChatId
+                                  }
                                   mutate={mutate}
                                 />
                               </motion.div>
@@ -130,7 +142,9 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
                                 <ChatItem
                                   index={index}
                                   chat={chat}
-                                  isActive={pathname === chat.path}
+                                  isActive={
+                                    chat.id === id || chat.id === activeChatId
+                                  }
                                   mutate={mutate}
                                 />
                               </motion.div>

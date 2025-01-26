@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/utils/common";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-transform-colors-opacity focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-600  disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-blue-600 text-main dark:text-white will-change-transform",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-600  disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-blue-600 text-main dark:text-white",
   {
     variants: {
       variant: {
@@ -18,6 +18,10 @@ const buttonVariants = cva(
         secondary:
           "bg-gray-100 shadow-sm hover:bg-gray-100/80 dark:bg-dark/50 dark:hover:bg-dark/30 border-0",
         ghost: "hover:bg-gray-100 dark:hover:bg-dark shadow-none",
+        gradient:
+          "bg-light-gradient-v2 dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white hover:opacity-80",
+        mobile:
+          "justify-start gap-5 hover:bg-transparent active:bg-gray-100 dark:hover:bg-transparent dark:active:bg-dark rounded-full",
         link: "text-gray-900 underline-offset-4 hover:underline dark:text-gray-50",
         alternative:
           "bg-light-gradient dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white text-base hover:opacity-80",

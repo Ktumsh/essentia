@@ -26,7 +26,7 @@ const CardHeader = React.forwardRef<
     className={cn(
       "flex flex-col space-y-1.5 p-6",
       className,
-      isSecondary && "flex-1 p-3",
+      isSecondary && "flex-1 p-4",
     )}
     {...props}
   />
@@ -78,7 +78,7 @@ const CardFooter = React.forwardRef<
       "flex items-center p-6 pt-0",
       className,
       isSecondary &&
-        "border-t border-gray-200 bg-gray-100 p-3 dark:border-dark dark:bg-dark/50 sm:justify-between",
+        "border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50 md:justify-between",
     )}
     {...props}
   />

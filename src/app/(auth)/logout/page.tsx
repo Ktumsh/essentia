@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -12,7 +12,7 @@ const LogoutPage = () => {
   useEffect(() => {
     setTimeout(() => {
       router.push("/login");
-    }, 1500);
+    }, 1000);
   }, [router]);
   return (
     <motion.div
@@ -28,7 +28,7 @@ const LogoutPage = () => {
           aria-hidden="true"
         />
       </span>
-      <h1 className="text-center text-2xl font-semibold text-main dark:text-main-dark">
+      <h1 className="text-center text-2xl font-semibold text-main dark:text-white">
         Cerrando sesión
       </h1>
     </motion.div>
