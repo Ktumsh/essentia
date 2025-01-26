@@ -5,18 +5,18 @@ import * as React from "react";
 import { cn } from "@/utils/common";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-600  disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-blue-600 text-main dark:text-white",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-blue-600  disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-blue-600 text-main dark:text-white",
   {
     variants: {
       variant: {
         default:
-          "bg-gray-200 shadow hover:bg-gray-200/90 dark:bg-dark dark:hover:bg-dark/90",
+          "bg-gray-200 shadow-sm hover:bg-gray-200/90 dark:bg-dark dark:hover:bg-dark/90",
         destructive:
-          "bg-danger text-white shadow-sm hover:bg-danger/90 border-0",
+          "bg-danger text-white shadow-xs hover:bg-danger/90 border-0",
         outline:
-          "border border-gray-200 bg-white shadow-sm hover:opacity-80 dark:border-dark dark:bg-full-dark",
+          "border border-gray-200 bg-white shadow-xs hover:opacity-80 dark:border-dark dark:bg-full-dark",
         secondary:
-          "bg-gray-100 shadow-sm hover:bg-gray-100/80 dark:bg-dark/50 dark:hover:bg-dark/30 border-0",
+          "bg-gray-100 shadow-xs hover:bg-gray-100/80 dark:bg-dark/50 dark:hover:bg-dark/30 border-0",
         ghost: "hover:bg-gray-100 dark:hover:bg-dark shadow-none",
         gradient:
           "bg-light-gradient-v2 dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white hover:opacity-80",
@@ -28,7 +28,7 @@ const buttonVariants = cva(
       },
       radius: {
         default: "rounded-md",
-        sm: "rounded-sm",
+        sm: "rounded-xs",
         lg: "rounded-lg",
         xl: "rounded-xl",
         full: "rounded-full",

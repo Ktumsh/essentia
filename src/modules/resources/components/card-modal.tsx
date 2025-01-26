@@ -106,7 +106,7 @@ const CardModal = ({ props }: { props: Props }) => {
             </DrawerDescription>
           </DrawerHeader>
           <div className="relative mt-3 h-52">
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent to-70%" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/60 to-transparent to-70%" />
             <Image
               width={768}
               height={208}
@@ -140,7 +140,7 @@ const CardModal = ({ props }: { props: Props }) => {
             <DialogDescription className="sr-only">
               Este es un artículo de la categoría: {category}
             </DialogDescription>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent to-70%" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/60 to-transparent to-70%" />
             <Image
               width={768}
               height={208}

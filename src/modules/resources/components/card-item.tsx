@@ -44,11 +44,11 @@ const CardItem = ({ item, type }: CardItemProps) => {
             <div className="relative mx-auto size-full overflow-hidden rounded-2xl md:rounded-lg">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 to-transparent md:to-70%"
+                className="absolute inset-0 z-10 bg-linear-to-b from-black/60 to-transparent md:to-70%"
               />
               <div
                 aria-hidden="true"
-                className="absolute bottom-3 right-0 z-10 hidden flex-col !items-start opacity-0 transition-all group-hover:px-5 group-hover:opacity-100 md:flex"
+                className="absolute bottom-3 right-0 z-10 hidden flex-col items-start! opacity-0 transition-all group-hover:px-5 group-hover:opacity-100 md:flex"
               >
                 <EyeIcon className="size-6 text-white/60 drop-shadow-md transition group-hover:text-white" />
               </div>

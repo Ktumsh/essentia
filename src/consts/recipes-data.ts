@@ -30,18 +30,18 @@ const Ingredients = ({
   ${
     title
       ? `
-  <div class="flex flex-col w-fit !mt-8">
+  <div class="flex flex-col w-fit mt-8!">
     <div class="flex gap-3">
       <div>${ingredientsSVG}</div>
       <h2 class="uppercase tracking-widest">${title}</h2>
     </div>
-    <hr class="w-[calc(100%-28px)] h-[1px] border-t-2 border-current ml-8 !mt-2" />
+    <hr class="w-[calc(100%-28px)] h-[1px] border-t-2 border-current ml-8 mt-2!" />
   </div>
   `
       : ""
   }
-  ${subtitle ? `<p class="font-bold">${subtitle}</p>` : `<p class="!mt-4"></p>`}
-  <ul class="flex flex-col space-y-2 pl-5 !mt-2">
+  ${subtitle ? `<p class="font-bold">${subtitle}</p>` : `<p class="mt-4!"></p>`}
+  <ul class="flex flex-col space-y-2 pl-5 mt-2!">
     ${items.map((item) => `<li class="list-disc">${item}</li>`).join("")}
   </ul>
 `;
@@ -58,18 +58,18 @@ const Preparation = ({
   ${
     title
       ? `
-  <div class="flex flex-col w-fit !mt-8">
+  <div class="flex flex-col w-fit mt-8!">
     <div class="flex gap-3">
       <div>${toolsSVG}</div>
       <h2 class="uppercase tracking-widest">${title}</h2>
     </div>
-    <hr class="w-[calc(100%-28px)] h-[1px] border-t-2 border-current ml-8 !mt-2" />
+    <hr class="w-[calc(100%-28px)] h-[1px] border-t-2 border-current ml-8 mt-2!" />
   </div>
   `
       : ""
   }
-  ${subtitle ? `<p class="font-bold">${subtitle}</p>` : `<p class="!mt-4"></p>`}
-  <ul class="flex flex-col space-y-2 pl-8 !mt-2">
+  ${subtitle ? `<p class="font-bold">${subtitle}</p>` : `<p class="mt-4!"></p>`}
+  <ul class="flex flex-col space-y-2 pl-8 mt-2!">
     ${steps.map((step) => `<li class="list-decimal">${step}</li>`).join("")}
   </ul>
 `;
@@ -135,7 +135,7 @@ export const RECIPES: ResourceCard[] = [
             "Servir la ensalada al lado del salmón y encima echarle el aderezo.",
           ],
         })}
-        <p class="italic text-center font-bold !mt-8">
+        <p class="italic text-center font-bold mt-8!">
           El salmón contiene omega 3 que favorece la disminución de factores de riesgo cardiovascular.
         </p>
       </div>
@@ -214,7 +214,7 @@ export const RECIPES: ResourceCard[] = [
               "Agregar el aceite de oliva a modo de hilo mientras bates para incorporarlo.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La ensalada Cobb es una ensalada americana que se originó en el restaurante Brown Derby de Hollywood, en California, en 1937. La receta original fue creada por Robert H. Cobb, el propietario del restaurante y primo del jugador de béisbol Ty Cobb.
           </p>
         </div>
@@ -254,7 +254,7 @@ export const RECIPES: ResourceCard[] = [
               "Una vez que todos los components se hayan enfriado, mezclar todo con la salsa de ajo tostado y servir.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Las pastas son una buena fuente de energía, sobre todo, para personas que realizan alta actividad física. Contienen fibra que ayuda al tránsito intestinal.
           </p>
         </div>
@@ -294,7 +294,7 @@ export const RECIPES: ResourceCard[] = [
               "Mezcla con más aceite de oliva, Sal de Mar, Pimienta Limón, tomates cherry en mitades y albahaca.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El zapallo spaghetti es bajo en calorías y colesterol, por lo que bueno para controlar el peso. Buena fuente de fibra y ácido fólico. Tiene propiedades antioxidantes que ayudan a prevenir el cáncer.
           </p>
         </div>
@@ -332,7 +332,7 @@ export const RECIPES: ResourceCard[] = [
               "Sumerge cada trozo de pescado hasta cubrir por completo y fríe en abundante aceite hasta que queden dorados.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pescado es rico en ácidos grasos omega 3, que favorecen la salud cardiovascular, reducen los niveles de colesterol y triglicéridos en la sangre. Contiene vitaminas y minerales esenciales para el organismo, vitamina D, B12, fósforo, yodo y zinc. Tiene bajos niveles de grasas saturadas, ideal para personas que llevan una dieta saludable. Se puede comer asado, frito, horneado, a la plancha o incluso crudo en un ceviche.
           </p>
         </div>
@@ -371,7 +371,7 @@ export const RECIPES: ResourceCard[] = [
               "Hornea a 250 °C por 40 minutos y disfruta.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pollo tiene un alto contenido de proteínas importantes para el crecimiento y desarrollo muscular y la reparación de tejidos. Es bajo en grasas, ideal para una dieta saludable. Contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad y angustia.
           </p>
         </div>
@@ -418,7 +418,7 @@ export const RECIPES: ResourceCard[] = [
               "Sirve de inmediato con una ensaladita de tomates cherry y orégano fresco.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El zapallo italiano es un alimento muy nutritivo, con un bajo contenido calórico y grasas. Es una buena fuente de vitaminas, minerales y antioxidantes.
           </p>
         </div>
@@ -488,7 +488,7 @@ export const RECIPES: ResourceCard[] = [
               "Hornear a 160 °C por 30 min o hasta que esté empezando a dorarse por encima y el relleno haya cuajado.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
@@ -562,7 +562,7 @@ export const RECIPES: ResourceCard[] = [
               "Sobre un pan libanés poner la lechuga, láminas de tomate y el pollo. Terminar con la cebolla en pluma y salsa de ajo tostado .",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
@@ -616,7 +616,7 @@ export const RECIPES: ResourceCard[] = [
               "Servir con salsa acevichada y togarashi.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El salmón contiene omega 3 que favorece la disminución de factores de riesgo cardiovascular.
           </p>
         </div>
@@ -679,7 +679,7 @@ export const RECIPES: ResourceCard[] = [
               "Retirar y servir calientes con salsa Chipotle, limón en gajos y cilantro.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Los camarones son bajos en grasas y calorías. Son altos en proteína y omega 3, contienen vitaminas D y B12.
           </p>
         </div>
@@ -745,7 +745,7 @@ export const RECIPES: ResourceCard[] = [
               "Destapar y mezclar con un tenedor para separar los granos.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Los garbanzos destacan por su alto contenido en fibra, importante para reducir los niveles de colesterol.
           </p>
         </div>
@@ -812,7 +812,7 @@ export const RECIPES: ResourceCard[] = [
               "Servir sobre las berenjenas.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Las berenjenas contienen vitaminas B1, B6 y potasio. Buena fuente de fibra, antioxidantes y minerales, ayudan a bajar el colesterol y controlar el peso.
           </p>
         </div>
@@ -860,7 +860,7 @@ export const RECIPES: ResourceCard[] = [
               "Agregar los porotos a los camotes y sirve con palta salpimentada, queso fresco y cilantro.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El camote posee propiedades anti cancerígenas, anti diabéticas y anti envejecimiento. Previene el daño cardiaco, ya que tiene vitamina B6. Rico en fibra, vitaminas B, A y C.
           </p>
         </div>
@@ -901,7 +901,7 @@ export const RECIPES: ResourceCard[] = [
               "Hornear por 40 min a 180°C, servir caliente.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
@@ -1067,7 +1067,7 @@ export const RECIPES: ResourceCard[] = [
               "En un bowl, disponer del yogurt. Encima, poner fruta variada picada, coco rallado y granola.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La granola es un alimento elaborado a base de avena, frutos secos, semillas y miel. Es un alimento muy completo y saludable, con una gran variedad de propiedades beneficiosas para la salud.
           </p>
         </div>
@@ -1110,7 +1110,7 @@ export const RECIPES: ResourceCard[] = [
               "Servir en un bowl con tu fruta favorita y coco rallado tostado.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Los arándanos contienen antioxidantes. Estos ayudan a proteger el deterioro celular y la oxidación.
           </p>
         </div>
@@ -1146,7 +1146,7 @@ export const RECIPES: ResourceCard[] = [
               "Terminar con láminas de plátano, almendras en láminas, chía y un poco de miel de abeja.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La mantequilla de maní es un alimento elaborado a partir de maní molido. Es una fuente importante de proteínas, fibra, grasas saludables, vitaminas y minerales.
           </p>
         </div>
@@ -1191,7 +1191,7 @@ export const RECIPES: ResourceCard[] = [
               "Servir frío o caliente luego de por lo menos una noche o hasta 5 días con coco rallado tostado y chips de chocolate.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La avena es buena fuente de fibra, reduce los niveles de colesterol, controla los niveles de glucosa, aporta vitaminas y minerales como magnesio, cobre, hierro, zinc y vitamina B1. Además aumenta la sensación de saciedad.
           </p>
         </div>
@@ -1255,7 +1255,7 @@ export const RECIPES: ResourceCard[] = [
               "Crear una cama con el yogurt, poner los huevos encima y bañar con la mantequilla. Cortar los huevos a la mitad.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Los huevos son uno de los alimentos más nutritivos, ya que contienen vitaminas A, B, D y E, minerales que ayudan al funcionamiento del cuerpo. Ayudan al desarrollo y a la regeneración celular.
           </p>
         </div>
@@ -1294,7 +1294,7 @@ export const RECIPES: ResourceCard[] = [
               "Abrirlo a la mitad y rellenarlo como quieras.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La avena es buena fuente de fibra, reduce los niveles de colesterol, controla los niveles de glucosa, aporta vitaminas y minerales como magnesio, cobre, hierro, zinc y vitamina B1. Además aumenta la sensación de saciedad.
           </p>
         </div>
@@ -1596,7 +1596,7 @@ export const RECIPES: ResourceCard[] = [
               "Poner en vasos y servir.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Las frutas contiene antioxidantes. Estos ayudan a proteger el deterioro celular y la oxidación.
           </p>
         </div>
@@ -1632,7 +1632,7 @@ export const RECIPES: ResourceCard[] = [
               "Luego licuar el mango junto con el plátano y el jugo de naranjas; endulzar si fuera necesario. Sacar los vasos del congelador y con cuidado vaciar la mezcla de mango. Servir inmediatamente.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La fruta contiene antioxidantes. Estos ayudan a proteger el deterioro celular y la oxidación.
           </p>
         </div>
@@ -1778,7 +1778,7 @@ export const RECIPES: ResourceCard[] = [
               "Esparcir la pasta de pollo sobre el pan y tapar para crear un sándwich.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pollo contiene un aminoácido esencial, que actúa a nivel cerebral disminuyendo trastornos de depresión, ansiedad, angustia, entre otros.
           </p>
         </div>
@@ -1826,7 +1826,7 @@ export const RECIPES: ResourceCard[] = [
               "Agregar la salsa de tomate, queso mozzarella y hornear nuevamente por 10 minutos o hasta que el queso se haya derretido. Terminar con hojas de albahaca.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             La coliflor es una hortaliza baja en grasas. Importante fuente de fibra y antioxidantes, contiene potasio y fósforo que ayudan a reponerse ante esfuerzos físicos.
           </p>
         </div>
@@ -2181,7 +2181,7 @@ export const RECIPES: ResourceCard[] = [
               "*Puedes reemplazar la salsa de mayonesa con yogurt por nuestra Salsa Street Burger o agregar un poco.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             Las lentejas son buena fuente de energía, ayudan al sistema nervioso, regulan los niveles de glucosa en la sangre y casi no contienen grasa.
           </p>
         </div>
@@ -2283,7 +2283,7 @@ export const RECIPES: ResourceCard[] = [
               "*Agrega nuestra Salsa Street Ajo Tostado para darle un sabor especial. O la Salsa Street Burger con toques de pepinillo y eneldo.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pavo es una buena fuente de minerales, entre los que destacan de mayor a menor proporción selenio, fósforo, zinc y potasio.
           </p>
         </div>
@@ -2325,7 +2325,7 @@ export const RECIPES: ResourceCard[] = [
               "Sacar los Clavos de Olor  de la pechuga de pavo y cortarla en tajadas delgadas. Servir con pan o tostaditas.",
             ],
           })}
-          <p class="italic text-center font-bold !mt-8">
+          <p class="italic text-center font-bold mt-8!">
             El pavo es una buena fuente de minerales, entre los que destacan de mayor a menor proporción selenio, fósforo, zinc y potasio.
           </p>
         </div>

@@ -37,15 +37,15 @@ const StepVerifyCode = ({
         height={100}
         alt="Verificación de correo"
         aria-hidden="true"
-        className="!mb-0 -mt-2"
+        className="mb-0! -mt-2"
       />
-      <CardTitle className="!mt-0 text-lg dark:text-white">
+      <CardTitle className="mt-0! text-lg dark:text-white">
         Revisa tu correo
       </CardTitle>
       <CardDescription className="text-center text-main dark:text-main-dark">
         <p>
           Hemos enviado un código de verificación a{" "}
-          <span className="font-semibold !text-blue-600">{email}</span> para que
+          <span className="font-semibold text-blue-600!">{email}</span> para que
           puedas recuperar tu contraseña. Introdúcelo a continuación.
         </p>
       </CardDescription>
@@ -68,7 +68,7 @@ const StepVerifyCode = ({
             {[...Array(6)].map((_, index) => (
               <InputOTPSlot
                 key={index}
-                className="size-12 bg-white dark:bg-full-dark md:!bg-transparent"
+                className="size-12 bg-white dark:bg-full-dark md:bg-transparent!"
                 index={index}
               />
             ))}

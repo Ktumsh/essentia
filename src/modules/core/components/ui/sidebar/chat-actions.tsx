@@ -101,7 +101,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
           <DrawerTrigger asChild>
             <SidebarMenuAction
               showOnHover={!isActive}
-              className="w-6 hover:!bg-transparent"
+              className="w-6 hover:bg-transparent!"
             >
               <MoreHorizontalIcon />
               <span className="sr-only">Acciones</span>
@@ -211,7 +211,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
       ) : (
         <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
           <DialogContent isSecondary>
-            <DialogHeader isSecondary className="!pb-6">
+            <DialogHeader isSecondary className="pb-6!">
               <DialogTitle>Eliminar chat</DialogTitle>
               <DialogDescription asChild>
                 <div>

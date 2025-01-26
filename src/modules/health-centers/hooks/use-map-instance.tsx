@@ -10,8 +10,13 @@ interface UseMapInstanceProps {
 
 const useMapInstance = ({ mapRef, isLoaded }: UseMapInstanceProps) => {
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme, systemTheme, resolvedTheme } = useTheme();
+  const isSystemDark = systemTheme === "dark";
+  const isResolvedDark = resolvedTheme === "dark";
+
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" && (isSystemDark || isResolvedDark));
 
   useEffect(() => {
     if (isLoaded && mapRef.current && !mapInstance) {

@@ -305,7 +305,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
               onClick={() => setSearchTerm("")}
               className={cn(searchStyles.clearButton)}
             >
-              <X className="!size-3.5" />
+              <X className="size-3.5!" />
             </Button>
           )}
           <Button
@@ -340,7 +340,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
         <DialogContent
           isSecondary
           closeButton={false}
-          className="!max-h-[555px]"
+          className="max-h-[555px]!"
         >
           <DialogHeader className="border-b border-gray-200 dark:border-dark">
             <DialogTitle className="sr-only">Busca rápida</DialogTitle>

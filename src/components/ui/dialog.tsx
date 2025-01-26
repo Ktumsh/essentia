@@ -16,7 +16,7 @@ const DialogPortal = DialogPrimitive.Portal;
 const DialogClose = DialogPrimitive.Close;
 
 const overlayVariants = cva(
-  "fixed inset-0 z-[101] bg-black/30 dark:bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+  "fixed inset-0 z-101 bg-black/30 dark:bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
   {
     variants: {
       isBlurred: {
@@ -37,7 +37,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-[101] bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-101 bg-black/80",
       className,
     )}
     {...props}
@@ -78,7 +78,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed left-1/2 top-1/2 z-[102] flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden border border-transparent bg-background p-6 shadow-lg duration-200 focus-visible:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] dark:border-dark sm:rounded-lg md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
+          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 dark:border-dark fixed top-1/2 left-1/2 z-102 flex w-full max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden border border-transparent p-6 shadow-lg duration-200 focus-visible:outline-hidden sm:rounded-lg md:max-h-[calc(100%_-_2rem)] xl:max-h-[calc(100%_-_7.5rem)]",
           className,
           isSecondary && "gap-0 p-0",
         )}
@@ -88,7 +88,7 @@ const DialogContent = React.forwardRef<
         {closeButton && (
           <DialogPrimitive.Close
             className={cn(
-              "absolute right-1 top-1 select-none appearance-none rounded-full p-2 text-main-h outline-none transition-colors duration-150 tap-highlight-transparent hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:bg-black/10 dark:text-white/80 dark:hover:bg-white/5 dark:active:bg-white/10",
+              "text-main-h tap-highlight-transparent focus-visible:outline-focus absolute top-1 right-1 appearance-none rounded-full p-2 outline-hidden transition-colors duration-150 select-none hover:bg-black/5 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-black/10 dark:text-white/80 dark:hover:bg-white/5 dark:active:bg-white/10",
               closeButtonClass,
             )}
           >
@@ -128,7 +128,7 @@ const DialogFooter = ({
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className,
       isSecondary &&
-        "justify-between border-t border-gray-200 bg-gray-100 p-4 dark:border-dark dark:bg-dark/50",
+        "dark:border-dark dark:bg-dark/50 justify-between border-t border-gray-200 bg-gray-100 p-4",
     )}
     {...props}
   />
@@ -153,7 +153,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-main-h dark:text-main-dark-h", className)}
+    className={cn("text-main-h dark:text-main-dark-h text-sm", className)}
     {...props}
   />
 ));

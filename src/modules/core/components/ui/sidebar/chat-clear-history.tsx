@@ -107,7 +107,7 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
           </SidebarMenuItem>
         </DialogTrigger>
         <DialogContent isSecondary>
-          <DialogHeader isSecondary className="!pb-6">
+          <DialogHeader isSecondary className="pb-6!">
             <DialogTitle>Eliminar historial de chat</DialogTitle>
             <DialogDescription>
               Esto eliminará permanentemente tu historial de chat. ¿Deseas

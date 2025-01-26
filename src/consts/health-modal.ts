@@ -8,7 +8,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalBody: `
       <section>
         <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
-          <img class="!mt-0 w-full h-full object-cover object-top" src="/modal/salud-article-01.webp" alt="Más Allá de la Felicidad y la Satisfacción" />
+          <img class="mt-0! w-full h-full object-cover object-top" src="/modal/salud-article-01.webp" alt="Más Allá de la Felicidad y la Satisfacción" />
         </div>
         <h3>Descubre el Bienestar Multidimensional</h3>
         <p>
@@ -43,7 +43,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalBody: `
       <section>
         <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
-          <img class="!mt-0 w-full h-full object-cover object-top" src="/modal/salud-article-02.webp" alt="Las 8 Dimensiones del Bienestar" />
+          <img class="mt-0! w-full h-full object-cover object-top" src="/modal/salud-article-02.webp" alt="Las 8 Dimensiones del Bienestar" />
         </div>
         <p>
           El bienestar integral abarca diferentes áreas de nuestra vida. Aquí están las ocho dimensiones clave y algunas actividades para mejorar en cada una de ellas:
@@ -85,7 +85,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalBody: `
       <section>
         <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
-          <img class="!mt-0 w-full h-full object-cover object-[50%_20%]" src="/modal/salud-article-03.webp" alt="La Atención Plena para Tu Salud" />
+          <img class="mt-0! w-full h-full object-cover object-[50%_20%]" src="/modal/salud-article-03.webp" alt="La Atención Plena para Tu Salud" />
         </div>
         <p>
           La atención plena, o mindfulness, se trata de estar presente en el momento actual y observar nuestros pensamientos y sentimientos sin juicio. Originada en la meditación budista, se ha incorporado en escuelas, trabajos y hospitales debido a sus beneficios para la salud.
@@ -120,7 +120,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalBody: `
       <section>
         <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
-          <img class="!mt-0 w-full h-full object-cover object-bottom" src="/modal/salud-article-04.webp" alt="Cómo Lograr un Estilo de Vida Saludable" />
+          <img class="mt-0! w-full h-full object-cover object-bottom" src="/modal/salud-article-04.webp" alt="Cómo Lograr un Estilo de Vida Saludable" />
         </div>
         <p>
           Seguir un estilo de vida adecuado implica vivir en armonía y cuidar de la salud para tener un mejor bienestar. Aquí hay seis factores clave para lograrlo:
@@ -170,7 +170,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalBody: `
       <section>
         <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
-          <img class="!mt-0 w-full h-full object-cover object-center" src="/modal/salud-article-05.webp" alt="8 Consejos para Mejorar tu Bienestar Físico y Emocional" />
+          <img class="mt-0! w-full h-full object-cover object-center" src="/modal/salud-article-05.webp" alt="8 Consejos para Mejorar tu Bienestar Físico y Emocional" />
         </div>
         <p>
           Seguir un estilo de vida adecuado implica vivir en armonía y cuidar de la salud para tener un mejor bienestar. Aquí hay ocho consejos clave para lograrlo:
@@ -230,7 +230,7 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     modalBody: `
       <section>
         <div class="h-32 rounded-md mb-5 shadow-lg shadow-black/30 overflow-hidden">
-          <img class="!mt-0 w-full h-full object-cover object-[50%_20%]" src="/modal/salud-article-06.webp" alt="Consejos de Bienestar Diario" />
+          <img class="mt-0! w-full h-full object-cover object-[50%_20%]" src="/modal/salud-article-06.webp" alt="Consejos de Bienestar Diario" />
         </div>
         <p>
           Aquí hay algunos consejos clave para mejorar tu bienestar físico y emocional:

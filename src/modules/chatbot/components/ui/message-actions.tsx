@@ -133,7 +133,7 @@ const PureMessageActions = ({
         <Button
           variant="outline"
           onClick={onCopy}
-          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
+          className="h-fit border-black/10 bg-transparent! px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
         >
           <Copy />
           <span className="sr-only">Copiar</span>
@@ -145,7 +145,7 @@ const PureMessageActions = ({
           variant="outline"
           disabled={vote?.isUpvoted}
           onClick={upvoteResponse}
-          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
+          className="h-fit border-black/10 bg-transparent! px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
         >
           <ThumbsUp />
           <span className="sr-only">Votar buena respuesta</span>
@@ -157,7 +157,7 @@ const PureMessageActions = ({
           variant="outline"
           disabled={vote && !vote.isUpvoted}
           onClick={downvoteResponse}
-          className="h-fit border-black/10 !bg-transparent px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
+          className="h-fit border-black/10 bg-transparent! px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
         >
           <ThumbsDown />
           <span className="sr-only">Votar mala respuesta</span>

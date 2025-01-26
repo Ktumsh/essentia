@@ -1,15 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@font-face {
-  font-family: "DM Sans";
-  src: url("/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf")
-    format("truetype");
+@config "../../tailwind.config.ts";
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+
+@layer utilities {
+  @font-face {
+    font-family: "DM Sans";
+    src: url("/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf")
+      format("truetype");
+  }
 }
 
 @layer base {
   :root {
+    --default-transition-duration: 0.25s;
+
     --text-main: #212f3d;
     --text-main-h: rgb(33 47 61 / 87%);
     --text-main-m: rgb(33 47 61 / 60%);
@@ -200,7 +213,7 @@
     }
 
     .custom-scroll::-webkit-scrollbar-track {
-      @apply bg-white dark:bg-dark;
+      @apply dark:bg-dark bg-white;
     }
 
     .custom-scroll::-webkit-scrollbar-thumb {
@@ -234,6 +247,19 @@
 }
 
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  [role="button"],
+  button {
+    cursor: pointer;
+  }
+
   * {
     @apply scroll-smooth;
   }
@@ -377,24 +403,24 @@
 
   *[class^="text-"] {
     color: transparent !important;
-    @apply animate-pulse select-none rounded-md bg-gray-200 dark:bg-dark;
+    @apply dark:bg-dark animate-pulse rounded-md bg-gray-200 select-none;
   }
 
   .skeleton-text {
     color: transparent !important;
-    @apply animate-pulse select-none rounded-md bg-gray-200 dark:bg-dark;
+    @apply dark:bg-dark animate-pulse rounded-md bg-gray-200 select-none;
   }
 
   .skeleton-gradient {
-    @apply !border-transparent bg-gradient-to-tr from-white to-white dark:from-full-dark dark:to-full-dark;
+    @apply dark:from-full-dark dark:to-full-dark border-transparent! bg-linear-to-tr from-white to-white;
   }
 
   .skeleton-bg {
-    @apply bg-white dark:bg-full-dark;
+    @apply dark:bg-full-dark bg-white;
   }
 
   .skeleton-div {
-    @apply animate-pulse bg-gray-200 dark:bg-dark;
+    @apply dark:bg-dark animate-pulse bg-gray-200;
   }
 
   .skeleton-svg > * {
@@ -546,11 +572,11 @@
 }
 
 .prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  @apply !rounded-lg;
+  @apply rounded-lg!;
 }
 
 .prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  @apply !text-white;
+  @apply text-white!;
 }
 
 .nav_link {

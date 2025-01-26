@@ -61,10 +61,10 @@ const BottomNav = ({ user }: BottomNavProps) => {
                   aria-label="Busca rápida"
                   variant="ghost"
                   fullWidth
-                  className="inline-flex !h-full min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:!bg-transparent active:!bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:!bg-dark/50 md:hidden"
+                  className="inline-flex h-full! min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:bg-transparent! active:bg-gray-100! active:transition-colors dark:text-main-dark-h dark:active:bg-dark/50! md:hidden"
                 >
                   <span className="sr-only">Busca rápida</span>
-                  <SearchIcon className="!size-6" aria-hidden="true" />
+                  <SearchIcon className="size-6!" aria-hidden="true" />
                 </Button>
               </MainSearch>
             </li>
@@ -74,7 +74,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
                 href={item.href}
                 id={`navbar_link_${index}`}
                 className={cn(
-                  "flex size-full min-w-0 items-center justify-center text-main-m active:bg-gray-100 active:transition-colors dark:text-main-dark-h active:dark:bg-dark/50",
+                  "flex size-full min-w-0 items-center justify-center text-main-m active:bg-gray-100 active:transition-colors dark:text-main-dark-h dark:active:bg-dark/50",
                   item.active &&
                     "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600",
                 )}

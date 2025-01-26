@@ -23,7 +23,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           description:
             "group-[.toast]:text-main-h dark:group-[.toast]:text-main-dark",
           actionButton:
-            "group-[.toast]:!bg-danger group-[.toast]:!text-white dark:group-[.toast]:!bg-cerise-red-600 dark:group-[.toast]:!text-white !h-auto !py-1 !px-2 !text-xs !rounded",
+            "group-[.toast]:bg-danger! group-[.toast]:text-white! dark:group-[.toast]:bg-cerise-red-600! dark:group-[.toast]:text-white! h-auto! py-1! px-2! text-xs! rounded-sm!",
           cancelButton:
             "group-[.toast]:bg-gray-100 group-[.toast]:text-gray-500 dark:group-[.toast]:bg-gray-800 dark:group-[.toast]:text-gray-400",
         },

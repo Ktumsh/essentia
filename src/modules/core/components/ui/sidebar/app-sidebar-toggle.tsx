@@ -42,9 +42,9 @@ const AppSidebarToggle = () => {
         className="size-9 text-main-h dark:text-main-dark-h"
       >
         {isOpen ? (
-          <SidebarFillIcon aria-hidden="true" className="!size-5" />
+          <SidebarFillIcon aria-hidden="true" className="size-5!" />
         ) : (
-          <SidebarIcon aria-hidden="true" className="!size-5" />
+          <SidebarIcon aria-hidden="true" className="size-5!" />
         )}
         <span className="sr-only">
           {isOpen ? "Ocultar historial de chat" : "Mostrar historial de chat"}

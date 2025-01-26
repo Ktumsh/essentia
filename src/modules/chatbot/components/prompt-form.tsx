@@ -259,7 +259,7 @@ function PureAttachmentsButton({
         radius="full"
         variant="ghost"
         disabled={isLoading}
-        className="absolute left-0 top-[13px] !size-9 border border-gray-300 text-main dark:border-accent-dark dark:text-main-dark md:left-4"
+        className="absolute left-0 top-[13px] size-9! border border-gray-300 text-main dark:border-accent-dark dark:text-main-dark md:left-4"
         onClick={() => fileInputRef.current?.click()}
       >
         <span className="sr-only">Adjuntar archivo</span>

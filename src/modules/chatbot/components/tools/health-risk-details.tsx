@@ -98,7 +98,7 @@ const HealthRiskDetails = ({
             generalRiskLevel === "bajo" && generalRiskLevelPercentage <= 3,
           message: "¡Excelente! Sigue así. 😃",
           color: "text-emerald-400",
-          strokeColor: "!bg-emerald-400",
+          strokeColor: "bg-emerald-400!",
         },
         {
           condition:
@@ -107,7 +107,7 @@ const HealthRiskDetails = ({
             generalRiskLevelPercentage <= 7,
           message: "¡Muy bien! Mantén esos hábitos saludables. 😊",
           color: "text-green-500",
-          strokeColor: "!bg-green-500",
+          strokeColor: "bg-green-500!",
         },
         {
           condition:
@@ -115,7 +115,7 @@ const HealthRiskDetails = ({
           message:
             "¡Generalmente estás bien! Aunque siempre puedes mejorar. 😊",
           color: "text-lime-500",
-          strokeColor: "!bg-lime-500",
+          strokeColor: "bg-lime-500!",
         },
         {
           condition:
@@ -125,14 +125,14 @@ const HealthRiskDetails = ({
           message:
             "Presta atención. Considera ajustes en tu estilo de vida. 😐",
           color: "text-yellow-500",
-          strokeColor: "!bg-yellow-500",
+          strokeColor: "bg-yellow-500!",
         },
         {
           condition:
             generalRiskLevel === "medio" && generalRiskLevelPercentage > 20,
           message: "Precaución. Considera mejorar tus hábitos de salud. 😬",
           color: "text-orange-500",
-          strokeColor: "!bg-orange-500",
+          strokeColor: "bg-orange-500!",
         },
         {
           condition:
@@ -142,14 +142,14 @@ const HealthRiskDetails = ({
           message:
             "¡Ten cuidado! Es importante que consideres tomar medidas. 🥲",
           color: "text-red-500",
-          strokeColor: "!bg-red-500",
+          strokeColor: "bg-red-500!",
         },
         {
           condition:
             generalRiskLevel === "alto" && generalRiskLevelPercentage > 50,
           message: "¡Alerta! Consulta a un profesional de salud. 🚨",
           color: "text-rose-600",
-          strokeColor: "!bg-rose-600",
+          strokeColor: "bg-rose-600!",
         },
       ];
 
@@ -219,7 +219,7 @@ const HealthRiskDetails = ({
   );
 
   return (
-    <div className="!mt-0 w-full">
+    <div className="mt-0! w-full">
       <Tabs
         defaultValue="assessment"
         aria-label="Alternar entre interpretación y acciones recomendadas"
@@ -357,11 +357,11 @@ const HealthRiskDetails = ({
                 ] as RiskValue;
                 return (
                   <div key={key}>
-                    <h4 className="text-xs font-semibold text-main first:!mt-0 dark:text-white md:text-sm">
+                    <h4 className="text-xs font-semibold text-main first:mt-0! dark:text-white md:text-sm">
                       {label}
                     </h4>
                     {risk.interpretation && (
-                      <p className="text-xs last:!mb-0 md:text-sm">
+                      <p className="text-xs last:mb-0! md:text-sm">
                         {risk.interpretation}
                       </p>
                     )}
@@ -380,11 +380,11 @@ const HealthRiskDetails = ({
                 ] as RiskValue;
                 return (
                   <div key={key}>
-                    <h4 className="text-xs font-semibold text-main first:!mt-0 dark:text-white md:text-sm">
+                    <h4 className="text-xs font-semibold text-main first:mt-0! dark:text-white md:text-sm">
                       {label}
                     </h4>
                     {risk.recommendedActions && (
-                      <p className="text-xs last:!mb-0 md:text-sm">
+                      <p className="text-xs last:mb-0! md:text-sm">
                         {risk.recommendedActions}
                       </p>
                     )}

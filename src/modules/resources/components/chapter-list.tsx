@@ -55,7 +55,7 @@ const ChapterList = ({
   };
 
   return (
-    <Accordion type="multiple" className="!mt-0 w-full space-y-4">
+    <Accordion type="multiple" className="mt-0! w-full space-y-4">
       {modules?.map((item, index) => {
         console.log(moduleProgress[item.module.id]);
 
@@ -138,7 +138,7 @@ const ChapterList = ({
                       <p className="flex grow items-center gap-1 opacity-50">
                         ¡Evalúa lo que aprendiste!
                       </p>
-                      <Badge className="!bg-danger/10 font-normal !text-danger">
+                      <Badge className="bg-danger/10! font-normal text-danger!">
                         Próximamente
                       </Badge>
                     </Link>

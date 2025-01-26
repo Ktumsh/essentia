@@ -148,7 +148,7 @@ const PurePreviewMessage = ({
                       setMode("edit");
                     }}
                   >
-                    <PencilEditIcon strokeWidth={1.5} className="!size-5" />
+                    <PencilEditIcon strokeWidth={1.5} className="size-5!" />
                   </Button>
                 </BetterTooltip>
               )}

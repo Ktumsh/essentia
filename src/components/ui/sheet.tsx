@@ -63,7 +63,7 @@ const SheetContent = React.forwardRef<
       className={cn(
         sheetVariants({ side }),
         className,
-        "focus-visible:outline-none",
+        "focus-visible:outline-hidden",
       )}
       {...props}
     >

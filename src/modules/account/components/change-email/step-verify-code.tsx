@@ -46,7 +46,7 @@ const StepVerifyCode = ({
             <DrawerTitle>Revisa tu bandeja de entrada</DrawerTitle>
             <DrawerDescription className="mt-4 px-4">
               Hemos enviado un código de verificación a{" "}
-              <span className="font-semibold !text-blue-600">{email}</span> para
+              <span className="font-semibold text-blue-600!">{email}</span> para
               que puedas cambiar tu correo. Introdúcelo a continuación.
             </DrawerDescription>
           </DrawerHeader>
@@ -58,7 +58,7 @@ const StepVerifyCode = ({
             <DialogDescription asChild>
               <p>
                 Hemos enviado un código de verificación a{" "}
-                <span className="font-semibold !text-blue-600">{email}</span>{" "}
+                <span className="font-semibold text-blue-600!">{email}</span>{" "}
                 para que puedas cambiar tu correo. Introdúcelo a continuación.
               </p>
             </DialogDescription>

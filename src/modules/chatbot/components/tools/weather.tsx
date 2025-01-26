@@ -311,10 +311,10 @@ export function Weather({
       className={cn(
         "skeleton-gradient flex max-w-[500px] flex-col gap-4 rounded-2xl border border-transparent p-4 dark:border-indigo-900",
         {
-          "bg-gradient-to-tr from-blue-300 to-blue-400": isDay,
+          "bg-linear-to-tr from-blue-300 to-blue-400": isDay,
         },
         {
-          "bg-gradient-to-tr from-indigo-900 to-indigo-950 to-50%": !isDay,
+          "bg-linear-to-tr from-indigo-900 to-indigo-950 to-50%": !isDay,
         },
       )}
     >

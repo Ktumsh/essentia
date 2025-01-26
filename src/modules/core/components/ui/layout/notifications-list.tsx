@@ -177,10 +177,10 @@ const NotificationsContent = ({
             Notificaciones
           </CardTitle>
           <Separator orientation="vertical" className="hidden h-4 md:block" />
-          <TabsList className="h-auto w-fit !bg-transparent p-0 md:-ml-2.5">
+          <TabsList className="h-auto w-fit bg-transparent! p-0 md:-ml-2.5">
             <TabsTrigger
               value="inbox"
-              className="gap-1 font-normal !shadow-none data-[state=active]:bg-gray-100 dark:data-[state=active]:bg-dark"
+              className="gap-1 font-normal shadow-none! data-[state=active]:bg-gray-100 dark:data-[state=active]:bg-dark"
             >
               No leídas
               {unreadNotifications.length > 0 && (
@@ -191,7 +191,7 @@ const NotificationsContent = ({
             </TabsTrigger>
             <TabsTrigger
               value="readed"
-              className="font-normal !shadow-none data-[state=active]:bg-gray-100 dark:data-[state=active]:bg-dark"
+              className="font-normal shadow-none! data-[state=active]:bg-gray-100 dark:data-[state=active]:bg-dark"
             >
               Archivadas
             </TabsTrigger>
@@ -210,7 +210,7 @@ const NotificationsContent = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="z-[999] flex w-fit flex-col p-1"
+            className="z-999 flex w-fit flex-col p-1"
           >
             <DropdownMenuItem asChild>
               <Link href="/settings/notifications">

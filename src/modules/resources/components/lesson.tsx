@@ -294,7 +294,7 @@ const Lesson = ({
       <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
         <CardFooter className="flex-row items-center gap-2">
           <CheckCircle className="size-5 text-red-500" />
-          <p className="!mt-0 text-base">Lección no encontrada.</p>
+          <p className="mt-0! text-base">Lección no encontrada.</p>
         </CardFooter>
       </Card>
     );
@@ -312,7 +312,7 @@ const Lesson = ({
               className="shrink-0 self-start"
               onClick={() => router.push(`/${resourceSlug}`)}
             >
-              <ArrowLeft className="!size-5 text-main-h dark:text-main-dark" />
+              <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
             </Button>
             <h1 className="text-2xl font-bold md:text-3xl">{lesson.title}</h1>
           </div>
@@ -325,7 +325,7 @@ const Lesson = ({
           >
             <Badge
               className={cn(
-                "w-fit bg-amber-500 py-1.5 !text-white hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-600",
+                "w-fit bg-amber-500 py-1.5 text-white! hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-600",
                 {
                   "bg-green-500 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-600":
                     isCompleted,
@@ -380,14 +380,14 @@ const Lesson = ({
       <section className="relative px-6 lg:col-[1/2] lg:row-[2/4] lg:px-0">
         <Card className="rounded-xl">
           <CardContent className="p-5">
-            <Markdown prose="!max-w-full">{lesson.content as string}</Markdown>
+            <Markdown prose="max-w-full!">{lesson.content as string}</Markdown>
           </CardContent>
           <CardFooter
             isSecondary
             className={cn(
-              "flex-col gap-2 !p-5 sm:flex-row sm:justify-between",
+              "flex-col gap-2 p-5! sm:flex-row sm:justify-between",
               {
-                "sm:!justify-end": !findPreviousLesson(),
+                "sm:justify-end!": !findPreviousLesson(),
               },
             )}
           >

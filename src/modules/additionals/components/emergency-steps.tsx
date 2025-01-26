@@ -41,7 +41,7 @@ const EmergencySteps = () => {
                   <li key={stepIndex} className="text-sm">
                     <Badge
                       className={cn(
-                        "mr-2 size-6 min-w-0 max-w-full justify-center !text-white",
+                        "mr-2 size-6 min-w-0 max-w-full justify-center text-white!",
                         step.color,
                       )}
                     >

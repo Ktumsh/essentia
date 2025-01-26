@@ -38,7 +38,7 @@ const WelcomeModal = () => {
           closeButton={false}
           overlayClassName="bg-white/50"
           isBlurred
-          className="flex max-w-xs flex-col gap-0 !rounded-3xl p-0"
+          className="flex max-w-xs flex-col gap-0 rounded-3xl! p-0"
         >
           <>
             <DialogHeader className="items-center px-6 py-4">
@@ -79,7 +79,7 @@ const WelcomeModal = () => {
                 </p>
               </div>
             </div>
-            <DialogFooter className="flex !flex-col justify-end gap-2 px-6 py-4 sm:space-x-0">
+            <DialogFooter className="flex flex-col! justify-end gap-2 px-6 py-4 sm:space-x-0">
               <button aria-hidden="true" className="sr-only"></button>
               <Button
                 radius="full"

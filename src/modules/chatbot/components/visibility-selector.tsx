@@ -99,7 +99,7 @@ export function VisibilitySelector({
               )}
             </div>
             <div className="text-danger opacity-0 group-data-[active=true]/item:opacity-100">
-              <CheckCircledIcon className="!size-5" />
+              <CheckCircledIcon className="size-5!" />
             </div>
           </DropdownMenuItem>
         ))}

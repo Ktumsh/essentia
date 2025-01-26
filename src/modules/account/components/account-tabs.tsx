@@ -59,14 +59,14 @@ const AccountTabs = ({
       <Tabs
         value={pathname}
         aria-label="Options"
-        className="flex flex-col space-y-10 px-6 pb-16 md:pb-6"
+        className="flex flex-col px-6 pb-16 md:pb-6"
       >
-        <TabsList className="h-12 w-full justify-start rounded-none border-b border-gray-200 !bg-transparent p-0 dark:border-dark">
+        <TabsList className="dark:border-dark h-12 w-full justify-start rounded-none border-b border-gray-200 bg-transparent! p-0">
           {tabs.map((tab) => (
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              className="h-full w-fit rounded-none border-b-2 border-transparent px-4 font-normal data-[state=active]:border-danger data-[state=active]:!text-danger data-[state=active]:shadow-none"
+              className="data-[state=active]:border-danger data-[state=active]:text-danger! h-full w-fit rounded-none border-b-2 border-transparent px-4 font-normal data-[state=active]:shadow-none"
             >
               <Link href={tab.value}>
                 <div className="flex items-center space-x-2">
@@ -78,7 +78,7 @@ const AccountTabs = ({
         </TabsList>
         {tabs.map((tab) => (
           <TabsContent key={tab.value} value={tab.value}>
-            <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="mt-10 flex flex-col gap-4 lg:flex-row">
               {tab.component}
             </div>
           </TabsContent>

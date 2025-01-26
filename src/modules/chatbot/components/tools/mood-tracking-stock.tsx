@@ -60,9 +60,9 @@ const MoodTrackingStock = ({
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
+              className="absolute right-6 top-6 z-10 size-8 bg-black/20! text-white shadow-none hover:bg-black/30! active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
             >
-              <ArrowDownToLine className="!size-3.5" />
+              <ArrowDownToLine className="size-3.5!" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </BetterTooltip>

@@ -52,7 +52,7 @@ const ThemeSelect = () => {
 
   if (!mounted)
     return (
-      <div className="flex h-9 w-32 items-center justify-between rounded-md border border-gray-200 px-3 py-2 shadow-sm dark:border-dark md:w-48">
+      <div className="flex h-9 w-32 items-center justify-between rounded-md border border-gray-200 px-3 py-2 shadow-xs dark:border-dark md:w-48">
         <Skeleton className="h-2.5 w-1/3" />
         <ChevronDown className="size-4 opacity-50" />
       </div>

@@ -16,14 +16,14 @@ export default function AdditionalsTabs() {
       aria-label="Options"
       className="flex flex-col space-y-10 px-6 pb-6"
     >
-      <TabsList className="h-12 w-full justify-start rounded-none border-b border-gray-200 !bg-transparent p-0 dark:border-dark">
+      <TabsList className="h-12 w-full justify-start rounded-none border-b border-gray-200 bg-transparent! p-0 dark:border-dark">
         {additionalTabs.slice(0, 2).map((tab, index) => (
           <TabsTrigger
             key={tab.href}
             value={tab.href}
             asChild
             disabled={index > 1}
-            className="h-full w-fit rounded-none border-b-2 border-transparent px-4 font-normal data-[state=active]:border-danger data-[state=active]:!text-danger data-[state=active]:shadow-none"
+            className="h-full w-fit rounded-none border-b-2 border-transparent px-4 font-normal data-[state=active]:border-danger data-[state=active]:text-danger! data-[state=active]:shadow-none"
           >
             <Link href={tab.href}>
               <div className="flex items-center space-x-2">

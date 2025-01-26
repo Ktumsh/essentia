@@ -45,7 +45,7 @@ const Phones = () => {
               </CardTitle>
               <CardDescription>{phone.description}</CardDescription>
             </CardHeader>
-            <CardFooter isSecondary className="!justify-start">
+            <CardFooter isSecondary className="justify-start!">
               <span>
                 <PhoneIcon className="size-4 text-main-m dark:text-main-dark-m" />
               </span>

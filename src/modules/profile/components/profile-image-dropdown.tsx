@@ -82,7 +82,7 @@ const ProfileImageDropdown: FC<ProfileImageDropdownProps> = ({
               aria-label="Agregar foto de perfil"
               radius="full"
               size="icon"
-              className="pointer-events-auto hidden !bg-black/60 hover:!bg-black/50 md:inline-flex"
+              className="pointer-events-auto hidden bg-black/60! hover:bg-black/50! md:inline-flex"
             >
               <AddPhotoIcon className="text-white" />
             </Button>

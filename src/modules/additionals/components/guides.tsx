@@ -44,7 +44,7 @@ export default function Guides() {
               </div>
               <CardDescription>{guide.description}</CardDescription>
             </CardHeader>
-            <CardFooter isSecondary className="!justify-end">
+            <CardFooter isSecondary className="justify-end!">
               <BetterTooltip content="Descargar PDF">
                 <Button
                   onClick={() => downloadFile(guide.link)}
@@ -54,7 +54,7 @@ export default function Guides() {
                   className="size-8"
                 >
                   <span className="sr-only">Descargar</span>
-                  <ArrowDownToLine className="!size-3.5" />
+                  <ArrowDownToLine className="size-3.5!" />
                 </Button>
               </BetterTooltip>
             </CardFooter>

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import typography from "@tailwindcss/typography";
-import { fontFamily } from "tailwindcss/defaultTheme";
+import fontFamily from "tailwindcss/defaultTheme";
 import animate from "tailwindcss-animate";
 
 import type { Config } from "tailwindcss";
@@ -13,7 +13,7 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: ["class"],
+  darkMode: "class",
   theme: {
     container: {
       screens: {
@@ -66,32 +66,6 @@ const config: Config = {
         altern: "var(--background-alternative)",
         "altern-light": "var(--background-alternative-light)",
         "altern-accent": "var(--background-alternative-accent)",
-        "radical-red": {
-          "50": "#ffeff1",
-          "100": "#ffe0e6",
-          "200": "#ffc6d3",
-          "300": "#ff97ae",
-          "400": "#ff5d83",
-          "500": "#ff245e",
-          "600": "#ff004d",
-          "700": "#d70041",
-          "800": "#b4003f",
-          "900": "#99023c",
-          "950": "#57001b",
-        },
-        broom: {
-          "50": "#fdfee8",
-          "100": "#fcffc2",
-          "200": "#fcff87",
-          "300": "#fffc43",
-          "400": "#fff024",
-          "500": "#efd503",
-          "600": "#cea700",
-          "700": "#a47804",
-          "800": "#885e0b",
-          "900": "#734c10",
-          "950": "#432805",
-        },
         bittersweet: {
           "50": "#fef3f2",
           "100": "#fee5e2",
@@ -105,19 +79,6 @@ const config: Config = {
           "900": "#80261c",
           "950": "#460f09",
         },
-        orient: {
-          "50": "#e7fffd",
-          "100": "#c2fffb",
-          "200": "#8cfff7",
-          "300": "#3dfff2",
-          "400": "#00ffee",
-          "500": "#00f2ff",
-          "600": "#00bfe3",
-          "700": "#0096b5",
-          "800": "#007690",
-          "900": "#00627b",
-          "950": "#004055",
-        },
         "cerise-red": {
           "50": "#fdf3f4",
           "100": "#fce7eb",
@@ -130,19 +91,6 @@ const config: Config = {
           "800": "#8e2349",
           "900": "#7a2143",
           "950": "#430e21",
-        },
-        midnight: {
-          "50": "#ecfaff",
-          "100": "#d4f2ff",
-          "200": "#b2e9ff",
-          "300": "#7ddeff",
-          "400": "#41c8ff",
-          "500": "#15a8ff",
-          "600": "#0087ff",
-          "700": "#006ffe",
-          "800": "#0059cd",
-          "900": "#084da0",
-          "950": "#061b37",
         },
         logo: "hsl(var(--logo))",
         background: "hsl(var(--background))",
@@ -198,9 +146,9 @@ const config: Config = {
         danger: "hsl(var(--danger))",
       },
       fontFamily: {
-        grotesk: ["var(--font-space-grotesk)", ...fontFamily.sans],
-        spacemono: ["var(--font-space-mono)", ...fontFamily.mono],
-        dmsans: ["var(--font-dm-sans)", ...fontFamily.sans],
+        grotesk: ["var(--font-space-grotesk)", ...fontFamily.fontFamily.sans],
+        spacemono: ["var(--font-space-mono)", ...fontFamily.fontFamily.mono],
+        dmsans: ["var(--font-dm-sans)", ...fontFamily.fontFamily.sans],
         sans: ["var(--font-geist-sans)"],
       },
       fontSize: {
@@ -296,20 +244,6 @@ const config: Config = {
       },
     },
   },
-  safelist: [
-    "md:col-span-3",
-    "md:col-span-4",
-    "md:col-span-5",
-    "text-cerise-red-800",
-    "dark:text-cerise-red-300",
-    "font-medium",
-    "dark:bg-full-dark",
-    "dark:bg-dark",
-    "space-y-6",
-    "space-y-2",
-    "pl-5",
-    "!mt-2",
-  ],
   plugins: [animate, typography],
 };
 export default config;

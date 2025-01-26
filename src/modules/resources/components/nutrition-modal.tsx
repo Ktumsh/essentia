@@ -116,7 +116,7 @@ const NutritionModal = ({ item, modal }: NutritionModalProps) => {
                 size="sm"
                 radius="lg"
                 variant="ghost"
-                className="w-fit border border-altern-accent bg-altern-light text-sm font-medium text-main shadow-sm hover:!bg-transparent hover:opacity-80 dark:border-dark dark:bg-full-dark dark:text-white"
+                className="w-fit border border-altern-accent bg-altern-light text-sm font-medium text-main shadow-xs hover:bg-transparent! hover:opacity-80 dark:border-dark dark:bg-full-dark dark:text-white"
               >
                 Cerrar
               </Button>

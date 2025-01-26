@@ -103,7 +103,7 @@ const SubscriptionDetails = ({
                   radius="lg"
                   variant="outline"
                   onClick={() => setIsOpenCancel(true)}
-                  className="border !border-red-500 !text-red-500"
+                  className="border border-red-500! text-red-500!"
                 >
                   Cancelar suscripción
                 </Button>

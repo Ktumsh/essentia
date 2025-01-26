@@ -84,7 +84,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleDayChange}>
           <SelectTrigger
             className={cn(
-              "h-auto border-gray-200 shadow-sm focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
+              "h-auto border-gray-200 shadow-xs focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
               className,
             )}
           >
@@ -115,7 +115,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleMonthChange}>
           <SelectTrigger
             className={cn(
-              "h-auto border-gray-200 shadow-sm focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
+              "h-auto border-gray-200 shadow-xs focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
               className,
             )}
           >
@@ -146,7 +146,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleYearChange}>
           <SelectTrigger
             className={cn(
-              "h-auto border-gray-200 shadow-sm focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
+              "h-auto border-gray-200 shadow-xs focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
               className,
             )}
           >

@@ -202,7 +202,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                             <MoreVertical />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="z-[102]">
+                        <DropdownMenuContent className="z-102">
                           <DropdownMenuGroup>
                             <DropdownMenuItem
                               onClick={() => handlePause(task.id)}
@@ -268,7 +268,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                             <MoreVertical />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="z-[102]">
+                        <DropdownMenuContent className="z-102">
                           <DropdownMenuGroup>
                             <DropdownMenuItem
                               onClick={() => handleResume(task.id)}

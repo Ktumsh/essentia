@@ -81,7 +81,7 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
+    <div className="text-main dark:text-main-dark mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
       <div className="w-full max-w-md">
         <Card className="border-none dark:text-white">
           <CardHeader className="prose prose-sm w-full items-center space-y-0">
@@ -91,15 +91,15 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
               height={100}
               alt="Verificación de correo"
               aria-hidden="true"
-              className="!mb-0 -mt-2"
+              className="-mt-2 mb-0!"
             />
-            <CardTitle className="!mt-0 text-lg dark:text-white">
+            <CardTitle className="mt-0! text-lg dark:text-white">
               ¡Confirma tu correo!
             </CardTitle>
-            <CardDescription className="text-center text-main dark:text-main-dark">
+            <CardDescription className="text-main dark:text-main-dark text-center">
               <p>
                 Hemos enviado un código de verificación a{" "}
-                <span className="font-semibold !text-blue-600">{email}</span>{" "}
+                <span className="font-semibold text-blue-600!">{email}</span>{" "}
                 para que puedas activar tu cuenta. Introdúcelo a continuación.
               </p>
             </CardDescription>
@@ -136,8 +136,8 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
       <div className="inline-flex items-center gap-2">
         <Button
           variant="ghost"
-          className="pl-2"
           onClick={() => router.push("/login")}
+          className="pl-2 hover:bg-transparent!"
         >
           <ArrowLeft className="size-3.5" />
           Volver

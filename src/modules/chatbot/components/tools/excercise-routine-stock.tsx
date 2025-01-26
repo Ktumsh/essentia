@@ -184,15 +184,15 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
             className="aspect-auto h-36 object-cover object-center md:h-52"
           />
         </div>
-        <div className="absolute inset-x-0 top-0 z-10 !mt-0 flex w-full justify-between p-6">
+        <div className="absolute inset-x-0 top-0 z-10 mt-0! flex w-full justify-between p-6">
           <Badge className="shadow-md">Rutina de Ejercicios</Badge>
           <BetterTooltip content="Descargar como imagen">
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 !bg-black/20 text-white shadow-none hover:!bg-black/30 active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
+              className="absolute right-6 top-6 z-10 size-8 bg-black/20! text-white shadow-none hover:bg-black/30! active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
             >
-              <ArrowDownToLine className="!size-3.5" />
+              <ArrowDownToLine className="size-3.5!" />
               <span className="sr-only">Descargar como Imagen</span>
             </Button>
           </BetterTooltip>
@@ -280,7 +280,7 @@ const ExerciseRoutineStock = ({ props: routine }: { props: Routine }) => {
           ))}
         </ul>
       </div>
-      <CardFooter className="flex-col items-center justify-center space-y-2 p-2 !pt-0 md:space-y-4 md:p-6">
+      <CardFooter className="flex-col items-center justify-center space-y-2 p-2 pt-0! md:space-y-4 md:p-6">
         {routine.coolDown && (
           <div className="flex w-full items-center gap-3 rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
             <CheckCircledIcon className="size-8 min-w-8 text-green-500 md:size-10 md:min-w-10" />

@@ -282,7 +282,7 @@ const EditProfileForm = ({
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="mb-0">
                         <SelectValue placeholder="Selecciona tu género">
                           {field.value}
                         </SelectValue>
@@ -389,7 +389,7 @@ const EditProfileForm = ({
       return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerContent>
-            <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
+            <DrawerHeader className="dark:border-dark gap-0 border-b border-gray-200 p-0">
               <DrawerTitle>Editar perfil</DrawerTitle>
             </DrawerHeader>
             <ScrollArea className="overflow-y-auto">
@@ -419,7 +419,7 @@ const EditProfileForm = ({
           <DialogContent isSecondary className="overflow-visible">
             <ScrollArea className="overflow-y-auto">
               <DialogHeader isSecondary>
-                <DialogTitle>Editar perfil</DialogTitle>
+                <DialogTitle className="mb-0">Editar perfil</DialogTitle>
                 <DialogDescription className="sr-only">
                   Editar perfil
                 </DialogDescription>

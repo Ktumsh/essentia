@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const AccountDeletedPage = () => {
   return (
     <div className="mx-auto flex min-h-dvh flex-col items-center justify-center space-y-6 p-6 text-main dark:text-main-dark">
-      <Card className="flex flex-col items-center border-none !bg-transparent text-center dark:bg-dark/30 md:flex-row">
+      <Card className="flex flex-col items-center border-none bg-transparent! text-center dark:bg-dark/30 md:flex-row">
         <CardHeader className="space-y-8">
           <CardTitle className="dark:text-white">
             Tu cuenta está siendo eliminada

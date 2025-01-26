@@ -567,7 +567,7 @@ const TaskModal = ({
         }}
       >
         <DrawerContent>
-          <DrawerHeader className="gap-0 border-b border-gray-200 p-0 dark:border-dark">
+          <DrawerHeader className="dark:border-dark gap-0 border-b border-gray-200 p-0">
             <DrawerTitle>Tarea</DrawerTitle>
             <DrawerDescription></DrawerDescription>
           </DrawerHeader>

@@ -193,7 +193,7 @@ const SheetContent = React.forwardRef<
           {children}
           {!hideCloseButton && (
             <SheetPrimitive.Close
-              className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
+              className="absolute right-4 top-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none"
               onClick={() => {
                 const endTranslateX =
                   side === "right" ? window.innerWidth : -window.innerWidth;

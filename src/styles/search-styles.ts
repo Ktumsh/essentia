@@ -15,7 +15,7 @@ export const searchStyles = {
     "dark:focus:bg-dark",
     "active:bg-gray-100",
     "dark:active:bg-dark",
-    "!transition-none",
+    "transition-none!",
   ],
   dataText: [
     "group-hover:text-main dark:group-hover:text-white",
@@ -35,7 +35,7 @@ export const searchStyles = {
     "size-fit shrink-0",
     "hover:bg-transparent dark:hover:bg-transparent",
   ],
-  modalHeader: ["flex", "items-center", "w-full", "px-1", "!mt-0"],
+  modalHeader: ["flex", "items-center", "w-full", "px-1", "mt-0!"],
   modalContent: ["p-2", "overflow-y-auto"],
   noResults: [
     "flex",

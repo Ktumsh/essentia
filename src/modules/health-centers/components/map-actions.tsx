@@ -28,7 +28,7 @@ const MapActions = (props: MapActionsProps) => {
           className="absolute right-2 top-2 hidden md:inline-flex"
         >
           <span className="sr-only">Pantalla completa</span>
-          <Maximize className="!size-6" />
+          <Maximize className="size-6!" />
         </Button>
       </BetterTooltip>
       <div className="absolute bottom-28 right-2 z-40 flex h-fit flex-col space-y-4 md:top-1/2 md:-translate-y-1/2 md:space-y-2">
@@ -39,10 +39,10 @@ const MapActions = (props: MapActionsProps) => {
             radius="full"
             size="icon"
             onClick={centerLocation}
-            className="!size-11 md:!size-9"
+            className="size-11! md:size-9!"
           >
             <span className="sr-only">Centrar ubicación</span>
-            <CenterLocationIcon className="!size-6 md:!size-5" />
+            <CenterLocationIcon className="size-6! md:size-5!" />
           </Button>
         </BetterTooltip>
         <BetterTooltip content="Aumentar" side="left">
@@ -52,10 +52,10 @@ const MapActions = (props: MapActionsProps) => {
             radius="full"
             size="icon"
             onClick={handleZoomIn}
-            className="!size-11 md:!size-9"
+            className="size-11! md:size-9!"
           >
             <span className="sr-only">Aumentar</span>
-            <ZoomInIcon className="!size-6 md:!size-5" />
+            <ZoomInIcon className="size-6! md:size-5!" />
           </Button>
         </BetterTooltip>
         <BetterTooltip content="Alejar" side="left">
@@ -65,10 +65,10 @@ const MapActions = (props: MapActionsProps) => {
             radius="full"
             size="icon"
             onClick={handleZoomOut}
-            className="!size-11 md:!size-9"
+            className="size-11! md:size-9!"
           >
             <span className="sr-only">Alejar</span>
-            <ZoomOutIcon className="!size-6 md:!size-5" />
+            <ZoomOutIcon className="size-6! md:size-5!" />
           </Button>
         </BetterTooltip>
       </div>
