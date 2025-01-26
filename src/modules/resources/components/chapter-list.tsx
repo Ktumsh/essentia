@@ -1,6 +1,6 @@
 "use client";
 
-import { CircularProgress } from "@nextui-org/progress";
+import { CircularProgress } from "@heroui/progress";
 import { CheckCircle, CircleDashed } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

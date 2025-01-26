@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import { nextui } from "@nextui-org/theme";
+import { heroui } from "@heroui/theme";
 import typography from "@tailwindcss/typography";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import animate from "tailwindcss-animate";
@@ -12,7 +12,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: ["class"],
   theme: {
@@ -313,7 +313,7 @@ const config: Config = {
   plugins: [
     animate,
     typography,
-    nextui({
+    heroui({
       themes: {
         light: {
           colors: {
