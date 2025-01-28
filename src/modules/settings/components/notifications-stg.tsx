@@ -41,9 +41,9 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
   if (!isSupported) {
     return (
       <div className="flex flex-col">
-        <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+        <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
           <li>
-            <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
+            <div className="text-main-h dark:text-main-dark inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium md:px-4 md:py-2">
               <div className="flex items-center gap-4">
                 <p>
                   Las notificaciones push no están soportadas en este navegador.
@@ -64,10 +64,10 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
             variant="ghost"
             size="icon"
             radius="full"
-            className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
+            className="absolute inset-y-0 left-4 mt-auto mb-2 md:left-0"
             onClick={() => router.push("/settings")}
           >
-            <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
+            <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
           </Button>
           <div className="ml-12">
             <SettingsOptsHeader title="Notificaciones y recordatorios" />
@@ -82,9 +82,9 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
 
       <div className="mt-1 flex flex-1 flex-col">
         <div className="flex flex-col">
-          <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+          <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
             <li>
-              <div className="inline-flex h-auto min-h-11 w-full items-center justify-between gap-2 px-6 py-2 text-sm font-medium text-main-h dark:text-main-dark md:px-4">
+              <div className="text-main-h dark:text-main-dark inline-flex h-auto min-h-11 w-full items-center justify-between gap-2 px-6 py-2 text-sm font-medium md:px-4">
                 <div className="flex items-center gap-4">
                   <BellRing className="size-4 shrink-0" />
                   <div className="flex flex-col items-start">
@@ -111,8 +111,8 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
             </li>
             {isSubscribed &&
               userId === "3a25cc78-2d6b-4c83-8af2-7970e5849ae4" && (
-                <li className="border-t border-gray-200 dark:border-dark">
-                  <div className="inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium text-main-h dark:text-main-dark md:px-4 md:py-2">
+                <li className="dark:border-dark border-t border-gray-200">
+                  <div className="text-main-h dark:text-main-dark inline-flex h-auto min-h-11 w-full items-center justify-between px-6 py-3 text-sm font-medium md:px-4 md:py-2">
                     <div className="flex items-center gap-4">
                       <div className="flex flex-col items-start">
                         <Input
