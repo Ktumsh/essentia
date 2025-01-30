@@ -66,7 +66,7 @@ const ChapterList = ({
             value={`module-${index}`}
             className="rounded-lg border"
           >
-            <AccordionTrigger className="gap-4 px-6 py-4 underline-offset-2 md:hover:no-underline">
+            <AccordionTrigger className="gap-2 px-3 py-2 underline-offset-2 md:gap-4 md:px-6 md:py-4 md:hover:no-underline">
               <CircularProgress
                 aria-label={moduleProgress[item.module.id] + "%"}
                 value={moduleProgress[item.module.id] || 0}
@@ -79,16 +79,16 @@ const ChapterList = ({
                 )}
               />
               <div className="w-full">
-                <span className="text-nowrap text-sm font-normal">
+                <span className="text-sm font-normal text-nowrap">
                   Módulo {item.module.order}
                 </span>
-                <h4 className="text-base text-main dark:text-white">
+                <h4 className="text-main text-base dark:text-white">
                   {item.module.title}
                 </h4>
               </div>
             </AccordionTrigger>
             <AccordionContent
-              className="m-1 overflow-hidden rounded-lg bg-gray-100 pb-0 dark:bg-dark/50"
+              className="dark:bg-dark/50 m-1 overflow-hidden rounded-lg bg-gray-100 pb-0"
               asChild
             >
               <ul className="py-2">
@@ -103,9 +103,9 @@ const ChapterList = ({
                         href={href}
                         onClick={(e) => handleLessonClick(e, href)}
                         className={cn(
-                          "relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm text-main-h transition-colors duration-150 hover:bg-gray-200 hover:text-main dark:text-main-dark dark:hover:bg-dark dark:hover:text-white",
+                          "text-main-h hover:text-main dark:text-main-dark dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-200 dark:hover:text-white",
                           {
-                            "bg-gray-200 text-main dark:bg-dark dark:text-white":
+                            "text-main dark:bg-dark bg-gray-200 dark:text-white":
                               isActive,
                           },
                         )}
@@ -127,10 +127,10 @@ const ChapterList = ({
                     <Link
                       href={`/${resourceSlug}/${item.module.slug}/${item.exam.slug}`}
                       className={cn(
-                        "relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm text-main-h transition-colors duration-150 hover:bg-gray-200 hover:text-main dark:text-main-dark dark:hover:bg-dark dark:hover:text-white",
+                        "text-main-h hover:text-main dark:text-main-dark dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-200 dark:hover:text-white",
                         "pointer-events-none",
                         {
-                          "bg-gray-200 text-main dark:bg-dark dark:text-white":
+                          "text-main dark:bg-dark bg-gray-200 dark:text-white":
                             pathname.includes(item.exam.slug),
                         },
                       )}
@@ -138,7 +138,7 @@ const ChapterList = ({
                       <p className="flex grow items-center gap-1 opacity-50">
                         ¡Evalúa lo que aprendiste!
                       </p>
-                      <Badge className="bg-danger/10! font-normal text-danger!">
+                      <Badge className="bg-danger/10! text-danger! font-normal">
                         Próximamente
                       </Badge>
                     </Link>

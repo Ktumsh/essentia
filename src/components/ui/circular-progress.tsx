@@ -57,7 +57,7 @@ const CircularProgress = ({
           strokeWidth={strokeWidth ?? circleStrokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset="0"
-          className={cn("stroke-gray-100 dark:stroke-dark", className)}
+          className={cn("dark:stroke-dark stroke-gray-100", className)}
         />
 
         {/* Progress */}
@@ -76,7 +76,7 @@ const CircularProgress = ({
       {showLabel && (
         <div
           className={cn(
-            "text-md absolute inset-0 flex items-center justify-center",
+            "text-md absolute inset-0 grid place-content-center",
             labelClassName,
           )}
         >

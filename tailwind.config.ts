@@ -1,25 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 
-import typography from "@tailwindcss/typography";
 import fontFamily from "tailwindcss/defaultTheme";
-import animate from "tailwindcss-animate";
 
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  darkMode: "class",
   theme: {
-    container: {
-      screens: {
-        xl: "1280px",
-      },
-    },
     extend: {
       boxShadow: {
         "bento-shadow": "var(--bento-shadow)",
@@ -244,6 +230,5 @@ const config: Config = {
       },
     },
   },
-  plugins: [animate, typography],
 };
 export default config;
