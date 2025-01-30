@@ -47,7 +47,7 @@ const Home = ({ profileData }: HomeProps) => {
           {!isMobile && (
             <div className="relative mb-5 hidden w-full flex-row gap-2 md:flex">
               <section className="flex w-full flex-1 flex-col">
-                <h2 className="mb-2 ml-3 px-5 font-semibold text-main dark:text-main-dark md:px-0">
+                <h2 className="text-main dark:text-main-dark mb-2 ml-3 px-5 font-semibold md:px-0">
                   Recomendaciones
                 </h2>
                 <Recomendations isPremium={isPremium!} />
@@ -59,12 +59,12 @@ const Home = ({ profileData }: HomeProps) => {
               <RecomCard profileData={profileData} />
             </section>
           </div>
-          <div className="relative rounded-t-3xl bg-gray-100 pb-16 dark:bg-dark/50 md:rounded-none md:bg-transparent md:pb-0 md:dark:bg-transparent">
-            <div className="flex w-full select-none flex-col py-6 md:py-0">
-              <h2 className="mb-2 ml-3 px-8 text-xl font-semibold tracking-tight text-main dark:text-main-dark md:px-0 md:text-base md:tracking-normal">
+          <div className="dark:bg-dark/50 relative rounded-t-3xl bg-gray-100 pb-16 md:rounded-none md:bg-transparent md:pb-0 md:dark:bg-transparent">
+            <div className="flex w-full flex-col py-6 select-none md:py-0">
+              <h2 className="text-main dark:text-main-dark mb-2 ml-3 px-8 text-xl font-semibold tracking-tight md:px-0 md:text-base md:tracking-normal">
                 Todos los recursos
               </h2>
-              <section className="mb-6 flex w-full flex-col px-6 md:mb-0 md:px-0">
+              <section className="mb-6 px-6 md:mb-0 md:px-0">
                 <Resources />
               </section>
               <MobileDailyTip facts={facts} loading={loading} />

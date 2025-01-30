@@ -13,19 +13,17 @@ const Resources = () => {
     }),
   );
   return (
-    <div className="flex size-full">
-      <div className="grid w-full grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
-        {itemId.map((item, index) => (
-          <ResourcesItem
-            key={index}
-            index={index}
-            title={item.title}
-            subtitle={item.subtitle}
-            quote={item.quote}
-            href={item.href}
-          />
-        ))}
-      </div>
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+      {itemId.map((item, index) => (
+        <ResourcesItem
+          key={index}
+          index={index}
+          title={item.title}
+          subtitle={item.subtitle}
+          quote={item.quote}
+          href={item.href}
+        />
+      ))}
     </div>
   );
 };

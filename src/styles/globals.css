@@ -2,6 +2,12 @@
 
 @config "../../tailwind.config.ts";
 
+@custom-variant dark (&:is(.dark *));
+
+@plugin "tailwindcss-animate";
+
+@plugin "@tailwindcss/typography";
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -243,10 +249,12 @@
     svg.ai-gradient-icon.v2 path {
       fill: url(#ai-dark-gradient);
     }
-  }
-}
 
-@layer base {
+    .modal {
+      scrollbar-color: var(--background-dark-f) transparent !important;
+    }
+  }
+
   *,
   ::after,
   ::before,
@@ -282,13 +290,6 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--scrollbar)) transparent;
-  }
-  .dark .modal {
-    scrollbar-color: var(--background-dark-f) transparent !important;
-  }
-
-  .StripeElement > * {
-    font-family: var(--font-dm-sans) !important;
   }
 }
 
