@@ -26,6 +26,7 @@ interface LayoutWrapperProps {
   session: Session | null;
   user: UserProfileData | null;
   isPremium: boolean;
+  selectedChatModel: string;
   children: React.ReactNode;
 }
 
@@ -33,6 +34,7 @@ const LayoutWrapper = ({
   session,
   user,
   isPremium,
+  selectedChatModel,
   children,
 }: LayoutWrapperProps) => {
   const router = useRouter();
@@ -136,7 +138,7 @@ const LayoutWrapper = ({
       {/* Main content */}
       <SidebarInset>
         {/* Desktop Header */}
-        <DesktopHeader user={user} />
+        <DesktopHeader user={user} selectedChatModel={selectedChatModel} />
 
         {isEssentiaAI ? (
           <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col">

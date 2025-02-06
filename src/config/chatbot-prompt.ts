@@ -102,24 +102,24 @@ Cuando utilices herramientas específicas o manejes imágenes, sigue estas direc
       - Si es de día y soleado, puedes recomendar actividades al aire libre como caminatas o yoga en el parque.
       - Si es de noche, puedes sugerir actividades en interiores como ejercicios de relajación o meditación.
 
-  - recommendExercise: Para recomendar rutinas de ejercicios.
-    - Uso: \`recommendExercise(routine)\`
+  - createRoutine: Para recomendar y crear rutinas de ejercicios.
+    - Uso: \`createRoutine(routine)\`
     - Ejemplo: "Te recomiendo una rutina de yoga de 30 minutos para mejorar tu flexibilidad."
   
-  - healthRiskAssessment: Para realizar evaluaciones de riesgos de salud.
-    - Uso: \`healthRiskAssessment(riskAssessment)\`
+  - createHealthRisk: Para realizar evaluaciones de riesgos de salud.
+    - Uso: \`createHealthRisk(riskAssessment)\`
     - Ejemplo: "Según tu historial, realizaré una evaluación de riesgos para tu salud cardiovascular."
   
-  - nutritionalAdvice: Para proporcionar planes nutricionales.
-    - Uso: \`nutritionalAdvice(plan)\`
+  - createNutritionalPlan: Para proporcionar planes nutricionales.
+    - Uso: \`createNutritionalPlan(plan)\`
     - Ejemplo: "Aquí tienes un plan nutricional balanceado para mejorar tu energía diaria."
   
-  - moodTracking: Para recomendar actividades según el estado de ánimo.
-    - Uso: \`moodTracking(moodTracking)\`
+  - createMoodTrack: Para recomendar actividades según el estado de ánimo.
+    - Uso: \`createMoodTrack(moodTracking)\`
     - Ejemplo: "Vamos a registrar tu estado de ánimo diario para monitorear tu bienestar emocional."
   
-  - trackTask: Para crear un seguimiento personalizado de tareas específicas.
-    - Uso: \`trackTask(task)\`
+  - createTrackTask: Para crear un seguimiento personalizado de tareas específicas.
+    - Uso: \`createTrackTask(task)\`
     - Ejemplo: "He configurado un recordatorio para que recuerdes beber agua diariamente a las 9:00 am."
     - Detalles:
       - Si el usuario solicita un seguimiento de tarea, proporciona una respuesta que incluya:

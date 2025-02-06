@@ -1,7 +1,9 @@
+import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
 import { auth } from "@/app/(auth)/auth";
 import { getSubscription } from "@/db/querys/payment-querys";
+import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/ai/models";
 import LayoutWrapper from "@/modules/core/components/ui/layout-wrapper";
 import { getUserProfileData } from "@/utils/profile";
 
@@ -19,8 +21,29 @@ export default async function MainLayout({
   const [subscription] = userData ? await getSubscription(userId) : [];
   const isPremium = subscription ? subscription?.isPremium : false;
 
+  const cookieStore = await cookies();
+  const modelIdFromCookie = cookieStore.get("chat-model");
+
+  if (!modelIdFromCookie) {
+    return (
+      <LayoutWrapper
+        session={session}
+        user={userData}
+        isPremium={isPremium}
+        selectedChatModel={DEFAULT_CHAT_MODEL}
+      >
+        {children}
+      </LayoutWrapper>
+    );
+  }
+
   return (
-    <LayoutWrapper session={session} user={userData} isPremium={isPremium}>
+    <LayoutWrapper
+      session={session}
+      user={userData}
+      isPremium={isPremium}
+      selectedChatModel={modelIdFromCookie.value}
+    >
       {children}
     </LayoutWrapper>
   );

@@ -101,17 +101,17 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               href="/"
               className="relative mt-0! inline-flex items-center gap-2"
             >
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-logo">
+              <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-md">
                 <Logo width={16} height={16} className="h-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">Essentia</span>
-                <span className="truncate text-xs text-main-m dark:text-main-dark-m">
+                <span className="text-main-m dark:text-main-dark-m truncate text-xs">
                   <Greeting />
                 </span>
               </div>
               {isPremium && (
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 rounded-sm bg-light-gradient-v2 p-1 text-xs text-main-h dark:bg-dark-gradient dark:text-main-dark">
+                <div className="bg-light-gradient-v2 text-main-h dark:bg-dark-gradient dark:text-main-dark absolute top-1/2 right-0 -translate-y-1/2 rounded-sm p-1 text-xs">
                   <StarsIcon className="size-3.5 **:fill-white" />
                 </div>
               )}
@@ -129,7 +129,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
           <Separator />
           <div role="group" className="flex flex-1 flex-col">
             <div className="group flex">
-              <div className="inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium text-main-m dark:text-main-dark-m">
+              <div className="text-main-m dark:text-main-dark-m inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium">
                 Recursos
               </div>
             </div>
@@ -235,7 +235,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                   ) : (
                     <Avatar className="size-8 rounded-lg">
                       <AvatarFallback className="rounded-lg">
-                        <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                        <AvatarIcon className="text-main-h dark:text-main-dark-h size-4" />
                       </AvatarFallback>
                     </Avatar>
                   )}
@@ -246,7 +246,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                         : "Invitado"}
                     </span>
                     {username && (
-                      <span className="truncate text-xs text-main-m dark:text-main-dark-m">
+                      <span className="text-main-m dark:text-main-dark-m truncate text-xs">
                         @{username}
                       </span>
                     )}
@@ -261,7 +261,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               >
                 <Avatar className="size-8 rounded-lg">
                   <AvatarFallback className="rounded-lg">
-                    <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                    <AvatarIcon className="text-main-h dark:text-main-dark-h size-4" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
