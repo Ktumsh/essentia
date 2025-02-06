@@ -64,7 +64,7 @@ export function VisibilitySelector({
       <DropdownMenuTrigger
         asChild
         className={cn(
-          "w-full text-main data-[state=open]:bg-gray-100 data-[state=open]:text-main-m dark:text-main-dark dark:data-[state=open]:bg-dark/50 dark:data-[state=open]:text-main-dark-m md:w-auto",
+          "text-main data-[state=open]:text-main-m dark:text-main-dark dark:data-[state=open]:bg-dark/50 dark:data-[state=open]:text-main-dark-m w-full data-[state=open]:bg-gray-100 md:w-auto",
           className,
         )}
       >
@@ -79,7 +79,7 @@ export function VisibilitySelector({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start" className="min-w-[300px]">
+      <DropdownMenuContent align="start" className="max-w-[300px]">
         {visibilities.map((visibility) => (
           <DropdownMenuItem
             key={visibility.id}
@@ -93,13 +93,13 @@ export function VisibilitySelector({
             <div className="flex flex-col items-start gap-1">
               {visibility.label}
               {visibility.description && (
-                <div className="text-xs text-muted-foreground">
+                <div className="text-muted-foreground text-xs">
                   {visibility.description}
                 </div>
               )}
             </div>
             <div className="text-danger opacity-0 group-data-[active=true]/item:opacity-100">
-              <CheckCircledIcon className="size-5!" />
+              <CheckCircledIcon />
             </div>
           </DropdownMenuItem>
         ))}

@@ -1,6 +1,6 @@
 "use server";
 
-import { type CoreUserMessage, generateText } from "ai";
+import { generateText, Message } from "ai";
 import { cookies } from "next/headers";
 
 import {
@@ -9,21 +9,21 @@ import {
   updateChatVisibilityById,
 } from "@/db/querys/chat-querys";
 import { deleteTasksByChatIdAfterTimestamp } from "@/db/querys/task-querys";
-import { gptFlashModel } from "@/modules/chatbot/ai";
+import { modelProvider } from "@/modules/chatbot/ai/models";
 import { VisibilityType } from "@/modules/chatbot/components/visibility-selector";
 
-export async function saveModelId(model: string) {
+export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();
-  cookieStore.set("model-id", model);
+  cookieStore.set("chat-model", model);
 }
 
 export async function generateTitleFromUserMessage({
   message,
 }: {
-  message: CoreUserMessage;
+  message: Message;
 }) {
   const { text: title } = await generateText({
-    model: gptFlashModel,
+    model: modelProvider.languageModel("title-model"),
     system: `\n
     - Generarás un título breve basado en el primer mensaje con el que un usuario inicia una conversación
     - asegúrate de que no tenga más de 80 caracteres

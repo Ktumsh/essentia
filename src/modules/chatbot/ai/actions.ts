@@ -11,6 +11,7 @@ import {
   TRACK_TASK_SYSTEM_PROMPT,
 } from "@/config/tools-prompt";
 
+import { modelProvider } from "./models";
 import {
   moodTrackingSchema,
   nutritionalPlanSchema,
@@ -18,8 +19,6 @@ import {
   routineSchema,
   taskSchema,
 } from "../components/tools/tool-schemas";
-
-import { gptFlashModel, gptProModel } from ".";
 
 type Routine = {
   objective: string;
@@ -66,7 +65,7 @@ type Task = {
 
 export async function generateExerciseRoutine(props: Routine) {
   const { object: routine } = await generateObject({
-    model: gptFlashModel,
+    model: modelProvider.languageModel("chat-model-small"),
     prompt: ROUTINE_PROMPT(props),
     schema: routineSchema,
   });
@@ -76,7 +75,7 @@ export async function generateExerciseRoutine(props: Routine) {
 
 export async function generateRiskAssessment(props: RiskAssessment) {
   const { object: riskAssessment } = await generateObject({
-    model: gptFlashModel,
+    model: modelProvider.languageModel("chat-model-small"),
     prompt: RISK_ASSESSMENT_PROMPT(props),
     schema: riskAssessmentSchema,
   });
@@ -86,7 +85,7 @@ export async function generateRiskAssessment(props: RiskAssessment) {
 
 export async function generateNutritionalPlan(props: Plan) {
   const { object: plan } = await generateObject({
-    model: gptFlashModel,
+    model: modelProvider.languageModel("chat-model-small"),
     prompt: PLAN_PROMPT(props),
     schema: nutritionalPlanSchema,
   });
@@ -96,7 +95,7 @@ export async function generateNutritionalPlan(props: Plan) {
 
 export async function generateMoodTracking(props: MoodTracking) {
   const { object: moodTracking } = await generateObject({
-    model: gptFlashModel,
+    model: modelProvider.languageModel("chat-model-small"),
     prompt: MOOD_TRACKING_PROMPT(props),
     schema: moodTrackingSchema,
   });
@@ -106,7 +105,7 @@ export async function generateMoodTracking(props: MoodTracking) {
 
 export async function generateTaskTracking(props: Task) {
   const { object: task } = await generateObject({
-    model: gptProModel,
+    model: modelProvider.languageModel("chat-model-small"),
     system: TRACK_TASK_SYSTEM_PROMPT,
     prompt: TRACK_TASK_PROMPT(props),
     schema: taskSchema,

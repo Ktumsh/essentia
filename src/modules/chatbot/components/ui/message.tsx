@@ -143,7 +143,7 @@ const PurePreviewMessage = ({
                     variant="ghost"
                     size="icon"
                     radius="full"
-                    className="text-main opacity-0 hover:bg-white group-hover/message:opacity-100 dark:text-main-dark dark:hover:bg-full-dark"
+                    className="text-main dark:text-main-dark dark:hover:bg-full-dark opacity-0 group-hover/message:opacity-100 hover:bg-white"
                     onClick={() => {
                       setMode("edit");
                     }}
@@ -162,7 +162,7 @@ const PurePreviewMessage = ({
                 }
                 onClick={() => isMobile && userRole && setIsOpen(true)}
                 className={cn("flex flex-col gap-4", {
-                  "rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 duration-75 transition-transform-opacity active:scale-[0.97] active:opacity-80 active:duration-150 dark:bg-full-dark md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
+                  "transition-transform-opacity dark:bg-full-dark rounded-s-xl rounded-ee-xl bg-white px-2.5 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
                     userRole,
                 })}
               >
@@ -199,15 +199,15 @@ const PurePreviewMessage = ({
                   <div key={toolCallId}>
                     {toolName === "getWeather" ? (
                       <Weather weatherAtLocation={result} />
-                    ) : toolName === "recommendExercise" ? (
+                    ) : toolName === "createRoutine" ? (
                       <ExerciseRoutineStock props={result.routine} />
-                    ) : toolName === "healthRiskAssessment" ? (
+                    ) : toolName === "createHealthRisk" ? (
                       <HealthRiskStock props={result.riskAssessment} />
-                    ) : toolName === "nutritionalAdvice" ? (
+                    ) : toolName === "createNutritionalPlan" ? (
                       <NutritionPlanStock props={result.plan} />
-                    ) : toolName === "moodTracking" ? (
+                    ) : toolName === "createMoodTrack" ? (
                       <MoodTrackingStock props={result.moodTracking} />
-                    ) : toolName === "trackTask" ? (
+                    ) : toolName === "createTrackTask" ? (
                       <TrackTaskStock
                         props={taskProps}
                         isLoading={isTaskLoading}

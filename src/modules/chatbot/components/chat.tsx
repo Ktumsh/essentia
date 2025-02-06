@@ -37,6 +37,7 @@ type StreamingDelta = {
 export interface ChatProps {
   id: string;
   initialMessages: Array<Message>;
+  selectedChatModel: string;
   isReadonly: boolean;
   selectedVisibilityType: VisibilityType;
   session: Session | null;
@@ -46,6 +47,7 @@ export interface ChatProps {
 export function Chat({
   id,
   initialMessages,
+  selectedChatModel,
   isReadonly,
   selectedVisibilityType,
   session,
@@ -72,7 +74,7 @@ export function Chat({
     data: streamingData,
   } = useChat({
     id,
-    body: { id },
+    body: { id, selectedChatModel },
     initialMessages,
     experimental_throttle: 100,
     onFinish: () => {
