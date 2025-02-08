@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 "use server";
 
 import webpush from "web-push";

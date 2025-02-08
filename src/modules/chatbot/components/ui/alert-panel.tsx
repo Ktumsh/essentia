@@ -44,10 +44,10 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
               ? { ease: "easeInOut", duration: 1, delay: 0.3 }
               : { ease: "easeInOut", duration: 0.5, delay: 0.3 }
           }
-          className="absolute inset-x-3 top-6 flex justify-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs text-main shadow-pretty dark:border-dark dark:bg-full-dark dark:text-main-dark md:inset-3 md:items-center md:gap-4 md:p-4 md:text-base"
+          className="text-main shadow-pretty dark:border-dark dark:bg-full-dark dark:text-main-dark absolute inset-x-3 top-6 flex justify-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs md:inset-3 md:items-center md:gap-4 md:p-4 md:text-base"
         >
-          <span className="inline-flex gap-2 md:items-center">
-            <CircleAlert className="size-5 text-main-m dark:text-main-dark-m" />
+          <span className="inline-flex items-center gap-2">
+            <CircleAlert className="text-main-m dark:text-main-dark-m size-5" />
             {session ? (
               <>Actualiza tu plan para poder usar Essentia AI</>
             ) : (
@@ -58,20 +58,20 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
             <Button
               radius="sm"
               onClick={() => handleOpenPaymentModal(setIsPaymentModalOpen)}
-              className="relative z-0 inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg bg-light-gradient-v2 px-4 shadow-none transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:bg-dark-gradient-v2 dark:before:bg-full-dark"
+              className="bg-light-gradient-v2 dark:bg-dark-gradient-v2 dark:before:bg-full-dark relative z-0 inline-flex h-10 min-w-20 shrink-0 items-center justify-center gap-2 rounded-lg px-4 shadow-none transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-md before:bg-white before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200"
             >
               <StarsIcon
                 aria-hidden="true"
-                className="stars-icon size-5! focus:outline-hidden **:transition"
+                className="stars-icon size-5! **:transition focus:outline-hidden"
               />
-              <span className="bg-light-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent dark:bg-dark-gradient-v2">
+              <span className="bg-light-gradient-v2 dark:bg-dark-gradient-v2 bg-clip-text font-sans font-extrabold text-transparent">
                 Hazte premium
               </span>
             </Button>
           ) : (
             <Link
               href="/login?redirect=/essentia-ai"
-              className="inline-flex h-8 min-w-10 shrink-0 items-center justify-center rounded-md bg-light-gradient-v2 px-5 text-sm text-white duration-150! data-[hover=true]:text-white dark:bg-dark-gradient"
+              className="bg-light-gradient-v2 dark:bg-dark-gradient inline-flex h-8 min-w-10 shrink-0 items-center justify-center rounded-md px-5 text-sm text-white duration-150! data-[hover=true]:text-white"
             >
               Inicia sesión
             </Link>

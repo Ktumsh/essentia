@@ -21,9 +21,15 @@ interface AppSidebarProps {
   session: Session | null;
   user: UserProfileData | null;
   isPremium: boolean;
+  selectedChatModel: string;
 }
 
-export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
+export function AppSidebar({
+  session,
+  user,
+  isPremium,
+  selectedChatModel,
+}: AppSidebarProps) {
   const pathname = usePathname();
 
   const isMobile = useIsMobile();
@@ -58,7 +64,12 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
             isLoading={isLoading}
           />
         </SidebarContent>
-        <AppFooter session={session} user={user} isMobile={isMobile} />
+        <AppFooter
+          session={session}
+          user={user}
+          isMobile={isMobile}
+          selectedChatModel={selectedChatModel}
+        />
       </Sidebar>
     );
 
@@ -73,7 +84,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
         <>
           <Sidebar
             collapsible="none"
-            className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r border-gray-200 dark:border-dark"
+            className="dark:border-dark w-[calc(var(--sidebar-width-icon)+1px)]! border-r border-gray-200"
           >
             <AppHeader isCollapsed />
             <SidebarContent>
@@ -84,6 +95,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
               user={user}
               isCollapsed
               isMobile={isMobile}
+              selectedChatModel={selectedChatModel}
             />
           </Sidebar>
           <Sidebar
@@ -107,7 +119,12 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
           <SidebarContent>
             <MainSidebar isPremium={isPremium} />
           </SidebarContent>
-          <AppFooter session={session} user={user} isMobile={isMobile} />
+          <AppFooter
+            session={session}
+            user={user}
+            isMobile={isMobile}
+            selectedChatModel={selectedChatModel}
+          />
         </>
       )}
       <SidebarRail />

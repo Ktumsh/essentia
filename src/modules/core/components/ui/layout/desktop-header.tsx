@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -16,9 +17,14 @@ import NotificationList from "./notifications-list";
 interface DesktopHeaderProps {
   user: UserProfileData | null;
   selectedChatModel: string;
+  session: Session | null;
 }
 
-const DesktopHeader = ({ user, selectedChatModel }: DesktopHeaderProps) => {
+const DesktopHeader = ({
+  user,
+  selectedChatModel,
+  session,
+}: DesktopHeaderProps) => {
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
   const router = useRouter();
@@ -26,6 +32,10 @@ const DesktopHeader = ({ user, selectedChatModel }: DesktopHeaderProps) => {
   const params = useParams();
 
   const chatId = params.id;
+
+  const isAIPage = pathname.startsWith("/essentia-ai");
+
+  const isPremium = user?.isPremium ?? false;
 
   return (
     <>
@@ -50,7 +60,7 @@ const DesktopHeader = ({ user, selectedChatModel }: DesktopHeaderProps) => {
                 />
               )}
 
-              {!isReadonly && (
+              {!isReadonly && isAIPage && session && isPremium && (
                 <ModelSelector selectedModelId={selectedChatModel} />
               )}
               {!user && (

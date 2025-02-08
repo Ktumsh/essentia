@@ -1,5 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-
 import { toZonedTime } from "date-fns-tz";
 import { eq, and, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";

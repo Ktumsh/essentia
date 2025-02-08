@@ -88,7 +88,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
   return (
     <>
       <Sheet>
-        <SheetTrigger>
+        <SheetTrigger className="flex size-8 items-center justify-center">
           <Menu strokeWidth={1.5} className="size-6" />
         </SheetTrigger>
         <SheetContent side="right" className="flex flex-col overflow-y-auto">

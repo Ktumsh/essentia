@@ -130,15 +130,24 @@ const LayoutWrapper = ({
       </motion.div>
 
       {/* Mobile Header */}
-      <MobileHeader user={user} />
+      <MobileHeader user={user} session={session} />
 
       {/* Sidebar */}
-      <AppSidebar session={session} user={user} isPremium={isPremium} />
+      <AppSidebar
+        session={session}
+        user={user}
+        isPremium={isPremium}
+        selectedChatModel={selectedChatModel}
+      />
 
       {/* Main content */}
       <SidebarInset>
         {/* Desktop Header */}
-        <DesktopHeader user={user} selectedChatModel={selectedChatModel} />
+        <DesktopHeader
+          user={user}
+          selectedChatModel={selectedChatModel}
+          session={session}
+        />
 
         {isEssentiaAI ? (
           <div className="flex h-[calc(100dvh-56px)] min-w-0 flex-col">

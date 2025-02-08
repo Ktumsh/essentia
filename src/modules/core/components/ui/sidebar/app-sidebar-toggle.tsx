@@ -26,7 +26,7 @@ const AppSidebarToggle = () => {
       content={
         <div className="inline-flex">
           <span>{tooltipContent}</span>
-          <kbd className="pointer-events-none inline-flex select-none items-center gap-1 px-1.5 text-xs">
+          <kbd className="pointer-events-none inline-flex items-center gap-1 px-1.5 text-xs select-none">
             <Command className="size-2.5" />B
             <span className="sr-only">
               Ctrl o Command + B para abrir la búsqueda rápida
@@ -39,7 +39,7 @@ const AppSidebarToggle = () => {
       <Button
         variant="ghost"
         onClick={() => toggleSidebar()}
-        className="size-9 text-main-h dark:text-main-dark-h"
+        className="text-main-h dark:text-main-dark-h size-9"
       >
         {isOpen ? (
           <SidebarFillIcon aria-hidden="true" className="size-5!" />
