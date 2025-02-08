@@ -16,7 +16,6 @@ const NonMemoizedMarkdown = ({
     p({ children }: any) {
       return <p className="mb-2 last:mb-0">{children}</p>;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     a: ({ node, children, ...props }: any) => {
       return (
         <Link
@@ -63,7 +62,7 @@ const NonMemoizedMarkdown = ({
       remarkPlugins={[remarkGfm]}
       components={components}
       className={cn(
-        "prose break-words text-sm text-main-h! dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:text-main-dark! md:text-base",
+        "prose text-main-h! dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:text-main-dark! text-sm break-words md:text-base",
         prose,
       )}
     >

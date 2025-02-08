@@ -190,6 +190,7 @@ const PurePreviewMessage = ({
           {toolInvocations &&
             toolInvocations.map((toolInvocation) => {
               const { toolName, toolCallId, state } = toolInvocation;
+
               if (state === "result") {
                 const { result } = toolInvocation;
 

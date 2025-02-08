@@ -11,6 +11,7 @@ interface AppFooterProps {
   user: UserProfileData | null;
   isCollapsed?: boolean;
   isMobile: boolean;
+  selectedChatModel: string;
 }
 
 const AppFooter = ({
@@ -18,11 +19,17 @@ const AppFooter = ({
   user,
   isCollapsed,
   isMobile,
+  selectedChatModel,
 }: AppFooterProps) => {
   return (
     <>
       {isMobile ? (
-        <ChatFooter isMobile={isMobile} />
+        <ChatFooter
+          isMobile={isMobile}
+          session={session}
+          selectedChatModel={selectedChatModel}
+          isPremium={user?.isPremium ?? false}
+        />
       ) : (
         <MainNavUser session={session} user={user} isCollapsed={isCollapsed} />
       )}

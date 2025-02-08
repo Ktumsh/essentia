@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronsUpDown } from "lucide-react";
 import { startTransition, useMemo, useOptimistic, useState } from "react";
 
 import { saveChatModelAsCookie } from "@/app/(main)/essentia-ai/chat/actions";
@@ -19,8 +19,10 @@ import { CHAT_MODELS } from "../../ai/models";
 export function ModelSelector({
   selectedModelId,
   className,
+  isMobile = false,
 }: {
   selectedModelId: string;
+  isMobile?: boolean;
 } & React.ComponentProps<typeof Button>) {
   const [open, setOpen] = useState(false);
   const [optimisticModelId, setOptimisticModelId] =
@@ -36,16 +38,23 @@ export function ModelSelector({
       <DropdownMenuTrigger
         asChild
         className={cn(
-          "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground w-fit",
+          "text-main data-[state=open]:text-main-m dark:text-main-dark dark:data-[state=open]:bg-dark/50 dark:data-[state=open]:text-main-dark-m w-full data-[state=open]:bg-gray-100 md:w-auto",
           className,
         )}
       >
-        <Button variant="outline" className="md:h-[34px] md:px-2">
+        <Button variant="outline" className="px-3">
           {selectedChatModel?.name}
-          <ChevronDown />
+          {isMobile ? (
+            <ChevronsUpDown className="ml-auto size-4" />
+          ) : (
+            <ChevronDown />
+          )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="max-w-[300px]">
+      <DropdownMenuContent
+        align={isMobile ? "start" : "end"}
+        className="max-w-[300px]"
+      >
         {CHAT_MODELS.map((chatModel) => {
           const { id } = chatModel;
 
