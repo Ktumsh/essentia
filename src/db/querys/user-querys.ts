@@ -79,9 +79,9 @@ export async function createUser(
 
     await createNotification({
       userId,
-      title: "¡Bienvenido!",
+      title: "¡Bienvenid@!",
       message:
-        "Gracias por registrarte en Essentia. ¡Comienza a explorar nuestros cursos!",
+        "Gracias por registrarte en Essentia. ¡Comienza a explorar nuestros cursos educativos!",
       url: "/salud-y-bienestar",
     });
 
