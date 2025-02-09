@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
-import { deleteTrailingMessages } from "@/app/(main)/essentia-ai/chat/actions";
+import { deleteTrailingMessages } from "@/app/(main)/(chat)/actions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -71,9 +71,9 @@ export function MessageEditor({
   };
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-xl bg-background px-2.5 py-1.5 outline outline-2 outline-danger/50 md:px-4 md:py-2.5">
+    <div className="bg-background outline-danger/50 flex w-full flex-col gap-2 rounded-xl px-2.5 py-1.5 outline outline-2 md:px-4 md:py-2.5">
       <Textarea
-        className="h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto border-none p-0 text-base! text-main-h shadow-none [field-sizing:content] focus-visible:ring-0 dark:text-main-dark"
+        className="text-main-h dark:text-main-dark [field-sizing:content] h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto border-none p-0 text-base! shadow-none focus-visible:ring-0"
         value={draftContent}
         onChange={handleInput}
       />

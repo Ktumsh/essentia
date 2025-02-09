@@ -9,8 +9,8 @@ import {
   updateChatVisibilityById,
 } from "@/db/querys/chat-querys";
 import { deleteTasksByChatIdAfterTimestamp } from "@/db/querys/task-querys";
-import { modelProvider } from "@/modules/chatbot/ai/models";
 import { VisibilityType } from "@/modules/chatbot/components/visibility-selector";
+import { modelProvider } from "@/modules/chatbot/lib/ai/models";
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();
@@ -27,23 +27,13 @@ export async function generateTitleFromUserMessage({
     system: `\n
     - Generarás un título breve basado en el primer mensaje con el que un usuario inicia una conversación
     - asegúrate de que no tenga más de 80 caracteres
-    - asegúrate de que no tenga más de 3 palabras
+    - asegúrate de que no tenga más de 4 palabras
     - el título debe ser un resumen del mensaje del usuario
     - no utilices comillas ni dos puntos`,
     prompt: JSON.stringify(message),
   });
 
   return title;
-}
-
-export async function updateChatVisibility({
-  chatId,
-  visibility,
-}: {
-  chatId: string;
-  visibility: VisibilityType;
-}) {
-  await updateChatVisibilityById({ chatId, visibility });
 }
 
 export async function deleteTrailingMessages({ id }: { id: string }) {
@@ -58,4 +48,14 @@ export async function deleteTrailingMessages({ id }: { id: string }) {
     chatId: message.chatId,
     timestamp: message.createdAt,
   });
+}
+
+export async function updateChatVisibility({
+  chatId,
+  visibility,
+}: {
+  chatId: string;
+  visibility: VisibilityType;
+}) {
+  await updateChatVisibilityById({ chatId, visibility });
 }

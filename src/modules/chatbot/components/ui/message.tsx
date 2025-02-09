@@ -15,17 +15,18 @@ import { cn } from "@/utils/common";
 
 import { BotAvatar, UserAvatar } from "./role-avatar";
 import {
-  ExerciseRoutineStock,
+  RoutineStock,
   HealthRiskStock,
-  MoodTrackingStock,
   NutritionPlanStock,
+  MoodTrackStock,
+  TaskStock,
 } from "../tools";
 import EditModal from "./edit-modal";
 import { InitialLoading } from "./initial-loading";
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
+import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
-import TrackTaskStock from "../tools/track-task-stock";
 import { Weather } from "../tools/weather";
 
 import type { ChatVote } from "@/db/schema";
@@ -58,8 +59,15 @@ const PurePreviewMessage = ({
 }: MessageProps) => {
   const isMobile = useIsMobile();
 
-  const { id, role, content, toolInvocations, experimental_attachments } =
-    message;
+  const {
+    id,
+    role,
+    content,
+    toolInvocations,
+    reasoning,
+    experimental_attachments,
+  } = message;
+
   const { profileImage, username } = user || {};
 
   const userRole = role === "user";
@@ -123,7 +131,7 @@ const PurePreviewMessage = ({
           <UserAvatar profileImage={profileImage} username={username} />
         )}
 
-        <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full flex-col gap-4">
           {experimental_attachments && (
             <div className="flex flex-row gap-2">
               {experimental_attachments.map((attachment) => (
@@ -135,7 +143,11 @@ const PurePreviewMessage = ({
             </div>
           )}
 
-          {content && mode === "view" && (
+          {reasoning && (
+            <MessageReasoning isLoading={isLoading} reasoning={reasoning} />
+          )}
+
+          {(message.content || reasoning) && mode === "view" && (
             <div className="flex flex-row items-start gap-2">
               {userRole && !isReadonly && !isMobile && (
                 <BetterTooltip content="Editar mensaje">
@@ -201,19 +213,18 @@ const PurePreviewMessage = ({
                     {toolName === "getWeather" ? (
                       <Weather weatherAtLocation={result} />
                     ) : toolName === "createRoutine" ? (
-                      <ExerciseRoutineStock props={result.routine} />
+                      <RoutineStock {...result.routine} />
                     ) : toolName === "createHealthRisk" ? (
-                      <HealthRiskStock props={result.riskAssessment} />
+                      <HealthRiskStock {...result.healthRisk} />
                     ) : toolName === "createNutritionalPlan" ? (
-                      <NutritionPlanStock props={result.plan} />
+                      <NutritionPlanStock {...result.nutritionalPlan} />
                     ) : toolName === "createMoodTrack" ? (
-                      <MoodTrackingStock props={result.moodTracking} />
+                      <MoodTrackStock {...result.moodTrack} />
                     ) : toolName === "createTrackTask" ? (
-                      <TrackTaskStock
-                        props={taskProps}
-                        isLoading={isTaskLoading}
-                      />
-                    ) : null}
+                      <TaskStock task={taskProps} isLoading={isTaskLoading} />
+                    ) : (
+                      <pre>{JSON.stringify(result, null, 2)}</pre>
+                    )}
                   </div>
                 );
               } else {
@@ -227,7 +238,7 @@ const PurePreviewMessage = ({
                     {toolName === "getWeather" ? (
                       <Weather />
                     ) : toolName === "trackTask" ? (
-                      <TrackTaskStock />
+                      <TaskStock />
                     ) : (
                       <InitialLoading />
                     )}
@@ -254,6 +265,8 @@ export const PreviewMessage = memo(
   PurePreviewMessage,
   (prevProps, nextProps) => {
     if (prevProps.isLoading !== nextProps.isLoading) return false;
+    if (prevProps.message.reasoning !== nextProps.message.reasoning)
+      return false;
     if (prevProps.message.content !== nextProps.message.content) return false;
     if (
       !equal(

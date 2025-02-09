@@ -31,7 +31,7 @@ import { BetterTooltip } from "@/components/ui/tooltip";
 import { QuestionIcon } from "@/modules/icons/miscellaneus";
 import { cn } from "@/utils/common";
 
-import { RiskAssessment, RiskValue } from "./health-risk-stock";
+import { HealthRisk } from "../../lib/ai/tool-schemas";
 import { getFormattedDate } from "../../lib/utils";
 
 const RISK_KEYS = [
@@ -83,11 +83,17 @@ const CHART_CONFIG = {
   },
 } satisfies ChartConfig;
 
-const HealthRiskDetails = ({
-  riskAssessment,
-}: {
-  riskAssessment: RiskAssessment;
-}) => {
+type SpecificHealthRisk = Omit<
+  HealthRisk,
+  | "generalRiskLevelPercentage"
+  | "generalRiskLevel"
+  | "bmi"
+  | "bmiLevel"
+  | "recommendations"
+  | "assessmentDate"
+>;
+
+const HealthRiskDetails = (healthRisk: HealthRisk) => {
   const isMobile = useIsMobile();
 
   const getTotalRiskLevel = useMemo(
@@ -167,54 +173,54 @@ const HealthRiskDetails = ({
   const riskInfo = useMemo(
     () =>
       getTotalRiskLevel(
-        riskAssessment.generalRiskLevel,
-        riskAssessment.generalRiskLevelPercentage,
+        healthRisk.generalRiskLevel,
+        healthRisk.generalRiskLevelPercentage,
       ),
     [
-      riskAssessment.generalRiskLevel,
-      riskAssessment.generalRiskLevelPercentage,
+      healthRisk.generalRiskLevel,
+      healthRisk.generalRiskLevelPercentage,
       getTotalRiskLevel,
     ],
   );
 
   const assessmentDate = useMemo(() => {
-    return getFormattedDate(riskAssessment.assessmentDate);
-  }, [riskAssessment.assessmentDate]);
+    return getFormattedDate(healthRisk.assessmentDate);
+  }, [healthRisk.assessmentDate]);
 
   const CHART_DATA = useMemo(
     () => [
       {
         browser: "diabetes",
-        level: riskAssessment.diabetes.percentage,
+        level: healthRisk.diabetes.percentage,
         fill: CHART_CONFIG.diabetes.color,
       },
       {
         browser: "heartDisease",
-        level: riskAssessment.heartDisease.percentage,
+        level: healthRisk.heartDisease.percentage,
         fill: CHART_CONFIG.heartDisease.color,
       },
       {
         browser: "lungDisease",
-        level: riskAssessment.lungDisease.percentage,
+        level: healthRisk.lungDisease.percentage,
         fill: CHART_CONFIG.lungDisease.color,
       },
       {
         browser: "kidneyDisease",
-        level: riskAssessment.kidneyDisease.percentage,
+        level: healthRisk.kidneyDisease.percentage,
         fill: CHART_CONFIG.kidneyDisease.color,
       },
       {
         browser: "hypertension",
-        level: riskAssessment.hypertension.percentage,
+        level: healthRisk.hypertension.percentage,
         fill: CHART_CONFIG.hypertension.color,
       },
     ],
     [
-      riskAssessment.diabetes.percentage,
-      riskAssessment.heartDisease.percentage,
-      riskAssessment.hypertension.percentage,
-      riskAssessment.kidneyDisease.percentage,
-      riskAssessment.lungDisease.percentage,
+      healthRisk.diabetes.percentage,
+      healthRisk.heartDisease.percentage,
+      healthRisk.hypertension.percentage,
+      healthRisk.kidneyDisease.percentage,
+      healthRisk.lungDisease.percentage,
     ],
   );
 
@@ -224,7 +230,7 @@ const HealthRiskDetails = ({
         defaultValue="assessment"
         aria-label="Alternar entre interpretación y acciones recomendadas"
       >
-        <TabsList className="border border-gray-200 dark:border-dark">
+        <TabsList className="dark:border-dark border border-gray-200">
           <TabsTrigger value="assessment">Evaluación</TabsTrigger>
           <TabsTrigger value="interpretation">Interpretación</TabsTrigger>
           <TabsTrigger value="actions">Acciones</TabsTrigger>
@@ -232,12 +238,12 @@ const HealthRiskDetails = ({
         <TabsContent value="assessment" asChild>
           <Card>
             <CardHeader className="items-center">
-              <CardTitle className="text-base text-main dark:text-white">
+              <CardTitle className="text-main text-base dark:text-white">
                 Evaluación de Riesgos de Salud
               </CardTitle>
               <CardDescription className="inline-flex items-center gap-1.5 text-xs">
-                <Badge className="h-6 gap-1.5 bg-gray-100 px-3 font-normal text-main-h dark:bg-dark dark:text-main-dark">
-                  <Calendar className="size-3.5 text-main-m dark:text-main-dark-m" />
+                <Badge className="text-main-h dark:bg-dark dark:text-main-dark h-6 gap-1.5 bg-gray-100 px-3 font-normal">
+                  <Calendar className="text-main-m dark:text-main-dark-m size-3.5" />
                   {assessmentDate}
                 </Badge>
               </CardDescription>
@@ -245,7 +251,7 @@ const HealthRiskDetails = ({
             <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
               <ChartContainer
                 config={CHART_CONFIG}
-                className="w-full text-xxs md:min-h-48 md:text-xs"
+                className="text-xxs w-full md:min-h-48 md:text-xs"
               >
                 <BarChart
                   accessibilityLayer
@@ -290,16 +296,16 @@ const HealthRiskDetails = ({
             <CardFooter className="justify-center">
               <div className="flex max-w-80 flex-col items-center space-y-4">
                 <div className="inline-flex items-center gap-1">
-                  <p className="font-sans text-4xl font-extrabold text-main dark:text-white">
-                    {riskAssessment.generalRiskLevelPercentage}
+                  <p className="text-main font-sans text-4xl font-extrabold dark:text-white">
+                    {healthRisk.generalRiskLevelPercentage}
                   </p>
-                  <span className="self-end text-lg text-main-h dark:text-main-dark-h">
+                  <span className="text-main-h dark:text-main-dark-h self-end text-lg">
                     %
                   </span>
                 </div>
                 <div className="inline-flex w-full items-center gap-2">
                   <Progress
-                    value={riskAssessment.generalRiskLevelPercentage}
+                    value={healthRisk.generalRiskLevelPercentage}
                     indicatorColor={riskInfo.strokeColor}
                   />
                   {isMobile ? (
@@ -307,7 +313,7 @@ const HealthRiskDetails = ({
                       <PopoverTrigger asChild>
                         <span
                           aria-label="Ayuda"
-                          className="flex size-3 shrink-0 items-center justify-center rounded-full bg-bittersweet-400 dark:bg-cerise-red-600"
+                          className="bg-bittersweet-400 dark:bg-cerise-red-600 flex size-3 shrink-0 items-center justify-center rounded-full"
                         >
                           <QuestionIcon className="size-2 text-white" />
                         </span>
@@ -323,7 +329,7 @@ const HealthRiskDetails = ({
                     <BetterTooltip content="Porcentaje de riesgo general">
                       <span
                         aria-label="Ayuda"
-                        className="flex size-3 items-center justify-center rounded-full bg-bittersweet-300 dark:bg-cerise-red-600"
+                        className="bg-bittersweet-300 dark:bg-cerise-red-600 flex size-3 items-center justify-center rounded-full"
                       >
                         <QuestionIcon className="size-2 text-white" />
                       </span>
@@ -338,7 +344,7 @@ const HealthRiskDetails = ({
                 >
                   Nivel de riesgo{" "}
                   <span className="uppercase">
-                    {riskAssessment.generalRiskLevel}
+                    {healthRisk.generalRiskLevel}
                   </span>
                 </div>
                 <div className="text-center text-xs md:text-sm">
@@ -352,15 +358,14 @@ const HealthRiskDetails = ({
           <Card>
             <CardContent className="prose-sm space-y-6 p-6">
               {RISK_KEYS.map(({ key, label }) => {
-                const risk = riskAssessment[
-                  key as keyof RiskAssessment
-                ] as RiskValue;
+                const risk = healthRisk[key as keyof SpecificHealthRisk];
+
                 return (
                   <div key={key}>
-                    <h4 className="text-xs font-semibold text-main first:mt-0! dark:text-white md:text-sm">
+                    <h4 className="text-main text-xs font-semibold first:mt-0! md:text-sm dark:text-white">
                       {label}
                     </h4>
-                    {risk.interpretation && (
+                    {"interpretation" in risk && risk.interpretation && (
                       <p className="text-xs last:mb-0! md:text-sm">
                         {risk.interpretation}
                       </p>
@@ -375,12 +380,11 @@ const HealthRiskDetails = ({
           <Card>
             <CardContent className="prose-sm space-y-6 p-6">
               {RISK_KEYS.map(({ key, label }) => {
-                const risk = riskAssessment[
-                  key as keyof RiskAssessment
-                ] as RiskValue;
+                const risk = healthRisk[key as keyof SpecificHealthRisk];
+
                 return (
                   <div key={key}>
-                    <h4 className="text-xs font-semibold text-main first:mt-0! dark:text-white md:text-sm">
+                    <h4 className="text-main text-xs font-semibold first:mt-0! md:text-sm dark:text-white">
                       {label}
                     </h4>
                     {risk.recommendedActions && (

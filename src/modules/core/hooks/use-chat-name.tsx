@@ -6,7 +6,7 @@ import { fetcher } from "@/utils/common";
 
 const useChatName = (chatId: string | null) => {
   const { data, error, isLoading } = useSWR(
-    chatId ? `/api/chat/chat-title?id=${chatId}` : null,
+    chatId ? `/api/chat-title?id=${chatId}` : null,
     fetcher,
   );
 

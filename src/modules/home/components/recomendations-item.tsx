@@ -57,7 +57,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
           className="absolute inset-0 z-[-1] aspect-auto h-full w-full object-cover object-center brightness-75 xl:h-auto"
         />
       )}
-      <div className="group-hover:backdrop-blur-0 absolute inset-0 z-[-1] bg-linear-to-t from-black/30 from-40% to-transparent backdrop-blur-xs transition duration-500"></div>
+      <div className="absolute inset-0 z-[-1] bg-linear-to-t from-black/30 from-40% to-transparent backdrop-blur-xs transition duration-500 group-hover:backdrop-blur-none"></div>
       <CardHeader className="pb-0">
         <div
           className={cn(

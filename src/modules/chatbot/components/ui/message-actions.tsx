@@ -43,7 +43,7 @@ const PureMessageActions = ({
   const upvoteResponse = async () => {
     const messageId = getMessageIdFromAnnotations(message);
 
-    const upvote = fetch("/api/chat/vote", {
+    const upvote = fetch("/api/vote", {
       method: "PATCH",
       body: JSON.stringify({
         chatId,
@@ -56,7 +56,7 @@ const PureMessageActions = ({
       loading: "Votando respuesta...",
       success: () => {
         mutate<Array<ChatVote>>(
-          `/api/chat/vote?chatId=${chatId}`,
+          `/api/vote?chatId=${chatId}`,
           (currentVotes) => {
             if (!currentVotes) return [];
 
@@ -85,7 +85,7 @@ const PureMessageActions = ({
   const downvoteResponse = async () => {
     const messageId = getMessageIdFromAnnotations(message);
 
-    const downvote = fetch("/api/chat/vote", {
+    const downvote = fetch("/api/vote", {
       method: "PATCH",
       body: JSON.stringify({
         chatId,
@@ -98,7 +98,7 @@ const PureMessageActions = ({
       loading: "Votando respuesta...",
       success: () => {
         mutate<Array<ChatVote>>(
-          `/api/chat/vote?chatId=${chatId}`,
+          `/api/vote?chatId=${chatId}`,
           (currentVotes) => {
             if (!currentVotes) return [];
 
@@ -133,7 +133,7 @@ const PureMessageActions = ({
         <Button
           variant="outline"
           onClick={onCopy}
-          className="h-fit border-black/10 bg-transparent! px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
+          className="text-main-m dark:text-main-dark-m h-fit border-black/10 bg-transparent! px-2 py-1 shadow-none dark:border-white/10"
         >
           <Copy />
           <span className="sr-only">Copiar</span>
@@ -145,7 +145,7 @@ const PureMessageActions = ({
           variant="outline"
           disabled={vote?.isUpvoted}
           onClick={upvoteResponse}
-          className="h-fit border-black/10 bg-transparent! px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
+          className="text-main-m dark:text-main-dark-m h-fit border-black/10 bg-transparent! px-2 py-1 shadow-none dark:border-white/10"
         >
           <ThumbsUp />
           <span className="sr-only">Votar buena respuesta</span>
@@ -157,7 +157,7 @@ const PureMessageActions = ({
           variant="outline"
           disabled={vote && !vote.isUpvoted}
           onClick={downvoteResponse}
-          className="h-fit border-black/10 bg-transparent! px-2 py-1 text-main-m shadow-none dark:border-white/10 dark:text-main-dark-m"
+          className="text-main-m dark:text-main-dark-m h-fit border-black/10 bg-transparent! px-2 py-1 shadow-none dark:border-white/10"
         >
           <ThumbsDown />
           <span className="sr-only">Votar mala respuesta</span>

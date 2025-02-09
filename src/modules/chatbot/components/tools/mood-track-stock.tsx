@@ -13,32 +13,12 @@ import { QuoteLeftIcon } from "@/modules/icons/common";
 import { HeartIcon, ListIcon } from "@/modules/icons/miscellaneus";
 
 import { useDownloadTool } from "../../hooks/use-download-tool";
+import { MoodTrack } from "../../lib/ai/tool-schemas";
 
-interface Activity {
-  activity: string;
-  description: string;
-}
-
-interface PoeticPhrase {
-  phrase: string;
-  author: string;
-}
-
-export interface MoodTracking {
-  mood: Activity[];
-  suggestion: string;
-  tip: string;
-  poeticPhrase?: PoeticPhrase;
-}
-
-const MoodTrackingStock = ({
-  props: moodTracking,
-}: {
-  props: MoodTracking;
-}) => {
+const MoodTrackStock = (moodTrack: MoodTrack) => {
   const { ref, downloadImage } = useDownloadTool("mood-tracking.png");
 
-  if (!moodTracking)
+  if (!moodTrack)
     return toast.error("Hubo un error al generar las actividades de bienestar");
 
   return (
@@ -60,7 +40,7 @@ const MoodTrackingStock = ({
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 bg-black/20! text-white shadow-none hover:bg-black/30! active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
+              className="absolute top-6 right-6 z-10 size-8 bg-black/20! text-white shadow-none group-hover/card:opacity-100 hover:bg-black/30! active:bg-black/30 md:opacity-0"
             >
               <ArrowDownToLine className="size-3.5!" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -68,11 +48,11 @@ const MoodTrackingStock = ({
           </BetterTooltip>
         </div>
       </CardHeader>
-      <div className="space-y-2 p-2 text-main-h dark:text-main-dark md:space-y-4 md:p-6">
+      <div className="text-main-h dark:text-main-dark space-y-2 p-2 md:space-y-4 md:p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ListIcon className="size-4 text-main-m dark:text-main-dark-m md:size-5" />
-            <h3 className="font-medium text-main dark:text-white md:text-xl">
+            <ListIcon className="text-main-m dark:text-main-dark-m size-4 md:size-5" />
+            <h3 className="text-main font-medium md:text-xl dark:text-white">
               Actividades recomendadas
             </h3>
           </div>
@@ -81,7 +61,7 @@ const MoodTrackingStock = ({
           </Badge>
         </div>
         <ul className="list-inside list-disc space-y-3">
-          {moodTracking.mood.map((mood, index) => (
+          {moodTrack.mood.map((mood, index) => (
             <li
               key={index}
               className="flex flex-col justify-center text-xs md:text-sm"
@@ -90,7 +70,7 @@ const MoodTrackingStock = ({
                 <span className="size-1.5 rounded-full bg-black/10 dark:bg-white/10"></span>
                 <span className="font-semibold">{mood.activity}</span>
               </div>
-              <p className="ml-6 text-main-h dark:text-main-dark-h">
+              <p className="text-main-h dark:text-main-dark-h ml-6">
                 {mood.description}
               </p>
             </li>
@@ -98,32 +78,30 @@ const MoodTrackingStock = ({
         </ul>
         <Separator />
         <div className="mt-4 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
-          <div className="rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
+          <div className="text-main-h dark:bg-dark rounded-lg bg-gray-100 p-3 text-xs md:text-sm dark:text-white">
             <h3 className="font-sans text-base font-extrabold uppercase md:text-xl">
               Recomendación
             </h3>
             <p className="text-main-h dark:text-main-dark">
-              {moodTracking.suggestion}
+              {moodTrack.suggestion}
             </p>
           </div>
-          <div className="rounded-lg border-4 border-gray-100 p-3 text-xs text-main-h dark:border-dark dark:text-white md:text-sm">
-            <p className="text-main-h dark:text-main-dark">
-              {moodTracking.tip}
-            </p>
+          <div className="text-main-h dark:border-dark rounded-lg border-4 border-gray-100 p-3 text-xs md:text-sm dark:text-white">
+            <p className="text-main-h dark:text-main-dark">{moodTrack.tip}</p>
           </div>
         </div>
-        {moodTracking.poeticPhrase && (
-          <div className="flex flex-col items-center justify-center space-y-2 p-3 text-sm text-main-h dark:text-white">
+        {moodTrack.poeticPhrase && (
+          <div className="text-main-h flex flex-col items-center justify-center space-y-2 p-3 text-sm dark:text-white">
             <div className="inline-flex gap-2">
-              <QuoteLeftIcon className="size-6 min-w-6 text-main-l dark:text-main-dark-l" />
-              <p className="text-wrap text-main-h dark:text-main-dark-h">
-                {moodTracking.poeticPhrase.phrase}
+              <QuoteLeftIcon className="text-main-l dark:text-main-dark-l size-6 min-w-6" />
+              <p className="text-main-h dark:text-main-dark-h text-wrap">
+                {moodTrack.poeticPhrase.phrase}
               </p>
             </div>
-            {moodTracking.poeticPhrase.author !== "Anónimo" &&
-              moodTracking.poeticPhrase.author !== "Desconocido" && (
-                <p className="text-xs text-main-m dark:text-main-dark-m">
-                  - {moodTracking.poeticPhrase.author}
+            {moodTrack.poeticPhrase.author !== "Anónimo" &&
+              moodTrack.poeticPhrase.author !== "Desconocido" && (
+                <p className="text-main-m dark:text-main-dark-m text-xs">
+                  - {moodTrack.poeticPhrase.author}
                 </p>
               )}
           </div>
@@ -133,4 +111,4 @@ const MoodTrackingStock = ({
   );
 };
 
-export default MoodTrackingStock;
+export default MoodTrackStock;

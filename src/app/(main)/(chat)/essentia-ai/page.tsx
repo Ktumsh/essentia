@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { auth } from "@/app/(auth)/auth";
-import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/ai/models";
 import { Chat } from "@/modules/chatbot/components/chat";
+import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/lib/ai/models";
 import { generateUUID } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
 

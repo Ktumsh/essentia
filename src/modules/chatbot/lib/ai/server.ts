@@ -2,25 +2,24 @@
 
 import { generateObject } from "ai";
 
+import { modelProvider } from "./models";
 import {
-  MOOD_TRACKING_PROMPT,
-  PLAN_PROMPT,
-  RISK_ASSESSMENT_PROMPT,
+  HEALTH_RISK_PROMPT,
+  MOOD_TRACK_PROMPT,
+  NUTRITIONAL_PLAN_PROMPT,
   ROUTINE_PROMPT,
   TRACK_TASK_PROMPT,
   TRACK_TASK_SYSTEM_PROMPT,
-} from "@/config/tools-prompt";
-
-import { modelProvider } from "./models";
+} from "./prompts";
 import {
-  moodTrackingSchema,
+  healthRiskSchema,
+  moodTrackSchema,
   nutritionalPlanSchema,
-  riskAssessmentSchema,
   routineSchema,
   taskSchema,
-} from "../components/tools/tool-schemas";
+} from "./tool-schemas";
 
-type Routine = {
+export type Routine = {
   objective: string;
   physicalLevel: string;
   time: string;
@@ -29,7 +28,7 @@ type Routine = {
   equipment: string;
 };
 
-type RiskAssessment = {
+export type HealthRisk = {
   weight: number;
   height: number;
   familyHistory: string;
@@ -37,7 +36,7 @@ type RiskAssessment = {
   healthConditions: string;
 };
 
-type Plan = {
+export type NutritionalPlan = {
   dietType: string;
   restrictions: string;
   calorieGoal: number;
@@ -47,11 +46,11 @@ type Plan = {
   weightGoal: string;
 };
 
-type MoodTracking = {
+export type MoodTrack = {
   mood: string;
 };
 
-type Task = {
+export type Task = {
   name: string;
   schedule: {
     frequency: string;
@@ -63,7 +62,7 @@ type Task = {
   };
 };
 
-export async function generateExerciseRoutine(props: Routine) {
+export async function generateRoutine(props: Routine) {
   const { object: routine } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
     prompt: ROUTINE_PROMPT(props),
@@ -73,37 +72,37 @@ export async function generateExerciseRoutine(props: Routine) {
   return routine;
 }
 
-export async function generateRiskAssessment(props: RiskAssessment) {
-  const { object: riskAssessment } = await generateObject({
+export async function generateHealthRisk(props: HealthRisk) {
+  const { object: healthRisk } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
-    prompt: RISK_ASSESSMENT_PROMPT(props),
-    schema: riskAssessmentSchema,
+    prompt: HEALTH_RISK_PROMPT(props),
+    schema: healthRiskSchema,
   });
 
-  return riskAssessment;
+  return healthRisk;
 }
 
-export async function generateNutritionalPlan(props: Plan) {
-  const { object: plan } = await generateObject({
+export async function generateNutritionalPlan(props: NutritionalPlan) {
+  const { object: nutritionalPlan } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
-    prompt: PLAN_PROMPT(props),
+    prompt: NUTRITIONAL_PLAN_PROMPT(props),
     schema: nutritionalPlanSchema,
   });
 
-  return plan;
+  return nutritionalPlan;
 }
 
-export async function generateMoodTracking(props: MoodTracking) {
-  const { object: moodTracking } = await generateObject({
+export async function generateMoodTrack(props: MoodTrack) {
+  const { object: moodTrack } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
-    prompt: MOOD_TRACKING_PROMPT(props),
-    schema: moodTrackingSchema,
+    prompt: MOOD_TRACK_PROMPT(props),
+    schema: moodTrackSchema,
   });
 
-  return moodTracking;
+  return moodTrack;
 }
 
-export async function generateTaskTracking(props: Task) {
+export async function generateTrackTask(props: Task) {
   const { object: task } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
     system: TRACK_TASK_SYSTEM_PROMPT,

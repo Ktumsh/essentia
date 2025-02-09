@@ -8,7 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import Greeting from "../greeting";
+import Greeting from "../utils/greeting";
 import Logo from "../utils/logo";
 
 interface AppHeaderProps {
@@ -31,7 +31,7 @@ const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">Essentia</span>
-                <span className="truncate text-xs text-main-m dark:text-main-dark-m">
+                <span className="text-main-m dark:text-main-dark-m truncate text-xs">
                   <Greeting />
                 </span>
               </div>

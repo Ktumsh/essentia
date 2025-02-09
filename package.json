@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/fireworks": "^0.1.8",
     "@ai-sdk/openai": "^1.1.9",
     "@dicebear/core": "^9.2.2",
     "@dicebear/icons": "^9.2.2",
@@ -41,7 +42,7 @@
     "@vercel/blob": "^0.27.1",
     "@vercel/postgres": "^0.10.0",
     "@vercel/speed-insights": "^1.1.0",
-    "ai": "^4.1.25",
+    "ai": "4.1.17",
     "bcrypt-ts": "^5.0.3",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
@@ -84,7 +85,7 @@
     "@eslint/js": "^9.20.0",
     "@rehooks/local-storage": "2.4.5",
     "@serwist/build": "^9.0.11",
-    "@tailwindcss/postcss": "^4.0.4",
+    "@tailwindcss/postcss": "^4.0.5",
     "@tailwindcss/typography": "^0.5.16",
     "@types/google.maps": "^3.58.1",
     "@types/lodash": "^4.17.15",
@@ -114,7 +115,7 @@
     "serwist": "^9.0.11",
     "tailwind-merge": "^3.0.1",
     "tailwind-variants": "^0.3.1",
-    "tailwindcss": "^4.0.4",
+    "tailwindcss": "^4.0.5",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7.3"
   }
