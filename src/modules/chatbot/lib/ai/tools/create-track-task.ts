@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { createUserTask } from "@/db/querys/task-querys";
 
-import { generateTaskTracking } from "../actions";
+import { generateTrackTask } from "../server";
 
 interface CreateTrackTaskProp {
   userId: string;
@@ -74,7 +74,7 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
     }),
     execute: async (args) => {
       try {
-        const result = await generateTaskTracking(args);
+        const result = await generateTrackTask(args);
 
         const createdTask = await createUserTask({
           userId,

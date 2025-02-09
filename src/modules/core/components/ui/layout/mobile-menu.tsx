@@ -48,7 +48,7 @@ import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
 import ThemeToggle from "../buttons/theme-toggle";
-import Greeting from "../greeting";
+import Greeting from "../utils/greeting";
 import Logo from "../utils/logo";
 
 type Item = {

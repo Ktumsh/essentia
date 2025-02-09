@@ -13,34 +13,10 @@ import { cn } from "@/utils/common";
 
 import HealthRiskDetails from "./health-risk-details";
 import { useDownloadTool } from "../../hooks/use-download-tool";
+import { HealthRisk } from "../../lib/ai/tool-schemas";
 
-export interface RiskValue {
-  percentage: number;
-  level: string;
-  interpretation?: string;
-  recommendedActions?: string;
-}
-
-export interface RiskAssessment {
-  diabetes: RiskValue;
-  heartDisease: RiskValue;
-  lungDisease: RiskValue;
-  kidneyDisease: RiskValue;
-  hypertension: RiskValue;
-  generalRiskLevelPercentage: number;
-  generalRiskLevel: string;
-  bmi: number;
-  bmiLevel: string;
-  recommendations: string;
-  assessmentDate: string;
-}
-
-const AssesHealthRiskStock = ({
-  props: riskAssessment,
-}: {
-  props: RiskAssessment;
-}) => {
-  const { ref, downloadImage } = useDownloadTool("health-risk.png");
+const AssesHealthRiskStock = (healthRisk: HealthRisk) => {
+  const { ref, downloadImage } = useDownloadTool("health-healthRisk.png");
 
   return (
     <Card ref={ref} className="group/card overflow-hidden rounded-xl">
@@ -62,7 +38,7 @@ const AssesHealthRiskStock = ({
             <Button
               size="icon"
               onClick={downloadImage}
-              className="absolute right-6 top-6 z-10 size-8 bg-black/20! text-white shadow-none hover:bg-black/30! active:bg-black/30 group-hover/card:opacity-100 md:opacity-0"
+              className="absolute top-6 right-6 z-10 size-8 bg-black/20! text-white shadow-none group-hover/card:opacity-100 hover:bg-black/30! active:bg-black/30 md:opacity-0"
             >
               <ArrowDownToLine className="size-3.5!" />
               <span className="sr-only">Descargar como Imagen</span>
@@ -70,43 +46,43 @@ const AssesHealthRiskStock = ({
           </BetterTooltip>
         </div>
       </CardHeader>
-      <div className="flex flex-col justify-around gap-x-6 space-y-2 p-2 text-main-h dark:text-main-dark md:flex-row md:space-y-4 md:p-6">
+      <div className="text-main-h dark:text-main-dark flex flex-col justify-around gap-x-6 space-y-2 p-2 md:flex-row md:space-y-4 md:p-6">
         <Separator className="mx-4 w-auto md:mx-6 md:hidden" />
-        <HealthRiskDetails riskAssessment={riskAssessment} />
+        <HealthRiskDetails {...healthRisk} />
       </div>
       <CardFooter className="items-center justify-center p-2 pt-4 md:p-6 md:pt-0">
         <div className="flex flex-col-reverse items-center justify-center gap-2 md:flex-row md:gap-4">
-          <div className="rounded-lg bg-gray-100 p-3 text-xs text-main-h dark:bg-dark dark:text-white md:text-sm">
+          <div className="text-main-h dark:bg-dark rounded-lg bg-gray-100 p-3 text-xs md:text-sm dark:text-white">
             <h3 className="font-sans text-base font-extrabold uppercase md:text-xl">
               Recomendación
             </h3>
             <p className="text-main-h dark:text-main-dark">
-              {riskAssessment.recommendations}
+              {healthRisk.recommendations}
             </p>
           </div>
           <div className="flex items-center gap-2 md:flex-col">
-            <div className="relative inline-flex w-fit flex-col gap-1 rounded-xl bg-linear-to-bl from-gray-200 to-white to-50% p-3 text-sm text-main-h before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:from-dark dark:to-full-dark dark:text-white dark:before:bg-full-dark">
-              <span className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border-white bg-danger dark:border-full-dark">
+            <div className="text-main-h dark:from-dark dark:to-full-dark dark:before:bg-full-dark relative inline-flex w-fit flex-col gap-1 rounded-xl bg-linear-to-bl from-gray-200 to-white to-50% p-3 text-sm before:absolute before:inset-0.5 before:z-0 before:rounded-[10px] before:bg-white before:content-[''] dark:text-white">
+              <span className="bg-danger dark:border-full-dark absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full border-white">
                 <HeartbeatIcon className="size-5 text-white" />
               </span>
               <div className="z-10 flex flex-col">
-                <h3 className="text-sm font-medium text-main-h dark:text-main-dark md:text-lg">
+                <h3 className="text-main-h dark:text-main-dark text-sm font-medium md:text-lg">
                   IMC
                 </h3>
                 <BetterTooltip content="Índice de masa corporal">
                   <span className="font-sans text-2xl font-extrabold uppercase md:text-4xl">
-                    {riskAssessment.bmi}
+                    {healthRisk.bmi}
                   </span>
                 </BetterTooltip>
               </div>
             </div>
-            <div className="rounded-lg bg-gray-100 px-3 py-1.5 dark:bg-dark">
+            <div className="dark:bg-dark rounded-lg bg-gray-100 px-3 py-1.5">
               <p
                 className={cn(
-                  "text-center text-xxs! text-main-h first-letter:uppercase dark:text-main-dark md:text-xs!",
+                  "text-xxs! text-main-h dark:text-main-dark text-center first-letter:uppercase md:text-xs!",
                 )}
               >
-                {riskAssessment.bmiLevel}
+                {healthRisk.bmiLevel}
               </p>
             </div>
           </div>

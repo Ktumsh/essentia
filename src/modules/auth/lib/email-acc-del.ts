@@ -3,7 +3,7 @@ export async function sendEmailAccountDeleted(email: string, token: string) {
     ? "http://localhost:3000"
     : "https://essentia-web.vercel.app";
 
-  const res = await fetch(`${baseUrl}/api/auth/email-acc-del`, {
+  const res = await fetch(`${baseUrl}/api/email-acc-del`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

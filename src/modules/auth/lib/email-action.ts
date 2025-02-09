@@ -36,16 +36,16 @@ export async function sendEmailAction(
 
   switch (actionType) {
     case "email_verification":
-      endpoint = "/api/auth/email-verify";
+      endpoint = "/api/email-verify";
       break;
     case "password_recovery":
-      endpoint = "/api/auth/email-rec-pass";
+      endpoint = "/api/email-rec-pass";
       break;
     case "email_change":
-      endpoint = "/api/auth/email-change";
+      endpoint = "/api/email-change";
       break;
     case "account_deleted":
-      endpoint = "/api/auth/email-acc-del";
+      endpoint = "/api/email-acc-del";
       break;
     default:
       throw new Error("Invalid action type");

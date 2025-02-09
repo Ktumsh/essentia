@@ -9,16 +9,16 @@ import { useIsMobile } from "@/components/hooks/use-mobile";
 import { useToast } from "@/components/hooks/use-toast";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { ToastAction } from "@/components/ui/toast";
+import { startsWithAny } from "@/modules/core/lib/utils";
 import { UserProfileData } from "@/types/session";
 import { cn } from "@/utils/common";
 
-import BottomNav from "./layout/bottom-navbar";
-import DesktopHeader from "./layout/desktop-header";
-import MobileHeader from "./layout/mobile-header";
-import WelcomeModal from "./welcome-modal";
-import { startsWithAny } from "../../lib/utils";
-import ButtonUp from "../ui/buttons/button-up";
-import { AppSidebar } from "../ui/sidebar/app-sidebar";
+import BottomNav from "./bottom-navbar";
+import DesktopHeader from "./desktop-header";
+import MobileHeader from "./mobile-header";
+import ButtonUp from "../buttons/button-up";
+import { AppSidebar } from "../sidebar/app-sidebar";
+import WelcomeModal from "../utils/welcome-modal";
 
 const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];
 

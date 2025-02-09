@@ -4,8 +4,8 @@ import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { getChatById, getMessagesByChatId } from "@/db/querys/chat-querys";
-import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/ai/models";
 import { Chat } from "@/modules/chatbot/components/chat";
+import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/lib/ai/models";
 import { convertToUIMessages } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
 

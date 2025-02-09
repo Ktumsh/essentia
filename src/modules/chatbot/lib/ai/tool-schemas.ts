@@ -86,8 +86,10 @@ export const routineSchema = z.object({
   }),
 });
 
-export const riskAssessmentSchema = z.object({
-  riskAssessment: z.object({
+export type Routine = z.infer<typeof routineSchema.shape.routine>;
+
+export const healthRiskSchema = z.object({
+  healthRisk: z.object({
     diabetes: z.object({
       percentage: z.number().describe("Porcentaje de riesgo de diabetes"),
       level: z.string().describe("Nivel de riesgo de diabetes"),
@@ -169,8 +171,10 @@ export const riskAssessmentSchema = z.object({
   }),
 });
 
+export type HealthRisk = z.infer<typeof healthRiskSchema.shape.healthRisk>;
+
 export const nutritionalPlanSchema = z.object({
-  plan: z.object({
+  nutritionalPlan: z.object({
     breakfast: z
       .array(
         z.object({
@@ -240,8 +244,12 @@ export const nutritionalPlanSchema = z.object({
   }),
 });
 
-export const moodTrackingSchema = z.object({
-  moodTracking: z.object({
+export type NutritionalPlan = z.infer<
+  typeof nutritionalPlanSchema.shape.nutritionalPlan
+>;
+
+export const moodTrackSchema = z.object({
+  moodTrack: z.object({
     mood: z.array(
       z.object({
         activity: z.string().describe("Actividad de bienestar recomendada"),
@@ -264,6 +272,8 @@ export const moodTrackingSchema = z.object({
       .optional(),
   }),
 });
+
+export type MoodTrack = z.infer<typeof moodTrackSchema.shape.moodTrack>;
 
 export const taskSchema = z.object({
   task: z.object({
@@ -338,3 +348,5 @@ export const taskSchema = z.object({
     }),
   }),
 });
+
+export type Task = z.infer<typeof taskSchema.shape.task>;

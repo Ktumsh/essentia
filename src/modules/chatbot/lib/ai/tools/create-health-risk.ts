@@ -1,7 +1,7 @@
 import { tool } from "ai";
 import { z } from "zod";
 
-import { generateRiskAssessment } from "../actions";
+import { generateHealthRisk } from "../server";
 
 export const createHealthRisk = tool({
   description: "Mostrar evaluación de riesgo de salud",
@@ -14,7 +14,7 @@ export const createHealthRisk = tool({
   }),
   execute: async (args) => {
     try {
-      const results = await generateRiskAssessment(args);
+      const results = await generateHealthRisk(args);
       return results;
     } catch (error) {
       console.error("Error en riskAssessment:", error);

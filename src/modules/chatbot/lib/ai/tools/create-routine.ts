@@ -1,7 +1,7 @@
 import { tool } from "ai";
 import { z } from "zod";
 
-import { generateExerciseRoutine } from "../actions";
+import { generateRoutine } from "../server";
 
 export const createRoutine = tool({
   description: "Mostrar rutina de ejercicios personalizada",
@@ -15,7 +15,7 @@ export const createRoutine = tool({
   }),
   execute: async (args) => {
     try {
-      const results = await generateExerciseRoutine(args);
+      const results = await generateRoutine(args);
       return results;
     } catch (error) {
       console.error("Error en recommendExercise:", error);

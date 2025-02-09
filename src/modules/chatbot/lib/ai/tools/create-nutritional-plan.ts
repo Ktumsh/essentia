@@ -1,7 +1,7 @@
 import { tool } from "ai";
 import { z } from "zod";
 
-import { generateNutritionalPlan } from "../actions";
+import { generateNutritionalPlan } from "../server";
 
 export const createNutritionalPlan = tool({
   description: "Mostrar plan nutricional",

@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 
 import ToolSkeleton from "./tool-skeleton";
 
-export const ExerciseRoutineStock = dynamic(
-  () => import("./excercise-routine-stock").then((mod) => mod.default),
+export const RoutineStock = dynamic(
+  () => import("./routine-stock").then((mod) => mod.default),
   {
     ssr: false,
     loading: () => <ToolSkeleton />,
@@ -26,8 +26,16 @@ export const NutritionPlanStock = dynamic(
   },
 );
 
-export const MoodTrackingStock = dynamic(
-  () => import("./mood-tracking-stock").then((mod) => mod.default),
+export const MoodTrackStock = dynamic(
+  () => import("./mood-track-stock").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => <ToolSkeleton />,
+  },
+);
+
+export const TaskStock = dynamic(
+  () => import("./task-stock").then((mod) => mod.default),
   {
     ssr: false,
     loading: () => <ToolSkeleton />,

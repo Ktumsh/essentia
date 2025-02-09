@@ -42,7 +42,7 @@ export function AppSidebar({
     data: history,
     mutate,
     isLoading,
-  } = useSWR<Array<Chat>>(session?.user ? "/api/chat/history" : null, fetcher, {
+  } = useSWR<Array<Chat>>(session?.user ? "/api/history" : null, fetcher, {
     fallbackData: [],
   });
 

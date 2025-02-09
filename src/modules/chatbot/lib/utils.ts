@@ -121,6 +121,7 @@ export function convertToUIMessages(
     }
 
     let textContent = "";
+    let reasoning: string | undefined = undefined;
     const toolInvocations: Array<ToolInvocation> = [];
 
     if (typeof message.content === "string") {
@@ -136,6 +137,8 @@ export function convertToUIMessages(
             toolName: content.toolName,
             args: content.args,
           });
+        } else if (content.type === "reasoning") {
+          reasoning = content.reasoning;
         }
       }
     }
@@ -144,6 +147,7 @@ export function convertToUIMessages(
       id: message.id,
       role: message.role as Message["role"],
       content: textContent,
+      reasoning,
       toolInvocations,
     });
 

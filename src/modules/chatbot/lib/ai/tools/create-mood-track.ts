@@ -1,7 +1,7 @@
 import { tool } from "ai";
 import { z } from "zod";
 
-import { generateMoodTracking } from "../actions";
+import { generateMoodTrack } from "../server";
 
 export const createMoodTrack = tool({
   description:
@@ -11,7 +11,7 @@ export const createMoodTrack = tool({
   }),
   execute: async (args) => {
     try {
-      const results = await generateMoodTracking(args);
+      const results = await generateMoodTrack(args);
       return results;
     } catch (error) {
       console.error("Error en moodTracking:", error);

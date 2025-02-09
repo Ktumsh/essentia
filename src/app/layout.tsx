@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
 import { getUserTasks } from "@/db/querys/task-querys";
-import { Providers } from "@/modules/core/components/ui/providers";
+import { Providers } from "@/modules/core/components/providers";
 import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
 import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 import { cn } from "@/utils/common";

@@ -4,6 +4,7 @@ import { Attachment, type Message } from "ai";
 import { useChat } from "ai/react";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
 
 import { useChatContext } from "@/modules/core/hooks/use-chat-context";
@@ -78,7 +79,11 @@ export function Chat({
     initialMessages,
     experimental_throttle: 100,
     onFinish: () => {
-      mutate("/api/chat/history");
+      mutate("/api/history");
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Ha ocurrido un error. ¡Por favor intenta de nuevo!");
     },
   });
 
@@ -103,7 +108,7 @@ export function Chat({
   }, [streamingData, setUserMessageIdFromServer]);
 
   const { data: votes } = useSWR<Array<ChatVote>>(
-    `/api/chat/vote?chatId=${id}`,
+    `/api/vote?chatId=${id}`,
     fetcher,
   );
 

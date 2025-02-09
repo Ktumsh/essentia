@@ -7,12 +7,12 @@ import { MobileProvider } from "@/components/hooks/use-mobile";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ReducedMotionProvider } from "@/modules/settings/hooks/use-reduce-motion";
 
-import { ChatProvider } from "../../hooks/use-chat-context";
-import { PlanProvider } from "../../hooks/use-current-plan";
-import { NotificationProvider } from "../../hooks/use-notification";
-import SessionProviderComponent from "../../hooks/use-session";
-import { TasksProvider } from "../../hooks/use-task";
-import { ThemeProvider } from "../../hooks/use-theme";
+import { ChatProvider } from "../hooks/use-chat-context";
+import { PlanProvider } from "../hooks/use-current-plan";
+import { NotificationProvider } from "../hooks/use-notification";
+import SessionProviderComponent from "../hooks/use-session";
+import { TasksProvider } from "../hooks/use-task";
+import { ThemeProvider } from "../hooks/use-theme";
 
 import type { UserTask } from "@/db/schema";
 

@@ -6,8 +6,7 @@ import {
 } from "ai";
 
 import { auth } from "@/app/(auth)/auth";
-import { generateTitleFromUserMessage } from "@/app/(main)/essentia-ai/chat/actions";
-import { createSystemPrompt } from "@/config/chatbot-prompt";
+import { generateTitleFromUserMessage } from "@/app/(main)/(chat)/actions";
 import {
   deleteChatById,
   getChatById,
@@ -15,13 +14,14 @@ import {
   saveMessages,
 } from "@/db/querys/chat-querys";
 import { getSubscription } from "@/db/querys/payment-querys";
-import { modelProvider } from "@/modules/chatbot/ai/models";
-import { createHealthRisk } from "@/modules/chatbot/ai/tools/create-health-risk";
-import { createMoodTrack } from "@/modules/chatbot/ai/tools/create-mood-track";
-import { createNutritionalPlan } from "@/modules/chatbot/ai/tools/create-nutritional-plan";
-import { createRoutine } from "@/modules/chatbot/ai/tools/create-routine";
-import { createTrackTask } from "@/modules/chatbot/ai/tools/create-track-task";
-import { getWeather } from "@/modules/chatbot/ai/tools/get-weather";
+import { modelProvider } from "@/modules/chatbot/lib/ai/models";
+import { createSystemPrompt } from "@/modules/chatbot/lib/ai/prompts";
+import { createHealthRisk } from "@/modules/chatbot/lib/ai/tools/create-health-risk";
+import { createMoodTrack } from "@/modules/chatbot/lib/ai/tools/create-mood-track";
+import { createNutritionalPlan } from "@/modules/chatbot/lib/ai/tools/create-nutritional-plan";
+import { createRoutine } from "@/modules/chatbot/lib/ai/tools/create-routine";
+import { createTrackTask } from "@/modules/chatbot/lib/ai/tools/create-track-task";
+import { getWeather } from "@/modules/chatbot/lib/ai/tools/get-weather";
 import {
   generateUUID,
   getMostRecentUserMessage,
@@ -125,6 +125,7 @@ export async function POST(request: Request) {
     genre,
     age,
     premiumExpiresAt,
+    selectedChatModel,
   });
 
   return createDataStreamResponse({
@@ -134,7 +135,8 @@ export async function POST(request: Request) {
         system: systemPrompt,
         messages,
         maxSteps: 5,
-        experimental_activeTools: allTools,
+        experimental_activeTools:
+          selectedChatModel === "chat-model-reasoning" ? [] : allTools,
         experimental_transform: smoothStream({ chunking: "word" }),
         experimental_generateMessageId: generateUUID,
         tools: {
@@ -175,10 +177,12 @@ export async function POST(request: Request) {
         },
       });
 
-      result.mergeIntoDataStream(dataStream);
+      result.mergeIntoDataStream(dataStream, {
+        sendReasoning: true,
+      });
     },
-    onError: () => {
-      return "Lo lamentamos, ha ocurrido un error inesperado!";
+    onError: (error) => {
+      return "Lo lamento, ha ocurrido un error inesperado!" + error;
     },
   });
 }

@@ -28,7 +28,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ToastAction } from "@/components/ui/toast";
-import { UserTask } from "@/db/schema";
 import { useNotification } from "@/modules/core/hooks/use-notification";
 import { useTasks } from "@/modules/core/hooks/use-task";
 import { convertTo12HourFormat } from "@/modules/core/lib/utils";
@@ -37,11 +36,13 @@ import { formatDate } from "@/utils/format";
 import TaskList from "./task-list";
 import TaskModal from "./task-modal";
 
-const TrackTaskStock = ({
-  props: userTask,
+import type { UserTask } from "@/db/schema";
+
+const TaskStock = ({
+  task,
   isLoading,
 }: {
-  props?: UserTask;
+  task?: UserTask;
   isLoading?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +55,7 @@ const TrackTaskStock = ({
   const { isSubscribed, subscribeToPush } = useNotification();
 
   useEffect(() => {
-    if (userTask && !isSubscribed) {
+    if (task && !isSubscribed) {
       toaster({
         duration: 1000000,
         title: "¡Activa las notificaciones!",
@@ -67,11 +68,11 @@ const TrackTaskStock = ({
         ),
       });
     }
-  }, [userTask, isSubscribed, subscribeToPush, toaster]);
+  }, [task, isSubscribed, subscribeToPush, toaster]);
 
-  if (!userTask || isLoading)
+  if (!task || isLoading)
     return (
-      <Card className="skeleton skeleton-bg flex w-fit min-w-72 max-w-80 items-center justify-between rounded-xl border-none pr-3">
+      <Card className="skeleton skeleton-bg flex w-fit max-w-80 min-w-72 items-center justify-between rounded-xl border-none pr-3">
         <CardHeader className="px-5 py-4">
           <CardTitle className="skeleton-text text-sm">
             Recordar beber agua
@@ -94,7 +95,7 @@ const TrackTaskStock = ({
     monthDay,
     month,
     status,
-  } = userTask;
+  } = task;
 
   const scheduleDescription =
     frequency === "No se repite" && exactDate
@@ -121,7 +122,7 @@ const TrackTaskStock = ({
 
   return (
     <>
-      <Card className="flex w-fit min-w-72 max-w-80 items-center justify-between rounded-xl border-none pr-3">
+      <Card className="flex w-fit max-w-80 min-w-72 items-center justify-between rounded-xl border-none pr-3">
         <CardHeader className="px-5 py-4">
           <div className="relative inline-flex items-center gap-2">
             <CardTitle className="text-sm">
@@ -129,7 +130,7 @@ const TrackTaskStock = ({
             </CardTitle>
             {status === "paused" && (
               <div className="flex text-white">
-                <Badge className="pointer-events-none bg-amber-500 px-1 py-0.5 text-xxs font-normal leading-none dark:bg-amber-600 dark:text-white">
+                <Badge className="text-xxs pointer-events-none bg-amber-500 px-1 py-0.5 leading-none font-normal dark:bg-amber-600 dark:text-white">
                   Pausada
                 </Badge>
               </div>
@@ -188,4 +189,4 @@ const TrackTaskStock = ({
   );
 };
 
-export default TrackTaskStock;
+export default TaskStock;

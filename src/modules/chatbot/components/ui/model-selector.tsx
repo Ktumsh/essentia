@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronsUpDown } from "lucide-react";
 import { startTransition, useMemo, useOptimistic, useState } from "react";
 
-import { saveChatModelAsCookie } from "@/app/(main)/essentia-ai/chat/actions";
+import { saveChatModelAsCookie } from "@/app/(main)/(chat)/actions";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,7 +14,7 @@ import {
 import { CheckCircledIcon } from "@/modules/icons/common";
 import { cn } from "@/utils/common";
 
-import { CHAT_MODELS } from "../../ai/models";
+import { CHAT_MODELS } from "../../lib/ai/models";
 
 export function ModelSelector({
   selectedModelId,
