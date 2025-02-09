@@ -28,8 +28,10 @@ self.addEventListener("push", (event) => {
       body: data.body,
       icon: data.icon || "/icon.png",
       badge: data.badge || "/icon.png",
+      image: data.image || undefined,
       vibrate: [100, 50, 100],
       data: {
+        url: data.url || "https://essentia-web.vercel.app",
         dateOfArrival: Date.now(),
         primaryKey: "2",
       },
@@ -39,8 +41,7 @@ self.addEventListener("push", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
-  const targetUrl =
-    event.notification.data?.url || "https://essentia-web.vercel.app";
+  const targetUrl = event.notification.data?.url;
   event.notification.close();
   event.waitUntil(self.clients.openWindow(targetUrl));
 });

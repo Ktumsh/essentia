@@ -300,6 +300,22 @@
   }
 }
 
+.prose-marker {
+  & :is(:where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *))) {
+    &
+      :is(
+        :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *))
+      ) {
+      & *::marker {
+        color: hsl(var(--danger));
+      }
+      &::marker {
+        color: hsl(var(--danger));
+      }
+    }
+  }
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

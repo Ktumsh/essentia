@@ -54,11 +54,23 @@ const ChapterList = ({
     return "stroke-green-500";
   };
 
-  return (
-    <Accordion type="multiple" className="mt-0! w-full space-y-4">
-      {modules?.map((item, index) => {
-        console.log(moduleProgress[item.module.id]);
+  const currentModule = modules
+    ?.map((mod, index) =>
+      mod.lessons.some((l) => pathname.includes(l.slug))
+        ? `module-${index}`
+        : null,
+    )
+    .filter((index): index is string => index !== null);
 
+  return (
+    <Accordion
+      type="multiple"
+      defaultValue={
+        pathname === `/${resourceSlug}` ? ["module-0"] : currentModule
+      }
+      className="mt-0! w-full space-y-4"
+    >
+      {modules?.map((item, index) => {
         return (
           <AccordionItem
             disabled={isDisaled}
@@ -79,8 +91,8 @@ const ChapterList = ({
                 )}
               />
               <div className="w-full">
-                <span className="text-sm font-normal text-nowrap">
-                  Módulo {item.module.order}
+                <span className="text-main-h dark:text-main-dark text-sm font-normal text-nowrap">
+                  Capítulo {item.module.order}
                 </span>
                 <h4 className="text-main text-base dark:text-white">
                   {item.module.title}
@@ -103,7 +115,7 @@ const ChapterList = ({
                         href={href}
                         onClick={(e) => handleLessonClick(e, href)}
                         className={cn(
-                          "text-main-h hover:text-main dark:text-main-dark dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-200 dark:hover:text-white",
+                          "text-main dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-200 dark:text-white",
                           {
                             "text-main dark:bg-dark bg-gray-200 dark:text-white":
                               isActive,

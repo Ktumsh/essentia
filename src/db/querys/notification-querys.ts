@@ -1,11 +1,16 @@
 "use server";
 
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, isNull } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import webpush from "web-push";
 
-import { notificationSubscription, userNotification } from "../schema";
+import {
+  notificationSubscription,
+  user,
+  userCourseProgress,
+  userNotification,
+} from "../schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -68,6 +73,28 @@ export async function createNotification({
     message,
     url,
   });
+}
+
+export async function notifyUsersWithoutCourse() {
+  try {
+    const usersWithoutCourse = await db
+      .select({ id: user.id, email: user.email })
+      .from(user)
+      .leftJoin(userCourseProgress, eq(user.id, userCourseProgress.userId))
+      .where(isNull(userCourseProgress.userId));
+
+    for (const u of usersWithoutCourse) {
+      await createNotification({
+        userId: u.id,
+        title: "¡Comienza a explorar nuestros cursos!",
+        message:
+          "Observamos que todavía no has iniciado ninguno de nuestros cursos. ¡No esperes más y comienza ahora!",
+        url: "/salud-y-bienestar",
+      });
+    }
+  } catch (error) {
+    console.error("Error al notificar usuarios sin curso:", error);
+  }
 }
 
 export async function getUserNotifications(userId: string) {

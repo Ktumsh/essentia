@@ -32,8 +32,7 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
   const {
     isSupported,
     isSubscribed,
-    subscribeToPush,
-    unsubscribeFromPush,
+    toggleSubscription,
     permission,
     openPermissionSettings,
   } = useNotification();
@@ -97,15 +96,13 @@ function NotificationsStg({ isMobile = false }: NotificationsStgProps) {
                 </div>
                 <Switch
                   checked={isSubscribed}
-                  onCheckedChange={
-                    permission === "denied"
-                      ? () => {
-                          openPermissionSettings();
-                        }
-                      : isSubscribed
-                        ? unsubscribeFromPush
-                        : subscribeToPush
-                  }
+                  onCheckedChange={() => {
+                    if (permission === "denied") {
+                      openPermissionSettings();
+                    } else {
+                      toggleSubscription();
+                    }
+                  }}
                 />
               </div>
             </li>

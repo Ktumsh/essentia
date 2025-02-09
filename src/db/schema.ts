@@ -9,6 +9,7 @@ import {
   primaryKey,
   boolean,
   integer,
+  foreignKey,
 } from "drizzle-orm/pg-core";
 
 export const user = table("user", {
@@ -217,11 +218,7 @@ export const userCourseProgress = table(
     completedAt: timestamp("completed_at").default(sql`NULL`),
     startedAt: timestamp("started_at").defaultNow(),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.userId, table.courseId] }),
-    };
-  },
+  (t) => [primaryKey({ columns: [t.userId, t.courseId] })],
 );
 
 export type UserCourseProgress = InferSelectModel<typeof userCourseProgress>;
@@ -235,16 +232,19 @@ export const userModuleProgress = table(
     moduleId: uuid("module_id")
       .notNull()
       .references(() => resourceModule.id, { onDelete: "cascade" }),
+    courseId: uuid("course_id").notNull(),
     completed: boolean("completed").notNull().default(false),
     progress: integer("progress").default(0),
     startedAt: timestamp("started_at").defaultNow(),
     completedAt: timestamp("completed_at"),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.userId, table.moduleId] }),
-    };
-  },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.moduleId] }),
+    foreignKey({
+      columns: [t.userId, t.courseId],
+      foreignColumns: [userCourseProgress.userId, userCourseProgress.courseId],
+    }).onDelete("cascade"),
+  ],
 );
 
 export type UserModuleProgress = InferSelectModel<typeof userModuleProgress>;
@@ -258,15 +258,18 @@ export const userLessonProgress = table(
     lessonId: uuid("lesson_id")
       .notNull()
       .references(() => lesson.id, { onDelete: "cascade" }),
+    moduleId: uuid("module_id").notNull(),
     completed: boolean("completed").notNull().default(false),
     startedAt: timestamp("started_at").defaultNow(),
     completedAt: timestamp("completed_at"),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.userId, table.lessonId] }),
-    };
-  },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.lessonId] }),
+    foreignKey({
+      columns: [t.userId, t.moduleId],
+      foreignColumns: [userModuleProgress.userId, userModuleProgress.moduleId],
+    }).onDelete("cascade"),
+  ],
 );
 
 export type UserLessonProgress = InferSelectModel<typeof userLessonProgress>;
@@ -280,16 +283,19 @@ export const userExamProgress = table(
     examId: uuid("exam_id")
       .notNull()
       .references(() => exam.id, { onDelete: "cascade" }),
+    moduleId: uuid("module_id").notNull(),
     completed: boolean("completed").default(false),
     score: integer("score").default(0),
     startedAt: timestamp("started_at").defaultNow(),
     completedAt: timestamp("completed_at"),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.userId, table.examId] }),
-    };
-  },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.examId] }),
+    foreignKey({
+      columns: [t.userId, t.moduleId],
+      foreignColumns: [userModuleProgress.userId, userModuleProgress.moduleId],
+    }).onDelete("cascade"),
+  ],
 );
 
 export type UserExamProgress = InferSelectModel<typeof userExamProgress>;

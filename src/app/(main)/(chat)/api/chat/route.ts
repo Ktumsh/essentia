@@ -181,8 +181,8 @@ export async function POST(request: Request) {
         sendReasoning: true,
       });
     },
-    onError: (error) => {
-      return "Lo lamento, ha ocurrido un error inesperado!" + error;
+    onError: () => {
+      return "Lo lamento, ha ocurrido un error inesperado!";
     },
   });
 }

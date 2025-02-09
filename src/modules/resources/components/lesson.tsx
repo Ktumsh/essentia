@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
@@ -291,7 +291,7 @@ const Lesson = ({
 
   if (currentModuleIndex === -1 || currentLessonIndex === -1) {
     return (
-      <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
+      <Card className="text-main border-red-200 dark:border-red-900 dark:text-white">
         <CardFooter className="flex-row items-center gap-2">
           <CheckCircle className="size-5 text-red-500" />
           <p className="mt-0! text-base">Lección no encontrada.</p>
@@ -302,19 +302,19 @@ const Lesson = ({
 
   return (
     <>
-      <section className="relative space-y-5 px-6 pt-5 text-main dark:text-white lg:lg:col-[1/2] lg:row-[1/2] lg:px-0">
+      <section className="text-main relative space-y-5 px-6 pt-5 lg:lg:col-[1/2] lg:row-[1/2] lg:px-0 dark:text-white">
         <div className="relative flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
           <div className="inline-flex items-center gap-2">
             <Button
               size="icon"
               radius="full"
               variant="ghost"
-              className="shrink-0 self-start"
+              className="-ml-2 shrink-0 self-start"
               onClick={() => router.push(`/${resourceSlug}`)}
             >
-              <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
+              <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
             </Button>
-            <h1 className="text-2xl font-bold md:text-3xl">{lesson.title}</h1>
+            <h1 className="text-xl font-bold md:text-3xl">{lesson.title}</h1>
           </div>
           <BetterTooltip
             content={
@@ -325,23 +325,23 @@ const Lesson = ({
           >
             <Badge
               className={cn(
-                "w-fit bg-amber-500 py-1.5 text-white! hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-600",
+                "w-fit border border-amber-600/60 bg-amber-600/10 text-amber-500 hover:bg-amber-600/10 dark:border-amber-600/60 dark:bg-amber-600/10 dark:text-amber-500",
                 {
-                  "bg-green-500 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-600":
+                  "border-green-500 bg-green-500/10 text-green-500 hover:border-green-500 dark:border-green-600 dark:bg-green-600/10 dark:text-green-600 dark:hover:border-green-600":
                     isCompleted,
                 },
               )}
             >
               {isCompleted ? "Completada" : "Pendiente"}
               {isCompleted ? (
-                <CheckCircle className="ml-1.5 size-3.5" />
+                <CheckCircle className="ml-1.5 size-3" />
               ) : (
-                <CircleDashed className="ml-1.5 size-3.5" />
+                <CircleDashed className="ml-1.5 size-3" />
               )}
             </Badge>
           </BetterTooltip>
         </div>
-        <div className="inline-flex items-center gap-4">
+        <div className="inline-flex w-full items-center gap-4">
           <Link href={`/${resourceSlug}`}>
             <ResourceBadge
               resourceIndex={resourceIndex}
@@ -358,8 +358,8 @@ const Lesson = ({
             >
               {resourceName}
             </Link>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-main-h dark:text-main-dark-h">
-              <span>Módulo {chapter}</span>
+            <div className="text-main-h dark:text-main-dark-h flex flex-wrap items-center gap-2 text-sm">
+              <span>Capítulo {chapter}</span>
               <span aria-hidden="true">•</span>
               <span>
                 Clase {lesson.order} de {totalLessons}
@@ -367,71 +367,67 @@ const Lesson = ({
             </div>
           </div>
         </div>
-        <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
+        <div className="text-main flex flex-col space-y-1 dark:text-white">
           <div className="inline-flex items-center gap-2">
             <CheckCheck className="size-4 text-green-500" />
             <h3 className="text-lg font-semibold">Objetivo de la clase</h3>
           </div>
-          <p className="prose-sm text-main-h md:prose dark:text-main-dark">
-            {lesson.objective}
-          </p>
+          <div className="relative mb-6 flex justify-between gap-4 md:mb-0">
+            <p className="prose-sm text-main-h md:prose dark:text-main-dark">
+              {lesson.objective}
+            </p>
+            <div
+              className={cn(
+                "absolute right-0 -bottom-10 flex justify-end gap-2 self-end px-6 md:static md:px-0",
+                {
+                  "sm:justify-end!": !findPreviousLesson(),
+                },
+              )}
+            >
+              <PreviousClassButton
+                resource={resource}
+                findPreviousLesson={findPreviousLesson}
+                hideLabel
+              />
+              <NextClassButton
+                isLastLesson={isLastLesson}
+                isCourseCompleted={isCourseCompleted}
+                handleFinishCourse={handleFinishCourse}
+                handleLessonComplete={handleLessonComplete}
+                findNextLesson={findNextLesson}
+                hideLabel
+              />
+            </div>
+          </div>
         </div>
       </section>
       <section className="relative px-6 lg:col-[1/2] lg:row-[2/4] lg:px-0">
-        <Card className="rounded-xl">
+        <Card className="dark:bg-dark/30 dark:border-accent-dark/50 rounded-xl bg-gray-50">
           <CardContent className="p-5">
-            <Markdown prose="max-w-full!">{lesson.content as string}</Markdown>
+            <Markdown prose="max-w-full! prose-marker prose-headings:text-main dark:prose-headings:text-white prose-headings:text-pretty prose-headings:font-bold prose-headings:text-lg prose-headings:mb-2 prose-p:text-main-h dark:prose-p:text-main-dark-h prose-p:text-pretty prose-p:leading-normal prose-p:mb-6 prose-p:mt-3 prose-strong:text-main dark:prose-strong:text-white prose-hr:border-gray-200 dark:prose-hr:border-accent-dark/50 prose-hr:my-5 prose-h3:text-base">
+              {lesson.content as string}
+            </Markdown>
           </CardContent>
           <CardFooter
             isSecondary
             className={cn(
-              "flex-col gap-2 p-5! sm:flex-row sm:justify-between",
+              "dark:border-t-accent-dark/50! flex-col gap-2 p-5! sm:flex-row sm:justify-between",
               {
                 "sm:justify-end!": !findPreviousLesson(),
               },
             )}
           >
-            <Button
-              radius="full"
-              variant="outline"
-              className={cn("hidden w-full sm:w-fit", {
-                "inline-flex": findPreviousLesson(),
-              })}
-              onClick={() => {
-                const prevLesson = findPreviousLesson();
-                if (prevLesson) {
-                  router.push(
-                    `/${resource.resourceSlug}/${prevLesson.moduleSlug}/${prevLesson.lessonSlug}`,
-                  );
-                }
-              }}
-            >
-              <ArrowLeft />
-              Clase anterior
-            </Button>
-            {isLastLesson && !isCourseCompleted ? (
-              <Button
-                radius="full"
-                variant="outline"
-                className="w-full sm:w-fit"
-                onClick={handleFinishCourse}
-              >
-                Finalizar Curso
-                <CheckCheck />
-              </Button>
-            ) : (
-              findNextLesson() && (
-                <Button
-                  radius="full"
-                  variant="outline"
-                  className="w-full sm:w-fit"
-                  onClick={handleLessonComplete}
-                >
-                  Clase siguiente
-                  <ArrowRight />
-                </Button>
-              )
-            )}
+            <PreviousClassButton
+              resource={resource}
+              findPreviousLesson={findPreviousLesson}
+            />
+            <NextClassButton
+              isLastLesson={isLastLesson}
+              isCourseCompleted={isCourseCompleted}
+              handleFinishCourse={handleFinishCourse}
+              handleLessonComplete={handleLessonComplete}
+              findNextLesson={findNextLesson}
+            />
           </CardFooter>
         </Card>
         {!isCompleted && (
@@ -441,13 +437,14 @@ const Lesson = ({
                 *Para marcar la clase como{" "}
                 <span className="font-semibold text-green-500">completada</span>{" "}
                 debes {isMobile ? "presionar " : "hacer clic "}en el botón de{" "}
-                <span className="font-semibold text-main dark:text-white">
+                <span className="text-main font-semibold dark:text-white">
                   Clase siguiente
                 </span>
                 .
               </p>
             )}
             {!isCourseCompleted &&
+              !isCompleted &&
               (isLastLesson ? (
                 <p className="mt-2 text-center text-xs md:text-sm">
                   *Para poder finalizar el curso asegúrate de haber completado
@@ -463,8 +460,8 @@ const Lesson = ({
         )}
       </section>
       <section className="sticky top-0 px-6 py-5 lg:col-[2/3] lg:row-[1/3] lg:px-0">
-        <h3 className="mb-2 text-lg font-semibold text-main dark:text-white">
-          Módulos
+        <h3 className="text-main mb-2 text-lg font-semibold dark:text-white">
+          Capítulos
         </h3>
         <ChapterList
           modules={modules}
@@ -483,3 +480,118 @@ const Lesson = ({
 };
 
 export default Lesson;
+
+function PureNextClassButton({
+  isLastLesson,
+  isCourseCompleted,
+  handleFinishCourse,
+  handleLessonComplete,
+  findNextLesson,
+  hideLabel,
+}: {
+  isLastLesson: boolean;
+  isCourseCompleted: boolean;
+  handleFinishCourse: () => void;
+  handleLessonComplete: () => void;
+  findNextLesson: () => LessonNavigation | null;
+  hideLabel?: boolean;
+}) {
+  return isLastLesson && !isCourseCompleted ? (
+    <Button
+      radius="full"
+      variant="outline"
+      className="w-full sm:w-fit"
+      onClick={handleFinishCourse}
+    >
+      Finalizar Curso
+      <CheckCheck />
+    </Button>
+  ) : (
+    findNextLesson() && (
+      <BetterTooltip content="Clase siguiente" hidden={!hideLabel}>
+        <Button
+          aria-label="Clase siguiente"
+          radius="full"
+          variant="outline"
+          className={cn("w-full sm:w-fit", {
+            "size-9! p-0": hideLabel,
+          })}
+          onClick={handleLessonComplete}
+        >
+          {hideLabel ? (
+            <>
+              <span className="sr-only">Clase siguiente</span>
+            </>
+          ) : (
+            <>Clase siguiente</>
+          )}
+          <ArrowRight />
+        </Button>
+      </BetterTooltip>
+    )
+  );
+}
+
+const NextClassButton = memo(PureNextClassButton, (prevProps, nextProps) => {
+  if (prevProps.isLastLesson !== nextProps.isLastLesson) return false;
+  if (prevProps.isCourseCompleted !== nextProps.isCourseCompleted) return false;
+  if (prevProps.handleFinishCourse !== nextProps.handleFinishCourse)
+    return false;
+  if (prevProps.handleLessonComplete !== nextProps.handleLessonComplete)
+    return false;
+  if (prevProps.findNextLesson !== nextProps.findNextLesson) return false;
+
+  return true;
+});
+
+function PurePreviousClassButton({
+  resource,
+  findPreviousLesson,
+  hideLabel,
+}: {
+  resource: { resourceSlug: string };
+  findPreviousLesson: () => LessonNavigation | null;
+  hideLabel?: boolean;
+}) {
+  const router = useRouter();
+  return (
+    <BetterTooltip content="Clase anterior" hidden={!hideLabel}>
+      <Button
+        aria-label="Clase anterior"
+        radius="full"
+        variant="outline"
+        className={cn("w-full sm:w-fit", {
+          "size-9! p-0": hideLabel,
+        })}
+        onClick={() => {
+          const prevLesson = findPreviousLesson();
+          if (prevLesson) {
+            router.push(
+              `/${resource.resourceSlug}/${prevLesson.moduleSlug}/${prevLesson.lessonSlug}`,
+            );
+          }
+        }}
+      >
+        <ArrowLeft />
+        {hideLabel ? (
+          <>
+            <span className="sr-only">Clase anterior</span>
+          </>
+        ) : (
+          <>Clase anterior</>
+        )}
+      </Button>
+    </BetterTooltip>
+  );
+}
+
+const PreviousClassButton = memo(
+  PurePreviousClassButton,
+  (prevProps, nextProps) => {
+    if (prevProps.resource !== nextProps.resource) return false;
+    if (prevProps.findPreviousLesson !== nextProps.findPreviousLesson)
+      return false;
+
+    return true;
+  },
+);
