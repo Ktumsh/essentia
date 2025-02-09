@@ -7,6 +7,7 @@ import {
   Bell,
   BellOff,
   EllipsisVertical,
+  ExternalLink,
   Settings2,
 } from "lucide-react";
 import Link from "next/link";
@@ -71,14 +72,14 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             variant="ghost"
             size="icon"
             radius="full"
-            className="size-8 border border-gray-200 dark:border-dark"
+            className="dark:border-dark size-8 border border-gray-200"
           >
             <span className="relative">
               <Bell />
               {hasUnreadNotifications && (
                 <span
                   aria-hidden="true"
-                  className="absolute -right-2 -top-2 size-2.5 rounded-full bg-danger"
+                  className="bg-danger absolute -top-2 -right-2 size-2.5 rounded-full"
                 ></span>
               )}
             </span>
@@ -114,14 +115,14 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             variant="ghost"
             size="icon"
             radius="full"
-            className="size-8 border border-gray-200 dark:border-dark"
+            className="dark:border-dark size-8 border border-gray-200"
           >
             <span className="relative">
               <Bell />
               {hasUnreadNotifications && (
                 <span
                   aria-hidden="true"
-                  className="absolute -right-2 -top-2 size-2.5 rounded-full bg-danger"
+                  className="bg-danger absolute -top-2 -right-2 size-2.5 rounded-full"
                 ></span>
               )}
             </span>
@@ -129,7 +130,7 @@ const NotificationList = ({ userId }: NotificationListProps) => {
         </PopoverTrigger>
         <PopoverContent
           align="end"
-          className="relative flex w-auto flex-col overflow-hidden p-0"
+          className="relative flex w-auto max-w-[417px] flex-col overflow-hidden p-0"
         >
           <NotificationsContent
             notifications={notifications}
@@ -170,7 +171,7 @@ const NotificationsContent = ({
     >
       <CardHeader
         isSecondary
-        className="flex-row items-center justify-between gap-4 space-y-0 border-b border-gray-200 dark:border-dark"
+        className="dark:border-dark flex-row items-center justify-between gap-4 space-y-0 border-b border-gray-200"
       >
         <div className="flex items-center gap-4">
           <CardTitle className="hidden text-base font-semibold md:block">
@@ -180,18 +181,18 @@ const NotificationsContent = ({
           <TabsList className="h-auto w-fit bg-transparent! p-0 md:-ml-2.5">
             <TabsTrigger
               value="inbox"
-              className="gap-1 font-normal shadow-none! data-[state=active]:bg-gray-100 dark:data-[state=active]:bg-dark"
+              className="dark:data-[state=active]:bg-dark gap-1 font-normal shadow-none! data-[state=active]:bg-gray-100"
             >
               No leídas
               {unreadNotifications.length > 0 && (
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-xs dark:border-dark dark:bg-full-dark">
+                <span className="dark:border-accent-dark dark:bg-full-dark text-xxs flex size-5 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white">
                   <span className="m-auto">{unreadNotifications.length}</span>
                 </span>
               )}
             </TabsTrigger>
             <TabsTrigger
               value="readed"
-              className="font-normal shadow-none! data-[state=active]:bg-gray-100 dark:data-[state=active]:bg-dark"
+              className="dark:data-[state=active]:bg-dark font-normal shadow-none! data-[state=active]:bg-gray-100"
             >
               Archivadas
             </TabsTrigger>
@@ -268,7 +269,7 @@ const NotificationsContent = ({
             variant="ghost"
             radius="none"
             size="lg"
-            className="h-12 w-full border-t border-gray-200 dark:border-dark"
+            className="dark:border-dark h-12 w-full border-t border-gray-200"
             onClick={handleMarkAllAsRead}
           >
             Archivar todas
@@ -292,13 +293,13 @@ const NotificationItem = ({
   return (
     <li
       className={cn(
-        "group grid cursor-pointer items-center justify-center border-b border-gray-200 p-4 last:border-none hover:bg-gray-100 dark:border-dark dark:hover:bg-dark",
+        "group dark:border-dark dark:hover:bg-dark relative grid cursor-pointer items-center justify-center border-b border-gray-200 p-4 last:border-none hover:bg-gray-100 md:pr-2",
         isRead ? "grid-cols-1" : "grid-cols-[25px_1fr_40px]",
       )}
     >
-      {!isRead && <span className="flex size-2 rounded-full bg-danger" />}
+      {!isRead && <span className="bg-danger flex size-2 rounded-full" />}
       <button
-        className="space-y-1 text-start"
+        className="space-y-1 pr-2 text-start"
         onClick={() => {
           if (notification.url && !isRead && handleMarkAsRead) {
             handleMarkAsRead(notification.id);
@@ -306,23 +307,46 @@ const NotificationItem = ({
           }
         }}
       >
-        <p className="text-sm font-medium leading-none">{notification.title}</p>
-        <p className="text-sm text-muted-foreground">{notification.message}</p>
+        <div className="relative w-fit">
+          <p className="text-sm leading-none font-medium">
+            {notification.title}
+          </p>
+        </div>
+        <p className="text-muted-foreground text-sm">{notification.message}</p>
       </button>
       {!isRead && handleMarkAsRead && (
-        <BetterTooltip content="Archivar">
-          <Button
-            aria-label="Archivar"
-            variant="ghost"
-            size="icon"
-            radius="full"
-            className="size-8 opacity-0 hover:bg-white group-hover:opacity-100 dark:hover:bg-full-dark"
-            onClick={() => handleMarkAsRead(notification.id)}
-          >
-            <Archive />
-            <span className="sr-only">Archivar</span>
-          </Button>
-        </BetterTooltip>
+        <>
+          <div className="dark:group-hover:border-accent-dark flex flex-col gap-2 border-l pl-2 transition group-hover:border-gray-200 md:border-transparent">
+            <BetterTooltip content="Ver contenido" side="left">
+              <Button
+                aria-label="Archivar"
+                variant="ghost"
+                size="icon"
+                radius="full"
+                className="dark:hover:bg-full-dark size-8 group-hover:opacity-100 hover:bg-white md:opacity-0"
+                onClick={() =>
+                  notification.url && router.push(notification.url)
+                }
+              >
+                <ExternalLink />
+                <span className="sr-only">Ver contenido</span>
+              </Button>
+            </BetterTooltip>
+            <BetterTooltip content="Archivar" side="left">
+              <Button
+                aria-label="Archivar"
+                variant="ghost"
+                size="icon"
+                radius="full"
+                className="dark:hover:bg-full-dark size-8 group-hover:opacity-100 hover:bg-white md:opacity-0"
+                onClick={() => handleMarkAsRead(notification.id)}
+              >
+                <Archive />
+                <span className="sr-only">Archivar</span>
+              </Button>
+            </BetterTooltip>
+          </div>
+        </>
       )}
     </li>
   );
@@ -330,7 +354,7 @@ const NotificationItem = ({
 
 const PureEmptyState = ({ message }: { message: string }) => (
   <li className="my-auto p-4">
-    <div className="flex flex-col items-center justify-center gap-4 text-muted-foreground">
+    <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
       <BellOff />
       <p className="text-center">{message}</p>
     </div>
