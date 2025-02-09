@@ -31,6 +31,28 @@ export async function initializeCourseProgress(
 
     const moduleIds = modules.map((mod) => mod.id);
 
+    const existingCourseProgress = await db
+      .select()
+      .from(userCourseProgress)
+      .where(
+        and(
+          eq(userCourseProgress.userId, userId),
+          eq(userCourseProgress.courseId, resourceId),
+        ),
+      )
+      .limit(1);
+
+    if (existingCourseProgress.length === 0) {
+      await db.insert(userCourseProgress).values({
+        userId,
+        courseId: resourceId,
+        completed: false,
+        progress: 0,
+        startedAt: new Date(),
+      });
+    }
+
+    // 3. Inserta el progreso de los módulos
     const existingModules = await db
       .select({ moduleId: userModuleProgress.moduleId })
       .from(userModuleProgress)
@@ -46,6 +68,7 @@ export async function initializeCourseProgress(
       (id) => !existingModuleIds.includes(id),
     );
 
+    // Al insertar nuevos módulos, se agrega además courseId (resourceId)
     if (newModules.length > 0) {
       const insertModules = newModules.map((id) => ({
         userId,
@@ -61,11 +84,6 @@ export async function initializeCourseProgress(
       .select()
       .from(lesson)
       .where(inArray(lesson.moduleId, moduleIds));
-
-    const exams = await db
-      .select()
-      .from(exam)
-      .where(inArray(exam.moduleId, moduleIds));
 
     const lessonIds = lessons.map((les) => les.id);
     const existingLessons = await db
@@ -93,6 +111,11 @@ export async function initializeCourseProgress(
       await db.insert(userLessonProgress).values(insertLessons);
     }
 
+    const exams = await db
+      .select()
+      .from(exam)
+      .where(inArray(exam.moduleId, moduleIds));
+
     const examIds = exams.map((ex) => ex.id);
     const existingExams = await db
       .select({ examId: userExamProgress.examId })
@@ -115,27 +138,6 @@ export async function initializeCourseProgress(
         completed: false,
       }));
       await db.insert(userExamProgress).values(insertExams);
-    }
-
-    const existingCourseProgress = await db
-      .select()
-      .from(userCourseProgress)
-      .where(
-        and(
-          eq(userCourseProgress.userId, userId),
-          eq(userCourseProgress.courseId, resourceId),
-        ),
-      )
-      .limit(1);
-
-    if (existingCourseProgress.length === 0) {
-      await db.insert(userCourseProgress).values({
-        userId,
-        courseId: resourceId,
-        completed: false,
-        progress: 0,
-        startedAt: new Date(),
-      });
     }
 
     console.log("Progreso inicializado correctamente.");
