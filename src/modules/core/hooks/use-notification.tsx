@@ -32,6 +32,7 @@ interface NotificationContextProps {
   notifyUser: (title: string, message: string, url?: string) => Promise<void>;
   permission: NotificationPermission;
   openPermissionSettings: () => void;
+  toggleSubscription: () => Promise<void>;
 }
 
 const NotificationContext = createContext<NotificationContextProps | undefined>(
@@ -50,19 +51,18 @@ export const NotificationProvider = ({
     null,
   );
   const [message, setMessage] = useState("");
-  const [permission, setPermission] = useState<NotificationPermission>(
-    Notification.permission,
-  );
+  const initialPermission =
+    typeof Notification !== "undefined" ? Notification.permission : "default";
+  const [permission, setPermission] =
+    useState<NotificationPermission>(initialPermission);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   async function registerServiceWorker() {
     if (process.env.NODE_ENV === "development") return;
-
     const registration = await navigator.serviceWorker.register("/sw.js", {
       scope: "/",
       updateViaCache: "none",
     });
-
     const existingSubscription =
       await registration.pushManager.getSubscription();
     if (existingSubscription) {
@@ -75,14 +75,10 @@ export const NotificationProvider = ({
       console.warn("Permiso de notificaciones denegado.");
       return;
     }
-
     const registration = await navigator.serviceWorker.ready;
-
     const existingSubscription =
       await registration.pushManager.getSubscription();
-
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
     if (existingSubscription) {
       const serverSubscription: ServerPushSubscription =
         convertSubscriptionToServerFormat(existingSubscription);
@@ -99,7 +95,6 @@ export const NotificationProvider = ({
       }
       return;
     }
-
     try {
       const newSubscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
@@ -107,7 +102,6 @@ export const NotificationProvider = ({
           process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
         ),
       });
-
       const serverSubscription: ServerPushSubscription =
         convertSubscriptionToServerFormat(newSubscription);
       const response = await subscribeUser(
@@ -133,11 +127,9 @@ export const NotificationProvider = ({
         const isUnsubscribed = await subscription.unsubscribe();
         if (isUnsubscribed) {
           console.log("Suscripción cancelada en el navegador.");
-
           const registration = await navigator.serviceWorker.ready;
           const existingSubscription =
             await registration.pushManager.getSubscription();
-
           if (!existingSubscription) {
             console.log("La suscripción ya no existe en el navegador.");
             const response = await unsubscribeUser(subscription.endpoint);
@@ -159,6 +151,24 @@ export const NotificationProvider = ({
       }
     }
   }, [subscription]);
+
+  const toggleSubscription = useCallback(async () => {
+    if (isSubscribed) {
+      setIsSubscribed(false);
+      try {
+        await unsubscribeFromPush();
+      } catch {
+        setIsSubscribed(true);
+      }
+    } else {
+      setIsSubscribed(true);
+      try {
+        await subscribeToPush();
+      } catch {
+        setIsSubscribed(false);
+      }
+    }
+  }, [isSubscribed, subscribeToPush, unsubscribeFromPush]);
 
   const syncSubscriptions = useCallback(async () => {
     if (!userId) return;
@@ -296,6 +306,7 @@ export const NotificationProvider = ({
         notifyUser,
         permission,
         openPermissionSettings,
+        toggleSubscription,
       }}
     >
       {children}

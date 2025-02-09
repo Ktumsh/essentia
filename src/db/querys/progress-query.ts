@@ -50,6 +50,7 @@ export async function initializeCourseProgress(
       const insertModules = newModules.map((id) => ({
         userId,
         moduleId: id,
+        courseId: resourceId,
         completed: false,
         progress: 0,
       }));
@@ -67,8 +68,6 @@ export async function initializeCourseProgress(
       .where(inArray(exam.moduleId, moduleIds));
 
     const lessonIds = lessons.map((les) => les.id);
-    const examIds = exams.map((ex) => ex.id);
-
     const existingLessons = await db
       .select({ lessonId: userLessonProgress.lessonId })
       .from(userLessonProgress)
@@ -80,19 +79,21 @@ export async function initializeCourseProgress(
       );
 
     const existingLessonIds = existingLessons.map((l) => l.lessonId);
-    const newLessons = lessonIds.filter(
-      (id) => !existingLessonIds.includes(id),
+    const newLessons = lessons.filter(
+      (les) => !existingLessonIds.includes(les.id),
     );
 
     if (newLessons.length > 0) {
-      const insertLessons = newLessons.map((id) => ({
+      const insertLessons = newLessons.map((les) => ({
         userId,
-        lessonId: id,
+        lessonId: les.id,
+        moduleId: les.moduleId,
         completed: false,
       }));
       await db.insert(userLessonProgress).values(insertLessons);
     }
 
+    const examIds = exams.map((ex) => ex.id);
     const existingExams = await db
       .select({ examId: userExamProgress.examId })
       .from(userExamProgress)
@@ -104,12 +105,13 @@ export async function initializeCourseProgress(
       );
 
     const existingExamIds = existingExams.map((e) => e.examId);
-    const newExams = examIds.filter((id) => !existingExamIds.includes(id));
+    const newExams = exams.filter((ex) => !existingExamIds.includes(ex.id));
 
     if (newExams.length > 0) {
-      const insertExams = newExams.map((id) => ({
+      const insertExams = newExams.map((ex) => ({
         userId,
-        examId: id,
+        examId: ex.id,
+        moduleId: ex.moduleId,
         completed: false,
       }));
       await db.insert(userExamProgress).values(insertExams);
@@ -311,17 +313,23 @@ export async function getLastCompletedLesson(
   return result[0] || null;
 }
 
-export async function getLessonProgress(lessonId: string) {
+export async function getLessonProgress(
+  userId: string,
+  lessonId: string,
+): Promise<boolean> {
   try {
     const progress = await db
-      .select({
-        completed: userLessonProgress.completed,
-      })
+      .select()
       .from(userLessonProgress)
-      .where(eq(userLessonProgress.lessonId, lessonId))
+      .where(
+        and(
+          eq(userLessonProgress.lessonId, lessonId),
+          eq(userLessonProgress.userId, userId),
+        ),
+      )
       .limit(1);
 
-    return progress[0] || { completed: false };
+    return progress[0]?.completed || false;
   } catch (error) {
     console.error("Error al obtener el progreso de la lección:", error);
     throw error;

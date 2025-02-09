@@ -14,6 +14,7 @@ import { generateVerificationCode } from "@/modules/core/lib/utils";
 import { ResultCode } from "@/utils/code";
 
 import { insertEmailSendsCode } from "./email-querys";
+import { createNotification } from "./notification-querys";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -71,9 +72,18 @@ export async function createUser(
       code,
       token,
     });
+
     if (!emailResult.success) {
       throw new Error("Error al enviar el email de verificación");
     }
+
+    await createNotification({
+      userId,
+      title: "¡Bienvenido!",
+      message:
+        "Gracias por registrarte en Essentia. ¡Comienza a explorar nuestros cursos!",
+      url: "/salud-y-bienestar",
+    });
 
     return {
       type: "success",

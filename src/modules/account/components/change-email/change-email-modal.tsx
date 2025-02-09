@@ -62,8 +62,6 @@ const ChangeEmailModal = ({
   const handleSendEmail = useCallback(
     async (data: EmailFormData) => {
       try {
-        console.log("handleSendEmail | data.email:", data.email);
-
         startTransition(async () => {
           const [user] = await getUserByEmail(currentEmail);
 

@@ -54,6 +54,10 @@ const LessonPage = async (props: LessonPageProps) => {
   const resourceSlug = params.resource;
   const lessonSlug = params.lesson;
 
+  const session = await auth();
+
+  const userId = session?.user?.id as string;
+
   const resource = await getResourceBySlug(resourceSlug);
 
   const modules = await getModules(resource.id);
@@ -67,19 +71,15 @@ const LessonPage = async (props: LessonPageProps) => {
     lessonSlug,
   );
 
-  const progress = await getLessonProgress(lesson.id);
+  const progress = await getLessonProgress(userId, lesson.id);
 
   const lessonIds = modules.flatMap((mod) =>
     mod.lessons.map((lesson) => lesson.id),
   );
 
-  const session = await auth();
-
   if (!session) {
     redirect(`/${resourceSlug}`);
   }
-
-  const userId = session?.user?.id as string;
 
   const completedLessons = session
     ? await getCompletedLessons(userId, lessonIds)
@@ -113,7 +113,7 @@ const LessonPage = async (props: LessonPageProps) => {
       lesson={lesson}
       modules={modules}
       resource={resourceData}
-      isCompleted={progress.completed}
+      isCompleted={progress}
       completedLessons={completedLessons}
       moduleProgress={moduleProgress}
       isCourseCompleted={course.completed}

@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/send-reminder",
-      "schedule": "0 0 * * *"
+      "path": "/api/notify-user",
+      "schedule": "0 1 * * *"
     },
     {
       "path": "/api/send-task-reminder",
