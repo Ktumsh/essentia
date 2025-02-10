@@ -49,7 +49,7 @@ export function MessageReasoning({
           className="text-main-m dark:text-main-dark-m flex flex-row items-center gap-2"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          <div>
+          <p className="text-sm md:text-base">
             {"Razonando".split("").map((character, index) => (
               <motion.span
                 key={index}
@@ -67,10 +67,13 @@ export function MessageReasoning({
                 {character === " " ? "\u00A0" : character}
               </motion.span>
             ))}
-          </div>
+          </p>
           <div>
             <ChevronDown
-              className={cn("size-5 transition", isExpanded && "rotate-180")}
+              className={cn(
+                "size-4 transition md:size-5",
+                isExpanded && "rotate-180",
+              )}
             />
           </div>
         </button>
@@ -79,10 +82,13 @@ export function MessageReasoning({
           className="text-main-m dark:text-main-dark-m flex flex-row items-center gap-2"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          <div>Razonado por unos segundos</div>
+          <p className="text-sm md:text-base">Razonado por unos segundos</p>
           <div>
             <ChevronDown
-              className={cn("size-5 transition", isExpanded && "rotate-180")}
+              className={cn(
+                "size-4 transition md:size-5",
+                isExpanded && "rotate-180",
+              )}
             />
           </div>
         </button>

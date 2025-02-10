@@ -40,6 +40,7 @@ const ChapterList = ({
     e: MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
+    if (isDisaled) return;
     if (onLessonClick) {
       e.preventDefault();
       onLessonClick(href);
@@ -100,7 +101,12 @@ const ChapterList = ({
               </div>
             </AccordionTrigger>
             <AccordionContent
-              className="dark:bg-dark/50 m-1 overflow-hidden rounded-lg bg-gray-100 pb-0"
+              className={cn(
+                "dark:bg-dark/50 m-1 overflow-hidden rounded-lg bg-gray-100 pb-0",
+                {
+                  "pointer-events-none": isDisaled,
+                },
+              )}
               asChild
             >
               <ul className="py-2">
