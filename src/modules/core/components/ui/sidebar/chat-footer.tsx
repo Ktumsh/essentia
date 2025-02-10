@@ -38,30 +38,32 @@ const ChatFooter = ({
 
   if (!isMobile) return null;
 
-  return (
-    <SidebarFooter className="gap-1">
-      <SidebarGroupLabel>Opciones del chat</SidebarGroupLabel>
-      <SidebarMenu className="gap-2">
-        <SidebarMenuItem>
-          {!isReadonly && chatId && (
-            <VisibilitySelector
-              chatId={chatId as string}
-              selectedVisibilityType={selectedVisibilityType || "private"}
-              isMobile={isMobile}
-            />
-          )}
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          {!isReadonly && isAIPage && session && isPremium && (
-            <ModelSelector
-              selectedModelId={selectedChatModel}
-              isMobile={isMobile}
-            />
-          )}
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarFooter>
-  );
+  if (isPremium) {
+    return (
+      <SidebarFooter className="gap-1">
+        <SidebarGroupLabel>Opciones del chat</SidebarGroupLabel>
+        <SidebarMenu className="gap-2">
+          <SidebarMenuItem>
+            {!isReadonly && chatId && (
+              <VisibilitySelector
+                chatId={chatId as string}
+                selectedVisibilityType={selectedVisibilityType || "private"}
+                isMobile={isMobile}
+              />
+            )}
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            {!isReadonly && isAIPage && session && (
+              <ModelSelector
+                selectedModelId={selectedChatModel}
+                isMobile={isMobile}
+              />
+            )}
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    );
+  }
 };
 
 export default ChatFooter;

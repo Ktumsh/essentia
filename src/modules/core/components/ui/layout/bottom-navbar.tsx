@@ -51,7 +51,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
   );
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 top-auto z-50 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl bg-white px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] dark:bg-full-dark dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)] md:hidden">
+    <nav className="dark:bg-full-dark fixed inset-x-0 bottom-0 z-50 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl bg-white px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] md:hidden dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]">
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (
@@ -61,7 +61,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
                   aria-label="Busca rápida"
                   variant="ghost"
                   fullWidth
-                  className="inline-flex h-full! min-w-0 p-0 text-main-m transition-none after:absolute after:left-0 after:top-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:bg-transparent! active:bg-gray-100! active:transition-colors dark:text-main-dark-h dark:active:bg-dark/50! md:hidden"
+                  className="text-main-m dark:text-main-dark-h dark:active:bg-dark/50! inline-flex h-full! min-w-0 p-0 transition-none after:absolute after:top-0 after:left-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:bg-transparent! active:bg-gray-100! active:transition-colors md:hidden"
                 >
                   <span className="sr-only">Busca rápida</span>
                   <SearchIcon className="size-6!" aria-hidden="true" />
@@ -74,9 +74,9 @@ const BottomNav = ({ user }: BottomNavProps) => {
                 href={item.href}
                 id={`navbar_link_${index}`}
                 className={cn(
-                  "flex size-full min-w-0 items-center justify-center text-main-m active:bg-gray-100 active:transition-colors dark:text-main-dark-h dark:active:bg-dark/50",
+                  "text-main-m dark:text-main-dark-h dark:active:bg-dark/50 flex size-full min-w-0 items-center justify-center active:bg-gray-100 active:transition-colors",
                   item.active &&
-                    "rounded-t-none text-bittersweet-400 dark:text-cerise-red-600",
+                    "text-bittersweet-400 dark:text-cerise-red-600 rounded-t-none",
                 )}
               >
                 {item.active ? (
@@ -88,7 +88,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
                 ) : null}
               </Link>
               {item.active && (
-                <hr className="absolute bottom-3 h-0.5 w-1.5 rounded-full border-none bg-bittersweet-400 transition-all duration-300 ease-in-out dark:bg-cerise-red-600" />
+                <hr className="bg-bittersweet-400 dark:bg-cerise-red-600 absolute bottom-3 h-0.5 w-1.5 rounded-full border-none transition-all duration-300 ease-in-out" />
               )}
             </li>
           )}

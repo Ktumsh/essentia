@@ -198,7 +198,7 @@ const NotificationsContent = ({
             </TabsTrigger>
           </TabsList>
         </div>
-        <DropdownMenu modal={false}>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
