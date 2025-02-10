@@ -106,6 +106,8 @@ const CourseList = ({
     ].includes(slug) && !isPremium;
 
   const handleLessonClick = (href: string) => {
+    if (isPremiumResource && !isPremium) return;
+
     if (!userId) {
       toast({
         title: "¡Hola usuario!",
@@ -129,6 +131,7 @@ const CourseList = ({
   };
 
   const handleStartCourse = async () => {
+    if (isPremiumResource && !isPremium) return;
     try {
       await startCourse();
     } catch (error) {
@@ -140,7 +143,7 @@ const CourseList = ({
 
   if (modules?.length === 0) {
     return (
-      <Card className="border-red-200 text-main dark:border-red-900 dark:text-white">
+      <Card className="text-main border-red-200 dark:border-red-900 dark:text-white">
         <CardHeader className="flex-row items-center gap-2">
           <TriangleAlert className="size-5 text-red-500" />
           <CardDescription className="mt-0! text-base">
@@ -161,7 +164,7 @@ const CourseList = ({
                 data-id={`aprende-sobre-${slug}`}
                 data-name={`Aprende sobre ${resourceName}`}
                 href={`#aprende-sobre-${slug}`}
-                className="group inline-flex h-auto w-fit items-center gap-0 text-balance bg-transparent text-2xl font-bold transition hover:opacity-80 md:text-3xl lg:px-0"
+                className="group inline-flex h-auto w-fit items-center gap-0 bg-transparent text-2xl font-bold text-balance transition hover:opacity-80 md:text-3xl lg:px-0"
               >
                 Aprende sobre {resourceName}
                 <Hash
@@ -190,29 +193,29 @@ const CourseList = ({
               </Badge>
             )}
           </div>
-          <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
+          <div className="text-main mb-4 flex flex-col space-y-1 dark:text-white">
             <p className="prose-sm text-main-h md:prose dark:text-main-dark">
               {about}
             </p>
           </div>
         </section>
-        <section className="col-[1/2] row-[3/4] flex select-none flex-col justify-start px-6 lg:row-[2/6] lg:px-0">
-          <div className="mb-4 flex flex-col space-y-1 text-main dark:text-white">
+        <section className="col-[1/2] row-[3/4] flex flex-col justify-start px-6 select-none lg:row-[2/6] lg:px-0">
+          <div className="text-main mb-4 flex flex-col space-y-1 dark:text-white">
             <h4 className="text-lg font-semibold">Contenido del curso</h4>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-main-m dark:text-main-dark-m">
+            <div className="text-main-m dark:text-main-dark-m flex flex-wrap items-center gap-2 text-sm">
               <span>{modules?.length} secciones</span>
               <span aria-hidden="true">•</span>
               <span>{classes} clases</span>
             </div>
           </div>
           {isPremiumResource ? (
-            <div className="relative mb-4 flex flex-col space-y-1 text-main">
+            <div className="text-main relative mb-4 flex flex-col space-y-1">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 animate-fade-in rounded-lg border border-gray-200 bg-white/50 p-6 backdrop-blur-xs duration-2000 ease-in-out dark:border-dark dark:bg-black/10"
+                className="animate-fade-in dark:border-dark absolute inset-0 z-10 rounded-lg border border-gray-200 bg-white/50 p-6 backdrop-blur-xs duration-2000 ease-in-out dark:bg-black/10"
               >
                 <div className="slideup flex size-full flex-col items-center justify-center gap-4">
-                  <p className="text-center font-semibold text-main dark:text-white md:text-lg">
+                  <p className="text-main text-center font-semibold md:text-lg dark:text-white">
                     ¡Este curso es exclusivo para usuarios premium! 🌟
                   </p>
                   <Button
@@ -220,11 +223,11 @@ const CourseList = ({
                     fullWidth
                     radius="full"
                     onClick={() => setIsOpenPayment(true)}
-                    className="max-w-60 shadow-pretty focus:text-white active:shadow-xs"
+                    className="shadow-pretty max-w-60 focus:text-white active:shadow-xs"
                   >
                     <StarsIcon
                       aria-hidden="true"
-                      className="size-4 focus:outline-hidden **:fill-white"
+                      className="size-4 **:fill-white focus:outline-hidden"
                     />
                     Hazte premium
                   </Button>
@@ -250,7 +253,7 @@ const CourseList = ({
           )}
         </section>
         <section className="top-5 col-[1/2] row-[2/3] lg:sticky lg:col-[2/3] lg:row-[1/4]">
-          <Card className="rounded-none border-y bg-gray-100 text-main dark:bg-dark/50 dark:text-white md:rounded-xl md:border">
+          <Card className="text-main dark:bg-dark/50 rounded-none border-y bg-gray-100 md:rounded-xl md:border dark:text-white">
             <CardHeader isSecondary>
               <CardTitle className="text-center text-lg tracking-normal">
                 El curso incluye
@@ -258,43 +261,43 @@ const CourseList = ({
             </CardHeader>
             <CardContent>
               <ul className="grid grid-cols-2 gap-2">
-                <li className="flex flex-1 items-center justify-center rounded-lg bg-white p-2 dark:bg-full-dark">
+                <li className="dark:bg-full-dark flex flex-1 items-center justify-center rounded-lg bg-white p-2">
                   <div>
                     <div className="inline-flex items-center gap-2">
-                      <span className="block text-sm text-main-m dark:text-main-dark-m">
+                      <span className="text-main-m dark:text-main-dark-m block text-sm">
                         Módulos
                       </span>
                       <LibraryBig
                         strokeWidth={1.5}
-                        className="size-3.5 text-main-m dark:text-main-dark-m"
+                        className="text-main-m dark:text-main-dark-m size-3.5"
                       />
                     </div>
                     <p className="block">{modules?.length} secciones</p>
                   </div>
                 </li>
-                <li className="flex flex-1 items-center justify-center rounded-lg bg-white p-2 dark:bg-full-dark">
+                <li className="dark:bg-full-dark flex flex-1 items-center justify-center rounded-lg bg-white p-2">
                   <div>
                     <div className="inline-flex items-center gap-2">
-                      <span className="text-sm text-main-m dark:text-main-dark-m">
+                      <span className="text-main-m dark:text-main-dark-m text-sm">
                         Lecciones
                       </span>
                       <BookOpenText
                         strokeWidth={1.5}
-                        className="size-3.5 text-main-m dark:text-main-dark-m"
+                        className="text-main-m dark:text-main-dark-m size-3.5"
                       />
                     </div>
                     <p className="block">{classes} clases</p>
                   </div>
                 </li>
-                <li className="col-span-2 flex flex-1 items-center justify-center rounded-lg bg-white p-2 dark:bg-full-dark">
+                <li className="dark:bg-full-dark col-span-2 flex flex-1 items-center justify-center rounded-lg bg-white p-2">
                   <div>
                     <div className="inline-flex items-center gap-2">
-                      <span className="text-sm text-main-m dark:text-main-dark-m">
+                      <span className="text-main-m dark:text-main-dark-m text-sm">
                         Exámenes
                       </span>
                       <BookCheck
                         strokeWidth={1.5}
-                        className="size-3.5 text-main-m dark:text-main-dark-m"
+                        className="text-main-m dark:text-main-dark-m size-3.5"
                       />
                     </div>
                     <p className="block">{exams} evaluaciones</p>
@@ -341,13 +344,13 @@ const CourseList = ({
           </Card>
           {courseInitialized && (
             <div className="px-6 lg:px-0">
-              <Card className="mt-5 rounded-xl text-main dark:text-white">
+              <Card className="text-main mt-5 rounded-xl dark:text-white">
                 <CardHeader isSecondary className="space-y-4">
                   <CardTitle className="text-lg tracking-normal">
                     Tu progreso del curso
                   </CardTitle>
                   <CardDescription>
-                    <div className="inline font-semibold text-main dark:text-white">
+                    <div className="text-main inline font-semibold dark:text-white">
                       <span>{courseProgress.progress}</span>
                       <span className="text-xs">%</span>{" "}
                     </div>
