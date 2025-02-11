@@ -23,18 +23,22 @@
 }
 
 .pac-container {
-  @apply dark:bg-full-dark mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-md;
+  * {
+    @apply font-sans!;
+  }
+
+  @apply mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-md;
 
   & .pac-item {
-    @apply text-main-m dark:!text-main-dark-m rounded-lg border-t-0;
+    @apply text-main-m rounded-lg border-t-0;
   }
 
   & .pac-item:hover {
-    @apply dark:bg-dark cursor-pointer bg-gray-200;
+    @apply cursor-pointer bg-gray-200;
   }
 
   & .pac-item-query {
-    @apply text-main-h dark:text-main-dark-h;
+    @apply text-main-h;
   }
 }
 
@@ -42,18 +46,68 @@
   @apply hidden!;
 }
 
+.poi-info-window .address {
+  @apply mt-2!;
+}
+
+.gm-style .transit-container .gm-title {
+  @apply font-semibold;
+}
+
+.transit-line-group {
+  @apply flex;
+}
+
+.transit-line-group-content {
+  @apply grid! grid-cols-4 gap-2;
+}
+
+.gm-style .transit-container .transit-div-line-name {
+  @apply p-0;
+
+  .gm-transit-short {
+    @apply inline-flex w-full;
+  }
+
+  .gm-transit-medium {
+    @apply inline-flex gap-1;
+  }
+
+  span {
+    @apply inline-flex;
+  }
+
+  .gm-transit-medium {
+    @apply w-auto;
+  }
+}
+
+.transit-line-group .transit-line-group-vehicle-icons {
+  @apply pr-2!;
+}
+
+.gm-style .transit-div-line-name .renderable-component-text-box {
+  @apply flex shrink-0;
+}
+
 .gm-style .gm-style-iw-c {
-  @apply text-main-h dark:bg-full-dark dark:text-main-dark-h rounded-xl bg-white p-4! shadow-md;
+  @apply text-main-h max-w-xs! overflow-visible! rounded-xl border border-gray-200 bg-white p-4! shadow-lg md:max-w-sm!;
+
+  * {
+    @apply font-sans!;
+  }
 
   & .gm-style-iw-chr {
-    @apply absolute top-0 right-0;
+    .gm-style-iw-ch {
+      @apply pt-0;
+    }
   }
 
   & .gm-ui-hover-effect {
-    @apply m-2! flex! size-7! items-center justify-center rounded-full bg-black/10! opacity-100! dark:bg-white/10!;
+    @apply absolute! -top-3 -right-3 z-10 flex! size-7! items-center justify-center rounded-full border-2! border-white! bg-gray-200! opacity-100 transition;
 
     &:hover {
-      @apply opacity-80!;
+      @apply scale-110;
     }
     & span {
       @apply m-0! size-4! text-clip drop-shadow;
@@ -65,12 +119,16 @@
     scrollbar-width: none !important;
   }
 
-  & *:not(.gm-ui-hover-effect > *) {
-    @apply bg-transparent!;
+  & *:not(.gm-ui-hover-effect > *):not(button) {
+    @apply bg-transparent;
+  }
+
+  .transit-title {
+    @apply pb-4;
   }
 
   & .transit-title > span {
-    @apply hidden!;
+    @apply text-[13px];
   }
 
   & .view-link {
@@ -80,27 +138,258 @@
 
 .gmnoprint {
   @apply hidden!;
+
+  * {
+    @apply font-sans!;
+  }
 }
 
 .gm-style-cc {
   @apply hidden!;
+
+  * {
+    @apply font-sans!;
+  }
 }
 
 .gm-style a > div > img {
   @apply hidden!;
+
+  * {
+    @apply font-sans!;
+  }
 }
 
 .gm-style-iw-d {
-  @apply mt-6!;
+  @apply font-normal;
+
+  * {
+    @apply font-sans!;
+  }
+
   & .address {
     @apply flex! flex-col gap-1;
 
     & * {
-      @apply text-main-h dark:text-main-dark-h!;
+      @apply text-main-h;
     }
   }
 }
 
 .gm-title.gm-full-width {
-  @apply text-main! dark:text-main-dark! fixed! top-0 left-0 m-4! capitalize;
+  @apply text-main! m-0 capitalize;
+
+  * {
+    @apply font-sans!;
+  }
+}
+
+.adp {
+  * {
+    @apply font-sans!;
+  }
+
+  .adp-summary {
+    @apply text-danger mt-2.5 text-sm font-semibold;
+  }
+
+  .adp-legal {
+    @apply hidden;
+  }
+
+  .adp-placemark {
+    @apply bg-gray-100;
+
+    tbody {
+      @apply border-0;
+    }
+  }
+
+  .warnbox-c1,
+  .warnbox-c2 {
+    @apply hidden;
+  }
+
+  .warnbox-content {
+    @apply text-main rounded-lg bg-amber-100 p-2 text-xs font-normal;
+  }
+
+  .adp-agencies {
+    @apply text-main-m my-2 text-xs font-normal;
+
+    div {
+      @apply space-y-0.5;
+
+      b {
+        @apply text-main-h;
+      }
+
+      div:last-child {
+        @apply mt-2!;
+      }
+    }
+
+    a {
+      @apply pt-4 font-medium text-blue-500;
+    }
+
+    a:hover {
+      @apply underline;
+    }
+  }
+
+  table {
+    @apply text-main mb-0! w-full overflow-hidden rounded-lg border-0;
+
+    tbody {
+      @apply flex flex-col rounded-lg! border border-gray-200;
+    }
+
+    tr {
+      @apply flex! max-w-[414px] items-center gap-1 border-b border-gray-200 p-2 transition-colors duration-100 last:border-0;
+
+      b {
+        @apply text-main font-medium;
+      }
+
+      .adp-text {
+        @apply font-normal;
+      }
+    }
+
+    tr:hover {
+      @apply bg-gray-100;
+    }
+
+    td {
+      @apply border-t-0! text-sm text-wrap;
+
+      .adp-stepicon {
+        @apply block! min-w-4;
+      }
+
+      img {
+        @apply size-6!;
+      }
+    }
+
+    .adp-listsel {
+      @apply bg-gray-100;
+    }
+
+    .adp-substep {
+      @apply font-normal last:ml-auto;
+
+      div {
+        @apply text-main flex items-center gap-2;
+
+        span {
+          @apply ml-0!;
+        }
+      }
+
+      .adp-details {
+        @apply text-main-m mt-1 ml-10 pl-0.5 text-xs;
+      }
+    }
+  }
+}
+
+#travel-mode-select {
+  @apply border! border-gray-200;
+}
+
+.dark {
+  .pac-container {
+    @apply bg-full-dark;
+
+    & .pac-item {
+      @apply text-main-dark-m!;
+    }
+
+    & .pac-item:hover {
+      @apply bg-dark!;
+    }
+
+    & .pac-item-query {
+      @apply text-main-dark-h!;
+    }
+  }
+
+  .gm-style .gm-style-iw-c {
+    @apply bg-full-dark text-main-dark-h border-dark!;
+
+    & .gm-ui-hover-effect {
+      @apply bg-accent-dark! border-full-dark!;
+    }
+  }
+
+  .gm-style-iw-tc::after {
+    @apply bg-full-dark;
+  }
+
+  .gm-style-iw-d .gm-iw {
+    @apply text-main-dark!;
+  }
+
+  .gm-style-iw-d .address * {
+    @apply text-main-dark-h!;
+  }
+
+  .gm-title.gm-full-width {
+    @apply text-white!;
+  }
+
+  .adp {
+    .warnbox-content {
+      @apply bg-yellow-900 text-white;
+    }
+
+    .adp-agencies {
+      @apply text-main-dark-m;
+
+      div {
+        b {
+          @apply text-main-dark;
+        }
+      }
+    }
+
+    table {
+      @apply text-main-dark;
+
+      tbody {
+        @apply border-dark;
+      }
+
+      tr {
+        @apply border-dark;
+
+        b {
+          @apply text-white;
+        }
+      }
+
+      tr:hover {
+        @apply bg-dark/50;
+      }
+
+      .adp-listsel {
+        @apply bg-dark/50;
+      }
+
+      .adp-substep {
+        div {
+          @apply text-main-dark;
+        }
+        .adp-details {
+          @apply text-main-dark-m;
+        }
+      }
+    }
+
+    table.adp-placemark {
+      @apply bg-dark/50;
+    }
+  }
 }

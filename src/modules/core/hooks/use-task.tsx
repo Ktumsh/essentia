@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useCallback, useContext } from "react";
 import useSWR from "swr";
 
@@ -33,11 +34,15 @@ export const TasksProvider: React.FC<{
   initialTasks: UserTask[];
   children: ReactNode;
 }> = ({ initialTasks, children }) => {
+  const { data: session } = useSession();
+
   const {
     data: tasks = initialTasks,
     mutate: setTasks,
     isLoading,
-  } = useSWR("/api/tasks", fetcher, { fallbackData: initialTasks });
+  } = useSWR(session ? "/api/tasks" : null, fetcher, {
+    fallbackData: initialTasks,
+  });
 
   const updateTask = useCallback(
     (taskId: string, updatedData: Partial<UserTask>) => {

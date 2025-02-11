@@ -162,6 +162,7 @@ const config: Config = {
         "collapsible-up": "collapsible-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "fade-in": "fade-in 0.2s ease-in",
+        "fade-out": "fade-out 0.2s ease-out",
         "float-up-down": "float-up-down 8s ease-in-out infinite",
         "float-wave": "float-wave 10s ease-in-out infinite",
       },
@@ -205,6 +206,10 @@ const config: Config = {
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
         },
         "float-up-down": {
           "0%, 100%": { transform: "translateY(0) translateX(0)" },

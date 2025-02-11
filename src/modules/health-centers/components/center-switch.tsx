@@ -22,18 +22,19 @@ const CenterSwitch = ({ onSwitchChange }: Props) => {
     <BetterTooltip
       content={isSelected ? "Buscar farmacias" : "Buscar centros"}
       side="bottom"
+      align="end"
     >
-      <div className="bg-base flex min-w-20 flex-col items-center justify-center gap-1 text-xxs md:min-w-0 md:flex-row md:justify-start md:gap-2 md:text-sm">
+      <div className="bg-base text-xxs flex min-w-20 flex-col items-center justify-center gap-1 md:min-w-0 md:flex-row md:justify-start md:gap-2 md:text-sm">
         <Switch
           aria-label="Cambiar entre centros y farmacias"
           checked={isSelected}
           onCheckedChange={handleSwitchChange}
-          className="pointer-events-auto shadow-md data-[state=checked]:bg-danger data-[state=unchecked]:bg-danger dark:data-[state=checked]:bg-danger dark:data-[state=unchecked]:bg-danger md:shadow-none"
+          className="data-[state=checked]:bg-danger data-[state=unchecked]:bg-danger dark:data-[state=checked]:bg-danger dark:data-[state=unchecked]:bg-danger pointer-events-auto shadow-md md:shadow-none"
           thumbClass="bg-main bg-white text-main-dark dark:bg-full-dark dark:text-main text-main dark:text-main-dark"
         >
           {isSelected ? <HospitalIcon /> : <PharmacyIcon />}
         </Switch>
-        <span className="w-full self-start text-center font-medium text-main dark:text-white md:sr-only">
+        <span className="text-main w-full self-start text-center font-medium md:sr-only dark:text-white">
           {isSelected ? "Centros" : "Farmacias"}
         </span>
       </div>
