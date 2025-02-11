@@ -11,21 +11,6 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 
 </div>
 
-<details>
-<summary>Tabla de contenidos</summary>
-
-- [🌟 Desarrollo Oficial de Essentia Web](#-desarrollo-oficial-de-essentia-web)
-- [✨ Características principales](#-características-principales)
-- [💡 Secciones Principales](#-secciones-principales)
-- [📋 Prerequisitos](#-prerequisitos)
-- [🚀 Instalación](#-instalación)
-- [🗂️ Estructura del Proyecto](#-contribuir-al-proyecto)
-- [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
-- [📄 Licencia](#-licencia)
-- [📧 Contacto](#-contacto)
-
-</details>
-
 ## ✨ Características principales
 
 - **Recursos esenciales**: Acceso a recursos esenciales sobre salud.
@@ -51,82 +36,12 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
 
 4. **📚 Recursos Adicionales**: Sección para recursos adicionales sobre salud.
 
-### 📋 Prerequisitos
-
-- PNPM (recomendación por su eficiencia y rapidez)
-
-  ```sh
-  npm install -g pnpm
-  ```
-
-- o NPM
-
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### 🚀 Instalación
-
-1. Clona el repositorio
-
-   ```sh
-   git clone https://github.com/Ktumsh/essentia.git
-   ```
-
-2. Instala los paquetes de NPM
-
-   ```sh
-   pnpm install
-   ```
-
-3. Ejecuta el proyecto
-
-   ```sh
-   pnpm run dev
-   ```
-
-4. Configura las variables de entorno necesarias para tu desarrollo local
-   - Crea un archivo llamado `.env.local` y copia el contenido de [.env.demo](.env.demo) en él.
-   - Reemplaza el texto copiado de demo en `.env.local` con los datos requeridos.
-   - Contacta con el propietario para obtener la información.
-
 ## 🗂️ Estructura del Proyecto
 
 - Este proyecto sigue la filosofía de **Screaming Architecture**.
 - En lugar de indicar **qué usamos**, nuestras carpetas indican **qué hacemos**.
 - El dominio del negocio es el núcleo y está reflejado directamente en la estructura del proyecto.
 - Cada módulo representa una funcionalidad clave del sistema, facilitando el mantenimiento y la escalabilidad.
-
-```text
-├── /modules/                      # Módulos principales de la aplicación
-│   ├── /additionals/              # Módulo de Recursos Adicionales
-│   │   ├── /components/           # components UI adicionales
-│   │   ├── /hooks/                # Hooks reutilizables para recursos adicionales
-│   │   └── /lib/                  # Lógica y utilidades de recursos adicionales
-│   ├── /auth/                     # Módulo de Autenticación
-│   │   ├── /components/           # components UI para autenticación
-│   │   ├── /hooks/                # Hooks específicos para autenticación
-│   │   └── /lib/                  # Lógica relacionada con la autenticación
-│   ├── /chatbot/                  # Módulo de Chatbot/Essentia AI
-│   │   ├── /chat/                 # Funcionalidades del chat del chatbot
-│   │   ├── /components/          # components de UI del chatbot
-│   │   ├── /hooks/                # Hooks reutilizables para el chatbot
-│   │   └── /lib/                  # Lógica y utilidades del chatbot
-│   ├── /core/                     # Núcleo de la aplicación
-│   │   ├── /components/           # components UI principales
-│   │   ├── /hooks/                # Hooks reutilizables globales
-│   │   └── /lib/                  # Lógica central compartida
-│   ├── /health-centers/           # Módulo de Centros de Salud
-│   │   ├── /components/           # components UI relacionados con centros de salud
-│   │   ├── /hooks/                # Hooks específicos para centros de salud
-│   │   └── /lib/                  # Lógica y utilidades relacionadas con centros de salud
-│   ├── /home/                     # Módulo página de inicio
-│   ├── /icons/                    # Íconos usados en la aplicación
-│   ├── /about/                    # Módulo de Acerca de
-│   ├── /notfound/                 # Módulo de error 404
-│   ├── /profile/                  # Módulo de Perfil de Usuario
-│   └── /resources/                # Módulo de Recursos Principales
-```
 
 ## 🛠️ Tecnologías Utilizadas
 
