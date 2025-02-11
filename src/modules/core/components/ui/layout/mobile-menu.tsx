@@ -3,6 +3,7 @@
 import {
   ChevronRight,
   ChevronsUpDown,
+  LogIn,
   LucideProps,
   Menu,
   SunMoon,
@@ -122,6 +123,10 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 fullWidth
                 onClick={() => router.push("/login")}
               >
+                <LogIn
+                  aria-hidden="true"
+                  className="size-4 **:fill-white focus:outline-hidden"
+                />
                 Inicia sesión
               </Button>
             )}

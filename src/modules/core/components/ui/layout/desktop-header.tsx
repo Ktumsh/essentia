@@ -1,5 +1,6 @@
 "use client";
 
+import { LogIn } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
@@ -74,6 +75,10 @@ const DesktopHeader = ({
                     }
                   }}
                 >
+                  <LogIn
+                    aria-hidden="true"
+                    className="size-4 **:fill-white focus:outline-hidden"
+                  />
                   Inicia sesión
                 </Button>
               )}

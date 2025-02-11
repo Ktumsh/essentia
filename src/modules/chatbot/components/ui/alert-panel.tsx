@@ -1,8 +1,8 @@
 "use client";
 
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, LogIn } from "lucide-react";
 import { motion } from "motion/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useState } from "react";
 
@@ -19,8 +19,11 @@ interface AlertPanelProps {
 }
 
 const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
+  const router = useRouter();
+
   const [isVisible, setIsVisible] = useState(true);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
   const { isWarningModalOpen, handleOpenPaymentModal } =
     useWarningModal(isPremium);
 
@@ -69,12 +72,18 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
               </span>
             </Button>
           ) : (
-            <Link
-              href="/login?redirect=/essentia-ai"
-              className="bg-light-gradient-v2 dark:bg-dark-gradient inline-flex h-8 min-w-10 shrink-0 items-center justify-center rounded-md px-5 text-sm text-white duration-150! data-[hover=true]:text-white"
+            <Button
+              variant="gradient"
+              size="sm"
+              className="text-sm"
+              onClick={() => router.push("/login?redirect=/essentia-ai")}
             >
+              <LogIn
+                aria-hidden="true"
+                className="size-4 **:fill-white focus:outline-hidden"
+              />
               Inicia sesión
-            </Link>
+            </Button>
           )}
         </motion.div>
       )}

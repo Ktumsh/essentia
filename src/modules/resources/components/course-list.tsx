@@ -5,6 +5,7 @@ import {
   Hash,
   LibraryBig,
   Loader,
+  LogIn,
   TriangleAlert,
 } from "lucide-react";
 import Link from "next/link";
@@ -106,7 +107,7 @@ const CourseList = ({
     ].includes(slug) && !isPremium;
 
   const handleLessonClick = (href: string) => {
-    if (isPremiumResource && !isPremium) return;
+    if (isPremiumResource) return;
 
     if (!userId) {
       toast({
@@ -131,7 +132,7 @@ const CourseList = ({
   };
 
   const handleStartCourse = async () => {
-    if (isPremiumResource && !isPremium) return;
+    if (isPremiumResource) return;
     try {
       await startCourse();
     } catch (error) {
@@ -218,19 +219,35 @@ const CourseList = ({
                   <p className="text-main text-center font-semibold md:text-lg dark:text-white">
                     ¡Este curso es exclusivo para usuarios premium! 🌟
                   </p>
-                  <Button
-                    variant="gradient"
-                    fullWidth
-                    radius="full"
-                    onClick={() => setIsOpenPayment(true)}
-                    className="shadow-pretty max-w-60 focus:text-white active:shadow-xs"
-                  >
-                    <StarsIcon
-                      aria-hidden="true"
-                      className="size-4 **:fill-white focus:outline-hidden"
-                    />
-                    Hazte premium
-                  </Button>
+                  {userId ? (
+                    <Button
+                      variant="gradient"
+                      fullWidth
+                      radius="full"
+                      onClick={() => setIsOpenPayment(true)}
+                      className="shadow-pretty max-w-60 focus:text-white active:shadow-xs"
+                    >
+                      <StarsIcon
+                        aria-hidden="true"
+                        className="size-4 **:fill-white focus:outline-hidden"
+                      />
+                      Hazte premium
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="gradient"
+                      fullWidth
+                      radius="full"
+                      onClick={() => router.push(`/login?redirect=/${slug}`)}
+                      className="shadow-pretty max-w-60 focus:text-white active:shadow-xs"
+                    >
+                      <LogIn
+                        aria-hidden="true"
+                        className="size-4 **:fill-white focus:outline-hidden"
+                      />
+                      Inicia sesión
+                    </Button>
+                  )}
                 </div>
               </div>
               <ChapterList

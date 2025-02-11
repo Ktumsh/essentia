@@ -1,24 +1,20 @@
-import { Maximize } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { ZoomInIcon, ZoomOutIcon } from "@/modules/icons/action";
 import { CenterLocationIcon } from "@/modules/icons/status";
 
 interface MapActionsProps {
-  handleFullscreen: () => void;
   centerLocation: () => void;
   handleZoomIn: () => void;
   handleZoomOut: () => void;
 }
 
 const MapActions = (props: MapActionsProps) => {
-  const { handleFullscreen, centerLocation, handleZoomIn, handleZoomOut } =
-    props;
+  const { centerLocation, handleZoomIn, handleZoomOut } = props;
 
   return (
     <>
-      <BetterTooltip content="Pantalla completa" side="left">
+      {/* <BetterTooltip content="Pantalla completa" side="left">
         <Button
           aria-label="Pantalla completa"
           variant="outline"
@@ -30,8 +26,8 @@ const MapActions = (props: MapActionsProps) => {
           <span className="sr-only">Pantalla completa</span>
           <Maximize className="size-6!" />
         </Button>
-      </BetterTooltip>
-      <div className="absolute bottom-28 right-2 z-40 flex h-fit flex-col space-y-4 md:top-1/2 md:-translate-y-1/2 md:space-y-2">
+      </BetterTooltip> */}
+      <div className="absolute right-2 bottom-28 z-40 flex h-fit flex-col space-y-4 md:top-1/2 md:-translate-y-1/2 md:space-y-2">
         <BetterTooltip content="Centrar ubicación" side="left">
           <Button
             aria-label="Centrar ubicación"

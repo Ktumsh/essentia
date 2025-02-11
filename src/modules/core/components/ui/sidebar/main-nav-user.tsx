@@ -1,6 +1,7 @@
 import {
   BadgeInfo,
   ChevronsUpDown,
+  LogIn,
   LogOut,
   Sparkles,
   SunMoon,
@@ -81,7 +82,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                   ) : (
                     <Avatar className="size-8 rounded-lg">
                       <AvatarFallback className="rounded-lg">
-                        <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                        <AvatarIcon className="text-main-h dark:text-main-dark-h size-4" />
                       </AvatarFallback>
                     </Avatar>
                   )}
@@ -92,7 +93,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         : "Invitado"}
                     </span>
                     {username && (
-                      <span className="truncate text-xs text-main-m dark:text-main-dark-m">
+                      <span className="text-main-m dark:text-main-dark-m truncate text-xs">
                         @{username}
                       </span>
                     )}
@@ -123,7 +124,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                     ) : (
                       <Avatar className="size-8 rounded-lg">
                         <AvatarFallback className="rounded-lg">
-                          <AvatarIcon className="size-4 text-main-h dark:text-main-dark-h" />
+                          <AvatarIcon className="text-main-h dark:text-main-dark-h size-4" />
                         </AvatarFallback>
                       </Avatar>
                     )}
@@ -134,14 +135,14 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                           : "Invitado"}
                       </span>
                       {username && (
-                        <span className="truncate text-xs text-main-m dark:text-main-dark-m">
+                        <span className="text-main-m dark:text-main-dark-m truncate text-xs">
                           @{username}
                         </span>
                       )}
                     </div>
                     {isPremium && (
                       <BetterTooltip content="Cuenta Premium">
-                        <div className="absolute right-0 top-1/2 mr-2 -translate-y-1/2 p-1">
+                        <div className="absolute top-1/2 right-0 mr-2 -translate-y-1/2 p-1">
                           <StarsIcon
                             aria-hidden="true"
                             className="stars-icon v2 size-5! focus:outline-hidden"
@@ -165,7 +166,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                       >
                         <StarsIcon
                           aria-hidden="true"
-                          className="size-4 focus:outline-hidden **:fill-white"
+                          className="size-4 **:fill-white focus:outline-hidden"
                         />
                         Hazte premium
                       </Button>
@@ -184,6 +185,10 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         onClick={() => router.push("/login")}
                         className="transition focus:text-white"
                       >
+                        <LogIn
+                          aria-hidden="true"
+                          className="size-4 **:fill-white focus:outline-hidden"
+                        />
                         Inicia sesión
                       </Button>
                     </DropdownMenuItem>
