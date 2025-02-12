@@ -16,9 +16,9 @@ const Input = React.forwardRef<
     <input
       type={type}
       className={cn(
-        "flex h-9 w-full rounded-md border border-gray-200 bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-main placeholder:text-main-m focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-danger disabled:cursor-not-allowed disabled:opacity-50 dark:border-dark dark:file:text-main-dark dark:placeholder:text-main-dark-m dark:focus-visible:ring-danger",
+        "file:text-main placeholder:text-main-m focus-visible:ring-danger dark:border-accent-dark/50 dark:md:border-dark dark:file:text-main-dark dark:placeholder:text-main-dark-m dark:focus-visible:ring-danger flex h-12 w-full rounded-xl border border-gray-200 bg-transparent! px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:h-9 md:rounded-md",
         isAuth &&
-          "h-11 rounded-lg border-none bg-white shadow-none dark:bg-full-dark md:border md:bg-gray-100 dark:md:bg-dark/50",
+          "dark:bg-full-dark dark:md:bg-dark/50 h-11 rounded-lg border-none bg-white shadow-none md:border md:bg-gray-100",
         className,
       )}
       ref={ref}
@@ -153,16 +153,16 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           prefix={prefix}
           customInput={Input}
           placeholder={placeholder}
-          className="relative rounded-r-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          className="relative [appearance:textfield] rounded-r-none! [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           getInputRef={ref}
           {...props}
         />
 
-        <div className="flex h-9 flex-col rounded-r-md border border-l-0 border-gray-200 shadow-xs dark:border-dark">
+        <div className="dark:border-accent-dark/50 dark:md:border-dark flex h-12 flex-col rounded-r-xl border border-l-0 border-gray-200 shadow-xs md:h-9 md:rounded-r-md">
           <Button
             variant="ghost"
             aria-label="Increase value"
-            className="h-auto rounded-l-none rounded-br-none border-b border-input p-0 px-2 focus-visible:relative"
+            className="dark:border-accent-dark/50 dark:md:border-dark h-full rounded-l-none rounded-br-none border-b border-gray-200 p-0 px-2 focus-visible:relative"
             onClick={handleIncrement}
             disabled={value === max}
           >
@@ -171,7 +171,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           <Button
             variant="ghost"
             aria-label="Decrease value"
-            className="h-auto rounded-l-none rounded-tr-none border-input p-0 px-2 focus-visible:relative"
+            className="h-full rounded-l-none rounded-tr-none p-0 px-2 focus-visible:relative"
             onClick={handleDecrement}
             disabled={value === min}
           >

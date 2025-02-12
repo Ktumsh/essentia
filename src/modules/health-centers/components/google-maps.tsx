@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -28,7 +29,7 @@ import useMapInstance from "../hooks/use-map-instance";
 import useMarkers from "../hooks/use-markers";
 import useSearchBox from "../hooks/use-searchbox";
 
-const SNAP_POINTS = [0.34, 0.5, 0.75, 1];
+const SNAP_POINTS = ["280px", 1];
 
 const TRAVEL_MODE: Record<string, string> = {
   DRIVING: "En auto",
@@ -47,7 +48,7 @@ const GoogleMaps = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [snap, setSnap] = useState<number | string | null>(SNAP_POINTS[3]);
+  const [snap, setSnap] = useState<number | string | null>(SNAP_POINTS[1]);
 
   const [travelMode, setTravelMode] = useState<string>(
     TRAVEL_MODE[window.__selectedTravelMode || "DRIVING"],
@@ -277,21 +278,32 @@ const GoogleMaps = () => {
         />
         {isMobile ? (
           <Drawer
-            dismissible={false}
             snapPoints={SNAP_POINTS}
             activeSnapPoint={snap}
             setActiveSnapPoint={setSnap}
+            snapToSequentialPoint
             modal={false}
             open={isOpen}
+            onOpenChange={() => {
+              setSnap(SNAP_POINTS[1]);
+              setIsOpen(!isOpen);
+              if (isOpen) {
+                clearDirections();
+              }
+            }}
           >
-            <DrawerContent className="z-10 max-h-[80%]">
+            <DrawerContent className="z-60">
               <DrawerHeader className="relative">
                 <DrawerTitle>{travelMode}</DrawerTitle>
+                <DrawerDescription className="sr-only">
+                  Indicaciones
+                </DrawerDescription>
                 <Button
                   size="icon"
                   radius="full"
-                  className="absolute -top-2 right-0 mr-3 size-8"
+                  className="absolute -top-1 -right-2 size-7"
                   onClick={() => {
+                    setSnap(SNAP_POINTS[1]);
                     setIsOpen(false);
                     clearDirections();
                   }}
@@ -299,10 +311,10 @@ const GoogleMaps = () => {
                   <X className="size-3.5!" />
                 </Button>
               </DrawerHeader>
-              <div className="overflow-y-auto">
+              <div className="min-h-[600px] overflow-y-auto">
                 <CardContent
                   id="directions-content"
-                  className="flex min-h-[600px] flex-col p-4"
+                  className="p-4"
                 ></CardContent>
               </div>
               <DrawerFooter className="min-h-14"></DrawerFooter>

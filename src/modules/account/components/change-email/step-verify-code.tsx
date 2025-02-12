@@ -44,12 +44,20 @@ const StepVerifyCode = ({
         <>
           <DrawerHeader>
             <DrawerTitle>Revisa tu bandeja de entrada</DrawerTitle>
-            <DrawerDescription className="mt-4 px-4">
-              Hemos enviado un código de verificación a{" "}
-              <span className="font-semibold text-blue-600!">{email}</span> para
-              que puedas cambiar tu correo. Introdúcelo a continuación.
-            </DrawerDescription>
           </DrawerHeader>
+          <DrawerDescription className="mt-4 px-4 text-center text-xs">
+            Hemos enviado un código de verificación a{" "}
+            <span className="font-semibold text-blue-600!">{email}</span> para
+            que puedas cambiar tu correo. Introdúcelo a continuación.
+          </DrawerDescription>
+          <div className="mx-4 mt-4">
+            <div className="text-main-h dark:text-main-dark rounded-xl bg-amber-100 p-3 dark:bg-yellow-950">
+              <p className="text-xs">
+                ¿No lo has recibido el correo electrónico? Asegúrate de
+                comprobar la carpeta de spam.
+              </p>
+            </div>
+          </div>
         </>
       ) : (
         <>
@@ -66,7 +74,7 @@ const StepVerifyCode = ({
         </>
       )}
 
-      <div className="inline-flex w-full flex-col items-center justify-center gap-2 p-6 md:flex-row">
+      <div className="inline-flex w-full flex-col items-center justify-center gap-2 px-4 py-6 md:flex-row md:p-6">
         {isVerifying ? (
           <div className="inline-flex h-[88px] w-full items-center justify-center gap-2 md:h-12">
             <span>Verificando</span>

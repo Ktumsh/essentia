@@ -24,7 +24,7 @@ export function Providers({
   children,
 }: {
   userId: string;
-  currentPlan: string | null;
+  currentPlan: "free" | "premium" | "premium-plus" | null;
   defaultOpen?: boolean;
   initialTasks: UserTask[];
 } & ThemeProviderProps) {

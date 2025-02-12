@@ -43,7 +43,7 @@ export const PlanSelector = ({
   return (
     <>
       <Tabs value={selectedPlanId} onValueChange={(value) => onSelect(value)}>
-        <TabsList className="border border-gray-200 dark:border-dark">
+        <TabsList className="dark:border-dark border border-gray-200">
           {subscriptionPlans.map((plan) => (
             <TabsTrigger key={plan.id} value={plan.id}>
               {plan.name}
@@ -53,10 +53,10 @@ export const PlanSelector = ({
 
         {subscriptionPlans.map((plan, index) => (
           <TabsContent key={plan.id} value={plan.id}>
-            <div className="flex h-44 flex-col gap-4 rounded-md border border-gray-200 bg-gray-100 p-4 text-sm dark:border-dark dark:bg-dark/50">
+            <div className="dark:border-dark dark:bg-dark/50 flex h-44 flex-col gap-4 rounded-md border border-gray-200 bg-gray-100 p-4 text-sm">
               <div className="flex flex-col gap-2">
                 <h3 className="text-lg font-semibold">{plan.name}</h3>
-                <p className="text-sm text-main-h dark:text-main-dark-h">
+                <p className="text-main-h dark:text-main-dark-h text-sm">
                   {plan.description}
                 </p>
               </div>
@@ -64,7 +64,7 @@ export const PlanSelector = ({
                 <span className="font-sans text-xl font-semibold">
                   ${plan.amount.toLocaleString("es-CL")}
                 </span>
-                <span className="align-text-bottom text-sm leading-7 text-main-m dark:text-main-dark-m">
+                <span className="text-main-m dark:text-main-dark-m align-text-bottom text-sm leading-7">
                   {index > 1 ? "/año" : "/mes"}
                 </span>
               </div>
@@ -72,7 +72,7 @@ export const PlanSelector = ({
           </TabsContent>
         ))}
       </Tabs>
-      <p className="mt-3 text-sm text-main-h dark:text-main-dark-h">
+      <p className="text-main-h dark:text-main-dark-h mt-3 text-center text-xs md:text-start md:text-sm">
         Mira más detalles sobre los planes en nuestra{" "}
         <Link
           className="inline-flex items-center gap-x-1 text-blue-600"

@@ -40,25 +40,10 @@
     --text-main-dark-l: rgb(203 213 225 / 38%);
 
     --background-dark: #061b37;
-    --background-dark-90: rgb(6 27 55 / 90%);
-    --background-dark-80: rgb(6 27 55 / 80%);
-    --background-dark-70: rgb(6 27 55 / 70%);
-    --background-dark-60: rgb(6 27 55 / 60%);
-    --background-dark-50: rgb(6 27 55 / 50%);
-    --background-dark-40: rgb(6 27 55 / 40%);
-    --background-dark-30: rgb(6 27 55 / 30%);
-    --background-dark-20: rgb(6 27 55 / 20%);
-    --background-dark-10: rgb(6 27 55 / 10%);
+
     --background-dark-f: #030e1e;
-    --background-dark-f-90: rgb(3 14 30 / 90%);
-    --background-dark-f-80: rgb(3 14 30 / 80%);
-    --background-dark-f-70: rgb(3 14 30 / 70%);
-    --background-dark-f-60: rgb(3 14 30 / 60%);
-    --background-dark-f-50: rgb(3 14 30 / 50%);
-    --background-dark-f-40: rgb(3 14 30 / 40%);
-    --background-dark-f-30: rgb(3 14 30 / 30%);
-    --background-dark-f-20: rgb(3 14 30 / 20%);
-    --background-dark-f-10: rgb(3 14 30 / 10%);
+
+    --background-muted-dark: #041125;
 
     --background-accent-dark: #123a6f;
 

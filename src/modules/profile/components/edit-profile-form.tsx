@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getYear } from "date-fns";
-import { Loader } from "lucide-react";
+import { Loader, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useCallback, useTransition } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
@@ -181,7 +180,7 @@ const EditProfileForm = ({
     return (
       <Form {...form}>
         <form className="w-full md:space-y-4">
-          <div className="w-full space-y-6 p-6">
+          <div className="w-full space-y-6 p-4 md:p-6">
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={control}
@@ -389,25 +388,26 @@ const EditProfileForm = ({
       return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
           <DrawerContent>
-            <DrawerHeader className="dark:border-dark gap-0 border-b border-gray-200 p-0">
+            <DrawerHeader>
               <DrawerTitle>Editar perfil</DrawerTitle>
             </DrawerHeader>
             <ScrollArea className="overflow-y-auto">
               <Content />
             </ScrollArea>
             <DrawerFooter>
-              <DrawerClose asChild>
-                <Button variant="outline" onClick={() => reset(defaultValues)}>
-                  Cancelar
-                </Button>
-              </DrawerClose>
               <Button
-                variant="destructive"
+                variant="mobile-danger"
                 disabled={isPending}
                 onClick={handleSubmit(onSubmit, onError)}
               >
-                {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? null : "Guardar"}
+                {isPending ? (
+                  <Loader className="size-4 animate-spin" />
+                ) : (
+                  <>
+                    Guardar
+                    <Save />
+                  </>
+                )}
               </Button>
             </DrawerFooter>
           </DrawerContent>
@@ -437,8 +437,14 @@ const EditProfileForm = ({
                 disabled={isPending}
                 onClick={handleSubmit(onSubmit, onError)}
               >
-                {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? null : "Guardar"}
+                {isPending ? (
+                  <Loader className="size-4 animate-spin" />
+                ) : (
+                  <>
+                    Guardar
+                    <Save />
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </DialogContent>

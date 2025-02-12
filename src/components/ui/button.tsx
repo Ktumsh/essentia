@@ -21,7 +21,9 @@ const buttonVariants = cva(
         gradient:
           "bg-light-gradient-v2 dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white hover:opacity-80",
         mobile:
-          "justify-start gap-5 hover:bg-transparent active:bg-gray-100 dark:hover:bg-transparent dark:active:bg-dark rounded-full",
+          "justify-start gap-5 h-12! active:bg-gray-200 dark:active:bg-accent-dark rounded-none! [&_svg]:size-5 [&_svg]:stroke-[2.5] text-main-h dark:text-main-dark w-full!",
+        "mobile-danger":
+          "justify-center gap-5 h-10! bg-danger! rounded-none! [&_svg]:size-4 [&_svg]:stroke-[2.5] text-white! w-full! rounded-full!",
         link: "text-gray-900 underline-offset-4 hover:underline dark:text-gray-50",
         alternative:
           "bg-light-gradient dark:bg-dark-gradient-v2 active:scale-[.97] shadow-none text-white text-base hover:opacity-80",

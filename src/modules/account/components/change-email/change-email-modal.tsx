@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -16,12 +16,7 @@ import {
   DialogContent,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerFooter } from "@/components/ui/drawer";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import { getUserByEmail, updateUserEmail } from "@/db/querys/user-querys";
 import { EmailFormData, emailSchema } from "@/modules/core/lib/form-schemas";
@@ -182,13 +177,7 @@ const ChangeEmailModal = ({
     if (isMobile) {
       return (
         <DrawerFooter>
-          {step === 1 ? (
-            <DrawerClose asChild>
-              <Button variant="outline" disabled={isPending}>
-                Cancelar
-              </Button>
-            </DrawerClose>
-          ) : (
+          {/* {step !== 1 && (
             <Button
               variant="outline"
               disabled={isVerifying}
@@ -196,9 +185,10 @@ const ChangeEmailModal = ({
             >
               Atrás
             </Button>
-          )}
+          )} */}
           <Button
-            variant="destructive"
+            variant="mobile-danger"
+            className="justify-center"
             disabled={
               isPending || isVerifying || (step === 2 && code.length < 6)
             }
@@ -213,7 +203,10 @@ const ChangeEmailModal = ({
             {isPending ? (
               <Loader className="size-4 animate-spin" />
             ) : step === 1 ? (
-              "Continuar"
+              <>
+                Continuar
+                <ArrowRight />
+              </>
             ) : (
               "Verificar"
             )}
@@ -276,7 +269,7 @@ const ChangeEmailModal = ({
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerContent autoFocus={false}>
+        <DrawerContent autoFocus={false} className="min-h-[60%]">
           <Content />
           <Footer />
         </DrawerContent>

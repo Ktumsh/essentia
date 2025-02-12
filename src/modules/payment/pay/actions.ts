@@ -360,6 +360,8 @@ export async function getUserCurrentPlan(session: Session): Promise<string> {
     limit: 1,
   });
 
+  console.log("Customers:", customers);
+
   if (customers.data.length === 0) return siteConfig.planPrices.free;
 
   const customer = customers.data[0];

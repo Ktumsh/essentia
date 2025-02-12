@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRound, Loader } from "lucide-react";
 import { useState, useCallback, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,7 +20,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -67,6 +67,8 @@ const ChangePasswordModal = ({
     },
   });
 
+  const { handleSubmit, control } = form;
+
   const handleOpenChange = useCallback(
     (newIsOpen: boolean) => {
       if (!newIsOpen) {
@@ -108,13 +110,11 @@ const ChangePasswordModal = ({
   const Content = useCallback(() => {
     return (
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full md:space-y-4"
-        >
-          <div className="w-full space-y-6 p-6">
+        <form className="w-full md:space-y-4">
+          <div className="w-full space-y-6 px-4 py-6 md:p-6">
+            <input type="text" hidden name="username" autoComplete="username" />
             <FormField
-              control={form.control}
+              control={control}
               name="currentPassword"
               render={({ field }) => (
                 <FormItem>
@@ -134,7 +134,7 @@ const ChangePasswordModal = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleCurrent(!isVisibleCurrent)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
+                        className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
                       >
                         {isVisibleCurrent ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -150,7 +150,7 @@ const ChangePasswordModal = ({
               )}
             />
             <FormField
-              control={form.control}
+              control={control}
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
@@ -168,7 +168,7 @@ const ChangePasswordModal = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleNew(!isVisibleNew)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
+                        className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
                       >
                         {isVisibleNew ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -182,7 +182,7 @@ const ChangePasswordModal = ({
               )}
             />
             <FormField
-              control={form.control}
+              control={control}
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
@@ -202,7 +202,7 @@ const ChangePasswordModal = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsVisibleConfirm(!isVisibleConfirm)}
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
+                        className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
                       >
                         {isVisibleConfirm ? <EyeOffIcon /> : <EyeIcon />}
                         <span className="sr-only">
@@ -216,54 +216,45 @@ const ChangePasswordModal = ({
               )}
             />
           </div>
-          {isMobile ? (
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button variant="outline" disabled={isPending}>
-                  Cancelar
-                </Button>
-              </DrawerClose>
-              <Button type="submit" variant="destructive" disabled={isPending}>
-                Guardar
-              </Button>
-            </DrawerFooter>
-          ) : (
-            <DialogFooter isSecondary>
-              <DialogClose asChild>
-                <Button type="button" variant="outline" disabled={isPending}>
-                  Cancelar
-                </Button>
-              </DialogClose>
-              <Button type="submit" variant="destructive" disabled={isPending}>
-                Guardar
-              </Button>
-            </DialogFooter>
-          )}
         </form>
       </Form>
     );
-  }, [
-    form,
-    isPending,
-    isVisibleCurrent,
-    isVisibleNew,
-    isVisibleConfirm,
-    onSubmit,
-    isMobile,
-  ]);
+  }, [form, isVisibleCurrent, isVisibleNew, isVisibleConfirm, control]);
 
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-        <DrawerContent>
+        <DrawerContent className="min-h-[60%]">
           <DrawerHeader>
             <DrawerTitle>Cambiar contraseña</DrawerTitle>
-            <DrawerDescription className="mt-4 px-4">
-              Actualiza tu contraseña ingresando la información requerida.
-              Asegúrate de usar una contraseña segura.
-            </DrawerDescription>
           </DrawerHeader>
+          <DrawerDescription
+            asChild
+            className="mt-4 space-y-1.5 px-4 text-center text-xs"
+          >
+            <div>
+              <p>Introduce tu contraseña actual y tu contraseña nueva.</p>
+              <p>Asegúrate de usar una contraseña segura.</p>
+            </div>
+          </DrawerDescription>
           <Content />
+          <DrawerFooter>
+            <Button
+              type="button"
+              variant="mobile-danger"
+              disabled={isPending}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {isPending ? (
+                <Loader className="animate-spin" />
+              ) : (
+                <>
+                  Cambiar contraseña
+                  <KeyRound />
+                </>
+              )}
+            </Button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     );
@@ -274,11 +265,33 @@ const ChangePasswordModal = ({
           <DialogHeader isSecondary>
             <DialogTitle>Cambiar contraseña</DialogTitle>
             <DialogDescription>
-              Actualiza tu contraseña ingresando la información requerida.
-              Asegúrate de usar una contraseña segura.
+              Introduce tu contraseña actual y tu contraseña nueva. Asegúrate de
+              usar una contraseña segura.
             </DialogDescription>
           </DialogHeader>
           <Content />
+          <DialogFooter isSecondary>
+            <DialogClose asChild>
+              <Button type="button" variant="outline" disabled={isPending}>
+                Cancelar
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={isPending}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {isPending ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                <>
+                  Cambiar contraseña
+                  <KeyRound />
+                </>
+              )}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     );

@@ -51,7 +51,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
   );
 
   return (
-    <nav className="dark:bg-full-dark fixed inset-x-0 bottom-0 z-50 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl bg-white px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] md:hidden dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]">
+    <nav className="dark:bg-full-dark fixed inset-x-0 bottom-0 z-70 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl bg-white px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] md:hidden dark:shadow-[0px_2px_6px_0px_var(--background-accent-dark),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]">
       {navItems.map((item, index) => (
         <Fragment key={index}>
           {item.isSearch ? (

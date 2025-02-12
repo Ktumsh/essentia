@@ -33,6 +33,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { SidebarMenuAction } from "@/components/ui/sidebar";
 import { useChatVisibility } from "@/modules/chatbot/hooks/use-chat-visibility";
 import { useChatContext } from "@/modules/core/hooks/use-chat-context";
@@ -65,7 +66,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
 
   const isMobile = useIsMobile();
 
-  const deleteId = chat.id;
+  const { id: deleteId, title } = chat;
 
   const handleDelete = async () => {
     const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
@@ -109,33 +110,36 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
-              <DrawerTitle>Chat</DrawerTitle>
+              <DrawerTitle className="truncate">{title}</DrawerTitle>
               <DrawerDescription></DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
-              {visibilityType === "public" && (
+              <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+                {visibilityType === "public" && (
+                  <DrawerClose asChild>
+                    <Button
+                      variant="mobile"
+                      onClick={() => setShareModalOpen(true)}
+                    >
+                      <MessageSquareShare strokeWidth={1.5} />
+                      Compartir
+                    </Button>
+                  </DrawerClose>
+                )}
+                <Separator className="dark:bg-accent-dark/50 z-10 ml-3" />
                 <DrawerClose asChild>
                   <Button
                     variant="mobile"
-                    onClick={() => setShareModalOpen(true)}
+                    className="text-destructive active:bg-destructive/15 active:text-destructive dark:text-red-500 dark:active:bg-red-500/15 dark:active:text-red-400"
+                    onClick={() => {
+                      setShowDeleteDialog(true);
+                    }}
                   >
-                    <MessageSquareShare strokeWidth={1.5} />
-                    Compartir
+                    <Trash2 strokeWidth={1.5} />
+                    Eliminar
                   </Button>
                 </DrawerClose>
-              )}
-              <DrawerClose asChild>
-                <Button
-                  variant="mobile"
-                  className="text-destructive active:bg-destructive/15 active:text-destructive dark:text-red-500 dark:active:bg-red-500/15 dark:active:text-red-400"
-                  onClick={() => {
-                    setShowDeleteDialog(true);
-                  }}
-                >
-                  <Trash2 strokeWidth={1.5} />
-                  Eliminar
-                </Button>
-              </DrawerClose>
+              </div>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
@@ -146,7 +150,7 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
               showOnHover={!isActive}
               className={cn(
                 "w-6",
-                isActive && "md:hover:bg-white md:dark:hover:bg-full-dark",
+                isActive && "md:dark:hover:bg-full-dark md:hover:bg-white",
               )}
             >
               <MoreHorizontalIcon />
@@ -182,28 +186,28 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
 
       {isMobile ? (
         <Drawer open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-          <DrawerContent>
+          <DrawerContent className="min-h-[30%]">
             <DrawerHeader>
               <DrawerTitle>Eliminar chat</DrawerTitle>
-              <DrawerDescription className="px-4" asChild>
-                <div>
-                  <p>
-                    Esto eliminará el chat:{" "}
-                    <span className="text-main dark:text-main-dark">
-                      {chat.title}
-                    </span>
-                    .
-                  </p>
-                  <p>¿Deseas continuar?</p>
-                </div>
-              </DrawerDescription>
             </DrawerHeader>
+            <DrawerDescription
+              className="mt-4 space-y-1.5 px-4 text-center text-xs"
+              asChild
+            >
+              <div>
+                <p>
+                  Esto eliminará el chat:{" "}
+                  <span className="text-main dark:text-white">
+                    {chat.title}
+                  </span>
+                  .
+                </p>
+                <p>¿Deseas continuar?</p>
+              </div>
+            </DrawerDescription>
             <DrawerFooter>
-              <DrawerClose asChild>
-                <Button variant="outline">Cancelar</Button>
-              </DrawerClose>
-              <Button variant="destructive" onClick={handleDelete}>
-                Continuar
+              <Button variant="mobile-danger" onClick={handleDelete}>
+                Confirmar
               </Button>
             </DrawerFooter>
           </DrawerContent>

@@ -5,14 +5,20 @@ import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/utils/common";
 
+const DrawerContext = React.createContext<{
+  direction?: "top" | "bottom" | "left" | "right";
+}>({});
+
 const Drawer = ({
-  shouldScaleBackground = true,
+  shouldScaleBackground = false,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root
-    shouldScaleBackground={shouldScaleBackground}
-    {...props}
-  />
+  <DrawerContext.Provider value={{ direction: props.direction }}>
+    <DrawerPrimitive.Root
+      shouldScaleBackground={shouldScaleBackground}
+      {...props}
+    />
+  </DrawerContext.Provider>
 );
 Drawer.displayName = "Drawer";
 
@@ -28,7 +34,7 @@ const DrawerOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
-    className={cn("fixed inset-0 z-50 bg-black/80", className)}
+    className={cn("fixed inset-0 z-70 bg-black/80", className)}
     {...props}
   />
 ));
@@ -37,22 +43,35 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 const DrawerContent = React.forwardRef<
   React.ComponentRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto max-h-[calc(100vh-2rem)] flex-col rounded-t-3xl bg-background",
-        className,
-      )}
-      {...props}
-    >
-      <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-gray-200 dark:bg-white/10" />
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-));
+>(({ className, children, ...props }, ref) => {
+  const { direction } = React.useContext(DrawerContext);
+
+  return (
+    <DrawerPortal>
+      <DrawerOverlay />
+      <DrawerPrimitive.Content
+        ref={ref}
+        style={
+          { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
+        }
+        className={cn(
+          "dark:bg-muted-dark fixed z-70 flex flex-col bg-white",
+          (!direction || direction === "bottom") &&
+            "inset-x-0 bottom-0 mx-2 mt-24 h-fit max-h-[calc(100%-56px-2rem)] rounded-t-3xl",
+          direction === "right" &&
+            "top-2 right-2 bottom-2 w-screen max-w-72 overflow-hidden rounded-2xl p-6",
+          className,
+        )}
+        {...props}
+      >
+        {(!direction || direction === "bottom") && (
+          <div className="dark:bg-accent-dark/50 mx-auto mt-1.5 h-1 w-10 shrink-0 rounded-full bg-gray-200" />
+        )}
+        {children}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  );
+});
 DrawerContent.displayName = "DrawerContent";
 
 const DrawerHeader = ({
@@ -60,7 +79,10 @@ const DrawerHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <header
-    className={cn("grid gap-1.5 text-center sm:text-left", className)}
+    className={cn(
+      "dark:border-dark mx-4 gap-1.5 border-b border-gray-200 text-center sm:text-left",
+      className,
+    )}
     {...props}
   />
 );
@@ -71,7 +93,7 @@ const DrawerFooter = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <footer
-    className={cn("mt-auto flex flex-col gap-2 p-4", className)}
+    className={cn("mt-auto flex flex-col gap-4 p-4", className)}
     {...props}
   />
 );
@@ -84,7 +106,7 @@ const DrawerTitle = React.forwardRef<
   <DrawerPrimitive.Title
     ref={ref}
     className={cn(
-      "border-b border-gray-200 py-2.5 text-center text-sm font-semibold leading-none tracking-tight dark:border-dark",
+      "py-2.5 text-center text-sm leading-none font-semibold tracking-tight",
       className,
     )}
     {...props}
@@ -98,7 +120,7 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-main dark:text-main-dark", className)}
+    className={cn("text-main dark:text-main-dark text-sm", className)}
     {...props}
   />
 ));

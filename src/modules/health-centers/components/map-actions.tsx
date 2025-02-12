@@ -27,7 +27,7 @@ const MapActions = (props: MapActionsProps) => {
           <Maximize className="size-6!" />
         </Button>
       </BetterTooltip> */}
-      <div className="absolute right-2 bottom-28 z-40 flex h-fit flex-col space-y-4 md:top-1/2 md:-translate-y-1/2 md:space-y-2">
+      <div className="absolute top-1/2 right-2 z-40 flex h-fit -translate-y-1/2 flex-col space-y-4 md:space-y-2">
         <BetterTooltip content="Centrar ubicación" side="left">
           <Button
             aria-label="Centrar ubicación"
