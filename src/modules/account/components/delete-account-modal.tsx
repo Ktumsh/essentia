@@ -1,4 +1,4 @@
-import { Loader } from "lucide-react";
+import { Ban, CheckCheck, Loader } from "lucide-react";
 import { nanoid } from "nanoid";
 import { signOut } from "next-auth/react";
 import { useTransition } from "react";
@@ -70,36 +70,58 @@ const DeleteAccountModal = ({
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerContent>
+        <DrawerContent className="min-h-[60%]">
           <DrawerHeader>
             <DrawerTitle>Eliminar Cuenta</DrawerTitle>
-            <DrawerDescription asChild className="mt-4 px-4">
-              <div>
-                <p>
-                  Elimina permanentemente tu cuenta y todo su contenido de
-                  Essentia.
-                </p>
-                <p className="font-semibold">
-                  ¿Estás absolutamente {sureLabel}?
-                </p>
-              </div>
-            </DrawerDescription>
-            <DrawerFooter>
+          </DrawerHeader>
+          <DrawerDescription
+            asChild
+            className="mt-4 space-y-1.5 px-4 text-center text-xs"
+          >
+            <div>
+              <p>
+                Elimina permanentemente tu cuenta y todo su contenido de
+                Essentia.
+              </p>
+              <p className="font-semibold">¿Estás absolutamente {sureLabel}?</p>
+            </div>
+          </DrawerDescription>
+          <div className="mx-4 mt-4">
+            <div className="rounded-md bg-red-100 p-3 dark:bg-red-950">
+              <p className="text-xs font-medium text-red-500">
+                Esta acción NO es reversible. Por favor, debes estar {sureLabel}
+                .
+              </p>
+            </div>
+          </div>
+          <DrawerFooter>
+            <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
               <DrawerClose asChild>
-                <Button variant="outline" disabled={isPending}>
-                  Cancelar
+                <Button
+                  variant="mobile"
+                  disabled={isPending}
+                  className="justify-center"
+                >
+                  <Ban />
+                  No, cancelar
                 </Button>
               </DrawerClose>
-              <Button
-                variant="destructive"
-                disabled={isPending}
-                onClick={handleDeleteUser}
-              >
-                {isPending && <Loader className="size-4 animate-spin" />}
-                {isPending ? null : "Confirmar"}
-              </Button>
-            </DrawerFooter>
-          </DrawerHeader>
+            </div>
+            <Button
+              variant="mobile-danger"
+              disabled={isPending}
+              onClick={handleDeleteUser}
+            >
+              {isPending ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                <>
+                  <CheckCheck />
+                  Sí, confirmar
+                </>
+              )}
+            </Button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     );
@@ -132,7 +154,7 @@ const DeleteAccountModal = ({
           <DialogFooter isSecondary>
             <DialogClose asChild>
               <Button variant="outline" disabled={isPending}>
-                Cancelar
+                No, cancelar
               </Button>
             </DialogClose>
             <Button
@@ -140,8 +162,14 @@ const DeleteAccountModal = ({
               disabled={isPending}
               onClick={handleDeleteUser}
             >
-              {isPending && <Loader className="size-4 animate-spin" />}
-              {isPending ? null : "Confirmar"}
+              {isPending ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                <>
+                  Sí, confirmar
+                  <CheckCheck />
+                </>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

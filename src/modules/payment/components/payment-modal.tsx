@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader } from "lucide-react";
+import { ChevronsUp, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -39,6 +39,7 @@ interface PaymentModalProps {
 const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
   const router = useRouter();
   const { currentPlan } = usePlan();
+
   const [selectedPlan, setSelectedPlan] = useState<string>(
     currentPlan === siteConfig.planPrices.free
       ? siteConfig.planPrices.premium
@@ -104,11 +105,15 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
 
         {isMobile ? (
           <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DrawerClose>
+            <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+              <DrawerClose asChild>
+                <Button variant="mobile" className="justify-center">
+                  Cancelar
+                </Button>
+              </DrawerClose>
+            </div>
             <Button
-              variant="destructive"
+              variant="mobile-danger"
               onClick={handleProceedToPayment}
               disabled={
                 !selectedPlan || isLoading || selectedPlan === currentPlan
@@ -119,7 +124,10 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
               ) : selectedPlan === currentPlan ? (
                 "Plan Actual"
               ) : (
-                `Mejorar a ${getPlanName(selectedPlan)}`
+                <>
+                  <ChevronsUp />
+                  Mejorar a {getPlanName(selectedPlan)}
+                </>
               )}
             </Button>
           </DrawerFooter>
@@ -140,7 +148,10 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
               ) : selectedPlan === currentPlan ? (
                 "Plan Actual"
               ) : (
-                `Mejorar a ${getPlanName(selectedPlan)}`
+                <>
+                  Mejorar a {getPlanName(selectedPlan)}
+                  <ChevronsUp />
+                </>
               )}
             </Button>
           </DialogFooter>
@@ -152,7 +163,7 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerContent>
+        <DrawerContent className="min-h-[60%]">
           <Content />
         </DrawerContent>
       </Drawer>

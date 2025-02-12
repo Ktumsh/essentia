@@ -11,10 +11,10 @@ import { Toaster as Sooner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { spaceGrotesk, spaceMono, dmSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
+import { getSubscription } from "@/db/querys/payment-querys";
 import { getUserTasks } from "@/db/querys/task-querys";
 import { Providers } from "@/modules/core/components/providers";
 import TailwindIndicator from "@/modules/core/components/ui/utils/tailwind-indicator";
-import { getUserCurrentPlan } from "@/modules/payment/pay/actions";
 import { cn } from "@/utils/common";
 
 export const metadata: Metadata = {
@@ -147,10 +147,13 @@ export default async function RootLayout({
     auth() as Promise<Session>,
     cookies(),
   ]);
-  const isCollapsed = cookieStore.get("sidebar:state")?.value !== "true";
-  const currentPlan = session ? await getUserCurrentPlan(session) : null;
-
   const userId = session?.user?.id as string;
+
+  const isCollapsed = cookieStore.get("sidebar:state")?.value !== "true";
+
+  const subscription = session ? await getSubscription(userId) : null;
+
+  const currentPlan = subscription ? subscription[0].type : "free";
 
   const initialTasks = session ? await getUserTasks(userId) : [];
 

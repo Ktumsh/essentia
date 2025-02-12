@@ -68,9 +68,9 @@ export const siteConfig: SiteConfig = {
     "salud rapida",
   ],
   planPrices: {
-    free: "price_free",
-    premium: "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",
-    premiumPlus: "price_1Q1y2QI2PMoTUNZeMt1eynxB",
+    free: "free",
+    premium: "premium",
+    premiumPlus: "premium_plus",
   },
   links: {
     github: "https://github.com/Ktumsh/essentia",

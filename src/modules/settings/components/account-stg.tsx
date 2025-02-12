@@ -6,6 +6,7 @@ import {
   LockKeyhole,
   Mail,
   MapPin,
+  Pencil,
   PersonStanding,
   Ruler,
   ScrollText,
@@ -81,10 +82,10 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
               variant="ghost"
               size="icon"
               radius="full"
-              className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
+              className="absolute inset-y-0 left-4 mt-auto mb-2 md:left-0"
               onClick={() => router.push("/settings")}
             >
-              <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
+              <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
             </Button>
             <div className="ml-12">
               <SettingsOptsHeader title="Cuenta y perfil" />
@@ -102,10 +103,10 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
             variant="ghost"
             size="icon"
             radius="full"
-            className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
+            className="absolute inset-y-0 left-4 mt-auto mb-2 md:left-0"
             onClick={() => handleSection("options")}
           >
-            <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
+            <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
           </Button>
           <div className="ml-12">
             <SettingsOptsHeader title="Cuenta y perfil" />
@@ -116,7 +117,7 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
         {section === "options" && (
           <>
             <div className="flex flex-col gap-1">
-              <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+              <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
                 <InfoField
                   title="Información de tu cuenta"
                   hasValue={false}
@@ -138,10 +139,10 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
         {section === "accountInfo" && (
           <>
             <div className="flex flex-col">
-              <h4 className="mb-2 pl-6 text-xs font-medium text-main-h dark:text-main-dark-h md:pl-4">
+              <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
                 Información de tu cuenta
               </h4>
-              <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+              <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
                 <InfoField
                   title="Correo electrónico"
                   value={email}
@@ -198,11 +199,22 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
         )}
         {section === "personalInfo" && (
           <>
-            <div className="flex flex-col">
-              <h4 className="mb-2 pl-6 text-xs font-medium text-main-h dark:text-main-dark-h md:pl-4">
+            <div className="relative flex flex-col">
+              <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
                 Información personal
               </h4>
-              <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+              <div className="static -top-7 right-0 m-4 mt-2 flex justify-start md:absolute md:mx-0 md:justify-end">
+                <div className="w-full">
+                  <Button
+                    variant={isMobile ? "mobile-danger" : "outline"}
+                    onClick={() => setIsOpenEditProfile(true)}
+                  >
+                    <Pencil />
+                    Editar información
+                  </Button>
+                </div>
+              </div>
+              <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
                 <InfoField title="Nombre" value={firstName} />
                 <InfoField title="Apellido" value={lastName} />
                 <InfoField title="Nombre de usuario" value={username} />
@@ -239,15 +251,6 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
                   hasBorder
                 />
               </ul>
-              <div className="mt-4 w-full self-end px-6 md:px-0">
-                <Button
-                  variant="outline"
-                  className="w-full md:w-fit"
-                  onClick={() => setIsOpenEditProfile(true)}
-                >
-                  Editar información
-                </Button>
-              </div>
             </div>
             <EditProfileForm
               profileData={displayData}

@@ -4,7 +4,6 @@ import {
   ChevronRight,
   ChevronsUpDown,
   LogIn,
-  LucideProps,
   Menu,
   SunMoon,
 } from "lucide-react";
@@ -12,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
+import { Fragment, useState } from "react";
 
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -30,18 +29,9 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
 import { StarsIcon } from "@/modules/icons/common";
 import { AvatarIcon } from "@/modules/icons/miscellaneus";
@@ -51,14 +41,6 @@ import { cn } from "@/utils/common";
 import ThemeToggle from "../buttons/theme-toggle";
 import Greeting from "../utils/greeting";
 import Logo from "../utils/logo";
-
-type Item = {
-  name: string;
-  link?: string;
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
-};
 
 interface MobileMenuProps {
   user: UserProfileData | null;
@@ -78,26 +60,18 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
   const resourceLinks = siteConfig.asideMenuLinks;
   const menuFooterLinks = siteConfig.menuFooterLinks;
 
-  const handleAccountAction = (index: number, item: Item) => {
-    if (index <= 2) {
-      router.push(item.link || "#");
-    } else {
-      signOut({ callbackUrl: "/logout" });
-    }
-  };
-
   return (
     <>
-      <Sheet>
-        <SheetTrigger className="flex size-8 items-center justify-center">
+      <Drawer direction="right">
+        <DrawerTrigger className="flex size-8 items-center justify-center">
           <Menu strokeWidth={1.5} className="size-6" />
-        </SheetTrigger>
-        <SheetContent side="right" className="flex flex-col overflow-y-auto">
-          <SheetHeader className="space-y-4">
-            <SheetTitle className="hidden">Menú</SheetTitle>
-            <SheetDescription className="hidden">
+        </DrawerTrigger>
+        <DrawerContent className="gap-4 overflow-y-auto">
+          <DrawerHeader className="mx-0 flex flex-col space-y-4 border-0 text-center sm:text-left">
+            <DrawerTitle className="hidden">Menú</DrawerTitle>
+            <DrawerDescription className="hidden">
               Este es el menú móvil donde puedes navegar por las opciones.
-            </SheetDescription>
+            </DrawerDescription>
             <Link
               href="/"
               className="relative mt-0! inline-flex items-center gap-2"
@@ -130,7 +104,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 Inicia sesión
               </Button>
             )}
-          </SheetHeader>
+          </DrawerHeader>
           <Separator />
           <div role="group" className="flex flex-1 flex-col">
             <div className="group flex">
@@ -140,7 +114,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             </div>
             <div className="flex w-full flex-col space-y-2">
               {resourceLinks.map((link) => (
-                <SheetClose asChild key={link.name}>
+                <DrawerClose asChild key={link.name}>
                   <Link
                     href={link.link}
                     className={cn(
@@ -159,11 +133,11 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                     />
                     <span>{link.name}</span>
                   </Link>
-                </SheetClose>
+                </DrawerClose>
               ))}
             </div>
           </div>
-          <SheetFooter className="text-sm">
+          <DrawerFooter className="gap-0 space-y-2 p-0 text-sm">
             <Separator className="my-4!" />
             <Collapsible className="group/collapsible">
               <CollapsibleTrigger asChild>
@@ -174,7 +148,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               </CollapsibleTrigger>
               <CollapsibleContent className="transition-height">
                 {menuFooterLinks.extras.map((item) => (
-                  <SheetClose asChild key={item.name}>
+                  <DrawerClose asChild key={item.name}>
                     <Link
                       href={item.link}
                       className="inline-flex w-full items-center gap-3 py-1.5"
@@ -182,7 +156,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                       <item.icon strokeWidth={1.5} className="size-3.5" />
                       <span>{item.name}</span>
                     </Link>
-                  </SheetClose>
+                  </DrawerClose>
                 ))}
               </CollapsibleContent>
             </Collapsible>
@@ -195,7 +169,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               </CollapsibleTrigger>
               <CollapsibleContent className="transition-height">
                 {menuFooterLinks.config.map((item, index) => (
-                  <SheetClose asChild key={item.name}>
+                  <DrawerClose asChild key={item.name}>
                     <Link
                       href={
                         index === 0
@@ -209,7 +183,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                       <item.icon strokeWidth={1.5} className="size-3.5" />
                       <span>{item.name}</span>
                     </Link>
-                  </SheetClose>
+                  </DrawerClose>
                 ))}
               </CollapsibleContent>
             </Collapsible>
@@ -222,7 +196,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             </div>
             <Separator className="my-4!" />
             {user ? (
-              <SheetClose asChild>
+              <DrawerClose asChild>
                 <button
                   className="relative inline-flex w-full items-center gap-2"
                   onClick={() => setIsDrawerOpen(true)}
@@ -258,7 +232,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                   </div>
                   <ChevronsUpDown className="ml-auto size-4" />
                 </button>
-              </SheetClose>
+              </DrawerClose>
             ) : (
               <button
                 className="relative inline-flex w-full items-center gap-2"
@@ -274,28 +248,71 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 </div>
               </button>
             )}
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
       {user && (
-        <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+        <Drawer
+          open={isDrawerOpen}
+          onOpenChange={setIsDrawerOpen}
+          autoFocus={false}
+        >
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle></DrawerTitle>
               <DrawerDescription></DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
-              {menuFooterLinks.account.map((item, index) => (
-                <DrawerClose asChild key={item.name}>
-                  <Button
-                    variant="mobile"
-                    onClick={() => handleAccountAction(index, item)}
-                  >
-                    <item.icon strokeWidth={1.5} className="size-3.5" />
-                    {item.name}
-                  </Button>
-                </DrawerClose>
-              ))}
+              <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+                {menuFooterLinks.account.slice(0, 2).map((item, index) => (
+                  <Fragment key={item.name}>
+                    <DrawerClose asChild>
+                      <Button
+                        variant="mobile"
+                        onClick={() => router.push(item.link || "#")}
+                      >
+                        <item.icon />
+                        {item.name}
+                      </Button>
+                    </DrawerClose>
+                    <Separator
+                      className={cn("dark:bg-accent-dark/50 z-10 ml-3", {
+                        hidden: index === 1,
+                      })}
+                    />
+                  </Fragment>
+                ))}
+              </div>
+              <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+                {menuFooterLinks.account.slice(2, 3).map((item) => (
+                  <Fragment key={item.name}>
+                    <DrawerClose asChild>
+                      <Button
+                        variant="mobile"
+                        onClick={() => router.push(item.link || "#")}
+                      >
+                        <item.icon />
+                        {item.name}
+                      </Button>
+                    </DrawerClose>
+                  </Fragment>
+                ))}
+              </div>
+              <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+                {menuFooterLinks.account.slice(3).map((item) => (
+                  <Fragment key={item.name}>
+                    <DrawerClose asChild>
+                      <Button
+                        variant="mobile"
+                        onClick={() => signOut({ callbackUrl: "/logout" })}
+                      >
+                        <item.icon />
+                        {item.name}
+                      </Button>
+                    </DrawerClose>
+                  </Fragment>
+                ))}
+              </div>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

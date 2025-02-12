@@ -371,11 +371,11 @@
       }
 
       tr:hover {
-        @apply bg-dark/50;
+        @apply bg-dark;
       }
 
       .adp-listsel {
-        @apply bg-dark/50;
+        @apply bg-dark;
       }
 
       .adp-substep {
@@ -389,7 +389,7 @@
     }
 
     table.adp-placemark {
-      @apply bg-dark/50;
+      @apply bg-dark;
     }
   }
 }

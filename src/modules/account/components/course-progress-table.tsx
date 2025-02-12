@@ -128,16 +128,16 @@ const CourseProgressTable = ({
                 {course.courseName}
               </button>
             </TableCell>
-            <TableCell>
-              <Progress
-                value={course.progress}
-                className="h-1.5 w-2/3"
-                indicatorColor={getProgressColor(course.progress)}
-              />
+            <TableCell className="flex items-center">
               <span>{course.progress}</span>
-              <span className="ml-1 text-xxs text-main-h dark:text-main-dark-h">
+              <span className="text-xxs text-main-h dark:text-main-dark-h ml-1">
                 %
               </span>
+              <Progress
+                value={course.progress}
+                className="ms-2 h-1.5 w-2/3"
+                indicatorColor={getProgressColor(course.progress)}
+              />
             </TableCell>
             <TableCell className="text-nowrap">
               {course.completed ? "Finalizado" : "En progreso"}
@@ -158,7 +158,7 @@ const CourseProgressTable = ({
     </Table>
   ) : (
     <div className="py-10 text-center">
-      <div className="flex flex-col items-center justify-center gap-4 text-main-m dark:text-main-dark-m">
+      <div className="text-main-m dark:text-main-dark-m flex flex-col items-center justify-center gap-4">
         <BookOpenText strokeWidth={1.5} className="size-8" />
         <p className="text-xs md:text-sm">
           Aún no te has inscrito en ningún curso. ¡Es un buen momento para

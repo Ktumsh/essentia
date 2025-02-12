@@ -84,14 +84,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleDayChange}>
           <SelectTrigger
             className={cn(
-              "h-auto border-gray-200 shadow-xs focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
+              "h-auto border-gray-200 shadow-xs focus:ring-0 focus:ring-offset-0 focus:outline-0",
               className,
             )}
           >
             <SelectValue
               placeholder={
                 <div className="flex flex-col items-start">
-                  <span className="text-[0.65rem] font-semibold uppercase text-main-m dark:text-main-dark-m">
+                  <span className="text-main-m dark:text-main-dark-m text-[0.65rem] font-semibold uppercase">
                     Día
                   </span>
                   <span className="font-normal dark:text-white">
@@ -115,14 +115,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleMonthChange}>
           <SelectTrigger
             className={cn(
-              "h-auto border-gray-200 shadow-xs focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
+              "h-auto border-gray-200 shadow-xs focus:ring-0 focus:ring-offset-0 focus:outline-0",
               className,
             )}
           >
             <SelectValue
               placeholder={
                 <div className="flex flex-col items-start">
-                  <span className="text-[0.65rem] font-semibold uppercase text-main-m dark:text-main-dark-m">
+                  <span className="text-main-m dark:text-main-dark-m text-[0.65rem] font-semibold uppercase">
                     Mes
                   </span>
                   <span className="font-normal dark:text-white">
@@ -146,14 +146,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleYearChange}>
           <SelectTrigger
             className={cn(
-              "h-auto border-gray-200 shadow-xs focus:outline-0 focus:ring-0 focus:ring-offset-0 dark:border-dark",
+              "h-auto border-gray-200 shadow-xs focus:ring-0 focus:ring-offset-0 focus:outline-0",
               className,
             )}
           >
             <SelectValue
               placeholder={
                 <div className="flex flex-col items-start">
-                  <span className="text-[0.65rem] font-semibold uppercase text-main-m dark:text-main-dark-m">
+                  <span className="text-main-m dark:text-main-dark-m text-[0.65rem] font-semibold uppercase">
                     Año
                   </span>
                   <span className="font-normal dark:text-white">

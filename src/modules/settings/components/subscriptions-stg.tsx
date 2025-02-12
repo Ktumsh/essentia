@@ -119,10 +119,10 @@ const SubscriptionsStg = ({
               variant="ghost"
               size="icon"
               radius="full"
-              className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
+              className="absolute inset-y-0 left-4 mt-auto mb-2 md:left-0"
               onClick={() => router.push("/settings")}
             >
-              <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
+              <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
             </Button>
             <div className="ml-12">
               <SettingsOptsHeader title="Suscripciones" />
@@ -140,10 +140,10 @@ const SubscriptionsStg = ({
             variant="ghost"
             size="icon"
             radius="full"
-            className="absolute inset-y-0 left-4 mb-2 mt-auto md:left-0"
+            className="absolute inset-y-0 left-4 mt-auto mb-2 md:left-0"
             onClick={() => handleSection("options")}
           >
-            <ArrowLeft className="size-5! text-main-h dark:text-main-dark" />
+            <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
           </Button>
           <div className="ml-12">
             <SettingsOptsHeader title="Suscripciones" />
@@ -153,7 +153,7 @@ const SubscriptionsStg = ({
       <div className="mt-1 flex flex-1 flex-col">
         {section === "options" && (
           <div className="flex flex-col gap-1">
-            <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+            <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
               <InfoField
                 title="Estado del plan"
                 icon={Loader}
@@ -191,10 +191,10 @@ const SubscriptionsStg = ({
         )}
         {section === "planState" && (
           <div className="flex flex-col">
-            <h4 className="mb-2 pl-6 text-xs font-medium text-main-h dark:text-main-dark-h md:pl-4">
+            <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
               Estado de suscripción
             </h4>
-            <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+            <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
               <InfoField title="Plan actual" value={planType} />
               <InfoField
                 title={`Precio/${planType === "Premium Plus" ? "Año" : "Mes"}`}
@@ -226,23 +226,25 @@ const SubscriptionsStg = ({
         {section === "planUpdate" && (
           <>
             <div className="flex flex-col">
-              <h4 className="mb-2 pl-6 text-xs font-medium text-main-h dark:text-main-dark-h md:pl-4">
+              <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
                 Actualización de plan
               </h4>
-              <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+              <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
                 <InfoField
                   title="Cambiar plan"
                   value={planType}
                   isButton
                   buttonAction={() => setIsOpenPayment(true)}
                 />
-                <InfoField
-                  title="Cancelar suscripción"
-                  value="Tu suscripción se cancelará al final del ciclo de facturación actual."
-                  isButton
-                  isDanger
-                  buttonAction={() => setIsOpenCancel(true)}
-                />
+                {isPremium && (
+                  <InfoField
+                    title="Cancelar suscripción"
+                    value="Tu suscripción se cancelará al final del ciclo de facturación actual."
+                    isButton
+                    isDanger
+                    buttonAction={() => setIsOpenCancel(true)}
+                  />
+                )}
               </ul>
             </div>
             {subscriptionDetails && (
@@ -261,15 +263,15 @@ const SubscriptionsStg = ({
         {section === "payHistory" && (
           <>
             <div className="flex flex-col">
-              <h4 className="mb-2 pl-6 text-xs font-medium text-main-h dark:text-main-dark-h md:pl-4">
+              <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
                 Historial de pagos
               </h4>
-              <div className="flex flex-col overflow-hidden border-y border-gray-200 px-6 dark:border-dark md:rounded-lg md:border md:px-0">
+              <div className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 px-6 md:rounded-lg md:border md:px-0">
                 {paymentHistory.length > 0 ? (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="pl-2 text-main-h dark:text-main-dark-h md:pl-3">
+                        <TableHead className="text-main-h dark:text-main-dark-h pl-2 md:pl-3">
                           <div className="flex items-center gap-1.5">
                             <CalendarClock
                               strokeWidth={1.5}
@@ -298,7 +300,7 @@ const SubscriptionsStg = ({
                             <span className="text-nowrap">Plan</span>
                           </div>
                         </TableHead>
-                        <TableHead className="pr-2 text-main-h dark:text-main-dark-h md:pl-3">
+                        <TableHead className="text-main-h dark:text-main-dark-h pr-2 md:pl-3">
                           <div className="flex items-center gap-1.5">
                             <Loader strokeWidth={1.5} className="size-3" />
                             <span className="text-nowrap">Estado</span>
@@ -331,7 +333,7 @@ const SubscriptionsStg = ({
                   </Table>
                 ) : (
                   <div className="py-10 text-center">
-                    <div className="flex flex-col items-center justify-center gap-4 text-main-m dark:text-main-dark-m">
+                    <div className="text-main-m dark:text-main-dark-m flex flex-col items-center justify-center gap-4">
                       <History strokeWidth={1.5} className="size-8" />
                       <p className="text-xs md:text-sm">
                         Aún no tienes pagos registrados. ¡Actualiza tu plan para
@@ -354,10 +356,10 @@ const SubscriptionsStg = ({
         )}
         {section === "benefits" && isPremium && (
           <div className="relative flex flex-col">
-            <h4 className="mb-2 pl-6 text-xs font-medium text-main-h dark:text-main-dark-h md:pl-4">
+            <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
               Beneficios premium
             </h4>
-            <div className="absolute right-6 top-0 md:right-0">
+            <div className="absolute top-0 right-6 md:right-0">
               <BetterTooltip content={basicLabel}>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -374,16 +376,16 @@ const SubscriptionsStg = ({
                 </div>
               </BetterTooltip>
             </div>
-            <ul className="flex flex-col overflow-hidden border-y border-gray-200 dark:border-dark md:rounded-lg md:border">
+            <ul className="dark:border-dark flex flex-col overflow-hidden border-y border-gray-200 md:rounded-lg md:border">
               {showBasicPlan && (
                 <ul className="grid gap-3 px-6 py-3 md:px-4 md:py-2">
                   {basicFeatures.map((feature, index) => (
                     <li key={index} className="text-sm">
                       <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
-                        <div className="relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:bg-background after:content-['']">
+                        <div className="after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']">
                           <CheckCircledIcon className="inline-flex size-5 shrink-0 text-teal-400" />
                         </div>
-                        <span className="text-left text-main-h dark:text-white/90">
+                        <span className="text-main-h text-left dark:text-white/90">
                           {feature}
                         </span>
                       </div>
@@ -393,16 +395,16 @@ const SubscriptionsStg = ({
               )}
               <ul
                 className={cn("grid gap-3 px-6 py-3 md:px-4 md:py-2", {
-                  "border-t border-gray-200 dark:border-dark": showBasicPlan,
+                  "dark:border-dark border-t border-gray-200": showBasicPlan,
                 })}
               >
                 {planFeatures.map((feature, index) => (
                   <li key={index} className="text-sm">
                     <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
-                      <div className="relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:bg-background after:content-['']">
+                      <div className="after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']">
                         <CheckCircledIcon className="inline-flex size-5 shrink-0 text-teal-400" />
                       </div>
-                      <span className="text-left text-main-h dark:text-white/90">
+                      <span className="text-main-h text-left dark:text-white/90">
                         {feature}
                       </span>
                     </div>

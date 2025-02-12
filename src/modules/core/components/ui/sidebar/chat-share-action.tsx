@@ -60,7 +60,7 @@ const ChatShareModal = ({
   const Content = memo(() => {
     return (
       <div className="space-y-4 p-6 pb-0 md:p-6">
-        <div className="space-y-1 rounded-md border border-gray-200 p-4 text-sm dark:border-dark">
+        <div className="dark:border-dark space-y-1 rounded-md border border-gray-200 p-4 text-sm">
           <div className="font-medium">{chat.title}</div>
           <div className="text-main-m dark:text-main-dark-m">
             {formatDate(chat.createdAt, "d 'de' MMMM, yyyy")}
@@ -93,15 +93,19 @@ const ChatShareModal = ({
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerContent>
+        <DrawerContent className="min-h-[60%]">
           <DrawerHeader>
             <DrawerTitle>Compartir enlace al chat</DrawerTitle>
           </DrawerHeader>
           <Content />
           <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DrawerClose>
+            <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+              <DrawerClose asChild>
+                <Button variant="mobile" className="justify-center">
+                  Cerrar
+                </Button>
+              </DrawerClose>
+            </div>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

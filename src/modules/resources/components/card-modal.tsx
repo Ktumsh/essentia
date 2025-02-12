@@ -99,7 +99,7 @@ const CardModal = ({ props }: { props: Props }) => {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
-          <DrawerHeader>
+          <DrawerHeader className="border-b-0">
             <DrawerTitle className="sr-only">{title}</DrawerTitle>
             <DrawerDescription className="sr-only">
               Este es un artículo de la categoría: {category}
@@ -114,8 +114,8 @@ const CardModal = ({ props }: { props: Props }) => {
               src={image}
               className="h-full object-cover"
             />
-            <div className="absolute left-6 top-6 max-w-80 md:left-8 md:top-8">
-              <span className="text-tiny font-bold uppercase text-white/70">
+            <div className="absolute top-6 left-6 max-w-80 md:top-8 md:left-8">
+              <span className="text-tiny font-bold text-white/70 uppercase">
                 {category}
               </span>
               <h2 className="text-xl font-semibold text-white md:text-2xl">
@@ -148,8 +148,8 @@ const CardModal = ({ props }: { props: Props }) => {
               src={image}
               className="size-full object-cover"
             />
-            <div className="absolute left-8 top-8 max-w-80">
-              <span className="text-tiny font-bold uppercase text-white/70">
+            <div className="absolute top-8 left-8 max-w-80">
+              <span className="text-tiny font-bold text-white/70 uppercase">
                 {category}
               </span>
               <h2 className="text-xl font-semibold text-white md:text-2xl">

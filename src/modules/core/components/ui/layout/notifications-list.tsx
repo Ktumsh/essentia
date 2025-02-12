@@ -21,6 +21,7 @@ import {
   Drawer,
   DrawerContent,
   DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -48,7 +49,6 @@ interface NotificationListProps {
 }
 
 const NotificationList = ({ userId }: NotificationListProps) => {
-  const isMobile = useIsMobile();
   const {
     notifications,
     hasUnreadNotifications,
@@ -58,6 +58,10 @@ const NotificationList = ({ userId }: NotificationListProps) => {
     handleDeleteAll,
     handleMarkAllAsRead,
   } = useActionNotifications(userId);
+
+  const isMobile = useIsMobile();
+
+  const [activeTab, setActiveTab] = useState("inbox");
 
   if (isMobile) {
     return (
@@ -92,13 +96,26 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             <DrawerDescription></DrawerDescription>
           </DrawerHeader>
           <NotificationsContent
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
             notifications={notifications}
             unreadNotifications={unreadNotifications}
             readNotifications={readNotifications}
             handleMarkAsRead={handleMarkAsRead}
             handleMarkAllAsRead={handleMarkAllAsRead}
             handleDeleteAll={handleDeleteAll}
+            isMobile={isMobile}
           />
+          <DrawerFooter>
+            <div className="dark:bg-dark flex flex-col overflow-hidden rounded-xl bg-gray-100">
+              {activeTab === "inbox" && unreadNotifications.length > 0 && (
+                <Button variant="mobile" onClick={handleMarkAllAsRead}>
+                  <ArchiveX strokeWidth={2.5} />
+                  Archivar todas
+                </Button>
+              )}
+            </div>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     );
@@ -133,12 +150,15 @@ const NotificationList = ({ userId }: NotificationListProps) => {
           className="relative flex w-auto max-w-[417px] flex-col overflow-hidden p-0"
         >
           <NotificationsContent
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
             notifications={notifications}
             unreadNotifications={unreadNotifications}
             readNotifications={readNotifications}
             handleMarkAsRead={handleMarkAsRead}
             handleMarkAllAsRead={handleMarkAllAsRead}
             handleDeleteAll={handleDeleteAll}
+            isMobile={isMobile}
           />
         </PopoverContent>
       </Popover>
@@ -147,22 +167,26 @@ const NotificationList = ({ userId }: NotificationListProps) => {
 };
 
 const NotificationsContent = ({
+  activeTab,
+  setActiveTab,
   notifications,
   unreadNotifications,
   readNotifications,
   handleMarkAsRead,
   handleMarkAllAsRead,
   handleDeleteAll,
+  isMobile,
 }: {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
   notifications: UserNotification[];
   unreadNotifications: UserNotification[];
   readNotifications: UserNotification[];
   handleMarkAsRead: (id: string) => void;
   handleMarkAllAsRead: () => void;
   handleDeleteAll: () => void;
+  isMobile: boolean;
 }) => {
-  const [activeTab, setActiveTab] = useState("inbox");
-
   return (
     <Tabs
       value={activeTab}
@@ -263,18 +287,22 @@ const NotificationsContent = ({
           </ul>
         </ScrollArea>
       </TabsContent>
-      {activeTab === "inbox" && unreadNotifications.length > 0 && (
-        <CardFooter className="w-full p-0">
-          <Button
-            variant="ghost"
-            radius="none"
-            size="lg"
-            className="dark:border-dark h-12 w-full border-t border-gray-200"
-            onClick={handleMarkAllAsRead}
-          >
-            Archivar todas
-          </Button>
-        </CardFooter>
+      {!isMobile && (
+        <>
+          {activeTab === "inbox" && unreadNotifications.length > 0 && (
+            <CardFooter className="w-full p-0">
+              <Button
+                variant="ghost"
+                radius="none"
+                size="lg"
+                className="dark:border-dark h-12 w-full border-t border-gray-200"
+                onClick={handleMarkAllAsRead}
+              >
+                Archivar todas
+              </Button>
+            </CardFooter>
+          )}
+        </>
       )}
     </Tabs>
   );
@@ -293,7 +321,7 @@ const NotificationItem = ({
   return (
     <li
       className={cn(
-        "group dark:border-dark dark:hover:bg-dark relative grid cursor-pointer items-center justify-center border-b border-gray-200 p-4 last:border-none hover:bg-gray-100 md:pr-2",
+        "group dark:border-dark dark:hover:bg-dark relative grid cursor-pointer items-center justify-center border-b border-gray-200 p-4 transition-colors last:border-none hover:bg-gray-100 md:pr-2",
         isRead ? "grid-cols-1" : "grid-cols-[25px_1fr_40px]",
       )}
     >
@@ -316,7 +344,7 @@ const NotificationItem = ({
       </button>
       {!isRead && handleMarkAsRead && (
         <>
-          <div className="dark:group-hover:border-accent-dark flex flex-col gap-2 border-l pl-2 transition group-hover:border-gray-200 md:border-transparent">
+          <div className="dark:group-hover:border-accent-dark dark:border-dark flex flex-col gap-2 border-l border-gray-200 pl-2 transition group-hover:border-gray-200 md:border-transparent">
             <BetterTooltip content="Ver contenido" side="left">
               <Button
                 aria-label="Archivar"

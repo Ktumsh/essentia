@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -71,22 +70,22 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
             </SidebarMenuButton>
           </SidebarMenuItem>
         </DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent className="min-h-[30%]">
           <DrawerHeader>
             <DrawerTitle>Eliminar historial de chat</DrawerTitle>
-            <DrawerDescription className="px-4" asChild>
-              <div>
-                <p>Esto eliminará permanentemente tu historial de chat.</p>
-                <p>¿Deseas continuar?</p>
-              </div>
-            </DrawerDescription>
           </DrawerHeader>
+          <DrawerDescription
+            className="mt-4 space-y-1.5 px-4 text-center text-xs"
+            asChild
+          >
+            <div>
+              <p>Esto eliminará permanentemente tu historial de chat.</p>
+              <p>¿Deseas continuar?</p>
+            </div>
+          </DrawerDescription>
           <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancelar</Button>
-            </DrawerClose>
-            <Button variant="destructive" onClick={handleClearHistory}>
-              Continuar
+            <Button variant="mobile-danger" onClick={handleClearHistory}>
+              Confirmar
             </Button>
           </DrawerFooter>
         </DrawerContent>
