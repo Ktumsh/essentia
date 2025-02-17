@@ -18,7 +18,7 @@ const Input = React.forwardRef<
       className={cn(
         "file:text-main placeholder:text-main-m focus-visible:ring-danger dark:border-accent-dark/50 dark:md:border-dark dark:file:text-main-dark dark:placeholder:text-main-dark-m dark:focus-visible:ring-danger flex h-12 w-full rounded-xl border border-gray-200 bg-transparent! px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:h-9 md:rounded-md",
         isAuth &&
-          "dark:bg-full-dark dark:md:bg-dark/50 h-11 rounded-lg border-none bg-white shadow-none md:border md:bg-gray-100",
+          "dark:bg-full-dark! dark:md:bg-dark/50! h-11! rounded-lg! border-0 bg-white! shadow-none md:border md:bg-gray-100!",
         className,
       )}
       ref={ref}
