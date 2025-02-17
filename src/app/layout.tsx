@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-// eslint-disable-next-line import/no-unresolved
 import { GeistSans } from "geist/font/sans";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
@@ -127,6 +126,9 @@ export const metadata: Metadata = {
       url: "/apple-icon.png",
       rel: "apple-touch-icon",
     },
+  },
+  verification: {
+    google: "YtzV3W2iele_xb5WQZafjCKxTKKZ79RhjD1MgFk2kx4",
   },
 };
 
