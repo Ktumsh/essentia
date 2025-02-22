@@ -128,9 +128,6 @@ export const metadata: Metadata = {
       rel: "apple-touch-icon",
     },
   },
-  verification: {
-    google: "YtzV3W2iele_xb5WQZafjCKxTKKZ79RhjD1MgFk2kx4",
-  },
 };
 
 export const viewport: Viewport = {
