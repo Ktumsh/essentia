@@ -1,8 +1,5 @@
 User-agent: *
-Disallow: /admin/
-Disallow: /login/
-Disallow: /signup/
-Allow: /
+Disallow: /
 
 Host: essentia-web.vercel.app
 
