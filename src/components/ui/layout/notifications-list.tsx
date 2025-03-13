@@ -88,7 +88,7 @@ const NotificationList = ({ userId }: NotificationListProps) => {
               {hasUnreadNotifications && (
                 <span
                   aria-hidden="true"
-                  className="bg-primary absolute -top-2 -right-2 size-2.5 rounded-full"
+                  className="bg-primary absolute -top-2 -right-2 z-10 size-2.5 rounded-full"
                 ></span>
               )}
             </span>
@@ -137,14 +137,14 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             variant="ghost"
             size="icon"
             radius="full"
-            className="border-border size-8 border"
+            className="border-border dark:border-alternative/50 size-8 border"
           >
             <span className="relative">
               <Bell />
               {hasUnreadNotifications && (
                 <span
                   aria-hidden="true"
-                  className="bg-danger absolute -top-2 -right-2 size-2.5 rounded-full"
+                  className="bg-primary absolute -top-2 -right-2 size-2.5 rounded-full"
                 ></span>
               )}
             </span>
@@ -326,7 +326,7 @@ const NotificationItem = ({
   return (
     <li
       className={cn(
-        "group border-border hover:bg-accent relative grid cursor-pointer items-center justify-center border-b p-4 transition-colors last:border-none md:pr-2",
+        "group/item border-border hover:bg-accent relative grid cursor-pointer items-center justify-center border-b p-4 transition-colors last:border-none md:pr-2",
         isRead ? "grid-cols-1" : "grid-cols-[25px_1fr_40px]",
       )}
     >
@@ -349,14 +349,14 @@ const NotificationItem = ({
       </button>
       {!isRead && handleMarkAsRead && (
         <>
-          <div className="dark:group-hover:border-alternative border-border group-hover:border-border flex flex-col gap-2 border-l pl-2 transition md:border-transparent">
+          <div className="dark:group-hover/item:border-alternative border-border group-hover/item:border-border flex flex-col gap-2 border-l pl-2 transition md:border-transparent">
             <BetterTooltip content="Ver contenido" side="left">
               <Button
                 aria-label="Archivar"
                 variant="ghost"
                 size="icon"
                 radius="full"
-                className="hover:bg-background size-8 group-hover:opacity-100 md:opacity-0"
+                className="hover:bg-background size-8 group-hover/item:opacity-100 md:opacity-0"
                 onClick={() =>
                   notification.url && router.push(notification.url)
                 }
@@ -371,7 +371,7 @@ const NotificationItem = ({
                 variant="ghost"
                 size="icon"
                 radius="full"
-                className="hover:bg-background size-8 group-hover:opacity-100 md:opacity-0"
+                className="hover:bg-background size-8 group-hover/item:opacity-100 md:opacity-0"
                 onClick={() => handleMarkAsRead(notification.id)}
               >
                 <Archive />
