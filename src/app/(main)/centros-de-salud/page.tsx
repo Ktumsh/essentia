@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import Centers from "@/modules/health-centers/components/centers";
+import Centers from "./_components/centers";
 
 export const metadata: Metadata = {
   title: "Centros de salud",

@@ -71,7 +71,7 @@ export const payment = table("payment", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   status: varchar("status", { enum: ["paid", "pending"], length: 12 }).default(
-    "pending",
+    "pending"
   ),
   amount: integer("amount"),
   currency: varchar("currency", { length: 10 }),
@@ -137,7 +137,7 @@ export const chatVote = table(
     return {
       pk: primaryKey({ columns: [table.chatId, table.messageId] }),
     };
-  },
+  }
 );
 
 export type ChatVote = InferSelectModel<typeof chatVote>;
@@ -218,7 +218,7 @@ export const userCourseProgress = table(
     completedAt: timestamp("completed_at").default(sql`NULL`),
     startedAt: timestamp("started_at").defaultNow(),
   },
-  (t) => [primaryKey({ columns: [t.userId, t.courseId] })],
+  (t) => [primaryKey({ columns: [t.userId, t.courseId] })]
 );
 
 export type UserCourseProgress = InferSelectModel<typeof userCourseProgress>;
@@ -244,7 +244,7 @@ export const userModuleProgress = table(
       columns: [t.userId, t.courseId],
       foreignColumns: [userCourseProgress.userId, userCourseProgress.courseId],
     }).onDelete("cascade"),
-  ],
+  ]
 );
 
 export type UserModuleProgress = InferSelectModel<typeof userModuleProgress>;
@@ -269,7 +269,7 @@ export const userLessonProgress = table(
       columns: [t.userId, t.moduleId],
       foreignColumns: [userModuleProgress.userId, userModuleProgress.moduleId],
     }).onDelete("cascade"),
-  ],
+  ]
 );
 
 export type UserLessonProgress = InferSelectModel<typeof userLessonProgress>;
@@ -295,7 +295,7 @@ export const userExamProgress = table(
       columns: [t.userId, t.moduleId],
       foreignColumns: [userModuleProgress.userId, userModuleProgress.moduleId],
     }).onDelete("cascade"),
-  ],
+  ]
 );
 
 export type UserExamProgress = InferSelectModel<typeof userExamProgress>;

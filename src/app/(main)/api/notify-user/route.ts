@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { notifyUsersWithoutCourse } from "@/db/querys/notification-querys";
 
-export async function POST() {
+export async function GET() {
   try {
     await notifyUsersWithoutCourse();
     return NextResponse.json(

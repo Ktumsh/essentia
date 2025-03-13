@@ -6,7 +6,7 @@ import {
   getUserProfileById,
   getUserProfileByUsername,
 } from "@/db/querys/profile-querys";
-import { UserProfileData } from "@/types/session";
+import { UserProfileData } from "@/types/auth";
 
 export async function getUserProfileData({
   session,

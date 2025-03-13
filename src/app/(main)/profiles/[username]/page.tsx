@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
-import { Separator } from "@/components/ui/separator";
-import ProfileInfo from "@/modules/profile/components/profile-info";
+import { Separator } from "@/components/kit/separator";
+import PageWrapper from "@/components/ui/layout/page-wrapper";
 import { getUserProfileData } from "@/utils/profile";
+
+import AccountHeader from "../../(account)/_components/account/account-header";
+import ProfileInfo from "../../(account)/_components/profile/profile-info";
 
 type Props = {
   params: Promise<{ username: string }>;
@@ -26,19 +29,13 @@ const ProfilePage = async (props: Props) => {
   const user = await getUserProfileData({ session: undefined, username });
 
   return (
-    <section className="flex w-full flex-col overflow-hidden pb-16 md:pb-0">
-      <div className="mx-auto size-full min-h-[calc(100dvh-120px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:min-h-[calc(100dvh-56px)] md:border md:border-y-0">
-        <div className="px-6">
-          <h1 className="py-4 text-2xl font-semibold leading-none tracking-tight dark:text-white sm:text-3xl md:pt-11">
-            Perfil de {username}
-          </h1>
-        </div>
-        <div className="px-6">
-          <Separator />
-        </div>
-        <ProfileInfo user={user} isOwnProfile={false} />
+    <PageWrapper>
+      <AccountHeader username={username} />
+      <div className="px-6">
+        <Separator />
       </div>
-    </section>
+      <ProfileInfo user={user} isOwnProfile={false} />
+    </PageWrapper>
   );
 };
 

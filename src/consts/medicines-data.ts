@@ -4,11 +4,11 @@ export const MEDICINES_DATA_GROUP_1: MedicineCategory[] = [
   {
     category: "Analgésicos y Antiinflamatorios",
     verticalDividerClasses:
-      "mb-[70px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "mb-[70px] h-auto! bg-slate-300 dark:bg-alternative md:mb-7",
     innerDividersClasses: [
-      "my-4 bg-gray-300 dark:bg-accent-dark",
-      "mb-9 bg-gray-300 dark:bg-accent-dark",
-      "mb-[70px] bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "my-4 bg-slate-300 dark:bg-alternative",
+      "mb-9 bg-slate-300 dark:bg-alternative",
+      "mb-[70px] bg-slate-300 dark:bg-alternative md:mb-7",
     ],
     items: [
       {
@@ -30,10 +30,10 @@ export const MEDICINES_DATA_GROUP_1: MedicineCategory[] = [
   {
     category: "Antihistamínicos",
     verticalDividerClasses:
-      "mb-[90px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-7 md:bg-gray-200",
+      "mb-[90px] h-auto! bg-slate-300 dark:bg-alternative md:mb-7 md:bg-slate-200",
     innerDividersClasses: [
-      "my-4 bg-gray-300 dark:bg-accent-dark",
-      "mb-[90px] bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "my-4 bg-slate-300 dark:bg-alternative",
+      "mb-[90px] bg-slate-300 dark:bg-alternative md:mb-7",
     ],
     items: [
       {
@@ -51,8 +51,8 @@ export const MEDICINES_DATA_GROUP_1: MedicineCategory[] = [
   {
     category: "Antidiarreicos",
     verticalDividerClasses:
-      "mb-8 h-auto bg-gray-300 dark:bg-accent-dark md:mb-4",
-    innerDividersClasses: ["my-4 bg-gray-300 dark:bg-accent-dark"],
+      "mb-8 h-auto! bg-slate-300 dark:bg-alternative md:mb-4",
+    innerDividersClasses: ["my-4 bg-slate-300 dark:bg-alternative"],
     items: [
       {
         name: "Loperamida",
@@ -63,10 +63,10 @@ export const MEDICINES_DATA_GROUP_1: MedicineCategory[] = [
   {
     category: "Antieméticos",
     verticalDividerClasses:
-      "mb-[70px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "mb-[70px] h-auto! bg-slate-300 dark:bg-alternative md:mb-7",
     innerDividersClasses: [
-      "my-4 bg-gray-300 dark:bg-accent-dark",
-      "mb-[70px] bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "my-4 bg-slate-300 dark:bg-alternative",
+      "mb-[70px] bg-slate-300 dark:bg-alternative md:mb-7",
     ],
     items: [
       {
@@ -84,10 +84,10 @@ export const MEDICINES_DATA_GROUP_1: MedicineCategory[] = [
   {
     category: "Antiácidos y Tratamientos para Reflujo Ácido",
     verticalDividerClasses:
-      "mb-12 h-auto bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "mb-12 h-auto! bg-slate-300 dark:bg-alternative md:mb-7",
     innerDividersClasses: [
-      "my-4 bg-gray-300 dark:bg-accent-dark",
-      "mb-12 bg-gray-300 dark:bg-accent-dark md:mb-7",
+      "my-4 bg-slate-300 dark:bg-alternative",
+      "mb-12 bg-slate-300 dark:bg-alternative md:mb-7",
     ],
     items: [
       {
@@ -108,8 +108,8 @@ export const MEDICINES_DATA_GROUP_2: MedicineCategory[] = [
   {
     category: "Antibióticos Tópicos",
     verticalDividerClasses:
-      "mb-[72px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-8",
-    innerDividersClasses: ["my-4 bg-gray-300 dark:bg-accent-dark"],
+      "mb-[72px] h-auto! bg-slate-300 dark:bg-alternative md:mb-8",
+    innerDividersClasses: ["my-4 bg-slate-300 dark:bg-alternative"],
     items: [
       {
         name: "Neomicina/Bacitracina/Polimixina B (Neosporin)",
@@ -121,8 +121,8 @@ export const MEDICINES_DATA_GROUP_2: MedicineCategory[] = [
   {
     category: "Crema de Hidrocortisona",
     verticalDividerClasses:
-      "mb-[72px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-8",
-    innerDividersClasses: ["my-4 bg-gray-300 dark:bg-accent-dark"],
+      "mb-[72px] h-auto! bg-slate-300 dark:bg-alternative md:mb-8",
+    innerDividersClasses: ["my-4 bg-slate-300 dark:bg-alternative"],
     items: [
       {
         name: "Crema de Hidrocortisona",
@@ -134,8 +134,8 @@ export const MEDICINES_DATA_GROUP_2: MedicineCategory[] = [
   {
     category: "Solución Salina Estéril",
     verticalDividerClasses:
-      "mb-8 h-auto bg-gray-300 dark:bg-accent-dark md:mb-4",
-    innerDividersClasses: ["my-4 bg-gray-300 dark:bg-accent-dark"],
+      "mb-8 h-auto! bg-slate-300 dark:bg-alternative md:mb-4",
+    innerDividersClasses: ["my-4 bg-slate-300 dark:bg-alternative"],
     items: [
       {
         name: "Solución Salina Estéril",
@@ -147,8 +147,8 @@ export const MEDICINES_DATA_GROUP_2: MedicineCategory[] = [
   {
     category: "Epinefrina (EpiPen)",
     verticalDividerClasses:
-      "mb-[72px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-8",
-    innerDividersClasses: ["my-4 bg-gray-300 dark:bg-accent-dark"],
+      "mb-[72px] h-auto! bg-slate-300 dark:bg-alternative md:mb-8",
+    innerDividersClasses: ["my-4 bg-slate-300 dark:bg-alternative"],
     items: [
       {
         name: "Epinefrina (EpiPen)",
@@ -160,8 +160,8 @@ export const MEDICINES_DATA_GROUP_2: MedicineCategory[] = [
   {
     category: "Carbón Activado",
     verticalDividerClasses:
-      "mb-[72px] h-auto bg-gray-300 dark:bg-accent-dark md:mb-8",
-    innerDividersClasses: ["my-4 bg-gray-300 dark:bg-accent-dark"],
+      "mb-[72px] h-auto! bg-slate-300 dark:bg-alternative md:mb-8",
+    innerDividersClasses: ["my-4 bg-slate-300 dark:bg-alternative"],
     items: [
       {
         name: "Carbón Activado",

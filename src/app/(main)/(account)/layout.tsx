@@ -1,16 +1,15 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
+import PageWrapper from "@/components/ui/layout/page-wrapper";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import { getAllCoursesProgress } from "@/db/querys/progress-query";
-import AccountTabs from "@/modules/account/components/account-tabs";
 import { getUserProfileData } from "@/utils/profile";
 
-export default async function AccountLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import AccountHeader from "./_components/account/account-header";
+import AccountTabs from "./_components/account-tabs";
+
+export default async function AccountLayout() {
   const session = await auth();
 
   if (!session) {
@@ -28,14 +27,14 @@ export default async function AccountLayout({
   const courses = await getAllCoursesProgress(userId);
 
   return (
-    <div className="mx-auto h-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:h-auto md:border md:border-y-0">
-      {children}
+    <PageWrapper>
+      <AccountHeader />
       <AccountTabs
         user={userData}
         subscription={subscription}
         susbscriptionDetails={subscriptionDetails}
         courses={courses}
       />
-    </div>
+    </PageWrapper>
   );
 }

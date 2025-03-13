@@ -7,7 +7,7 @@ import {
   HeartbeatIcon,
   ItineraryIcon,
   LightbulbIcon,
-} from "@/modules/icons/miscellaneus";
+} from "@/components/ui/icons/miscellaneus";
 
 export const INITIAL_CHAT_MESSAGES = [
   {

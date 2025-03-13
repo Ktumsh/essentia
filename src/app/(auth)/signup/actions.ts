@@ -4,11 +4,8 @@ import { set } from "date-fns";
 import { AuthError } from "next-auth";
 
 import { createUser } from "@/db/querys/user-querys";
-import {
-  RegisterFormData,
-  registerSchema,
-} from "@/modules/core/lib/form-schemas";
-import { ResultCode } from "@/utils/code";
+import { RegisterFormData, registerSchema } from "@/lib/form-schemas";
+import { ResultCode } from "@/utils/errors";
 
 interface Result {
   type: string;
@@ -19,7 +16,7 @@ interface Result {
 
 export async function signup(
   _prevState: Result | undefined,
-  formData: FormData,
+  formData: FormData
 ): Promise<Result | undefined> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -58,7 +55,7 @@ export async function signup(
         username,
         firstName,
         lastName,
-        birthdate,
+        birthdate
       );
 
       if (result.resultCode === ResultCode.USER_CREATED) {

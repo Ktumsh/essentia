@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import {
+  handleCustomerDeleted,
   handlePaymentSucceeded,
+  handleSubscriptionCreated,
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
-  handleCustomerDeleted,
-  handleSubscriptionCreated,
-} from "@/modules/payment/pay/actions";
+} from "@/components/ui/payment/actions";
 import stripe from "@/utils/stripe";
 
 export const runtime = "nodejs";
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     event = await stripe.webhooks.constructEventAsync(
       rawBody,
       sig,
-      webhookSecret,
+      webhookSecret
     );
   } catch (err: any) {
     console.error("Webhook signature verification failed.", err.message);

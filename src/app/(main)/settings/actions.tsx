@@ -2,7 +2,7 @@
 
 import webpush from "web-push";
 
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.config";
 import {
   createNotification,
   getAllSubscriptions,
@@ -13,13 +13,13 @@ import {
 webpush.setVapidDetails(
   "mailto:essentia.app.cl@gmail.com",
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!,
+  process.env.VAPID_PRIVATE_KEY!
 );
 
 export async function subscribeUser(
   userId: string,
   subscription: webpush.PushSubscription,
-  timeZone: string,
+  timeZone: string
 ) {
   try {
     await subscribeNotifications(userId, subscription, timeZone);
@@ -71,7 +71,7 @@ export async function sendAndSaveNotification({
               icon: "/icon.png",
               badge: "/icon.png",
               url,
-            }),
+            })
           );
         } catch (error: any) {
           if (error.statusCode === 410) {

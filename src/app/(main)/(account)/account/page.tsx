@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 
-import AccountHeader from "@/modules/account/components/account-header";
-
 export const metadata: Metadata = {
   title: "Cuenta",
   alternates: {
@@ -10,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const AccountPage = async () => {
-  return <AccountHeader title="Cuenta" />;
+  return null;
 };
 
 export default AccountPage;

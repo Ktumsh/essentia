@@ -8,8 +8,9 @@ import {
   updateEmailSends,
 } from "@/db/querys/email-querys";
 import { getUserByEmail } from "@/db/querys/user-querys";
-import { sendEmailAction } from "@/modules/auth/lib/email-action";
-import { generateVerificationCode } from "@/modules/core/lib/utils";
+import { generateVerificationCode } from "@/lib/utils";
+
+import { sendEmailAction } from "./_lib/email-action";
 
 export async function verifyCode(
   code: string,
@@ -29,7 +30,11 @@ export async function verifyCode(
       return { success: false, message: "El código ha expirado" };
     }
 
-    await updateEmailSends(userId, actionType);
+    const res = await updateEmailSends(userId, actionType);
+
+    if (res?.success === false) {
+      return { success: false, message: "El correo ya está verificado" };
+    }
 
     return {
       success: true,

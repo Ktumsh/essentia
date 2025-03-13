@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 import { HEALTH_FACTS } from "@/consts/health-facts";
-import { getRandomFacts } from "@/modules/core/lib/utils";
+import { getRandomFacts } from "@/lib/utils";
 import { HealthFact } from "@/types/common";
 
 export const getReusableCookie = async (cookieName: string) => {
@@ -19,7 +19,7 @@ export const getReusableCookie = async (cookieName: string) => {
 
 export const setReusableCookie = async (
   cookieName: string,
-  newData: Record<string, any>,
+  newData: Record<string, any>
 ) => {
   const currentData = getReusableCookie(cookieName) || {};
 
@@ -35,7 +35,7 @@ export const setReusableCookie = async (
 
 export const deleteFieldFromCookie = async (
   cookieName: string,
-  field: string,
+  field: string
 ) => {
   const currentData: Record<string, any> = getReusableCookie(cookieName) || {};
 
@@ -81,7 +81,7 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
   }
 
   const remainingFacts: HealthFact[] = HEALTH_FACTS.filter(
-    (fact) => !usedFacts.some((usedFact) => usedFact.fact === fact.fact),
+    (fact) => !usedFacts.some((usedFact) => usedFact.fact === fact.fact)
   );
 
   let newFacts: HealthFact[];
@@ -102,7 +102,7 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
       httpOnly: true,
       secure: true,
       maxAge: 86400,
-    },
+    }
   );
 
   return newFacts;

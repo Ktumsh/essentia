@@ -1,6 +1,5 @@
 @import "tailwindcss";
-
-@config "../../tailwind.config.ts";
+@import "./globals.css";
 
 .yt-wrap {
   @apply relative block aspect-video h-auto w-full rounded-xl bg-cover bg-center transition-all duration-300 contain-content;

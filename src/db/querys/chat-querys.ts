@@ -140,8 +140,8 @@ export async function deleteMessagesByChatIdAfterTimestamp({
       .where(
         and(
           eq(chatMessage.chatId, chatId),
-          gte(chatMessage.createdAt, timestamp),
-        ),
+          gte(chatMessage.createdAt, timestamp)
+        )
       );
   } catch (error) {
     console.error("Error al eliminar los mensajes después del timestamp:");
@@ -169,7 +169,7 @@ export async function voteMessage({
         .update(chatVote)
         .set({ isUpvoted: type === "up" })
         .where(
-          and(eq(chatVote.messageId, messageId), eq(chatVote.chatId, chatId)),
+          and(eq(chatVote.messageId, messageId), eq(chatVote.chatId, chatId))
         );
     }
     return await db.insert(chatVote).values({

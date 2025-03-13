@@ -89,7 +89,7 @@ const nextConfig: NextConfig = {
 };
 
 const withPWA = withSerwistInit({
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV !== "production",
   swSrc: "sw.ts",
   swDest: "public/sw.js",
 });

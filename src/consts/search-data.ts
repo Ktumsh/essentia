@@ -1,23 +1,16 @@
 import { nanoid } from "nanoid";
 import { useMemo, type JSX } from "react";
 
-import resources from "@/db/data/resources.json";
-import {
-  HealthFillIcon,
-  ExerciseFillIcon,
-  NutritionFillIcon,
-  WellbeingFillIcon,
-  SexualityFillIcon,
-  ForAllAgesFillIcon,
-  AdditionalFillIcon,
-} from "@/modules/icons/interface";
+import { AdditionalFillIcon } from "@/components/ui/icons/interface";
 import {
   EmergenciesFillIcon,
   GuidesFillIcon,
   HealthCentersFillIcon,
   LinksFillIcon,
   RecommendationsFillIcon,
-} from "@/modules/icons/miscellaneus";
+} from "@/components/ui/icons/miscellaneus";
+import { navConfig } from "@/config/nav.config";
+import resources from "@/db/data/resources.json";
 import { IconSvgProps } from "@/types/common";
 
 import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
@@ -87,7 +80,10 @@ export interface SearchResult {
   url: string;
   hierarchy?: Hierarchy;
   icon?: (props: IconSvgProps) => JSX.Element;
+  emoji?: string;
 }
+
+const resourceIcons = navConfig.asideMenuLinks;
 
 const healthCentersSearchData: SearchResult[] = [
   {
@@ -115,7 +111,7 @@ const healthSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: HealthFillIcon,
+    emoji: resourceIcons[0].emoji,
   },
   {
     content: "Aprende sobre Salud y Bienestar",
@@ -152,7 +148,7 @@ const fitnessSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: ExerciseFillIcon,
+    emoji: resourceIcons[1].emoji,
   },
   {
     content: "Aprende sobre Ejercicios y Fitness",
@@ -189,7 +185,7 @@ const nutritionSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: NutritionFillIcon,
+    emoji: resourceIcons[2].emoji,
   },
   {
     content: "Aprende sobre Nutrición y Alimentación",
@@ -259,7 +255,7 @@ const wellbeingSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: WellbeingFillIcon,
+    emoji: resourceIcons[3].emoji,
   },
   {
     content: "Aprende sobre Bienestar Emocional",
@@ -285,7 +281,7 @@ const sexEducationSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: SexualityFillIcon,
+    emoji: resourceIcons[4].emoji,
   },
   {
     content: "Aprende sobre Salud y Educación Sexual",
@@ -311,7 +307,7 @@ const forAllAgesSearchData: SearchResult[] = [
       lvl2: null,
       lvl3: null,
     },
-    icon: ForAllAgesFillIcon,
+    emoji: resourceIcons[5].emoji,
   },
   {
     content: "Aprende sobre Salud en Todas las Edades",

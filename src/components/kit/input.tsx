@@ -1,0 +1,191 @@
+import { ChevronDown, ChevronUp } from "lucide-react";
+import * as React from "react";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
+
+import { cn } from "@/lib/utils";
+
+import { Button } from "./button";
+
+function Input({
+  className,
+  type,
+  isAuth,
+  isPassword,
+  ...props
+}: React.ComponentProps<"input"> & { isAuth?: boolean; isPassword?: boolean }) {
+  return (
+    <input
+      type={type}
+      data-slot="input"
+      className={cn(
+        "border-border file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-12 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:h-9 md:text-sm",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        isAuth &&
+          "dark:bg-background! dark:md:bg-accent/50! bg-background! md:bg-accent! dark:border-alternative/50 h-11! rounded-lg! border-0 md:border",
+        isPassword && "pr-10",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export { Input };
+
+export interface NumberInputProps
+  extends Omit<NumericFormatProps, "value" | "onValueChange"> {
+  stepper?: number;
+  thousandSeparator?: string;
+  placeholder?: string;
+  defaultValue?: number;
+  min?: number;
+  max?: number;
+  value?: number | null;
+  suffix?: string;
+  prefix?: string;
+  onValueChange?: (value: number | undefined) => void;
+  fixedDecimalScale?: boolean;
+  decimalScale?: number;
+}
+
+export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
+  (
+    {
+      stepper,
+      thousandSeparator,
+      placeholder,
+      defaultValue,
+      min = -Infinity,
+      max = Infinity,
+      onValueChange,
+      fixedDecimalScale = false,
+      decimalScale = 0,
+      suffix,
+      prefix,
+      value: controlledValue,
+      ...props
+    },
+    ref,
+  ) => {
+    const [value, setValue] = React.useState<number | null | undefined>(
+      controlledValue ?? defaultValue,
+    );
+
+    const handleIncrement = React.useCallback(() => {
+      setValue((prev) =>
+        prev === undefined
+          ? (stepper ?? 1)
+          : Math.min(prev! + (stepper ?? 1), max),
+      );
+    }, [stepper, max]);
+
+    const handleDecrement = React.useCallback(() => {
+      setValue((prev) =>
+        prev === undefined
+          ? -(stepper ?? 1)
+          : Math.max(prev! - (stepper ?? 1), min),
+      );
+    }, [stepper, min]);
+
+    React.useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (
+          document.activeElement ===
+          (ref as React.RefObject<HTMLInputElement>).current
+        ) {
+          if (e.key === "ArrowUp") {
+            handleIncrement();
+          } else if (e.key === "ArrowDown") {
+            handleDecrement();
+          }
+        }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }, [handleIncrement, handleDecrement, ref]);
+
+    React.useEffect(() => {
+      if (controlledValue !== undefined) {
+        setValue(controlledValue);
+      }
+    }, [controlledValue]);
+
+    const handleChange = (values: {
+      value: string;
+      floatValue: number | undefined;
+    }) => {
+      const newValue =
+        values.floatValue === undefined ? undefined : values.floatValue;
+      setValue(newValue);
+      if (onValueChange) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleBlur = () => {
+      if (value !== undefined) {
+        if (value! < min) {
+          setValue(min);
+          (ref as React.RefObject<HTMLInputElement>).current!.value =
+            String(min);
+        } else if (value! > max) {
+          setValue(max);
+          (ref as React.RefObject<HTMLInputElement>).current!.value =
+            String(max);
+        }
+      }
+    };
+
+    return (
+      <div className="flex items-center">
+        <NumericFormat
+          value={value}
+          onValueChange={handleChange}
+          thousandSeparator={thousandSeparator}
+          decimalScale={decimalScale}
+          fixedDecimalScale={fixedDecimalScale}
+          allowNegative={min < 0}
+          valueIsNumericString
+          onBlur={handleBlur}
+          max={max}
+          min={min}
+          suffix={suffix}
+          prefix={prefix}
+          customInput={Input}
+          placeholder={placeholder}
+          className="relative [appearance:textfield] rounded-r-none! [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          getInputRef={ref}
+          {...props}
+        />
+
+        <div className="border-accent flex h-12 flex-col rounded-r-xl border border-l-0 shadow-xs md:h-9 md:rounded-r-md">
+          <Button
+            variant="ghost"
+            aria-label="Incrementar valor"
+            className="border-accent h-full rounded-l-none rounded-br-none border-b p-0 px-2 focus-visible:relative"
+            onClick={handleIncrement}
+            disabled={value === max}
+          >
+            <ChevronUp size={15} />
+          </Button>
+          <Button
+            variant="ghost"
+            aria-label="Disminuir valor"
+            className="h-full rounded-l-none rounded-tr-none p-0 px-2 focus-visible:relative"
+            onClick={handleDecrement}
+            disabled={value === min}
+          >
+            <ChevronDown size={15} />
+          </Button>
+        </div>
+      </div>
+    );
+  },
+);
+
+NumberInput.displayName = "NumberInput";

@@ -8,10 +8,10 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
 
+import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
 import { user, type User, userProfile, subscription } from "@/db/schema";
-import { sendEmailAction } from "@/modules/auth/lib/email-action";
-import { generateVerificationCode } from "@/modules/core/lib/utils";
-import { ResultCode } from "@/utils/code";
+import { generateVerificationCode } from "@/lib/utils";
+import { ResultCode } from "@/utils/errors";
 
 import { insertEmailSendsCode } from "./email-querys";
 import { createNotification } from "./notification-querys";
@@ -25,7 +25,7 @@ export async function createUser(
   username: string,
   firstName: string,
   lastName: string,
-  birthdate: Date | null,
+  birthdate: Date | null
 ) {
   const salt = genSaltSync(10);
   const hash = hashSync(password, salt);
@@ -117,7 +117,7 @@ export async function getUserByEmail(email: string): Promise<Array<User>> {
 }
 
 export async function getUserByUsername(
-  username: string,
+  username: string
 ): Promise<Array<User>> {
   try {
     return await db.select().from(user).where(eq(user.username, username));
@@ -159,7 +159,7 @@ export async function updateUserPassword(id: string, password: string) {
 }
 
 export async function deleteUser(
-  id: string,
+  id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const [userToDelete] = await getUserById(id);
@@ -205,7 +205,7 @@ export async function getUserState(id: string): Promise<string> {
 
 export async function verifySamePassword(
   userId: string,
-  newPassword: string,
+  newPassword: string
 ): Promise<boolean> {
   const [user] = await getUserById(userId);
 

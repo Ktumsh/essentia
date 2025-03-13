@@ -2,10 +2,11 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { auth } from "@/app/(auth)/auth";
-import { Chat } from "@/modules/chatbot/components/chat";
-import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/lib/ai/models";
-import { generateUUID } from "@/modules/chatbot/lib/utils";
 import { getUserProfileData } from "@/utils/profile";
+
+import { Chat } from "../_components/chat";
+import { DEFAULT_CHAT_MODEL } from "../_lib/ai/models";
+import { generateUUID } from "../_lib/utils";
 
 export const metadata: Metadata = {
   title: "Essentia AI ⭐",

@@ -75,7 +75,7 @@ export async function getModules(resourceId: string): Promise<Array<Modules>> {
 
     for (const row of result) {
       let existingModule = modules.find(
-        (item) => item.module.title === row.module.title,
+        (item) => item.module.title === row.module.title
       );
 
       if (!existingModule) {

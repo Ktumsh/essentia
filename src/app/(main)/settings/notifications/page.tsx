@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import NotificationsStgWrp from "@/modules/settings/components/notifications-stg-wrp";
+
+import NotificationsStgWrp from "../_components/notifications-stg-wrp";
 
 export const metadata: Metadata = {
   title: "Configuración / Notificaciones y recordatorios",

@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import SettingsWrapper from "@/modules/settings/components/settings-wrapper";
+
+import SettingsWrapper from "./_components/settings-wrapper";
 
 export const metadata: Metadata = {
   title: "Configuración",

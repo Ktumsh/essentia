@@ -3,14 +3,15 @@
 import { generateText, Message } from "ai";
 import { cookies } from "next/headers";
 
+import { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
   updateChatVisibilityById,
 } from "@/db/querys/chat-querys";
 import { deleteTasksByChatIdAfterTimestamp } from "@/db/querys/task-querys";
-import { VisibilityType } from "@/modules/chatbot/components/visibility-selector";
-import { modelProvider } from "@/modules/chatbot/lib/ai/models";
+
+import { modelProvider } from "./_lib/ai/models";
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();

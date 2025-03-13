@@ -5,8 +5,8 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
 
-import { sendEmailAction } from "@/modules/auth/lib/email-action";
-import { generateVerificationCode } from "@/modules/core/lib/utils";
+import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
+import { generateVerificationCode } from "@/lib/utils";
 
 import { getUserByEmail } from "./user-querys";
 import { type EmailSends, emailSends, user } from "../schema";
@@ -83,7 +83,7 @@ export async function resendEmailSendsCode(
     if (actionType === "email_verification" && user[0].emailVerified) {
       return {
         status: false,
-        message: "El correo ya está verificado.",
+        message: "El correo ya está verificado",
       };
     }
 
@@ -144,6 +144,18 @@ export async function updateEmailSends(
 ) {
   try {
     if (actionType === "email_verification") {
+      const existingUser = await db
+        .select({ emailVerified: user.emailVerified })
+        .from(user)
+        .where(eq(user.id, userId))
+        .limit(1);
+
+      if (existingUser.length > 0 && existingUser[0].emailVerified) {
+        return {
+          success: false,
+        };
+      }
+
       await db
         .update(user)
         .set({ emailVerified: true, updatedAt: new Date() })

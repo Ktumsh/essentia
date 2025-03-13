@@ -1,6 +1,5 @@
 @import "tailwindcss";
-
-@config "../../tailwind.config.ts";
+@import "./globals.css";
 
 :-webkit-full-screen {
   width: 100%;
@@ -24,21 +23,21 @@
 
 .pac-container {
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 
-  @apply mt-2 rounded-xl border-t-0 bg-white p-1.5 shadow-md;
+  @apply bg-background mt-2 rounded-xl border-t-0 p-1.5 shadow-md;
 
   & .pac-item {
-    @apply text-main-m rounded-lg border-t-0;
+    @apply text-muted-foreground rounded-lg border-t-0;
   }
 
   & .pac-item:hover {
-    @apply cursor-pointer bg-gray-200;
+    @apply bg-accent cursor-pointer;
   }
 
   & .pac-item-query {
-    @apply text-main-h;
+    @apply text-muted-foreground;
   }
 }
 
@@ -91,10 +90,10 @@
 }
 
 .gm-style .gm-style-iw-c {
-  @apply text-main-h max-w-xs! overflow-visible! rounded-xl border border-gray-200 bg-white p-4! shadow-lg md:max-w-sm!;
+  @apply text-muted-foreground border-border bg-background max-w-xs! overflow-visible! rounded-xl border p-4! shadow-lg md:max-w-sm!;
 
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 
   & .gm-style-iw-chr {
@@ -104,7 +103,7 @@
   }
 
   & .gm-ui-hover-effect {
-    @apply absolute! -top-3 -right-3 z-10 flex! size-7! items-center justify-center rounded-full border-2! border-white! bg-gray-200! opacity-100 transition;
+    @apply bg-accent! dark:border-alternative/50! absolute! -top-3 -right-3 z-10 flex! size-7! items-center justify-center rounded-full border-2! border-white! opacity-100 transition;
 
     &:hover {
       @apply scale-110;
@@ -140,7 +139,7 @@
   @apply hidden!;
 
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 }
 
@@ -148,7 +147,7 @@
   @apply hidden!;
 
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 }
 
@@ -156,7 +155,7 @@
   @apply hidden!;
 
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 }
 
@@ -164,33 +163,37 @@
   @apply font-normal;
 
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 
   & .address {
     @apply flex! flex-col gap-1;
 
     & * {
-      @apply text-main-h;
+      @apply text-muted-foreground;
     }
   }
 }
 
 .gm-title.gm-full-width {
-  @apply text-main! m-0 capitalize;
+  @apply text-foreground! m-0 capitalize;
 
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
+}
+
+.gm-style .gm-iw {
+  @apply text-foreground;
 }
 
 .adp {
   * {
-    @apply font-sans!;
+    @apply font-poppins!;
   }
 
   .adp-summary {
-    @apply text-danger mt-2.5 text-sm font-semibold;
+    @apply text-primary mt-2.5 text-sm font-semibold;
   }
 
   .adp-legal {
@@ -198,7 +201,7 @@
   }
 
   .adp-placemark {
-    @apply bg-gray-100;
+    @apply bg-accent;
 
     tbody {
       @apply border-0;
@@ -211,17 +214,17 @@
   }
 
   .warnbox-content {
-    @apply text-main rounded-lg bg-amber-100 p-2 text-xs font-normal;
+    @apply text-foreground rounded-lg bg-amber-100 p-2 text-xs font-normal dark:bg-yellow-900;
   }
 
   .adp-agencies {
-    @apply text-main-m my-2 text-xs font-normal;
+    @apply text-muted-foreground my-2 text-xs font-normal;
 
     div {
       @apply space-y-0.5;
 
       b {
-        @apply text-main-h;
+        @apply text-muted-foreground;
       }
 
       div:last-child {
@@ -239,17 +242,17 @@
   }
 
   table {
-    @apply text-main mb-0! w-full overflow-hidden rounded-lg border-0;
+    @apply text-foreground! mb-0! w-full overflow-hidden rounded-lg border-0;
 
     tbody {
-      @apply flex flex-col rounded-lg! border border-gray-200;
+      @apply border-border flex flex-col rounded-lg! border;
     }
 
     tr {
-      @apply flex! max-w-[414px] items-center gap-1 border-b border-gray-200 p-2 transition-colors duration-100 last:border-0;
+      @apply border-border flex! max-w-[414px] items-center gap-1 border-b p-2 transition-colors duration-100 last:border-0;
 
       b {
-        @apply text-main font-medium;
+        @apply text-foreground font-medium;
       }
 
       .adp-text {
@@ -258,7 +261,7 @@
     }
 
     tr:hover {
-      @apply bg-gray-100;
+      @apply bg-accent;
     }
 
     td {
@@ -274,14 +277,14 @@
     }
 
     .adp-listsel {
-      @apply bg-gray-100;
+      @apply bg-accent;
     }
 
     .adp-substep {
       @apply font-normal last:ml-auto;
 
       div {
-        @apply text-main flex items-center gap-2;
+        @apply text-muted-foreground flex items-center gap-2;
 
         span {
           @apply ml-0!;
@@ -289,107 +292,12 @@
       }
 
       .adp-details {
-        @apply text-main-m mt-1 ml-10 pl-0.5 text-xs;
+        @apply text-muted-foreground mt-1 ml-10 pl-0.5 text-xs;
       }
     }
   }
 }
 
 #travel-mode-select {
-  @apply border! border-gray-200;
-}
-
-.dark {
-  .pac-container {
-    @apply bg-full-dark;
-
-    & .pac-item {
-      @apply text-main-dark-m!;
-    }
-
-    & .pac-item:hover {
-      @apply bg-dark!;
-    }
-
-    & .pac-item-query {
-      @apply text-main-dark-h!;
-    }
-  }
-
-  .gm-style .gm-style-iw-c {
-    @apply bg-full-dark text-main-dark-h border-dark!;
-
-    & .gm-ui-hover-effect {
-      @apply bg-accent-dark! border-full-dark!;
-    }
-  }
-
-  .gm-style-iw-tc::after {
-    @apply bg-full-dark;
-  }
-
-  .gm-style-iw-d .gm-iw {
-    @apply text-main-dark!;
-  }
-
-  .gm-style-iw-d .address * {
-    @apply text-main-dark-h!;
-  }
-
-  .gm-title.gm-full-width {
-    @apply text-white!;
-  }
-
-  .adp {
-    .warnbox-content {
-      @apply bg-yellow-900 text-white;
-    }
-
-    .adp-agencies {
-      @apply text-main-dark-m;
-
-      div {
-        b {
-          @apply text-main-dark;
-        }
-      }
-    }
-
-    table {
-      @apply text-main-dark;
-
-      tbody {
-        @apply border-dark;
-      }
-
-      tr {
-        @apply border-dark;
-
-        b {
-          @apply text-white;
-        }
-      }
-
-      tr:hover {
-        @apply bg-dark;
-      }
-
-      .adp-listsel {
-        @apply bg-dark;
-      }
-
-      .adp-substep {
-        div {
-          @apply text-main-dark;
-        }
-        .adp-details {
-          @apply text-main-dark-m;
-        }
-      }
-    }
-
-    table.adp-placemark {
-      @apply bg-dark;
-    }
-  }
+  @apply border-border border!;
 }

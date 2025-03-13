@@ -1,11 +1,13 @@
 import { auth } from "@/app/(auth)/auth";
+import PageWrapper from "@/components/ui/layout/page-wrapper";
 import {
   getPaymentDetails,
   getPaymentHistory,
   getSubscription,
 } from "@/db/querys/payment-querys";
-import SettingsTabs from "@/modules/settings/components/settings-tabs";
 import { getUserProfileData } from "@/utils/profile";
+
+import SettingsTabs from "./_components/settings-tabs";
 
 interface SettingLayoutProps {
   children: React.ReactNode;
@@ -24,7 +26,7 @@ const SettingLayout = async ({ children }: SettingLayoutProps) => {
 
   const paymentHistory = session ? await getPaymentHistory(userId) : [];
   return (
-    <div className="mx-auto flex h-full min-h-[calc(100dvh-56px)] max-w-7xl flex-1 flex-col border-gray-200 bg-white text-main dark:border-dark dark:bg-full-dark dark:text-main-dark md:h-auto md:border md:border-y-0">
+    <PageWrapper>
       <SettingsTabs
         user={userData}
         session={session}
@@ -33,7 +35,7 @@ const SettingLayout = async ({ children }: SettingLayoutProps) => {
         paymentHistory={paymentHistory}
       />
       {children}
-    </div>
+    </PageWrapper>
   );
 };
 

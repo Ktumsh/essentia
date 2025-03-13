@@ -131,6 +131,7 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
   accesibility: "Accesibilidad y pantalla",
   notifications: "Notificaciones y recordatorios",
   support: "Soporte",
+  pricing: "Planes y precios",
 };
 
 export const formatSegment = (segment: string) => {

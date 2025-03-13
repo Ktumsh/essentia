@@ -1,6 +1,0 @@
-User-agent: *
-Disallow: /
-
-Host: essentia-web.vercel.app
-
-Sitemap: https://essentia-web.vercel.app/sitemap.xml

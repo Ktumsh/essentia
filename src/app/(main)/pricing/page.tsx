@@ -2,9 +2,10 @@ import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
 import { getSubscription } from "@/db/querys/payment-querys";
-import FAQ from "@/modules/pricing/components/faq";
-import PricingCards from "@/modules/pricing/components/pricing-cards";
-import PricingHeader from "@/modules/pricing/components/pricing-header";
+
+import FAQ from "./_components/faq";
+import PricingCards from "./_components/pricing-cards";
+import PricingHeader from "./_components/pricing-header";
 
 export const metadata: Metadata = {
   title: "Planes y Precios",

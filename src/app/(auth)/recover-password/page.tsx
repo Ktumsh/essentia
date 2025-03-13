@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import RecoverPass from "@/modules/auth/components/recover-password/recover-pass";
+import RecoverPass from "../_components/recover-pass";
 
 export const metadata: Metadata = {
   title: "Recuperar contraseña",

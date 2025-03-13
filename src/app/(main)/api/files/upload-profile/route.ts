@@ -87,11 +87,7 @@ export const POST = async (req: NextRequest) => {
 
       return NextResponse.json({
         success: true,
-        ["profile_image"]: (
-          updateResult as {
-            profile_image?: string | null;
-          }
-        )["profile_image"],
+        message: "Foto de perfil actualizada",
       });
     } catch (error) {
       console.error("Error uploading file to Vercel Blob:", error);

@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import { SpinnerIcon } from "@/modules/icons/status";
+import { SpinnerIcon } from "@/components/ui/icons/status";
 
 const LogoutPage = () => {
   const router = useRouter();

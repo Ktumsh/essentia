@@ -2,10 +2,11 @@ import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
 import { auth } from "@/app/(auth)/auth";
+import LayoutWrapper from "@/components/ui/layout/layout-wrapper";
 import { getSubscription } from "@/db/querys/payment-querys";
-import { DEFAULT_CHAT_MODEL } from "@/modules/chatbot/lib/ai/models";
-import LayoutWrapper from "@/modules/core/components/ui/layout/layout-wrapper";
 import { getUserProfileData } from "@/utils/profile";
+
+import { DEFAULT_CHAT_MODEL } from "./(chat)/_lib/ai/models";
 
 export default async function MainLayout({
   children,

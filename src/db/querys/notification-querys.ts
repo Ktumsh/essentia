@@ -18,7 +18,7 @@ const db = drizzle(client);
 export async function subscribeNotifications(
   userId: string,
   subscription: webpush.PushSubscription,
-  timezone: string,
+  timezone: string
 ) {
   const existingSubscription = await db
     .select()

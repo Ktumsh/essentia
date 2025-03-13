@@ -10,7 +10,7 @@ import {
   userNotification,
   userTask,
 } from "@/db/schema";
-import { isSameDate } from "@/modules/core/lib/utils";
+import { isSameDate } from "@/lib/utils";
 
 webpush.setVapidDetails(
   "mailto:essentia.app.cl@gmail.com",
@@ -23,10 +23,12 @@ const db = drizzle(client);
 
 const CRON_SECRET = process.env.CRON_SECRET!;
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${CRON_SECRET}`) {
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    return new Response("Unauthorized", {
+      status: 401,
+    });
   }
 
   try {

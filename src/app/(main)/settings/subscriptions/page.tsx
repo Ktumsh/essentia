@@ -6,7 +6,8 @@ import {
   getPaymentHistory,
   getSubscription,
 } from "@/db/querys/payment-querys";
-import SubscriptionsStgWrp from "@/modules/settings/components/subscriptions-stg-wrp";
+
+import SubscriptionsStgWrp from "../_components/subscriptions-stg-wrp";
 
 export const metadata: Metadata = {
   title: "Configuración / Suscripciones",

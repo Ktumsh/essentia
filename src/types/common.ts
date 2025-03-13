@@ -81,6 +81,7 @@ export type SiteConfig = {
     name: string;
     link: string;
     icon: (props: any) => JSX.Element;
+    emoji: string;
     activeIcon: (props: any) => JSX.Element;
   }[];
 

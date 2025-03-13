@@ -4,8 +4,8 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/app/(auth)/auth";
 import { getUserByEmail } from "@/db/querys/user-querys";
-import { loginSchema } from "@/modules/core/lib/form-schemas";
-import { ResultCode } from "@/utils/code";
+import { loginSchema } from "@/lib/form-schemas";
+import { ResultCode } from "@/utils/errors";
 
 interface Result {
   type: string;
@@ -16,7 +16,7 @@ interface Result {
 
 export async function authenticate(
   _prevState: Result | undefined,
-  formData: FormData,
+  formData: FormData
 ): Promise<Result | undefined> {
   try {
     const email = formData.get("email") as string;

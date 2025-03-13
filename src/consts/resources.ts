@@ -1,9 +1,9 @@
-import ExcerciseFitness from "@/modules/resources/components/excercise-fitness";
-import ForAllAges from "@/modules/resources/components/for-all-ages";
-import HealthWellness from "@/modules/resources/components/health-wellness";
-import Nutrition from "@/modules/resources/components/nutrition";
-import SexEducation from "@/modules/resources/components/sex-education";
-import Wellbeing from "@/modules/resources/components/wellbeing";
+import ExcerciseFitness from "@/app/(main)/(resources)/_components/excercise-fitness";
+import ForAllAges from "@/app/(main)/(resources)/_components/for-all-ages";
+import HealthWellness from "@/app/(main)/(resources)/_components/health-wellness";
+import Nutrition from "@/app/(main)/(resources)/_components/nutrition";
+import SexEducation from "@/app/(main)/(resources)/_components/sex-education";
+import Wellbeing from "@/app/(main)/(resources)/_components/wellbeing";
 
 import type { Resources } from "@/types/resource";
 

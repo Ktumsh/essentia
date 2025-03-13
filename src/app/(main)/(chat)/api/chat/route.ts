@@ -14,22 +14,23 @@ import {
   saveMessages,
 } from "@/db/querys/chat-querys";
 import { getSubscription } from "@/db/querys/payment-querys";
-import { modelProvider } from "@/modules/chatbot/lib/ai/models";
-import { createSystemPrompt } from "@/modules/chatbot/lib/ai/prompts";
-import { createHealthRisk } from "@/modules/chatbot/lib/ai/tools/create-health-risk";
-import { createMoodTrack } from "@/modules/chatbot/lib/ai/tools/create-mood-track";
-import { createNutritionalPlan } from "@/modules/chatbot/lib/ai/tools/create-nutritional-plan";
-import { createRoutine } from "@/modules/chatbot/lib/ai/tools/create-routine";
-import { createTrackTask } from "@/modules/chatbot/lib/ai/tools/create-track-task";
-import { getWeather } from "@/modules/chatbot/lib/ai/tools/get-weather";
+import { calculateAge } from "@/lib/utils";
+import { formatDate } from "@/utils/format";
+import { getUserProfileData } from "@/utils/profile";
+
+import { modelProvider } from "../../_lib/ai/models";
+import { createSystemPrompt } from "../../_lib/ai/prompts";
+import { createHealthRisk } from "../../_lib/ai/tools/create-health-risk";
+import { createMoodTrack } from "../../_lib/ai/tools/create-mood-track";
+import { createNutritionalPlan } from "../../_lib/ai/tools/create-nutritional-plan";
+import { createRoutine } from "../../_lib/ai/tools/create-routine";
+import { createTrackTask } from "../../_lib/ai/tools/create-track-task";
+import { getWeather } from "../../_lib/ai/tools/get-weather";
 import {
   generateUUID,
   getMostRecentUserMessage,
   sanitizeResponseMessages,
-} from "@/modules/chatbot/lib/utils";
-import { calculateAge } from "@/modules/core/lib/utils";
-import { formatDate } from "@/modules/payment/lib/utils";
-import { getUserProfileData } from "@/utils/profile";
+} from "../../_lib/utils";
 
 export const maxDuration = 60;
 
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
   }
 
   const isPremium = subscription.isPremium;
-  const premiumExpiresAt = formatDate(subscription.expiresAt);
+  const premiumExpiresAt = formatDate(subscription.expiresAt!);
 
   if (!isPremium) {
     return new Response("Unauthorized", { status: 401 });
@@ -176,6 +177,8 @@ export async function POST(request: Request) {
           functionId: "stream-text",
         },
       });
+
+      result.consumeStream();
 
       result.mergeIntoDataStream(dataStream, {
         sendReasoning: true,

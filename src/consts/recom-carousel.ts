@@ -1,9 +1,12 @@
-import { AdditionalFillIcon, AIFillIcon } from "@/modules/icons/interface";
+import {
+  AdditionalFillIcon,
+  AIFillIcon,
+} from "@/components/ui/icons/interface";
 import {
   FruitFillIcon,
   HealthCentersFillIcon,
   HeartbeatIcon,
-} from "@/modules/icons/miscellaneus";
+} from "@/components/ui/icons/miscellaneus";
 
 import { INITIAL_CHAT_MESSAGES } from "./initial-chat-messages";
 
