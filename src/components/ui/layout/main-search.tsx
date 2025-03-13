@@ -165,7 +165,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
             )}
             <h3
               className={cn(
-                "text-main-h dark:text-main-dark truncate text-sm select-none",
+                "text-foreground/80 truncate text-sm select-none",
                 searchStyles.dataText,
               )}
             >
