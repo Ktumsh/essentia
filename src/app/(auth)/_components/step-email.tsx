@@ -17,6 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
 import { MailIcon } from "@/components/ui/icons/miscellaneus";
@@ -67,7 +68,6 @@ const StepEmail = ({ onSubmit, isPending }: StepEmailProps) => {
                         placeholder="Ingresa tu correo electrónico"
                         autoComplete="email"
                         autoFocus
-                        required
                         isAuth
                       />
                       <div className="text-muted-foreground absolute top-0 right-0 inline-flex h-full items-center justify-center px-3">
@@ -75,6 +75,7 @@ const StepEmail = ({ onSubmit, isPending }: StepEmailProps) => {
                       </div>
                     </div>
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

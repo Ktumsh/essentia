@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     const templatePath = path.join(
       process.cwd(),
-      "src/modules/auth/lib/email-acc-del.html",
+      "src/app/(auth)/_lib/email-acc-del.html",
     );
     let htmlContent = fs.readFileSync(templatePath, "utf8");
 

@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { authenticate } from "@/app/(auth)/login/actions";
-import { Button } from "@/components/kit/button";
+import { ButtonPassword } from "@/components/kit/button";
 import {
   Card,
   CardContent,
@@ -23,10 +23,10 @@ import {
   FormItem,
   FormLabel,
   FormControl,
+  FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
 import { MailIcon } from "@/components/ui/icons/miscellaneus";
-import { EyeIcon, EyeOffIcon } from "@/components/ui/icons/status";
 import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { LoginFormData, loginSchema } from "@/lib/form-schemas";
 import { getWelcomeLabel } from "@/lib/utils";
@@ -90,11 +90,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     startTransition(async () => {
       try {
-        const formData = new FormData();
-        formData.append("email", data.email);
-        formData.append("password", data.password);
-
-        const result = await authenticate(undefined, formData);
+        const result = await authenticate(data);
 
         if (result?.type === "success") {
           handleSuccess(data);
@@ -151,7 +147,6 @@ const LoginForm = () => {
                         type="email"
                         placeholder="Ingresa tu correo electrónico"
                         autoComplete="email"
-                        required
                         autoFocus
                         isAuth
                       />
@@ -160,6 +155,7 @@ const LoginForm = () => {
                       </div>
                     </div>
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -179,29 +175,15 @@ const LoginForm = () => {
                         type={isVisible ? "text" : "password"}
                         placeholder="Ingresa tu contraseña"
                         autoComplete="current-password"
-                        required
                         isAuth
                       />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setIsVisible(!isVisible)}
-                        className="text-muted-foreground absolute top-0 right-0 h-full px-3 hover:bg-transparent! dark:hover:bg-transparent!"
-                      >
-                        {isVisible ? (
-                          <EyeOffIcon className="size-5!" />
-                        ) : (
-                          <EyeIcon className="size-5!" />
-                        )}
-                        <span className="sr-only">
-                          {isVisible
-                            ? "Ocultar contraseña"
-                            : "Mostrar contraseña"}
-                        </span>
-                      </Button>
+                      <ButtonPassword
+                        isVisible={isVisible}
+                        setIsVisible={setIsVisible}
+                      />
                     </div>
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

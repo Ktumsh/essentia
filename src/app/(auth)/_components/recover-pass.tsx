@@ -35,9 +35,6 @@ const RecoverPass = () => {
   const handleSendEmail: SubmitHandler<EmailFormData> = async (data) => {
     try {
       startTransition(async () => {
-        const formData = new FormData();
-        formData.append("email", data.email);
-
         const res = await onSendEmail("password_recovery", {
           email: data.email,
         });
@@ -97,11 +94,6 @@ const RecoverPass = () => {
   ) => {
     try {
       startTransition(async () => {
-        const formData = new FormData();
-        formData.append("email", email);
-        formData.append("password", data.newPassword);
-        formData.append("password_confirmation", data.confirmPassword);
-
         const [user] = await getUserByEmail(email);
 
         if (!user) {

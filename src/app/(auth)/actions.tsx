@@ -114,6 +114,9 @@ export async function onSendEmail(
 
     await insertEmailSendsCode(userId, code, actionType);
 
+    console.log(basePayload);
+    console.log(basePayload.email);
+
     const emailResult = await sendEmailAction(actionType, {
       code,
       token,

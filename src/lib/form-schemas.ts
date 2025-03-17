@@ -20,7 +20,7 @@ export const loginSchema = z.object({
     .string()
     .email({ message: getMessageFromCode(ResultCode.REQUIRED_EMAIL) }),
   password: z.string().min(6, {
-    message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+    message: getMessageFromCode(ResultCode.REQUIRED_FIELD),
   }),
   remember: z.boolean().optional(),
 });
@@ -80,7 +80,7 @@ export const infoSchema = z.object({
     },
     {
       message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
-    }
+    },
   ),
 });
 
@@ -173,7 +173,7 @@ export const registerSchema = z.object({
     },
     {
       message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
-    }
+    },
   ),
 });
 
@@ -302,7 +302,7 @@ export const profileSchema = z.object({
     },
     {
       message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
-    }
+    },
   ),
 });
 

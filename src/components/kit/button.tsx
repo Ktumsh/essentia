@@ -87,22 +87,20 @@ type ButtonPasswordType = {
 
 function ButtonPassword({ isVisible, setIsVisible }: ButtonPasswordType) {
   return (
-    <Button
+    <button
       type="button"
-      variant="ghost"
-      size="sm"
+      className="text-muted-foreground absolute top-0 right-0 inline-flex h-full items-center justify-center px-3"
       onClick={() => setIsVisible(!isVisible)}
-      className="text-muted-foreground absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
     >
       {isVisible ? (
-        <EyeOffIcon className="size-5" />
-      ) : (
         <EyeIcon className="size-5" />
+      ) : (
+        <EyeOffIcon className="size-5" />
       )}
       <span className="sr-only">
         {isVisible ? "Hide password" : "Show password"}
       </span>
-    </Button>
+    </button>
   );
 }
 

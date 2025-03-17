@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 import { changePassword } from "@/app/(main)/(account)/actions";
 import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
+import { Button, ButtonPassword } from "@/components/kit/button";
 import {
   Dialog,
   DialogClose,
@@ -35,7 +35,6 @@ import {
   FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
-import { EyeIcon, EyeOffIcon } from "@/components/ui/icons/status";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   ChangePasswordFormData,
@@ -130,20 +129,10 @@ const ChangePasswordModal = ({
                         autoComplete="current-password"
                         {...field}
                       />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setIsVisibleCurrent(!isVisibleCurrent)}
-                        className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
-                      >
-                        {isVisibleCurrent ? <EyeOffIcon /> : <EyeIcon />}
-                        <span className="sr-only">
-                          {isVisibleCurrent
-                            ? "Ocultar contraseña"
-                            : "Mostrar contraseña"}
-                        </span>
-                      </Button>
+                      <ButtonPassword
+                        isVisible={isVisibleCurrent}
+                        setIsVisible={setIsVisibleCurrent}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -164,18 +153,10 @@ const ChangePasswordModal = ({
                         autoComplete="new-password"
                         {...field}
                       />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setIsVisibleNew(!isVisibleNew)}
-                        className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
-                      >
-                        {isVisibleNew ? <EyeOffIcon /> : <EyeIcon />}
-                        <span className="sr-only">
-                          {isVisibleNew ? "Hide password" : "Show password"}
-                        </span>
-                      </Button>
+                      <ButtonPassword
+                        isVisible={isVisibleNew}
+                        setIsVisible={setIsVisibleNew}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -198,18 +179,10 @@ const ChangePasswordModal = ({
                         autoComplete="new-password"
                         {...field}
                       />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setIsVisibleConfirm(!isVisibleConfirm)}
-                        className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent! dark:hover:bg-transparent!"
-                      >
-                        {isVisibleConfirm ? <EyeOffIcon /> : <EyeIcon />}
-                        <span className="sr-only">
-                          {isVisibleConfirm ? "Hide password" : "Show password"}
-                        </span>
-                      </Button>
+                      <ButtonPassword
+                        isVisible={isVisibleConfirm}
+                        setIsVisible={setIsVisibleConfirm}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />

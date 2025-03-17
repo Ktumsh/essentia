@@ -4,7 +4,7 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/app/(auth)/auth";
 import { getUserByEmail } from "@/db/querys/user-querys";
-import { loginSchema } from "@/lib/form-schemas";
+import { LoginFormData } from "@/lib/form-schemas";
 import { ResultCode } from "@/utils/errors";
 
 interface Result {
@@ -15,78 +15,58 @@ interface Result {
 }
 
 export async function authenticate(
-  _prevState: Result | undefined,
-  formData: FormData
+  data: LoginFormData,
 ): Promise<Result | undefined> {
   try {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const { email, password } = data;
 
-    const parsedCredentials = loginSchema.safeParse({ email, password });
+    const [user] = await getUserByEmail(email);
 
-    if (parsedCredentials.success) {
-      const [user] = await getUserByEmail(email);
-
-      if (!user) {
-        return {
-          type: "error",
-          resultCode: ResultCode.INVALID_CREDENTIALS,
-        };
-      }
-
-      if (!user.emailVerified) {
-        return {
-          type: "error",
-          resultCode: ResultCode.EMAIL_NOT_VERIFIED,
-          redirectUrl: `/verify-email?email=${email}`,
-        };
-      }
-
-      if (user.status === "disabled") {
-        return {
-          type: "error",
-          resultCode: ResultCode.INVALID_CREDENTIALS,
-        };
-      }
-
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        return {
-          type: "error",
-          resultCode: ResultCode.INVALID_CREDENTIALS,
-        };
-      }
-
-      return {
-        type: "success",
-        resultCode: ResultCode.USER_LOGGED_IN,
-      };
-    } else {
-      const fieldErrors: Record<string, string> = {};
-
-      parsedCredentials.error.errors.forEach((issue) => {
-        if (issue.path.length > 0) {
-          fieldErrors[issue.path[0]] = issue.message;
-        }
-      });
-
+    if (!user) {
       return {
         type: "error",
         resultCode: ResultCode.INVALID_CREDENTIALS,
-        errors: fieldErrors,
       };
     }
+
+    if (!user.emailVerified) {
+      return {
+        type: "error",
+        resultCode: ResultCode.EMAIL_NOT_VERIFIED,
+        redirectUrl: `/verify-email?email=${email}`,
+      };
+    }
+
+    if (user.status === "disabled") {
+      return {
+        type: "error",
+        resultCode: ResultCode.INVALID_CREDENTIALS,
+      };
+    }
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      return {
+        type: "error",
+        resultCode: ResultCode.INVALID_CREDENTIALS,
+      };
+    }
+
+    return {
+      type: "success",
+      resultCode: ResultCode.USER_LOGGED_IN,
+    };
   } catch (error: any) {
     if (error.message === "EMAIL_NOT_VERIFIED") {
       return {
         type: "error",
         resultCode: ResultCode.EMAIL_NOT_VERIFIED,
-        redirectUrl: `/verify-email?email=${formData.get("email")}`,
+        redirectUrl: `/verify-email?email=${data.email}`,
       };
     } else if (error instanceof AuthError) {
       switch (error.type) {

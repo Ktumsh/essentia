@@ -1,6 +1,6 @@
 "use server";
 
-import { desc, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import webpush from "web-push";
@@ -18,7 +18,7 @@ const db = drizzle(client);
 export async function subscribeNotifications(
   userId: string,
   subscription: webpush.PushSubscription,
-  timezone: string
+  timezone: string,
 ) {
   const existingSubscription = await db
     .select()
@@ -84,13 +84,30 @@ export async function notifyUsersWithoutCourse() {
       .where(isNull(userCourseProgress.userId));
 
     for (const u of usersWithoutCourse) {
-      await createNotification({
-        userId: u.id,
-        title: "¡Comienza a explorar nuestros cursos!",
-        message:
-          "Observamos que todavía no has iniciado ninguno de nuestros cursos. ¡No esperes más y comienza ahora!",
-        url: "/salud-y-bienestar",
-      });
+      const existingNotification = await db
+        .select({ id: userNotification.id })
+        .from(userNotification)
+        .where(
+          and(
+            eq(userNotification.userId, u.id),
+            eq(userNotification.title, "¡Comienza a explorar nuestros cursos!"),
+            eq(
+              userNotification.message,
+              "Observamos que todavía no has iniciado ninguno de nuestros cursos. ¡No esperes más y comienza ahora!",
+            ),
+          ),
+        )
+        .limit(1);
+
+      if (existingNotification.length === 0) {
+        await createNotification({
+          userId: u.id,
+          title: "¡Comienza a explorar nuestros cursos!",
+          message:
+            "Observamos que todavía no has iniciado ninguno de nuestros cursos. ¡No esperes más y comienza ahora!",
+          url: "/salud-y-bienestar",
+        });
+      }
     }
   } catch (error) {
     console.error("Error al notificar usuarios sin curso:", error);

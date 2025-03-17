@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { signup } from "@/app/(auth)/signup/actions";
-import { Button } from "@/components/kit/button";
+import { Button, ButtonPassword } from "@/components/kit/button";
 import {
   Form,
   FormControl,
@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
-import { EyeIcon, EyeOffIcon } from "@/components/ui/icons/status";
 import { PasswordFormData, passwordSchema } from "@/lib/form-schemas";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
 
@@ -57,15 +56,13 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
   const onSubmit = async (data: PasswordFormData) => {
     startTransition(async () => {
       try {
-        const formData = new FormData();
-        formData.append("email", email);
-        formData.append("password", data.password);
-        formData.append("username", userInfo.username);
-        formData.append("firstName", userInfo.firstName);
-        formData.append("lastName", userInfo.lastName);
-        formData.append("birthdate", userInfo.birthdate.toISOString());
+        const dataToSend = {
+          ...userInfo,
+          email,
+          password: data.password,
+        };
 
-        const result = await signup(undefined, formData);
+        const result = await signup(dataToSend);
         if (result) {
           if (result.type === "error" && result.errors) {
             const serverErrors = result.errors as
@@ -143,24 +140,10 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
                     autoComplete="new-password"
                     isAuth
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsVisiblePassword(!isVisiblePassword)}
-                    className="text-main-m dark:text-main-dark-m absolute top-0 right-0 h-full px-3 hover:bg-transparent! dark:hover:bg-transparent!"
-                  >
-                    {isVisiblePassword ? (
-                      <EyeOffIcon className="size-6" />
-                    ) : (
-                      <EyeIcon className="size-6" />
-                    )}
-                    <span className="sr-only">
-                      {isVisiblePassword
-                        ? "Ocultar contraseña"
-                        : "Mostrar contraseña"}
-                    </span>
-                  </Button>
+                  <ButtonPassword
+                    isVisible={isVisiblePassword}
+                    setIsVisible={setIsVisiblePassword}
+                  />
                 </div>
               </FormControl>
               {(fieldState.isTouched || formState.isSubmitted) && (
@@ -189,26 +172,10 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
                     autoComplete="new-password"
                     isAuth
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() =>
-                      setIsVisibleConfirmPassword(!isVisibleConfirmPassword)
-                    }
-                    className="text-main-m dark:text-main-dark-m absolute top-0 right-0 h-full px-3 hover:bg-transparent! dark:hover:bg-transparent!"
-                  >
-                    {isVisibleConfirmPassword ? (
-                      <EyeOffIcon className="size-6" />
-                    ) : (
-                      <EyeIcon className="size-6" />
-                    )}
-                    <span className="sr-only">
-                      {isVisibleConfirmPassword
-                        ? "Ocultar contraseña"
-                        : "Mostrar contraseña"}
-                    </span>
-                  </Button>
+                  <ButtonPassword
+                    isVisible={isVisibleConfirmPassword}
+                    setIsVisible={setIsVisibleConfirmPassword}
+                  />
                 </div>
               </FormControl>
               {(fieldState.isTouched || formState.isSubmitted) && (
