@@ -10,7 +10,7 @@ interface DesktopDailyTipProps {
 
 const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
   return (
-    <aside className="sticky top-0 right-0 hidden max-h-dvh w-full max-w-72 select-none 2xl:block">
+    <aside className="@8xl:block sticky top-0 right-0 hidden max-h-dvh w-full max-w-72 select-none">
       <div className="relative float-end flex h-full w-72">
         <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
           <div className="flex w-full flex-col">

@@ -1,11 +1,4 @@
 import {
-  CoreAssistantMessage,
-  CoreMessage,
-  CoreToolMessage,
-  Message,
-  ToolInvocation,
-} from "ai";
-import {
   parseISO,
   format,
   isToday,
@@ -15,7 +8,15 @@ import {
 } from "date-fns";
 import { es } from "date-fns/locale";
 
+import { cn } from "@/lib/utils";
+
 import type { Chat, ChatMessage } from "@/db/schema";
+import type {
+  Attachment,
+  CoreAssistantMessage,
+  CoreToolMessage,
+  UIMessage,
+} from "ai";
 
 export function generateUUID(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -76,95 +77,6 @@ export function groupChatsByDate(chats: Chat[]): GroupedChats {
   );
 }
 
-function addToolMessageToChat({
-  toolMessage,
-  messages,
-}: {
-  toolMessage: CoreToolMessage;
-  messages: Array<Message>;
-}): Array<Message> {
-  return messages.map((message) => {
-    if (message.toolInvocations) {
-      return {
-        ...message,
-        toolInvocations: message.toolInvocations.map((toolInvocation) => {
-          const toolResult = toolMessage.content?.find(
-            (tool) => tool.toolCallId === toolInvocation.toolCallId,
-          );
-
-          if (toolResult) {
-            return {
-              ...toolInvocation,
-              state: "result",
-              result: toolResult.result,
-            };
-          }
-
-          return toolInvocation;
-        }),
-      };
-    }
-
-    return message;
-  });
-}
-
-export function convertToUIMessages(
-  messages: Array<ChatMessage>,
-): Array<Message> {
-  return messages.reduce((chatMessages: Array<Message>, message) => {
-    if (message.role === "tool") {
-      return addToolMessageToChat({
-        toolMessage: message as CoreToolMessage,
-        messages: chatMessages,
-      });
-    }
-
-    let textContent = "";
-    let reasoning: string | undefined = undefined;
-    const toolInvocations: Array<ToolInvocation> = [];
-
-    if (typeof message.content === "string") {
-      textContent = message.content;
-    } else if (Array.isArray(message.content)) {
-      for (const content of message.content) {
-        if (content.type === "text") {
-          textContent += content.text;
-        } else if (content.type === "tool-call") {
-          toolInvocations.push({
-            state: "call",
-            toolCallId: content.toolCallId,
-            toolName: content.toolName,
-            args: content.args,
-          });
-        } else if (content.type === "reasoning") {
-          reasoning = content.reasoning;
-        }
-      }
-    }
-
-    chatMessages.push({
-      id: message.id,
-      role: message.role as Message["role"],
-      content: textContent,
-      reasoning,
-      toolInvocations,
-    });
-
-    return chatMessages;
-  }, []);
-}
-
-export function getFirstUserMessage(messages: Array<CoreMessage>) {
-  const userMessages = messages.filter((message) => message.role === "user");
-  return userMessages[0];
-}
-
-export function getMostRecentUserMessage(messages: Array<Message>) {
-  const userMessages = messages.filter((message) => message.role === "user");
-  return userMessages.at(-1);
-}
-
 type ResponseMessageWithoutId = CoreToolMessage | CoreAssistantMessage;
 type ResponseMessage = ResponseMessageWithoutId & { id: string };
 
@@ -216,45 +128,122 @@ export function sanitizeResponseMessages({
   );
 }
 
-export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
-  const messagesBySanitizedToolInvocations = messages.map((message) => {
-    if (message.role !== "assistant") return message;
-
-    if (!message.toolInvocations) return message;
-
-    const toolResultIds: Array<string> = [];
-
-    for (const toolInvocation of message.toolInvocations) {
-      if (toolInvocation.state === "result") {
-        toolResultIds.push(toolInvocation.toolCallId);
-      }
-    }
-
-    const sanitizedToolInvocations = message.toolInvocations.filter(
-      (toolInvocation) =>
-        toolInvocation.state === "result" ||
-        toolResultIds.includes(toolInvocation.toolCallId),
-    );
-
+export function convertToUIMessages(
+  messages: Array<ChatMessage>,
+): Array<UIMessage> {
+  return messages.map((message) => {
+    const typedParts = message.parts as UIMessage["parts"];
     return {
-      ...message,
-      toolInvocations: sanitizedToolInvocations,
+      id: message.id,
+      parts: typedParts,
+      role: message.role as UIMessage["role"],
+      // Note: content will soon be deprecated in @ai-sdk/react
+      content: typedParts[0]?.type === "text" ? typedParts[0].text : "",
+      createdAt: message.createdAt,
+      experimental_attachments:
+        (message.attachments as Array<Attachment>) ?? [],
     };
   });
-
-  return messagesBySanitizedToolInvocations.filter(
-    (message) =>
-      message.content.length > 0 ||
-      (message.toolInvocations && message.toolInvocations.length > 0),
-  );
 }
 
-export function getMessageIdFromAnnotations(message: Message) {
-  if (!message.annotations) return message.id;
-
-  const [annotation] = message.annotations;
-  if (!annotation) return message.id;
-
-  // @ts-expect-error messageIdFromServer is not defined in MessageAnnotation
-  return annotation.messageIdFromServer;
+export function getMostRecentUserMessage(messages: Array<UIMessage>) {
+  const userMessages = messages.filter((message) => message.role === "user");
+  return userMessages.at(-1);
 }
+
+export function getTrailingMessageId({
+  messages,
+}: {
+  messages: Array<ResponseMessage>;
+}): string | null {
+  const trailingMessage = messages.at(-1);
+
+  if (!trailingMessage) return null;
+
+  return trailingMessage.id;
+}
+
+export const extractFilePath = (url: string): string => {
+  try {
+    const { pathname } = new URL(url);
+    return pathname.startsWith("/") ? pathname.slice(1) : pathname;
+  } catch {
+    return url;
+  }
+};
+
+export const getContainerAttachmentClasses = (
+  total: number,
+  index: number,
+  isInUpload: boolean,
+) => {
+  const classes = [
+    "group/preview",
+    "relative",
+    "bg-background",
+    "flex",
+    "cursor-pointer",
+    "flex-col",
+    "items-center",
+    "justify-center",
+    "gap-2",
+    "rounded-xl",
+    "rounded-br-xs",
+  ];
+
+  if (isInUpload) {
+    classes.push("rounded-lg", "size-16");
+  } else {
+    if (total === 1) {
+      classes.push("max-h-96", "max-w-64");
+    }
+    if (total > 1) {
+      classes.push("size-24", "sm:size-32");
+      if (index === 0) classes.push("rounded-r-md");
+      else classes.push("rounded-md");
+      if (index === total - 1) classes.push("rounded-tr-xl", "rounded-br-xs");
+    }
+    if (total > 3) {
+      classes.push("size-16!");
+      if (index === 0) classes.push("rounded-r-sm", "rounded-bl-sm");
+      else classes.push("rounded-sm");
+      if (index === total - 1) classes.push("rounded-tr-sm", "rounded-br-xs");
+      if (index === 2) classes.push("rounded-tr-xl");
+      if (index === total - 3) classes.push("rounded-bl-xl");
+    }
+  }
+  return cn(...classes);
+};
+
+export const getImageAttachmentClasses = (
+  total: number,
+  index: number,
+  isInUpload: boolean,
+) => {
+  const classes = [
+    "animate-fade-in",
+    "size-full",
+    "rounded-xl",
+    "rounded-br-xs",
+  ];
+  if (isInUpload) {
+    classes.push("object-cover", "rounded-lg");
+  } else {
+    classes.push("object-contain");
+    if (total > 1) {
+      classes.push("size-24", "object-cover", "sm:size-32");
+      if (index === 0) classes.push("rounded-r-md");
+      else classes.push("rounded-md");
+      if (index === total - 1) classes.push("rounded-tr-xl", "rounded-br-xs");
+    }
+    if (total > 3) {
+      classes.push("size-16!");
+      if (index === 0) classes.push("rounded-r-sm", "rounded-bl-sm");
+      else classes.push("rounded-sm");
+      if (index === total - 1) classes.push("rounded-tr-sm", "rounded-br-xs");
+      if (index === 2) classes.push("rounded-tr-xl");
+      if (index === total - 3) classes.push("rounded-bl-xl");
+    }
+  }
+  return cn(...classes);
+};

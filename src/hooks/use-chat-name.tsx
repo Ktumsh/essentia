@@ -7,7 +7,7 @@ import { fetcher } from "@/lib/utils";
 const useChatName = (chatId: string | null) => {
   const { data, error, isLoading } = useSWR(
     chatId ? `/api/chat-title?id=${chatId}` : null,
-    fetcher
+    fetcher,
   );
 
   return {

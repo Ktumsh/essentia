@@ -17,6 +17,7 @@ import AlertPanel from "./alert-panel";
 import { PreviewAttachment } from "./preview-attachment";
 import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
+import { extractFilePath } from "../_lib/utils";
 
 export interface ChatPanelProps {
   chatId: string;
@@ -28,7 +29,7 @@ export interface ChatPanelProps {
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
   messages: Array<Message>;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  setMessages: UseChatHelpers["setMessages"];
   status: UseChatHelpers["status"];
   session: Session | null;
   scrollToBottom: () => void;
@@ -127,15 +128,38 @@ const ChatPanel = (props: ChatPanelProps) => {
                 className="space-y-4 md:pb-6"
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
-                  <div className="mt-3 flex items-end gap-2 overflow-x-auto md:mt-0">
+                  <div className="mt-3 flex items-end gap-2 overflow-x-auto">
                     {attachments.map((attachment, index) => (
                       <PreviewAttachment
-                        key={attachment.url || index}
+                        key={attachment.url}
                         attachment={attachment}
-                        onRemove={() => {
+                        isInUpload
+                        onRemove={async () => {
                           setAttachments((prevAttachments) =>
                             prevAttachments.filter((_, i) => i !== index),
                           );
+
+                          if (attachment.url) {
+                            const filePath = extractFilePath(attachment.url);
+                            try {
+                              const res = await fetch("/api/files/delete-ai", {
+                                method: "DELETE",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ filePath }),
+                              });
+                              if (!res.ok) {
+                                console.error(
+                                  "Error al eliminar el blob",
+                                  await res.json(),
+                                );
+                              }
+                            } catch (error) {
+                              console.error(
+                                "Error al llamar al endpoint de eliminación",
+                                error,
+                              );
+                            }
+                          }
                         }}
                       />
                     ))}
@@ -148,6 +172,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                           name: filename,
                           contentType: "",
                         }}
+                        isInUpload
                         isUploading={true}
                       />
                     ))}

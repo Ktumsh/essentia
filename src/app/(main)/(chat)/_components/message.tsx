@@ -31,18 +31,17 @@ import {
 import { Weather } from "./tools/weather";
 
 import type { ChatVote } from "@/db/schema";
-import type { Message } from "ai";
+import type { UIMessage } from "ai";
 
 interface MessageProps {
   chatId: string;
-  message: Message;
+  message: UIMessage;
   vote: ChatVote | undefined;
   user?: UserProfileData | null;
   isReadonly?: boolean;
   isLoading: boolean;
   setMessages: UseChatHelpers["setMessages"];
   reload: UseChatHelpers["reload"];
-  isLastNonUser?: boolean;
 }
 
 const PurePreviewMessage = ({
@@ -54,18 +53,10 @@ const PurePreviewMessage = ({
   isLoading,
   setMessages,
   reload,
-  isLastNonUser,
 }: MessageProps) => {
   const isMobile = useIsMobile();
 
-  const {
-    id,
-    role,
-    content,
-    toolInvocations,
-    reasoning,
-    experimental_attachments,
-  } = message;
+  const { id, role, parts, experimental_attachments } = message;
 
   const { profileImage, username } = user || {};
 
@@ -77,7 +68,9 @@ const PurePreviewMessage = ({
   const { tasks, setTasks, isLoading: isTaskLoading } = useTasks();
 
   useEffect(() => {
-    if (!toolInvocations) return;
+    const toolInvocations = parts
+      .filter((part) => part.type === "tool-invocation")
+      .map((part) => part.toolInvocation);
 
     toolInvocations.forEach((toolInvocation) => {
       if (
@@ -95,14 +88,15 @@ const PurePreviewMessage = ({
         });
       }
     });
-  }, [setTasks, toolInvocations]);
+  }, [setTasks, parts]);
 
   if (
     role === "assistant" &&
-    toolInvocations &&
-    toolInvocations.some(
-      (invocation) =>
-        invocation.state === "result" && invocation.result?.error !== undefined,
+    parts.some(
+      (part) =>
+        part.type === "tool-invocation" &&
+        part.toolInvocation.state === "result" &&
+        part.toolInvocation.result?.error !== undefined,
     )
   ) {
     return null;
@@ -113,10 +107,7 @@ const PurePreviewMessage = ({
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       data-role={role}
-      className={cn("group/message mx-auto w-full max-w-3xl px-4", {
-        "min-h-[calc(100dvh-312px)] md:min-h-[calc(100dvh-348px)]":
-          isLastNonUser,
-      })}
+      className="group/message mx-auto w-full max-w-3xl px-4"
     >
       <div
         className={cn(
@@ -133,83 +124,129 @@ const PurePreviewMessage = ({
           <UserAvatar profileImage={profileImage} username={username} />
         )}
 
-        <div className="flex w-full flex-col gap-4">
-          {experimental_attachments && (
-            <div className="flex flex-row gap-2">
-              {experimental_attachments.map((attachment) => (
+        <div className="flex w-full flex-col gap-2">
+          {experimental_attachments && experimental_attachments?.length > 0 && (
+            <div
+              data-testid={`message-attachments`}
+              className={cn("flex flex-row justify-end gap-2", {
+                "max-w-52 flex-wrap": experimental_attachments?.length > 3,
+              })}
+            >
+              {experimental_attachments.map((attachment, index) => (
                 <PreviewAttachment
                   key={attachment.url}
                   attachment={attachment}
+                  totalAttachments={experimental_attachments.length}
+                  index={index}
                 />
               ))}
             </div>
           )}
 
-          {reasoning && (
-            <MessageReasoning isLoading={isLoading} reasoning={reasoning} />
-          )}
+          {parts?.map((part, index) => {
+            const { type } = part;
+            const key = `message-${id}-part-${index}`;
 
-          {(message.content || reasoning) && mode === "view" && (
-            <div className="flex flex-row items-start gap-2">
-              {userRole && !isReadonly && !isMobile && (
-                <BetterTooltip content="Editar mensaje">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    radius="full"
-                    className="text-foreground/80 hover:bg-accent hover:text-foreground shrink-0 opacity-0 group-hover/message:opacity-100"
-                    onClick={() => {
-                      setMode("edit");
-                    }}
+            if (type === "reasoning") {
+              return (
+                <MessageReasoning
+                  key={key}
+                  isLoading={isLoading}
+                  reasoning={part.reasoning}
+                />
+              );
+            }
+
+            if (type === "text") {
+              if (mode === "view") {
+                return (
+                  <div
+                    key={key}
+                    className={cn("flex items-center gap-2", {
+                      "justify-end": userRole,
+                    })}
                   >
-                    <PencilLine />
-                  </Button>
-                </BetterTooltip>
-              )}
+                    {userRole && !isReadonly && !isMobile && (
+                      <BetterTooltip content="Editar mensaje">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          radius="md"
+                          className="text-foreground/80 size-8 shrink-0 opacity-0 group-hover/message:opacity-100 hover:bg-indigo-500 hover:text-white"
+                          onClick={() => {
+                            setMode("edit");
+                          }}
+                        >
+                          <PencilLine />
+                        </Button>
+                      </BetterTooltip>
+                    )}
 
-              <div
-                role={isMobile && userRole ? "button" : undefined}
-                aria-label={
-                  isMobile && userRole
-                    ? "Presionar y editar mensaje"
-                    : undefined
-                }
-                onClick={() => isMobile && userRole && setIsOpen(true)}
-                className={cn("flex flex-col gap-4", {
-                  "transition-transform-opacity rounded-s-xl rounded-ee-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-2.5 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
-                    userRole,
-                })}
-              >
-                <Markdown
-                  className={cn(
-                    "prose-sm md:prose md:text-base!",
-                    userRole && "text-white!",
-                  )}
-                >
-                  {content as string}
-                </Markdown>
-              </div>
-            </div>
-          )}
+                    <div
+                      data-testid="message-content"
+                      role={isMobile && userRole ? "button" : undefined}
+                      aria-label={
+                        isMobile && userRole
+                          ? "Presionar y editar mensaje"
+                          : undefined
+                      }
+                      onClick={() => isMobile && userRole && setIsOpen(true)}
+                      className={cn("flex flex-col gap-4", {
+                        "transition-transform-opacity rounded-xl rounded-tr-xs bg-gradient-to-r from-indigo-500 to-indigo-600 px-3 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
+                          userRole,
+                      })}
+                    >
+                      <Markdown
+                        className={cn(
+                          "prose-sm md:prose md:text-base!",
+                          userRole && "text-white!",
+                        )}
+                      >
+                        {part.text}
+                      </Markdown>
+                    </div>
+                  </div>
+                );
+              }
+            }
 
-          {content && mode === "edit" && (
-            <div className="flex flex-row items-start gap-2">
-              <div className="hidden size-8 shrink-0 md:block" />
-              <MessageEditor
-                key={id}
-                message={message}
-                setMode={setMode}
-                setMessages={setMessages}
-                reload={reload}
-              />
-            </div>
-          )}
+            if (mode === "edit") {
+              return (
+                <div key={key} className="flex flex-row items-start gap-2">
+                  <div className="hidden size-8 shrink-0 md:block" />
+                  <MessageEditor
+                    key={id}
+                    message={message}
+                    setMode={setMode}
+                    setMessages={setMessages}
+                    reload={reload}
+                  />
+                </div>
+              );
+            }
 
-          <EditModal isOpen={isOpen} setIsOpen={setIsOpen} setMode={setMode} />
-
-          {toolInvocations &&
-            toolInvocations.map((toolInvocation) => {
+            if (type === "tool-invocation") {
+              const { toolInvocation } = part;
               const { toolName, toolCallId, state } = toolInvocation;
+
+              if (state === "call") {
+                return (
+                  <div
+                    key={toolCallId}
+                    className={cn({
+                      skeleton: ["getWeather", "trackTask"].includes(toolName),
+                    })}
+                  >
+                    {toolName === "getWeather" ? (
+                      <Weather />
+                    ) : toolName === "trackTask" ? (
+                      <TaskStock />
+                    ) : (
+                      <InitialLoading />
+                    )}
+                  </div>
+                );
+              }
 
               if (state === "result") {
                 const { result } = toolInvocation;
@@ -235,25 +272,10 @@ const PurePreviewMessage = ({
                     )}
                   </div>
                 );
-              } else {
-                return (
-                  <div
-                    key={toolCallId}
-                    className={cn({
-                      skeleton: ["getWeather", "trackTask"].includes(toolName),
-                    })}
-                  >
-                    {toolName === "getWeather" ? (
-                      <Weather />
-                    ) : toolName === "trackTask" ? (
-                      <TaskStock />
-                    ) : (
-                      <InitialLoading />
-                    )}
-                  </div>
-                );
               }
-            })}
+            }
+          })}
+
           {!isReadonly && (
             <MessageActions
               key={`action-${id}`}
@@ -263,6 +285,8 @@ const PurePreviewMessage = ({
               isLoading={isLoading}
             />
           )}
+
+          <EditModal isOpen={isOpen} setIsOpen={setIsOpen} setMode={setMode} />
         </div>
       </div>
     </motion.article>
@@ -273,18 +297,9 @@ export const PreviewMessage = memo(
   PurePreviewMessage,
   (prevProps, nextProps) => {
     if (prevProps.isLoading !== nextProps.isLoading) return false;
-    if (prevProps.message.reasoning !== nextProps.message.reasoning)
-      return false;
-    if (prevProps.message.content !== nextProps.message.content) return false;
-    if (
-      !equal(
-        prevProps.message.toolInvocations,
-        nextProps.message.toolInvocations,
-      )
-    )
-      return false;
+    if (prevProps.message.id !== nextProps.message.id) return false;
+    if (!equal(prevProps.message.parts, nextProps.message.parts)) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
-
     return true;
   },
 );
@@ -318,7 +333,7 @@ export const ThinkingMessage = () => {
       >
         <BotAvatar />
         <span className="text-muted-foreground text-sm md:text-base">
-          {"Pensando".split("").map((character, index) => (
+          {"Mmm...".split("").map((character, index) => (
             <motion.span
               key={index}
               variants={shimmerVariants}

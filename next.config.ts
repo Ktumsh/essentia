@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
         ".json",
       ],
     },
+    ppr: true,
   },
   images: {
     remotePatterns: [

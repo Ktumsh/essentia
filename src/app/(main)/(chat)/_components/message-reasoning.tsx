@@ -106,7 +106,7 @@ export function MessageReasoning({
             style={{ overflow: "hidden" }}
             className="border-muted-foreground/50 border-l-2 pl-4"
           >
-            <Markdown className="text-foreground/80! prose-sm md:prose! md:text-base">
+            <Markdown className="prose-sm md:prose md:text-base!">
               {reasoning}
             </Markdown>
           </motion.div>

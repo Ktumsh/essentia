@@ -11,13 +11,13 @@ import { PreviewMessage, ThinkingMessage } from "./message";
 import Overview from "./overview";
 
 import type { ChatVote } from "@/db/schema";
-import type { Message } from "ai";
+import type { UIMessage } from "ai";
 
 interface MessagesProps {
   chatId: string;
   status: UseChatHelpers["status"];
   votes: Array<ChatVote> | undefined;
-  messages: Array<Message>;
+  messages: Array<UIMessage>;
   isReadonly: boolean;
   user: UserProfileData | null;
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -38,12 +38,6 @@ function PureMessages({
   setMessages,
   reload,
 }: MessagesProps) {
-  const lastNonUserMessageIndex = messages
-    .map((message, index) =>
-      message.role !== "user" && index > 1 ? index : -1,
-    )
-    .reduce((prev, curr) => (curr > prev ? curr : prev), -1);
-
   return (
     <div
       className={cn("z-10 h-full min-w-0 space-y-6 overflow-y-auto pt-4")}
@@ -65,9 +59,6 @@ function PureMessages({
           isReadonly={isReadonly}
           setMessages={setMessages}
           reload={reload}
-          isLastNonUser={
-            message.role !== "user" && index === lastNonUserMessageIndex
-          }
         />
       ))}
       {status === "submitted" &&

@@ -41,7 +41,7 @@ const Home = ({ profileData }: HomeProps) => {
   }, []);
 
   return (
-    <div className="flex flex-1">
+    <div className="@container flex">
       <div className="mx-auto flex w-full max-w-6xl shrink grow items-stretch justify-center">
         <div className="flex size-full shrink grow flex-col items-stretch md:p-5">
           {!isMobile && (

@@ -48,6 +48,7 @@ import { UserNotification } from "@/db/schema";
 import { useActionNotifications } from "@/hooks/use-action-notifications";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { formatDate } from "@/utils/format";
 
 interface NotificationListProps {
   userId: string;
@@ -345,7 +346,10 @@ const NotificationItem = ({
             {notification.title}
           </p>
         </div>
-        <p className="text-muted-foreground text-sm">{notification.message}</p>
+        <p className="text-foreground/80 text-sm">{notification.message}</p>
+        <span className="text-muted-foreground text-xs">
+          {formatDate(notification.createdAt)}
+        </span>
       </button>
       {!isRead && handleMarkAsRead && (
         <>

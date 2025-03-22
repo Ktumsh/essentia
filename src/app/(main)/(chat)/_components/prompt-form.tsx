@@ -1,7 +1,6 @@
 "use client";
 
 import { UseChatHelpers } from "@ai-sdk/react";
-import { Attachment, Message } from "ai";
 import equal from "fast-deep-equal";
 import { ArrowUp, Paperclip } from "lucide-react";
 import {
@@ -26,7 +25,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useAdjustHeight } from "../_hooks/use-adjust-height";
 import { useEnterSubmit } from "../_hooks/use-enter-submit";
-import { sanitizeUIMessages } from "../_lib/utils";
+
+import type { Attachment } from "ai";
 
 interface PromptFormProps {
   chatId: string;
@@ -38,7 +38,7 @@ interface PromptFormProps {
   handleSubmit: UseChatHelpers["handleSubmit"];
   attachments: Array<Attachment>;
   setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  setMessages: UseChatHelpers["setMessages"];
   uploadQueue: string[];
   setUploadQueue: Dispatch<SetStateAction<string[]>>;
 }
@@ -159,6 +159,10 @@ const PurePromptForm = ({
       setUploadQueue(files.map((file) => file.name));
 
       try {
+        if (files.length > 9) {
+          toast.error("No puedes cargar más de 9 archivos a la vez!");
+          return;
+        }
         const uploadPromises = files.map((file) => uploadFile(file));
         const uploadedAttachments = await Promise.all(uploadPromises);
         const successfullyUploadedAttachments = uploadedAttachments.filter(
@@ -256,7 +260,10 @@ function PureAttachmentsButton({
         variant="ghost"
         disabled={status !== "ready"}
         className="text-foreground dark:border-alternative absolute top-4 left-4 size-9! border border-slate-300 md:top-auto md:bottom-2 md:left-2"
-        onClick={() => fileInputRef.current?.click()}
+        onClick={(e) => {
+          e.preventDefault();
+          fileInputRef.current?.click();
+        }}
       >
         <span className="sr-only">Adjuntar archivo</span>
         <Paperclip className="size-4" />
@@ -272,7 +279,7 @@ function PureStopButton({
   setMessages,
 }: {
   stop: () => void;
-  setMessages: Dispatch<SetStateAction<Array<Message>>>;
+  setMessages: UseChatHelpers["setMessages"];
 }) {
   return (
     <Button
@@ -282,7 +289,7 @@ function PureStopButton({
       onClick={(event) => {
         event.preventDefault();
         stop();
-        setMessages((messages) => sanitizeUIMessages(messages));
+        setMessages((messages) => messages);
       }}
     >
       <span className="sr-only">Detener generación de mensajes</span>

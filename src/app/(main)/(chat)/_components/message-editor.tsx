@@ -1,25 +1,21 @@
 "use client";
 
+import { UseChatHelpers } from "@ai-sdk/react";
 import { Dispatch, SetStateAction, useState } from "react";
-import { toast } from "sonner";
 
 import { deleteTrailingMessages } from "@/app/(main)/(chat)/actions";
 import { Button } from "@/components/kit/button";
 import { Textarea } from "@/components/kit/textarea";
 
-import { useUserMessageId } from "../_hooks/use-user-message-id";
+import { useAdjustHeight } from "../_hooks/use-adjust-height";
 
-import type { ChatRequestOptions, Message } from "ai";
+import type { UIMessage } from "ai";
 
 export type MessageEditorProps = {
-  message: Message;
+  message: UIMessage;
   setMode: Dispatch<SetStateAction<"view" | "edit">>;
-  setMessages: (
-    messages: Message[] | ((messages: Message[]) => Message[]),
-  ) => void;
-  reload: (
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  setMessages: UseChatHelpers["setMessages"];
+  reload: UseChatHelpers["reload"];
 };
 
 export function MessageEditor({
@@ -28,29 +24,25 @@ export function MessageEditor({
   setMessages,
   reload,
 }: MessageEditorProps) {
-  const { userMessageIdFromServer } = useUserMessageId();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const [draftContent, setDraftContent] = useState<string>(message.content);
 
+  const { textareaRef, adjustHeight } = useAdjustHeight();
+
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDraftContent(event.target.value);
+    adjustHeight();
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    const messageId = userMessageIdFromServer ?? message.id;
-
-    if (!messageId) {
-      toast.error("Something went wrong, please try again!");
-      setIsSubmitting(false);
-      return;
-    }
 
     await deleteTrailingMessages({
-      id: messageId,
+      id: message.id,
     });
 
+    // @ts-expect-error todo: support UIMessage in setMessages
     setMessages((messages) => {
       const index = messages.findIndex((m) => m.id === message.id);
 
@@ -58,6 +50,7 @@ export function MessageEditor({
         const updatedMessage = {
           ...message,
           content: draftContent,
+          parts: [{ type: "text", text: draftContent }],
         };
 
         return [...messages.slice(0, index), updatedMessage];
@@ -73,7 +66,8 @@ export function MessageEditor({
   return (
     <div className="bg-background outline-danger/50 flex w-full flex-col gap-2 rounded-xl px-2.5 py-1.5 outline-2 md:px-4 md:py-2.5">
       <Textarea
-        className="text-main-h dark:text-main-dark [field-sizing:content] h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto border-none p-0 text-base! shadow-none focus-visible:ring-0"
+        ref={textareaRef}
+        className="text-foreground [field-sizing:content] h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto rounded-none border-none p-0 text-base! shadow-none focus-visible:ring-0"
         value={draftContent}
         onChange={handleInput}
       />

@@ -1,7 +1,6 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import { Attachment, type Message } from "ai";
 import { motion } from "motion/react";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
@@ -20,6 +19,7 @@ import { useScrollToBottom } from "../_hooks/use-scroll-to-bottom";
 import { useUserMessageId } from "../_hooks/use-user-message-id";
 
 import type { ChatVote } from "@/db/schema";
+import type { Attachment, UIMessage } from "ai";
 
 type StreamingDelta = {
   type:
@@ -38,7 +38,7 @@ type StreamingDelta = {
 
 export interface ChatProps {
   id: string;
-  initialMessages: Array<Message>;
+  initialMessages: Array<UIMessage>;
   selectedChatModel: string;
   isReadonly: boolean;
   selectedVisibilityType: VisibilityType;
@@ -110,7 +110,7 @@ export function Chat({
   }, [streamingData, setUserMessageIdFromServer]);
 
   const { data: votes } = useSWR<Array<ChatVote>>(
-    `/api/vote?chatId=${id}`,
+    messages.length >= 2 ? `/api/vote?chatId=${id}` : null,
     fetcher,
   );
 

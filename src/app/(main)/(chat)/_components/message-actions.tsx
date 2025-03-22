@@ -6,6 +6,7 @@ import { Copy } from "lucide-react";
 import { memo } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
+import { useCopyToClipboard } from "usehooks-ts";
 
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
@@ -16,9 +17,6 @@ import {
   LikeIcon,
 } from "@/components/ui/icons/action";
 import { type ChatVote } from "@/db/schema";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-
-import { getMessageIdFromAnnotations } from "../_lib/utils";
 
 interface PureMessageActionsProps {
   chatId: string;
@@ -34,27 +32,33 @@ const PureMessageActions = ({
   isLoading,
 }: PureMessageActionsProps) => {
   const { mutate } = useSWRConfig();
-  const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
+  const [, copyToClipboard] = useCopyToClipboard();
 
   if (isLoading) return null;
   if (message.role === "user") return null;
-  if (message.toolInvocations && message.toolInvocations.length > 0)
-    return null;
 
-  const onCopy = () => {
-    if (isCopied) return;
-    copyToClipboard(message.content as string);
-    toast.success("Texto copiado");
+  const onCopy = async () => {
+    const textFromParts = message.parts
+      ?.filter((part) => part.type === "text")
+      .map((part) => part.text)
+      .join("\n")
+      .trim();
+
+    if (!textFromParts) {
+      toast.error("¡No hay texto que copiar!");
+      return;
+    }
+
+    await copyToClipboard(textFromParts);
+    toast.success("¡Texto copiado!");
   };
 
   const upvoteResponse = async () => {
-    const messageId = getMessageIdFromAnnotations(message);
-
     const upvote = fetch("/api/vote", {
       method: "PATCH",
       body: JSON.stringify({
         chatId,
-        messageId,
+        messageId: message.id,
         type: "up",
       }),
     });
@@ -83,20 +87,18 @@ const PureMessageActions = ({
           { revalidate: false },
         );
 
-        return "Respuesta votada positivamente";
+        return "¡Gracias por votar la respuesta!";
       },
       error: "Error al votar la respuesta.",
     });
   };
 
   const downvoteResponse = async () => {
-    const messageId = getMessageIdFromAnnotations(message);
-
     const downvote = fetch("/api/vote", {
       method: "PATCH",
       body: JSON.stringify({
         chatId,
-        messageId,
+        messageId: message.id,
         type: "down",
       }),
     });
@@ -125,7 +127,7 @@ const PureMessageActions = ({
           { revalidate: false },
         );
 
-        return "Respuesta votada negativamente";
+        return "¡Gracias por votar la respuesta!";
       },
       error: "Error al votar la respuesta.",
     });

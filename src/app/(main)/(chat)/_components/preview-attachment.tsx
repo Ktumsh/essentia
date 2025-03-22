@@ -1,34 +1,78 @@
+/* eslint-disable @next/next/no-img-element */
 import { Attachment } from "ai";
-import { X } from "lucide-react";
+import { Loader, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/kit/dialog";
 import { BetterTooltip } from "@/components/kit/tooltip";
 
-import { spinner } from "./spinner";
+import {
+  getContainerAttachmentClasses,
+  getImageAttachmentClasses,
+} from "../_lib/utils";
 
 interface PreviewAttachmentProps {
   attachment: Attachment;
+  isInUpload?: boolean;
   isUploading?: boolean;
-  onRemove?: () => void;
+  totalAttachments?: number;
+  index?: number;
+  onRemove?: () => Promise<void>;
 }
 
 export const PreviewAttachment = ({
   attachment,
+  isInUpload = false,
   isUploading = false,
+  totalAttachments = 1,
+  index = 0,
   onRemove,
 }: PreviewAttachmentProps) => {
   const { name, url, contentType } = attachment;
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState<string>("auto");
+
+  useEffect(() => {
+    if (contentType?.startsWith("image") && url) {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        setAspectRatio(`${img.naturalWidth} / ${img.naturalHeight}`);
+      };
+    }
+  }, [url, contentType]);
+
+  const containerClasses = getContainerAttachmentClasses(
+    totalAttachments,
+    index,
+    isInUpload,
+  );
+  const imageClasses = getImageAttachmentClasses(
+    totalAttachments,
+    index,
+    isInUpload,
+  );
+
   return (
-    <div className="group/preview flex max-w-16 flex-col gap-2">
-      <div className="dark:bg-dark relative flex size-16 flex-col items-center justify-center rounded-md bg-slate-100">
+    <>
+      <div className={containerClasses} onClick={() => setIsOpen(true)}>
         {contentType ? (
           contentType.startsWith("image") ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               key={url}
               src={url}
-              alt={name ?? "Una imagen adjunta"}
-              className="animate-fade-in aspect-square size-full rounded-md object-cover"
+              alt="Una imagen adjunta"
+              style={{
+                aspectRatio:
+                  !totalAttachments && !isInUpload ? aspectRatio : "auto",
+              }}
+              className={imageClasses}
             />
           ) : (
             <div className=""></div>
@@ -38,22 +82,50 @@ export const PreviewAttachment = ({
         )}
 
         {isUploading && (
-          <div className="text-main-m dark:text-main-dark-m absolute">
-            {spinner}
+          <div className="text-muted-foreground absolute">
+            <Loader className="size-4 animate-spin" />
           </div>
         )}
 
         {!isUploading && !!onRemove && (
           <BetterTooltip content="Quitar archivo">
             <button
-              onClick={onRemove}
-              className="dark:border-accent-dark dark:bg-full-dark absolute top-0.5 right-0.5 flex items-center justify-center overflow-visible rounded-full border border-slate-300 bg-white p-1 transition-opacity group-hover/preview:opacity-100 md:opacity-0"
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove();
+              }}
+              className="dark:border-alternative bg-background absolute top-0.5 right-0.5 flex items-center justify-center overflow-visible rounded-full border border-slate-300 p-1 transition-opacity group-hover/preview:opacity-100 md:opacity-0"
             >
-              <X className="text-main size-3 dark:text-white" />
+              <X className="text-foreground size-3" />
             </button>
           </BetterTooltip>
         )}
       </div>
-    </div>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent
+          isBlurred
+          closeButtonClass="absolute top-4 right-4"
+          onClick={() => setIsOpen(false)}
+          className="min-h-dvh min-w-dvw items-center justify-center rounded-none border-0 bg-transparent p-0 shadow-none ring-0"
+        >
+          <DialogTitle className="sr-only">
+            Previsualización de archivo
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Nombre del archivo: {name}
+          </DialogDescription>
+          <div
+            className="relative max-h-[85vh] max-w-[90vw]"
+            style={{ aspectRatio: aspectRatio || "auto" }}
+          >
+            <img
+              src={url}
+              alt="Una imagen adjunta"
+              className="size-full object-contain"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

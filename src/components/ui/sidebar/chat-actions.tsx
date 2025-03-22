@@ -1,6 +1,11 @@
 "use client";
 
-import { MessageSquareShare, MoreHorizontalIcon, Trash2 } from "lucide-react";
+import {
+  MessageSquareShare,
+  MoreHorizontalIcon,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -48,9 +53,15 @@ interface ChatActionsProps {
   chat: Chat;
   isActive?: boolean;
   mutate: KeyedMutator<Chat[]>;
+  handleEditMode: () => void;
 }
 
-const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
+const ChatActions = ({
+  chat,
+  mutate,
+  isActive,
+  handleEditMode,
+}: ChatActionsProps) => {
   const { id } = useParams();
   const router = useRouter();
 
@@ -131,6 +142,12 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
                   </>
                 )}
                 <DrawerClose asChild>
+                  <Button variant="mobile" onClick={handleEditMode}>
+                    <Pencil />
+                    Cambiar nombre
+                  </Button>
+                </DrawerClose>
+                <DrawerClose asChild>
                   <Button
                     variant="mobile"
                     className="text-red-500 active:bg-red-500/15 active:text-red-500"
@@ -202,6 +219,10 @@ const ChatActions = ({ chat, mutate, isActive }: ChatActionsProps) => {
               Compartir
             </DropdownMenuItem>
           )}
+          <DropdownMenuItem onSelect={handleEditMode}>
+            <Pencil />
+            Cambiar nombre
+          </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => {
               setShowDeleteDialog(true);

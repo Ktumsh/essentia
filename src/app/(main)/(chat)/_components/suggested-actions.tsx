@@ -1,6 +1,7 @@
 "use client";
 
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
+import { UseChatHelpers } from "@ai-sdk/react";
+import { Attachment, Message } from "ai";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -15,10 +16,7 @@ interface SuggestedActionsProps {
   attachments: Attachment[];
   uploadQueue: string[];
   isPremium: boolean | null;
-  append: (
-    message: Message | CreateMessage,
-    chatRequestOptions?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: UseChatHelpers["append"];
 }
 
 const SuggestedActions = (props: SuggestedActionsProps) => {
@@ -35,17 +33,14 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
     setSuggestedActions((prevMessages) => shuffleArray([...prevMessages]));
   }, []);
 
+  if (!isPremium) return null;
+
   return (
     <>
       {messages.length === 0 &&
         attachments.length === 0 &&
         uploadQueue.length === 0 && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={!isPremium ? { opacity: 0 } : { opacity: 1 }}
-            transition={{ ease: "easeInOut", duration: 1, delay: 0.3 }}
-            className="no-scrollbar mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 md:grid md:overflow-visible md:px-0"
-          >
+          <div className="no-scrollbar mb-4 flex grid-cols-2 gap-2 overflow-x-auto px-4 md:grid md:overflow-visible md:px-0">
             {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -86,7 +81,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
                 </Button>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         )}
     </>
   );

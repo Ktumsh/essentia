@@ -8,6 +8,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -29,6 +30,7 @@ const EditModal = ({ isOpen, setIsOpen, setMode }: EditModalProps) => {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle></DrawerTitle>
+          <DrawerDescription className="sr-only"></DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
           <div className="bg-accent flex flex-col overflow-hidden rounded-xl">

@@ -60,7 +60,7 @@ export default async function RootLayout({
           poppins.variable,
           spaceMono.variable,
           grotesk.variable,
-          "antialiased",
+          "antialiased md:subpixel-antialiased",
         )}
       >
         <Providers

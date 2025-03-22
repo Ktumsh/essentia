@@ -17,7 +17,7 @@ export interface ChatPageProps {
 }
 
 export async function generateMetadata(
-  props: ChatPageProps
+  props: ChatPageProps,
 ): Promise<Metadata> {
   const params = await props.params;
   const { id } = params;
