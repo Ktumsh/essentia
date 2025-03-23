@@ -133,7 +133,7 @@ const FirstAid = () => {
                           className="text-foreground/80 ml-8 space-y-1.5"
                         >
                           {desc.type === "bold" ? (
-                            <strong className="text-main mr-2 font-semibold dark:text-white">
+                            <strong className="text-foreground mr-2 font-semibold">
                               {desc.content}
                             </strong>
                           ) : (

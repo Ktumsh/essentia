@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
-import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import { getAllCoursesProgress } from "@/db/querys/progress-query";
 import { getUserProfileData } from "@/utils/profile";
 
@@ -18,10 +17,6 @@ export default async function AccountLayout() {
 
   const userId = session?.user?.id as string;
 
-  const [subscription] = session ? await getSubscription(userId) : [];
-
-  const [subscriptionDetails] = session ? await getPaymentDetails(userId) : [];
-
   const userData = session ? await getUserProfileData({ session }) : null;
 
   const courses = await getAllCoursesProgress(userId);
@@ -29,12 +24,7 @@ export default async function AccountLayout() {
   return (
     <PageWrapper>
       <AccountHeader />
-      <AccountTabs
-        user={userData}
-        subscription={subscription}
-        susbscriptionDetails={subscriptionDetails}
-        courses={courses}
-      />
+      <AccountTabs user={userData} courses={courses} />
     </PageWrapper>
   );
 }

@@ -25,7 +25,7 @@ interface PricingCardsProps {
 }
 
 const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
-  const { free, premium, premiumPlus } = siteConfig.planPrices;
+  const { free, premium, premiumPlus } = siteConfig.plan;
   const PLANS = [free, premium, premiumPlus];
 
   const containerRef = useRef<HTMLDivElement | null>(null);

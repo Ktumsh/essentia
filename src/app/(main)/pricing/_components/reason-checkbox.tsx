@@ -12,15 +12,21 @@ const reasons = [
 interface ReasonCheckboxProps {
   selectedReasons: string[];
   onChange: (selected: string[]) => void;
+  setError: (error: string | null) => void;
 }
 
-const ReasonCheckbox = ({ selectedReasons, onChange }: ReasonCheckboxProps) => {
+const ReasonCheckbox = ({
+  selectedReasons,
+  onChange,
+  setError,
+}: ReasonCheckboxProps) => {
   const onCheckedChange = (checked: string | boolean, reason: string) => {
     onChange(
       checked
         ? [...selectedReasons, reason]
         : selectedReasons.filter((r) => r !== reason),
     );
+    setError(null);
   };
 
   return (

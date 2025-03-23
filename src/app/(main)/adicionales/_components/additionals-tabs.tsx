@@ -39,7 +39,7 @@ export default function AdditionalsTabs() {
                     ) : null}
                   </>
                 ) : (
-                  <tab.icon className="text-main-h dark:text-main-dark-h size-4" />
+                  <tab.icon className="text-foreground/80 size-4" />
                 )}
                 <span>{tab.name}</span>
               </div>

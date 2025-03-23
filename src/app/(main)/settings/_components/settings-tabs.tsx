@@ -13,6 +13,7 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
+import useSubscription from "@/hooks/use-subscription";
 import { UserProfileData } from "@/types/auth";
 import { PaymentHistory } from "@/types/common";
 
@@ -22,28 +23,20 @@ import NotificationsStg from "./notifications-stg";
 import SettingsOptsHeader from "./settings-opts-header";
 import SubscriptionsStg from "./subscriptions-stg";
 
-import type { Payment, Subscription } from "@/db/schema";
-
 interface SettingsTabsProps {
   user: UserProfileData | null;
   session: Session | null;
-  subscription: Subscription;
-  subscriptionDetails: Payment | null;
   paymentHistory: PaymentHistory[];
 }
 
-const SettingsTabs = ({
-  user,
-  session,
-  subscription,
-  subscriptionDetails,
-  paymentHistory,
-}: SettingsTabsProps) => {
+const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
   const pathname = usePathname();
 
   const [tabValue, setTabValue] = useState<string>(pathname);
 
   const isMobile = useIsMobile();
+
+  const { subscription, payment } = useSubscription();
 
   useEffect(() => {
     if (!session?.user) {
@@ -140,7 +133,7 @@ const SettingsTabs = ({
       >
         <SubscriptionsStg
           subscription={subscription}
-          subscriptionDetails={subscriptionDetails}
+          payment={payment}
           paymentHistory={paymentHistory}
         />
       </TabsContent>

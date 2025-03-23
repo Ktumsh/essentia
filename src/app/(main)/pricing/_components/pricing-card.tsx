@@ -10,7 +10,7 @@ import { Card, CardHeader } from "@/components/kit/card";
 import { CheckCircledIcon } from "@/components/ui/icons/common";
 import { setUserPlan } from "@/components/ui/payment/actions";
 import { siteConfig } from "@/config/site.config";
-import { cn } from "@/lib/utils";
+import { cn, getPlanPrice } from "@/lib/utils";
 
 import CancelPlanModal from "./cancel-plan-modal";
 import ConfirmPlanModal from "./confirm-plan-modal";
@@ -44,7 +44,7 @@ const PricingCard = ({
 }: PricingCardProps) => {
   const router = useRouter();
 
-  const { free } = siteConfig.planPrices;
+  const { free } = siteConfig.plan;
 
   const [isOpenConfirmPlanModal, setIsOpenConfirmPlanModal] = useState(false);
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
@@ -55,7 +55,7 @@ const PricingCard = ({
   const handleSetFreePlan = async () => {
     try {
       startTransition(async () => {
-        const result = await setUserPlan(session, priceId);
+        const result = await setUserPlan(session, getPlanPrice(priceId));
 
         if (result.success) {
           toast.success(result.message);

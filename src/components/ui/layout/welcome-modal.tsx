@@ -51,7 +51,7 @@ const WelcomeModal = () => {
                 Un mensaje de bienvenida
               </DialogDescription>
             </DialogHeader>
-            <div className="text-main dark:text-main-dark flex flex-1 flex-col gap-3 px-6 py-2 pt-6 text-center">
+            <div className="text-foreground flex flex-1 flex-col gap-3 px-6 py-2 pt-6 text-center">
               <div className="flex items-center justify-center">
                 <Image
                   src="/logo-essentia.webp"

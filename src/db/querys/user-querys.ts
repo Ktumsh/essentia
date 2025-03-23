@@ -25,7 +25,7 @@ export async function createUser(
   username: string,
   firstName: string,
   lastName: string,
-  birthdate: Date | null
+  birthdate: Date | null,
 ) {
   const salt = genSaltSync(10);
   const hash = hashSync(password, salt);
@@ -117,7 +117,7 @@ export async function getUserByEmail(email: string): Promise<Array<User>> {
 }
 
 export async function getUserByUsername(
-  username: string
+  username: string,
 ): Promise<Array<User>> {
   try {
     return await db.select().from(user).where(eq(user.username, username));
@@ -127,14 +127,23 @@ export async function getUserByUsername(
   }
 }
 
+export async function getExistingEmail(email: string): Promise<boolean> {
+  try {
+    const [existingEmail] = await db
+      .select()
+      .from(user)
+      .where(eq(user.email, email));
+
+    return !!existingEmail;
+  } catch (error) {
+    console.error("Error al obtener el email existente:", error);
+    throw error;
+  }
+}
+
 export async function updateUserEmail(id: string, email: string) {
   try {
-    return await db
-      .update(user)
-      .set({
-        email,
-      })
-      .where(eq(user.id, id));
+    return await db.update(user).set({ email }).where(eq(user.id, id));
   } catch (error) {
     console.error("Error al actualizar el email del usuario:", error);
     throw error;
@@ -159,7 +168,7 @@ export async function updateUserPassword(id: string, password: string) {
 }
 
 export async function deleteUser(
-  id: string
+  id: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const [userToDelete] = await getUserById(id);
@@ -205,7 +214,7 @@ export async function getUserState(id: string): Promise<string> {
 
 export async function verifySamePassword(
   userId: string,
-  newPassword: string
+  newPassword: string,
 ): Promise<boolean> {
   const [user] = await getUserById(userId);
 

@@ -24,11 +24,11 @@ const LogoutPage = () => {
     >
       <span>
         <SpinnerIcon
-          className="size-8 text-main-m dark:text-main-dark-m"
+          className="text-muted-foreground size-8"
           aria-hidden="true"
         />
       </span>
-      <h1 className="text-center text-2xl font-semibold text-main dark:text-white">
+      <h1 className="text-foreground text-center text-2xl font-semibold">
         Cerrando sesión
       </h1>
     </motion.div>

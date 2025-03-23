@@ -68,7 +68,7 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
   };
 
   return (
-    <Card className="text-main dark:text-white">
+    <Card>
       <CardHeader>
         <CardTitle className="mb-2 text-base">Completa tu perfil</CardTitle>
         <CardDescription className="space-y-1">

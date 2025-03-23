@@ -48,7 +48,7 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
               ? { ease: "easeInOut", duration: 1, delay: 0.3 }
               : { ease: "easeInOut", duration: 0.5, delay: 0.3 }
           }
-          className="text-main shadow-pretty dark:text-main-dark border-border bg-background absolute inset-x-3 top-6 flex justify-center gap-2 rounded-xl border px-3 py-2 text-xs md:inset-3 md:items-center md:gap-4 md:p-4 md:text-base"
+          className="text-foreground shadow-pretty border-border bg-background absolute inset-x-3 top-6 flex justify-center gap-2 rounded-xl border px-3 py-2 text-xs md:inset-3 md:items-center md:gap-4 md:p-4 md:text-base"
         >
           <span className="inline-flex items-center gap-2">
             <BadgeAlert variant="info" className="mb-0" />

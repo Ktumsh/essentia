@@ -24,21 +24,21 @@ export const PlanSelector = ({
 }: PlanSelectorProps) => {
   const subscriptionPlans: SubscriptionPlan[] = [
     {
-      id: siteConfig.planPrices.free,
+      id: siteConfig.plan.free,
       name: "Gratis",
       description: "Plan básico, no incluye funcionalidades premium.",
       amount: 0,
       currency: "clp",
     },
     {
-      id: siteConfig.planPrices.premium,
+      id: siteConfig.plan.premium,
       name: "Premium",
       description: "Plan mensual con todas las funcionalidades de Essentia AI.",
       amount: 9500,
       currency: "clp",
     },
     {
-      id: siteConfig.planPrices.premiumPlus,
+      id: siteConfig.plan.premiumPlus,
       name: "Premium Plus",
       description: "Plan anual con todas las funcionalidades de Essentia AI.",
       amount: 91200,
@@ -68,7 +68,7 @@ export const PlanSelector = ({
                 <span className="font-sans text-xl font-semibold">
                   ${plan.amount.toLocaleString("es-CL")}
                 </span>
-                <span className="text-main-m dark:text-main-dark-m align-text-bottom text-sm leading-7">
+                <span className="text-muted-foreground align-text-bottom text-sm leading-7">
                   {index > 1 ? "/año" : "/mes"}
                 </span>
               </div>

@@ -6,7 +6,7 @@ const MedicineItem = ({
   description: string;
 }) => (
   <li>
-    <strong className="text-main dark:text-white">{name}:</strong> {description}
+    <strong className="text-foreground">{name}:</strong> {description}
   </li>
 );
 

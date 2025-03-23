@@ -14,7 +14,7 @@ const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
       <div className="relative float-end flex h-full w-72">
         <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
           <div className="flex w-full flex-col">
-            <h3 className="text-main dark:text-main-dark mb-2 ml-3 px-5 pt-3 text-base font-semibold lg:px-0">
+            <h3 className="text-foreground mb-2 ml-3 px-5 pt-3 text-base font-semibold lg:px-0">
               Dato curioso del día
             </h3>
             <article className="flex h-full flex-col">

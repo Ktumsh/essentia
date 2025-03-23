@@ -1,11 +1,7 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import {
-  getPaymentDetails,
-  getPaymentHistory,
-  getSubscription,
-} from "@/db/querys/payment-querys";
+import { getPaymentHistory } from "@/db/querys/payment-querys";
 
 import SubscriptionsStgWrp from "../_components/subscriptions-stg-wrp";
 
@@ -23,19 +19,9 @@ const SubscriptionsSettingsPage = async () => {
 
   const userId = session?.user?.id as string;
 
-  const [subscription] = session ? await getSubscription(userId) : [];
-
-  const [subscriptionDetails] = session ? await getPaymentDetails(userId) : [];
-
   const paymentHistory = session ? await getPaymentHistory(userId) : [];
 
-  return (
-    <SubscriptionsStgWrp
-      subscription={subscription}
-      subscriptionDetails={subscriptionDetails}
-      paymentHistory={paymentHistory}
-    />
-  );
+  return <SubscriptionsStgWrp paymentHistory={paymentHistory} />;
 };
 
 export default SubscriptionsSettingsPage;

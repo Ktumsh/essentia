@@ -49,7 +49,7 @@ const StepEmail = ({ isMobile, form, currentEmail }: StepEmailProps) => {
                   {currentEmail}
                 </span>{" "}
                 ingresando la{" "}
-                <span className="text-main font-semibold dark:text-white">
+                <span className="text-foreground font-semibold">
                   nueva dirección de correo
                 </span>{" "}
                 que deseas asociar a tu cuenta de Essentia.
@@ -72,7 +72,7 @@ const StepEmail = ({ isMobile, form, currentEmail }: StepEmailProps) => {
                   {currentEmail}
                 </span>{" "}
                 ingresando la{" "}
-                <span className="text-main font-semibold dark:text-white">
+                <span className="text-foreground font-semibold">
                   nueva dirección de correo
                 </span>{" "}
                 que deseas asociar a tu cuenta de Essentia. Usarás esta

@@ -43,7 +43,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
             </span>
           </CardHeader>
           <div className="p-6 pt-3">
-            <h3 className="text-main font-merriweather text-lg font-bold dark:text-white">
+            <h3 className="text-foreground font-merriweather text-lg font-bold">
               {title}
             </h3>
             <p className="text-foreground/80 mt-1 text-sm leading-5">{quote}</p>

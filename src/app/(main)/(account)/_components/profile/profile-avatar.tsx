@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { memo, RefObject, useRef } from "react";
+import { memo, RefObject, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { AvatarIcon } from "@/components/ui/icons/miscellaneus";
 import { UserProfileData } from "@/types/auth";
 
+import EditAvatarModal from "./edit-avatar-modal";
 import { useProfileImagePreview } from "../../_hooks/use-profile-image-preview";
 import { uploadFile } from "../../_lib/utils";
 
@@ -20,13 +22,14 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
   const { id, username, profileImage } = user!;
 
   const fileProfilePhotoRef = useRef<HTMLInputElement>(null);
-
   const { handleFilePreview, previewProfileImage } =
     useProfileImagePreview(profileImage);
 
+  const [tempImage, setTempImage] = useState<string | null>(null);
+  const [showCropModal, setShowCropModal] = useState(false);
+
   const handleSave = async (file: File) => {
     const resultMessage = await uploadFile(file, id);
-
     if (resultMessage === "Foto de perfil actualizada") {
       handleFilePreview(file);
     }
@@ -39,6 +42,10 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
   };
 
   const labelProfileImage = "Editar foto de perfil";
+
+  const resetTempImage = () => {
+    setTempImage(null);
+  };
 
   return (
     <div className="group/avatar relative z-0 aspect-square size-20 rounded-full">
@@ -72,20 +79,45 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
               <span className="sr-only">{previewProfileImage}</span>
             </button>
           </BetterTooltip>
-
           <input
             ref={fileProfilePhotoRef}
             accept="image/jpeg,image/png,image/webp"
             type="file"
             onChange={(e) => {
-              if (e.target.files?.[0]) {
-                handleSave(e.target.files[0]);
-              }
+              const file = e.target.files?.[0];
+              if (!file) return;
+
+              const reader = new FileReader();
+              reader.onload = () => {
+                const imageElement = new window.Image();
+                const imageUrl = reader.result?.toString() || "";
+                imageElement.src = imageUrl;
+                imageElement.onload = (e) => {
+                  const { naturalWidth, naturalHeight } =
+                    e.target as HTMLImageElement;
+                  if (naturalWidth < 150 || naturalHeight < 150) {
+                    toast.error(
+                      "La imagen debe ser de al menos 150 x 150 píxeles",
+                    );
+                    return resetTempImage();
+                  }
+                  setTempImage(imageUrl);
+                  setShowCropModal(true);
+                };
+              };
+              reader.readAsDataURL(file);
+              e.target.value = "";
             }}
             className="sr-only"
           />
         </>
       )}
+      <EditAvatarModal
+        imageSrc={tempImage!}
+        open={showCropModal}
+        setIsOpen={setShowCropModal}
+        onCropComplete={handleSave}
+      />
     </div>
   );
 };

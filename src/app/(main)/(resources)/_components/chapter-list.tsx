@@ -144,10 +144,10 @@ const ChapterList = ({
                     <Link
                       href={`/${resourceSlug}/${item.module.slug}/${item.exam.slug}`}
                       className={cn(
-                        "text-main-h hover:text-main dark:text-main-dark dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-slate-200 dark:hover:text-white",
+                        "text-foreground/80 hover:text-foreground dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-slate-200",
                         "pointer-events-none",
                         {
-                          "text-main dark:bg-dark bg-slate-200 dark:text-white":
+                          "text-foreground dark:bg-dark bg-slate-200":
                             pathname.includes(item.exam.slug),
                         },
                       )}

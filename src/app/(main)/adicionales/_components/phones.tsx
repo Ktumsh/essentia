@@ -24,18 +24,16 @@ const Phones = () => {
             className="group flex max-w-[91%] shrink-0 snap-start flex-col shadow-none sm:col-span-4 md:max-w-full"
           >
             <CardHeader isSecondary>
-              <CardTitle className="text-base md:text-lg dark:text-white">
+              <CardTitle className="text-base md:text-lg">
                 {phone.title}
               </CardTitle>
               <CardDescription>{phone.description}</CardDescription>
             </CardHeader>
             <CardFooter isSecondary className="justify-start!">
               <span>
-                <PhoneIcon className="text-main-m dark:text-main-dark-m size-4" />
+                <PhoneIcon className="text-muted-foreground size-4" />
               </span>
-              <span className="text-main ml-2 font-semibold dark:text-white">
-                Llame al {phone.phone}
-              </span>
+              <span className="ml-2 font-semibold">Llame al {phone.phone}</span>
             </CardFooter>
           </Card>
         ))}

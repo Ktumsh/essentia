@@ -28,7 +28,7 @@ import {
 import { siteConfig } from "@/config/site.config";
 import { usePlan } from "@/hooks/use-current-plan";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getPlanName } from "@/lib/utils";
+import { getPlanName, getPlanPrice } from "@/lib/utils";
 
 import { createSubscription } from "./actions";
 import { PlanSelector } from "./plan-selector";
@@ -43,16 +43,16 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
   const { currentPlan } = usePlan();
 
   const [selectedPlan, setSelectedPlan] = useState<string>(
-    currentPlan === siteConfig.planPrices.free
-      ? siteConfig.planPrices.premium
-      : currentPlan || siteConfig.planPrices.free,
+    currentPlan === siteConfig.plan.free
+      ? siteConfig.plan.premium
+      : currentPlan || siteConfig.plan.free,
   );
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const isMobile = useIsMobile();
 
-  const isFree = selectedPlan === siteConfig.planPrices.free;
+  const isFree = selectedPlan === siteConfig.plan.free;
 
   const handleProceedToPayment = useCallback(async () => {
     if (selectedPlan === currentPlan) {
@@ -75,7 +75,7 @@ const PaymentModal = ({ isOpen, setIsOpen }: PaymentModalProps) => {
     setIsLoading(true);
     try {
       const subscriptionResponse = await createSubscription({
-        priceId: selectedPlan,
+        priceId: getPlanPrice(selectedPlan),
       });
       router.push(subscriptionResponse.checkoutUrl);
     } catch {

@@ -20,10 +20,15 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/ktumsh/",
     twitter: "hhttps://twitter.com",
   },
-  planPrices: {
+  plan: {
     free: "free",
     premium: "premium",
     premiumPlus: "premium_plus",
+  },
+  priceId: {
+    free: "price_free",
+    premium: "price_1Q1y3NI2PMoTUNZeKCLhLp9Y",
+    premiumPlus: "price_1Q1y2QI2PMoTUNZeMt1eynxB",
   },
 };
 

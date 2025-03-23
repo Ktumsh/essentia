@@ -1,3 +1,4 @@
+import { PixelCrop } from "react-image-crop";
 import { toast } from "sonner";
 
 export const getPlanType = (type: string) => {
@@ -65,4 +66,38 @@ export async function uploadFile(file: File, userId: string) {
 
   const resultMessage = await toastNotification.unwrap();
   return resultMessage;
+}
+
+export async function getCroppedImg(
+  image: HTMLImageElement,
+  crop: PixelCrop,
+): Promise<Blob> {
+  const pixelRatio = window.devicePixelRatio;
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.floor(crop.width * scaleX * pixelRatio);
+  canvas.height = Math.floor(crop.height * scaleY * pixelRatio);
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("No se pudo obtener el contexto del canvas");
+
+  ctx.scale(pixelRatio, pixelRatio);
+  ctx.imageSmoothingQuality = "high";
+  ctx.save();
+
+  ctx.translate(-crop.x * scaleX, -crop.y * scaleY);
+  ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight);
+  ctx.restore();
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("No se pudo generar el Blob de la imagen"));
+        return;
+      }
+      resolve(blob);
+    }, "image/jpeg");
+  });
 }

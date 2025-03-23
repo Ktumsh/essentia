@@ -16,9 +16,11 @@ import {
   DialogFooter,
 } from "@/components/kit/dialog";
 import { Drawer, DrawerContent, DrawerFooter } from "@/components/kit/drawer";
+import { updateCustomerEmail } from "@/components/ui/payment/actions";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import { getUserByEmail, updateUserEmail } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
+import useSubscription from "@/hooks/use-subscription";
 import { EmailFormData, emailSchema } from "@/lib/form-schemas";
 
 import StepEmail from "./step-email";
@@ -45,6 +47,8 @@ const ChangeEmailModal = ({
   const [userId, setUserId] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
+  const { subscription } = useSubscription();
+
   const isMobile = useIsMobile();
 
   const form = useForm<EmailFormData>({
@@ -62,6 +66,18 @@ const ChangeEmailModal = ({
 
           if (!user) {
             toast.error("El correo actual no existe.");
+            return;
+          }
+
+          if (user.email === data.email) {
+            toast.error("El correo nuevo no puede ser igual al actual.");
+            return;
+          }
+
+          const [existingUser] = await getUserByEmail(data.email);
+
+          if (existingUser) {
+            toast.error("Este correo ya está en uso. Inténtalo con otro");
             return;
           }
 
@@ -122,6 +138,9 @@ const ChangeEmailModal = ({
         }
 
         await updateUserEmail(userId, email);
+
+        await updateCustomerEmail(subscription!.clientId, email);
+
         toast.success(res.message);
         setIsOpen(false);
         router.refresh();
@@ -132,7 +151,7 @@ const ChangeEmailModal = ({
         setIsVerifying(false);
       }
     },
-    [userId, email, setIsOpen, router],
+    [userId, email, subscription, setIsOpen, router],
   );
 
   const onCodeChange = (value: string) => {
@@ -228,7 +247,10 @@ const ChangeEmailModal = ({
               variant="outline"
               radius="full"
               disabled={isVerifying}
-              onClick={() => setStep(1)}
+              onClick={() => {
+                setStep(1);
+                setCode("");
+              }}
             >
               Atrás
             </Button>

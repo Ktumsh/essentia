@@ -8,7 +8,7 @@ type PlanDetails = {
 };
 
 export const planDetails: Record<string, PlanDetails> = {
-  [siteConfig.planPrices.free]: {
+  [siteConfig.plan.free]: {
     name: "Gratis",
     description: "Plan básico con acceso limitado a funcionalidades.",
     subname: "Predeterminado",
@@ -20,7 +20,7 @@ export const planDetails: Record<string, PlanDetails> = {
       "Recomendaciones básicas de salud",
     ],
   },
-  [siteConfig.planPrices.premium]: {
+  [siteConfig.plan.premium]: {
     name: "Premium",
     description:
       "Plan mensual que incluye acceso completo a todas las funcionalidades de Essentia AI.",
@@ -38,7 +38,7 @@ export const planDetails: Record<string, PlanDetails> = {
       "Recomendaciones personalizadas basadas en tus objetivos",
     ],
   },
-  [siteConfig.planPrices.premiumPlus]: {
+  [siteConfig.plan.premiumPlus]: {
     name: "Premium Plus",
     description:
       "Plan anual con todas las funcionalidades de Essentia AI y algunos beneficios adicionales.",
@@ -57,7 +57,7 @@ export const getPlanName = (planId: string) => {
 
 export const getPlanSubname = (
   currentPriceId: string | null,
-  priceId: string
+  priceId: string,
 ) => {
   return currentPriceId === priceId ? "Actual" : planDetails[priceId].subname;
 };

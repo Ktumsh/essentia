@@ -254,13 +254,13 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="cursor-default justify-between hover:bg-transparent! hover:text-inherit! focus:bg-transparent! focus:text-inherit!">
+                <div className="flex items-center justify-between gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none hover:bg-transparent! focus:bg-transparent! [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
                   <span className="inline-flex items-center gap-1.5">
-                    <SunMoon />
+                    <SunMoon className="text-muted-foreground" />
                     Tema
                   </span>
                   <ThemeToggle />
-                </DropdownMenuItem>
+                </div>
               </DropdownMenuGroup>
               {user && (
                 <>

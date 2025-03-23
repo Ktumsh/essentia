@@ -98,9 +98,9 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
           onClick={onBack}
           className="sm:bg-accent bg-transparent px-2"
         >
-          <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
+          <ArrowLeft className="text-foreground/80 size-5!" />
         </Button>
-        <div className="text-main-h dark:text-main-dark w-full text-sm">
+        <div className="text-foreground/80 w-full text-sm">
           <p>
             Elige una contraseña segura para tu cuenta{" "}
             <span className="font-bold text-blue-500 sm:font-medium">
@@ -186,7 +186,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
         />
 
         {/* Términos y Condiciones */}
-        <div className="text-main-h dark:text-main-dark-h relative mb-6 flex w-full text-[13px] leading-snug select-text">
+        <div className="text-foreground/80-h relative mb-6 flex w-full text-[13px] leading-snug select-text">
           <p className="text-center md:text-start">
             Al continuar, estás aceptando los{" "}
             <Link
@@ -209,7 +209,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
 
         <SubmitButton isPending={isPending}>Crear cuenta</SubmitButton>
 
-        <div className="text-main-h dark:text-main-dark-h mt-2 flex items-center justify-center self-center text-center text-[13px]">
+        <div className="text-foreground/80-h mt-2 flex items-center justify-center self-center text-center text-[13px]">
           <p>
             ¿Ya tienes una cuenta?{" "}
             <Link

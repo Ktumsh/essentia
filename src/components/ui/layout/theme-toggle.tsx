@@ -57,8 +57,8 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
           radius="full"
           onClick={() => handleThemeChange("system")}
           className={cn(
-            "text-main-m hover:text-main dark:text-main-dark-h min-w-6 bg-transparent! shadow-none! focus-visible:ring-0 dark:hover:text-white",
-            theme === "system" && "text-main bg-accent! dark:text-white",
+            "text-foreground/80 hover:text-foreground min-w-6 bg-transparent! shadow-none! focus-visible:ring-0",
+            theme === "system" && "text-foreground bg-accent!",
             className,
           )}
         >
@@ -76,8 +76,8 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
           radius="full"
           onClick={() => handleThemeChange("light")}
           className={cn(
-            "text-main-m hover:text-main dark:text-main-dark-h min-w-6 bg-transparent! shadow-none! focus-visible:ring-0 dark:hover:text-white",
-            theme === "light" && "text-main bg-accent! dark:text-white",
+            "text-foreground/80 hover:text-foreground min-w-6 bg-transparent! shadow-none! focus-visible:ring-0",
+            theme === "light" && "text-foreground bg-accent!",
             className,
           )}
         >
@@ -95,8 +95,8 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
           radius="full"
           onClick={() => handleThemeChange("dark")}
           className={cn(
-            "text-main-m hover:text-main dark:text-main-dark-h min-w-6 bg-transparent! shadow-none! focus-visible:ring-0 dark:hover:text-white",
-            theme === "dark" && "text-main bg-accent! dark:text-white",
+            "text-foreground/80 hover:text-foreground min-w-6 bg-transparent! shadow-none! focus-visible:ring-0",
+            theme === "dark" && "text-foreground bg-accent!",
             className,
           )}
         >

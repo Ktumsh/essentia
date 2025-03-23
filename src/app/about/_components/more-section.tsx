@@ -26,7 +26,7 @@ const MoreSection = () => {
                 </header>
                 <div className="relative grow self-stretch overflow-hidden">
                   <div>
-                    <span className="text-main leading-9 font-medium">
+                    <span className="text-foreground leading-9 font-medium">
                       Accede a todas estas funciones:
                     </span>
                     <ul className="grid justify-items-start gap-2">

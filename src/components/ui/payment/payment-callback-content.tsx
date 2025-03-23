@@ -109,10 +109,10 @@ const PaymentCallbackContent = ({
 
   if (isVerified === null) {
     return (
-      <div className="text-main dark:text-main-dark mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="dark:bg-dark/30 flex flex-col items-center text-center md:flex-row">
+      <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
+        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
           <CardHeader>
-            <CardDescription className="inline-flex items-center gap-2 dark:text-white">
+            <CardDescription className="inline-flex items-center gap-2">
               <p>Verificando el estado del pago</p>
               <Loader className="size-4 animate-spin" />
             </CardDescription>
@@ -124,10 +124,10 @@ const PaymentCallbackContent = ({
 
   if (!isVerified) {
     return (
-      <div className="text-main dark:text-main-dark mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="dark:bg-dark/30 flex flex-col items-center text-center md:flex-row">
+      <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
+        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
           <CardHeader>
-            <CardDescription className="dark:text-white">
+            <CardDescription>
               <p>No se pudo verificar el estado del pago.</p>
               <p>Por favor, inténtalo más tarde.</p>
             </CardDescription>
@@ -144,10 +144,10 @@ const PaymentCallbackContent = ({
 
   if (titleStatus === "canceled") {
     return (
-      <div className="text-main dark:text-main-dark mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="dark:bg-dark/30 flex flex-col items-center text-center md:flex-row">
+      <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
+        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
           <CardHeader>
-            <CardDescription className="inline-flex flex-col items-center gap-2 md:flex-row dark:text-white">
+            <CardDescription className="inline-flex flex-col items-center gap-2 md:flex-row">
               <CloseCircledIcon className="text-red-500" />
               <p>El pago ha sido cancelado.</p>
             </CardDescription>
@@ -163,7 +163,7 @@ const PaymentCallbackContent = ({
   }
 
   return (
-    <div className="text-main dark:text-main-dark mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
+    <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
       <div className="relative flex size-[120px] items-center justify-center">
         {circles.map((circle, index) => (
           <motion.div
@@ -198,7 +198,7 @@ const PaymentCallbackContent = ({
 
       {titleStatus === "success" && paymentDetails && (
         <div className="w-full max-w-lg">
-          <Card className="dark:bg-dark/30 dark:text-white">
+          <Card className="bg-accent dark:bg-accent/50">
             <CardHeader className="space-y-2">
               <CardTitle className="text-lg">Detalles del pago</CardTitle>
               <CardDescription className="flex flex-col space-y-2">

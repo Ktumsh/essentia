@@ -54,14 +54,14 @@ type Section =
   | "options";
 
 interface SubscriptionsStgProps {
-  subscription: Subscription;
-  subscriptionDetails: Payment | null;
+  subscription: Subscription | null;
+  payment: Payment | null;
   paymentHistory: PaymentHistory[];
 }
 
 const SubscriptionsStg = ({
   subscription,
-  subscriptionDetails,
+  payment,
   paymentHistory,
 }: SubscriptionsStgProps) => {
   const [section, setSection] = useState<Section>("options");
@@ -73,7 +73,7 @@ const SubscriptionsStg = ({
 
   const isMobile = useIsMobile();
 
-  const { amount, currency, processedAt } = subscriptionDetails || {};
+  const { amount, currency, processedAt } = payment || {};
   const { type, expiresAt, status, isPremium } = subscription || {};
 
   const planType = getPlanType(type!);
@@ -122,7 +122,7 @@ const SubscriptionsStg = ({
               className="absolute top-7 left-4 md:left-0"
               onClick={() => router.push("/settings")}
             >
-              <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
+              <ArrowLeft className="text-foreground/80 size-5!" />
             </Button>
             <div className="ml-12">
               <SettingsOptsHeader title="Suscripciones" />
@@ -143,7 +143,7 @@ const SubscriptionsStg = ({
             className="absolute top-7 left-4 md:left-0"
             onClick={() => handleSection("options")}
           >
-            <ArrowLeft className="text-main-h dark:text-main-dark size-5!" />
+            <ArrowLeft className="text-foreground/80 size-5!" />
           </Button>
           <div className="ml-12">
             <SettingsOptsHeader title="Suscripciones" />
@@ -191,7 +191,7 @@ const SubscriptionsStg = ({
         )}
         {section === "planState" && (
           <div className="flex flex-col">
-            <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
+            <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
               Estado de suscripción
             </h4>
             <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
@@ -226,7 +226,7 @@ const SubscriptionsStg = ({
         {section === "planUpdate" && (
           <>
             <div className="flex flex-col">
-              <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
                 Actualización de plan
               </h4>
               <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
@@ -247,12 +247,12 @@ const SubscriptionsStg = ({
                 )}
               </ul>
             </div>
-            {subscriptionDetails && (
+            {payment && (
               <>
                 <CancelSubscriptionModal
                   isOpen={isOpenCancel}
                   setIsOpen={setIsOpenCancel}
-                  subscriptionDetails={subscriptionDetails}
+                  payment={payment}
                   subscription={subscription}
                 />
               </>
@@ -263,7 +263,7 @@ const SubscriptionsStg = ({
         {section === "payHistory" && (
           <>
             <div className="flex flex-col">
-              <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
                 Historial de pagos
               </h4>
               <div className="border-border flex flex-col overflow-hidden border-y px-6 md:rounded-lg md:border md:px-0">
@@ -271,33 +271,33 @@ const SubscriptionsStg = ({
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-main-h dark:text-main-dark-h pl-2 md:pl-3">
+                        <TableHead className="text-foreground/80-h pl-2 md:pl-3">
                           <div className="flex items-center gap-1.5">
                             <CalendarClock className="size-3" />
 
                             <span className="text-nowrap">Fecha del pago</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-main-h dark:text-main-dark-h">
+                        <TableHead className="text-foreground/80-h">
                           <div className="flex items-center gap-1.5">
                             <HandCoins className="size-3" />
                             <span className="text-nowrap">Monto</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-main-h dark:text-main-dark-h">
+                        <TableHead className="text-foreground/80-h">
                           <div className="flex items-center gap-1.5">
                             <Banknote className="size-3" />
                             <span className="text-nowrap">Divisa</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-main-h dark:text-main-dark-h">
+                        <TableHead className="text-foreground/80-h">
                           <div className="flex items-center gap-1.5">
                             <Stars className="size-3" />
 
                             <span className="text-nowrap">Plan</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-main-h dark:text-main-dark-h pr-2 md:pl-3">
+                        <TableHead className="text-foreground/80-h pr-2 md:pl-3">
                           <div className="flex items-center gap-1.5">
                             <Loader className="size-3" />
                             <span className="text-nowrap">Estado</span>
@@ -330,7 +330,7 @@ const SubscriptionsStg = ({
                   </Table>
                 ) : (
                   <div className="py-10 text-center">
-                    <div className="text-main-m dark:text-main-dark-m flex flex-col items-center justify-center gap-4">
+                    <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
                       <History className="size-8" />
                       <p className="text-xs md:text-sm">
                         Aún no tienes pagos registrados. ¡Actualiza tu plan para
@@ -353,7 +353,7 @@ const SubscriptionsStg = ({
         )}
         {section === "benefits" && isPremium && (
           <div className="relative flex flex-col">
-            <h4 className="text-main-h dark:text-main-dark-h mb-2 pl-6 text-xs font-medium md:pl-4">
+            <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
               Beneficios premium
             </h4>
             <div className="absolute top-0 right-6 md:right-0">
@@ -382,7 +382,7 @@ const SubscriptionsStg = ({
                         <div className="after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']">
                           <CheckCircledIcon className="inline-flex size-5 shrink-0 text-emerald-400" />
                         </div>
-                        <span className="text-main-h text-left dark:text-white/90">
+                        <span className="text-foreground/80 text-left">
                           {feature}
                         </span>
                       </div>
@@ -401,7 +401,7 @@ const SubscriptionsStg = ({
                       <div className="after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']">
                         <CheckCircledIcon className="inline-flex size-5 shrink-0 text-emerald-400" />
                       </div>
-                      <span className="text-main-h text-left dark:text-white/90">
+                      <span className="text-foreground/80 text-left">
                         {feature}
                       </span>
                     </div>

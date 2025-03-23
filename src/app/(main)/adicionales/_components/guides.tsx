@@ -29,7 +29,7 @@ export default function Guides() {
         {GUIDES.map((guide, index) => (
           <Card
             key={index}
-            className="group text-main col-span-12 flex flex-col shadow-none sm:col-span-6 lg:col-span-4 dark:text-white"
+            className="group text-foreground col-span-12 flex flex-col shadow-none sm:col-span-6 lg:col-span-4"
           >
             <CardHeader isSecondary>
               <div className="inline-flex w-full items-start justify-between gap-2">

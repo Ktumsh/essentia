@@ -16,7 +16,7 @@ const AuthFooter = () => {
   return (
     <div className="border-border bg-background border-t px-5">
       <div className="mx-auto max-w-7xl">
-        <footer className="font-norma text-main dark:text-main-dark relative flex flex-col space-y-8 py-6">
+        <footer className="font-norma text-foreground relative flex flex-col space-y-8 py-6">
           <div className="inline-flex w-full items-center justify-between">
             <div className="flex items-center justify-center gap-3">
               <Link href="/">

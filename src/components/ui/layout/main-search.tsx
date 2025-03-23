@@ -198,9 +198,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
           <div role="presentation" data-value="recent">
             <div id={id}>
               <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-main-m dark:text-main-dark-m text-xs">
-                  Recientes
-                </span>
+                <span className="text-muted-foreground text-xs">Recientes</span>
               </div>
             </div>
             <div role="group" aria-labelledby={id}>
@@ -213,7 +211,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
           <div role="presentation" data-value="recent">
             <div id={id}>
               <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-main-m dark:text-main-dark-m text-xs">
+                <span className="text-muted-foreground text-xs">
                   Recomendados
                 </span>
               </div>

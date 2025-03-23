@@ -18,117 +18,6 @@ import { getUserById } from "@/db/querys/user-querys";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-interface VerifyPaymentIntentResponse {
-  success: boolean;
-  amount?: number;
-  currency?: string;
-  userId?: string;
-  error?: string;
-}
-
-export async function createSetupIntent(customerId: string) {
-  const setupIntent = await stripe.setupIntents.create({
-    customer: customerId,
-  });
-  return setupIntent.client_secret;
-}
-
-export async function verifyPaymentIntent(
-  paymentIntentId: string
-): Promise<VerifyPaymentIntentResponse> {
-  try {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-    if (paymentIntent.status === "succeeded") {
-      const amount = paymentIntent.amount;
-      const currency = paymentIntent.currency;
-      const userId = paymentIntent.metadata.userId as string;
-
-      if (!userId) {
-        return { success: false, error: "userId no encontrado en metadata." };
-      }
-
-      return { success: true, amount, currency, userId };
-    } else {
-      return { success: false, error: "Pago no completado." };
-    }
-  } catch (error: any) {
-    console.error("Error al verificar PaymentIntent:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
-  const subscriptionId = invoice.subscription as string;
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-  const clientId = subscription.customer as string;
-  const status = "active";
-  const paymentStatus = "paid";
-  const currentPeriodEnd = subscription.current_period_end;
-  const processedAt = new Date();
-  const subscriptionType = subscription.items.data[0].price?.recurring
-    ?.interval as string;
-  const type = subscriptionType === "month" ? "premium" : "premium-plus";
-  const amount = invoice.amount_paid;
-  const currency = invoice.currency;
-
-  try {
-    const [subscription] = await getSubscriptionByClientId(clientId);
-
-    await updateSubscription(
-      subscription.userId,
-      subscriptionId,
-      currentPeriodEnd,
-      status,
-      type
-    );
-
-    const updated = await updatePaymentDetails(
-      subscription.userId,
-      paymentStatus,
-      processedAt
-    );
-
-    if (updated === 0) {
-      await setPaymentDetails(
-        subscription.userId,
-        paymentStatus,
-        amount,
-        currency,
-        processedAt
-      );
-    }
-
-    if (invoice.payment_intent) {
-      const paymentIntent = await stripe.paymentIntents.retrieve(
-        invoice.payment_intent as string
-      );
-
-      const paymentMethodId = paymentIntent.payment_method as string;
-      if (paymentMethodId) {
-        const customer = await stripe.customers.retrieve(
-          subscription.subscriptionId as string
-        );
-
-        if (!("deleted" in customer) || !customer.deleted) {
-          await stripe.customers.update(customer.id, {
-            invoice_settings: {
-              default_payment_method: paymentMethodId,
-            },
-          });
-          console.log(
-            "Método de pago predeterminado actualizado:",
-            paymentMethodId
-          );
-        }
-      }
-    }
-  } catch (error) {
-    console.error("Error actualizando la suscripción:", error);
-    throw error;
-  }
-}
-
 export async function createSubscription({
   priceId,
 }: {
@@ -177,7 +66,7 @@ export async function createSubscription({
         status,
         price.unit_amount,
         price.currency,
-        new Date()
+        new Date(),
       );
     }
 
@@ -198,8 +87,79 @@ export async function checkPaymentStatus() {
   return { isPremium: user.isPremium || false };
 }
 
+export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
+  const subscriptionId = invoice.subscription as string;
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const clientId = subscription.customer as string;
+  const status = "active";
+  const paymentStatus = "paid";
+  const currentPeriodEnd = subscription.current_period_end;
+  const processedAt = new Date();
+  const subscriptionType = subscription.items.data[0].price?.recurring
+    ?.interval as string;
+  const type = subscriptionType === "month" ? "premium" : "premium-plus";
+  const amount = invoice.amount_paid;
+  const currency = invoice.currency;
+
+  try {
+    const [subscription] = await getSubscriptionByClientId(clientId);
+
+    await updateSubscription(
+      subscription.userId,
+      subscriptionId,
+      currentPeriodEnd,
+      status,
+      type,
+    );
+
+    const updated = await updatePaymentDetails(
+      subscription.userId,
+      paymentStatus,
+      processedAt,
+    );
+
+    if (updated === 0) {
+      await setPaymentDetails(
+        subscription.userId,
+        paymentStatus,
+        amount,
+        currency,
+        processedAt,
+      );
+    }
+
+    if (invoice.payment_intent) {
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        invoice.payment_intent as string,
+      );
+
+      const paymentMethodId = paymentIntent.payment_method as string;
+      if (paymentMethodId) {
+        const customer = await stripe.customers.retrieve(
+          subscription.subscriptionId as string,
+        );
+
+        if (!("deleted" in customer) || !customer.deleted) {
+          await stripe.customers.update(customer.id, {
+            invoice_settings: {
+              default_payment_method: paymentMethodId,
+            },
+          });
+          console.log(
+            "Método de pago predeterminado actualizado:",
+            paymentMethodId,
+          );
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error actualizando la suscripción:", error);
+    throw error;
+  }
+}
+
 export async function handleSubscriptionDeleted(
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
 
@@ -221,11 +181,11 @@ export async function handleSubscriptionDeleted(
         subscription.userId,
         activeSubscription.id,
         activeSubscription.current_period_end,
-        activeSubscription.status
+        activeSubscription.status,
       );
 
       console.log(
-        `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`
+        `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`,
       );
       return;
     }
@@ -234,13 +194,13 @@ export async function handleSubscriptionDeleted(
   } catch (error) {
     console.error(
       `Error al manejar la eliminación de la suscripción: ${subscriptionId}`,
-      error
+      error,
     );
   }
 }
 
 export async function handleSubscriptionCreated(
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
@@ -265,18 +225,18 @@ export async function handleSubscriptionCreated(
       subscriptionId,
       currentPeriodEnd,
       status,
-      planType
+      planType,
     );
   } catch (error) {
     console.error(
       `Error al manejar la creación de la suscripción: ${subscriptionId}`,
-      error
+      error,
     );
   }
 }
 
 export async function handleSubscriptionUpdated(
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
@@ -299,12 +259,12 @@ export async function handleSubscriptionUpdated(
       subscriptionId,
       currentPeriodEnd,
       status,
-      planType
+      planType,
     );
   } catch (error) {
     console.error(
       `Error al actualizar la suscripción: ${subscriptionId}`,
-      error
+      error,
     );
   }
 }
@@ -322,69 +282,15 @@ export async function handleCustomerDeleted(customer: Stripe.Customer) {
   } catch (error) {
     console.error(
       "Error al eliminar el cliente y actualizar los datos en la base de datos:",
-      error
+      error,
     );
   }
 }
 
-export async function handleInvoiceFinalized(finalizedSubscriptionId: string) {
-  if (finalizedSubscriptionId) {
-    try {
-      const subscription = await stripe.subscriptions.retrieve(
-        finalizedSubscriptionId
-      );
-
-      if (subscription.status === "incomplete") {
-        await stripe.subscriptions.cancel(finalizedSubscriptionId);
-      } else {
-        console.log(
-          `Subscription ${finalizedSubscriptionId} is not incomplete. Current status: ${subscription.status}`
-        );
-      }
-    } catch (error) {
-      console.error(
-        `Error retrieving or deleting subscription ${finalizedSubscriptionId}:`,
-        error
-      );
-    }
-  } else {
-    console.log("No subscription associated with the finalized invoice.");
-  }
-}
-
-export async function getUserCurrentPlan(session: Session): Promise<string> {
-  if (!session || !session?.user?.email) return siteConfig.planPrices.free;
-
-  const customers = await stripe.customers.list({
-    email: session.user.email,
-    limit: 1,
-  });
-
-  console.log("Customers:", customers);
-
-  if (customers.data.length === 0) return siteConfig.planPrices.free;
-
-  const customer = customers.data[0];
-
-  const subscriptions = await stripe.subscriptions.list({
-    customer: customer.id,
-    status: "active",
-    limit: 1,
-  });
-
-  if (subscriptions.data.length === 0) return siteConfig.planPrices.free;
-
-  const subscription = subscriptions.data[0];
-
-  const priceId = subscription.items.data[0].price.id;
-
-  return priceId;
-}
-
 export async function setUserPlan(
   session: Session | null,
-  priceId: string,
-  cancelReason?: string
+  plan: string,
+  cancelReason?: string,
 ): Promise<{ success: boolean; message: string }> {
   if (!session || !session?.user?.id) {
     return { success: false, message: "Usuario no autenticado." };
@@ -398,7 +304,7 @@ export async function setUserPlan(
     return { success: false, message: "Usuario no encontrado." };
   }
 
-  if (priceId === siteConfig.planPrices.free) {
+  if (plan === siteConfig.plan.free) {
     if (subscriptionId) {
       try {
         await stripe.subscriptions.update(subscriptionId, {
@@ -407,12 +313,12 @@ export async function setUserPlan(
         });
 
         console.log(
-          `Suscripción ${subscriptionId} marcada para cancelar al final del período.`
+          `Suscripción ${subscriptionId} marcada para cancelar al final del período.`,
         );
       } catch (error: any) {
         console.error(
           "Error al marcar la suscripción para cancelación:",
-          error
+          error,
         );
         return {
           success: false,
@@ -433,88 +339,15 @@ export async function setUserPlan(
   }
 }
 
-export async function getUserBillingDetails(stripeCustomerId: string | null) {
-  if (!stripeCustomerId) {
-    throw new Error("No se proporcionó el ID del cliente de Stripe");
-  }
-
-  const customer = await stripe.customers.retrieve(stripeCustomerId);
-
-  if ("deleted" in customer) {
-    return null;
-  }
-
-  const subscriptions = await stripe.subscriptions.list({
-    customer: stripeCustomerId,
-    status: "all",
-  });
-
-  if (subscriptions.data.length === 0) {
-    return null;
-  }
-
-  const activeSubscription = subscriptions.data.find(
-    (sub: { status: string }) => sub.status === "active"
-  );
-
-  const subscriptionToUse = activeSubscription || subscriptions.data[0];
-
-  let paymentMethod = null;
-  if (customer.invoice_settings.default_payment_method) {
-    paymentMethod = await stripe.paymentMethods.retrieve(
-      customer.invoice_settings.default_payment_method as string
-    );
-  }
-
-  if (!paymentMethod) {
-    return null;
-  }
-
-  return {
-    paymentMethod: {
-      id: paymentMethod.id,
-      card: paymentMethod.card,
-      customer: paymentMethod.customer,
-    },
-    subscription: subscriptionToUse
-      ? {
-          id: subscriptionToUse.id,
-          status: subscriptionToUse.status,
-          items: subscriptionToUse.items,
-          current_period_end: subscriptionToUse.current_period_end,
-        }
-      : null,
-  };
-}
-
-export async function updatePaymentMethod(
-  customerId: string,
-  paymentMethodId: string
-): Promise<void> {
+export async function updateCustomerEmail(
+  customerId: string | null,
+  newEmail: string,
+) {
+  if (!customerId) return null;
   try {
-    await stripe.customers.update(customerId, {
-      invoice_settings: { default_payment_method: paymentMethodId },
-    });
-
-    console.log("Método de pago actualizado correctamente en Stripe.");
+    await stripe.customers.update(customerId, { email: newEmail });
   } catch (error) {
-    console.error("Error actualizando el método de pago en Stripe:", error);
-    throw new Error("Error actualizando el método de pago en Stripe.");
-  }
-}
-
-export async function getCustomerDetails(customerId: string) {
-  try {
-    const customer = await stripe.customers.retrieve(customerId);
-    if (!("deleted" in customer)) {
-      return {
-        name: customer.name,
-        email: customer.email,
-      };
-    }
-    return null;
-  } catch (error) {
-    console.error("Error obteniendo detalles del cliente:", error);
-    return null;
+    console.error("Error al actualizar el email del cliente en Stripe:", error);
+    throw error;
   }
 }

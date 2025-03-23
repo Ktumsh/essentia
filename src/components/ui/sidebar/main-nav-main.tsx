@@ -45,7 +45,7 @@ const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
                 tooltip={item.name}
               >
                 <Link href={item.href}>
-                  <item.activeIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h group-data-[active=true]/menu-button:-m-px dark:group-data-[active=true]:text-white" />
+                  <item.activeIcon className="group-data-[active=true]/menu-button:-m-px" />
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>

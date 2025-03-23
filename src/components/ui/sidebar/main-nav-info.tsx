@@ -53,7 +53,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
               <>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip="Información">
-                    <InfoCircledIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
+                    <InfoCircledIcon />
                     <span>Información</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
@@ -79,7 +79,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton tooltip="Información">
-                    <WarningCircledIcon className="text-main-m group-data-[active=true]:text-main-h dark:text-main-dark-h dark:group-data-[active=true]:text-white" />
+                    <WarningCircledIcon />
                     <span>Información</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>

@@ -13,7 +13,7 @@ import {
   spaceMono,
 } from "@/config/fonts.config";
 import { metadataConfig } from "@/config/metadata.config";
-import { getSubscription } from "@/db/querys/payment-querys";
+import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import { getUserTasks } from "@/db/querys/task-querys";
 import { cn } from "@/lib/utils";
 
@@ -44,9 +44,11 @@ export default async function RootLayout({
 
   const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
 
-  const subscription = session ? await getSubscription(userId) : null;
+  const [subscription] = session ? await getSubscription(userId) : [];
 
-  const currentPlan = subscription ? subscription[0].type : "free";
+  const [payment] = session ? await getPaymentDetails(userId) : [];
+
+  const currentPlan = subscription ? subscription.type : "free";
 
   const initialTasks = session ? await getUserTasks(userId) : [];
 
@@ -67,6 +69,8 @@ export default async function RootLayout({
           currentPlan={currentPlan}
           defaultOpen={!isCollapsed}
           userId={userId}
+          initialSubscription={subscription}
+          initialPayment={payment}
           initialTasks={initialTasks}
           initialMobileState={isMobile}
         >

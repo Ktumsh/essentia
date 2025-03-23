@@ -76,20 +76,6 @@ const AccesibilityStg = ({ isMobile = false }: AccesibilityStgProps) => {
                 />
               </div>
             </li>
-            {/* <li>
-            <Button
-            variant="ghost"
-            fullWidth
-            radius="none"
-            className="h-auto min-h-11 justify-between px-4 py-2 text-main-h hover:text-main dark:text-main-dark dark:hover:text-white"
-            >
-            <div className="flex items-center gap-4">
-            <Languages />
-            <span>Idioma de visualización</span>
-            </div>
-              <ChevronRight className="size-4 shrink-0 text-foreground-h" />
-              </Button>
-              </li> */}
           </ul>
         </div>
       </div>

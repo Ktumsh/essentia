@@ -133,7 +133,7 @@ const CourseList = ({
 
   if (modules?.length === 0) {
     return (
-      <Card className="text-main border-red-200 dark:border-red-900 dark:text-white">
+      <Card className="border-red-200 dark:border-red-900">
         <CardHeader className="flex-row items-center gap-2">
           <TriangleAlert className="size-5 text-red-500" />
           <CardDescription className="mt-0! text-base">
@@ -177,7 +177,7 @@ const CourseList = ({
           </div>
         </section>
         <section className="col-[1/2] row-[3/4] flex flex-col justify-start select-none lg:row-[2/6]">
-          <div className="text-main mb-4 flex flex-col space-y-1 dark:text-white">
+          <div className="mb-4 flex flex-col space-y-1">
             <h4 className="font-merriweather text-lg font-semibold">
               Contenido del curso
             </h4>
@@ -188,7 +188,7 @@ const CourseList = ({
             </div>
           </div>
           {isPremiumResource ? (
-            <div className="text-main relative mb-4 flex flex-col space-y-1">
+            <div className="relative mb-4 flex flex-col space-y-1">
               <div
                 aria-hidden="true"
                 className="animate-fade-in border-border absolute inset-0 z-10 mb-0! rounded-2xl border bg-white/50 p-6 backdrop-blur-md duration-2000 ease-in-out dark:bg-black/10"

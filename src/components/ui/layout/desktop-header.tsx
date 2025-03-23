@@ -53,7 +53,7 @@ const DesktopHeader = ({
             </div>
           </div>
           <div className="absolute top-0 right-0 z-40 h-14 px-6">
-            <div className="dark:text-main-dark-h flex size-full items-center justify-center gap-4 text-sm font-normal text-slate-500">
+            <div className="text-foreground/80 flex size-full items-center justify-center gap-4 text-sm font-normal">
               {!isReadonly && chatId && (
                 <VisibilitySelector
                   chatId={chatId as string}

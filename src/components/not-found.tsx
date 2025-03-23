@@ -27,7 +27,7 @@ const NotFoundWrapper = () => {
           )}
         ></div>
       </div>
-      <div className="text-main relative flex min-h-dvh flex-1 flex-col items-center gap-5 overflow-hidden px-5 md:justify-center md:px-40 dark:text-white">
+      <div className="text-foreground relative flex min-h-dvh flex-1 flex-col items-center gap-5 overflow-hidden px-5 md:justify-center md:px-40">
         <div className="top-52 left-1/4 flex max-w-xl flex-col justify-center space-y-5 md:absolute">
           <div className="flex h-full flex-col gap-4 text-center md:h-auto md:text-start">
             <h1 className="font-sans text-3xl font-bold text-wrap md:text-6xl">
@@ -37,7 +37,7 @@ const NotFoundWrapper = () => {
               </span>
               .
             </h1>
-            <p className="text-main-h dark:text-main-dark text-lg">
+            <p className="text-foreground/80 text-lg">
               Pero no te preocupes, siempre puedes regresar al camino del
               bienestar.
             </p>

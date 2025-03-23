@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 
 const AccountDeletedPage = () => {
   return (
-    <div className="text-main dark:text-main-dark mx-auto flex min-h-dvh flex-col items-center justify-center space-y-6 p-6">
+    <div className="text-foreground mx-auto flex min-h-dvh flex-col items-center justify-center space-y-6 p-6">
       <Card className="dark:bg-dark/30 flex flex-col items-center border-none bg-transparent! text-center md:flex-row">
         <CardHeader className="space-y-8">
           <CardTitle className="dark:text-white">
             Tu cuenta está siendo eliminada
           </CardTitle>
-          <CardDescription className="text-main-h dark:text-main-dark space-y-6 text-base">
+          <CardDescription className="text-foreground/80 space-y-6 text-base">
             <p>
               Se ha confirmado la solicitud de eliminación de tu cuenta de
               Essentia.

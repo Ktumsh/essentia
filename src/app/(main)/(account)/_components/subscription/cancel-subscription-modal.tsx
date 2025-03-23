@@ -2,7 +2,6 @@
 
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -41,14 +40,14 @@ import { getPlanType } from "../../_lib/utils";
 interface CancelSubscriptionModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  subscriptionDetails: Payment;
-  subscription: Subscription;
+  payment: Payment | null;
+  subscription: Subscription | null;
 }
 
 const CancelSubscriptionModal = ({
   isOpen,
   setIsOpen,
-  subscriptionDetails,
+  payment,
   subscription,
 }: CancelSubscriptionModalProps) => {
   const router = useRouter();
@@ -56,9 +55,10 @@ const CancelSubscriptionModal = ({
   const { data: session } = useSession();
   const [cancelReason, setCancelReason] = useState<string>("");
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const { amount } = subscriptionDetails;
-  const { type, expiresAt } = subscription;
+  const { amount } = payment || {};
+  const { type, expiresAt } = subscription || {};
 
   const isMobile = useIsMobile();
 
@@ -72,21 +72,27 @@ const CancelSubscriptionModal = ({
     const combinedReasons = [...selectedReasons, cancelReason]
       .filter(Boolean)
       .join(". ");
+
+    if (!combinedReasons) {
+      setError("Debes seleccionar al menos una razón.");
+      return;
+    }
     try {
       startTransition(async () => {
         const result = await setUserPlan(
-          session as Session,
-          siteConfig.planPrices.free,
+          session,
+          siteConfig.plan.free,
           combinedReasons,
         );
 
-        if (result.success) {
-          toast.success(result.message);
-          router.refresh();
-          setIsOpen(false);
-        } else {
-          toast.error("Hubo un error al actualizar tu plan.");
+        if (!result.success) {
+          toast.error(result.message);
+          return;
         }
+
+        toast.success(result.message);
+        router.refresh();
+        setIsOpen(false);
       });
     } catch (error) {
       console.error(error);
@@ -99,7 +105,7 @@ const CancelSubscriptionModal = ({
       <div className="space-y-6 p-4 md:p-6">
         <div className="border-border dark:bg-accent/50 flex w-full justify-between rounded-lg border bg-slate-50 p-4">
           <span>
-            <span className="text-main dark:text-main-dark text-sm font-medium">
+            <span className="text-foreground text-sm font-medium">
               Plan {planType}
             </span>
             <span>
@@ -108,22 +114,24 @@ const CancelSubscriptionModal = ({
             </span>
           </span>
         </div>
-        <div className="text-main dark:text-main-dark mt-4 flex flex-col gap-4">
+        <form className="text-foreground mt-4 flex flex-col gap-4">
           <Separator />
           <p className="text-sm">Nos gustaría saber por qué cancelas.</p>
           <ReasonCheckbox
             selectedReasons={selectedReasons}
             onChange={setSelectedReasons}
+            setError={setError}
           />
           <Textarea
             placeholder="Comparte con nosotros cómo podemos mejorar."
             onChange={(event) => setCancelReason(event.target.value)}
             className="min-h-20 w-full resize-none"
           />
-        </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+        </form>
       </div>
     );
-  }, [planType, price, selectedReasons]);
+  }, [planType, price, selectedReasons, error]);
 
   const description = useMemo(() => {
     return (

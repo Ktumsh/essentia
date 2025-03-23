@@ -22,19 +22,19 @@ import CancelSubscriptionModal from "./cancel-subscription-modal";
 import { getPlanType } from "../../_lib/utils";
 
 interface SubscriptionDetailsProps {
-  subscription: Subscription;
-  subscriptionDetails: Payment | null;
+  subscription: Subscription | null;
+  payment: Payment | null;
 }
 
 const SubscriptionDetails = ({
   subscription,
-  subscriptionDetails,
+  payment,
 }: SubscriptionDetailsProps) => {
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
 
-  const { amount } = subscriptionDetails || {};
-  const { type, expiresAt, isPremium } = subscription;
+  const { amount } = payment || {};
+  const { type, expiresAt, isPremium } = subscription || {};
 
   const planType = getPlanType(type!);
 
@@ -77,7 +77,7 @@ const SubscriptionDetails = ({
                     <span>
                       <CircleDollarSign className="size-3" />
                     </span>
-                    <span>
+                    <span className="text-nowrap">
                       Precio/{planType === "Premium Plus" ? "Año" : "Mes"}
                     </span>
                   </div>
@@ -90,7 +90,7 @@ const SubscriptionDetails = ({
                     <span>
                       <CalendarSync className="size-3" />
                     </span>
-                    <span>Fecha de renovación</span>
+                    <span className="text-nowrap">Fecha de renovación</span>
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
                     {renewalDate}
@@ -122,12 +122,12 @@ const SubscriptionDetails = ({
         </Card>
       </div>
 
-      {subscriptionDetails && (
+      {payment && (
         <>
           <CancelSubscriptionModal
             isOpen={isOpenCancel}
             setIsOpen={setIsOpenCancel}
-            subscriptionDetails={subscriptionDetails}
+            payment={payment}
             subscription={subscription}
           />
         </>

@@ -189,7 +189,7 @@ const LoginForm = () => {
             />
 
             {/* Remember Me y Forgot Password */}
-            <div className="text-main-h dark:text-main-dark-h mx-0 flex w-full justify-between text-xs">
+            <div className="text-foreground/80 mx-0 flex w-full justify-between text-xs">
               <FormField
                 control={form.control}
                 name="remember"
@@ -226,7 +226,7 @@ const LoginForm = () => {
         </Form>
 
         {/* Link a Registro */}
-        <div className="text-main-h dark:text-main-dark-h mt-5 flex items-center justify-center self-center text-center text-[13px]">
+        <div className="text-foreground/80 mt-5 flex items-center justify-center self-center text-center text-[13px]">
           <p>
             ¿No tienes una cuenta?{" "}
             <Link

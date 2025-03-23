@@ -51,7 +51,7 @@ const StepVerifyCode = ({
             que puedas cambiar tu correo. Introdúcelo a continuación.
           </DrawerDescription>
           <div className="mx-4 mt-4">
-            <div className="text-main-h dark:text-main-dark rounded-xl bg-amber-100 p-3 dark:bg-yellow-950">
+            <div className="text-foreground/80 rounded-xl bg-amber-100 p-3 dark:bg-yellow-950">
               <p className="text-xs">
                 ¿No lo has recibido el correo electrónico? Asegúrate de
                 comprobar la carpeta de spam.

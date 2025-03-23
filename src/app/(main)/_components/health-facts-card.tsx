@@ -13,7 +13,7 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
       {facts?.map((fact, index) => (
         <section
           key={index}
-          className="relative overflow-hidden rounded-2xl bg-background border border-border md:min-h-52 md:rounded-xl"
+          className="bg-background border-border relative overflow-hidden rounded-2xl border md:min-h-52 md:rounded-xl"
         >
           <div className="flex items-center justify-between md:flex-col">
             <div className="h-20 py-1 md:h-24 md:py-0">
@@ -27,9 +27,7 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
               />
             </div>
             <div className="w-full p-6">
-              <p className="text-xs text-main dark:text-main-dark md:text-sm">
-                {fact.fact}
-              </p>
+              <p className="text-foreground text-xs md:text-sm">{fact.fact}</p>
             </div>
           </div>
         </section>

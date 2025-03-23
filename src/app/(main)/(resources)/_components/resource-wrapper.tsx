@@ -131,7 +131,7 @@ const ResourceWrapper = ({
           resourceDetails={resourceDetails}
           className="absolute top-0 right-0 p-5"
         />
-        <div className="group text-main relative flex w-full flex-col justify-center overflow-hidden">
+        <div className="group text-foreground relative flex w-full flex-col justify-center overflow-hidden">
           <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3 transition-opacity duration-500 group-active:opacity-0 lg:group-hover:opacity-0">
             <span className="font-semibold text-white/70 uppercase">
               {subtitle}
@@ -189,7 +189,7 @@ const ResourceWrapper = ({
                 "bg-accent dark:bg-accent/50 border-border rounded-2xl border",
             )}
           >
-            <div className="prose text-main dark:prose-invert dark:text-main-dark antialiased will-change-transform">
+            <div className="prose text-foreground dark:prose-invert antialiased will-change-transform">
               {showIntro ? (
                 <Markdown>{intro}</Markdown>
               ) : (
@@ -231,7 +231,7 @@ const ResourceWrapper = ({
         ref={sectionRef}
         className="group col-[1/2] row-[2/3] inline-flex flex-1 snap-x snap-mandatory overflow-x-auto lg:hidden"
       >
-        <div className="prose-sm text-main dark:prose-invert dark:text-main-dark relative flex max-w-full shrink-0 snap-center flex-col justify-between pb-2 md:w-full md:px-6">
+        <div className="prose-sm text-foreground dark:prose-invert relative flex max-w-full shrink-0 snap-center flex-col justify-between pb-2 md:w-full md:px-6">
           <Markdown className="prose-sm">{intro}</Markdown>
           <div className="mt-2 flex w-full justify-end">
             <button
@@ -242,7 +242,7 @@ const ResourceWrapper = ({
             </button>
           </div>
         </div>
-        <div className="prose-sm text-main dark:prose-invert dark:text-main-dark relative flex max-w-full shrink-0 snap-center flex-col justify-between pb-2 md:w-full md:px-6">
+        <div className="prose-sm text-foreground dark:prose-invert relative flex max-w-full shrink-0 snap-center flex-col justify-between pb-2 md:w-full md:px-6">
           <h3 className="font-semibold text-[#111827] dark:text-white">
             ¿Qué es {name}?
           </h3>
@@ -252,7 +252,7 @@ const ResourceWrapper = ({
               aria-label="Ir al final"
               onClick={() => scrollTo({ to: "start" })}
             >
-              <ChevronsLeft className="text-main-l dark:text-main-dark-l size-8" />
+              <ChevronsLeft className="text-foreground-l-l size-8" />
             </button>
           </div>
         </div>

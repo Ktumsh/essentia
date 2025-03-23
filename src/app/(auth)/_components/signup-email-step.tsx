@@ -53,7 +53,7 @@ const SignupEmailStep = ({ onSuccess }: SignupEmailStepProps) => {
 
   return (
     <Form {...form}>
-      <div className="text-main-h dark:text-main-dark mb-5 w-full text-sm">
+      <div className="text-foreground/80 mb-5 w-full text-sm">
         <p>Continúa con tu correo para comenzar a crear tu cuenta.</p>
       </div>
       <form

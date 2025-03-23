@@ -324,3 +324,15 @@ export const taskSchema = z.object({
 });
 
 export type TaskFormData = z.infer<typeof taskSchema>;
+
+export const cancelSubscriptionSchema = z.object({
+  selectedReasons: z
+    .array(z.string())
+    .min(1, { message: "Debes seleccionar al menos una razón" })
+    .max(3),
+  otherReason: z.string().optional(),
+});
+
+export type CancelSubscriptionFormData = z.infer<
+  typeof cancelSubscriptionSchema
+>;

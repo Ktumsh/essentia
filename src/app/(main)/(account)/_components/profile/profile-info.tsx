@@ -145,11 +145,11 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
               )}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="@container space-y-4">
             <div className="border-border rounded-lg border px-4 py-3">
-              <div className="grid-cols grid flex-1 gap-4 md:grid-cols-4">
+              <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2 @3xl:grid-cols-4">
                 <span className="flex flex-col">
-                  <div className="text-foreground/80 flex-1 text-xs font-normal">
+                  <div className="text-foreground/80 flex-1 text-xs font-normal text-nowrap">
                     Nombre
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
@@ -157,7 +157,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="text-foreground/80 flex-1 text-xs font-normal">
+                  <div className="text-foreground/80 flex-1 text-xs font-normal text-nowrap">
                     Apellido
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
@@ -165,7 +165,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="text-foreground/80 flex-1 text-xs font-normal">
+                  <div className="text-foreground/80 flex-1 text-xs font-normal text-nowrap">
                     Nombre de usuario
                   </div>
                   <div className="flex-1 pt-1 text-sm font-medium">
@@ -173,7 +173,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                     <span>
                       <Cake className="size-3" />
                     </span>
@@ -188,11 +188,11 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
             </div>
             {isOwnProfile && (
               <>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 @2xl:grid-cols-2">
                   <div className="border-border rounded-lg border px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
                       <span className="flex flex-col">
-                        <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                        <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                           <span>
                             <ScrollText className="size-3" />
                           </span>
@@ -208,7 +208,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   <div className="border-border rounded-lg border px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
                       <span className="flex flex-col">
-                        <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                        <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                           <span>
                             <MapPin className="size-3" />
                           </span>
@@ -225,7 +225,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                 <div className="grid-cols !mb-0 grid flex-1 gap-4 md:grid-cols-3">
                   <div className="border-border rounded-lg border px-4 py-3">
                     <span className="flex flex-col">
-                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                         <span>
                           <Weight className="size-3" />
                         </span>
@@ -239,7 +239,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                   <div className="border-border rounded-lg border px-4 py-3">
                     <span className="flex flex-col">
-                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                         <span>
                           <Ruler className="size-3" />
                         </span>
@@ -253,7 +253,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                   </div>
                   <div className="border-border rounded-lg border px-4 py-3">
                     <span className="flex flex-col">
-                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                         <span>
                           <PersonStanding className="size-3" />
                         </span>

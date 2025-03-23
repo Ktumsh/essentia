@@ -386,13 +386,26 @@ export function convertSubscriptionToServerFormat(
 
 export const getPlanName = (planId: string): string => {
   switch (planId) {
-    case siteConfig.planPrices.free:
+    case siteConfig.plan.free:
       return "Gratis";
-    case siteConfig.planPrices.premium:
+    case siteConfig.plan.premium:
       return "Premium";
-    case siteConfig.planPrices.premiumPlus:
+    case siteConfig.plan.premiumPlus:
       return "Premium Plus";
     default:
       return "Plan";
+  }
+};
+
+export const getPlanPrice = (plan: string) => {
+  switch (plan) {
+    case siteConfig.plan.free:
+      return siteConfig.priceId.free;
+    case siteConfig.plan.premium:
+      return siteConfig.priceId.premium;
+    case siteConfig.plan.premiumPlus:
+      return siteConfig.priceId.premiumPlus;
+    default:
+      return siteConfig.priceId.free;
   }
 };

@@ -33,7 +33,7 @@ const PricingSelector = ({
   isPremium,
 }: PricingSelectorProps) => {
   const id = currentPriceId;
-  const { free, premium, premiumPlus } = siteConfig.planPrices;
+  const { free, premium, premiumPlus } = siteConfig.plan;
   const PLANS = [free, premium, premiumPlus];
 
   const [selectedPlan, setSelectedPlan] = useState<string>(

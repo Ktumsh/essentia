@@ -291,7 +291,7 @@ const Lesson = ({
 
   if (currentModuleIndex === -1 || currentLessonIndex === -1) {
     return (
-      <Card className="text-main border-red-200 dark:border-red-900 dark:text-white">
+      <Card className="border-red-200 dark:border-red-900">
         <CardFooter className="flex-row items-center gap-2">
           <CheckCircle className="size-5 text-red-500" />
           <p className="mt-0! text-base">Lección no encontrada.</p>

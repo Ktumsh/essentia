@@ -16,7 +16,7 @@ const AboutFooter = () => {
   return (
     <div className="z-0 bg-white px-6">
       <div className="mx-auto max-w-7xl">
-        <footer className="text-main relative flex flex-col space-y-8 py-6 font-normal">
+        <footer className="text-foreground relative flex flex-col space-y-8 py-6 font-normal">
           <div className="flex flex-col justify-between gap-8 select-none sm:flex-row md:items-center">
             <div className="inline-flex items-center justify-center">
               <div className="flex items-center justify-center gap-3">
