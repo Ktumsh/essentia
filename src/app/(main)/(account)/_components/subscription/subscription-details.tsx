@@ -34,7 +34,7 @@ const SubscriptionDetails = ({
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
 
   const { amount } = payment || {};
-  const { type, expiresAt, isPremium } = subscription || {};
+  const { type, expiresAt, isPremium, status } = subscription || {};
 
   const planType = getPlanType(type!);
 
@@ -101,7 +101,7 @@ const SubscriptionDetails = ({
           </CardContent>
           <CardFooter isSecondary>
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
-              {isPremium && (
+              {isPremium && status !== "canceled" && (
                 <Button
                   variant="outline"
                   onClick={() => setIsOpenCancel(true)}

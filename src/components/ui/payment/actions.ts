@@ -239,7 +239,9 @@ export async function handleSubscriptionUpdated(
   subscription: Stripe.Subscription,
 ) {
   const subscriptionId = subscription.id;
-  const status = subscription.status;
+  const status = subscription.cancel_at_period_end
+    ? "canceled"
+    : subscription.status;
   const type = subscription.items.data[0].plan.nickname;
   const currentPeriodEnd = subscription.current_period_end;
   const clientId = subscription.customer as string;
