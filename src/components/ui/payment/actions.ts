@@ -104,13 +104,22 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   try {
     const [subscription] = await getSubscriptionByClientId(clientId);
 
-    await updateSubscription(
-      subscription.userId,
-      subscriptionId,
-      currentPeriodEnd,
-      status,
-      type,
-    );
+    if (subscription.status === "canceled") {
+      await updateSubscription(
+        subscription.userId,
+        subscriptionId,
+        currentPeriodEnd,
+        type,
+      );
+    } else {
+      await updateSubscription(
+        subscription.userId,
+        subscriptionId,
+        currentPeriodEnd,
+        status,
+        type,
+      );
+    }
 
     const updated = await updatePaymentDetails(
       subscription.userId,

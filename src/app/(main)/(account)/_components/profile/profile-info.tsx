@@ -175,7 +175,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                 <span className="flex flex-col">
                   <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                     <span>
-                      <Cake className="size-3" />
+                      <Cake className="size-3.5" />
                     </span>
                     <span>Fecha de nacimiento</span>
                     {isOwnProfile && <PopoverBirthdate />}
@@ -194,7 +194,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                       <span className="flex flex-col">
                         <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                           <span>
-                            <ScrollText className="size-3" />
+                            <ScrollText className="size-3.5" />
                           </span>
                           <span>Biografía</span>
                           <PopoverBioReason />
@@ -210,7 +210,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                       <span className="flex flex-col">
                         <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                           <span>
-                            <MapPin className="size-3" />
+                            <MapPin className="size-3.5" />
                           </span>
                           <span>Ubicación</span>
                           <PopoverLocationReason />
@@ -227,7 +227,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                     <span className="flex flex-col">
                       <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                         <span>
-                          <Weight className="size-3" />
+                          <Weight className="size-3.5" />
                         </span>
                         <span>Peso</span>
                         <PopoverWeightReason />
@@ -241,7 +241,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                     <span className="flex flex-col">
                       <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                         <span>
-                          <Ruler className="size-3" />
+                          <Ruler className="size-3.5" />
                         </span>
                         <span>Estatura</span>
                         <PopoverHeightReason />
@@ -255,7 +255,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                     <span className="flex flex-col">
                       <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
                         <span>
-                          <PersonStanding className="size-3" />
+                          <PersonStanding className="size-3.5" />
                         </span>
                         <span>Género</span>
                         <PopoverGenre />

@@ -59,7 +59,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
                 <span className="flex flex-col">
                   <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                     <span>
-                      <Mail className="size-3" />
+                      <Mail className="size-3.5" />
                     </span>
                     <span>Correo electrónico</span>
                   </div>
@@ -68,7 +68,7 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
                 <span className="flex flex-col">
                   <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
                     <span>
-                      <Calendar className="size-3" />
+                      <Calendar className="size-3.5" />
                     </span>
                     <span>Fecha de creación</span>
                   </div>

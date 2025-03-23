@@ -73,18 +73,21 @@ const SubscriptionsStg = ({
 
   const isMobile = useIsMobile();
 
-  const { amount, currency, processedAt } = payment || {};
+  const { amount, currency } = payment || {};
   const { type, expiresAt, status, isPremium } = subscription || {};
 
   const planType = getPlanType(type!);
 
   const planStatus = getPlanStatus(status!);
 
+  const isCanceled = status === "canceled";
+
   const price = isPremium ? amount?.toLocaleString("es-CL") : "No aplica";
 
-  const startDate = processedAt
-    ? formatDate(processedAt!, "d 'de' MMMM, yyyy")
-    : "No aplica";
+  const startDate =
+    paymentHistory.length > 0
+      ? formatDate(paymentHistory[0].payment.processedAt!, "d 'de' MMMM, yyyy")
+      : "No aplica";
 
   const endDate = isPremium
     ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
@@ -190,38 +193,52 @@ const SubscriptionsStg = ({
           </div>
         )}
         {section === "planState" && (
-          <div className="flex flex-col">
-            <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
-              Estado de suscripción
-            </h4>
-            <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
-              <InfoField title="Plan actual" value={planType} />
-              <InfoField
-                title={`Precio/${planType === "Premium Plus" ? "Año" : "Mes"}`}
-                value={price}
-                icon={CircleDollarSign}
-                suffix={currency?.toUpperCase()}
-                hasBorder
-              />
-              <InfoField
-                title="Fecha de inicio"
-                value={startDate}
-                icon={Calendar1}
-                hasBorder
-              />
-              <InfoField
-                title="Fecha de finalización/renovación"
-                value={endDate}
-                icon={CalendarSync}
-              />
-              <InfoField
-                title="Estado de la suscripción"
-                value={planStatus}
-                icon={Loader}
-                hasBorder
-              />
-            </ul>
-          </div>
+          <>
+            <div className="flex flex-col">
+              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
+                Estado de suscripción
+              </h4>
+              <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
+                <InfoField title="Plan actual" value={planType} />
+                <InfoField
+                  title={`Precio/${planType === "Premium Plus" ? "Año" : "Mes"}`}
+                  value={price}
+                  icon={CircleDollarSign}
+                  suffix={currency?.toUpperCase()}
+                  hasBorder
+                />
+                <InfoField
+                  title="Fecha de inicio"
+                  value={startDate}
+                  icon={Calendar1}
+                  hasBorder
+                />
+                <InfoField
+                  title="Fecha de finalización/renovación"
+                  value={endDate}
+                  icon={CalendarSync}
+                />
+                <InfoField
+                  title="Estado de la suscripción"
+                  value={planStatus}
+                  icon={Loader}
+                  hasBorder
+                />
+              </ul>
+            </div>
+            {!isCanceled && (
+              <div className="text-foreground/80 mt-4 space-y-1 px-6 text-sm md:px-0">
+                <p className="text-red-500">
+                  Tu plan ha sido cancelado y perderás acceso a las
+                  funcionalidades Premium a partir de la fecha de finalización.
+                </p>
+                <p>
+                  Si deseas reactivar tu plan, puedes hacerlo una vez haya
+                  finalizado.
+                </p>
+              </div>
+            )}
+          </>
         )}
         {section === "planUpdate" && (
           <>
@@ -236,7 +253,7 @@ const SubscriptionsStg = ({
                   isButton
                   buttonAction={() => setIsOpenPayment(true)}
                 />
-                {isPremium && (
+                {isPremium && !isCanceled && (
                   <InfoField
                     title="Cancelar suscripción"
                     value="Tu suscripción se cancelará al final del ciclo de facturación actual."

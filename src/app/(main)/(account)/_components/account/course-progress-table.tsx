@@ -81,31 +81,31 @@ const CourseProgressTable = ({
         <TableRow>
           <TableHead className="text-foreground/80">
             <div className="flex items-center gap-1.5">
-              <GraduationCap className="size-3" />
+              <GraduationCap className="size-3.5" />
               <span className="text-nowrap">Nombre del curso</span>
             </div>
           </TableHead>
           <TableHead className="text-foreground/80">
             <div className="flex items-center gap-1.5">
-              <CircleDashed className="size-3" />
+              <CircleDashed className="size-3.5" />
               <span className="text-nowrap">Progreso (%)</span>
             </div>
           </TableHead>
           <TableHead className="text-foreground/80">
             <div className="flex items-center gap-1.5">
-              <TrendingUp className="size-3" />
+              <TrendingUp className="size-3.5" />
               <span className="text-nowrap">Estado actual</span>
             </div>
           </TableHead>
           <TableHead className="text-foreground/80">
             <div className="flex items-center gap-1.5">
-              <CalendarClock className="size-3" />
+              <CalendarClock className="size-3.5" />
               <span className="text-nowrap">Fecha de inicio</span>
             </div>
           </TableHead>
           <TableHead className="text-foreground/80">
             <div className="flex items-center gap-1.5">
-              <CalendarCheck2 className="size-3" />
+              <CalendarCheck2 className="size-3.5" />
               <span className="text-nowrap">Fecha de finalización</span>
             </div>
           </TableHead>

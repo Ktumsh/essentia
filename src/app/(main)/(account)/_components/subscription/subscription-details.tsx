@@ -1,6 +1,11 @@
 "use client";
 
-import { CalendarSync, CircleDollarSign } from "lucide-react";
+import {
+  CalendarSync,
+  CalendarX,
+  CircleDashed,
+  CircleDollarSign,
+} from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/kit/button";
@@ -38,11 +43,19 @@ const SubscriptionDetails = ({
 
   const planType = getPlanType(type!);
 
+  const isCanceled = status === "canceled";
+
   const price = isPremium ? amount?.toLocaleString("es-CL") : "0";
 
-  const renewalDate = isPremium
-    ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
-    : "No aplica";
+  const renewalDate =
+    isCanceled || !isPremium
+      ? "No aplica"
+      : formatDate(expiresAt!, "d 'de' MMMM, yyyy");
+
+  const finishDate =
+    isCanceled || !isPremium
+      ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
+      : "No aplica";
 
   return (
     <>
@@ -71,37 +84,67 @@ const SubscriptionDetails = ({
           </CardHeader>
           <CardContent>
             <div className="border-border rounded-lg border px-4 py-3">
-              <div className="grid flex-1 grid-cols-2 gap-4 md:grid-cols-6">
+              <div className="grid flex-1 gap-4 md:grid-cols-4">
                 <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
                     <span>
-                      <CircleDollarSign className="size-3" />
+                      <CircleDollarSign className="size-3.5" />
                     </span>
                     <span className="text-nowrap">
                       Precio/{planType === "Premium Plus" ? "Año" : "Mes"}
                     </span>
                   </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
+                  <div className="flex-1 pt-1 pl-6 text-sm font-medium">
                     $ {price}
                   </div>
                 </span>
                 <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
+                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
                     <span>
-                      <CalendarSync className="size-3" />
+                      <CalendarSync className="size-3.5" />
                     </span>
                     <span className="text-nowrap">Fecha de renovación</span>
                   </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
+                  <div className="flex-1 pt-1 pl-6 text-sm font-medium">
                     {renewalDate}
                   </div>
                 </span>
+                <div className="flex flex-col">
+                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
+                    <CalendarX className="size-3.5" />
+                    <span className="text-nowrap">Fecha de finalización</span>
+                  </div>
+                  <div className="flex-1 pt-1 pl-6 text-sm font-medium">
+                    {finishDate}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
+                    <CircleDashed className="size-3.5" />
+                    <span>Estado</span>
+                  </span>
+                  <span className="flex-1 pt-1 pl-6 text-sm font-medium">
+                    {isCanceled ? "Cancelado" : "Activo"}
+                  </span>
+                </div>
               </div>
             </div>
+            {isCanceled && (
+              <div className="text-foreground/80 mt-4 space-y-1 text-sm">
+                <p className="text-red-500">
+                  Tu plan ha sido cancelado y perderás acceso a las
+                  funcionalidades Premium a partir de la fecha de finalización.
+                </p>
+                <p>
+                  Si deseas reactivar tu plan, puedes hacerlo una vez haya
+                  finalizado.
+                </p>
+              </div>
+            )}
           </CardContent>
           <CardFooter isSecondary>
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
-              {isPremium && status !== "canceled" && (
+              {isPremium && !isCanceled && (
                 <Button
                   variant="outline"
                   onClick={() => setIsOpenCancel(true)}

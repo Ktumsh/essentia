@@ -22,7 +22,7 @@ export async function updateSubscription(
   subscriptionId: string | null,
   currentPeriodEnd: number | null,
   status?: string | null,
-  type?: "free" | "premium" | "premium-plus" | null
+  type?: "free" | "premium" | "premium-plus" | null,
 ): Promise<void> {
   if (!userId) {
     throw new Error("userId es requerido");
@@ -116,7 +116,7 @@ export async function deleteSubscription(userId: string): Promise<void> {
 }
 
 export async function getSubscription(
-  userId: string
+  userId: string,
 ): Promise<Array<Subscription>> {
   try {
     return await db
@@ -130,7 +130,7 @@ export async function getSubscription(
 }
 
 export async function getSubscriptionByClientId(
-  clientId: string
+  clientId: string,
 ): Promise<Array<Subscription>> {
   try {
     return await db
@@ -146,7 +146,7 @@ export async function getSubscriptionByClientId(
 
 export async function updateClientId(
   userId: string,
-  clientId: string
+  clientId: string,
 ): Promise<void> {
   try {
     await db
@@ -180,7 +180,7 @@ export async function setPaymentDetails(
   status: "paid" | "pending",
   amount: number | null,
   currency: string,
-  processedAt: Date
+  processedAt: Date,
 ) {
   try {
     await db.insert(payment).values({
@@ -199,7 +199,7 @@ export async function setPaymentDetails(
 export async function updatePaymentDetails(
   userId: string,
   status: "paid" | "pending",
-  processedAt: Date
+  processedAt: Date,
 ): Promise<number> {
   try {
     const result = await db
@@ -215,7 +215,7 @@ export async function updatePaymentDetails(
   }
 }
 export async function getPaymentDetails(
-  userId: string
+  userId: string,
 ): Promise<Array<Payment>> {
   try {
     return await db
@@ -230,7 +230,7 @@ export async function getPaymentDetails(
 }
 
 export async function getPaymentHistory(
-  userId: string
+  userId: string,
 ): Promise<Array<PaymentHistory>> {
   try {
     return await db
