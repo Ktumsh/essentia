@@ -177,28 +177,6 @@ export async function handleSubscriptionDeleted(
   try {
     const [subscription] = await getSubscriptionByClientId(customerId);
 
-    const subscriptions = await stripe.subscriptions.list({
-      customer: customerId,
-      status: "active",
-      limit: 1,
-    });
-
-    if (subscriptions.data.length > 0) {
-      const activeSubscription = subscriptions.data[0];
-
-      await updateSubscription(
-        subscription.userId,
-        activeSubscription.id,
-        activeSubscription.current_period_end,
-        activeSubscription.status,
-      );
-
-      console.log(
-        `El cliente ${customerId} aún tiene una suscripción activa (ID: ${activeSubscription.id}). Se ha actualizado la suscripción activa para el usuario.`,
-      );
-      return;
-    }
-
     await updateSubscription(subscription.userId, null, null, "paused", "free");
   } catch (error) {
     console.error(
