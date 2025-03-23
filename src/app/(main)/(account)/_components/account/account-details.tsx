@@ -20,6 +20,7 @@ import ChangeEmailModal from "./change-email-modal";
 import ChangePasswordModal from "./change-password-modal";
 import CourseProgressTable from "./course-progress-table";
 import DeleteAccountModal from "./delete-account-modal";
+import InfoFieldItem from "../info-field-item";
 
 interface AccountDetailsProps {
   user: UserProfileData | null;
@@ -56,26 +57,16 @@ const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
           <CardContent>
             <div className="border-border rounded-lg border px-4 py-3">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2">
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
-                    <span>
-                      <Mail className="size-3.5" />
-                    </span>
-                    <span>Correo electrónico</span>
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">{email}</div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal">
-                    <span>
-                      <Calendar className="size-3.5" />
-                    </span>
-                    <span>Fecha de creación</span>
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {formatDate(createdAt, "d 'de' MMMM, yyyy")}
-                  </div>
-                </span>
+                <InfoFieldItem
+                  field="Correo electrónico"
+                  value={email}
+                  icon={Mail}
+                />
+                <InfoFieldItem
+                  field="Fecha de creación"
+                  value={formatDate(createdAt, "d 'de' MMMM, yyyy")}
+                  icon={Calendar}
+                />
               </div>
             </div>
           </CardContent>

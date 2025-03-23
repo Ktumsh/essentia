@@ -37,6 +37,7 @@ import {
   PublicInfoPopover,
 } from "./info-popover";
 import ProfileAvatar from "./profile-avatar";
+import InfoFieldItem from "../info-field-item";
 
 interface ProfileInfoProps {
   user: UserProfileData | null;
@@ -61,7 +62,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
     weight,
     height,
     profileImage,
-  } = displayData ?? {};
+  } = displayData || {};
 
   const completeProfileData = [
     {
@@ -148,42 +149,16 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
           <CardContent className="@container space-y-4">
             <div className="border-border rounded-lg border px-4 py-3">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2 @3xl:grid-cols-4">
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 flex-1 text-xs font-normal text-nowrap">
-                    Nombre
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {firstName}
-                  </div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 flex-1 text-xs font-normal text-nowrap">
-                    Apellido
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {lastName}
-                  </div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 flex-1 text-xs font-normal text-nowrap">
-                    Nombre de usuario
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {username}
-                  </div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
-                    <span>
-                      <Cake className="size-3.5" />
-                    </span>
-                    <span>Fecha de nacimiento</span>
-                    {isOwnProfile && <PopoverBirthdate />}
-                  </div>
-                  <div className="flex-1 pt-1 text-sm font-medium">
-                    {formatDate(birthdate!, "d 'de' MMMM 'de' yyyy")}
-                  </div>
-                </span>
+                <InfoFieldItem field="Nombre" value={firstName!} />
+                <InfoFieldItem field="Apellido" value={lastName!} />
+                <InfoFieldItem field="Nombre de usuario" value={username!} />
+                <InfoFieldItem
+                  field="Fecha de nacimiento"
+                  value={formatDate(birthdate!, "d 'de' MMMM 'de' yyyy")}
+                  icon={Cake}
+                >
+                  {isOwnProfile && <PopoverBirthdate />}
+                </InfoFieldItem>
               </div>
             </div>
             {isOwnProfile && (
@@ -191,79 +166,54 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
                 <div className="grid grid-cols-1 gap-4 @2xl:grid-cols-2">
                   <div className="border-border rounded-lg border px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
-                      <span className="flex flex-col">
-                        <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
-                          <span>
-                            <ScrollText className="size-3.5" />
-                          </span>
-                          <span>Biografía</span>
-                          <PopoverBioReason />
-                        </div>
-                        <div className="flex-1 pt-1 text-sm font-medium">
-                          {bio || "---"}
-                        </div>
-                      </span>
+                      <InfoFieldItem
+                        field="Biografía"
+                        value={bio || "---"}
+                        icon={ScrollText}
+                      >
+                        <PopoverBioReason />
+                      </InfoFieldItem>
                     </div>
                   </div>
                   <div className="border-border rounded-lg border px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
-                      <span className="flex flex-col">
-                        <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
-                          <span>
-                            <MapPin className="size-3.5" />
-                          </span>
-                          <span>Ubicación</span>
-                          <PopoverLocationReason />
-                        </div>
-                        <div className="flex-1 pt-1 text-sm font-medium">
-                          {location || "---"}
-                        </div>
-                      </span>
+                      <InfoFieldItem
+                        field="Ubicación"
+                        value={location || "---"}
+                        icon={MapPin}
+                      >
+                        <PopoverLocationReason />
+                      </InfoFieldItem>
                     </div>
                   </div>
                 </div>
                 <div className="grid-cols !mb-0 grid flex-1 gap-4 md:grid-cols-3">
                   <div className="border-border rounded-lg border px-4 py-3">
-                    <span className="flex flex-col">
-                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
-                        <span>
-                          <Weight className="size-3.5" />
-                        </span>
-                        <span>Peso</span>
-                        <PopoverWeightReason />
-                      </div>
-                      <div className="flex-1 pt-1 text-sm font-medium">
-                        {(weight && weight + " kg") || "---"}
-                      </div>
-                    </span>
+                    <InfoFieldItem
+                      field="Peso"
+                      value={(weight && weight + " kg") || "---"}
+                      icon={Weight}
+                    >
+                      <PopoverWeightReason />
+                    </InfoFieldItem>
                   </div>
                   <div className="border-border rounded-lg border px-4 py-3">
-                    <span className="flex flex-col">
-                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
-                        <span>
-                          <Ruler className="size-3.5" />
-                        </span>
-                        <span>Estatura</span>
-                        <PopoverHeightReason />
-                      </div>
-                      <div className="flex-1 pt-1 text-sm font-medium">
-                        {(height && height + " cm") || "---"}
-                      </div>
-                    </span>
+                    <InfoFieldItem
+                      field="Estatura"
+                      value={(height && height + " cm") || "---"}
+                      icon={Ruler}
+                    >
+                      <PopoverHeightReason />
+                    </InfoFieldItem>
                   </div>
                   <div className="border-border rounded-lg border px-4 py-3">
-                    <span className="flex flex-col">
-                      <div className="text-foreground/80 inline-flex flex-1 items-center gap-1.5 text-xs font-normal text-nowrap">
-                        <span>
-                          <PersonStanding className="size-3.5" />
-                        </span>
-                        <span>Género</span>
-                        <PopoverGenre />
-                      </div>
-                      <div className="flex-1 pt-1 text-sm font-medium">
-                        {genre || "---"}
-                      </div>
-                    </span>
+                    <InfoFieldItem
+                      field="Género"
+                      value={genre || "---"}
+                      icon={PersonStanding}
+                    >
+                      <PopoverGenre />
+                    </InfoFieldItem>
                   </div>
                 </div>
               </>

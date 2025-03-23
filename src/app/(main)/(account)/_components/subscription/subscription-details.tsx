@@ -3,8 +3,8 @@
 import {
   CalendarSync,
   CalendarX,
-  CircleDashed,
   CircleDollarSign,
+  Loader,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -25,6 +25,7 @@ import { formatDate } from "@/utils/format";
 
 import CancelSubscriptionModal from "./cancel-subscription-modal";
 import { getPlanType } from "../../_lib/utils";
+import InfoFieldItem from "../info-field-item";
 
 interface SubscriptionDetailsProps {
   subscription: Subscription | null;
@@ -85,48 +86,27 @@ const SubscriptionDetails = ({
           <CardContent>
             <div className="border-border rounded-lg border px-4 py-3">
               <div className="grid flex-1 gap-4 md:grid-cols-4">
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
-                    <span>
-                      <CircleDollarSign className="size-3.5" />
-                    </span>
-                    <span className="text-nowrap">
-                      Precio/{planType === "Premium Plus" ? "Año" : "Mes"}
-                    </span>
-                  </div>
-                  <div className="flex-1 pt-1 pl-6 text-sm font-medium">
-                    $ {price}
-                  </div>
-                </span>
-                <span className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
-                    <span>
-                      <CalendarSync className="size-3.5" />
-                    </span>
-                    <span className="text-nowrap">Fecha de renovación</span>
-                  </div>
-                  <div className="flex-1 pt-1 pl-6 text-sm font-medium">
-                    {renewalDate}
-                  </div>
-                </span>
-                <div className="flex flex-col">
-                  <div className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
-                    <CalendarX className="size-3.5" />
-                    <span className="text-nowrap">Fecha de finalización</span>
-                  </div>
-                  <div className="flex-1 pt-1 pl-6 text-sm font-medium">
-                    {finishDate}
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-foreground/80 inline-flex flex-1 items-center gap-2.5 text-xs font-normal">
-                    <CircleDashed className="size-3.5" />
-                    <span>Estado</span>
-                  </span>
-                  <span className="flex-1 pt-1 pl-6 text-sm font-medium">
-                    {isCanceled ? "Cancelado" : "Activo"}
-                  </span>
-                </div>
+                <InfoFieldItem
+                  field={`Precio/${planType === "Premium Plus" ? "Año" : "Mes"}`}
+                  value={`$ ${price}`}
+                  icon={CircleDollarSign}
+                />
+                <InfoFieldItem
+                  field="Fecha de renovación"
+                  value={renewalDate}
+                  icon={CalendarSync}
+                />
+
+                <InfoFieldItem
+                  field="Fecha de finalización"
+                  value={finishDate}
+                  icon={CalendarX}
+                />
+                <InfoFieldItem
+                  field="Estado"
+                  value={isCanceled ? "Cancelado" : "Activo"}
+                  icon={Loader}
+                />
               </div>
             </div>
             {isCanceled && (

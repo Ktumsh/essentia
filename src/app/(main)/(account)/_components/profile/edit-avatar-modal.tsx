@@ -21,6 +21,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/kit/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/kit/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { getCroppedImg } from "../../_lib/utils";
 
@@ -40,6 +49,7 @@ const EditAvatarModal = ({
   setIsOpen,
   onCropComplete,
 }: EditAvatarModalProps) => {
+  const isMobile = useIsMobile();
   const [crop, setCrop] = useState<Crop>({
     x: 0,
     y: 0,
@@ -85,6 +95,45 @@ const EditAvatarModal = ({
     );
     setCrop(centerCrop(crop, width, height));
   };
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={setIsOpen}>
+        <DrawerContent className="max-w-md!">
+          <DrawerHeader>
+            <DrawerTitle>Editar Imagen</DrawerTitle>
+          </DrawerHeader>
+          <DrawerDescription className="my-4 space-y-1.5 px-4 text-center text-sm">
+            Recorta tu nueva imagen de perfil.
+          </DrawerDescription>
+          <div className="bg-accent flex flex-col items-center">
+            <ReactCrop
+              crop={crop}
+              circularCrop
+              keepSelection
+              aspect={ASPECT_RATIO}
+              minWidth={MIN_DIMENSION}
+              onChange={(currentCrop) => setCrop(currentCrop)}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                ref={imageRef}
+                src={imageSrc}
+                alt="Imagen a recortar"
+                onLoad={onImageLoad}
+                style={{ maxHeight: "50vh" }}
+              />
+            </ReactCrop>
+          </div>
+          <DrawerFooter>
+            <Button variant="mobile-danger" fullWidth onClick={handleSave}>
+              Guardar nueva imagen de perfil
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setIsOpen}>

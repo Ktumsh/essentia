@@ -226,7 +226,7 @@ const SubscriptionsStg = ({
                 />
               </ul>
             </div>
-            {!isCanceled && (
+            {isCanceled && (
               <div className="text-foreground/80 mt-4 space-y-1 px-6 text-sm md:px-0">
                 <p className="text-red-500">
                   Tu plan ha sido cancelado y perderás acceso a las
