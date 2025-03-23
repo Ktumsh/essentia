@@ -13,13 +13,13 @@ export const getPlanType = (type: string) => {
 
 export const getPlanStatus = (status: string) => {
   if (status === "active") {
-    return "Activa";
+    return "Activo";
   } else if (status === "canceled") {
-    return "Cancelada";
+    return "Cancelado";
   } else if (status === "unpaid") {
-    return "No pagada";
+    return "No pagado";
   } else if (status === "deleted") {
-    return "Eliminada";
+    return "Eliminado";
   } else {
     return "No aplica";
   }

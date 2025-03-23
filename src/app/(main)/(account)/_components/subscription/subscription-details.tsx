@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
 import CancelSubscriptionModal from "./cancel-subscription-modal";
-import { getPlanType } from "../../_lib/utils";
+import { getPlanStatus, getPlanType } from "../../_lib/utils";
 import InfoFieldItem from "../info-field-item";
 
 interface SubscriptionDetailsProps {
@@ -53,10 +53,11 @@ const SubscriptionDetails = ({
       ? "No aplica"
       : formatDate(expiresAt!, "d 'de' MMMM, yyyy");
 
-  const finishDate =
-    isCanceled || !isPremium
-      ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
-      : "No aplica";
+  const finishDate = isCanceled
+    ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
+    : "No aplica";
+
+  console.log({ finishDate });
 
   return (
     <>
@@ -104,7 +105,7 @@ const SubscriptionDetails = ({
                 />
                 <InfoFieldItem
                   field="Estado"
-                  value={isCanceled ? "Cancelado" : "Activo"}
+                  value={getPlanStatus(status!)}
                   icon={Loader}
                 />
               </div>
