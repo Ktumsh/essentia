@@ -25,6 +25,7 @@ import {
 } from "@/components/kit/drawer";
 import { createSubscription } from "@/components/ui/payment/actions";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { getPlanPrice } from "@/lib/utils";
 
 interface ConfirmPlanModalProps {
   isOpen: boolean;
@@ -54,7 +55,7 @@ const ConfirmPlanModal = ({
     setIsLoading(true);
     try {
       const subscriptionResponse = await createSubscription({
-        priceId: selectedPlan,
+        priceId: getPlanPrice(selectedPlan),
       });
       router.push(subscriptionResponse.checkoutUrl);
     } catch {
