@@ -116,13 +116,11 @@ export async function POST(request: Request) {
       }
     }
 
-    const userMessageId = generateUUID();
-
     await saveMessages({
       messages: [
         {
           chatId: id,
-          id: userMessageId,
+          id: userMessage.id,
           role: "user",
           parts: userMessage.parts,
           attachments: userMessage.experimental_attachments ?? [],
@@ -210,10 +208,10 @@ export async function POST(request: Request) {
 
         result.mergeIntoDataStream(dataStream, {
           sendReasoning: true,
-          sendUsage: true,
         });
       },
-      onError: () => {
+      onError: (error) => {
+        console.error("Error al procesar la solicitud:", error);
         return "Lo lamento, ha ocurrido un error inesperado!";
       },
     });

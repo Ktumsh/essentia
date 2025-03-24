@@ -140,8 +140,9 @@ const PurePromptForm = ({
 
         return {
           url,
-          name: pathname,
+          name: pathname.split("/").pop(),
           contentType: contentType,
+          size: file.size,
         };
       } else {
         const { error } = await response.json();
@@ -199,7 +200,7 @@ const PurePromptForm = ({
         <input
           type="file"
           aria-label="Adjuntar archivos"
-          accept="image/jpeg,image/jpg,image/png,image/webp"
+          accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
           ref={fileInputRef}
           multiple
           tabIndex={-1}

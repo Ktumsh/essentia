@@ -176,6 +176,7 @@ export const getContainerAttachmentClasses = (
   total: number,
   index: number,
   isInUpload: boolean,
+  isFile: boolean,
 ) => {
   const classes = [
     "group/preview",
@@ -192,7 +193,7 @@ export const getContainerAttachmentClasses = (
   ];
 
   if (isInUpload) {
-    classes.push("rounded-lg", "size-16");
+    classes.push("rounded-lg");
   } else {
     if (total === 1) {
       classes.push("max-h-96", "max-w-64");
@@ -210,6 +211,15 @@ export const getContainerAttachmentClasses = (
       if (index === total - 1) classes.push("rounded-tr-sm", "rounded-br-xs");
       if (index === 2) classes.push("rounded-tr-xl");
       if (index === total - 3) classes.push("rounded-bl-xl");
+    }
+    if (isFile) {
+      classes.push("rounded-xl", "h-14!", "w-full!", "border", "min-w-60");
+      return cn(...classes);
+    }
+    if (total === 4) {
+      classes.push("size-24!");
+      if (index === 1) classes.push("rounded-tr-xl", "rounded-bl-sm");
+      if (index === 2) classes.push("rounded-tr-sm", "rounded-bl-xl");
     }
   }
   return cn(...classes);
@@ -244,6 +254,19 @@ export const getImageAttachmentClasses = (
       if (index === 2) classes.push("rounded-tr-xl");
       if (index === total - 3) classes.push("rounded-bl-xl");
     }
+    if (total === 4) {
+      classes.push("size-24!");
+      if (index === 1) classes.push("rounded-tr-xl", "rounded-bl-sm");
+      if (index === 2) classes.push("rounded-tr-sm", "rounded-bl-xl");
+    }
   }
   return cn(...classes);
+};
+
+export const formatFileSize = (size: number) => {
+  if (size < 1024 * 1024) {
+    return `${(size / 1024).toFixed(2)} kB`;
+  } else {
+    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+  }
 };

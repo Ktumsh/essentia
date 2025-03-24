@@ -10,12 +10,13 @@ export const DEFAULT_CHAT_MODEL: string = "chat-model-small";
 
 export const modelProvider = customProvider({
   languageModels: {
-    "chat-model-small": openai("gpt-4o-mini-2024-07-18"),
-    "chat-model-large": openai("gpt-4o-2024-11-20"),
+    "chat-model-small": openai("gpt-4o-mini"),
+    "chat-model-large": openai("gpt-4o"),
     "chat-model-reasoning": wrapLanguageModel({
       model: fireworks("accounts/fireworks/models/deepseek-r1"),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
     }),
+    /* "chat-model-reasoning": openai("o3-mini"), */
     "title-model": openai("gpt-4o-mini"),
   },
   imageModels: {

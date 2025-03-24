@@ -128,7 +128,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                 className="space-y-4 md:pb-6"
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
-                  <div className="mt-3 flex items-end gap-2 overflow-x-auto">
+                  <div className="flex items-end gap-2 overflow-x-auto pt-3">
                     {attachments.map((attachment, index) => (
                       <PreviewAttachment
                         key={attachment.url}

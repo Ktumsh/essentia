@@ -263,7 +263,7 @@ export const profileSchema = z.object({
     }),
   bio: z
     .string()
-    .max(180, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_BIO) })
+    .max(2000, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_BIO) })
     .optional(),
   genre: z.string().optional(),
   weight: z

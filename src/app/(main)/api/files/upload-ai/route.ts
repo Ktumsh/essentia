@@ -12,11 +12,15 @@ const FileSchema = z.object({
     })
     .refine(
       (file) =>
-        ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
-          file.type,
-        ),
+        [
+          "image/jpeg",
+          "image/jpg",
+          "image/png",
+          "image/webp",
+          "application/pdf",
+        ].includes(file.type),
       {
-        message: "Los archivos permitidos son JPEG, PNG o WEBP",
+        message: "Los archivos permitidos son JPEG, PNG, WEBP y PDF",
       },
     ),
 });
@@ -53,9 +57,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const fileExtension = file.name.split(".").pop();
-    const filename = `ai-${uniqueSuffix}.${fileExtension}`;
+    const filename = file.name;
     const filePath = `ai/${filename}`;
 
     const fileBuffer = Buffer.from(await file.arrayBuffer());

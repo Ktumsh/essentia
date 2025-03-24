@@ -1,6 +1,6 @@
 "use server";
 
-import { eq, desc, asc, and, gte } from "drizzle-orm";
+import { eq, desc, asc, and, gte, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -135,16 +135,42 @@ export async function deleteMessagesByChatIdAfterTimestamp({
   timestamp: Date;
 }) {
   try {
-    return await db
-      .delete(chatMessage)
+    const messagesToDelete = await db
+      .select({ id: chatMessage.id })
+      .from(chatMessage)
       .where(
         and(
           eq(chatMessage.chatId, chatId),
           gte(chatMessage.createdAt, timestamp),
         ),
       );
+
+    const messageIds = messagesToDelete.map((message) => message.id);
+
+    if (messageIds.length > 0) {
+      await db
+        .delete(chatVote)
+        .where(
+          and(
+            eq(chatVote.chatId, chatId),
+            inArray(chatVote.messageId, messageIds),
+          ),
+        );
+
+      return await db
+        .delete(chatMessage)
+        .where(
+          and(
+            eq(chatMessage.chatId, chatId),
+            inArray(chatMessage.id, messageIds),
+          ),
+        );
+    }
   } catch (error) {
-    console.error("Error al eliminar los mensajes después del timestamp:");
+    console.error(
+      "Error al eliminar los mensajes después de la marca de tiempo:",
+      error,
+    );
     throw error;
   }
 }

@@ -319,6 +319,7 @@
   * {
     @apply border-border outline-ring/50 font-poppins scroll-smooth;
     scrollbar-color: var(--color-border) var(--color-background);
+    scrollbar-width: thin;
   }
   *,
   ::after,

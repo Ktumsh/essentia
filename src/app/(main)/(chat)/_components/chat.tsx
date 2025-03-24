@@ -17,6 +17,7 @@ import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
 import { useScrollToBottom } from "../_hooks/use-scroll-to-bottom";
 import { useUserMessageId } from "../_hooks/use-user-message-id";
+import { generateUUID } from "../_lib/utils";
 
 import type { ChatVote } from "@/db/schema";
 import type { Attachment, UIMessage } from "ai";
@@ -80,6 +81,7 @@ export function Chat({
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,
+    generateId: generateUUID,
     onFinish: () => {
       mutate("/api/history");
     },

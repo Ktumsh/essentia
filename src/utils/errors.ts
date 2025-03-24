@@ -69,7 +69,7 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.INVALID_BIRTHDATE]:
     "Debes tener al menos 13 años y la fecha debe ser realista",
   [ResultCode.INVALID_LENGTH_BIO]:
-    "Tu biografía debe tener menos de 160 caracteres",
+    "Tu biografía debe tener menos de 2000 caracteres",
   [ResultCode.INVALID_WEIGHT]: "Tu peso debe estar entre 1 y 300 kilogramos",
   [ResultCode.INVALID_HEIGHT]:
     "Tu altura debe estar entre 40 y 250 centímetros",

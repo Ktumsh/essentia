@@ -1,0 +1,1 @@
+ALTER TABLE "user_profile" ALTER COLUMN "bio" SET DATA TYPE varchar(2000);

@@ -2,13 +2,13 @@
 
 import { UseChatHelpers } from "@ai-sdk/react";
 import equal from "fast-deep-equal";
-import { PencilLine } from "lucide-react";
 import { motion } from "motion/react";
 import { memo, useEffect, useState } from "react";
 
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
+import { PencilEditIcon } from "@/components/ui/icons/action";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
@@ -102,6 +102,13 @@ const PurePreviewMessage = ({
     return null;
   }
 
+  const imageAttachments = experimental_attachments?.filter(
+    (attachment) => !attachment.contentType?.startsWith("application"),
+  );
+  const fileAttachments = experimental_attachments?.filter((attachment) =>
+    attachment.contentType?.startsWith("application"),
+  );
+
   return (
     <motion.article
       initial={{ y: 5, opacity: 0 }}
@@ -111,7 +118,7 @@ const PurePreviewMessage = ({
     >
       <div
         className={cn(
-          "flex w-full gap-4 group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-[75%]",
+          "relative flex w-full gap-4 group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-[75%]",
           {
             "w-full group-data-[role=user]/message:max-w-full": mode === "edit",
             "group-data-[role=user]/message:w-fit": mode !== "edit",
@@ -125,22 +132,43 @@ const PurePreviewMessage = ({
         )}
 
         <div className="flex w-full flex-col gap-2">
-          {experimental_attachments && experimental_attachments?.length > 0 && (
-            <div
-              data-testid={`message-attachments`}
-              className={cn("flex flex-row justify-end gap-2", {
-                "max-w-52 flex-wrap": experimental_attachments?.length > 3,
-              })}
-            >
-              {experimental_attachments.map((attachment, index) => (
-                <PreviewAttachment
-                  key={attachment.url}
-                  attachment={attachment}
-                  totalAttachments={experimental_attachments.length}
-                  index={index}
-                />
-              ))}
-            </div>
+          {experimental_attachments && experimental_attachments.length > 0 && (
+            <>
+              {imageAttachments && imageAttachments.length > 0 && (
+                <div
+                  data-testid="message-attachments-images"
+                  className={cn("flex flex-row justify-end gap-2 self-end", {
+                    "max-w-52 flex-wrap": imageAttachments.length > 3,
+                  })}
+                >
+                  {imageAttachments.map((attachment, index) => (
+                    <PreviewAttachment
+                      key={attachment.url}
+                      attachment={attachment}
+                      totalAttachments={imageAttachments.length}
+                      isFile={false}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              )}
+              {fileAttachments && fileAttachments.length > 0 && (
+                <div
+                  data-testid="message-attachments-files"
+                  className="flex w-full max-w-60 flex-row justify-end gap-2 self-end"
+                >
+                  {fileAttachments.map((attachment, index) => (
+                    <PreviewAttachment
+                      key={attachment.url}
+                      attachment={attachment}
+                      totalAttachments={fileAttachments.length}
+                      isFile={true}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
 
           {parts?.map((part, index) => {
@@ -163,21 +191,21 @@ const PurePreviewMessage = ({
                   <div
                     key={key}
                     className={cn("flex items-center gap-2", {
-                      "justify-end": userRole,
+                      "items-start justify-end": userRole,
                     })}
                   >
                     {userRole && !isReadonly && !isMobile && (
                       <BetterTooltip content="Editar mensaje">
                         <Button
-                          variant="ghost"
+                          variant="outline"
                           size="icon"
                           radius="md"
-                          className="text-foreground/80 size-8 shrink-0 opacity-0 group-hover/message:opacity-100 hover:bg-indigo-500 hover:text-white"
+                          className="text-muted-foreground bg-background mt-1.5 opacity-0 group-hover/message:opacity-100"
                           onClick={() => {
                             setMode("edit");
                           }}
                         >
-                          <PencilLine />
+                          <PencilEditIcon />
                         </Button>
                       </BetterTooltip>
                     )}
@@ -212,7 +240,10 @@ const PurePreviewMessage = ({
 
             if (mode === "edit") {
               return (
-                <div key={key} className="flex flex-row items-start gap-2">
+                <div
+                  key={key}
+                  className="flex w-full flex-row items-start gap-2"
+                >
                   <div className="hidden size-8 shrink-0 md:block" />
                   <MessageEditor
                     key={id}

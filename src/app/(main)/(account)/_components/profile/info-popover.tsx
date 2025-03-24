@@ -37,16 +37,16 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     ],
   },
   bioFormat: {
-    title: "Formato de biografía",
+    title: "Formato de instrucciones personalizadas",
     content: [
-      "Comparte un breve resumen sobre ti en un máximo de 180 caracteres.",
-      'Por ejemplo, "Amante del deporte y la vida saludable, buscando nuevas metas".',
+      "¿Qué te gustaría que Essentia AI supiera sobre ti para poder mejorar sus respuestas?",
+      "Describe tus preferencias, objetivos, restricciones o cualquier información relevante en un máximo de 2000 caracteres.",
     ],
   },
   bioReason: {
-    title: "¿Por qué indicar tu biografía?",
+    title: "¿Por qué indicar instrucciones personalizadas?",
     content: [
-      "Nos ayuda a personalizar tu experiencia en función de tus intereses, metas de salud y estilo de vida.",
+      "Saber sobre ti nos permite mejorar tus respuestas y recomendaciones, ofreciéndote una experiencia más personalizada y relevante.",
     ],
   },
   genre: {
@@ -87,7 +87,7 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     title: "Formato de ubicación",
     content: [
       "Introduce tu ubicación en un máximo de 50 caracteres.",
-      'Por ejemplo: "Santiago, Chile".',
+      'Por ejemplo: "Barcelona, España" o "Ciudad de México, CDMX".',
     ],
   },
   locationReason: {
@@ -100,14 +100,14 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     title: "Formato de nombre de tarea",
     content: [
       "Introduce un nombre breve para tu tarea o recordatorio en un máximo de 80 caracteres.",
-      'Por ejemplo, "Beber agua"',
+      'Por ejemplo, "Rutina de estiramientos post-entrenamiento" o "Preparar batido de proteínas"',
     ],
   },
   taskInstructions: {
     title: "Formato de instrucciones de tarea",
     content: [
       "Proporciona instrucciones claras y concisas para tu tarea o recordatorio en un máximo de 100 caracteres.",
-      'Por ejemplo, "Dime que tome un vaso de agua".',
+      'Por ejemplo, "Recuérdame hacer 10 minutos de estiramientos enfocados en piernas y espalda baja".',
     ],
   },
 };
@@ -122,7 +122,7 @@ function InfoPopover({ type }: { type: PopoverContentType }) {
         return initMessage + "la fecha de nacimiento";
       case "bioFormat":
       case "bioReason":
-        return initMessage + "la biografía";
+        return initMessage + "instrucciones personalizadas";
       case "genre":
         return initMessage + "el género";
       case "weightFormat":
@@ -144,7 +144,7 @@ function InfoPopover({ type }: { type: PopoverContentType }) {
   return (
     <Popover>
       <BetterTooltip content={moreInfoMessage}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild onClick={(e) => e.stopPropagation()}>
           <Button
             aria-label={moreInfoMessage}
             size="icon"

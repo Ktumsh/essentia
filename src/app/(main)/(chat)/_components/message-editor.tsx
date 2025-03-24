@@ -1,6 +1,7 @@
 "use client";
 
 import { UseChatHelpers } from "@ai-sdk/react";
+import { Loader } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { deleteTrailingMessages } from "@/app/(main)/(chat)/actions";
@@ -83,7 +84,7 @@ export function MessageEditor({
           Cancelar
         </Button>
         <Button radius="full" disabled={isSubmitting} onClick={handleSubmit}>
-          {isSubmitting ? "Enviando..." : "Enviar"}
+          {isSubmitting ? <Loader className="size-4 animate-spin" /> : "Enviar"}
         </Button>
       </div>
     </div>

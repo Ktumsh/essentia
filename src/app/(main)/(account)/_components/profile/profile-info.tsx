@@ -38,6 +38,7 @@ import {
 } from "./info-popover";
 import ProfileAvatar from "./profile-avatar";
 import InfoFieldItem from "../info-field-item";
+import BioModal from "./bio-modal";
 
 interface ProfileInfoProps {
   user: UserProfileData | null;
@@ -46,6 +47,7 @@ interface ProfileInfoProps {
 
 const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenBio, setIsOpenBio] = useState(false);
 
   const [displayData, setDisplayData] = useState<UserProfileData | null>(user);
 
@@ -164,10 +166,13 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
             {isOwnProfile && (
               <>
                 <div className="grid grid-cols-1 gap-4 @2xl:grid-cols-2">
-                  <div className="border-border rounded-lg border px-4 py-3">
+                  <div
+                    className="border-border cursor-pointer rounded-lg border px-4 py-3"
+                    onClick={() => setIsOpenBio(true)}
+                  >
                     <div className="grid-cols grid flex-1 gap-4">
                       <InfoFieldItem
-                        field="Biografía"
+                        field="Instrucciones personalizadas"
                         value={bio || "---"}
                         icon={ScrollText}
                       >
@@ -234,6 +239,8 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
           )}
         </Card>
       </div>
+
+      <BioModal isOpen={isOpenBio} setIsOpen={setIsOpenBio} bio={bio!} />
 
       <EditProfileForm
         profileData={displayData}

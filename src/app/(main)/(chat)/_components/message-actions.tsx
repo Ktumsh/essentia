@@ -87,7 +87,7 @@ const PureMessageActions = ({
           { revalidate: false },
         );
 
-        return "¡Gracias por votar la respuesta!";
+        return "¡Gracias por tu opinión! 🙏";
       },
       error: "Error al votar la respuesta.",
     });
@@ -127,7 +127,7 @@ const PureMessageActions = ({
           { revalidate: false },
         );
 
-        return "¡Gracias por votar la respuesta!";
+        return "¡Gracias por tu opinión! 🙏";
       },
       error: "Error al votar la respuesta.",
     });

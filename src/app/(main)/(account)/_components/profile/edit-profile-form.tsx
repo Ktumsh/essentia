@@ -250,17 +250,22 @@ const EditProfileForm = ({
               render={({ field, fieldState }) => (
                 <FormItem>
                   <div className="inline-flex items-center gap-1.5">
-                    <FormLabel>Biografía</FormLabel>
+                    <FormLabel>Instrucciones personalizadas</FormLabel>
                     <PopoverBioFormat />
                   </div>
                   <FormControl>
                     <Textarea
                       {...field}
                       placeholder="Cuéntanos algo sobre ti"
-                      maxLength={180}
-                      className="min-h-20 w-full resize-none text-sm"
+                      maxLength={2000}
+                      className="h-20 max-h-20 w-full resize-none text-sm"
                     />
                   </FormControl>
+                  <p>
+                    <span className="text-foreground/60 text-xs">
+                      {field.value?.length}/2000
+                    </span>
+                  </p>
                   <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
               )}

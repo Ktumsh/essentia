@@ -41,7 +41,7 @@ export const userProfile = table("user_profile", {
   weight: integer("weight"),
   height: integer("height"),
   profileImage: text("profile_image"),
-  bio: varchar("bio", { length: 255 }),
+  bio: varchar("bio", { length: 2000 }),
   location: varchar("location", { length: 255 }),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
