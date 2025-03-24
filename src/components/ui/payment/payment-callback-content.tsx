@@ -1,10 +1,10 @@
 "use client";
 
-import { Loader } from "lucide-react";
-import { motion } from "motion/react";
+import { CalendarCheck2, CalendarSync, Loader, Tag } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
   Card,
@@ -18,15 +18,17 @@ import { Separator } from "@/components/kit/separator";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
-import { CheckCircledIcon, CloseCircledIcon } from "../icons/common";
+import { StarsIcon } from "../icons/common";
+import { HomeIcon } from "../icons/interface";
 
 import type { Payment } from "@/db/schema";
 
 interface PaymentCallbackContentProps {
   title: string;
   message?: string;
-  paymentDetails: Payment;
-  renewalDate: Date | null;
+  paymentDetails?: Payment;
+  planType?: string;
+  renewalDate?: Date | null;
 }
 
 const getTitleStatus = (title: string): "success" | "canceled" | "failure" => {
@@ -40,18 +42,11 @@ const getTitleStatus = (title: string): "success" | "canceled" | "failure" => {
   }
 };
 
-const successColors = [
-  { color: "bg-white", size: 40, delay: 0 },
-  { color: "bg-green-400 dark:bg-success-300", size: 60, delay: 0.1 },
-  { color: "bg-green-300 dark:bg-success-200", size: 80, delay: 0.2 },
-  { color: "bg-green-200 dark:bg-success-100", size: 100, delay: 0.3 },
-  { color: "bg-green-100 dark:bg-success-50", size: 120, delay: 0.4 },
-];
-
 const PaymentCallbackContent = ({
   title,
   message,
   paymentDetails,
+  planType,
   renewalDate,
 }: PaymentCallbackContentProps) => {
   const router = useRouter();
@@ -98,12 +93,7 @@ const PaymentCallbackContent = ({
     verifySession();
   }, [session_id, titleStatus]);
 
-  const { amount, currency, processedAt } = paymentDetails;
-
-  const circles = successColors;
-
-  const IconComponent =
-    titleStatus === "success" ? CheckCircledIcon : CloseCircledIcon;
+  const { amount, currency, processedAt } = paymentDetails || {};
 
   const titleColor = "text-success";
 
@@ -112,7 +102,7 @@ const PaymentCallbackContent = ({
       <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
         <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
           <CardHeader>
-            <CardDescription className="inline-flex items-center gap-2">
+            <CardDescription className="text-foreground inline-flex items-center gap-2">
               <p>Verificando el estado del pago</p>
               <Loader className="size-4 animate-spin" />
             </CardDescription>
@@ -125,16 +115,24 @@ const PaymentCallbackContent = ({
   if (!isVerified) {
     return (
       <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
+        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center md:flex-row">
           <CardHeader>
-            <CardDescription>
-              <p>No se pudo verificar el estado del pago.</p>
-              <p>Por favor, inténtalo más tarde.</p>
+            <CardDescription className="text-foreground inline-flex flex-col items-center gap-4 md:flex-row">
+              <BadgeAlert variant="error" className="mb-0" />
+              <div>
+                <p>No se pudo verificar el estado del pago.</p>
+                <p>Por favor, inténtalo más tarde.</p>
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent className="md:pt-6 md:pl-0">
-            <Button variant="outline" onClick={() => router.push("/")}>
+            <Button
+              variant="outline"
+              onClick={() => router.push("/")}
+              className="bg-background"
+            >
               Volver a Essentia
+              <HomeIcon />
             </Button>
           </CardContent>
         </Card>
@@ -147,14 +145,19 @@ const PaymentCallbackContent = ({
       <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
         <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
           <CardHeader>
-            <CardDescription className="inline-flex flex-col items-center gap-2 md:flex-row">
-              <CloseCircledIcon className="text-red-500" />
+            <CardDescription className="inline-flex flex-col items-center gap-4 md:flex-row">
+              <BadgeAlert variant="error" className="mb-0" />
               <p>El pago ha sido cancelado.</p>
             </CardDescription>
           </CardHeader>
           <CardContent className="md:pt-6 md:pl-0">
-            <Button variant="outline" onClick={() => router.push("/")}>
+            <Button
+              variant="outline"
+              className="bg-background"
+              onClick={() => router.push("/")}
+            >
               Volver a Essentia
+              <HomeIcon />
             </Button>
           </CardContent>
         </Card>
@@ -164,66 +167,53 @@ const PaymentCallbackContent = ({
 
   return (
     <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-      <div className="relative flex size-[120px] items-center justify-center">
-        {circles.map((circle, index) => (
-          <motion.div
-            key={index}
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: 1,
-            }}
-            transition={{
-              ease: "easeInOut",
-              duration: 0.6,
-              delay: circle.delay,
-            }}
-            className={`${circle.color} absolute flex items-center justify-center rounded-full`}
-            style={{
-              width: `${circle.size}px`,
-              height: `${circle.size}px`,
-              zIndex: circles.length - index,
-            }}
-          >
-            {index === 0 && (
-              <IconComponent className="dark:text-success size-12 scale-125 text-green-600" />
-            )}
-          </motion.div>
-        ))}
-      </div>
-
-      <h1 className={cn("text-2xl font-semibold", titleColor)}>{title}</h1>
-
+      <BadgeAlert variant="success" />
+      <h1
+        className={cn("font-merriweather text-2xl font-semibold", titleColor)}
+      >
+        {title}
+      </h1>
       {message && <p className="mt-2! text-center text-sm">{message}</p>}
-
       {titleStatus === "success" && paymentDetails && (
         <div className="w-full max-w-lg">
           <Card className="bg-accent dark:bg-accent/50">
-            <CardHeader className="space-y-2">
+            <CardHeader className="space-y-4">
               <CardTitle className="text-lg">Detalles del pago</CardTitle>
-              <CardDescription className="flex flex-col space-y-2">
+              <CardDescription className="flex flex-col space-y-6">
                 <div className="inline-flex justify-between">
-                  <span>Plan premium</span>{" "}
-                  <span>
-                    ${amount?.toLocaleString("es-CL")} {currency?.toUpperCase()}
+                  <div className="inline-flex items-center gap-2">
+                    <Tag className="size-4" />
+                    <span>Tipo de plan</span>
+                  </div>
+                  <span className="text-foreground">{planType}</span>
+                </div>
+                <div className="inline-flex justify-between">
+                  <div className="inline-flex items-center gap-2">
+                    <CalendarCheck2 className="size-4" />
+                    <span>Fecha del pago</span>
+                  </div>
+                  <span className="text-foreground">
+                    {formatDate(processedAt!, "dd/MM/yyyy")}
                   </span>
                 </div>
                 <div className="inline-flex justify-between">
-                  <span>Fecha del Pago</span>
-                  <span>{formatDate(processedAt!, "dd/MM/yyyy")}</span>
-                </div>
-                <div className="inline-flex justify-between">
-                  <span>Próxima Renovación</span>
-                  <span>{formatDate(renewalDate!, "dd/MM/yyyy")}</span>
+                  <div className="inline-flex items-center gap-2">
+                    <CalendarSync className="size-4" />
+                    <span>Próxima renovación</span>
+                  </div>
+                  <span className="text-foreground">
+                    {formatDate(renewalDate!, "dd/MM/yyyy")}
+                  </span>
                 </div>
               </CardDescription>
             </CardHeader>
-            <CardContent></CardContent>
             <Separator />
-            <CardFooter className="p-3 md:p-6">
+            <CardFooter className="bg-accent p-3 md:p-6">
               <div className="inline-flex w-full justify-between">
-                <span className="text-lg font-semibold">Total</span>{" "}
-                <span className="text-lg font-semibold">
+                <span className="font-merriweather text-lg font-semibold">
+                  Total
+                </span>{" "}
+                <span className="font-merriweather text-lg font-semibold">
                   ${amount?.toLocaleString("es-CL")} {currency?.toUpperCase()}
                 </span>
               </div>
@@ -231,18 +221,13 @@ const PaymentCallbackContent = ({
           </Card>
         </div>
       )}
-
       <Button
-        variant="outline"
-        onClick={() => {
-          if (titleStatus === "success") {
-            router.push("/essentia-ai");
-          } else {
-            router.push("/");
-          }
-        }}
+        variant="gradient"
+        radius="full"
+        onClick={() => router.push("/essentia-ai")}
       >
-        {titleStatus === "success" ? "Comenzar ahora" : "Volver a Essentia"}
+        Comenzar ahora
+        <StarsIcon className="**:fill-white focus:outline-hidden" />
       </Button>
     </div>
   );

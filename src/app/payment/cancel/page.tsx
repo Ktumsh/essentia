@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 
-import { auth } from "@/app/(auth)/auth";
 import PaymentCallbackContent from "@/components/ui/payment/payment-callback-content";
-import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 
 export const metadata: Metadata = {
   title: "Compra cancelada",
@@ -12,17 +10,7 @@ export const metadata: Metadata = {
 };
 
 const CancelPage = async () => {
-  const session = await auth();
-  const userId = session?.user?.id as string;
-  const [paymentDetail] = await getPaymentDetails(userId);
-  const [subscription] = await getSubscription(userId);
-  return (
-    <PaymentCallbackContent
-      title="Compra cancelada"
-      paymentDetails={paymentDetail}
-      renewalDate={subscription.expiresAt}
-    />
-  );
+  return <PaymentCallbackContent title="Compra cancelada" />;
 };
 
 export default CancelPage;

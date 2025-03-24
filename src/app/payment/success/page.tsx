@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
+import { getPlanType } from "@/app/(main)/(account)/_lib/utils";
 import PaymentCallbackContent from "@/components/ui/payment/payment-callback-content";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 
@@ -23,8 +24,9 @@ const SuccessPage = async () => {
   return (
     <PaymentCallbackContent
       title="¡Gracias por tu compra!"
-      message="Ahora puedes comenzar a disfrutar de nuestras funciones premium."
+      message="Ahora puedes comenzar a disfrutar de las funcionalidades premium."
       paymentDetails={paymentDetail}
+      planType={getPlanType(subscription.type!)}
       renewalDate={subscription.expiresAt}
     />
   );

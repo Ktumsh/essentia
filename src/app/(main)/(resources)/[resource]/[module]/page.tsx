@@ -13,6 +13,10 @@ const ModulePage = async (props: ModulePageProps) => {
 
   const moduleData = await getModuleBySlug(moduleSlug);
 
+  if (!moduleData) {
+    return redirect("/");
+  }
+
   return redirect(
     `/${resourceSlug}/${moduleData.module.slug}/${moduleData.lesson?.slug}`,
   );
