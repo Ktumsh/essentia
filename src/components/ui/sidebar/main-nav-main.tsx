@@ -28,7 +28,10 @@ const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
       <SidebarMenu>
         <SidebarMenuItem>
           <MainSearch isPremium={isPremium}>
-            <SidebarMenuButton tooltip="Busca rapida">
+            <SidebarMenuButton
+              tooltip="Busca rapida"
+              className="transition-all hover:gap-3 hover:duration-300"
+            >
               <SearchIcon className="size-5" aria-hidden="true" />
               <span>Busca rápida</span>
             </SidebarMenuButton>
@@ -43,6 +46,7 @@ const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
                 asChild
                 isActive={isActive}
                 tooltip={item.name}
+                className="transition-all hover:gap-3 hover:duration-300"
               >
                 <Link href={item.href}>
                   <item.activeIcon className="group-data-[active=true]/menu-button:-m-px" />

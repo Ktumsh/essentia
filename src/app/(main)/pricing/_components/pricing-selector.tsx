@@ -12,14 +12,12 @@ import {
   SelectValue,
 } from "@/components/kit/select";
 import { siteConfig } from "@/config/site.config";
+import {
+  SUBSCRIPTION_PLANS,
+  SubscriptionPlanType,
+} from "@/consts/subscriptions-plans";
 
 import PricingCard from "./pricing-card";
-import {
-  getPlanDescription,
-  getPlanFeatures,
-  getPlanName,
-  getPlanSubname,
-} from "../_lib/utils";
 
 interface PricingSelectorProps {
   session: Session | null;
@@ -32,38 +30,35 @@ const PricingSelector = ({
   currentPriceId,
   isPremium,
 }: PricingSelectorProps) => {
-  const id = currentPriceId;
-  const { free, premium, premiumPlus } = siteConfig.plan;
-  const PLANS = [free, premium, premiumPlus];
+  const { premium } = siteConfig.plan;
 
-  const [selectedPlan, setSelectedPlan] = useState<string>(
-    id === free ? premium : id || free,
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanType>(
+    SUBSCRIPTION_PLANS.find((plan) => plan.id === currentPriceId) ||
+      SUBSCRIPTION_PLANS[0],
   );
-
-  const isRecommended = selectedPlan === premium;
-  const isAnual = selectedPlan === premiumPlus;
-  const planPrice =
-    selectedPlan === free ? 0 : selectedPlan === premium ? 9500 : 91200;
 
   return (
     <>
       <div className="mb-4">
         <Select
           aria-label="Selecciona un plan"
-          value={selectedPlan}
-          onValueChange={(value) => setSelectedPlan(value)}
+          value={selectedPlan?.id}
+          onValueChange={(value) => {
+            const plan = SUBSCRIPTION_PLANS.find((p) => p.id === value);
+            if (plan) setSelectedPlan(plan);
+          }}
         >
           <SelectTrigger>
-            <SelectValue>{getPlanName(selectedPlan)}</SelectValue>
+            <SelectValue>{selectedPlan?.name}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {PLANS.map((plan) => (
-                <SelectItem key={plan} value={plan}>
+              {SUBSCRIPTION_PLANS.map((plan) => (
+                <SelectItem key={plan.id} value={plan.id}>
                   <div className="flex items-center gap-2">
-                    <span>{getPlanName(plan)}</span>
+                    <span>{plan.name}</span>
                     <span className="text-muted-foreground text-xs font-medium">
-                      {getPlanSubname(id, plan)}
+                      {plan.label}
                     </span>
                   </div>
                 </SelectItem>
@@ -74,16 +69,10 @@ const PricingSelector = ({
       </div>
       <PricingCard
         session={session}
-        title={getPlanName(selectedPlan)}
-        subtitle={getPlanSubname(id, selectedPlan)}
-        description={getPlanDescription(selectedPlan)}
-        priceId={selectedPlan}
-        isCurrentPlan={id === selectedPlan}
-        price={planPrice}
-        isPremiumPlan={isRecommended}
-        isPremiumPlusPlan={isAnual}
+        isCurrentPlan={currentPriceId === selectedPlan.id}
+        isPremiumPlan={selectedPlan.id === premium}
         isPremium={isPremium}
-        features={getPlanFeatures(selectedPlan)}
+        plan={selectedPlan}
       />
     </>
   );

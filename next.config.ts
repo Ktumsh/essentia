@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
         ".mjs",
         ".json",
       ],
+      resolveAlias: {
+        canvas: "./empty-module.ts",
+      },
     },
     ppr: true,
   },
@@ -37,8 +40,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/adicionales",
-        destination: "/adicionales/guias",
+        source: "/additionals",
+        destination: "/additionals/guides",
         permanent: true,
       },
     ];

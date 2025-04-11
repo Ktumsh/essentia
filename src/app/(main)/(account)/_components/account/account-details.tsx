@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { UserProfileData } from "@/types/auth";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import { Courses } from "@/types/resource";
 import { formatDate } from "@/utils/format";
 
@@ -23,14 +23,15 @@ import DeleteAccountModal from "./delete-account-modal";
 import InfoFieldItem from "../info-field-item";
 
 interface AccountDetailsProps {
-  user: UserProfileData | null;
   courses: Courses;
 }
 
-const AccountDetails = ({ user, courses }: AccountDetailsProps) => {
+const AccountDetails = ({ courses }: AccountDetailsProps) => {
   const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
   const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+
+  const { user } = useUserProfile();
 
   if (!user) {
     return null;

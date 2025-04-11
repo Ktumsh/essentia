@@ -59,18 +59,18 @@ const ResourcesItem = (props: ResoucesItemProps) => {
         href={href}
         className={cn(
           getResourceColor(index, "gradient"),
-          "relative aspect-auto h-44 min-w-36 flex-col items-center justify-center rounded-2xl bg-linear-to-br transition active:scale-[0.97] sm:h-64 md:hidden",
+          "relative flex aspect-auto min-h-36 min-w-36 flex-col items-center justify-center gap-2 rounded-2xl bg-linear-to-br transition first:rounded-tr-2xl! last:rounded-bl-2xl! odd:rounded-tr-sm odd:rounded-br-sm even:rounded-tl-sm even:rounded-bl-sm active:scale-[0.97] md:hidden [&:nth-child(2)]:rounded-tl-2xl [&:nth-child(5)]:rounded-br-2xl",
         )}
       >
-        <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
+        <div className="z-10 flex w-full flex-1 shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
           <span className="text-xxs font-bold tracking-wide text-white/70 uppercase">
             {subtitle}
           </span>
-          <h3 className="text-lg font-semibold text-white sm:text-xl">
+          <h3 className="text-[17px] font-semibold text-white sm:text-xl">
             {title}
           </h3>
         </div>
-        <div className="absolute inset-x-4 bottom-3 flex items-end justify-between text-white sm:inset-x-5 sm:bottom-5">
+        <div className="flex w-full items-end justify-between p-4 pt-0 text-white sm:p-5">
           <div>
             <resourceDetails.activeIcon className="size-7" />
           </div>

@@ -48,6 +48,21 @@ export const userProfile = table("user_profile", {
 
 export type UserProfile = InferSelectModel<typeof userProfile>;
 
+export const userTrial = table("user_trial", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  startedAt: timestamp("started_at").notNull().defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+  hasUsed: boolean("has_used").notNull().default(false),
+  ip: varchar("ip", { length: 64 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type UserTrial = InferSelectModel<typeof userTrial>;
+
 export const subscription = table("subscription", {
   userId: uuid("user_id")
     .notNull()
@@ -59,11 +74,31 @@ export const subscription = table("subscription", {
   type: varchar("type", {
     enum: ["free", "premium", "premium-plus"],
     length: 50,
-  }).default("free"),
+  })
+    .references(() => plan.id)
+    .default("free"),
   expiresAt: timestamp("expires_at"),
 });
 
 export type Subscription = InferSelectModel<typeof subscription>;
+
+export const plan = table("plan", {
+  id: varchar("id", { length: 50 }).primaryKey().notNull(),
+  name: varchar("name", { length: 100 }).notNull(),
+  description: text("description"),
+  maxFiles: integer("max_files").notNull().default(6),
+  price: integer("price").default(0),
+  supportLevel: varchar("support_level", {
+    enum: ["basic", "standard", "priority"],
+  })
+    .notNull()
+    .default("basic"),
+  isAvailable: boolean("is_available").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type Plan = InferSelectModel<typeof plan>;
 
 export const payment = table("payment", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
@@ -359,3 +394,161 @@ export const userTask = table("user_task", {
 });
 
 export type UserTask = InferSelectModel<typeof userTask>;
+
+export const userMedicalHistory = table("user_medical_history", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  condition: varchar("condition", { length: 100 }).notNull(),
+  description: text("description"),
+  type: varchar("type", {
+    enum: [
+      "Examen", // Exámenes de laboratorio, radiografías
+      "Receta", // Recetas médicas
+      "Informe", // Informes clínicos
+      "Diagnóstico", // Diagnóstico médico formal
+      "Imagenología", // Imágenes médicas (radiografías, ecografías)
+      "Certificado", // Certificados médicos para licencia o trabajo
+      "Epicrisis", // Resumen clínico al alta
+      "Consentimiento", // Consentimientos informados
+      "Otro", // Cualquier otro documento relevante
+    ],
+  }).notNull(),
+  issuer: varchar("issuer", { length: 150 }),
+  documentDate: timestamp("document_date"),
+  notes: text("notes"),
+  visibility: varchar("visibility", { enum: ["private", "shared"] }).default(
+    "private",
+  ),
+  isDeleted: boolean("is_deleted").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type UserMedicalHistory = InferSelectModel<typeof userMedicalHistory>;
+
+export const userMedicalFile = table("user_medical_file", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  medicalHistoryId: uuid("medical_history_id")
+    .notNull()
+    .references(() => userMedicalHistory.id, { onDelete: "cascade" }),
+  url: text("url").notNull(),
+  name: varchar("name", { length: 200 }).notNull(),
+  size: integer("size").notNull(),
+  contentType: varchar("content_type", { length: 100 }).notNull(),
+  uploadedAt: timestamp("uploaded_at").notNull(),
+});
+
+export type UserMedicalFile = InferSelectModel<typeof userMedicalFile>;
+
+export const medicalTag = table("medical_tag", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  name: varchar("name", { length: 50 }).notNull().unique(),
+  description: text("description"),
+});
+
+export type MedicalTag = InferSelectModel<typeof medicalTag>;
+
+export const userMedicalHistoryTag = table("user_medical_history_tag", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  medicalHistoryId: uuid("medical_history_id")
+    .notNull()
+    .references(() => userMedicalHistory.id, { onDelete: "cascade" }),
+  tagId: uuid("tag_id")
+    .notNull()
+    .references(() => medicalTag.id, { onDelete: "cascade" }),
+});
+
+export type UserMedicalHistoryTag = InferSelectModel<
+  typeof userMedicalHistoryTag
+>;
+
+export const userMedicalHistoryActivity = table(
+  "user_medical_history_activity",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    medicalHistoryId: uuid("medical_history_id")
+      .notNull()
+      .references(() => userMedicalHistory.id, { onDelete: "cascade" }),
+    action: varchar("action", {
+      enum: ["created", "updated", "deleted", "restored"],
+    }).notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+);
+
+export type UserMedicalHistoryActivity = InferSelectModel<
+  typeof userMedicalHistoryActivity
+>;
+
+export const aiMedicalRecommendation = table("ai_medical_recommendation", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  type: varchar("type", {
+    enum: ["general", "preventive", "lifestyle", "followUp", "medication"],
+  }).notNull(),
+  title: varchar("title", { length: 150 }).notNull(),
+  description: text("description").notNull(),
+  notes: text("notes"),
+  priority: varchar("priority", {
+    enum: ["high", "medium", "low"],
+  }).notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  isDeleted: boolean("is_deleted").notNull().default(false),
+});
+
+export type AiMedicalRecommendation = InferSelectModel<
+  typeof aiMedicalRecommendation
+>;
+
+export const aiRecommendationDocument = table("ai_recommendation_document", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  recommendationId: uuid("recommendation_id")
+    .notNull()
+    .references(() => aiMedicalRecommendation.id, { onDelete: "cascade" }),
+  documentId: uuid("document_id")
+    .notNull()
+    .references(() => userMedicalHistory.id, { onDelete: "cascade" }),
+});
+
+export type AiRecommendationDocument = InferSelectModel<
+  typeof aiRecommendationDocument
+>;
+
+export const aiRecommendationTag = table("ai_recommendation_tag", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  recommendationId: uuid("recommendation_id")
+    .notNull()
+    .references(() => aiMedicalRecommendation.id, { onDelete: "cascade" }),
+  tagId: uuid("tag_id")
+    .notNull()
+    .references(() => medicalTag.id, { onDelete: "cascade" }),
+});
+
+export type AiRecommendationTag = InferSelectModel<typeof aiRecommendationTag>;
+
+export const userFeedback = table("user_feedback", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .references(() => user.id, { onDelete: "set null" })
+    .default(sql`NULL`),
+  reaction: varchar("reaction", {
+    enum: ["love", "happy", "neutral", "frustrated", "angry"],
+  }).notNull(),
+  comment: text("comment").notNull(),
+  context: varchar("context", { length: 100 }),
+  ip: varchar("ip", { length: 64 }),
+  device: varchar("device", { length: 100 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type UserFeedback = InferSelectModel<typeof userFeedback>;

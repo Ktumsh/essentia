@@ -57,7 +57,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
       )}
       <div
         aria-hidden
-        className="absolute inset-0 z-[-1] bg-linear-to-t from-black/30 from-40% to-transparent transition duration-500 group-hover:backdrop-blur-xs"
+        className="absolute inset-0 z-[-1] rounded-xl bg-linear-to-t from-black/30 from-40% to-transparent transition duration-500 group-hover:backdrop-blur-xs"
       />
       <CardHeader className="pb-0">
         <div
@@ -73,7 +73,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
         <h3 className="font-merriweather text-lg font-bold text-white">
           {title}
         </h3>
-        <p className="text-sm leading-6 text-white/80">{description}</p>
+        <p className="text-sm leading-6 text-white/90">{description}</p>
       </div>
       <Link
         href={link}

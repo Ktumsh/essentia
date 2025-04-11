@@ -2,20 +2,15 @@
 
 import { Message } from "ai";
 import equal from "fast-deep-equal";
-import { Copy } from "lucide-react";
 import { memo } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { useCopyToClipboard } from "usehooks-ts";
 
-import { Button } from "@/components/kit/button";
+import { CopyButton } from "@/components/button-kit/copy-button";
+import { DislikeButton } from "@/components/button-kit/dislike-button";
+import { LikeButton } from "@/components/button-kit/like-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import {
-  DislikeFillIcon,
-  DislikeIcon,
-  LikeFillIcon,
-  LikeIcon,
-} from "@/components/ui/icons/action";
 import { type ChatVote } from "@/db/schema";
 
 interface PureMessageActionsProps {
@@ -139,44 +134,37 @@ const PureMessageActions = ({
   return (
     <div className="flex flex-row gap-2 transition-opacity group-hover/message:opacity-100 md:opacity-0">
       <BetterTooltip content="Copiar texto">
-        <Button
-          variant="outline"
+        <CopyButton
+          variant="ghost"
           size="icon"
-          radius="md"
           onClick={onCopy}
-          className="text-muted-foreground bg-background"
+          className="hover:bg-background text-foreground/80 size-6 rounded-sm"
         >
-          <Copy />
           <span className="sr-only">Copiar</span>
-        </Button>
+        </CopyButton>
       </BetterTooltip>
 
       <BetterTooltip content="Buena respuesta" hidden={isUpvoted}>
-        <Button
-          variant="outline"
+        <LikeButton
+          variant="ghost"
           size="icon"
-          radius="md"
           disabled={vote?.isUpvoted}
           onClick={upvoteResponse}
-          className="text-muted-foreground bg-background disabled:opacity-100"
+          className="hover:bg-background text-foreground/80 size-6 rounded-sm"
         >
-          {vote && vote.isUpvoted ? <LikeFillIcon /> : <LikeIcon />}
           <span className="sr-only">Votar buena respuesta</span>
-        </Button>
+        </LikeButton>
       </BetterTooltip>
-
       <BetterTooltip content="Mala respuesta" hidden={isDownvoted}>
-        <Button
-          variant="outline"
+        <DislikeButton
+          variant="ghost"
           size="icon"
-          radius="md"
           disabled={vote && !vote.isUpvoted}
           onClick={downvoteResponse}
-          className="text-muted-foreground bg-background disabled:opacity-100"
+          className="hover:bg-background text-foreground/80 size-6 rounded-sm"
         >
-          {vote && !vote.isUpvoted ? <DislikeFillIcon /> : <DislikeIcon />}
           <span className="sr-only">Votar mala respuesta</span>
-        </Button>
+        </DislikeButton>
       </BetterTooltip>
     </div>
   );

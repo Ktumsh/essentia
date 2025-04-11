@@ -2,9 +2,8 @@ import { Metadata } from "next";
 
 import { Separator } from "@/components/kit/separator";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
-import { getUserProfileData } from "@/utils/profile";
 
-import AccountHeader from "../../(account)/_components/account/account-header";
+import AccountHeader from "../../(account)/_components/account-header";
 import ProfileInfo from "../../(account)/_components/profile/profile-info";
 
 type Props = {
@@ -26,15 +25,13 @@ const ProfilePage = async (props: Props) => {
   const params = await props.params;
   const { username } = params;
 
-  const user = await getUserProfileData({ session: undefined, username });
-
   return (
     <PageWrapper>
       <AccountHeader username={username} />
       <div className="px-6">
         <Separator />
       </div>
-      <ProfileInfo user={user} isOwnProfile={false} />
+      <ProfileInfo isOwnProfile={false} />
     </PageWrapper>
   );
 };

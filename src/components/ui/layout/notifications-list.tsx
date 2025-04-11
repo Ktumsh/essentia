@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { memo, useState } from "react";
 
+import { BellButton } from "@/components/button-kit/bell-button";
 import { Button } from "@/components/kit/button";
 import { CardFooter, CardHeader, CardTitle } from "@/components/kit/card";
 import {
@@ -129,7 +130,7 @@ const NotificationList = ({ userId }: NotificationListProps) => {
     return (
       <Popover>
         <PopoverTrigger asChild>
-          <Button
+          <BellButton
             aria-label={
               hasUnreadNotifications
                 ? "Tienes notificaciones no leídas"
@@ -137,19 +138,15 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             }
             variant="ghost"
             size="icon"
-            radius="full"
-            className="border-border dark:border-alternative/50 size-8 border"
+            className="border-border relative size-8 border"
           >
-            <span className="relative">
-              <Bell />
-              {hasUnreadNotifications && (
-                <span
-                  aria-hidden="true"
-                  className="bg-primary absolute -top-2 -right-2 size-2.5 rounded-full"
-                ></span>
-              )}
-            </span>
-          </Button>
+            {hasUnreadNotifications && (
+              <span
+                aria-hidden="true"
+                className="bg-primary absolute -top-0.5 -right-0.5 z-10 size-2.5 rounded-full"
+              />
+            )}
+          </BellButton>
         </PopoverTrigger>
         <PopoverContent
           align="end"

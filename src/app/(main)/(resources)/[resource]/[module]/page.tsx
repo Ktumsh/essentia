@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { getModuleBySlug } from "@/db/querys/resource-query";
+import { getModuleBySlug } from "@/db/querys/resource-querys";
 
 type ModulePageProps = {
   params: Promise<{ resource: string; module: string }>;

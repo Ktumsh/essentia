@@ -1,7 +1,6 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import { motion } from "motion/react";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -123,7 +122,7 @@ export function Chat({
 
   return (
     <>
-      <motion.div
+      {/* <motion.div
         data-id="background"
         initial={{ opacity: 0, transform: "scale(0.6)" }}
         animate={{ opacity: 1, transform: "scale(1)" }}
@@ -132,7 +131,7 @@ export function Chat({
         className="pointer-events-none absolute inset-0 z-1 overflow-hidden"
       >
         <div className="dark:after:from-full-dark before:absolute before:top-0 before:left-1/2 before:h-[600px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-linear-to-tr before:from-slate-50 before:to-[#c0c6e6] before:opacity-60 before:blur-3xl before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:z-10 after:h-[280px] after:w-full after:rounded-full after:bg-linear-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-0 after:blur-lg after:content-[''] sm:before:w-[1080px] sm:after:w-[240px] md:before:opacity-80 dark:before:h-[700px] dark:before:bg-linear-to-br dark:before:from-transparent dark:before:to-[#ff7373] dark:before:opacity-20 dark:after:top-1/2 dark:after:h-[120px] dark:after:w-[160px] dark:after:bg-linear-to-br dark:after:via-[#ff7373] dark:after:opacity-15 dark:after:blur-2xl sm:dark:after:h-[180px]" />
-      </motion.div>
+      </motion.div> */}
       <Messages
         chatId={id}
         status={status}

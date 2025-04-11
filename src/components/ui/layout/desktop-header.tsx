@@ -1,14 +1,15 @@
 "use client";
 
-import { LogIn } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
+import { LoginButton } from "@/components/button-kit/login-button";
 import { Button } from "@/components/kit/button";
 import { Separator } from "@/components/kit/separator";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { UserProfileData } from "@/types/auth";
 
+import FeedbackBox from "./feedback-box";
 import { ModelSelector } from "./model-selector";
 import NavbarLinks from "./navbar-links";
 import NotificationList from "./notifications-list";
@@ -44,7 +45,7 @@ const DesktopHeader = ({
         role="banner"
         className="sticky inset-x-0 top-0 z-50 hidden md:block"
       >
-        <div className="border-border bg-background/80 flex h-14 w-full items-center justify-center rounded-tl-2xl border-b backdrop-blur-lg backdrop-saturate-150">
+        <div className="bg-background/80 flex h-14 w-full items-center justify-center rounded-tl-2xl border-b backdrop-blur-lg backdrop-saturate-150">
           <div className="absolute top-0 left-0 z-40">
             <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
               <AppSidebarToggle />
@@ -53,7 +54,8 @@ const DesktopHeader = ({
             </div>
           </div>
           <div className="absolute top-0 right-0 z-40 h-14 px-6">
-            <div className="text-foreground/80 flex size-full items-center justify-center gap-4 text-sm font-normal">
+            <div className="text-foreground/80 flex size-full items-center justify-center gap-3 text-sm font-normal">
+              <FeedbackBox />
               {!isReadonly && chatId && (
                 <VisibilitySelector
                   chatId={chatId as string}
@@ -65,22 +67,23 @@ const DesktopHeader = ({
                 <ModelSelector selectedModelId={selectedChatModel} />
               )}
               {!user && (
-                <Button
-                  variant="gradient"
-                  onClick={() => {
-                    if (pathname === "/") {
-                      router.push("/login");
-                    } else {
-                      router.push(`/login?redirect=${pathname}`);
-                    }
-                  }}
-                >
-                  <LogIn
-                    aria-hidden="true"
-                    className="size-4 **:fill-white focus:outline-hidden"
-                  />
-                  Inicia sesión
-                </Button>
+                <>
+                  <LoginButton
+                    variant="outline"
+                    onClick={() => {
+                      if (pathname === "/") {
+                        router.push("/login");
+                      } else {
+                        router.push(`/login?next=${pathname}`);
+                      }
+                    }}
+                  >
+                    Iniciar sesión
+                  </LoginButton>
+                  <Button onClick={() => router.push("/register")}>
+                    Crear cuenta
+                  </Button>
+                </>
               )}
               {user && <NotificationList userId={user.id} />}
             </div>

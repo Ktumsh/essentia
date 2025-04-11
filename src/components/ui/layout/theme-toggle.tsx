@@ -1,11 +1,12 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { memo, useEffect, useState } from "react";
 
-import { Button } from "@/components/kit/button";
+import { MonitorButton } from "@/components/button-kit/monitor-button";
+import { MoonButton } from "@/components/button-kit/moon-button";
+import { SunButton } from "@/components/button-kit/sun-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { cn } from "@/lib/utils";
 
@@ -33,16 +34,16 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
       if (newTheme === "system") {
         if (systemTheme && systemTheme !== resolvedTheme) {
           setTheme(newTheme);
-          if (pathname === "/centros-de-salud") {
-            router.replace("/centros-de-salud");
+          if (pathname === "/health-centers") {
+            router.replace("/health-centers");
           }
         } else {
           setTheme(newTheme);
         }
       } else {
         setTheme(newTheme);
-        if (pathname === "/centros-de-salud") {
-          router.replace("/centros-de-salud");
+        if (pathname === "/health-centers") {
+          router.replace("/health-centers");
         }
       }
     }
@@ -51,60 +52,45 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
   return (
     <div className={cn("border-border z-10 flex gap-1.5 rounded-full border")}>
       <BetterTooltip content="Sistema">
-        <Button
+        <MonitorButton
           aria-label="Modo sistema"
           size="icon"
-          radius="full"
           onClick={() => handleThemeChange("system")}
+          svgClassName={cn("size-3.5!", className === "size-8!" && "size-4")}
           className={cn(
             "text-foreground/80 hover:text-foreground min-w-6 bg-transparent! shadow-none! focus-visible:ring-0",
             theme === "system" && "text-foreground bg-accent!",
             className,
           )}
-        >
-          <Monitor
-            aria-hidden="true"
-            className={cn("size-3.5!", className === "size-8!" && "size-4")}
-          />
-        </Button>
+        />
       </BetterTooltip>
 
       <BetterTooltip content="Claro">
-        <Button
+        <SunButton
           aria-label="Modo claro"
           size="icon"
-          radius="full"
           onClick={() => handleThemeChange("light")}
+          svgClassName={cn("size-3.5!", className === "size-8!" && "size-4")}
           className={cn(
             "text-foreground/80 hover:text-foreground min-w-6 bg-transparent! shadow-none! focus-visible:ring-0",
             theme === "light" && "text-foreground bg-accent!",
             className,
           )}
-        >
-          <Sun
-            aria-hidden="true"
-            className={cn("size-3.5!", className === "size-8!" && "size-4")}
-          />
-        </Button>
+        />
       </BetterTooltip>
 
       <BetterTooltip content="Oscuro">
-        <Button
+        <MoonButton
           aria-label="Modo oscuro"
           size="icon"
-          radius="full"
           onClick={() => handleThemeChange("dark")}
+          svgClassName={cn("size-3.5!", className === "size-8!" && "size-4")}
           className={cn(
             "text-foreground/80 hover:text-foreground min-w-6 bg-transparent! shadow-none! focus-visible:ring-0",
             theme === "dark" && "text-foreground bg-accent!",
             className,
           )}
-        >
-          <Moon
-            aria-hidden="true"
-            className={cn("size-3.5!", className === "size-8!" && "size-4")}
-          />
-        </Button>
+        />
       </BetterTooltip>
     </div>
   );

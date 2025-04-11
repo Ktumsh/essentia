@@ -2,7 +2,7 @@
 
 import { UseChatHelpers } from "@ai-sdk/react";
 import equal from "fast-deep-equal";
-import { ArrowUp, Paperclip } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ChangeEvent,
   Dispatch,
@@ -16,12 +16,14 @@ import {
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
-import { Button } from "@/components/kit/button";
+import { ArrowRightButton } from "@/components/button-kit/arrow-right-button";
+import { AttachButton } from "@/components/button-kit/attach-button";
+import { StopButton as StopButtonKit } from "@/components/button-kit/stop-button";
 import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { StopIcon } from "@/components/ui/icons/action";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 import { useAdjustHeight } from "../_hooks/use-adjust-height";
 import { useEnterSubmit } from "../_hooks/use-enter-submit";
@@ -41,6 +43,7 @@ interface PromptFormProps {
   setMessages: UseChatHelpers["setMessages"];
   uploadQueue: string[];
   setUploadQueue: Dispatch<SetStateAction<string[]>>;
+  hasMessages: boolean;
 }
 
 const PurePromptForm = ({
@@ -81,6 +84,14 @@ const PurePromptForm = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [textareaRef]);
 
   useEffect(() => {
     setLocalStorageInput(input);
@@ -194,45 +205,45 @@ const PurePromptForm = ({
 
   return (
     <form ref={formRef} onSubmit={submitForm}>
-      <div className="border-border dark:border-alternative bg-accent relative z-10 flex max-h-60 w-full grow flex-col overflow-hidden md:overflow-visible md:rounded-xl md:border">
-        <AttachmentsButton fileInputRef={fileInputRef} status={status} />
-
-        <input
-          type="file"
-          aria-label="Adjuntar archivos"
-          accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
-          ref={fileInputRef}
-          multiple
-          tabIndex={-1}
-          onChange={handleFileChange}
-          className="pointer-events-none fixed -top-4 -left-4 size-0.5 opacity-0"
-        />
-
+      <div className="bg-accent ai-prompt relative flex max-h-60 w-full grow flex-col rounded-[15px] after:rounded-xl">
         <Textarea
           ref={textareaRef}
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"
           rows={2}
-          autoFocus
           placeholder="Escribe tu mensaje."
           disabled={!isPremium || false}
           value={input}
           onChange={handleInput}
           onKeyDown={onKeyDown}
-          className="text-foreground w-full resize-none rounded-none border-none bg-transparent px-16 pt-5 text-[15px] shadow-none md:min-h-[98px] md:rounded-xl md:px-3 md:py-3 md:pb-12 md:text-base"
+          className="text-foreground min-h-14 w-full resize-none rounded-xl border-none bg-transparent px-4 py-3 pr-16 text-[15px] shadow-none focus-visible:ring-0 md:min-h-20 md:pr-4 md:text-base"
         />
 
-        {status === "submitted" ? (
-          <StopButton stop={stop} setMessages={setMessages} />
-        ) : (
-          <SendButton
-            input={input}
-            handleSubmit={handleSubmit}
-            uploadQueue={uploadQueue}
-            isPremium={isPremium}
+        <div className="pointer-events-none absolute top-1/2 inline-flex w-full -translate-y-1/2 items-center justify-end gap-2 px-3 pt-0 md:static md:translate-y-0 md:justify-between md:p-3">
+          <AttachmentsButton fileInputRef={fileInputRef} status={status} />
+
+          <input
+            type="file"
+            aria-label="Adjuntar archivos"
+            accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
+            ref={fileInputRef}
+            multiple
+            tabIndex={-1}
+            onChange={handleFileChange}
+            className="pointer-events-none fixed -top-4 -left-4 size-0.5 opacity-0"
           />
-        )}
+          {status === "submitted" ? (
+            <StopButton stop={stop} setMessages={setMessages} />
+          ) : (
+            <SendButton
+              input={input}
+              handleSubmit={handleSubmit}
+              uploadQueue={uploadQueue}
+              isPremium={isPremium}
+            />
+          )}
+        </div>
       </div>
     </form>
   );
@@ -254,21 +265,19 @@ function PureAttachmentsButton({
   status: UseChatHelpers["status"];
 }) {
   return (
-    <BetterTooltip content="Adjuntar archivo" hidden={status !== "ready"}>
-      <Button
+    <BetterTooltip content="Añadir archivo" hidden={status !== "ready"}>
+      <AttachButton
         size="icon"
-        radius="full"
         variant="ghost"
         disabled={status !== "ready"}
-        className="text-foreground dark:border-alternative absolute top-4 left-4 size-9! border border-slate-300 md:top-auto md:bottom-2 md:left-2"
+        className="hover:bg-background bg-background pointer-events-auto size-7 rounded-sm md:bg-transparent [&_svg]:size-3.5!"
         onClick={(e) => {
           e.preventDefault();
           fileInputRef.current?.click();
         }}
       >
-        <span className="sr-only">Adjuntar archivo</span>
-        <Paperclip className="size-4" />
-      </Button>
+        <span className="sr-only">Añadir archivo</span>
+      </AttachButton>
     </BetterTooltip>
   );
 }
@@ -283,23 +292,24 @@ function PureStopButton({
   setMessages: UseChatHelpers["setMessages"];
 }) {
   return (
-    <Button
+    <StopButtonKit
+      variant="gradient"
       size="icon"
-      radius="full"
-      className="absolute top-4 right-4 size-9 md:top-auto md:right-2 md:bottom-2"
       onClick={(event) => {
         event.preventDefault();
         stop();
         setMessages((messages) => messages);
       }}
+      className="pointer-events-auto size-8 rounded-full"
     >
       <span className="sr-only">Detener generación de mensajes</span>
-      <StopIcon className="size-4" />
-    </Button>
+    </StopButtonKit>
   );
 }
 
 const StopButton = memo(PureStopButton);
+
+const MotionArrowRightButton = motion(ArrowRightButton);
 
 function PureSendButton({
   handleSubmit,
@@ -312,17 +322,42 @@ function PureSendButton({
   uploadQueue: Array<string>;
   isPremium: boolean | null;
 }) {
+  const isMobile = useIsMobile();
+  const disabled = input.length === 0 || uploadQueue.length > 0 || !isPremium;
+
   return (
-    <Button
-      size="icon"
-      radius="full"
-      className="absolute top-4 right-4 size-9 md:top-auto md:right-2 md:bottom-2"
+    <MotionArrowRightButton
+      layout
+      variant="gradient"
+      size="sm" // Usamos un tamaño base "sm"
       onClick={handleSubmit}
-      disabled={input.length === 0 || uploadQueue.length > 0 || !isPremium}
+      disabled={disabled}
+      transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
+      // Si no hay texto, forzamos un width circular (por ejemplo, w-8) y sin padding horizontal;
+      // si hay texto, aplicamos padding horizontal para que se expanda
+      className={cn(
+        "pointer-events-auto flex-row-reverse overflow-hidden rounded-full disabled:opacity-50 [&_svg]:size-3.5! md:[&_svg]:size-4!",
+        input.length > 0
+          ? "size-7 md:h-8 md:w-40"
+          : "size-7 px-0 md:h-8 md:w-8",
+      )}
     >
-      <span className="sr-only">Enviar mensaje</span>
-      <ArrowUp className="size-4" />
-    </Button>
+      <AnimatePresence mode="wait" initial={false}>
+        {input.length > 0 && !isMobile && (
+          <motion.span
+            key="text"
+            layout
+            initial={{ opacity: 0, x: 4 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -4 }}
+            transition={{ duration: 0.2 }}
+            className="whitespace-nowrap"
+          >
+            Activa la magia
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </MotionArrowRightButton>
   );
 }
 

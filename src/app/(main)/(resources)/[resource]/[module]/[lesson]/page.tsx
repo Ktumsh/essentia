@@ -7,12 +7,12 @@ import {
   getCourseProgress,
   getLessonProgress,
   getModuleProgress,
-} from "@/db/querys/progress-query";
+} from "@/db/querys/progress-querys";
 import {
   getLessonBySlug,
   getModules,
   getResourceBySlug,
-} from "@/db/querys/resource-query";
+} from "@/db/querys/resource-querys";
 import { getUserProfileData } from "@/utils/profile";
 
 import Lesson from "../../../_components/lesson";
@@ -33,7 +33,7 @@ export async function generateMetadata({
   const modules = await getModules(resource.id);
 
   const currentModule = modules.find((mod) =>
-    mod.lessons.some((l) => l.slug === lessonSlug)
+    mod.lessons.some((l) => l.slug === lessonSlug),
   );
 
   if (!currentModule) {
@@ -64,18 +64,18 @@ const LessonPage = async (props: LessonPageProps) => {
   const modules = await getModules(resource.id);
 
   const currentModule = modules.find((mod) =>
-    mod.lessons.some((l) => l.slug === lessonSlug)
+    mod.lessons.some((l) => l.slug === lessonSlug),
   );
 
   const lesson = await getLessonBySlug(
     currentModule?.module.id || "",
-    lessonSlug
+    lessonSlug,
   );
 
   const progress = await getLessonProgress(userId, lesson.id);
 
   const lessonIds = modules.flatMap((mod) =>
-    mod.lessons.map((lesson) => lesson.id)
+    mod.lessons.map((lesson) => lesson.id),
   );
 
   if (!session) {

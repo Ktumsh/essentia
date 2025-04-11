@@ -34,7 +34,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
 
   const normalizedPath = formatPathName(pathname);
   const isEssentiaAi = pathname.startsWith("/essentia-ai");
-  const isAdditionals = pathname.startsWith("/adicionales");
+  const isAdditionals = pathname.startsWith("/additionals");
 
   const { isPremium } = user || {};
 
@@ -42,7 +42,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
     ...page,
     active:
       normalizedPath === page.href ||
-      (page.href === "/adicionales" && isAdditionals) ||
+      (page.href === "/additionals" && isAdditionals) ||
       (page.href === "/essentia-ai" && isEssentiaAi),
   }));
 
@@ -62,6 +62,8 @@ const BottomNav = ({ user }: BottomNavProps) => {
     [pages],
   );
 
+  if (isEssentiaAi) return null;
+
   return (
     <nav className="bg-background fixed inset-x-0 bottom-0 z-70 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] md:hidden dark:shadow-[0px_2px_6px_0px_var(--color-alternative),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]">
       {navItems.map((item, index) => (
@@ -72,6 +74,7 @@ const BottomNav = ({ user }: BottomNavProps) => {
                 <Button
                   aria-label="Busca rápida"
                   variant="ghost"
+                  radius="none"
                   fullWidth
                   className="text-muted-foreground dark:active:bg-accent/50! inline-flex h-full! min-w-0 p-0 transition-none after:absolute after:top-0 after:left-0 after:h-[3px] after:w-full after:scale-x-0 after:bg-current after:content-[''] hover:bg-transparent! active:bg-slate-100! active:transition-colors md:hidden"
                 >

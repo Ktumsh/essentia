@@ -1,10 +1,11 @@
 "use client";
 
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+import { Stars } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Button } from "@/components/kit/button";
-import { StarsIcon } from "@/components/ui/icons/common";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -66,36 +67,19 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
           hash="rutinas-de-ejercicios"
         >
           {!isMobile && (
-            <Button
-              radius="full"
-              size="sm"
-              variant="gradient"
-              onClick={onCreateRoutine}
-              className="before:bg-background relative z-0 transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:content-[''] hover:shadow-lg active:saturate-200"
-            >
-              <StarsIcon
-                aria-hidden="true"
-                className="stars-icon size-3.5! focus:outline-hidden"
-              />
-              <span className="from-gradient-from via-gradient-via to-gradient-to bg-gradient-to-r bg-clip-text text-sm font-bold text-transparent dark:from-[-100%]">
-                Crea tu rutina
-              </span>
-            </Button>
+            <SparklesButton onClick={onCreateRoutine}>
+              Crea tu rutina
+            </SparklesButton>
           )}
         </SectionTitle>
         <Button
           fullWidth
-          variant="gradient"
+          variant="premium"
           onClick={onCreateRoutine}
-          className="before:bg-background relative z-0 mb-4 h-14 rounded-2xl transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-[14px] before:content-[''] active:shadow-lg active:saturate-200 md:hidden"
+          className="mb-4 h-14 rounded-xl text-lg md:hidden"
         >
-          <StarsIcon
-            aria-hidden="true"
-            className="stars-icon size-5! focus:outline-hidden"
-          />
-          <span className="from-gradient-from via-gradient-via to-gradient-to bg-gradient-to-r bg-clip-text text-lg font-bold text-transparent dark:from-[-100%]">
-            Crea tu rutina
-          </span>
+          <Stars className="size-5! **:fill-white md:size-4!" />
+          <span>Crea tu rutina</span>
         </Button>
         <CardList type="routine" resource="ejercicios-y-fitness" />
       </section>

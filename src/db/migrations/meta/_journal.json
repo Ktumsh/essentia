@@ -141,6 +141,69 @@
       "when": 1742802760344,
       "tag": "0019_wakeful_iron_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1743407521631,
+      "tag": "0020_clumsy_the_professor",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1743477184875,
+      "tag": "0021_organic_changeling",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1743481211541,
+      "tag": "0022_legal_titania",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1743482434716,
+      "tag": "0023_light_micromax",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1743839538908,
+      "tag": "0024_fair_major_mapleleaf",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1744096690669,
+      "tag": "0025_odd_smiling_tiger",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1744244057207,
+      "tag": "0026_numerous_enchantress",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1744244161297,
+      "tag": "0027_puzzling_vin_gonzales",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1744276119623,
+      "tag": "0028_pretty_jean_grey",
+      "breakpoints": true
     }
   ]
 }

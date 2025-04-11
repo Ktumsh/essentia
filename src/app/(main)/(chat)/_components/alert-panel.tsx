@@ -1,16 +1,16 @@
 "use client";
 
-import { LogIn } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useState } from "react";
 
+import { LoginButton } from "@/components/button-kit/login-button";
+import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
-import { StarsIcon } from "@/components/ui/icons/common";
 import PaymentModal from "@/components/ui/payment/payment-modal";
 import WarningModal from "@/components/ui/payment/warning-premium-modal";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useWarningModal } from "@/hooks/use-warning-modal";
 
 interface AlertPanelProps {
@@ -21,6 +21,7 @@ interface AlertPanelProps {
 
 const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   const [isVisible, setIsVisible] = useState(true);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -59,32 +60,22 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
             )}
           </span>
           {session ? (
-            <Button
-              radius="full"
-              onClick={() => handleOpenPaymentModal(setIsPaymentModalOpen)}
-              className="from-gradient-from via-gradient-via to-gradient-to before:bg-background relative z-0 bg-gradient-to-r before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 dark:from-[-100%]"
-            >
-              <StarsIcon
-                aria-hidden="true"
-                className="stars-icon **:transition focus:outline-hidden"
-              />
-              <span className="from-gradient-from via-gradient-via to-gradient-to bg-gradient-to-r bg-clip-text font-sans text-sm font-extrabold text-transparent dark:from-[-100%]">
-                Hazte premium
-              </span>
-            </Button>
-          ) : (
-            <Button
+            <SparklesButton
               variant="gradient"
-              size="sm"
-              className="text-sm"
-              onClick={() => router.push("/login?redirect=/essentia-ai")}
+              size={isMobile ? "sm" : "default"}
+              onClick={() => handleOpenPaymentModal(setIsPaymentModalOpen)}
+              className="rounded-full"
             >
-              <LogIn
-                aria-hidden="true"
-                className="size-4 **:fill-white focus:outline-hidden"
-              />
+              Hazte premium
+            </SparklesButton>
+          ) : (
+            <LoginButton
+              size={isMobile ? "sm" : "default"}
+              onClick={() => router.push("/login?next=/essentia-ai")}
+              className="rounded-full"
+            >
               Inicia sesión
-            </Button>
+            </LoginButton>
           )}
         </motion.div>
       )}
@@ -98,6 +89,7 @@ const AlertPanel = ({ session, isPremium, isChat }: AlertPanelProps) => {
       {/* Modal de Pago */}
       {!isPremium && session && (
         <PaymentModal
+          featureType="chat"
           isOpen={isPaymentModalOpen}
           setIsOpen={setIsPaymentModalOpen}
         />

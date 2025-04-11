@@ -52,7 +52,10 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
             {state === "expanded" && !isAIPage ? (
               <>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip="Información">
+                  <SidebarMenuButton
+                    tooltip="Información"
+                    className="transition-all hover:gap-3 hover:duration-300"
+                  >
                     <InfoCircledIcon />
                     <span>Información</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

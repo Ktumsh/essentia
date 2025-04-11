@@ -18,7 +18,7 @@ const SettingLayout = async ({ children }: SettingLayoutProps) => {
 
   const paymentHistory = session ? await getPaymentHistory(userId) : [];
   return (
-    <PageWrapper>
+    <PageWrapper className="pb-0">
       <SettingsTabs
         user={userData}
         session={session}

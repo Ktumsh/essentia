@@ -2,7 +2,7 @@
 
 import { UseChatHelpers } from "@ai-sdk/react";
 import { Attachment, Message } from "ai";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -96,35 +96,24 @@ const ChatPanel = (props: ChatPanelProps) => {
   ]);
 
   return (
-    <>
-      <div className="relative z-10 mx-auto flex w-full gap-2 md:max-w-3xl md:px-4">
+    <AnimatePresence mode="popLayout">
+      <div className="relative z-1 mx-auto mt-auto flex w-full gap-2 px-2 pb-2 md:mt-0 md:mb-auto md:max-w-3xl md:px-4 md:pb-0">
         <ButtonToBottom
           isAtBottom={isAtBottom}
           scrollToBottom={scrollToBottom}
         />
         {!isReadonly ? (
-          <div className="relative flex w-full flex-col">
-            <SuggestedActions
-              chatId={chatId}
-              messages={messages}
-              attachments={attachments}
-              uploadQueue={uploadQueue}
-              isPremium={isPremium}
-              append={append}
-            />
-            <div className="border-border dark:border-alternative bg-accent relative border-t border-b-0 pb-12 md:rounded-t-xl md:border-0 md:bg-transparent! md:pb-0">
+          <div className="relative flex w-full flex-col-reverse md:flex-col">
+            <div className="relative rounded-t-xl">
               <motion.div
-                initial={{ opacity: 1, y: 0, scale: 1 }}
+                layout
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={
                   !isPremium
                     ? { opacity: 0, y: 150, scale: 0.9 }
                     : { opacity: 1, y: 0, scale: 1 }
                 }
-                transition={
-                  !isPremium
-                    ? { ease: "easeInOut", duration: 0.5, delay: 0.3 }
-                    : { ease: "easeInOut", duration: 1, delay: 0.3 }
-                }
+                transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
                 className="space-y-4 md:pb-6"
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
@@ -191,6 +180,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                   uploadQueue={uploadQueue}
                   setUploadQueue={setUploadQueue}
                   isPremium={isPremium}
+                  hasMessages={messages.length > 0}
                 />
               </motion.div>
               <AlertPanel
@@ -199,6 +189,14 @@ const ChatPanel = (props: ChatPanelProps) => {
                 isChat={isChat}
               />
             </div>
+            <SuggestedActions
+              chatId={chatId}
+              messages={messages}
+              attachments={attachments}
+              uploadQueue={uploadQueue}
+              isPremium={isPremium}
+              setInput={setInput}
+            />
           </div>
         ) : (
           <div className="border-border bg-background relative w-full border-t px-4 py-0 pb-16 sm:rounded-xl sm:border sm:py-4">
@@ -218,7 +216,7 @@ const ChatPanel = (props: ChatPanelProps) => {
           </div>
         )}
       </div>
-    </>
+    </AnimatePresence>
   );
 };
 

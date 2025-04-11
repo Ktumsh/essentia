@@ -52,9 +52,9 @@ const CardItem = ({ item, type }: CardItemProps) => {
               />
               <div
                 aria-hidden="true"
-                className="absolute right-0 bottom-3 z-10 hidden flex-col items-start! opacity-0 transition-all group-hover:px-5 group-hover:opacity-100 md:flex"
+                className="absolute right-0 bottom-3 z-10 hidden flex-col items-start! text-white opacity-0 transition-all duration-500 group-hover:px-5 group-hover:opacity-100 md:flex"
               >
-                <EyeIcon className="size-6 drop-shadow-md transition group-hover:text-white" />
+                <EyeIcon className="size-6 drop-shadow-md" />
               </div>
               <Image
                 width={296}

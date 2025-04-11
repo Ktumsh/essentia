@@ -1,3 +1,5 @@
+import { UserTrialStatusType } from "@/db/querys/user-querys";
+
 export interface UserProfileData {
   id: string;
   email: string;
@@ -13,12 +15,5 @@ export interface UserProfileData {
   location: string | null;
   isPremium: boolean | null;
   createdAt: Date;
-}
-
-export interface SubscriptionPlan {
-  id: string;
-  name: string;
-  description: string;
-  amount: number;
-  currency: string;
+  trial: UserTrialStatusType;
 }

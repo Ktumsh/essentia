@@ -13,7 +13,7 @@ const Resources = () => {
     }),
   );
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
       {itemId.map((item, index) => (
         <ResourcesItem
           key={index}

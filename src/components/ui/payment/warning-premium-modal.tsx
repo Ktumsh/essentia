@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/kit/button";
+import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,6 @@ import {
 } from "@/components/kit/dialog";
 
 import PaymentModal from "./payment-modal";
-import { StarsIcon } from "../icons/common";
 
 interface WarningModalProps {
   isPremium: boolean | null;
@@ -38,9 +37,9 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
           isBlurred
           overlayClassName="bg-white/50 dark:bg-black/80"
           closeButton={false}
-          className="from-gradient-from via-gradient-via to-gradient-to before:bg-background max-w-sm! gap-0 rounded-3xl border-none bg-gradient-to-r p-0 before:absolute before:inset-[2px] before:z-[-1] before:rounded-[23px] before:content-[''] sm:rounded-3xl dark:from-[-100%]"
+          className="before:bg-background max-w-sm! gap-0 rounded-3xl border-none bg-gradient-to-r from-indigo-500 to-pink-500 p-0 before:absolute before:inset-[2px] before:z-[-1] before:rounded-[23px] before:content-[''] sm:rounded-3xl"
         >
-          <DialogHeader className="from-gradient-from via-gradient-via to-gradient-to text-foreground flex-col items-center justify-center rounded-3xl bg-gradient-to-r p-3 text-center md:p-6 dark:from-[-100%]">
+          <DialogHeader className="text-foreground flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-indigo-500 to-pink-500 p-3 text-center md:p-6">
             <DialogTitle className="font-merriweather text-2xl leading-normal font-extrabold tracking-widest text-white uppercase">
               Essentia Premium
             </DialogTitle>
@@ -57,27 +56,24 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
           </div>
           <DialogFooter className="justify-center p-3 pt-0! md:p-6">
             <button aria-hidden className="sr-only"></button>
-            <Button
-              radius="full"
-              fullWidth
+            <SparklesButton
+              variant="gradient"
               onClick={() => {
                 setIsOpen(false);
                 setIsOpenPayment(true);
               }}
-              className="group from-gradient-from via-gradient-via to-gradient-to before:bg-background relative z-0 h-12 gap-3 bg-gradient-to-r px-6 shadow-none transition! before:absolute before:inset-[2px] before:z-[-1] before:rounded-full before:transition before:content-[''] hover:scale-105 hover:shadow-lg hover:saturate-200 hover:before:opacity-0 dark:from-[-100%]"
+              className="h-12 w-full rounded-full text-base font-extrabold tracking-widest [&_svg]:size-5!"
             >
-              <StarsIcon
-                aria-hidden="true"
-                className="stars-icon size-5! **:transition-all! group-hover:**:fill-white! focus:outline-hidden"
-              />
-              <span className="from-gradient-from via-gradient-via to-gradient-to bg-gradient-to-r bg-clip-text text-base font-extrabold tracking-widest text-transparent transition-colors group-hover:text-white dark:from-[-100%]">
-                Hazte premium
-              </span>
-            </Button>
+              Hazte premium
+            </SparklesButton>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <PaymentModal isOpen={isOpenPayment} setIsOpen={setIsOpenPayment} />
+      <PaymentModal
+        featureType="chat"
+        isOpen={isOpenPayment}
+        setIsOpen={setIsOpenPayment}
+      />
     </>
   );
 };

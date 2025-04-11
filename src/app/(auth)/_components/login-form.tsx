@@ -37,7 +37,7 @@ import { SubmitButton } from "./submit-button";
 const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/";
+  const redirectUrl = searchParams.get("next") || "/";
 
   const [isVisible, setIsVisible] = useState(false);
   const [isPending, startTransition] = useTransition();

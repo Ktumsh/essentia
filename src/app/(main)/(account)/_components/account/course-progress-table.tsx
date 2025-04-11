@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/kit/table";
-import { getLastCompletedLesson } from "@/db/querys/progress-query";
+import { getLastCompletedLesson } from "@/db/querys/progress-querys";
 import { getProgressColor } from "@/lib/utils";
 import { Courses } from "@/types/resource";
 import { formatDate } from "@/utils/format";

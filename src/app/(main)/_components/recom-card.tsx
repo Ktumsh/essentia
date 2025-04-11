@@ -4,6 +4,7 @@ import { StarsIcon } from "@/components/ui/icons/common";
 import {
   AdditionalFillIcon,
   AIFillIcon,
+  MedicalHistoryFillIcon,
 } from "@/components/ui/icons/interface";
 import { HealthCentersFillIcon } from "@/components/ui/icons/miscellaneus";
 import { UserProfileData } from "@/types/auth";
@@ -19,7 +20,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
     <div className="flex size-full">
       <div className="grid w-full grid-cols-2 gap-4 md:gap-2">
         <Link
-          href="/centros-de-salud"
+          href="/health-centers"
           scroll={false}
           className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
         >
@@ -29,12 +30,21 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </div>
         </Link>
         <Link
-          href="/adicionales"
+          href="/additionals"
           className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
             <AdditionalFillIcon className="size-7" />
             <h2 className="text-xs font-semibold">Recursos Adicionales</h2>
+          </div>
+        </Link>
+        <Link
+          href="/additionals"
+          className="dark:border-border dark:bg-accent/50 bg-accent col-span-2 flex items-center justify-center rounded-2xl border border-slate-300"
+        >
+          <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
+            <MedicalHistoryFillIcon className="size-7" />
+            <h2 className="text-xs font-semibold">Mi Historial Médico</h2>
           </div>
         </Link>
         {isPremium ? (

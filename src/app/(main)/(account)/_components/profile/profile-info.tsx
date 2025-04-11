@@ -21,6 +21,7 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 import { formatDate } from "@/utils/format";
@@ -41,13 +42,14 @@ import InfoFieldItem from "../info-field-item";
 import BioModal from "./bio-modal";
 
 interface ProfileInfoProps {
-  user: UserProfileData | null;
   isOwnProfile: boolean;
 }
 
-const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
+const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenBio, setIsOpenBio] = useState(false);
+
+  const { user } = useUserProfile();
 
   const [displayData, setDisplayData] = useState<UserProfileData | null>(user);
 
@@ -77,9 +79,8 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
     },
   ];
 
-  const isProfileComplete = () => {
-    return profileImage && bio && location && weight && height && genre;
-  };
+  const isProfileComplete =
+    profileImage && bio && location && weight && height && genre;
 
   return (
     <div
@@ -113,7 +114,7 @@ const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
         {isOwnProfile && (
           <motion.div
             initial={false}
-            animate={isProfileComplete() ? "hide" : "show"}
+            animate={isProfileComplete ? "hide" : "show"}
             variants={{
               show: { opacity: 1, display: "block" },
               hide: { opacity: 0, transitionEnd: { display: "none" } },

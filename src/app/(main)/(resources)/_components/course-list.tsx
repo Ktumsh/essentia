@@ -4,7 +4,6 @@ import {
   CheckCheck,
   LibraryBig,
   Loader,
-  LogIn,
   Play,
   TriangleAlert,
 } from "lucide-react";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { memo, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { LoginButton } from "@/components/button-kit/login-button";
 import { Badge } from "@/components/kit/badge";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
@@ -212,19 +212,12 @@ const CourseList = ({
                       Hazte premium
                     </Button>
                   ) : (
-                    <Button
-                      variant="gradient"
-                      fullWidth
-                      radius="full"
-                      onClick={() => router.push(`/login?redirect=/${slug}`)}
-                      className="shadow-pretty max-w-60 focus:text-white active:shadow-xs"
+                    <LoginButton
+                      onClick={() => router.push(`/login?next=/${slug}`)}
+                      className="shadow-pretty w-full max-w-60 rounded-full focus:text-white active:shadow-xs"
                     >
-                      <LogIn
-                        aria-hidden="true"
-                        className="size-4 **:fill-white focus:outline-hidden"
-                      />
                       Inicia sesión
-                    </Button>
+                    </LoginButton>
                   )}
                 </div>
               </div>
@@ -247,7 +240,7 @@ const CourseList = ({
             />
           )}
         </section>
-        <section className="top-5 col-[1/2] row-[2/3] -mx-6 md:mx-0 lg:sticky lg:col-[2/3] lg:row-[1/4]">
+        <section className="top-20 col-[1/2] row-[2/3] -mx-6 md:mx-0 lg:sticky lg:col-[2/3] lg:row-[1/4]">
           <Card className="dark:bg-accent/50 bg-accent rounded-none border-y md:rounded-2xl md:border">
             <CardHeader isSecondary>
               <CardTitle className="text-center text-lg">
@@ -319,7 +312,7 @@ const CourseList = ({
                     fullWidth
                     radius="full"
                     disabled={processing}
-                    onClick={() => router.push(`/login?redirect=/${slug}`)}
+                    onClick={() => router.push(`/login?next=/${slug}`)}
                   >
                     {!processing && <Play />}
                     Inicia sesión para continuar

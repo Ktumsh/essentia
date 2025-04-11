@@ -58,7 +58,7 @@ function DrawerContent({
         className={cn(
           "group/drawer-content bg-popover fixed z-70 flex h-auto flex-col",
           "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg",
-          "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[calc(100%-56px-2rem)] data-[vaul-drawer-direction=bottom]:rounded-t-3xl",
+          "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[calc(100%-56px)] data-[vaul-drawer-direction=bottom]:rounded-t-3xl",
           "overflow-hidden data-[vaul-drawer-direction=right]:inset-y-2 data-[vaul-drawer-direction=right]:right-2 data-[vaul-drawer-direction=right]:w-screen data-[vaul-drawer-direction=right]:max-w-72 data-[vaul-drawer-direction=right]:rounded-2xl data-[vaul-drawer-direction=right]:p-6",
           "data-[vaul-drawer-direction=left]:inset-y-2 data-[vaul-drawer-direction=left]:left-2 data-[vaul-drawer-direction=left]:w-screen data-[vaul-drawer-direction=left]:max-w-72 data-[vaul-drawer-direction=left]:rounded-2xl",
           className,
@@ -103,7 +103,7 @@ function DrawerTitle({
     <DrawerPrimitive.Title
       data-slot="drawer-title"
       className={cn(
-        "text-foreground py-2.5 text-sm leading-none font-semibold",
+        "text-foreground truncate px-4 py-2.5 text-sm leading-none font-semibold",
         className,
       )}
       {...props}

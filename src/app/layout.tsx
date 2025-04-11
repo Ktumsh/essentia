@@ -1,3 +1,5 @@
+import "@/styles/globals.css";
+
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
@@ -5,6 +7,7 @@ import { Session } from "next-auth";
 
 import { Toaster } from "@/components/kit/sonner";
 import { Providers } from "@/components/providers";
+import ProfileMessage from "@/components/ui/layout/profile-message";
 import TailwindIndicator from "@/components/ui/layout/tailwind-indicator";
 import {
   grotesk,
@@ -15,11 +18,11 @@ import {
 import { metadataConfig } from "@/config/metadata.config";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import { getUserTasks } from "@/db/querys/task-querys";
+import { getUserSubscriptionInfo } from "@/db/querys/user-querys";
 import { cn } from "@/lib/utils";
+import { getUserProfileData } from "@/utils/profile";
 
 import { auth } from "./(auth)/auth";
-
-import "@/styles/globals.css";
 
 export const metadata: Metadata = metadataConfig;
 
@@ -40,7 +43,10 @@ export default async function RootLayout({
     auth() as Promise<Session>,
     cookies(),
   ]);
+
   const userId = session?.user?.id as string;
+
+  const userData = session ? await getUserProfileData({ session }) : null;
 
   const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
 
@@ -53,6 +59,13 @@ export default async function RootLayout({
   const initialTasks = session ? await getUserTasks(userId) : [];
 
   const isMobile = cookieStore.get("isMobile")?.value === "true";
+
+  const initialUserSubscription = userId
+    ? await getUserSubscriptionInfo(userId)
+    : {
+        trial: { hasUsed: false, isActive: false, expiresAt: null },
+        subscription: null,
+      };
 
   return (
     <html lang="es" suppressHydrationWarning className="md:overflow-hidden">
@@ -69,13 +82,16 @@ export default async function RootLayout({
           currentPlan={currentPlan}
           defaultOpen={!isCollapsed}
           userId={userId}
+          initialUserData={userData}
           initialSubscription={subscription}
           initialPayment={payment}
           initialTasks={initialTasks}
           initialMobileState={isMobile}
+          initialUserSubscription={initialUserSubscription}
         >
           <Toaster />
-          <div className="relative flex size-full min-h-dvh flex-col md:max-h-dvh md:flex-row">
+          <ProfileMessage user={userData} session={session} />
+          <div className="relative flex size-full flex-col md:max-h-dvh md:min-h-dvh md:flex-row">
             {children}
           </div>
           <TailwindIndicator />

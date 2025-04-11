@@ -7,6 +7,7 @@ import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
+import { Greeting } from "./greeting";
 import { PreviewMessage, ThinkingMessage } from "./message";
 import Overview from "./overview";
 
@@ -40,10 +41,12 @@ function PureMessages({
 }: MessagesProps) {
   return (
     <div
-      className={cn("z-10 h-full min-w-0 space-y-6 overflow-y-auto pt-4")}
+      className={cn("mt-auto min-w-0 space-y-6 overflow-y-auto pt-4", {
+        "h-full": messages.length > 0,
+      })}
       ref={containerRef}
     >
-      {messages.length === 0 && <Overview />}
+      {messages.length === 0 && (user ? <Greeting /> : <Overview />)}
       {messages.map((message, index) => (
         <PreviewMessage
           key={message.id}

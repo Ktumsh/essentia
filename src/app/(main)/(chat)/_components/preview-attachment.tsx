@@ -9,12 +9,12 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/kit/dialog";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/shadcn/hover-card";
+} from "@/components/kit/hover-card";
+import { BetterTooltip } from "@/components/kit/tooltip";
 import { cn } from "@/lib/utils";
 
 import {

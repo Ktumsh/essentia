@@ -1,5 +1,7 @@
 "use client";
 
+import { Check } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useMemo, useState, useTransition } from "react";
@@ -8,43 +10,43 @@ import { toast } from "sonner";
 import { Button } from "@/components/kit/button";
 import { Card, CardHeader } from "@/components/kit/card";
 import { CheckCircledIcon } from "@/components/ui/icons/common";
+import StripeIcon from "@/components/ui/icons/stripe";
 import { setUserPlan } from "@/components/ui/payment/actions";
 import { siteConfig } from "@/config/site.config";
+import { SubscriptionPlanType } from "@/consts/subscriptions-plans";
 import { cn, getPlanPrice } from "@/lib/utils";
 
 import CancelPlanModal from "./cancel-plan-modal";
 import ConfirmPlanModal from "./confirm-plan-modal";
 
 interface PricingCardProps {
-  title: string;
-  priceId: string;
-  isCurrentPlan: boolean;
+  plan: SubscriptionPlanType;
+  isCurrentPlan?: boolean;
   isPremiumPlan?: boolean;
-  isPremiumPlusPlan?: boolean;
-  price: number;
-  subtitle: string;
-  description: string;
-  features: string[];
   session: Session | null;
   isPremium: boolean | null;
 }
 
 const PricingCard = ({
-  title,
-  priceId,
-  isCurrentPlan,
+  plan,
+  isCurrentPlan = false,
   isPremiumPlan = false,
-  isPremiumPlusPlan = false,
-  price,
-  subtitle,
-  description,
-  features,
   session,
   isPremium,
 }: PricingCardProps) => {
   const router = useRouter();
 
   const { free } = siteConfig.plan;
+
+  const {
+    name: planName,
+    label,
+    description,
+    other,
+    id: priceId,
+    monthlyAmount,
+    features,
+  } = plan;
 
   const [isOpenConfirmPlanModal, setIsOpenConfirmPlanModal] = useState(false);
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
@@ -76,14 +78,14 @@ const PricingCard = ({
       if (session) {
         setIsOpenCancelModal(true);
       } else {
-        router.push("/login?redirect=/pricing");
+        router.push("/login?next=/pricing");
       }
     } else {
       if (session) {
         setSelectedPlan(priceId);
         setIsOpenConfirmPlanModal(true);
       } else {
-        router.push("/login?redirect=/pricing");
+        router.push("/login?next=/pricing");
       }
     }
   };
@@ -91,39 +93,37 @@ const PricingCard = ({
   const cardClassName = useMemo(
     () =>
       cn(
-        "relative rounded-2xl md:rounded-3xl shrink-0 md:max-w-[352px] snap-start",
-        !isPremiumPlan &&
-          !isPremiumPlusPlan &&
-          "border border-slate-300 dark:border-alternative",
+        "relative rounded-2xl md:rounded-3xl shrink-0 md:max-w-[362px] snap-start flex flex-col",
+        planName === "Premium Plus" && "border-2 border-indigo-500",
         isPremiumPlan &&
-          "z-10 border-none bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to dark:from-[-100%] after:absolute after:inset-px after:rounded-2xl md:after:rounded-3xl after:content-[''] text-foreground after:bg-background/50",
-        isPremiumPlusPlan &&
-          "z-0 border-none bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to dark:from-[-100%] after:absolute after:inset-px after:rounded-2xl md:after:rounded-3xl after:bg-background after:content-['']",
+          "z-10 border-none bg-gradient-to-r from-indigo-500 to-indigo-600 after:absolute after:inset-px after:rounded-2xl md:after:rounded-3xl after:content-[''] text-white",
       ),
-    [isPremiumPlan, isPremiumPlusPlan],
+    [isPremiumPlan, planName],
   );
 
   const cardHeaderClassName = useMemo(
     () =>
       cn(
-        "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-foreground after:-z-10 after:border-b-0 after:border-slate-300 dark:after:border-alternative md:p-6",
-        !isPremiumPlan && !isPremiumPlusPlan && "after:inset-0!",
+        "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-foreground after:-z-10 after:border-b-0  md:p-6",
+        !isPremiumPlan && "after:inset-0!",
         isPremiumPlan
-          ? "after:absolute after:inset-px after:bottom-0 after:rounded-2xl md:after:rounded-3xl after:rounded-b-none  after:bg-background after:content-[''] dark:after:borde-background"
-          : "after:absolute after:inset-px after:bottom-0 after:rounded-2xl md:after:rounded-3xl after:rounded-b-none after:bg-accent after:content-[''] dark:after:bg-accent/50",
+          ? "after:absolute after:inset-0.5 after:bottom-0 after:rounded-2xl md:after:rounded-3xl after:rounded-b-none after:bg-background after:content-[''] dark:after:border-background"
+          : "after:absolute after:inset-px after:bottom-0 after:rounded-2xl md:after:rounded-3xl after:rounded-b-none after:bg-accent after:content-['']",
       ),
-    [isPremiumPlan, isPremiumPlusPlan],
+    [isPremiumPlan],
   );
 
   const buttonName = useMemo(() => {
     if (!session) {
       return "Inicia sesión";
     } else if (isCurrentPlan) {
-      return "Plan Actual";
+      return "Tu Plan Actual";
+    } else if (isPremium && isCurrentPlan) {
+      return "Ya estás usando este plan";
     } else {
-      return "Escoger " + title;
+      return "Escoger " + planName;
     }
-  }, [isCurrentPlan, session, title]);
+  }, [isCurrentPlan, isPremium, session, planName]);
 
   return (
     <>
@@ -131,39 +131,56 @@ const PricingCard = ({
         <CardHeader className={cardHeaderClassName}>
           <div className="inline-flex items-center gap-2">
             <h3 className="font-merriweather text-2xl font-semibold">
-              {title}
+              {planName}
             </h3>
             <div
               className={cn(
                 "text-foreground relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs",
-                isPremiumPlan
-                  ? "from-gradient-from via-gradient-via to-gradient-to after:bg-background bg-gradient-to-r after:absolute after:inset-px after:z-0 after:rounded-full after:content-[''] dark:from-[-100%]"
+                isPremiumPlan || planName === "Premium Plus"
+                  ? "after:bg-background bg-gradient-to-r from-indigo-500 to-indigo-600 after:absolute after:inset-px after:z-0 after:rounded-full after:content-['']"
                   : "dark:border-alternative bg-background border border-slate-300",
               )}
             >
-              <span className="z-10">{subtitle}</span>
+              <span className="z-10">{label}</span>
             </div>
           </div>
           <p className="text-foreground/80 min-h-[40px] text-sm lg:min-h-[60px]">
             {description}
           </p>
-          <p className="inline-block leading-none whitespace-nowrap">
-            <span className="font-sans text-2xl font-semibold tracking-tight">
-              ${price.toLocaleString("es-CL")}
-            </span>
-            <span className="text-muted-foreground ml-0.5 text-sm">
-              {isPremiumPlusPlan ? "/año" : "/mes"}
-            </span>
-          </p>
+          <div className="space-y-1">
+            <p className="inline-block leading-none whitespace-nowrap">
+              <span className="font-sans text-2xl font-semibold tracking-tight">
+                {monthlyAmount === 0
+                  ? "Gratis"
+                  : `$${monthlyAmount.toLocaleString("es-CL")}`}
+              </span>
+              {monthlyAmount > 0 && (
+                <span className="text-muted-foreground ml-0.5 text-sm">
+                  /mes
+                </span>
+              )}
+            </p>
+            <p className="text-muted-foreground text-xs">{other}</p>
+          </div>
           <Button
             radius="full"
-            disabled={isCurrentPlan}
-            variant={isPremiumPlan ? "gradient" : "outline"}
-            onClick={() => handlePlanSelect(priceId)}
+            variant={
+              isPremiumPlan || planName === "Premium Plus"
+                ? "gradient"
+                : "outline"
+            }
+            onClick={() => {
+              if (isCurrentPlan) {
+                return;
+              }
+              handlePlanSelect(priceId);
+            }}
             className={cn("z-10 h-10 shadow-none", {
-              "bg-background": !isPremiumPlan,
+              "bg-background": !isPremiumPlan && planName !== "Premium Plus",
+              "pointer-events-none": isCurrentPlan,
             })}
           >
+            {isCurrentPlan && <Check />}
             {buttonName}
           </Button>
         </CardHeader>
@@ -172,22 +189,51 @@ const PricingCard = ({
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
                 <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
-                  <div className="after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']">
+                  <div
+                    className={cn(
+                      "after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']",
+                      {
+                        "after:bg-indigo-950": isPremiumPlan,
+                      },
+                    )}
+                  >
                     <CheckCircledIcon className="inline-flex size-5 shrink-0 text-emerald-400" />
                   </div>
-                  <span className="text-foreground text-left">{feature}</span>
+                  <span
+                    className={cn("text-foreground text-left", {
+                      "text-white": isPremiumPlan,
+                    })}
+                  >
+                    {feature}
+                  </span>
                 </div>
               </li>
             ))}
           </ul>
+          {plan.name !== "Básico" && (
+            <div className="jutify-center mt-4 flex flex-1 items-end">
+              <div className="bg-background inline-flex w-full items-center justify-center gap-1 rounded-sm">
+                <p className="text-foreground text-center text-xs">
+                  Pagos seguros con
+                </p>
+                <Link
+                  href="https://stripe.com/es"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <StripeIcon className="size-8" />
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </Card>
       <ConfirmPlanModal
+        plan={plan}
         isOpen={isOpenConfirmPlanModal}
         setIsOpen={setIsOpenConfirmPlanModal}
         selectedPlan={selectedPlan}
-        title={title}
-        isUserPremium={isPremium}
+        planName={planName}
       />
       <CancelPlanModal
         isOpen={isOpenCancelModal}

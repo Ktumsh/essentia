@@ -12,10 +12,10 @@ import {
   User,
 } from "lucide-react";
 
-import Emergencies from "@/app/(main)/adicionales/_components/emergencies";
-import Guides from "@/app/(main)/adicionales/_components/guides";
-import Links from "@/app/(main)/adicionales/_components/links";
-import Recommendations from "@/app/(main)/adicionales/_components/recommendations";
+import Emergencies from "@/app/(main)/additionals/_components/emergencies";
+import Guides from "@/app/(main)/additionals/_components/guides";
+import Links from "@/app/(main)/additionals/_components/links";
+import Recommendations from "@/app/(main)/additionals/_components/recommendations";
 import {
   AdditionalFillIcon,
   AdditionalIcon,
@@ -29,6 +29,8 @@ import {
   HealthIcon,
   HomeFillIcon,
   HomeIcon,
+  MedicalHistoryFillIcon,
+  MedicalHistoryIcon,
   NutritionFillIcon,
   NutritionIcon,
   SexualityFillIcon,
@@ -65,13 +67,19 @@ export const navConfig = {
     },
     {
       name: "Centros de salud",
-      href: "/centros-de-salud",
+      href: "/health-centers",
       icon: HealthCentersIcon,
       activeIcon: HealthCentersFillIcon,
     },
     {
+      name: "Historial médico",
+      href: "/medical-history",
+      icon: MedicalHistoryIcon,
+      activeIcon: MedicalHistoryFillIcon,
+    },
+    {
       name: "Recursos adicionales",
-      href: "/adicionales",
+      href: "/additionals",
       icon: AdditionalIcon,
       activeIcon: AdditionalFillIcon,
     },
@@ -122,28 +130,28 @@ export const navConfig = {
   ],
   additionalLinks: [
     {
-      href: "/adicionales/guias",
+      href: "/additionals/guides",
       name: "Guías",
       icon: GuidesIcon,
       activeIcon: GuidesFillIcon,
       component: Guides,
     },
     {
-      href: "/adicionales/emergencias",
+      href: "/additionals/emergencies",
       name: "Emergencias",
       icon: EmergenciesIcon,
       activeIcon: EmergenciesFillIcon,
       component: Emergencies,
     },
     {
-      href: "/adicionales/enlaces",
+      href: "/additionals/links",
       name: "Enlaces",
       icon: LinksIcon,
       activeIcon: LinksFillIcon,
       component: Links,
     },
     {
-      href: "/adicionales/recomendaciones",
+      href: "/additionals/recommendations",
       name: "Recomendaciones",
       icon: RecommendationsIcon,
       activeIcon: RecommendationsFillIcon,
@@ -196,14 +204,14 @@ export const navConfig = {
       },
     ],
     additionalresources: [
-      { href: "/adicionales/guias", text: "Guías" },
+      { href: "/additionals/guides", text: "Guías" },
       {
-        href: "/adicionales/emergencias",
+        href: "/additionals/emergencies",
         text: "Emergencias",
       },
-      { href: "/adicionales/enlaces", text: "Enlaces" },
+      { href: "/additionals/links", text: "Enlaces" },
       {
-        href: "/adicionales/recomendaciones",
+        href: "/additionals/recommendations",
         text: "Recomendaciones",
       },
     ],

@@ -3,13 +3,23 @@
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { compare, genSaltSync, hashSync } from "bcrypt-ts";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
 
 import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
-import { user, type User, userProfile, subscription } from "@/db/schema";
+import {
+  user,
+  type User,
+  userProfile,
+  subscription,
+  userTrial,
+  plan,
+  Subscription,
+  Plan,
+  userFeedback,
+} from "@/db/schema";
 import { generateVerificationCode } from "@/lib/utils";
 import { ResultCode } from "@/utils/errors";
 
@@ -236,4 +246,160 @@ export async function getAdminCount(): Promise<number> {
     console.error("Error al obtener el conteo de administradores:", error);
     throw error;
   }
+}
+
+export async function startUserTrial(
+  userId: string,
+  ip: string = "",
+): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  const [existing] = await db
+    .select()
+    .from(userTrial)
+    .where(eq(userTrial.userId, userId));
+
+  if (existing?.hasUsed) {
+    return {
+      success: false,
+      message: "Ya has utilizado tu prueba gratuita.",
+    };
+  }
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+  await db.insert(userTrial).values({
+    userId,
+    startedAt: now,
+    expiresAt,
+    isActive: true,
+    hasUsed: true,
+    ip,
+  });
+
+  return {
+    success: true,
+    message: "Prueba gratuita activada por 7 días.",
+  };
+}
+
+export async function getUserTrialStatus(userId: string): Promise<{
+  hasUsed: boolean;
+  isActive: boolean;
+  expiresAt: Date | null;
+}> {
+  const [trial] = await db
+    .select()
+    .from(userTrial)
+    .where(eq(userTrial.userId, userId));
+
+  return {
+    hasUsed: trial?.hasUsed ?? false,
+    isActive: trial?.isActive ?? false,
+    expiresAt: trial?.expiresAt ?? null,
+  };
+}
+
+export type UserTrialStatusType = Awaited<
+  ReturnType<typeof getUserTrialStatus>
+>;
+
+export async function getUserSubscriptionInfo(userId: string): Promise<{
+  trial: UserTrialStatusType;
+  subscription: {
+    subscription: Subscription;
+    plan: Plan | null;
+  } | null;
+}> {
+  const [trialStatus, [subscriptionData]] = await Promise.all([
+    getUserTrialStatus(userId),
+    db
+      .select()
+      .from(subscription)
+      .leftJoin(plan, eq(subscription.type, plan.id))
+      .where(eq(subscription.userId, userId))
+      .then((res) => res.filter((r) => r.subscription.status === "active")),
+  ]);
+
+  return {
+    trial: trialStatus ?? { hasUsed: false, isActive: false, expiresAt: null },
+    subscription: subscriptionData ?? null,
+  };
+}
+
+export type UserSubscriptionInfo = Awaited<
+  ReturnType<typeof getUserSubscriptionInfo>
+>;
+
+type SaveFeedbackParams = {
+  comment: string;
+  reaction: "love" | "happy" | "neutral" | "frustrated" | "angry";
+  context?: string;
+  device?: string;
+  ip?: string;
+  userId?: string | null;
+};
+
+export async function saveUserFeedback({
+  comment,
+  reaction,
+  context,
+  device,
+  ip,
+  userId,
+}: SaveFeedbackParams): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  try {
+    await db.insert(userFeedback).values({
+      comment,
+      reaction,
+      context,
+      device,
+      ip,
+      userId: userId ?? sql`NULL`,
+    });
+
+    return {
+      success: true,
+      message: "Feedback guardado con éxito.",
+    };
+  } catch (error) {
+    console.error("Error al guardar el feedback:", error);
+    return {
+      success: false,
+      message: "Ocurrió un error al guardar el feedback.",
+    };
+  }
+}
+
+export async function getFeedbackPaginated({
+  limit = 20,
+  offset = 0,
+}: {
+  limit?: number;
+  offset?: number;
+}) {
+  try {
+    return await db
+      .select()
+      .from(userFeedback)
+      .orderBy(desc(userFeedback.createdAt))
+      .limit(limit)
+      .offset(offset);
+  } catch (error) {
+    console.error("Error al obtener feedback paginado:", error);
+    return [];
+  }
+}
+
+export type UserFeedback = Awaited<ReturnType<typeof getFeedbackPaginated>>;
+
+export async function getFeedbackCount(): Promise<number> {
+  const result = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(userFeedback);
+  return result?.[0]?.count ?? 0;
 }

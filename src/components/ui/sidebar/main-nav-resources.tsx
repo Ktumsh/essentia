@@ -32,6 +32,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
                 asChild
                 isActive={isActive}
                 tooltip={item.name}
+                className="transition-all hover:gap-3 hover:duration-300"
               >
                 <Link href={item.link}>
                   <span className="-m-px group-data-[active=true]/menu-button:-m-0.5">

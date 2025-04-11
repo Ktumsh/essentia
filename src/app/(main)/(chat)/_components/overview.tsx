@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import { Card, CardHeader, CardTitle } from "@/components/kit/card";
 import { StarsIcon } from "@/components/ui/icons/common";
 import Logo from "@/components/ui/layout/logo";

@@ -85,7 +85,7 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
           indicatorColor={getIndicatorColor(
             (data.filter((item) => item.value).length * 100) / data.length,
           )}
-          className="mb-4 md:max-w-[73%]"
+          className="bg-accent mb-4 md:max-w-[73%]"
         />
         <div className="flex flex-col gap-2 md:flex-row">
           {data.map((item, index) => (

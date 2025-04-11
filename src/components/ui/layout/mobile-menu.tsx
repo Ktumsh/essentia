@@ -1,18 +1,14 @@
 "use client";
 
-import {
-  ChevronRight,
-  ChevronsUpDown,
-  LogIn,
-  Menu,
-  SunMoon,
-} from "lucide-react";
+import { ChevronRight, ChevronsUpDown, Menu, SunMoon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import React, { Fragment, useState } from "react";
 
+import { AddUserButton } from "@/components/button-kit/add-user-button";
+import { LoginButton } from "@/components/button-kit/login-button";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { Button } from "@/components/kit/button";
 import {
@@ -41,6 +37,7 @@ import Logo from "./logo";
 import ThemeToggle from "./theme-toggle";
 import { StarsIcon } from "../icons/common";
 import { AvatarIcon } from "../icons/miscellaneus";
+import PaymentModal from "../payment/payment-modal";
 
 interface MobileMenuProps {
   user: UserProfileData | null;
@@ -50,12 +47,16 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const isMobile = useIsMobile();
 
-  const { firstName, lastName, username, profileImage, isPremium } = user || {};
+  const { firstName, lastName, username, profileImage, isPremium, trial } =
+    user || {};
 
   const fullName = `${firstName} ${lastName}`;
+
+  const isTrialUsed = trial?.hasUsed;
 
   const resourceLinks = navConfig.asideMenuLinks;
   const menuFooterLinks = navConfig.menuFooterLinks;
@@ -92,17 +93,40 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               )}
             </Link>
             {!user && (
-              <Button
-                variant="gradient"
-                fullWidth
-                onClick={() => router.push("/login")}
-              >
-                <LogIn
-                  aria-hidden="true"
-                  className="size-4 **:fill-white focus:outline-hidden"
-                />
-                Inicia sesión
-              </Button>
+              <>
+                <AddUserButton
+                  onClick={() => router.push("/register")}
+                  className="mb-0! w-full rounded-full"
+                >
+                  Regístrate
+                </AddUserButton>
+                <LoginButton
+                  variant="secondary"
+                  onClick={() => {
+                    if (pathname === "/") {
+                      router.push("/login");
+                    } else {
+                      router.push(`/login?next=${pathname}`);
+                    }
+                  }}
+                  className="w-full rounded-full"
+                >
+                  Inicia sesión
+                </LoginButton>
+              </>
+            )}
+            {!isPremium && user && (
+              <DrawerClose asChild>
+                <Button
+                  variant="gradient"
+                  onClick={() => setIsPaymentModalOpen(true)}
+                  className="w-full rounded-full"
+                >
+                  {!isTrialUsed
+                    ? "Activa tu prueba gratuita"
+                    : "Actualiza a Premium"}
+                </Button>
+              </DrawerClose>
             )}
           </DrawerHeader>
           <Separator />
@@ -316,6 +340,14 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
+      )}
+
+      {!isPremium && (
+        <PaymentModal
+          isOpen={isPaymentModalOpen}
+          setIsOpen={setIsPaymentModalOpen}
+          mode={!isTrialUsed ? "trial" : "upgrade"}
+        />
       )}
     </>
   );

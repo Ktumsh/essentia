@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "motion/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 import React, { useEffect, useMemo, useRef } from "react";
-import { toast } from "sonner";
 import { useScrollLock } from "usehooks-ts";
 
 import { ScrollArea } from "@/components/kit/scroll-area";
 import { SidebarInset } from "@/components/kit/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useProfileMessage } from "@/hooks/use-profile-message";
 import { cn, startsWithAny } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
@@ -37,46 +37,12 @@ const LayoutWrapper = ({
   selectedChatModel,
   children,
 }: LayoutWrapperProps) => {
-  const router = useRouter();
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
+  const { isDismissed } = useProfileMessage();
+
   const scrollRef = useRef<HTMLDivElement | null>(null);
-
-  const { id, bio, location, height, weight, genre, firstName } = user || {};
-
-  useEffect(() => {
-    if (!session || !id || pathname.startsWith("/profile")) return;
-
-    const sessionKey = `usrPflCmplt-${id}`;
-
-    const hasShownToast = sessionStorage.getItem(sessionKey);
-
-    if (!hasShownToast && (!bio || !location || !height || !weight || !genre)) {
-      toast("¡Completa tu perfil!", {
-        duration: Infinity,
-        closeButton: true,
-        description: `Hola ${firstName}! Disfruta de una mejor experiencia completando tu perfil.`,
-        action: {
-          label: "Completar",
-          onClick: () => router.push("/profile"),
-        },
-      });
-    }
-
-    sessionStorage.setItem(sessionKey, "true");
-  }, [
-    session,
-    pathname,
-    id,
-    bio,
-    location,
-    height,
-    weight,
-    genre,
-    firstName,
-    router,
-  ]);
 
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
   const isEssentiaAI = pathname.startsWith("/essentia-ai");
@@ -93,7 +59,7 @@ const LayoutWrapper = ({
       unlock();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isEssentiaAI]);
 
   const backgroundClasses = useMemo(() => {
     return cn(
@@ -109,6 +75,7 @@ const LayoutWrapper = ({
   return (
     <>
       {/* Background */}
+
       <motion.div
         data-id="background"
         initial={{ opacity: 0 }}
@@ -142,7 +109,11 @@ const LayoutWrapper = ({
           />
 
           {isEssentiaAI ? (
-            <div className="flex h-[calc(100dvh-74px)] min-w-0 flex-col">
+            <div
+              className={cn("flex h-[calc(100dvh-74px)] min-w-0 flex-col", {
+                "h-[calc(100dvh-154px)]": !isDismissed,
+              })}
+            >
               {children}
             </div>
           ) : (
@@ -161,7 +132,12 @@ const LayoutWrapper = ({
               {children}
             </>
           ) : (
-            <ScrollArea scrollRef={scrollRef} className="h-[calc(100dvh-32px)]">
+            <ScrollArea
+              scrollRef={scrollRef}
+              className={cn("h-[calc(100dvh-32px)]", {
+                "h-[calc(100dvh-68px)]": !isDismissed,
+              })}
+            >
               {/* Desktop Header */}
               <DesktopHeader
                 user={user}

@@ -13,7 +13,9 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useProfileMessage } from "@/hooks/use-profile-message";
 import useSubscription from "@/hooks/use-subscription";
+import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 import { PaymentHistory } from "@/types/common";
 
@@ -38,6 +40,8 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
 
   const { subscription, payment } = useSubscription();
 
+  const { isDismissed } = useProfileMessage();
+
   useEffect(() => {
     if (!session?.user) {
       setTabValue("/settings/accesibility");
@@ -56,9 +60,14 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
     <Tabs
       orientation="vertical"
       value={tabValue}
-      className="inset-y-0 flex h-full md:min-h-[calc(100dvh-112px)]"
+      className={cn(
+        "inset-y-0 flex h-full gap-0 md:min-h-[calc(100dvh-88px)]",
+        {
+          "md:min-h-[calc(100dvh-124px)]": !isDismissed,
+        },
+      )}
     >
-      <TabsList className="border-border max-w-xs flex-1 shrink-0 rounded-none border-r bg-transparent! p-0 pr-6 md:pb-6">
+      <TabsList className="border-border dark:bg-accent/50 max-w-xs flex-1 shrink-0 rounded-none bg-slate-50 p-0 px-6 md:pb-6">
         <div className="w-full pt-8 pb-4">
           <h1 className="text-foreground text-xl leading-none font-semibold tracking-tight">
             Configuración
@@ -69,7 +78,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
             <TabsTrigger
               asChild
               value="/settings/account-profile"
-              className="text-foreground/80 data-[state=active]:bg-accent h-10 w-full justify-between px-4 data-[state=active]:shadow-none"
+              className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
             >
               <Link href="/settings/account-profile">
                 <span>Cuenta y perfil</span>
@@ -79,7 +88,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
             <TabsTrigger
               asChild
               value="/settings/subscriptions"
-              className="text-foreground/80 data-[state=active]:bg-accent h-10 w-full justify-between px-4 data-[state=active]:shadow-none"
+              className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
             >
               <Link href="/settings/subscriptions">
                 <span>Suscripciones</span>
@@ -91,7 +100,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
         <TabsTrigger
           asChild
           value="/settings/accesibility"
-          className="text-foreground/80 data-[state=active]:bg-accent h-10 w-full justify-between px-4 data-[state=active]:shadow-none"
+          className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
         >
           <Link href="/settings/accesibility">
             <span>Accesibilidad y pantalla</span>
@@ -102,7 +111,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
           <TabsTrigger
             asChild
             value="/settings/notifications"
-            className="text-foreground/80 data-[state=active]:bg-accent h-10 w-full justify-between px-4 data-[state=active]:shadow-none"
+            className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
           >
             <Link href="/settings/notifications">
               <span>Notificaciones y recordatorios</span>
@@ -113,7 +122,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
         {/* <TabsTrigger
             asChild
             value="/settings/support"
-            className="h-10 justify-between! px-4 data-[state=active]:bg-slate-100 data-[state=active]:shadow-none dark:data-[state=active]:bg-dark"
+            className="h-10 justify-between! px-4 data-[state=active]:bg-slate-100 data-[state=active]:shadow-none rounded-lg dark:data-[statexsive]:bg-dark"
           >
             <Link href="/settings/support">
               <span>Soporte</span>
@@ -123,13 +132,13 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
       </TabsList>
       <TabsContent
         value="/settings/account-profile"
-        className="flex-1 pb-16 pl-6 md:pb-6"
+        className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
         <AccountStg user={user} />
       </TabsContent>
       <TabsContent
         value="/settings/subscriptions"
-        className="flex-1 pb-16 pl-6 md:pb-6"
+        className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
         <SubscriptionsStg
           subscription={subscription}
@@ -139,19 +148,19 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
       </TabsContent>
       <TabsContent
         value="/settings/accesibility"
-        className="flex-1 pb-16 pl-6 md:pb-6"
+        className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
         <AccesibilityStg />
       </TabsContent>
       <TabsContent
         value="/settings/notifications"
-        className="flex-1 pb-16 pl-6 md:pb-6"
+        className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
         <NotificationsStg />
       </TabsContent>
       <TabsContent
         value="/settings/support"
-        className="flex-1 pb-16 pl-6 md:pb-6"
+        className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
         <SettingsOptsHeader title="Soporte" />
       </TabsContent>

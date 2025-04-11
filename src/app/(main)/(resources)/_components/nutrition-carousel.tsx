@@ -43,8 +43,10 @@ const NutritionCarousel = ({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="absolute top-auto -bottom-14 left-5" />
-      <CarouselNext className="absolute top-auto right-5 -bottom-14" />
+      <div className="absolute right-0 -bottom-12 flex w-full items-center justify-between gap-4 px-5 md:w-auto">
+        <CarouselPrevious className="static translate-y-0" />
+        <CarouselNext className="static translate-y-0" />
+      </div>
     </Carousel>
   );
 };

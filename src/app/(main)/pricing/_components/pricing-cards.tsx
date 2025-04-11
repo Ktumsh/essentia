@@ -6,18 +6,13 @@ import { useCallback, useRef, useState } from "react";
 
 import { Button } from "@/components/kit/button";
 import { siteConfig } from "@/config/site.config";
+import { SUBSCRIPTION_PLANS } from "@/consts/subscriptions-plans";
 import { usePlan } from "@/hooks/use-current-plan";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import PricingCard from "./pricing-card";
 import PricingSelector from "./pricing-selector";
 import useScrollCheck from "../_hooks/use-scroll-check";
-import {
-  getPlanDescription,
-  getPlanFeatures,
-  getPlanName,
-  getPlanSubname,
-} from "../_lib/utils";
 
 interface PricingCardsProps {
   session: Session | null;
@@ -25,8 +20,7 @@ interface PricingCardsProps {
 }
 
 const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
-  const { free, premium, premiumPlus } = siteConfig.plan;
-  const PLANS = [free, premium, premiumPlus];
+  const { premium } = siteConfig.plan;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
@@ -66,20 +60,14 @@ const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
             ref={containerRef}
             className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto pb-4"
           >
-            {PLANS.map((plan, index) => (
+            {SUBSCRIPTION_PLANS.map((plan, index) => (
               <PricingCard
                 key={index}
                 session={session}
-                title={getPlanName(plan)}
-                subtitle={getPlanSubname(currentPlan, plan)}
-                description={getPlanDescription(plan)}
-                priceId={plan}
-                isCurrentPlan={currentPlan === plan}
-                price={plan === free ? 0 : plan === premium ? 9500 : 91200}
-                isPremiumPlan={plan === premium}
-                isPremiumPlusPlan={plan === premiumPlus}
+                isCurrentPlan={currentPlan === plan.id}
+                isPremiumPlan={plan.id === premium}
                 isPremium={isPremium}
-                features={getPlanFeatures(plan)}
+                plan={plan}
               />
             ))}
           </div>

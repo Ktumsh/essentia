@@ -4,6 +4,7 @@ import { auth } from "@/app/(auth)/auth";
 import { getSubscription } from "@/db/querys/payment-querys";
 
 import FAQ from "./_components/faq";
+import PlanComparisonTable from "./_components/plan-comparison-table";
 import PricingCards from "./_components/pricing-cards";
 import PricingHeader from "./_components/pricing-header";
 
@@ -29,6 +30,7 @@ const PricingPage = async () => {
           <div className="mx-auto flex max-w-6xl flex-col px-6 lg:px-0">
             <PricingHeader />
             <PricingCards session={session} isPremium={isPremium} />
+            <PlanComparisonTable />
           </div>
           <FAQ />
         </div>

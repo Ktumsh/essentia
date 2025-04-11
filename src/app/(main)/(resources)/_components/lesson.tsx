@@ -21,7 +21,7 @@ import { Markdown } from "@/components/markdown";
 import {
   completeCourse,
   updateLessonProgress,
-} from "@/db/querys/progress-query";
+} from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   cn,

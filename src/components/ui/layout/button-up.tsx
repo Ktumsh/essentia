@@ -22,7 +22,7 @@ const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
     <div
       id="button-up"
       className={cn(
-        "fixed right-4 bottom-2 z-50 transition-opacity",
+        "fixed right-4 bottom-2 z-50 transition-opacity md:bottom-7",
         isVisible ? "opacity-100" : "opacity-0",
         essentiaAI && "hidden",
       )}

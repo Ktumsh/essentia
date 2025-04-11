@@ -54,7 +54,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     title: "Encuentra centros de salud cerca de ti",
     description:
       "Ubica fácilmente centros de salud cercanos con nuestra herramienta práctica y rápida.",
-    link: "/centros-de-salud",
+    link: "/health-centers",
     image: `${BASE_URL}/cap-04`,
     icon: HealthCentersFillIcon,
     requiresPremium: false,
@@ -74,7 +74,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     title: "Accede a recursos gratuitos",
     description:
       "Explora guías, recomendaciones y herramientas gratuitas diseñadas para mejorar tu bienestar.",
-    link: "/adicionales",
+    link: "/additionals",
     image: `${BASE_URL}/cap-06`,
     icon: AdditionalFillIcon,
     requiresPremium: false,

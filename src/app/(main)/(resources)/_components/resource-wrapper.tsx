@@ -5,9 +5,6 @@ import { AnimatePresence, motion, Variants } from "motion/react";
 import Image from "next/image";
 import { memo, useRef, useState } from "react";
 
-import "@/styles/lite-youtube.css";
-import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
@@ -140,7 +137,7 @@ const ResourceWrapper = ({
               {name || title}
             </h2>
           </div>
-          <div className="absolute inset-0 z-10 flex size-full items-center justify-center opacity-0 transition duration-500 group-active:opacity-100 group-active:backdrop-blur-lg md:group-hover:opacity-100 md:group-hover:backdrop-blur-lg">
+          <div className="absolute inset-0 z-10 flex size-full items-center justify-center rounded-xl opacity-0 transition duration-500 group-active:opacity-100 group-active:backdrop-blur-lg md:group-hover:opacity-100 md:group-hover:backdrop-blur-lg">
             <div className="relative z-10 inline-flex transition duration-500 before:absolute before:inset-0 before:z-[-1] before:rounded-full before:bg-black/40 before:blur-xl">
               <q className="font-merriweather px-10 text-center font-medium text-white md:text-xl xl:text-2xl">
                 {quote}

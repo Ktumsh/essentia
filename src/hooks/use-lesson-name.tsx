@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { getModules, getResourceBySlug } from "@/db/querys/resource-query";
+import { getModules, getResourceBySlug } from "@/db/querys/resource-querys";
 
 const useLessonName = (
   resourceSlug: string | null,

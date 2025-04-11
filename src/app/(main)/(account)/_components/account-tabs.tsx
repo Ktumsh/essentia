@@ -11,7 +11,6 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import useSubscription from "@/hooks/use-subscription";
-import { UserProfileData } from "@/types/auth";
 import { Courses } from "@/types/resource";
 
 import AccountDetails from "./account/account-details";
@@ -19,11 +18,10 @@ import ProfileInfo from "./profile/profile-info";
 import SubscriptionDetails from "./subscription/subscription-details";
 
 interface AccountTabsProps {
-  user: UserProfileData | null;
   courses: Courses;
 }
 
-const AccountTabs = ({ user, courses }: AccountTabsProps) => {
+const AccountTabs = ({ courses }: AccountTabsProps) => {
   const pathname = usePathname();
 
   const { subscription, payment } = useSubscription();
@@ -33,12 +31,12 @@ const AccountTabs = ({ user, courses }: AccountTabsProps) => {
       {
         value: "/account",
         label: "Mi cuenta",
-        component: <AccountDetails user={user} courses={courses} />,
+        component: <AccountDetails courses={courses} />,
       },
       {
         value: "/profile",
         label: "Mi perfil",
-        component: <ProfileInfo user={user} isOwnProfile={true} />,
+        component: <ProfileInfo isOwnProfile={true} />,
       },
       {
         value: "/subscription",
@@ -48,7 +46,7 @@ const AccountTabs = ({ user, courses }: AccountTabsProps) => {
         ),
       },
     ];
-  }, [user, courses, subscription, payment]);
+  }, [courses, subscription, payment]);
 
   return (
     <div className="flex flex-col">

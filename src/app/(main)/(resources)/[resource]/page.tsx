@@ -6,8 +6,8 @@ import {
   getCompletedLessons,
   getCourseProgress,
   getModuleProgress,
-} from "@/db/querys/progress-query";
-import { getModules, getResourceBySlug } from "@/db/querys/resource-query";
+} from "@/db/querys/progress-querys";
+import { getModules, getResourceBySlug } from "@/db/querys/resource-querys";
 import { getUserProfileData } from "@/utils/profile";
 
 import ResourceWrapper from "../_components/resource-wrapper";
@@ -56,7 +56,7 @@ const ResourcePage = async (props: Props) => {
   const { isPremium } = profileData ?? {};
 
   const lessonIds = modules.flatMap((mod) =>
-    mod.lessons.map((lesson) => lesson.id)
+    mod.lessons.map((lesson) => lesson.id),
   );
 
   const completedLessons = userId

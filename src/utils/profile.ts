@@ -6,6 +6,7 @@ import {
   getUserProfileById,
   getUserProfileByUsername,
 } from "@/db/querys/profile-querys";
+import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { UserProfileData } from "@/types/auth";
 
 export async function getUserProfileData({
@@ -52,6 +53,8 @@ export async function getUserProfileData({
   const location = profile.location || null;
   const createdAt = user.createdAt;
 
+  const trial = await getUserTrialStatus(id);
+
   return {
     id,
     email,
@@ -67,5 +70,6 @@ export async function getUserProfileData({
     height,
     location,
     createdAt,
+    trial,
   };
 }

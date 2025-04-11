@@ -1,0 +1,70 @@
+"use client";
+
+import { PlusCircle } from "lucide-react";
+
+import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { Button } from "@/components/kit/button";
+
+import type { FeatureType } from "@/components/ui/payment/payment-modal";
+
+type MedicalHistoryHeaderProps = {
+  openAIRecommendationsForAll: () => void;
+  uploadStatus?: { allowed?: boolean; max?: number };
+  setPremiumFeatureType: (type: FeatureType) => void;
+  setDialogs: React.Dispatch<
+    React.SetStateAction<{
+      isPremiumModal: boolean;
+      isAddDialogOpen: boolean;
+      isEditDialogOpen: boolean;
+      isViewDialogOpen: boolean;
+      isDeleteDialogOpen: boolean;
+      isAIDialogOpen: boolean;
+      isFileViewerOpen: boolean;
+      isActivityFullViewOpen: boolean;
+      isShareDialogOpen: boolean;
+    }>
+  >;
+};
+
+const MedicalHistoryHeader = ({
+  openAIRecommendationsForAll,
+  uploadStatus,
+  setPremiumFeatureType,
+  setDialogs,
+}: MedicalHistoryHeaderProps) => {
+  return (
+    <div className="flex flex-col items-end justify-between gap-4 @3xl/header:flex-row">
+      <p className="text-foreground/80 text-sm">
+        Gestiona tus documentos médicos y mantén un registro de tu historial.
+      </p>
+      <div className="grid gap-2">
+        <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row">
+          <SparklesButton
+            size="default"
+            onClick={openAIRecommendationsForAll}
+            className="w-full md:w-fit"
+          >
+            Recomendaciones IA
+          </SparklesButton>
+          <Button
+            radius="full"
+            onClick={() => {
+              if (!uploadStatus?.allowed) {
+                setPremiumFeatureType("upload-limit");
+                setDialogs((prev) => ({ ...prev, isPremiumModal: true }));
+                return;
+              }
+              setDialogs((prev) => ({ ...prev, isAddDialogOpen: true }));
+            }}
+            className="w-full md:w-fit"
+          >
+            <PlusCircle />
+            Añadir documento
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MedicalHistoryHeader;

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import {
   initializeCourseProgress,
   getLastCompletedLesson,
-} from "@/db/querys/progress-query";
+} from "@/db/querys/progress-querys";
 
 interface UseCourseProgressProps {
   userId?: string;

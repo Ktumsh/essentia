@@ -5,7 +5,7 @@ import FAQItems from "./faq-items";
 const FAQ = () => {
   const faqs = FAQ_PRICING;
   return (
-    <div className="border-border bg-background flex flex-col border-t p-5 md:gap-4 md:px-6 md:py-14">
+    <div className="border-border bg-background mt-16 flex flex-col border-t p-5 md:gap-4 md:px-6 md:py-14">
       <h2 className="font-merriweather hidden text-center text-2xl font-semibold tracking-tighter md:block md:text-4xl">
         Preguntas Frecuentes
       </h2>

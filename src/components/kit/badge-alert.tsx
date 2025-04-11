@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 const badgeAlertVariants = cva(
-  "inline-flex items-center justify-center rounded-full shrink-0 mb-5",
+  "inline-flex items-center justify-center rounded-full shrink-0 mb-4",
   {
     variants: {
       variant: {

@@ -62,7 +62,7 @@ const Home = ({ profileData }: HomeProps) => {
           <div className="dark:bg-accent/50 bg-accent relative rounded-t-3xl pb-16 md:rounded-none md:bg-transparent md:pb-0 md:dark:bg-transparent">
             <div className="flex w-full flex-col py-6 select-none md:py-0">
               <h2 className="font-merriweather md:font-poppins mb-2 ml-3 px-8 text-xl font-semibold tracking-tight md:px-0 md:text-base md:tracking-normal">
-                Todos los recursos
+                Recursos educativos
               </h2>
               <section className="mb-6 px-6 md:mb-0 md:px-0">
                 <Resources />

@@ -47,6 +47,7 @@ import { Textarea } from "@/components/kit/textarea";
 import { updateUserProfile } from "@/db/querys/profile-querys";
 import { getUserByUsername } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import { ProfileFormData, profileSchema } from "@/lib/form-schemas";
 import { UserProfileData } from "@/types/auth";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
@@ -76,6 +77,8 @@ const EditProfileForm = ({
   const router = useRouter();
   const isMobile = useIsMobile();
   const [isPending, startTransition] = useTransition();
+
+  const { setUser } = useUserProfile();
 
   const {
     id,
@@ -142,9 +145,13 @@ const EditProfileForm = ({
             throw new Error(result.error);
           }
           toast.success("Tu perfil ha sido actualizado.");
-
-          setIsOpen(false);
-
+          setUser((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              ...data,
+            };
+          });
           setDisplayData((prev) => {
             if (!prev) return null;
             return {
@@ -156,6 +163,8 @@ const EditProfileForm = ({
           if (data.username !== profileData?.username) {
             router.replace("/profile");
           }
+
+          setIsOpen(false);
         } catch (error) {
           console.error("Error al actualizar el perfil:", error);
           toast.error("Error al actualizar el perfil.");
@@ -166,6 +175,7 @@ const EditProfileForm = ({
       startTransition,
       setIsOpen,
       setDisplayData,
+      setUser,
       setError,
       id,
       profileData?.username,
