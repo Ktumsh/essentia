@@ -6,7 +6,7 @@ import { UpgradeButton } from "@/components/button-kit/upgrade-button";
 import { Card, CardContent, CardFooter } from "@/components/kit/card";
 import { Progress } from "@/components/kit/progress";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { useIsTrialActive } from "@/hooks/use-is-trial-active";
+import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ export default function StorageLimitIndicator({
 }: StorageLimitIndicatorProps) {
   const { subscription } = useUserSubscription();
 
-  const { isUsingTrial } = useIsTrialActive();
+  const { isTrialActive } = useTrial();
 
   const currentLimit = subscription?.plan?.maxFiles || 6;
 
@@ -33,7 +33,7 @@ export default function StorageLimitIndicator({
 
   const isPremium = subscription?.subscription.isPremium;
 
-  const planName = isUsingTrial
+  const planName = isTrialActive
     ? "Plan de prueba"
     : subscription?.plan?.name || "Plan Básico";
 

@@ -10,6 +10,7 @@ import {
   ZoomIn,
   ZoomOut,
   RotateCcw,
+  RotateCw,
 } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -23,7 +24,16 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/kit/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/kit/drawer";
+import { Separator } from "@/components/kit/separator";
 import { BetterTooltip } from "@/components/kit/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 interface FileViewerProps {
@@ -45,6 +55,8 @@ export default function FileViewer({
   fileUrl,
   fileName,
 }: FileViewerProps) {
+  const isMobile = useIsMobile();
+
   const [fileType, setFileType] = useState<"pdf" | "image" | "unknown">(
     "unknown",
   );
@@ -145,7 +157,126 @@ export default function FileViewer({
   const goToNextPage = () =>
     setPageNumber((prev) => (numPages && prev < numPages ? prev + 1 : prev));
 
-  return (
+  const viewerContent = (
+    <div
+      className="bg-accent flex-1 overflow-auto rounded-md p-6"
+      style={{ textAlign: "center" }}
+    >
+      {fileType === "pdf" && fileUrl && (
+        <div className="inline-block text-start">
+          <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            options={pdfOptions}
+            loading={<p>Cargando PDF...</p>}
+          >
+            <Page pageNumber={pageNumber} scale={zoom} rotate={rotation} />
+          </Document>
+
+          {numPages && numPages > 1 && (
+            <div className="flex justify-center gap-2 p-2">
+              <Button onClick={goToPrevPage}>Anterior</Button>
+              <span>
+                Página {pageNumber} de {numPages}
+              </span>
+              <Button onClick={goToNextPage}>Siguiente</Button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {fileType === "image" && fileUrl && (
+        <div style={{ display: "inline-block" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={fileUrl || "/placeholder.svg"}
+            alt={fileName}
+            style={{
+              transform: `rotate(${rotation}deg) scale(${zoom})`,
+              transition: "transform 0.2s ease",
+              maxWidth: "none",
+            }}
+          />
+        </div>
+      )}
+
+      {fileType === "unknown" && (
+        <div className="flex h-full flex-col items-center justify-center p-4">
+          <p className="mb-4 text-lg font-medium">
+            No se puede previsualizar este tipo de archivo
+          </p>
+          <p className="text-muted-foreground mb-6 text-sm">
+            Este tipo de archivo no se puede mostrar en el navegador. Puedes
+            descargarlo para verlo en tu dispositivo.
+          </p>
+          <Button onClick={handleDownload}>Descargar archivo</Button>
+        </div>
+      )}
+    </div>
+  );
+
+  return isMobile ? (
+    <Drawer open={isOpen} onOpenChange={onClose}>
+      <DrawerContent className="flex h-[90dvh] flex-col">
+        <DrawerHeader className="relative">
+          <DrawerTitle>Vista de archivo</DrawerTitle>
+          <div className="absolute top-1/2 left-4 inline-flex -translate-y-1/2 items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={rotate}
+              className="size-7 [&_svg]:size-3.5!"
+            >
+              <RotateCcw />
+            </Button>
+          </div>
+          <div className="absolute top-1/2 right-4 inline-flex -translate-y-1/2 items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={zoomIn}
+              className="size-7 [&_svg]:size-3.5!"
+            >
+              <ZoomIn />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={zoomOut}
+              className="size-7 [&_svg]:size-3.5!"
+            >
+              <ZoomOut />
+            </Button>
+          </div>
+        </DrawerHeader>
+        <DialogDescription className="sr-only" asChild>
+          <p>
+            {fileType === "pdf" && <>Vista previa de PDF</>}
+            {fileType === "image" && <>Vista previa de imagen</>}
+            {fileType === "unknown" && <>Vista previa no disponible</>}
+          </p>
+        </DialogDescription>
+        <div className="h-full flex-1 overflow-y-auto p-4">{viewerContent}</div>
+        <DrawerFooter>
+          <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+            <Button variant="mobile" onClick={resetView}>
+              <RotateCw />
+              Restablecer vista
+            </Button>
+            <Separator className="dark:bg-alternative/50 z-10 ml-6" />
+            <Button variant="mobile" onClick={openInNewTab}>
+              <ExternalLink />
+              Abrir en nueva pestaña
+            </Button>
+          </div>
+          <Button variant="mobile-danger" onClick={handleDownload}>
+            <Download />
+            Descargar
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ) : (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
         className={cn(
@@ -194,63 +325,7 @@ export default function FileViewer({
             </BetterTooltip>
           </div>
         </DialogHeader>
-
-        <div
-          className="bg-accent flex-1 overflow-auto rounded-md p-6"
-          style={{ textAlign: "center" }}
-        >
-          {fileType === "pdf" && fileUrl && (
-            <div className="inline-block text-start">
-              <Document
-                file={fileUrl}
-                onLoadSuccess={onDocumentLoadSuccess}
-                options={pdfOptions}
-                loading={<p>Cargando PDF...</p>}
-              >
-                <Page pageNumber={pageNumber} scale={zoom} rotate={rotation} />
-              </Document>
-
-              {numPages && numPages > 1 && (
-                <div className="flex justify-center gap-2 p-2">
-                  <Button onClick={goToPrevPage}>Anterior</Button>
-                  <span>
-                    Página {pageNumber} de {numPages}
-                  </span>
-                  <Button onClick={goToNextPage}>Siguiente</Button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {fileType === "image" && fileUrl && (
-            <div style={{ display: "inline-block" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={fileUrl || "/placeholder.svg"}
-                alt={fileName}
-                style={{
-                  transform: `rotate(${rotation}deg) scale(${zoom})`,
-                  transition: "transform 0.2s ease",
-                  maxWidth: "none",
-                }}
-              />
-            </div>
-          )}
-
-          {fileType === "unknown" && (
-            <div className="flex h-full flex-col items-center justify-center p-4">
-              <p className="mb-4 text-lg font-medium">
-                No se puede previsualizar este tipo de archivo
-              </p>
-              <p className="text-muted-foreground mb-6 text-sm">
-                Este tipo de archivo no se puede mostrar en el navegador. Puedes
-                descargarlo para verlo en tu dispositivo.
-              </p>
-              <Button onClick={handleDownload}>Descargar archivo</Button>
-            </div>
-          )}
-        </div>
-
+        {viewerContent}
         <DialogFooter className="mt-4 flex items-center justify-between">
           <Button radius="full" variant="outline" onClick={resetView}>
             Restablecer vista

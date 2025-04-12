@@ -19,7 +19,8 @@ const AIPage = async () => {
   const id = generateUUID();
 
   const session = await auth();
-  const userData = session ? await getUserProfileData({ session }) : null;
+  const userId = session?.user?.id as string;
+  const userData = userId ? await getUserProfileData({ userId }) : null;
 
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("chat-model");

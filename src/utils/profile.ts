@@ -1,7 +1,5 @@
 "use server";
 
-import { Session } from "next-auth";
-
 import {
   getUserProfileById,
   getUserProfileByUsername,
@@ -10,66 +8,48 @@ import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { UserProfileData } from "@/types/auth";
 
 export async function getUserProfileData({
-  session,
-  username,
-  isOwn,
   userId,
+  username,
 }: {
-  session?: Session;
-  username?: string;
-  isOwn?: boolean;
   userId?: string;
+  username?: string;
 }): Promise<UserProfileData> {
   let userProfile;
-  if (!isOwn && userId) {
+
+  if (userId) {
     [userProfile] = await getUserProfileById(userId);
   } else if (username) {
     [userProfile] = await getUserProfileByUsername(username);
-  } else if (session?.user?.id) {
-    [userProfile] = await getUserProfileById(session.user.id);
   } else {
     throw new Error("Sesión no válida o username no proporcionado.");
   }
 
   if (!userProfile) {
     console.error("No se pudo obtener la información del perfil del usuario.");
+    throw new Error("Perfil no encontrado.");
   }
 
   const user = userProfile.user;
   const profile = userProfile.profile;
   const subscription = userProfile.subscription;
 
-  const id = user.id;
-  const email = user.email;
-  const isPremium = subscription.isPremium;
-  const firstName = profile.firstName || "Usuario";
-  const lastName = profile.lastName || "";
-  const profileImage = profile.profileImage || null;
-  const birthdate = profile.birthdate;
-  const bio = profile.bio || null;
-  const genre = profile.genre || null;
-  const weight = profile.weight || null;
-  const height = profile.height || null;
-  const location = profile.location || null;
-  const createdAt = user.createdAt;
-
-  const trial = await getUserTrialStatus(id);
+  const trial = await getUserTrialStatus(user.id);
 
   return {
-    id,
-    email,
-    isPremium,
-    firstName,
-    lastName,
+    id: user.id,
+    email: user.email,
+    isPremium: subscription.isPremium || trial.isActive,
+    firstName: profile.firstName || "Usuario",
+    lastName: profile.lastName || "",
     username: user.username,
-    profileImage,
-    birthdate,
-    bio,
-    genre,
-    weight,
-    height,
-    location,
-    createdAt,
+    profileImage: profile.profileImage || null,
+    birthdate: profile.birthdate,
+    bio: profile.bio || null,
+    genre: profile.genre || null,
+    weight: profile.weight || null,
+    height: profile.height || null,
+    location: profile.location || null,
+    createdAt: user.createdAt,
     trial,
   };
 }

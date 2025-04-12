@@ -13,6 +13,7 @@ import React, { useState } from "react";
 
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
+import { Badge } from "@/components/kit/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,11 +33,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/kit/sidebar";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import { navConfig } from "@/config/nav.config";
+import { useTrial } from "@/hooks/use-trial";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { UserProfileData } from "@/types/auth";
 
-import { StarsIcon } from "../icons/common";
 import { AvatarIcon } from "../icons/miscellaneus";
 import ThemeToggle from "../layout/theme-toggle";
 import PaymentModal from "../payment/payment-modal";
@@ -50,12 +51,15 @@ interface MainNavUserProps {
 const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  const { firstName, lastName, username, profileImage, isPremium, trial } =
-    user || {};
+  const { firstName, lastName, username, profileImage, isPremium } = user || {};
+
+  const { isTrialActive, isTrialUsed } = useTrial();
+
+  const { subscription } = useUserSubscription();
 
   const fullName = `${firstName} ${lastName}`;
 
-  const isTrialUsed = trial?.hasUsed;
+  const subscriptionPlan = subscription?.plan;
 
   const menuLinks = navConfig.menuFooterLinks;
 
@@ -145,14 +149,20 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         )}
                       </div>
                       {isPremium && (
-                        <BetterTooltip content="Cuenta Premium">
-                          <div className="absolute top-1/2 right-0 mr-2 -translate-y-1/2 p-1">
-                            <StarsIcon
-                              aria-hidden="true"
-                              className="stars-icon v2 size-5! focus:outline-hidden"
-                            />
-                          </div>
-                        </BetterTooltip>
+                        <div className="absolute top-1/2 right-0 mr-2 -translate-y-1/2 p-1">
+                          <Badge
+                            variant={
+                              isTrialActive
+                                ? "premium"
+                                : subscriptionPlan?.name === "Premium"
+                                  ? "premium"
+                                  : "premiumPlus"
+                            }
+                            className="text-xxs px-1.5 py-0.5"
+                          >
+                            {isTrialActive ? "Premium" : subscriptionPlan?.name}
+                          </Badge>
+                        </div>
                       )}
                     </Link>
                   </DropdownMenuItem>

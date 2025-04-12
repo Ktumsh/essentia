@@ -4,18 +4,18 @@ import { Session } from "next-auth";
 import { useState } from "react";
 
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/kit/select";
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@/components/kit/tabs"; // asegúrate que sea el componente correcto
 import { siteConfig } from "@/config/site.config";
 import {
   SUBSCRIPTION_PLANS,
   SubscriptionPlanType,
 } from "@/consts/subscriptions-plans";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
+import { cn } from "@/lib/utils";
 
 import PricingCard from "./pricing-card";
 
@@ -30,51 +30,64 @@ const PricingSelector = ({
   currentPriceId,
   isPremium,
 }: PricingSelectorProps) => {
-  const { premium } = siteConfig.plan;
+  const { premium, premiumPlus } = siteConfig.plan;
+  const { trial } = useUserSubscription();
 
-  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanType>(
-    SUBSCRIPTION_PLANS.find((plan) => plan.id === currentPriceId) ||
-      SUBSCRIPTION_PLANS[0],
-  );
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanType>(() => {
+    const current = SUBSCRIPTION_PLANS.find(
+      (plan) => plan.id === currentPriceId,
+    );
+
+    if (current && current.id === SUBSCRIPTION_PLANS[0].id) {
+      return SUBSCRIPTION_PLANS[1];
+    }
+
+    return current || SUBSCRIPTION_PLANS[0];
+  });
 
   return (
-    <>
-      <div className="mb-4">
-        <Select
-          aria-label="Selecciona un plan"
-          value={selectedPlan?.id}
-          onValueChange={(value) => {
-            const plan = SUBSCRIPTION_PLANS.find((p) => p.id === value);
-            if (plan) setSelectedPlan(plan);
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue>{selectedPlan?.name}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {SUBSCRIPTION_PLANS.map((plan) => (
-                <SelectItem key={plan.id} value={plan.id}>
-                  <div className="flex items-center gap-2">
-                    <span>{plan.name}</span>
-                    <span className="text-muted-foreground text-xs font-medium">
-                      {plan.label}
-                    </span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <PricingCard
-        session={session}
-        isCurrentPlan={currentPriceId === selectedPlan.id}
-        isPremiumPlan={selectedPlan.id === premium}
-        isPremium={isPremium}
-        plan={selectedPlan}
-      />
-    </>
+    <Tabs
+      value={selectedPlan.id}
+      onValueChange={(value) => {
+        const plan = SUBSCRIPTION_PLANS.find((p) => p.id === value);
+        if (plan) setSelectedPlan(plan);
+      }}
+      className="w-full"
+    >
+      <TabsList className="mb-4 w-full rounded-full">
+        {SUBSCRIPTION_PLANS.map((plan) => (
+          <TabsTrigger
+            key={plan.id}
+            value={plan.id}
+            className={cn(
+              "flex-1 rounded-full",
+              selectedPlan.id === plan.id &&
+                (plan.id === premium || plan.id === premiumPlus) &&
+                "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 data-[state=active]:text-white",
+            )}
+          >
+            {plan.name}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      {SUBSCRIPTION_PLANS.map((plan) => (
+        <TabsContent key={plan.id} value={plan.id}>
+          {selectedPlan.id === plan.id && (
+            <PricingCard
+              session={session}
+              isCurrentPlan={
+                (trial?.isActive && plan.id === premium) ||
+                (!trial?.isActive && currentPriceId === plan.id)
+              }
+              isPremiumPlan={plan.id === premium}
+              isPremium={isPremium}
+              plan={plan}
+            />
+          )}
+        </TabsContent>
+      ))}
+    </Tabs>
   );
 };
 

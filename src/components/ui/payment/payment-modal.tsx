@@ -26,7 +26,7 @@ import {
 import { siteConfig } from "@/config/site.config";
 import { startUserTrial } from "@/db/querys/user-querys";
 import { usePlan } from "@/hooks/use-current-plan";
-import { useIsTrialActive } from "@/hooks/use-is-trial-active";
+import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
 
@@ -71,7 +71,7 @@ const PaymentModal = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFree = selectedPlan === siteConfig.plan.free;
 
-  const { isUsingTrial } = useIsTrialActive();
+  const { isTrialActive } = useTrial();
 
   const handleProceedToPayment = useCallback(async () => {
     if (selectedPlan === currentPlan) {
@@ -108,14 +108,18 @@ const PaymentModal = ({
       setIsLoading(true);
       const ip = await getClientIp();
 
-      if (user?.id) {
-        await startUserTrial(user.id, ip);
-        router.refresh();
-        setIsOpen(false);
+      if (!user?.id) {
+        return toast.error("¡Ups 😔", {
+          description: "No se pudo activar la prueba gratuita.",
+        });
       }
+
+      await startUserTrial(user.id, ip);
       toast.success("Prueba gratuita activada");
-      router.refresh();
       setIsOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (err: any) {
       toast.error(err.message || "No se pudo activar la prueba.");
     } finally {
@@ -147,7 +151,7 @@ const PaymentModal = ({
           icon: <MessagesSquare className="size-5 text-yellow-400 md:size-6" />,
         };
       case "upload-limit":
-        if (isUsingTrial) {
+        if (isTrialActive) {
           return {
             title: "Límite alcanzado en tu prueba gratuita",
             description:
@@ -293,7 +297,7 @@ const PaymentModal = ({
               </div>
               <DialogFooter isSecondary>
                 <div className="w-full space-y-3">
-                  {isUsingTrial ? (
+                  {isTrialActive ? (
                     <>
                       <Button
                         size="lg"
@@ -302,7 +306,7 @@ const PaymentModal = ({
                       >
                         Usando prueba gratuita de Premium
                       </Button>
-                      <p className="text-muted-foreground mt-2 text-center text-xs">
+                      <p className="text-muted-foreground text-center text-xs">
                         Puedes mejorar a Premium una vez finalice tu prueba
                         gratuita. Durante este periodo, el límite de archivos es
                         de <strong>6 activos</strong>.
@@ -332,7 +336,7 @@ const PaymentModal = ({
                       )}
                     </UpgradeButton>
                   )}
-                  {!isUsingTrial && (
+                  {!isTrialActive && (
                     <p className="text-muted-foreground text-xxs text-center">
                       Al suscribirte, aceptas nuestros{" "}
                       <a href="#" className="underline">

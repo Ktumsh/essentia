@@ -4,7 +4,7 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import { useMemo, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/kit/button";
@@ -14,6 +14,7 @@ import StripeIcon from "@/components/ui/icons/stripe";
 import { setUserPlan } from "@/components/ui/payment/actions";
 import { siteConfig } from "@/config/site.config";
 import { SubscriptionPlanType } from "@/consts/subscriptions-plans";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn, getPlanPrice } from "@/lib/utils";
 
 import CancelPlanModal from "./cancel-plan-modal";
@@ -35,9 +36,8 @@ const PricingCard = ({
   isPremium,
 }: PricingCardProps) => {
   const router = useRouter();
-
+  const { trial } = useUserSubscription();
   const { free } = siteConfig.plan;
-
   const {
     name: planName,
     label,
@@ -48,17 +48,28 @@ const PricingCard = ({
     features,
   } = plan;
 
+  // Constantes descriptivas para evitar repetición
+  const isPremiumPlus = planName === "Premium Plus";
+  const isPremiumStyle = isPremiumPlan || isPremiumPlus;
+
   const [isOpenConfirmPlanModal, setIsOpenConfirmPlanModal] = useState(false);
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
-
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const handleSetFreePlan = async () => {
-    try {
-      startTransition(async () => {
-        const result = await setUserPlan(session, getPlanPrice(priceId));
+  // Redirige al login si no hay sesión; de lo contrario, ejecuta el callback
+  const requireSession = (callback: () => void) => {
+    if (session) {
+      callback();
+    } else {
+      router.push("/login?next=/pricing");
+    }
+  };
 
+  const handleSetFreePlan = async () => {
+    startTransition(async () => {
+      try {
+        const result = await setUserPlan(session, getPlanPrice(priceId));
         if (result.success) {
           toast.success(result.message);
           router.refresh();
@@ -66,69 +77,51 @@ const PricingCard = ({
         } else {
           toast.error("Hubo un error al actualizar tu plan.");
         }
-      });
-    } catch (error) {
-      console.error(error);
-      toast.error("Hubo un error al actualizar tu plan.");
-    }
+      } catch (error) {
+        console.error(error);
+        toast.error("Hubo un error al actualizar tu plan.");
+      }
+    });
   };
 
   const handlePlanSelect = (priceId: string) => {
-    if (priceId === free) {
-      if (session) {
+    requireSession(() => {
+      if (priceId === free) {
         setIsOpenCancelModal(true);
       } else {
-        router.push("/login?next=/pricing");
-      }
-    } else {
-      if (session) {
         setSelectedPlan(priceId);
         setIsOpenConfirmPlanModal(true);
-      } else {
-        router.push("/login?next=/pricing");
       }
-    }
+    });
   };
 
-  const cardClassName = useMemo(
-    () =>
-      cn(
-        "relative rounded-2xl md:rounded-3xl shrink-0 md:max-w-[362px] snap-start flex flex-col",
-        planName === "Premium Plus" && "border-2 border-indigo-500",
-        isPremiumPlan &&
-          "z-10 border-none bg-gradient-to-r from-indigo-500 to-indigo-600 after:absolute after:inset-px after:rounded-2xl md:after:rounded-3xl after:content-[''] text-white",
-      ),
-    [isPremiumPlan, planName],
-  );
-
-  const cardHeaderClassName = useMemo(
-    () =>
-      cn(
-        "relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 text-foreground after:-z-10 after:border-b-0  md:p-6",
-        !isPremiumPlan && "after:inset-0!",
-        isPremiumPlan
-          ? "after:absolute after:inset-0.5 after:bottom-0 after:rounded-2xl md:after:rounded-3xl after:rounded-b-none after:bg-background after:content-[''] dark:after:border-background"
-          : "after:absolute after:inset-px after:bottom-0 after:rounded-2xl md:after:rounded-3xl after:rounded-b-none after:bg-accent after:content-['']",
-      ),
-    [isPremiumPlan],
-  );
-
-  const buttonName = useMemo(() => {
-    if (!session) {
-      return "Inicia sesión";
-    } else if (isCurrentPlan) {
-      return "Tu Plan Actual";
-    } else if (isPremium && isCurrentPlan) {
-      return "Ya estás usando este plan";
-    } else {
-      return "Escoger " + planName;
-    }
-  }, [isCurrentPlan, isPremium, session, planName]);
+  const buttonLabel = !session
+    ? "Inicia sesión"
+    : isCurrentPlan
+      ? "Tu Plan Actual"
+      : isPremium && isCurrentPlan
+        ? "Ya estás usando este plan"
+        : "Escoger " + planName;
 
   return (
     <>
-      <Card className={cardClassName}>
-        <CardHeader className={cardHeaderClassName}>
+      <Card
+        className={cn(
+          "relative flex shrink-0 snap-start flex-col rounded-2xl md:max-w-[362px] md:rounded-3xl",
+          isPremiumStyle &&
+            "bg-premium z-10 border-none text-white after:absolute after:inset-px after:rounded-2xl after:content-[''] md:after:rounded-3xl",
+          isPremiumPlus && "bg-premium-plus",
+        )}
+      >
+        <CardHeader
+          className={cn(
+            "text-foreground relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 after:-z-10 after:border-b-0 md:p-6",
+            !isPremiumStyle && "after:inset-0!",
+            isPremiumStyle
+              ? "after:bg-background dark:after:border-background after:absolute after:inset-0.5 after:bottom-0 after:rounded-[15px] after:content-[''] md:after:rounded-[22px]"
+              : "after:bg-accent after:absolute after:inset-px after:bottom-0 after:rounded-2xl after:rounded-b-none after:content-[''] md:after:rounded-3xl",
+          )}
+        >
           <div className="inline-flex items-center gap-2">
             <h3 className="font-merriweather text-2xl font-semibold">
               {planName}
@@ -136,9 +129,10 @@ const PricingCard = ({
             <div
               className={cn(
                 "text-foreground relative inline-flex h-5 shrink-0 items-center justify-center gap-1 rounded-full px-2.5 text-xs",
-                isPremiumPlan || planName === "Premium Plus"
-                  ? "after:bg-background bg-gradient-to-r from-indigo-500 to-indigo-600 after:absolute after:inset-px after:z-0 after:rounded-full after:content-['']"
+                isPremiumStyle
+                  ? "after:bg-background bg-premium after:absolute after:inset-px after:z-0 after:rounded-full after:content-['']"
                   : "dark:border-alternative bg-background border border-slate-300",
+                isPremiumPlus && "bg-premium-plus",
               )}
             >
               <span className="z-10">{label}</span>
@@ -164,24 +158,16 @@ const PricingCard = ({
           </div>
           <Button
             radius="full"
-            variant={
-              isPremiumPlan || planName === "Premium Plus"
-                ? "gradient"
-                : "outline"
-            }
-            onClick={() => {
-              if (isCurrentPlan) {
-                return;
-              }
-              handlePlanSelect(priceId);
-            }}
+            variant={isPremiumStyle ? "gradient" : "outline"}
+            onClick={() => !isCurrentPlan && handlePlanSelect(priceId)}
             className={cn("z-10 h-10 shadow-none", {
-              "bg-background": !isPremiumPlan && planName !== "Premium Plus",
+              "bg-background": !isPremiumStyle,
               "pointer-events-none": isCurrentPlan,
+              "bg-premium-plus!": isPremiumPlus,
             })}
           >
             {isCurrentPlan && <Check />}
-            {buttonName}
+            {buttonLabel}
           </Button>
         </CardHeader>
         <div className="relative z-10 flex w-full flex-auto flex-col p-3 md:p-6">
@@ -191,17 +177,15 @@ const PricingCard = ({
                 <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
                   <div
                     className={cn(
-                      "after:bg-background relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']",
-                      {
-                        "after:bg-indigo-950": isPremiumPlan,
-                      },
+                      "relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']",
+                      { "after:bg-indigo-950": isPremiumStyle },
                     )}
                   >
                     <CheckCircledIcon className="inline-flex size-5 shrink-0 text-emerald-400" />
                   </div>
                   <span
                     className={cn("text-foreground text-left", {
-                      "text-white": isPremiumPlan,
+                      "text-white": isPremiumStyle,
                     })}
                   >
                     {feature}
@@ -211,7 +195,7 @@ const PricingCard = ({
             ))}
           </ul>
           {plan.name !== "Básico" && (
-            <div className="jutify-center mt-4 flex flex-1 items-end">
+            <div className="mt-4 flex flex-1 items-end justify-center">
               <div className="bg-background inline-flex w-full items-center justify-center gap-1 rounded-sm">
                 <p className="text-foreground text-center text-xs">
                   Pagos seguros con
@@ -240,6 +224,7 @@ const PricingCard = ({
         setIsOpen={setIsOpenCancelModal}
         isPending={isPending}
         handleCancelPlan={handleSetFreePlan}
+        isTrialingPremium={trial?.isActive}
       />
     </>
   );

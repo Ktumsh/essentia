@@ -336,6 +336,14 @@
   );
 }
 
+@utility bg-premium {
+  @apply bg-gradient-to-r from-indigo-500 to-pink-500;
+}
+
+@utility bg-premium-plus {
+  @apply bg-gradient-to-r from-blue-500 to-emerald-500;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50 font-poppins scroll-smooth;

@@ -252,7 +252,7 @@ const MedicalHistoryCard = ({
                         Ver documento
                       </Button>
                     )}
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
+                    <Separator className="dark:bg-alternative/50 z-10 ml-6" />
                     <Button
                       variant="mobile"
                       onClick={() => onAIClick(item)}
@@ -261,17 +261,17 @@ const MedicalHistoryCard = ({
                       <Stars />
                       Analizar con IA
                     </Button>
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
+                    <Separator className="dark:bg-alternative/50 z-10 ml-6" />
                     <Button variant="mobile" onClick={() => onView(item)}>
                       <ChevronRight />
                       Ver detalles
                     </Button>
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
+                    <Separator className="dark:bg-alternative/50 z-10 ml-6" />
                     <Button variant="mobile" onClick={() => onEdit(item)}>
                       <Edit />
                       Editar
                     </Button>
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
+                    <Separator className="dark:bg-alternative/50 z-10 ml-6" />
                     <Button
                       variant="mobile"
                       className="text-red-500 hover:bg-red-50 hover:text-red-700"

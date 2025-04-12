@@ -34,6 +34,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/kit/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/kit/drawer";
 import { Label } from "@/components/kit/label";
 import { ScrollArea } from "@/components/kit/scroll-area";
 import {
@@ -46,6 +54,7 @@ import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 import { getTagColor } from "../_lib/utils";
@@ -107,6 +116,7 @@ const AIRecommendation = ({
   onSaveRecommendation,
   onShareRecommendation,
 }: AIRecommendationProps) => {
+  const isMobile = useIsMobile();
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"select" | "results">("select");
   const [analysisType, setAnalysisType] = useState<"all" | "selected" | "tags">(
@@ -333,521 +343,431 @@ const AIRecommendation = ({
     setSelectedRecommendation(null);
   };
 
-  return (
+  const content = (
     <>
-      <Dialog
-        open={isOpen}
-        onOpenChange={(open) => {
-          if (!open) handleClose();
-        }}
+      <Tabs
+        value={activeTab}
+        onValueChange={(value) => setActiveTab(value as "select" | "results")}
+        className="flex flex-1 flex-col overflow-hidden"
       >
-        <DialogContent isSecondary className="h-full sm:max-w-2xl">
-          <DialogHeader isSecondary>
-            <DialogTitle className="flex items-center gap-2">
-              <Brain className="size-5 text-indigo-500" />
-              Recomendaciones con IA
-            </DialogTitle>
-            <DialogDescription>
-              Obtén recomendaciones personalizadas basadas en tu historial
-              médico.
-            </DialogDescription>
-          </DialogHeader>
+        <div className="px-4 pt-0 md:px-6 md:pt-6">
+          <TabsList className="bg-accent grid h-auto w-full grid-cols-2 md:h-9">
+            <TabsTrigger
+              value="select"
+              className="rounded-sm text-xs! md:text-sm!"
+            >
+              Seleccionar datos
+            </TabsTrigger>
+            <TabsTrigger
+              value="results"
+              disabled={recommendations.length === 0 && !isLoading}
+              className="rounded-sm text-xs! md:text-sm!"
+            >
+              Resultados
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) =>
-              setActiveTab(value as "select" | "results")
-            }
-            className="flex flex-1 flex-col overflow-hidden"
-          >
-            <div className="px-4 pt-4 md:px-6 md:pt-6">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger
-                  value="select"
-                  className="rounded-sm text-xs! md:text-sm!"
-                >
-                  Seleccionar datos
-                </TabsTrigger>
-                <TabsTrigger
-                  value="results"
-                  disabled={recommendations.length === 0 && !isLoading}
-                >
-                  Resultados
-                </TabsTrigger>
-              </TabsList>
+        {/* Contenido para selección */}
+        <TabsContent
+          value="select"
+          className="flex flex-1 flex-col overflow-hidden"
+        >
+          <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
+            <div className="no-scrollbar flex gap-2 overflow-y-auto px-4 md:px-6">
+              <Button
+                size="sm"
+                radius="full"
+                variant={analysisType === "all" ? "secondary" : "outline"}
+                onClick={() => setAnalysisType("all")}
+                className="flex-1 border text-xs md:text-sm"
+              >
+                Todo el historial
+              </Button>
+              <Button
+                size="sm"
+                radius="full"
+                variant={analysisType === "selected" ? "secondary" : "outline"}
+                onClick={() => setAnalysisType("selected")}
+                className="flex-1 border text-xs md:text-sm"
+              >
+                Documentos específicos
+              </Button>
+              <Button
+                size="sm"
+                radius="full"
+                variant={analysisType === "tags" ? "secondary" : "outline"}
+                onClick={() => setAnalysisType("tags")}
+                className="flex-1 border text-xs md:text-sm"
+              >
+                Por categorías
+              </Button>
             </div>
 
-            {/* Contenido para selección */}
-            <TabsContent
-              value="select"
-              className="flex flex-1 flex-col overflow-hidden"
-            >
-              <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
-                <div className="grid grid-cols-3 gap-2 px-4 md:px-6">
-                  <Button
-                    radius="full"
-                    variant={analysisType === "all" ? "secondary" : "outline"}
-                    onClick={() => setAnalysisType("all")}
-                    className="flex-1"
-                  >
-                    Todo el historial
-                  </Button>
-                  <Button
-                    radius="full"
-                    variant={
-                      analysisType === "selected" ? "secondary" : "outline"
-                    }
-                    onClick={() => setAnalysisType("selected")}
-                    className="flex-1"
-                  >
-                    Documentos específicos
-                  </Button>
-                  <Button
-                    radius="full"
-                    variant={analysisType === "tags" ? "secondary" : "outline"}
-                    onClick={() => setAnalysisType("tags")}
-                    className="flex-1"
-                  >
-                    Por categorías
-                  </Button>
-                </div>
-
-                <div className="px-4 md:px-6">
-                  <ScrollArea className="h-72 flex-1 rounded-xl border">
-                    {analysisType === "all" && (
-                      <div className="space-y-4 p-4">
-                        <p className="text-muted-foreground text-sm">
-                          Se analizará todo tu historial médico para generar
-                          recomendaciones personalizadas.
+            <div className="px-4 md:px-6">
+              <ScrollArea className="h-72 flex-1 rounded-xl border">
+                {analysisType === "all" && (
+                  <div className="space-y-4 p-4">
+                    <p className="text-muted-foreground text-sm">
+                      Se analizará todo tu historial médico para generar
+                      recomendaciones personalizadas.
+                    </p>
+                    <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                      <BadgeAlert
+                        variant="warning"
+                        className="mb-0 size-7 [&_svg]:size-4!"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
+                          Información importante
                         </p>
-                        <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                          <BadgeAlert
-                            variant="warning"
-                            className="mb-0 size-7 [&_svg]:size-4!"
-                          />
-                          <div>
-                            <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
-                              Información importante
-                            </p>
-                            <p className="text-xs">
-                              El análisis incluirá todos tus documentos médicos
-                              ({medicalHistory.length}). Si prefieres un
-                              análisis más específico, selecciona “Documentos
-                              específicos” o “Por categorías”.
-                            </p>
-                          </div>
+                        <p className="text-xs">
+                          El análisis incluirá todos tus documentos médicos (
+                          {medicalHistory.length}). Si prefieres un análisis más
+                          específico, selecciona “Documentos específicos” o “Por
+                          categorías”.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {analysisType === "selected" && (
+                  <div className="space-y-4 p-4">
+                    <p className="text-muted-foreground text-sm">
+                      Selecciona los documentos específicos que deseas incluir
+                      en el análisis.
+                    </p>
+                    {allTags.map((tag) => (
+                      <div key={tag} className="space-y-2">
+                        <div className="grid grid-cols-2 justify-between">
+                          <Badge className={cn("text-xs", getTagColor(tag))}>
+                            <Tag className="size-3" />
+                            {tag} ({documentsByTag[tag].length})
+                          </Badge>
+                          {!documentsByTag[tag].every((doc) =>
+                            selectedDocuments.includes(doc.id),
+                          ) && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="ml-auto h-6 w-fit text-xs"
+                              onClick={() => selectAllDocumentsForTag(tag)}
+                            >
+                              Seleccionar todos
+                            </Button>
+                          )}
+                          {documentsByTag[tag].every((doc) =>
+                            selectedDocuments.includes(doc.id),
+                          ) && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="ml-auto h-6 w-fit text-xs"
+                              onClick={() => deselectAllDocumentsForTag(tag)}
+                            >
+                              Deseleccionar todos
+                            </Button>
+                          )}
                         </div>
-                      </div>
-                    )}
-
-                    {analysisType === "selected" && (
-                      <div className="space-y-4 p-4">
-                        <p className="text-muted-foreground text-sm">
-                          Selecciona los documentos específicos que deseas
-                          incluir en el análisis.
-                        </p>
-                        {allTags.map((tag) => (
-                          <div key={tag} className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <Badge
-                                className={cn("text-xs", getTagColor(tag))}
-                              >
-                                <Tag className="mr-1 h-3 w-3" />
-                                {tag} ({documentsByTag[tag].length})
-                              </Badge>
-                              <div className="flex gap-2">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-6 text-xs"
-                                  onClick={() => selectAllDocumentsForTag(tag)}
-                                >
-                                  Seleccionar todos
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-6 text-xs"
-                                  onClick={() =>
-                                    deselectAllDocumentsForTag(tag)
-                                  }
-                                >
-                                  Deseleccionar todos
-                                </Button>
-                              </div>
-                            </div>
-                            <div className="space-y-2 pl-4">
-                              {documentsByTag[tag].map((doc) => (
-                                <div
-                                  key={doc.id}
-                                  className="flex items-center space-x-2"
-                                >
-                                  <Checkbox
-                                    id={`doc-${doc.id}`}
-                                    checked={selectedDocuments.includes(doc.id)}
-                                    onCheckedChange={() =>
-                                      toggleDocumentSelection(doc.id)
-                                    }
-                                  />
-                                  <label
-                                    htmlFor={`doc-${doc.id}`}
-                                    className="flex-1 cursor-pointer text-sm"
-                                  >
-                                    {doc.condition}
-                                    {doc.issuer && (
-                                      <span className="text-muted-foreground ml-1 text-xs">
-                                        ({doc.issuer})
-                                      </span>
-                                    )}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                        {selectedDocuments.length === 0 && (
-                          <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                            <BadgeAlert
-                              variant="warning"
-                              className="mb-0 size-7 [&_svg]:size-4!"
-                            />
-                            <p className="text-sm">
-                              Selecciona al menos un documento para continuar.
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {analysisType === "tags" && (
-                      <div className="space-y-4 p-4">
-                        <p className="text-muted-foreground text-sm">
-                          Selecciona las categorías que deseas incluir en el
-                          análisis.
-                        </p>
-                        <div className="grid grid-cols-2 gap-2">
-                          {allTags.map((tag) => (
+                        <div className="space-y-2">
+                          {documentsByTag[tag].map((doc) => (
                             <div
-                              key={tag}
+                              key={doc.id}
                               className="flex items-center space-x-2"
                             >
                               <Checkbox
-                                id={`tag-${tag}`}
-                                checked={selectedTagsForAnalysis.includes(tag)}
-                                onCheckedChange={() => toggleTagSelection(tag)}
+                                id={`doc-${doc.id}`}
+                                checked={selectedDocuments.includes(doc.id)}
+                                onCheckedChange={() =>
+                                  toggleDocumentSelection(doc.id)
+                                }
+                                className="dark:border-alternative"
                               />
-                              <label
-                                htmlFor={`tag-${tag}`}
-                                className="flex-1 cursor-pointer text-sm"
-                              >
-                                <Badge
-                                  className={cn("text-xs", getTagColor(tag))}
+                              <div className="grid">
+                                <label
+                                  htmlFor={`doc-${doc.id}`}
+                                  className="flex-1 cursor-pointer truncate text-sm"
                                 >
-                                  {tag} ({documentsByTag[tag].length})
-                                </Badge>
-                              </label>
+                                  {doc.condition}
+                                </label>
+                                {doc.issuer && (
+                                  <span className="text-muted-foreground ml-1 text-xs">
+                                    ({doc.issuer})
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           ))}
                         </div>
-                        {selectedTagsForAnalysis.length === 0 && (
-                          <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                            <BadgeAlert
-                              variant="warning"
-                              className="mb-0 size-7 [&_svg]:size-4!"
-                            />
-                            <p className="text-sm">
-                              Selecciona al menos una categoría para continuar.
-                            </p>
-                          </div>
-                        )}
+                      </div>
+                    ))}
+                    {selectedDocuments.length === 0 && (
+                      <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                        <BadgeAlert
+                          variant="warning"
+                          className="mb-0 size-7 [&_svg]:size-4!"
+                        />
+                        <p className="text-sm">
+                          Selecciona al menos un documento para continuar.
+                        </p>
                       </div>
                     )}
-                  </ScrollArea>
-                </div>
-
-                <div className="space-y-4 px-4 md:px-6">
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="custom-question">
-                      Pregunta personalizada (opcional)
-                    </Label>
-                    <Textarea
-                      id="custom-question"
-                      placeholder="Ej: ¿Qué puedo hacer para mejorar mi salud cardiovascular?"
-                      value={customQuestion}
-                      onChange={(e) => setCustomQuestion(e.target.value)}
-                      className="resize-none"
-                    />
-                    <p className="text-muted-foreground text-xs">
-                      Puedes hacer una pregunta específica relacionada con tu
-                      historial médico.
-                    </p>
                   </div>
-                  <ScrollArea className="h-20 overflow-hidden rounded-lg border border-blue-100 bg-blue-50 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300">
-                    <div className="p-3">
-                      <p className="mb-1 font-medium text-blue-900 dark:text-blue-200">
-                        Resumen del análisis:
-                      </p>
-                      {analysisType === "all" && (
-                        <p>
-                          Se incluirán <strong>todos</strong> tus documentos
-                          médicos ({medicalHistory.length} documentos).
+                )}
+
+                {analysisType === "tags" && (
+                  <div className="space-y-4 p-4">
+                    <p className="text-muted-foreground text-sm">
+                      Selecciona las categorías que deseas incluir en el
+                      análisis.
+                    </p>
+                    <div className="grid gap-2 md:grid-cols-2">
+                      {allTags.map((tag) => (
+                        <div key={tag} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`tag-${tag}`}
+                            checked={selectedTagsForAnalysis.includes(tag)}
+                            onCheckedChange={() => toggleTagSelection(tag)}
+                            className="dark:border-alternative"
+                          />
+                          <label
+                            htmlFor={`tag-${tag}`}
+                            className="flex-1 cursor-pointer text-sm"
+                          >
+                            <Badge className={cn("text-xs", getTagColor(tag))}>
+                              {tag} ({documentsByTag[tag].length})
+                            </Badge>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                    {selectedTagsForAnalysis.length === 0 && (
+                      <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                        <BadgeAlert
+                          variant="warning"
+                          className="mb-0 size-7 [&_svg]:size-4!"
+                        />
+                        <p className="text-sm">
+                          Selecciona al menos una categoría para continuar.
                         </p>
-                      )}
-                      {analysisType === "selected" && (
-                        <div>
-                          Se analizarán{" "}
-                          <strong>{selectedDocuments.length}</strong> documento
-                          {selectedDocuments.length === 1 ? "" : "s"}{" "}
-                          seleccionado
-                          {selectedDocuments.length > 0 && ":"}
-                          {selectedDocuments.length > 0 && (
-                            <ul className="ml-4 list-disc">
-                              {medicalHistory
-                                .filter((doc) =>
-                                  selectedDocuments.includes(doc.id),
-                                )
-                                .map((doc) => (
-                                  <li key={doc.id}>{doc.condition}</li>
-                                ))}
-                            </ul>
-                          )}
-                        </div>
-                      )}
-                      {analysisType === "tags" && (
-                        <div>
-                          <div>
-                            Se incluirán documentos con las siguientes{" "}
-                            <strong>{selectedTagsForAnalysis.length}</strong>{" "}
-                            categoría
-                            {selectedTagsForAnalysis.length === 1
-                              ? ""
-                              : "s"}{" "}
-                            seleccionada
-                            {selectedTagsForAnalysis.length > 0 && ":"}
-                          </div>
-                          <ul className="ml-4 list-disc">
-                            {selectedTagsForAnalysis.map((tag) => (
-                              <li key={tag}>{tag}</li>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </ScrollArea>
+            </div>
+
+            <div className="space-y-4 px-4 md:px-6">
+              <div className="flex flex-col space-y-2">
+                <Label htmlFor="custom-question">
+                  Pregunta personalizada (opcional)
+                </Label>
+                <Textarea
+                  id="custom-question"
+                  placeholder="Ej: ¿Qué puedo hacer para mejorar mi salud cardiovascular?"
+                  value={customQuestion}
+                  onChange={(e) => setCustomQuestion(e.target.value)}
+                  className="dark:border-alternative md:dark:border-border md:border-border resize-none"
+                />
+                <p className="text-muted-foreground text-xs">
+                  Puedes hacer una pregunta específica relacionada con tu
+                  historial médico.
+                </p>
+              </div>
+              <ScrollArea className="h-20 overflow-hidden rounded-lg border border-blue-100 bg-blue-50 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                <div className="p-3">
+                  <p className="mb-1 font-medium text-blue-900 dark:text-blue-200">
+                    Resumen del análisis:
+                  </p>
+                  {analysisType === "all" && (
+                    <p>
+                      Se incluirán <strong>todos</strong> tus documentos médicos
+                      ({medicalHistory.length} documentos).
+                    </p>
+                  )}
+                  {analysisType === "selected" && (
+                    <div>
+                      Se analizarán <strong>{selectedDocuments.length}</strong>{" "}
+                      documento
+                      {selectedDocuments.length === 1 ? "" : "s"} seleccionado
+                      {selectedDocuments.length > 0 && ":"}
+                      {selectedDocuments.length > 0 && (
+                        <ul className="ml-4 list-disc">
+                          {medicalHistory
+                            .filter((doc) => selectedDocuments.includes(doc.id))
+                            .map((doc) => (
+                              <li key={doc.id}>{doc.condition}</li>
                             ))}
-                          </ul>
-                        </div>
+                        </ul>
                       )}
                     </div>
-                  </ScrollArea>
-                </div>
-              </div>
-            </TabsContent>
-
-            {/* Contenido para resultados */}
-            <TabsContent
-              value="results"
-              className="flex flex-1 flex-col overflow-hidden"
-            >
-              {isLoading ? (
-                <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-gradient-to-r from-indigo-50 to-pink-50 md:m-6 dark:from-indigo-950 dark:to-pink-950">
-                  <Loader2 className="mb-4 size-10 animate-spin text-indigo-500" />
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-base font-medium"
-                  >
-                    ✨ Preparando sugerencias para ti...
-                  </motion.p>
-
-                  <AnimatePresence mode="wait">
-                    <motion.p
-                      key={secondaryMessages[secondaryIndex]}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="text-muted-foreground text-sm"
-                    >
-                      {secondaryMessages[secondaryIndex]
-                        .split("")
-                        .map((character, index) => (
-                          <motion.span
-                            key={index}
-                            variants={shimmerVariants}
-                            initial="initial"
-                            animate="animate"
-                            transition={{
-                              duration: 1,
-                              ease: "easeInOut",
-                              delay: index * 0.15,
-                              repeat: Infinity,
-                              repeatType: "reverse",
-                            }}
-                          >
-                            {character === " " ? "\u00A0" : character}
-                          </motion.span>
-                        ))}
-                    </motion.p>
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <AnimatePresence mode="wait">
-                  {selectedRecommendation ? (
-                    <motion.div
-                      key="detail"
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -50 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex flex-1 flex-col"
-                    >
-                      <AIRecommendationDetail
-                        recommendation={selectedRecommendation}
-                        medicalHistory={medicalHistory}
-                        onBack={() => setSelectedRecommendation(null)}
-                      />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="list"
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 50 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex flex-1 flex-col overflow-hidden"
-                    >
-                      <div className="flex items-center justify-between px-4 pb-4 md:px-6 md:pb-6">
-                        <h3 className="flex items-center gap-2 text-base font-medium">
-                          <Lightbulb className="size-5 shrink-0 text-amber-500" />{" "}
-                          Recomendaciones personalizadas
-                        </h3>
-                        <div className="flex items-center gap-2">
-                          <BetterTooltip content="Generar nuevas recomendaciones">
-                            <RefreshButton
-                              variant="ghost"
-                              size="icon"
-                              onClick={requestRecommendations}
-                              className="size-8 rounded-sm border-0"
-                            />
-                          </BetterTooltip>
-                          <BetterTooltip content="Copiar">
-                            <CopyButton
-                              variant="ghost"
-                              size="icon"
-                              onClick={onCopy}
-                              className="size-8 rounded-sm"
-                            />
-                          </BetterTooltip>
-                          <BetterTooltip content="Compartir">
-                            <ShareButton
-                              variant="ghost"
-                              size="icon"
-                              onClick={() =>
-                                recommendations.length > 0 &&
-                                shareRecommendation(recommendations[0])
-                              }
-                              className="size-8 rounded-sm"
-                            />
-                          </BetterTooltip>
-                          <BetterTooltip content="Guardar recomendaciones">
-                            <SaveButton
-                              variant="ghost"
-                              size="icon"
-                              onClick={() =>
-                                onSaveRecommendation(recommendations)
-                              }
-                              className="size-8 rounded-sm"
-                            />
-                          </BetterTooltip>
-                        </div>
-                      </div>
-                      <ScrollArea className="h-[518px]">
-                        <div className="space-y-4 px-4 md:px-6 md:pb-6">
-                          {recommendations.map((rec, index) => (
-                            <AIRecommendationsCard
-                              key={index}
-                              recommendation={rec}
-                              medicalHistory={medicalHistory}
-                              currentItem={selectedRecommendation}
-                              onViewDetails={() =>
-                                setSelectedRecommendation(rec)
-                              }
-                              onSave={onSaveRecommendation}
-                              onShare={shareRecommendation}
-                            />
-                          ))}
-                        </div>
-                      </ScrollArea>
-                    </motion.div>
                   )}
-                </AnimatePresence>
-              )}
-            </TabsContent>
-          </Tabs>
-          <DialogFooter isSecondary>
-            {selectedRecommendation ? (
-              <>
-                <ArrowLeftButton
-                  variant="outline"
-                  onClick={() => setSelectedRecommendation(null)}
-                  className="rounded-full"
-                >
-                  Atrás
-                </ArrowLeftButton>
-                <SaveButton
-                  onClick={() => {
-                    onSaveRecommendation(selectedRecommendation);
-                    setSelectedRecommendation(null);
-                  }}
-                  className="rounded-full"
-                >
-                  Guardar recomendación
-                </SaveButton>
-              </>
-            ) : activeTab === "select" ? (
-              <>
-                <Button radius="full" variant="outline" onClick={handleClose}>
-                  Cancelar
-                </Button>
-                <SparklesButton
-                  size="default"
-                  onClick={requestRecommendations}
-                  disabled={
-                    isLoading ||
-                    (analysisType === "selected" &&
-                      selectedDocuments.length === 0) ||
-                    (analysisType === "tags" &&
-                      selectedTagsForAnalysis.length === 0) ||
-                    (analysisType === "all" && medicalHistory.length === 0) ||
-                    recommendations.length > 0
-                  }
-                >
-                  {recommendations.length > 0
-                    ? "Recomendaciones generadas"
-                    : isLoading
-                      ? "Analizando..."
-                      : "Generar recomendaciones"}
-                </SparklesButton>
-              </>
-            ) : (
-              <>
-                <Button
-                  radius="full"
-                  variant="outline"
-                  onClick={() => setActiveTab("select")}
-                >
-                  Volver a selección
-                </Button>
-                <Button radius="full" variant="outline" onClick={handleClose}>
-                  Cerrar
-                </Button>
-              </>
-            )}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+                  {analysisType === "tags" && (
+                    <div>
+                      <div>
+                        Se incluirán documentos con las siguientes{" "}
+                        <strong>{selectedTagsForAnalysis.length}</strong>{" "}
+                        categoría
+                        {selectedTagsForAnalysis.length === 1 ? "" : "s"}{" "}
+                        seleccionada
+                        {selectedTagsForAnalysis.length > 0 && ":"}
+                      </div>
+                      <ul className="ml-4 list-disc">
+                        {selectedTagsForAnalysis.map((tag) => (
+                          <li key={tag}>{tag}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
+            </div>
+          </div>
+        </TabsContent>
 
-      {/* AlertDialog para confirmar el cierre */}
+        {/* Contenido para resultados */}
+        <TabsContent
+          value="results"
+          className="flex flex-1 flex-col overflow-hidden"
+        >
+          {isLoading ? (
+            <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-gradient-to-r from-indigo-50 to-pink-50 md:m-6 dark:from-indigo-950 dark:to-pink-950">
+              <Loader2 className="mb-4 size-10 animate-spin text-indigo-500" />
+
+              <motion.p
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-base font-medium"
+              >
+                ✨ Preparando sugerencias para ti...
+              </motion.p>
+
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={secondaryMessages[secondaryIndex]}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-muted-foreground text-sm"
+                >
+                  {secondaryMessages[secondaryIndex]
+                    .split("")
+                    .map((character, index) => (
+                      <motion.span
+                        key={index}
+                        variants={shimmerVariants}
+                        initial="initial"
+                        animate="animate"
+                        transition={{
+                          duration: 1,
+                          ease: "easeInOut",
+                          delay: index * 0.15,
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                        }}
+                      >
+                        {character === " " ? "\u00A0" : character}
+                      </motion.span>
+                    ))}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+          ) : (
+            <AnimatePresence mode="wait">
+              {selectedRecommendation ? (
+                <motion.div
+                  key="detail"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-1 flex-col"
+                >
+                  <AIRecommendationDetail
+                    recommendation={selectedRecommendation}
+                    medicalHistory={medicalHistory}
+                    onBack={() => setSelectedRecommendation(null)}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="list"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 50 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-1 flex-col overflow-hidden"
+                >
+                  <div className="flex items-center justify-between px-4 pb-4 md:px-6 md:pb-6">
+                    <h3 className="flex items-center gap-2 text-base font-medium">
+                      <Lightbulb className="size-5 shrink-0 text-amber-500" />{" "}
+                      Recomendaciones personalizadas
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <BetterTooltip content="Generar nuevas recomendaciones">
+                        <RefreshButton
+                          variant="ghost"
+                          size="icon"
+                          onClick={requestRecommendations}
+                          className="size-8 rounded-sm border-0"
+                        />
+                      </BetterTooltip>
+                      <BetterTooltip content="Copiar">
+                        <CopyButton
+                          variant="ghost"
+                          size="icon"
+                          onClick={onCopy}
+                          className="size-8 rounded-sm"
+                        />
+                      </BetterTooltip>
+                      <BetterTooltip content="Compartir">
+                        <ShareButton
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            recommendations.length > 0 &&
+                            shareRecommendation(recommendations[0])
+                          }
+                          className="size-8 rounded-sm"
+                        />
+                      </BetterTooltip>
+                      <BetterTooltip content="Guardar recomendaciones">
+                        <SaveButton
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => onSaveRecommendation(recommendations)}
+                          className="size-8 rounded-sm"
+                        />
+                      </BetterTooltip>
+                    </div>
+                  </div>
+                  <div className="overflow-y-auto">
+                    <div className="space-y-4 px-4 md:px-6 md:pb-6">
+                      {recommendations.map((rec, index) => (
+                        <AIRecommendationsCard
+                          key={index}
+                          recommendation={rec}
+                          medicalHistory={medicalHistory}
+                          currentItem={selectedRecommendation}
+                          onViewDetails={() => setSelectedRecommendation(rec)}
+                          onSave={onSaveRecommendation}
+                          onShare={shareRecommendation}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )}
+        </TabsContent>
+      </Tabs>
       <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
         <AlertDialogContent isSecondary>
-          <AlertDialogHeader isSecondary className="p-6">
+          <AlertDialogHeader isSecondary className="p-4 md:p-6">
             <BadgeAlert variant="warning" />
             <AlertDialogTitle>Confirmar cierre</AlertDialogTitle>
             <AlertDialogDescription asChild>
@@ -862,7 +782,7 @@ const AIRecommendation = ({
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter isSecondary>
+          <AlertDialogFooter isSecondary className="justify-end!">
             <AlertDialogCancel asChild>
               <Button
                 variant="outline"
@@ -890,6 +810,186 @@ const AIRecommendation = ({
         </AlertDialogContent>
       </AlertDialog>
     </>
+  );
+
+  // Renderizado condicional según dispositivo: Drawer en móvil y Dialog en desktop, conservando el AlertDialog
+  return isMobile ? (
+    <Drawer
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) handleClose();
+      }}
+    >
+      <DrawerContent className="h-full">
+        <DrawerHeader>
+          <DrawerTitle className="flex items-center justify-center gap-2">
+            <Brain className="size-5 text-indigo-500" />
+            Recomendaciones con IA
+          </DrawerTitle>
+        </DrawerHeader>
+        <DrawerDescription className="p-4">
+          Obtén recomendaciones personalizadas basadas en tu historial médico.
+        </DrawerDescription>
+        <div className="flex-1 overflow-y-auto">{content}</div>
+        <DrawerFooter>
+          {selectedRecommendation ? (
+            <>
+              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+                <ArrowLeftButton
+                  variant="mobile"
+                  onClick={() => setSelectedRecommendation(null)}
+                  className="justify-center rounded-xl"
+                >
+                  Atrás
+                </ArrowLeftButton>
+              </div>
+              <SaveButton
+                onClick={() => {
+                  onSaveRecommendation(selectedRecommendation);
+                  setSelectedRecommendation(null);
+                }}
+                className="h-12! gap-5 rounded-xl"
+              >
+                Guardar recomendación
+              </SaveButton>
+            </>
+          ) : activeTab === "select" ? (
+            <>
+              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+                <Button
+                  variant="mobile"
+                  onClick={handleClose}
+                  className="justify-center"
+                >
+                  Cancelar
+                </Button>
+              </div>
+              <SparklesButton
+                size="default"
+                onClick={requestRecommendations}
+                disabled={
+                  isLoading ||
+                  (analysisType === "selected" &&
+                    selectedDocuments.length === 0) ||
+                  (analysisType === "tags" &&
+                    selectedTagsForAnalysis.length === 0) ||
+                  (analysisType === "all" && medicalHistory.length === 0) ||
+                  recommendations.length > 0
+                }
+                className="h-12! gap-5 rounded-xl"
+              >
+                {recommendations.length > 0
+                  ? "Recomendaciones generadas"
+                  : isLoading
+                    ? "Analizando..."
+                    : "Generar recomendaciones"}
+              </SparklesButton>
+            </>
+          ) : (
+            <>
+              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+                <ArrowLeftButton
+                  variant="mobile"
+                  onClick={() => setActiveTab("select")}
+                  className="justify-center rounded-xl"
+                >
+                  Volver a selección
+                </ArrowLeftButton>
+              </div>
+              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+                <Button
+                  variant="mobile"
+                  onClick={handleClose}
+                  className="justify-center"
+                >
+                  Cerrar
+                </Button>
+              </div>
+            </>
+          )}
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) handleClose();
+      }}
+    >
+      <DialogContent isSecondary className="h-full sm:max-w-2xl">
+        <DialogHeader isSecondary>
+          <DialogTitle className="flex items-center gap-2">
+            <Brain className="size-5 text-indigo-500" />
+            Recomendaciones con IA
+          </DialogTitle>
+          <DialogDescription>
+            Obtén recomendaciones personalizadas basadas en tu historial médico.
+          </DialogDescription>
+        </DialogHeader>
+        {content}
+        <DialogFooter isSecondary>
+          {selectedRecommendation ? (
+            <>
+              <ArrowLeftButton
+                variant="outline"
+                onClick={() => setSelectedRecommendation(null)}
+                className="rounded-full"
+              >
+                Atrás
+              </ArrowLeftButton>
+              <SaveButton
+                onClick={() => {
+                  onSaveRecommendation(selectedRecommendation);
+                  setSelectedRecommendation(null);
+                }}
+                className="rounded-full"
+              >
+                Guardar recomendación
+              </SaveButton>
+            </>
+          ) : activeTab === "select" ? (
+            <>
+              <Button radius="full" variant="outline" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <SparklesButton
+                size="default"
+                onClick={requestRecommendations}
+                disabled={
+                  isLoading ||
+                  (analysisType === "selected" &&
+                    selectedDocuments.length === 0) ||
+                  (analysisType === "tags" &&
+                    selectedTagsForAnalysis.length === 0) ||
+                  (analysisType === "all" && medicalHistory.length === 0) ||
+                  recommendations.length > 0
+                }
+              >
+                {recommendations.length > 0
+                  ? "Recomendaciones generadas"
+                  : isLoading
+                    ? "Analizando..."
+                    : "Generar recomendaciones"}
+              </SparklesButton>
+            </>
+          ) : (
+            <>
+              <Button
+                radius="full"
+                variant="outline"
+                onClick={() => setActiveTab("select")}
+              >
+                Volver a selección
+              </Button>
+              <Button radius="full" variant="outline" onClick={handleClose}>
+                Cerrar
+              </Button>
+            </>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -9,7 +9,7 @@ import PaymentModal, {
   FeatureType,
 } from "@/components/ui/payment/payment-modal";
 import { MedicalTag } from "@/db/schema";
-import { useIsTrialActive } from "@/hooks/use-is-trial-active";
+import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { fetcher } from "@/lib/utils";
 
@@ -59,7 +59,7 @@ const MedicalHistory = () => {
 
   const userId = user ? user.id : (session?.user?.id as string);
   const { uploadStatus, refreshUploadStatus } = useCanUploadFile(userId);
-  const { isTrialUsed } = useIsTrialActive();
+  const { isTrialUsed } = useTrial();
   const isPremium = user?.isPremium;
 
   const {
@@ -525,16 +525,14 @@ const MedicalHistory = () => {
       />
 
       {/* Modal de pago */}
-      {!isPremium && (
-        <PaymentModal
-          featureType={premiumFeatureType}
-          isOpen={dialogs.isPremiumModal}
-          setIsOpen={(isOpen) =>
-            setDialogs((prev) => ({ ...prev, isPremiumModal: isOpen }))
-          }
-          mode={!isTrialUsed ? "trial" : "upgrade"}
-        />
-      )}
+      <PaymentModal
+        featureType={premiumFeatureType}
+        isOpen={dialogs.isPremiumModal}
+        setIsOpen={(isOpen) =>
+          setDialogs((prev) => ({ ...prev, isPremiumModal: isOpen }))
+        }
+        mode={!isTrialUsed ? "trial" : "upgrade"}
+      />
     </div>
   );
 };

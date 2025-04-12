@@ -1,6 +1,6 @@
 "use client";
 
-import { differenceInDays, isAfter } from "date-fns";
+import { isAfter } from "date-fns";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import { X } from "lucide-react";
@@ -15,8 +15,8 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/kit/carousel";
-import { useIsTrialActive } from "@/hooks/use-is-trial-active";
 import { useProfileMessage } from "@/hooks/use-profile-message";
+import { useTrial } from "@/hooks/use-trial";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
@@ -32,7 +32,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
   const router = useRouter();
   const { isDismissed, dismiss } = useProfileMessage();
 
-  const { isUsingTrial, isTrialUsed } = useIsTrialActive();
+  const { isTrialActive, isTrialUsed } = useTrial();
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -79,17 +79,20 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
 
   if (items.length === 0 || isDismissed) return null;
 
-  if (isUsingTrial && user?.trial.expiresAt) {
+  if (isTrialActive && user?.trial.expiresAt) {
     const expiresAt = new Date(user.trial.expiresAt);
     const now = new Date();
 
     if (isAfter(expiresAt, now)) {
-      const daysLeft = differenceInDays(expiresAt, now);
+      const daysLeft = Math.ceil(
+        (expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+      );
 
       items.push({
-        title: `Te quedan ${daysLeft} día${daysLeft === 1 ? "" : "s"} de tu prueba gratuita ⏳`,
-        action: () => setIsPaymentModalOpen(true),
-        text: "Mejorar ahora",
+        title:
+          daysLeft === 1
+            ? "Te queda 1 día de tu prueba gratuita ⏳"
+            : `Te quedan ${daysLeft} días de tu prueba gratuita ⏳`,
       });
     }
   }
@@ -139,24 +142,26 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
                         {item.title}
                       </p>
                     </div>
-                    <Button
-                      variant="link"
-                      size="sm"
-                      onClick={() => {
-                        if (item.path) {
-                          router.push(item.path);
-                        } else if (item.action) {
-                          item.action();
-                        }
-                      }}
-                      className={cn(
-                        "ml-8 h-auto w-fit gap-1 px-0! text-xs hover:underline md:ml-0 md:text-sm",
-                        isFirstItem ? "text-foreground" : "text-white",
-                      )}
-                    >
-                      {item.text}
-                      {isFirstItem && <LinkIcon className="size-2!" />}
-                    </Button>
+                    {(item.path || item.action) && (
+                      <Button
+                        variant="link"
+                        size="sm"
+                        onClick={() => {
+                          if (item.path) {
+                            router.push(item.path);
+                          } else if (item.action) {
+                            item.action();
+                          }
+                        }}
+                        className={cn(
+                          "ml-8 h-auto w-fit gap-1 px-0! text-xs hover:underline md:ml-0 md:text-sm",
+                          isFirstItem ? "text-foreground" : "text-white",
+                        )}
+                      >
+                        {item.text && item.text}
+                        {isFirstItem && <LinkIcon className="size-2!" />}
+                      </Button>
+                    )}
                   </div>
                 </CarouselItem>
               );

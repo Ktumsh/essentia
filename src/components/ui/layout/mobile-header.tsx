@@ -1,12 +1,15 @@
 "use client";
 
+import { Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 
+import { Button } from "@/components/kit/button";
 import { UserProfileData } from "@/types/auth";
 
 import Logo from "./logo";
+import MainSearch from "./main-search";
 import MobileMenu from "./mobile-menu";
 import NotificationsList from "./notifications-list";
 import AppSidebarToggle from "../sidebar/app-sidebar-toggle";
@@ -41,6 +44,15 @@ const MobileHeader = ({ user, session }: MobileHeaderProps) => {
           </Link>
         </div>
         <div className="inline-flex items-center gap-4">
+          <MainSearch isPremium={user?.isPremium || false}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="border-border size-8 border"
+            >
+              <Search />
+            </Button>
+          </MainSearch>
           {user && <NotificationsList userId={user.id} />}
           <MobileMenu user={user} />
         </div>

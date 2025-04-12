@@ -49,9 +49,9 @@ export default async function ChatPage(props: ChatPageProps) {
   const isOwnChat = chat?.userId === session?.user?.id;
 
   const profileData = !isOwnChat
-    ? await getUserProfileData({ userId: chat.userId, isOwn: false })
-    : session
-      ? await getUserProfileData({ session })
+    ? await getUserProfileData({ userId: chat.userId })
+    : session?.user?.id
+      ? await getUserProfileData({ userId: session.user.id })
       : null;
 
   if (chat.visibility === "private") {

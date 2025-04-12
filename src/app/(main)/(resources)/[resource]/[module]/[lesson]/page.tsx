@@ -105,7 +105,7 @@ const LessonPage = async (props: LessonPageProps) => {
     redirect(`/${resourceSlug}`);
   }
 
-  const userData = session ? await getUserProfileData({ session }) : null;
+  const userData = userId ? await getUserProfileData({ userId }) : null;
 
   const { isPremium } = userData || {};
 

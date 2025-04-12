@@ -138,7 +138,7 @@ const ChatActions = ({
                         Compartir
                       </Button>
                     </DrawerClose>
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
+                    <Separator className="dark:bg-alternative/50 z-10 ml-6" />
                   </>
                 )}
                 <DrawerClose asChild>

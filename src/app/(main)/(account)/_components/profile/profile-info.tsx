@@ -128,7 +128,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="mb-2 inline-flex flex-col justify-between gap-2 text-base md:flex-row md:items-center">
-              <span className="font-merriweather">
+              <span className="font-merriweather inline-flex items-center gap-2">
                 {isOwnProfile
                   ? "Información de tu perfil"
                   : "Información de su perfil"}

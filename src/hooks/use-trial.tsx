@@ -2,14 +2,14 @@
 
 import { useUserProfile } from "./use-user-profile";
 
-export function useIsTrialActive() {
+export function useTrial() {
   const { user } = useUserProfile();
 
   const isTrialUsed = user?.trial?.hasUsed;
-  const isUsingTrial = user?.trial?.isActive && !user?.isPremium;
+  const isTrialActive = user?.trial?.isActive;
 
   return {
-    isUsingTrial: isUsingTrial ?? false,
+    isTrialActive: isTrialActive ?? false,
     isTrialUsed: isTrialUsed ?? false,
   };
 }

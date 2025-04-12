@@ -1,28 +1,16 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { SpinnerIcon } from "@/components/ui/icons/status";
-import useSubscription from "@/hooks/use-subscription";
-import { useUserProfile } from "@/hooks/use-user-profile";
-import { useUserSubscription } from "@/hooks/use-user-subscription";
 
 const LogoutPage = () => {
-  const router = useRouter();
-  const { setUser } = useUserProfile();
-  const { setSubscription } = useSubscription();
-  const { setSubscription: setUserSubscription } = useUserSubscription();
-
   useEffect(() => {
     setTimeout(() => {
-      setUser(null);
-      setUserSubscription(null);
-      setSubscription(null);
-      router.push("/login");
+      window.location.href = "/login";
     }, 1000);
-  }, [router, setUser, setSubscription, setUserSubscription]);
+  }, []);
 
   return (
     <motion.div

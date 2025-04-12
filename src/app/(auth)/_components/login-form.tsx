@@ -82,9 +82,11 @@ const LoginForm = () => {
       } else {
         toast.success("¡Bienvenid@!");
       }
-      router.replace(redirectUrl);
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 500);
     },
-    [router, redirectUrl],
+    [redirectUrl],
   );
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {

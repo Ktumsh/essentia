@@ -46,7 +46,7 @@ export default async function RootLayout({
 
   const userId = session?.user?.id as string;
 
-  const userData = session ? await getUserProfileData({ session }) : null;
+  const userData = userId ? await getUserProfileData({ userId }) : null;
 
   const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
 
@@ -79,6 +79,7 @@ export default async function RootLayout({
         )}
       >
         <Providers
+          key={userId}
           currentPlan={currentPlan}
           defaultOpen={!isCollapsed}
           userId={userId}

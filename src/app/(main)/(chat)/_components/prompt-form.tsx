@@ -59,6 +59,7 @@ const PurePromptForm = ({
   setMessages,
   uploadQueue,
   setUploadQueue,
+  hasMessages,
 }: PromptFormProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -217,10 +218,12 @@ const PurePromptForm = ({
           value={input}
           onChange={handleInput}
           onKeyDown={onKeyDown}
-          className="text-foreground min-h-14 w-full resize-none rounded-xl border-none bg-transparent px-4 py-3 pr-16 text-[15px] shadow-none focus-visible:ring-0 md:min-h-20 md:pr-4 md:text-base"
+          className={cn(
+            "text-foreground min-h-10 w-full resize-none rounded-xl border-none bg-transparent px-4 pt-3 pb-0 text-sm shadow-none focus-visible:ring-0 md:min-h-20 md:text-[14px]",
+            { "min-h-10!": hasMessages },
+          )}
         />
-
-        <div className="pointer-events-none absolute top-1/2 inline-flex w-full -translate-y-1/2 items-center justify-end gap-2 px-3 pt-0 md:static md:translate-y-0 md:justify-between md:p-3">
+        <div className="pointer-events-none inline-flex w-full items-center justify-between gap-2 p-3">
           <AttachmentsButton fileInputRef={fileInputRef} status={status} />
 
           <input
@@ -270,7 +273,7 @@ function PureAttachmentsButton({
         size="icon"
         variant="ghost"
         disabled={status !== "ready"}
-        className="hover:bg-background bg-background pointer-events-auto size-7 rounded-sm md:bg-transparent [&_svg]:size-3.5!"
+        className="hover:bg-background bg-background pointer-events-auto size-8 rounded-sm md:size-7 md:bg-transparent [&_svg]:size-3.5!"
         onClick={(e) => {
           e.preventDefault();
           fileInputRef.current?.click();
@@ -338,8 +341,8 @@ function PureSendButton({
       className={cn(
         "pointer-events-auto flex-row-reverse overflow-hidden rounded-full disabled:opacity-50 [&_svg]:size-3.5! md:[&_svg]:size-4!",
         input.length > 0
-          ? "size-7 md:h-8 md:w-40"
-          : "size-7 px-0 md:h-8 md:w-8",
+          ? "size-8 md:h-8 md:w-40"
+          : "size-8 px-0 md:h-8 md:w-8",
       )}
     >
       <AnimatePresence mode="wait" initial={false}>

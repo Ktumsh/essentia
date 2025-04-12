@@ -2,7 +2,7 @@
 
 import { UseChatHelpers } from "@ai-sdk/react";
 import { Attachment, Message } from "ai";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -96,7 +96,7 @@ const ChatPanel = (props: ChatPanelProps) => {
   ]);
 
   return (
-    <AnimatePresence mode="popLayout">
+    <>
       <div className="relative z-1 mx-auto mt-auto flex w-full gap-2 px-2 pb-2 md:mt-0 md:mb-auto md:max-w-3xl md:px-4 md:pb-0">
         <ButtonToBottom
           isAtBottom={isAtBottom}
@@ -106,7 +106,6 @@ const ChatPanel = (props: ChatPanelProps) => {
           <div className="relative flex w-full flex-col-reverse md:flex-col">
             <div className="relative rounded-t-xl">
               <motion.div
-                layout
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={
                   !isPremium
@@ -216,7 +215,7 @@ const ChatPanel = (props: ChatPanelProps) => {
           </div>
         )}
       </div>
-    </AnimatePresence>
+    </>
   );
 };
 

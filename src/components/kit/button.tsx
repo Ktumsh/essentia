@@ -22,13 +22,13 @@ const buttonVariants = cva(
         mobile:
           "justify-start gap-5 h-12! active:bg-slate-200 dark:active:bg-alternative rounded-none! [&_svg]:size-5 [&_svg]:stroke-[2.5] text-foreground w-full! px-6!",
         "mobile-danger":
-          "justify-center gap-5 h-12! bg-primary! rounded-none! [&_svg]:size-4 [&_svg]:stroke-[2.5] text-white! w-full! rounded-xl!",
+          "justify-center gap-5 h-12! bg-primary! [&_svg]:size-4 [&_svg]:stroke-[2.5] text-primary-foreground w-full! rounded-xl!",
         gradient:
           "bg-linear-to-r/shorter from-indigo-500 to-pink-500 active:scale-[.97] shadow-none text-white [&_svg]:text-white! hover:saturate-150 duration-300",
         alternative:
           "[background-image:var(--alternative-gradient)] active:scale-[.97] shadow-none text-white text-base hover:saturate-150 dark:text-primary-foreground",
         premium:
-          "relative border overflow-hidden md:border-indigo-200 bg-indigo-50 text-white md:text-indigo-700 after:absolute after:inset-0 after:h-full after:w-full md:after:w-0 after:bg-gradient-to-r after:from-indigo-500 after:to-indigo-600 after:rounded-md after:transition-all after:duration-500 after:ease-in-out after:content-[''] hover:border-transparent! hover:text-white! hover:opacity-100 hover:after:w-full dark:md:border-indigo-700 dark:bg-indigo-950 dark:md:text-indigo-300 **:z-1 duration-500 border-transparent",
+          "relative border overflow-hidden md:border-indigo-200 bg-indigo-50 text-white md:text-indigo-700 after:absolute after:inset-0 after:h-full after:w-full md:after:w-0 after:bg-linear-to-r/shorter after:from-indigo-500 after:to-indigo-600 after:rounded-md after:transition-all after:duration-500 after:ease-in-out after:content-[''] hover:border-transparent! hover:text-white! hover:opacity-100 hover:after:w-full dark:md:border-indigo-700 dark:bg-indigo-950 dark:md:text-indigo-300 **:z-1 duration-500 border-transparent",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

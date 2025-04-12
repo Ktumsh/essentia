@@ -218,7 +218,7 @@ function PurePublicInfoPopover() {
             aria-label="Más información acerca de tu perfil"
             variant="link"
             size="icon"
-            className="relative ml-2 size-auto font-normal after:absolute after:-inset-2 after:content-['']"
+            className="relative size-auto font-normal after:absolute after:-inset-2 after:content-['']"
           >
             <Info className="text-foreground/80 size-3.5!" />
             <span className="sr-only">Más información acerca de tu perfil</span>
@@ -245,4 +245,39 @@ function PurePublicInfoPopover() {
   );
 }
 
+function PureTrialInfoPopover() {
+  return (
+    <Popover>
+      <BetterTooltip
+        content="Más información acerca de tu plan"
+        className="font-normal"
+      >
+        <PopoverTrigger asChild>
+          <Button
+            aria-label="Más información acerca de tu plan"
+            variant="link"
+            size="icon"
+            className="relative size-auto font-normal after:absolute after:-inset-2 after:content-['']"
+          >
+            <Info className="text-foreground/80 size-3.5!" />
+            <span className="sr-only">Más información acerca de tu plan</span>
+          </Button>
+        </PopoverTrigger>
+      </BetterTooltip>
+      <PopoverContent className="text-foreground/80 max-w-60 space-y-1.5 p-3 text-xs">
+        <h3 className="text-foreground font-semibold">Suscripción gratuita</h3>
+        <p>
+          Estás usando una{" "}
+          <strong className="text-foreground font-medium">
+            prueba gratuita
+          </strong>{" "}
+          del plan Premium. Cuando finalice, volverás automáticamente al plan
+          gratuito, a menos que actives una suscripción.
+        </p>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export const PublicInfoPopover = memo(PurePublicInfoPopover);
+export const TrialInfoPopover = memo(PureTrialInfoPopover);

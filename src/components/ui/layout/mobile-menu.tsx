@@ -10,6 +10,7 @@ import React, { Fragment, useState } from "react";
 import { AddUserButton } from "@/components/button-kit/add-user-button";
 import { LoginButton } from "@/components/button-kit/login-button";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
+import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import {
   Collapsible,
@@ -29,13 +30,14 @@ import {
 import { Separator } from "@/components/kit/separator";
 import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTrial } from "@/hooks/use-trial";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import Greeting from "./greeting";
 import Logo from "./logo";
 import ThemeToggle from "./theme-toggle";
-import { StarsIcon } from "../icons/common";
 import { AvatarIcon } from "../icons/miscellaneus";
 import PaymentModal from "../payment/payment-modal";
 
@@ -49,14 +51,17 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
+  const { subscription } = useUserSubscription();
+
+  const subscriptionPlan = subscription?.plan;
+
   const isMobile = useIsMobile();
 
-  const { firstName, lastName, username, profileImage, isPremium, trial } =
-    user || {};
+  const { isTrialActive, isTrialUsed } = useTrial();
+
+  const { firstName, lastName, username, profileImage, isPremium } = user || {};
 
   const fullName = `${firstName} ${lastName}`;
-
-  const isTrialUsed = trial?.hasUsed;
 
   const resourceLinks = navConfig.asideMenuLinks;
   const menuFooterLinks = navConfig.menuFooterLinks;
@@ -87,8 +92,19 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 </span>
               </div>
               {isPremium && (
-                <div className="from-gradient-from via-gradient-via to-gradient-to text-foreground/80 absolute top-1/2 right-0 -translate-y-1/2 rounded-sm bg-gradient-to-r p-1 text-xs dark:from-[-100%]">
-                  <StarsIcon className="size-3.5 **:fill-white" />
+                <div className="absolute top-1/2 right-0 mr-2 -translate-y-1/2 p-1">
+                  <Badge
+                    variant={
+                      isTrialActive
+                        ? "premium"
+                        : subscriptionPlan?.name === "Premium"
+                          ? "premium"
+                          : "premiumPlus"
+                    }
+                    className="text-xxs px-1.5 py-0.5"
+                  >
+                    {isTrialActive ? "Premium" : subscriptionPlan?.name}
+                  </Badge>
                 </div>
               )}
             </Link>

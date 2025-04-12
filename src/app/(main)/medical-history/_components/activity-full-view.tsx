@@ -308,7 +308,7 @@ export default function ActivityFullView({
         className="flex flex-1 flex-col"
       >
         <div className="px-4 pt-4 md:px-6 md:pt-6">
-          <TabsList className="dark:bg-accent/50 grid h-auto w-full grid-cols-2 bg-slate-50 md:h-9 md:grid-cols-4">
+          <TabsList className="bg-accent grid h-auto w-full grid-cols-2 md:h-9 md:grid-cols-4">
             <TabsTrigger
               value="all"
               className="rounded-sm text-xs! md:text-sm!"

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import {
   Card,
@@ -17,15 +18,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { StarsIcon } from "@/components/ui/icons/common";
 import PaymentModal from "@/components/ui/payment/payment-modal";
 import { Payment, Subscription } from "@/db/schema";
+import { useTrial } from "@/hooks/use-trial";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
 import CancelSubscriptionModal from "./cancel-subscription-modal";
 import { getPlanStatus, getPlanType } from "../../_lib/utils";
 import InfoFieldItem from "../info-field-item";
+import { TrialInfoPopover } from "../profile/info-popover";
 
 interface SubscriptionDetailsProps {
   subscription: Subscription | null;
@@ -38,6 +41,12 @@ const SubscriptionDetails = ({
 }: SubscriptionDetailsProps) => {
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
+  const { subscription: sub } = useUserSubscription();
+  const { isTrialActive } = useTrial();
+
+  const subscriptionPlan = sub?.plan;
+  const isPremiumPlan = subscriptionPlan?.name === "Premium";
+  const isPremiumPlusPlan = subscriptionPlan?.name === "Premium Plus";
 
   const { amount } = payment || {};
   const { type, expiresAt, isPremium, status } = subscription || {};
@@ -57,8 +66,6 @@ const SubscriptionDetails = ({
     ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
     : "No aplica";
 
-  console.log({ finishDate });
-
   return (
     <>
       <div className="flex w-full flex-col gap-8">
@@ -66,18 +73,21 @@ const SubscriptionDetails = ({
           <CardHeader>
             <CardTitle className="flex flex-wrap items-center gap-x-2 text-base">
               <span>Resumen del plan</span>
-              <div
+              <Badge
+                variant={
+                  isTrialActive || isPremiumPlan
+                    ? "premium"
+                    : isPremiumPlusPlan
+                      ? "premiumPlus"
+                      : "outline"
+                }
                 className={cn(
-                  "text-foreground/80 border-border dark:border-alternative relative inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-full border px-2 py-0.5 text-xs font-normal shadow-xs",
-                  {
-                    "from-gradient-from via-gradient-via to-gradient-to border-none bg-gradient-to-r font-medium text-white! dark:from-[-100%]":
-                      isPremium,
-                  },
+                  !isPremium && !isTrialActive && "border-alternative",
                 )}
               >
-                {isPremium && <StarsIcon className="size-3 **:fill-white" />}
-                {planType}
-              </div>
+                {isTrialActive ? "Premium" : planType}
+              </Badge>
+              {isTrialActive && <TrialInfoPopover />}
             </CardTitle>
             <CardDescription className="space-y-1">
               <p>Este es el resumen de tu plan de Essentia.</p>

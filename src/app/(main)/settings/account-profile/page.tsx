@@ -17,7 +17,9 @@ const AccountStgPage = async () => {
 
   if (!session?.user) return null;
 
-  const userData = session ? await getUserProfileData({ session }) : null;
+  const userId = session.user.id as string;
+
+  const userData = userId ? await getUserProfileData({ userId }) : null;
 
   return <AccountStgWrp user={userData} />;
 };

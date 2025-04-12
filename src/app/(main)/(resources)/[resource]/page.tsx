@@ -51,7 +51,7 @@ const ResourcePage = async (props: Props) => {
   const session = await auth();
   const userId = session?.user?.id as string;
 
-  const profileData = session ? await getUserProfileData({ session }) : null;
+  const profileData = userId ? await getUserProfileData({ userId }) : null;
 
   const { isPremium } = profileData ?? {};
 

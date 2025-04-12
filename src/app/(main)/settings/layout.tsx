@@ -11,10 +11,9 @@ interface SettingLayoutProps {
 
 const SettingLayout = async ({ children }: SettingLayoutProps) => {
   const session = await auth();
-
-  const userData = session ? await getUserProfileData({ session }) : null;
-
   const userId = session?.user?.id as string;
+
+  const userData = userId ? await getUserProfileData({ userId }) : null;
 
   const paymentHistory = session ? await getPaymentHistory(userId) : [];
   return (

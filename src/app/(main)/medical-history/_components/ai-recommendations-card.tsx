@@ -1,7 +1,6 @@
 "use client";
 
-import { ChevronRight, Save, Share2, Tag, FileText } from "lucide-react";
-import { useState } from "react";
+import { Tag, FileText } from "lucide-react";
 
 import { SaveButton } from "@/components/button-kit/save-button";
 import { ShareButton } from "@/components/button-kit/share-button";
@@ -15,17 +14,6 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/kit/card";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/kit/drawer";
-import { Separator } from "@/components/kit/separator";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -46,14 +34,11 @@ interface AIRecommendationsCardProps {
 export const AIRecommendationsCard = ({
   recommendation,
   medicalHistory,
-  currentItem,
   onViewDetails,
   onSave,
   onShare,
 }: AIRecommendationsCardProps) => {
   const isMobile = useIsMobile();
-
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Card className="group/item flex flex-col overflow-hidden shadow-xs transition-all duration-200 hover:shadow-md">
@@ -143,93 +128,31 @@ export const AIRecommendationsCard = ({
             isMobile ? "opacity-100" : "opacity-0 group-hover/item:opacity-100",
           )}
         >
-          {!isMobile ? (
-            <>
-              <BetterTooltip content="Guardar">
-                <SaveButton
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onSave(recommendation)}
-                  className="size-7 text-emerald-500 hover:bg-emerald-50 hover:text-emerald-500 dark:text-emerald-300 dark:hover:bg-emerald-950 dark:hover:text-emerald-300 [&_svg]:size-3.5!"
-                />
-              </BetterTooltip>
-              <BetterTooltip content="Compartir">
-                <ShareButton
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onShare(recommendation)}
-                  className="size-7 text-blue-500 hover:bg-blue-50 hover:text-blue-500 dark:text-blue-300 dark:hover:bg-blue-950 dark:hover:text-blue-300 [&_svg]:size-3.5!"
-                />
-              </BetterTooltip>
-              <Button
-                radius="full"
-                variant="ghost"
-                size="sm"
-                onClick={() => onViewDetails(recommendation)}
-                className="h-7 text-xs [&_svg]:size-3.5!"
-              >
-                Ver más detalles
-              </Button>
-            </>
-          ) : (
-            <Drawer
-              open={isOpen && currentItem?.title === recommendation.title}
-              onOpenChange={setIsOpen}
-            >
-              <DrawerTrigger asChild>
-                <Button size="sm" variant="ghost" className="size-8">
-                  <ChevronRight className="size-3.5!" />
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader className="text-left">
-                  <DrawerTitle>Acciones para esta recomendación</DrawerTitle>
-                </DrawerHeader>
-                <DrawerDescription className="mt-4 px-4 text-center text-sm">
-                  Selecciona una acción
-                </DrawerDescription>
-                <DrawerFooter>
-                  <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
-                    <Button
-                      variant="mobile"
-                      onClick={() => onSave(recommendation)}
-                      className="text-emerald-500 dark:text-emerald-300"
-                    >
-                      <Save />
-                      Guardar
-                    </Button>
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
-                    <Button
-                      variant="mobile"
-                      onClick={() => onShare(recommendation)}
-                      className="text-blue-600 dark:text-blue-300"
-                    >
-                      <Share2 />
-                      Compartir
-                    </Button>
-                    <Separator className="dark:bg-alternative/50 z-10 ml-3" />
-                    <Button
-                      variant="mobile"
-                      onClick={() => onViewDetails(recommendation)}
-                    >
-                      <ChevronRight />
-                      Ver más detalles
-                    </Button>
-                  </div>
-                  <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
-                    <DrawerClose asChild>
-                      <Button
-                        variant="mobile"
-                        className="justify-center rounded-full"
-                      >
-                        Cerrar
-                      </Button>
-                    </DrawerClose>
-                  </div>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
-          )}
+          <BetterTooltip content="Guardar">
+            <SaveButton
+              variant="ghost"
+              size="icon"
+              onClick={() => onSave(recommendation)}
+              className="size-7 text-emerald-500 hover:bg-emerald-50 hover:text-emerald-500 dark:text-emerald-300 dark:hover:bg-emerald-950 dark:hover:text-emerald-300 [&_svg]:size-3.5!"
+            />
+          </BetterTooltip>
+          <BetterTooltip content="Compartir">
+            <ShareButton
+              variant="ghost"
+              size="icon"
+              onClick={() => onShare(recommendation)}
+              className="size-7 text-blue-500 hover:bg-blue-50 hover:text-blue-500 dark:text-blue-300 dark:hover:bg-blue-950 dark:hover:text-blue-300 [&_svg]:size-3.5!"
+            />
+          </BetterTooltip>
+          <Button
+            radius="full"
+            variant="ghost"
+            size="sm"
+            onClick={() => onViewDetails(recommendation)}
+            className="h-7 text-xs [&_svg]:size-3.5!"
+          >
+            Ver más detalles
+          </Button>
         </div>
       </CardFooter>
     </Card>

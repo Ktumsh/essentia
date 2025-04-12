@@ -22,9 +22,7 @@ export const UserProfileProvider = ({
   initialUserData,
   children,
 }: UserProfileProviderProps) => {
-  const [user, setUser] = useState<UserProfileData | null>(
-    initialUserData || null,
-  );
+  const [user, setUser] = useState<UserProfileData | null>(initialUserData);
 
   return (
     <UserProfileContext.Provider value={{ user, setUser }}>

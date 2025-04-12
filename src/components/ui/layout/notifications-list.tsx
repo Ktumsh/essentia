@@ -82,7 +82,6 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             }
             variant="ghost"
             size="icon"
-            radius="full"
             className="border-border size-8 border"
           >
             <span className="relative">

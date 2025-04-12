@@ -65,18 +65,24 @@ const ConfirmPlanModal = ({
       setIsLoading(true);
       const ip = await getClientIp();
 
-      if (user?.id) {
-        await startUserTrial(user.id, ip);
-        toast.success("Prueba gratuita activada");
-        setIsOpen(false);
-        router.refresh();
+      if (!user?.id) {
+        return toast.error("¡Ups 😔", {
+          description: "No se pudo activar la prueba gratuita.",
+        });
       }
+
+      await startUserTrial(user.id, ip);
+      toast.success("Prueba gratuita activada");
+      setIsOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (err: any) {
       toast.error(err.message || "No se pudo activar la prueba.");
     } finally {
       setIsLoading(false);
     }
-  }, [user?.id, router, setIsOpen]);
+  }, [user?.id, setIsOpen]);
 
   const handleProceedToPayment = useCallback(async () => {
     if (!selectedPlan) {
@@ -120,6 +126,7 @@ const ConfirmPlanModal = ({
   const modalContent = {
     trial: {
       title: "¡Activa tu prueba gratuita!",
+      price: null,
       description:
         "Disfruta 7 días de acceso Premium sin pagar ni ingresar tarjeta.",
       icon: <Sparkles className="size-5 text-yellow-400 md:size-6" />,
@@ -128,9 +135,10 @@ const ConfirmPlanModal = ({
     },
     main: {
       title: `Mejorar a ${planName}`,
+      price: plan.amount,
       description: plan.description,
       icon: <BadgeCheck className="size-5 text-yellow-400 md:size-6" />,
-      buttonText: "Continuar",
+      buttonText: "Continuar con el pago",
       buttonAction: handleProceedToPayment,
     },
   };
@@ -168,6 +176,16 @@ const ConfirmPlanModal = ({
             </DialogHeader>
 
             <div className="text-foreground space-y-6 p-5 text-sm">
+              {current.price && (
+                <p className="text-foreground">
+                  <span className="font-sans text-2xl font-semibold tracking-tight">
+                    {`$${current.price.toLocaleString("es-CL")}`}
+                  </span>
+                  <span className="text-muted-foreground ml-0.5 text-sm">
+                    {current.price < 100000 ? "/mes" : "/año"}
+                  </span>
+                </p>
+              )}
               <ul className="list-disc space-y-2 pl-5">
                 {featuresToShow.map((f, i) => (
                   <li key={i}>{f}</li>

@@ -9,6 +9,7 @@ import { siteConfig } from "@/config/site.config";
 import { SUBSCRIPTION_PLANS } from "@/consts/subscriptions-plans";
 import { usePlan } from "@/hooks/use-current-plan";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 
 import PricingCard from "./pricing-card";
 import PricingSelector from "./pricing-selector";
@@ -26,6 +27,7 @@ const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
   const [hasScroll, setHasScroll] = useState(false);
 
   const { currentPlan } = usePlan();
+  const { trial } = useUserSubscription();
 
   const isMobile = useIsMobile();
 
@@ -58,13 +60,16 @@ const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
         <div className="hidden md:block">
           <div
             ref={containerRef}
-            className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto pb-4"
+            className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto py-4"
           >
             {SUBSCRIPTION_PLANS.map((plan, index) => (
               <PricingCard
                 key={index}
                 session={session}
-                isCurrentPlan={currentPlan === plan.id}
+                isCurrentPlan={
+                  (trial?.isActive && plan.id === premium) ||
+                  (!trial?.isActive && currentPlan === plan.id)
+                }
                 isPremiumPlan={plan.id === premium}
                 isPremium={isPremium}
                 plan={plan}

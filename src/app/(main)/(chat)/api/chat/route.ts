@@ -16,6 +16,7 @@ import {
   saveMessages,
 } from "@/db/querys/chat-querys";
 import { getSubscription } from "@/db/querys/payment-querys";
+import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { calculateAge } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 import { getUserProfileData } from "@/utils/profile";
@@ -70,19 +71,20 @@ export async function POST(request: Request) {
 
     const userId = session?.user?.id as string;
     const [subscription] = await getSubscription(userId);
+    const trial = await getUserTrialStatus(userId);
 
-    if (!subscription) {
+    if (!subscription && !trial.isActive) {
       return new Response("No autorizado", { status: 401 });
     }
 
     const isPremium = subscription.isPremium;
     const premiumExpiresAt = formatDate(subscription.expiresAt!);
 
-    if (!isPremium) {
+    if (!isPremium && !trial.isActive) {
       return new Response("No autorizado", { status: 401 });
     }
 
-    const user = session ? await getUserProfileData({ session }) : null;
+    const user = userId ? await getUserProfileData({ userId }) : null;
 
     const {
       firstName,

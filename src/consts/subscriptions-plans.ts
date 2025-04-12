@@ -53,7 +53,7 @@ export const SUBSCRIPTION_PLANS = [
     description:
       "Ahorra 20% al año y obtén soporte prioritario y más espacio médico.",
     label: "Ahorra más",
-    other: "Pago único anual de $115.200 CLP",
+    other: "Pago único anual de 115.200 CLP",
     amount: 115200,
     monthlyAmount: 9600,
     currency: "clp",

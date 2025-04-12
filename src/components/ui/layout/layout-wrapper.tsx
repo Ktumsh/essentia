@@ -110,7 +110,7 @@ const LayoutWrapper = ({
 
           {isEssentiaAI ? (
             <div
-              className={cn("flex h-[calc(100dvh-74px)] min-w-0 flex-col", {
+              className={cn("flex h-[calc(100dvh-56px)] min-w-0 flex-col", {
                 "h-[calc(100dvh-154px)]": !isDismissed,
               })}
             >
@@ -155,7 +155,7 @@ const LayoutWrapper = ({
       {!hideButtonUp && !isMobile && <ButtonUp scrollRef={scrollRef} />}
 
       {/* Bottom Mobile Navbar */}
-      <BottomNav user={user} />
+      <BottomNav />
 
       {/* Welcome Modal */}
       {!session && <WelcomeModal />}

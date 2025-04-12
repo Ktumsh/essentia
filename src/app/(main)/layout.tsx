@@ -17,7 +17,7 @@ export default async function MainLayout({
 
   const userId = session?.user?.id as string;
 
-  const userData = session ? await getUserProfileData({ session }) : null;
+  const userData = userId ? await getUserProfileData({ userId }) : null;
 
   const [subscription] = userData ? await getSubscription(userId) : [];
   const isPremium = subscription ? subscription?.isPremium : false;

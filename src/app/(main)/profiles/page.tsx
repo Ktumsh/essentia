@@ -10,9 +10,11 @@ const ProfilesPage = async () => {
     return redirect("/");
   }
 
-  const profileData = await getUserProfileData({ session });
+  const userId = session?.user?.id as string;
 
-  redirect("/profiles/" + profileData.username);
+  const profileData = userId ? await getUserProfileData({ userId }) : null;
+
+  redirect("/profiles/" + profileData?.username);
 };
 
 export default ProfilesPage;
