@@ -39,7 +39,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </div>
         </Link>
         <Link
-          href="/additionals"
+          href="/medical-history"
           className="dark:border-border dark:bg-accent/50 bg-accent col-span-2 flex items-center justify-center rounded-2xl border border-slate-300"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
