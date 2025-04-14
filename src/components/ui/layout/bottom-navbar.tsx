@@ -6,19 +6,7 @@ import { Fragment, useMemo } from "react";
 
 import { navConfig } from "@/config/nav.config";
 import { cn } from "@/lib/utils";
-import { IconSvgProps } from "@/types/common";
 import { formatPathName } from "@/utils/format";
-
-import type { JSX } from "react/jsx-runtime";
-
-type NavItems = {
-  active: boolean;
-  name: string;
-  href: string;
-  icon: (props: IconSvgProps) => JSX.Element | null;
-  activeIcon: (props: IconSvgProps) => JSX.Element | null;
-  isSearch?: boolean;
-};
 
 const BottomNav = () => {
   const pathname = usePathname();
@@ -30,12 +18,12 @@ const BottomNav = () => {
   const pages = navConfig.navLinks.map((page) => ({
     ...page,
     active:
-      normalizedPath === page.href ||
-      (page.href === "/additionals" && isAdditionals) ||
-      (page.href === "/essentia-ai" && isEssentiaAi),
+      normalizedPath === page.path ||
+      (page.path === "/additionals" && isAdditionals) ||
+      (page.path === "/essentia-ai" && isEssentiaAi),
   }));
 
-  const navItems: NavItems[] = useMemo(() => [...pages], [pages]);
+  const navItems = useMemo(() => [...pages], [pages]);
 
   if (isEssentiaAi) return null;
 
@@ -45,8 +33,7 @@ const BottomNav = () => {
         <Fragment key={index}>
           <li className="relative flex size-full items-center justify-center">
             <Link
-              href={item.href}
-              id={`navbar_link_${index}`}
+              href={item.path}
               className={cn(
                 "text-muted-foreground dark:active:bg-accent/50 active:bg-accent flex size-full min-w-0 items-center justify-center active:transition-colors",
                 item.active && "text-primary rounded-t-none",

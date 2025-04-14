@@ -30,8 +30,10 @@ import {
 
 import { InfoCircledIcon, WarningCircledIcon } from "../icons/common";
 
+import type { NavConfig } from "@/config/nav.config";
+
 interface MainNavInfoProps {
-  items: any;
+  items: NavConfig["menuFooterLinks"]["extras"];
   isCollapsed?: boolean;
 }
 
@@ -63,14 +65,14 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
                 </CollapsibleTrigger>
                 <CollapsibleContent className="transition-height">
                   <SidebarMenuSub>
-                    {items.map((link: any) => (
-                      <SidebarMenuSubItem key={link.name}>
+                    {items.map((item) => (
+                      <SidebarMenuSubItem key={item.name}>
                         <SidebarMenuSubButton
                           asChild
                           className="shrink-0 text-nowrap"
                         >
-                          <Link href={link.link} role="link" target="_self">
-                            {link.name}
+                          <Link href={item.path} role="link" target="_self">
+                            {item.name}
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
@@ -89,11 +91,11 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side="right" align="start" sideOffset={4}>
                   <DropdownMenuGroup>
-                    {items.map((link: any) => (
-                      <DropdownMenuItem key={link.name}>
-                        <link.icon />
-                        <Link href={link.link} role="link" target="_self">
-                          <span>{link.name}</span>
+                    {items.map((item) => (
+                      <DropdownMenuItem key={item.name}>
+                        <item.icon />
+                        <Link href={item.path} role="link" target="_self">
+                          <span>{item.name}</span>
                         </Link>
                       </DropdownMenuItem>
                     ))}

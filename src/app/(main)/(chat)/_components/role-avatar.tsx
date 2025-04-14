@@ -1,18 +1,11 @@
-import Image from "next/image";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/kit/avatar";
 import { AvatarIcon } from "@/components/ui/icons/miscellaneus";
+import Logo from "@/components/ui/layout/logo";
 
 export const BotAvatar = () => {
   return (
-    <div className="dark:bg-logo flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-white select-none">
-      <Image
-        width={16}
-        height={16}
-        src="/logo-essentia.webp"
-        alt="Avatar de Essentia AI"
-        className="aspect-auto object-cover object-center"
-      />
+    <div className="bg-logo flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-sm select-none">
+      <Logo />
     </div>
   );
 };

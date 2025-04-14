@@ -18,6 +18,7 @@ import {
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -333,6 +334,9 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
         <DrawerContent className="h-full">
           <DrawerHeader className="border-border gap-0 border-b p-0">
             <DrawerTitle>Buscar</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              Busca rápida
+            </DrawerDescription>
             <Search />
           </DrawerHeader>
           <SearchContent />

@@ -24,15 +24,15 @@ export default function AdditionalsTabs() {
       <TabsList className="border-border h-12 w-full justify-start rounded-none border-b bg-transparent! p-0">
         {additionalTabs.slice(0, 2).map((tab, index) => (
           <TabsTrigger
-            key={tab.href}
-            value={tab.href}
+            key={tab.path}
+            value={tab.path}
             asChild
             disabled={index > 1}
             className="data-[state=active]:border-primary data-[state=active]:text-primary! h-full w-fit rounded-none border-b-2 border-transparent px-4 font-normal data-[state=active]:shadow-none"
           >
-            <Link href={tab.href}>
+            <Link href={tab.path}>
               <div className="flex items-center space-x-2">
-                {pathname === tab.href ? (
+                {pathname === tab.path ? (
                   <>
                     {tab.activeIcon ? (
                       <tab.activeIcon className="group-data-[selected=true]:text-primary size-4" />
@@ -48,7 +48,7 @@ export default function AdditionalsTabs() {
         ))}
       </TabsList>
       {additionalTabs.slice(0, 2).map((tab, index) => (
-        <TabsContent key={index} value={tab.href}>
+        <TabsContent key={index} value={tab.path}>
           {<tab.component />}
         </TabsContent>
       ))}

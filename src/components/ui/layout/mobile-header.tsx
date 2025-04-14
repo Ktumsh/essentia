@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 
 import { Button } from "@/components/kit/button";
+import useIsScrolled from "@/hooks/use-is-scrolled";
+import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import Logo from "./logo";
@@ -22,11 +24,21 @@ interface MobileHeaderProps {
 const MobileHeader = ({ user, session }: MobileHeaderProps) => {
   const pathname = usePathname();
 
+  const isScrolled = useIsScrolled();
+
   const isAIPage = pathname.startsWith("/essentia-ai");
 
   return (
     <>
-      <header className="bg-background/80 border-border sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden border-b px-6 backdrop-blur-lg backdrop-saturate-150 md:hidden">
+      <header
+        className={cn(
+          "bg-background/80 sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden px-6 transition-all duration-300 md:hidden",
+          {
+            "shadow-little-pretty backdrop-blur-lg backdrop-saturate-150":
+              isScrolled,
+          },
+        )}
+      >
         <div className="inline-flex items-center gap-4">
           {isAIPage && session && <AppSidebarToggle />}
           <Link
@@ -45,11 +57,7 @@ const MobileHeader = ({ user, session }: MobileHeaderProps) => {
         </div>
         <div className="inline-flex items-center gap-4">
           <MainSearch isPremium={user?.isPremium || false}>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="border-border size-8 border"
-            >
+            <Button variant="ghost" size="icon" className="size-8">
               <Search />
             </Button>
           </MainSearch>

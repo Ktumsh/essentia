@@ -189,11 +189,11 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                 <DropdownMenuGroup>
                   {user ? (
                     <>
-                      {menuLinks.account.slice(0, -1).map((link, index) => (
+                      {menuLinks.account.slice(0, -1).map((item, index) => (
                         <DropdownMenuItem asChild key={index}>
-                          <Link href={link.link || "#"}>
-                            <link.icon />
-                            {link.name}
+                          <Link href={item.path || "#"}>
+                            <item.icon />
+                            {item.name}
                           </Link>
                         </DropdownMenuItem>
                       ))}
@@ -223,17 +223,17 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent>
-                        {menuLinks.config.map((link, index) => (
+                        {menuLinks.config.map((item, index) => (
                           <DropdownMenuItem asChild key={index}>
                             <Link
                               href={
                                 !session?.user && index === 0
                                   ? "/settings/accesibility"
-                                  : link.link
+                                  : item.path
                               }
                             >
-                              <link.icon />
-                              {link.name}
+                              <item.icon />
+                              {item.name}
                             </Link>
                           </DropdownMenuItem>
                         ))}

@@ -51,7 +51,7 @@ export function ModelSelector({
           className,
         )}
       >
-        <Button variant="outline" className="px-3">
+        <Button variant="outline" className="h-8 px-3">
           {selectedChatModel?.name}
           {isMobile ? (
             <ChevronsUpDown className="ml-auto size-4" />

@@ -82,17 +82,19 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             }
             variant="ghost"
             size="icon"
-            className="border-border size-8 border"
+            className="relative size-8"
           >
-            <span className="relative">
-              <Bell />
-              {hasUnreadNotifications && (
-                <span
-                  aria-hidden="true"
-                  className="bg-primary absolute -top-2 -right-2 z-10 size-2.5 rounded-full"
-                ></span>
-              )}
-            </span>
+            <Bell />
+            {hasUnreadNotifications && (
+              <span
+                aria-hidden="true"
+                className="bg-primary text-xxs text-primary-foreground absolute -top-0.5 right-0 z-10 inline-flex items-center justify-center rounded-full px-1.5 py-0.5 text-center"
+              >
+                {unreadNotifications.length > 9
+                  ? "9+"
+                  : unreadNotifications.length}
+              </span>
+            )}
           </Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -137,13 +139,17 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             }
             variant="ghost"
             size="icon"
-            className="border-border relative size-8 border"
+            className="relative size-8"
           >
             {hasUnreadNotifications && (
               <span
                 aria-hidden="true"
-                className="bg-primary absolute -top-0.5 -right-0.5 z-10 size-2.5 rounded-full"
-              />
+                className="bg-primary text-xxs text-primary-foreground absolute -top-0.5 right-0 z-10 inline-flex items-center justify-center rounded-full px-1.5 py-0.5 text-center"
+              >
+                {unreadNotifications.length > 9
+                  ? "9+"
+                  : unreadNotifications.length}
+              </span>
             )}
           </BellButton>
         </PopoverTrigger>

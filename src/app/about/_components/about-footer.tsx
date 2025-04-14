@@ -54,13 +54,13 @@ const AboutFooter = () => {
               </Link>
             </div>
             <div className="flex items-center justify-center gap-4 text-sm md:justify-between">
-              {linksMore.map((link, index) => (
+              {linksMore.map((item, index) => (
                 <div key={index} className={index === 0 ? "hidden" : ""}>
                   <Link
-                    href={link.href}
+                    href={item.path}
                     className="inline-block border-b border-transparent hover:border-current"
                   >
-                    {link.text}
+                    {item.text}
                   </Link>
                 </div>
               ))}

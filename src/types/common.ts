@@ -1,11 +1,4 @@
-import { LucideProps } from "lucide-react";
-import {
-  FC,
-  ForwardRefExoticComponent,
-  RefAttributes,
-  SVGProps,
-  type JSX,
-} from "react";
+import { FC, SVGProps } from "react";
 
 import { Payment } from "@/db/schema";
 
@@ -44,89 +37,6 @@ export interface HealthFact {
   fact: string;
   image: string;
 }
-
-export type SiteConfig = {
-  appId: string;
-
-  name: string;
-
-  description: string;
-
-  url: string;
-
-  keywords: string[];
-
-  planPrices: {
-    free: string;
-    premium: string;
-    premiumPlus: string;
-  };
-
-  links: {
-    github: string;
-    instagram: string;
-    twitter: string;
-  };
-
-  navLinks: {
-    active?: boolean;
-    name: string;
-    href: string;
-    icon: (props: IconSvgProps) => JSX.Element;
-    activeIcon: (props: IconSvgProps) => JSX.Element;
-    isSearch?: boolean;
-  }[];
-
-  asideMenuLinks: {
-    name: string;
-    link: string;
-    icon: (props: any) => JSX.Element;
-    emoji: string;
-    activeIcon: (props: any) => JSX.Element;
-  }[];
-
-  additionalLinks: {
-    href: string;
-    name: string;
-    icon: (props: any) => JSX.Element;
-    activeIcon: (props: any) => JSX.Element;
-    component: FC;
-  }[];
-
-  menuFooterLinks: {
-    extras: {
-      name: string;
-      link: string;
-      icon: ForwardRefExoticComponent<
-        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-      >;
-    }[];
-    config: {
-      name: string;
-      link: string;
-      icon: ForwardRefExoticComponent<
-        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-      >;
-    }[];
-    account: {
-      name: string;
-      link?: string;
-      icon: ForwardRefExoticComponent<
-        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-      >;
-    }[];
-  };
-
-  footerLinks: {
-    resources: { href: string; text: string }[];
-    additionalresources: { href: string; text: string }[];
-    more: { href: string; text: string }[];
-  };
-
-  desktopFooterLinks: {
-    more: { href: string; text: string }[];
-  };
-};
 
 export interface FAQPrincing {
   id: number;

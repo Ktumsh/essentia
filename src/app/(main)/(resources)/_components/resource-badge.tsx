@@ -2,16 +2,11 @@
 
 import { cn, getResourceColor } from "@/lib/utils";
 
-import type { JSX } from "react";
+import type { NavConfig } from "@/config/nav.config";
 
 interface ResourceBadgeProps {
   resourceIndex: number;
-  resourceDetails?: {
-    name: string;
-    link: string;
-    icon: (props: any) => JSX.Element;
-    activeIcon: (props: any) => JSX.Element;
-  };
+  resourceDetails?: NavConfig["asideMenuLinks"][number];
   className?: string;
 }
 
@@ -25,7 +20,7 @@ const ResourceBadge = ({
       <div
         className={cn(
           "flex size-10 items-center justify-center rounded-lg bg-linear-to-br shadow-sm",
-          getResourceColor(resourceIndex, "gradient")
+          getResourceColor(resourceIndex, "gradient"),
         )}
       >
         {resourceDetails && (

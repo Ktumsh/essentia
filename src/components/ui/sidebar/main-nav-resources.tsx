@@ -9,10 +9,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/kit/sidebar";
-import { SiteConfig } from "@/types/common";
+
+import type { NavConfig } from "@/config/nav.config";
 
 interface MainNavResourcesProps {
-  items: SiteConfig["asideMenuLinks"];
+  items: NavConfig["asideMenuLinks"];
   isCollapsed?: boolean;
 }
 
@@ -25,7 +26,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
       </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item, index) => {
-          const isActive = pathname.startsWith(item.link);
+          const isActive = pathname.startsWith(item.path);
           return (
             <SidebarMenuItem key={index}>
               <SidebarMenuButton
@@ -34,7 +35,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
                 tooltip={item.name}
                 className="transition-all hover:gap-3 hover:duration-300"
               >
-                <Link href={item.link}>
+                <Link href={item.path}>
                   <span className="-m-px group-data-[active=true]/menu-button:-m-0.5">
                     {item.emoji}
                   </span>

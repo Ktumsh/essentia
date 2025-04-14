@@ -10,13 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/kit/sidebar";
-import { SiteConfig } from "@/types/common";
 
 import { SearchIcon } from "../icons/action";
 import MainSearch from "../layout/main-search";
 
+import type { NavConfig } from "@/config/nav.config";
+
 interface MainNavMainProps {
-  items: SiteConfig["navLinks"];
+  items: NavConfig["navLinks"];
   isPremium: boolean;
 }
 
@@ -39,7 +40,7 @@ const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
         </SidebarMenuItem>
         {items.map((item, index) => {
           const isActive =
-            pathname === item.href || pathname.startsWith(item.href + "/");
+            pathname === item.path || pathname.startsWith(item.path + "/");
           return (
             <SidebarMenuItem key={index}>
               <SidebarMenuButton
@@ -48,7 +49,7 @@ const MainNavMain = ({ items, isPremium }: MainNavMainProps) => {
                 tooltip={item.name}
                 className="transition-all hover:gap-3 hover:duration-300"
               >
-                <Link href={item.href}>
+                <Link href={item.path}>
                   <item.activeIcon className="group-data-[active=true]/menu-button:-m-px" />
                   <span>{item.name}</span>
                 </Link>

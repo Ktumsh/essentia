@@ -63,6 +63,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
 
   const fullName = `${firstName} ${lastName}`;
 
+  const mainLinks = navConfig.navLinks;
   const resourceLinks = navConfig.asideMenuLinks;
   const menuFooterLinks = navConfig.menuFooterLinks;
 
@@ -72,10 +73,10 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
         <DrawerTrigger className="flex size-8 items-center justify-center">
           <Menu className="size-6" />
         </DrawerTrigger>
-        <DrawerContent className="gap-4 overflow-y-auto">
-          <DrawerHeader className="mx-0 flex flex-col space-y-4 border-0 text-center sm:text-left">
-            <DrawerTitle className="hidden">Menú</DrawerTitle>
-            <DrawerDescription className="hidden">
+        <DrawerContent className="gap-0 space-y-4 p-0!">
+          <DrawerHeader className="mx-0 flex flex-col space-y-4 border-0 p-6 pb-0 text-center sm:text-left">
+            <DrawerTitle className="sr-only">Menú</DrawerTitle>
+            <DrawerDescription className="sr-only">
               Este es el menú móvil donde puedes navegar por las opciones.
             </DrawerDescription>
             <Link
@@ -145,34 +146,65 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               </DrawerClose>
             )}
           </DrawerHeader>
-          <Separator />
-          <div role="group" className="flex flex-1 flex-col">
-            <div className="group flex">
-              <div className="text-muted-foreground inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium">
-                Recursos
+          <div className="mb-0! px-6">
+            <Separator />
+          </div>
+          <div
+            role="group"
+            className="mb-0! flex flex-1 flex-col space-y-6 overflow-y-auto px-6 py-4"
+          >
+            <div className="flex w-full flex-col space-y-1.5">
+              {mainLinks.map((item) => {
+                const isActive =
+                  pathname === item.path ||
+                  pathname.startsWith(item.path + "/");
+                return (
+                  <DrawerClose asChild key={item.name}>
+                    <Link
+                      href={item.path}
+                      className={cn(
+                        "after:bg-primary relative inline-flex items-center gap-3 px-0 py-1.5 text-sm after:absolute after:right-0 after:h-4 after:w-0.5 after:rounded-full after:opacity-0 after:content-['']",
+                        { "text-primary after:opacity-100": isActive },
+                      )}
+                    >
+                      <item.activeIcon className="size-4" />
+                      <span>{item.name}</span>
+                    </Link>
+                  </DrawerClose>
+                );
+              })}
+            </div>
+            <div className="flex w-full flex-col space-y-1.5">
+              <div className="group flex">
+                <div className="text-muted-foreground inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium">
+                  Recursos
+                </div>
+              </div>
+              <div className="flex w-full flex-col space-y-1.5">
+                {resourceLinks.map((item) => {
+                  const isActive = pathname === item.path;
+                  return (
+                    <DrawerClose asChild key={item.name}>
+                      <Link
+                        href={item.path}
+                        className={cn(
+                          "after:bg-primary relative inline-flex items-center gap-3 px-0 py-1.5 text-sm after:absolute after:right-0 after:h-4 after:w-0.5 after:rounded-full after:opacity-0 after:content-['']",
+                          { "text-primary after:opacity-100": isActive },
+                        )}
+                      >
+                        <span className="-m-px">{item.emoji}</span>
+                        <span>{item.name}</span>
+                      </Link>
+                    </DrawerClose>
+                  );
+                })}
               </div>
             </div>
-            <div className="flex w-full flex-col space-y-2">
-              {resourceLinks.map((item) => (
-                <DrawerClose asChild key={item.name}>
-                  <Link
-                    href={item.link}
-                    className={cn(
-                      "inline-flex items-center gap-3 px-0 py-1.5 text-sm",
-                      pathname === item.link
-                        ? "text-danger"
-                        : "text-foreground",
-                    )}
-                  >
-                    <span className="-m-px">{item.emoji}</span>
-                    <span>{item.name}</span>
-                  </Link>
-                </DrawerClose>
-              ))}
-            </div>
           </div>
-          <DrawerFooter className="gap-0 space-y-2 p-0 text-sm">
-            <Separator className="my-4!" />
+          <div className="px-6">
+            <Separator />
+          </div>
+          <DrawerFooter className="gap-0 space-y-2 p-6 pt-0 text-sm">
             <Collapsible className="group/collapsible">
               <CollapsibleTrigger asChild>
                 <button className="inline-flex w-full items-center py-1.5">
@@ -184,7 +216,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 {menuFooterLinks.extras.map((item) => (
                   <DrawerClose asChild key={item.name}>
                     <Link
-                      href={item.link}
+                      href={item.path}
                       className="inline-flex w-full items-center gap-3 py-1.5"
                     >
                       {React.createElement(item.icon as React.ElementType, {
@@ -212,8 +244,8 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                         index === 0
                           ? isMobile
                             ? "/settings"
-                            : item.link
-                          : item.link
+                            : item.path
+                          : item.path
                       }
                       className="inline-flex w-full items-center gap-3 py-1.5"
                     >
@@ -309,7 +341,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                     <DrawerClose asChild>
                       <Button
                         variant="mobile"
-                        onClick={() => router.push(item.link || "#")}
+                        onClick={() => router.push(item.path || "#")}
                       >
                         <item.icon />
                         {item.name}
@@ -329,7 +361,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                     <DrawerClose asChild>
                       <Button
                         variant="mobile"
-                        onClick={() => router.push(item.link || "#")}
+                        onClick={() => router.push(item.path || "#")}
                       >
                         <item.icon />
                         {item.name}

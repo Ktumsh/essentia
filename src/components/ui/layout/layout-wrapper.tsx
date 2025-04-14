@@ -1,11 +1,12 @@
 "use client";
 
+import { ArrowLeft } from "lucide-react";
 import { motion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import React, { useEffect, useMemo, useRef } from "react";
-import { useScrollLock } from "usehooks-ts";
+import { useMemo, useRef } from "react";
 
+import { Button } from "@/components/kit/button";
 import { ScrollArea } from "@/components/kit/scroll-area";
 import { SidebarInset } from "@/components/kit/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -18,6 +19,7 @@ import ButtonUp from "./button-up";
 import DesktopHeader from "./desktop-header";
 import MobileHeader from "./mobile-header";
 import WelcomeModal from "./welcome-modal";
+import { HomeFillIcon } from "../icons/interface";
 import { AppSidebar } from "../sidebar/app-sidebar";
 
 const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];
@@ -37,6 +39,7 @@ const LayoutWrapper = ({
   selectedChatModel,
   children,
 }: LayoutWrapperProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
@@ -46,20 +49,6 @@ const LayoutWrapper = ({
 
   const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
   const isEssentiaAI = pathname.startsWith("/essentia-ai");
-
-  const { lock, unlock } = useScrollLock({
-    autoLock: isEssentiaAI,
-    lockTarget: "body",
-  });
-
-  useEffect(() => {
-    if (isEssentiaAI) {
-      lock();
-    } else {
-      unlock();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEssentiaAI]);
 
   const backgroundClasses = useMemo(() => {
     return cn(
@@ -101,19 +90,22 @@ const LayoutWrapper = ({
       {/* Main content */}
       {isMobile ? (
         <SidebarInset>
-          {/* Desktop Header */}
-          <DesktopHeader
-            user={user}
-            selectedChatModel={selectedChatModel}
-            session={session}
-          />
-
           {isEssentiaAI ? (
             <div
               className={cn("flex h-[calc(100dvh-56px)] min-w-0 flex-col", {
-                "h-[calc(100dvh-154px)]": !isDismissed,
+                "relative h-[calc(100dvh-154px)]": !isDismissed,
               })}
             >
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => router.push("/")}
+                className="bg-background/80 shadow-little-pretty absolute top-2 left-0 z-10 h-8 w-12 justify-end gap-0.5 rounded-l-none border px-2 backdrop-blur-sm backdrop-saturate-150"
+              >
+                <HomeFillIcon className="text-primary" />
+                <ArrowLeft className="size-2.5!" />
+                <span className="sr-only">Volver a la página principal</span>
+              </Button>
               {children}
             </div>
           ) : (
@@ -128,14 +120,15 @@ const LayoutWrapper = ({
                 user={user}
                 selectedChatModel={selectedChatModel}
                 session={session}
+                scrollRef={scrollRef}
               />
               {children}
             </>
           ) : (
             <ScrollArea
               scrollRef={scrollRef}
-              className={cn("h-[calc(100dvh-32px)]", {
-                "h-[calc(100dvh-68px)]": !isDismissed,
+              className={cn("h-[calc(100dvh-12px)]", {
+                "h-[calc(100dvh-48px)]": !isDismissed,
               })}
             >
               {/* Desktop Header */}
@@ -143,6 +136,7 @@ const LayoutWrapper = ({
                 user={user}
                 selectedChatModel={selectedChatModel}
                 session={session}
+                scrollRef={scrollRef}
               />
 
               {children}

@@ -7,6 +7,8 @@ import { LoginButton } from "@/components/button-kit/login-button";
 import { Button } from "@/components/kit/button";
 import { Separator } from "@/components/kit/separator";
 import { useChatContext } from "@/hooks/use-chat-context";
+import useIsScrolled from "@/hooks/use-is-scrolled";
+import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import FeedbackBox from "./feedback-box";
@@ -20,18 +22,22 @@ interface DesktopHeaderProps {
   user: UserProfileData | null;
   selectedChatModel: string;
   session: Session | null;
+  scrollRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const DesktopHeader = ({
   user,
   selectedChatModel,
   session,
+  scrollRef,
 }: DesktopHeaderProps) => {
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
+
+  const isScrolled = useIsScrolled(scrollRef);
 
   const chatId = params.id;
 
@@ -45,7 +51,15 @@ const DesktopHeader = ({
         role="banner"
         className="sticky inset-x-0 top-0 z-50 hidden md:block"
       >
-        <div className="bg-background/80 flex h-14 w-full items-center justify-center rounded-tl-2xl border-b backdrop-blur-lg backdrop-saturate-150">
+        <div
+          className={cn(
+            "bg-background/80 flex h-14 w-full items-center justify-center rounded-tl-2xl transition-all duration-300",
+            {
+              "shadow-little-pretty backdrop-blur-lg backdrop-saturate-150":
+                isScrolled,
+            },
+          )}
+        >
           <div className="absolute top-0 left-0 z-40">
             <div className="flex h-14 w-full items-center justify-center gap-5 px-4">
               <AppSidebarToggle />

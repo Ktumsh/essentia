@@ -77,7 +77,7 @@ export function VisibilitySelector({
           className,
         )}
       >
-        <Button variant="outline" className="px-3">
+        <Button variant="outline" className="h-8 px-3">
           {selectedVisibility?.icon}
           {selectedVisibility?.label}
           {isMobile ? (

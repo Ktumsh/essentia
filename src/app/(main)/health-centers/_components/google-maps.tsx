@@ -238,8 +238,8 @@ const GoogleMaps = () => {
   return (
     <div
       className={cn(
-        "z-10 h-full min-h-[calc(100dvh-88px)] md:relative md:min-h-full",
-        !isDismissed && "min-h-[calc(100dvh-168px)]",
+        "z-10 h-full min-h-[calc(100dvh-68px)] md:relative md:min-h-full",
+        !isDismissed && "min-h-[calc(100dvh-148px)]",
       )}
     >
       <MapHeader>
@@ -247,8 +247,8 @@ const GoogleMaps = () => {
       </MapHeader>
       <div
         className={cn(
-          "h-[calc(100dvh-88px)] md:relative",
-          !isDismissed && "h-[calc(100dvh-168px)]",
+          "h-[calc(100dvh-68px)] md:relative",
+          !isDismissed && "h-[calc(100dvh-148px)]",
         )}
       >
         {isLoading && <MapLoading />}
