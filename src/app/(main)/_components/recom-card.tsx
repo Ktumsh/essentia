@@ -1,6 +1,6 @@
+import { Stars } from "lucide-react";
 import Link from "next/link";
 
-import { StarsIcon } from "@/components/ui/icons/common";
 import {
   AdditionalFillIcon,
   AIFillIcon,
@@ -50,7 +50,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         {isPremium ? (
           <Link
             href="/essentia-ai"
-            className="from-gradient-from via-gradient-via to-gradient-to border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border-2 bg-gradient-to-r text-white transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:from-[-100%]"
+            className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
           >
             <div className="inline-flex h-16 items-center justify-center gap-2">
               <AIFillIcon className="size-7" />
@@ -58,15 +58,15 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
                 Essentia AI
               </h2>
             </div>
-            <div className="from-gradient-from via-gradient-via to-gradient-to absolute inset-0 -z-1 scale-95 rounded-2xl bg-gradient-to-r blur-md dark:from-[-100%]"></div>
+            <div className="bg-premium absolute inset-0 -z-1 scale-95 rounded-2xl blur-md"></div>
           </Link>
         ) : (
           <Link
             href="/pricing"
-            className="from-gradient-from via-gradient-via to-gradient-to border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border bg-gradient-to-r text-white transition active:scale-[.97] active:shadow-lg active:saturate-200 dark:from-[-100%]"
+            className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
           >
             <div className="inline-flex h-16 items-center justify-center gap-4">
-              <StarsIcon
+              <Stars
                 aria-hidden="true"
                 className="size-7 **:fill-white focus:outline-hidden"
               />
@@ -74,7 +74,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
                 Hazte Premium
               </h2>
             </div>
-            <div className="from-gradient-from via-gradient-via to-gradient-to absolute inset-0 -z-1 scale-95 rounded-2xl bg-gradient-to-r blur-md dark:from-[-100%]"></div>
+            <div className="bg-premium absolute inset-0 -z-1 scale-95 rounded-2xl blur-md"></div>
           </Link>
         )}
       </div>

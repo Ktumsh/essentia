@@ -17,7 +17,7 @@ const MedicalHistoryPage = async () => {
   const session = await auth();
 
   return (
-    <PageWrapper>
+    <PageWrapper className="pt-6 md:pt-0">
       {!session?.user ? (
         <UnauthenticatedState />
       ) : (

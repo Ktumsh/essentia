@@ -163,7 +163,7 @@ const DocumentViewDialog = ({
               <DrawerTitle className="flex max-w-80 items-center gap-2">
                 <FileText
                   className={cn(
-                    "size-5 shrink-0",
+                    "size-4 shrink-0",
                     getFileTypeColor(currentItem.type),
                   )}
                 />

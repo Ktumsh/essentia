@@ -2,22 +2,11 @@ import withSerwistInit from "@serwist/next";
 import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    turbo: {
-      resolveExtensions: [
-        ".mdx",
-        ".tsx",
-        ".ts",
-        ".jsx",
-        ".js",
-        ".mjs",
-        ".json",
-      ],
-      resolveAlias: {
-        canvas: "./empty-module.ts",
-      },
+  turbopack: {
+    resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
+    resolveAlias: {
+      canvas: "./empty-module.ts",
     },
-    ppr: true,
   },
   images: {
     remotePatterns: [

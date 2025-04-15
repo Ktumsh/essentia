@@ -28,17 +28,26 @@ import { startUserTrial } from "@/db/querys/user-querys";
 import { usePlan } from "@/hooks/use-current-plan";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
+import { cn, getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
 
 import { createSubscription } from "./actions";
 import { PlanSelector } from "./plan-selector";
 import { LinkIcon } from "../icons/action";
+import { AIFillIcon } from "../icons/interface";
+import {
+  ExcerciseFillIcon,
+  FruitFillIcon,
+  SaveFillIcon,
+  UploadFillIcon,
+} from "../icons/miscellaneus";
 
 export type FeatureType =
   | "ai-recommendations"
   | "saved-recommendations"
   | "chat"
   | "upload-limit"
+  | "routine"
+  | "nutritional-plan"
   | "general";
 
 interface PaymentModalProps {
@@ -134,21 +143,24 @@ const PaymentModal = ({
           title: "Desbloquea recomendaciones con IA",
           description:
             "Obtén recomendaciones personalizadas basadas en tu historial médico con nuestra avanzada inteligencia artificial.",
-          icon: <Brain className="size-5 text-yellow-400 md:size-6" />,
+          icon: <Brain className="size-5" />,
+          color: "bg-pink-500",
         };
       case "saved-recommendations":
         return {
           title: "Desbloquea recomendaciones guardadas",
           description:
             "Guarda y gestiona todas tus recomendaciones personalizadas para acceder a ellas cuando las necesites.",
-          icon: <BookmarkCheck className="size-5 text-yellow-400 md:size-6" />,
+          icon: <SaveFillIcon className="size-5" />,
+          color: "bg-pink-500",
         };
       case "chat":
         return {
           title: "Desbloquea a Essentia AI",
           description:
             "Interactúa con nuestra inteligencia artificial para obtener respuestas rápidas, precisas y herramientas personalizadas para tu salud.",
-          icon: <MessagesSquare className="size-5 text-yellow-400 md:size-6" />,
+          icon: <AIFillIcon className="size-5" />,
+          color: "bg-yellow-500",
         };
       case "upload-limit":
         if (isTrialActive) {
@@ -156,22 +168,41 @@ const PaymentModal = ({
             title: "Límite alcanzado en tu prueba gratuita",
             description:
               "Tu prueba gratuita te da acceso a funciones Premium, pero permite subir hasta 6 archivos médicos. Mejora tu plan para ampliar este límite.",
-            icon: <Sparkles className="size-5 text-yellow-400 md:size-6" />,
+            icon: <UploadFillIcon className="size-5" />,
+            color: "bg-teal-500",
           };
         } else {
           return {
             title: "Aumenta tu límite de archivos",
             description:
               "Has alcanzado el máximo de documentos médicos permitidos por tu plan. Mejora para subir más archivos y disfrutar de todos los beneficios.",
-            icon: <Sparkles className="size-5 text-yellow-400 md:size-6" />,
+            icon: <UploadFillIcon className="size-5" />,
+            color: "bg-teal-500",
           };
         }
+      case "routine":
+        return {
+          title: "Crea rutinas personalizadas",
+          description:
+            "Diseña rutinas de ejercicios adaptadas a tus necesidades y objetivos de salud.",
+          icon: <ExcerciseFillIcon className="size-5" />,
+          color: "bg-lime-500",
+        };
+      case "nutritional-plan":
+        return {
+          title: "Crea un plan nutricional personalizado",
+          description:
+            "Diseña un plan nutricional adaptado a tus necesidades y objetivos de salud.",
+          icon: <FruitFillIcon className="size-5" />,
+          color: "bg-red-500",
+        };
       default:
         return {
           title: "Mejora tu experiencia con Essentia Premium",
           description:
             "Accede a todas las funciones avanzadas para gestionar tu salud de manera más eficiente.",
-          icon: <Sparkles className="size-5 text-yellow-400 md:size-6" />,
+          icon: <Sparkles className="size-5 **:fill-white" />,
+          color: "bg-yellow-500",
         };
     }
   };
@@ -279,7 +310,14 @@ const PaymentModal = ({
               <DialogHeader isSecondary className="p-1! text-start text-white">
                 <div className="rounded-[20px] bg-gradient-to-r from-indigo-500 to-pink-500 p-5">
                   <div className="mb-2 flex items-center gap-2">
-                    {featureContent.icon}
+                    <div
+                      className={cn(
+                        "flex size-8 shrink-0 items-center justify-center rounded-md text-white",
+                        featureContent.color,
+                      )}
+                    >
+                      {featureContent.icon}
+                    </div>
                     <DialogTitle className="text-base font-bold md:text-lg">
                       {featureContent.title}
                     </DialogTitle>

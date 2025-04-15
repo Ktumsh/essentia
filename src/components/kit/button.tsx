@@ -20,9 +20,9 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         mobile:
-          "justify-start gap-5 h-12! active:bg-slate-200 dark:active:bg-alternative rounded-none! [&_svg]:size-5 [&_svg]:stroke-[2.5] text-foreground w-full! px-6!",
+          "justify-start gap-5 h-12! active:bg-slate-200 dark:active:bg-alternative rounded-none! [&_svg]:size-5 text-foreground w-full! px-6!",
         "mobile-danger":
-          "justify-center gap-5 h-12! bg-primary! [&_svg]:size-4 [&_svg]:stroke-[2.5] text-primary-foreground w-full! rounded-xl!",
+          "justify-center gap-5 h-12! bg-primary! [&_svg]:size-4 text-primary-foreground w-full! rounded-xl!",
         gradient:
           "bg-linear-to-r/shorter from-indigo-500 to-pink-500 active:scale-[.97] shadow-none text-white [&_svg]:text-white! hover:saturate-150 duration-300",
         alternative:

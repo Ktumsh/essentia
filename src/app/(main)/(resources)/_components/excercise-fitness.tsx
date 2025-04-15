@@ -3,11 +3,15 @@
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { Stars } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Button } from "@/components/kit/button";
+import PaymentModal from "@/components/ui/payment/payment-modal";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTrial } from "@/hooks/use-trial";
 
 import CardList from "./card-list";
 import CourseList from "./course-list";
@@ -35,15 +39,21 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
 
   const router = useRouter();
 
-  const searchTerm = INITIAL_CHAT_MESSAGES[1].action;
+  const { data: session } = useSession();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const isMobile = useIsMobile();
+
+  const { isTrialUsed } = useTrial();
+
+  const searchTerm = INITIAL_CHAT_MESSAGES[1].action;
 
   const onCreateRoutine = () => {
     if (isPremium) {
       router.push(`/essentia-ai?search=${encodeURIComponent(searchTerm)}`);
     } else {
-      router.push("/pricing");
+      setIsOpen(true);
     }
   };
 
@@ -66,23 +76,33 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
           title="Rutinas de Ejercicios"
           hash="rutinas-de-ejercicios"
         >
-          {!isMobile && (
+          {!isMobile && session?.user && (
             <SparklesButton onClick={onCreateRoutine}>
-              Crea tu rutina
+              Crear rutina
             </SparklesButton>
           )}
         </SectionTitle>
-        <Button
-          fullWidth
-          variant="premium"
-          onClick={onCreateRoutine}
-          className="mb-4 h-14 rounded-xl text-lg md:hidden"
-        >
-          <Stars className="size-5! **:fill-white md:size-4!" />
-          <span>Crea tu rutina</span>
-        </Button>
+        {session?.user && (
+          <Button
+            fullWidth
+            variant="premium"
+            onClick={onCreateRoutine}
+            className="mb-4 h-14 rounded-xl text-lg md:hidden"
+          >
+            <Stars className="size-5! **:fill-white md:size-4!" />
+            <span>Crea tu rutina</span>
+          </Button>
+        )}
         <CardList type="routine" resource="ejercicios-y-fitness" />
       </section>
+      {session?.user && (
+        <PaymentModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          featureType="routine"
+          mode={!isTrialUsed ? "trial" : "upgrade"}
+        />
+      )}
     </>
   );
 };

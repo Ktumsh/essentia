@@ -27,6 +27,7 @@ import {
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -249,13 +250,13 @@ export default function FileViewer({
             </Button>
           </div>
         </DrawerHeader>
-        <DialogDescription className="sr-only" asChild>
+        <DrawerDescription className="sr-only" asChild>
           <p>
             {fileType === "pdf" && <>Vista previa de PDF</>}
             {fileType === "image" && <>Vista previa de imagen</>}
             {fileType === "unknown" && <>Vista previa no disponible</>}
           </p>
-        </DialogDescription>
+        </DrawerDescription>
         <div className="h-full flex-1 overflow-y-auto p-4">{viewerContent}</div>
         <DrawerFooter>
           <div className="bg-accent flex flex-col overflow-hidden rounded-xl">

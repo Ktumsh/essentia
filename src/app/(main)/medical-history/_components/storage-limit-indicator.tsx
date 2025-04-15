@@ -3,6 +3,7 @@
 import { AlertCircle, Upload } from "lucide-react";
 
 import { UpgradeButton } from "@/components/button-kit/upgrade-button";
+import { Badge } from "@/components/kit/badge";
 import { Card, CardContent, CardFooter } from "@/components/kit/card";
 import { Progress } from "@/components/kit/progress";
 import { BetterTooltip } from "@/components/kit/tooltip";
@@ -32,10 +33,11 @@ export default function StorageLimitIndicator({
   const usagePercentage = Math.min(100, (totalDocuments / currentLimit) * 100);
 
   const isPremium = subscription?.subscription.isPremium;
+  const isPremiumPlus = subscription?.plan?.id === "premium-plus";
 
   const planName = isTrialActive
-    ? "Plan de prueba"
-    : subscription?.plan?.name || "Plan Básico";
+    ? "Prueba Gratis"
+    : subscription?.plan?.name || "Básico";
 
   const getProgressColor = () => {
     if (usagePercentage === 100) return "from-red-600 via-red-500 to-red-600";
@@ -57,8 +59,11 @@ export default function StorageLimitIndicator({
   };
 
   const getPlanBadgeColor = () => {
-    if (isPremium)
-      return "bg-gradient-to-r from-indigo-500 to-pink-500 text-white border-0";
+    if ((isPremium || isTrialActive) && !isPremiumPlus) {
+      return "bg-premium text-white border-0";
+    } else if (isPremiumPlus) {
+      return "bg-premium-plus text-white border-0";
+    }
     return "bg-background text-muted-foreground";
   };
 
@@ -79,14 +84,11 @@ export default function StorageLimitIndicator({
             className="max-w-44 text-center"
             content={`Tu plan actual permite hasta ${currentLimit} documentos`}
           >
-            <div
-              className={cn(
-                "rounded-full border px-2.5 py-1 text-xs font-medium",
-                getPlanBadgeColor(),
-              )}
+            <Badge
+              className={cn("h-5 px-1.5 py-0 text-xs", getPlanBadgeColor())}
             >
               {planName}
-            </div>
+            </Badge>
           </BetterTooltip>
         </div>
 

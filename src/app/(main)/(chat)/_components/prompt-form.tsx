@@ -332,12 +332,10 @@ function PureSendButton({
     <MotionArrowRightButton
       layout
       variant="gradient"
-      size="sm" // Usamos un tamaño base "sm"
+      size="sm"
       onClick={handleSubmit}
       disabled={disabled}
       transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
-      // Si no hay texto, forzamos un width circular (por ejemplo, w-8) y sin padding horizontal;
-      // si hay texto, aplicamos padding horizontal para que se expanda
       className={cn(
         "pointer-events-auto flex-row-reverse overflow-hidden rounded-full disabled:opacity-50 [&_svg]:size-3.5! md:[&_svg]:size-4!",
         input.length > 0

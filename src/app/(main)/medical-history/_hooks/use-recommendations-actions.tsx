@@ -82,6 +82,7 @@ export function useRecommendationsActions({
       toast.success(
         `Guardadas ${savedCount} recomendación${savedCount > 1 ? "es" : ""} 😊`,
       );
+      return;
     }
 
     if (duplicatedCount > 0) {

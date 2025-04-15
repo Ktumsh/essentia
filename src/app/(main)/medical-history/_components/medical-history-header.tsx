@@ -37,12 +37,12 @@ const MedicalHistoryHeader = ({
       <p className="text-foreground/80 text-sm">
         Gestiona tus documentos médicos y mantén un registro de tu historial.
       </p>
-      <div className="grid gap-2">
+      <div className="grid w-full gap-2 md:w-fit">
         <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row">
           <SparklesButton
             size="default"
             onClick={openAIRecommendationsForAll}
-            className="w-full md:w-fit"
+            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-full"
           >
             Recomendaciones IA
           </SparklesButton>
@@ -56,7 +56,7 @@ const MedicalHistoryHeader = ({
               }
               setDialogs((prev) => ({ ...prev, isAddDialogOpen: true }));
             }}
-            className="w-full md:w-fit"
+            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-full"
           >
             <PlusCircle />
             Añadir documento

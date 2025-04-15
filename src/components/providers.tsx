@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 
+import { ViewModeProvider } from "@/app/(main)/medical-history/_hooks/use-view-mode";
 import { UserSubscriptionInfo } from "@/db/querys/user-querys";
 import { MobileProvider } from "@/hooks/use-mobile";
 import { ProfileMessageProvider } from "@/hooks/use-profile-message";
@@ -32,6 +33,7 @@ export function Providers({
   initialTasks,
   initialMobileState,
   initialUserSubscription,
+  initialModes,
   children,
 }: {
   userId: string;
@@ -43,6 +45,7 @@ export function Providers({
   initialTasks: UserTask[];
   initialMobileState?: boolean;
   initialUserSubscription: UserSubscriptionInfo;
+  initialModes: Record<string, "grid" | "list">;
 } & ThemeProviderProps) {
   return (
     <SessionProvider>
@@ -61,7 +64,9 @@ export function Providers({
                         <TasksProvider initialTasks={initialTasks}>
                           <ReducedMotionProvider>
                             <ThemeProvider disableTransitionOnChange>
-                              {children}
+                              <ViewModeProvider initialModes={initialModes}>
+                                {children}
+                              </ViewModeProvider>
                             </ThemeProvider>
                           </ReducedMotionProvider>
                         </TasksProvider>

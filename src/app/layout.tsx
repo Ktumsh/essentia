@@ -60,6 +60,14 @@ export default async function RootLayout({
 
   const isMobile = cookieStore.get("isMobile")?.value === "true";
 
+  const medicalMode = cookieStore.get("view_mode_medical")?.value as
+    | "grid"
+    | "list";
+
+  const savedMode = cookieStore.get("view_mode_saved")?.value as
+    | "grid"
+    | "list";
+
   const initialUserSubscription = userId
     ? await getUserSubscriptionInfo(userId)
     : {
@@ -89,6 +97,10 @@ export default async function RootLayout({
           initialTasks={initialTasks}
           initialMobileState={isMobile}
           initialUserSubscription={initialUserSubscription}
+          initialModes={{
+            medical: medicalMode || "grid",
+            saved: savedMode || "grid",
+          }}
         >
           <Toaster />
           <ProfileMessage user={userData} session={session} />

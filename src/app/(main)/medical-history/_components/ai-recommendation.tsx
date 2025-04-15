@@ -1,6 +1,6 @@
 "use client";
 
-import { Brain, Lightbulb, Tag, Loader2 } from "lucide-react";
+import { Brain, Lightbulb, Tag, CheckCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { toast } from "sonner";
@@ -52,12 +52,13 @@ import {
 } from "@/components/kit/tabs";
 import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
+import { LoaderAIIcon } from "@/components/ui/icons/status";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-import { getTagColor } from "../_lib/utils";
+import { getTagColor, isRecommendationSaved } from "../_lib/utils";
 import { generateAiMedicalRecommendations } from "../actions";
 import { AIRecommendationDetail } from "./ai-recommendation-detail";
 import { AIRecommendationsCard } from "./ai-recommendations-card";
@@ -68,7 +69,7 @@ const shimmerVariants = {
 };
 
 const secondaryMessages = [
-  "El cerebro digital está en acción, ¡wow, espera un momento!",
+  "El cerebro digital está en acción...",
   "Analizando patrones de salud...",
   "Sintetizando recomendaciones...",
   "Procesando datos médicos, ¡un instante por favor!",
@@ -101,10 +102,13 @@ interface AIRecommendationProps {
   medicalHistory: MedicalHistoryWithTags[];
   selectedItems?: string[];
   selectedTags?: string[];
+  savedRecommendations: AIRecommendationType[];
   onSaveRecommendation: (
     recommendation: AIRecommendationType | AIRecommendationType[],
   ) => void;
-  onShareRecommendation?: (recommendation: AIRecommendationType) => void;
+  onShareRecommendation: (
+    recommendation: AIRecommendationType | AIRecommendationType[],
+  ) => void;
 }
 
 const AIRecommendation = ({
@@ -113,6 +117,7 @@ const AIRecommendation = ({
   medicalHistory,
   selectedItems = [],
   selectedTags = [],
+  savedRecommendations,
   onSaveRecommendation,
   onShareRecommendation,
 }: AIRecommendationProps) => {
@@ -253,7 +258,6 @@ const AIRecommendation = ({
       };
 
       const response = await generateAiMedicalRecommendations(payload);
-      console.log("Recomendaciones generadas:", response);
 
       if (!response || !Array.isArray(response)) {
         toast.error("Error al generar recomendaciones");
@@ -270,7 +274,6 @@ const AIRecommendation = ({
     }
   };
 
-  // Función para copiar el texto de recomendaciones
   const onCopy = async () => {
     const textFromParts = recommendations
       .map(
@@ -294,11 +297,6 @@ const AIRecommendation = ({
     toast.success("¡Texto copiado!");
   };
 
-  const shareRecommendation = (recommendation: AIRecommendationType) => {
-    if (onShareRecommendation) onShareRecommendation(recommendation);
-  };
-
-  // Callbacks para togglear documentos y tags
   const toggleDocumentSelection = useCallback(
     (docId: string) =>
       setSelectedDocuments((prev) =>
@@ -333,9 +331,12 @@ const AIRecommendation = ({
     [documentsByTag],
   );
 
-  // Función de cierre: si existen recomendaciones, se abre el AlertDialog
   const handleClose = () => {
-    if (recommendations.length > 0) {
+    const anySaved = recommendations.some((rec) =>
+      isRecommendationSaved(rec, savedRecommendations),
+    );
+
+    if (recommendations.length > 0 && !anySaved) {
       setAlertOpen(true);
       return;
     }
@@ -343,12 +344,19 @@ const AIRecommendation = ({
     setSelectedRecommendation(null);
   };
 
+  const allRecommendationsSaved = useMemo(() => {
+    if (recommendations.length === 0) return false;
+    return recommendations.every((rec) =>
+      isRecommendationSaved(rec, savedRecommendations),
+    );
+  }, [recommendations, savedRecommendations]);
+
   const content = (
     <>
       <Tabs
         value={activeTab}
         onValueChange={(value) => setActiveTab(value as "select" | "results")}
-        className="flex flex-1 flex-col overflow-hidden"
+        className="flex h-full flex-1 flex-col overflow-hidden"
       >
         <div className="px-4 pt-0 md:px-6 md:pt-6">
           <TabsList className="bg-accent grid h-auto w-full grid-cols-2 md:h-9">
@@ -632,8 +640,8 @@ const AIRecommendation = ({
           className="flex flex-1 flex-col overflow-hidden"
         >
           {isLoading ? (
-            <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-gradient-to-r from-indigo-50 to-pink-50 md:m-6 dark:from-indigo-950 dark:to-pink-950">
-              <Loader2 className="mb-4 size-10 animate-spin text-indigo-500" />
+            <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-linear-to-r/shorter from-indigo-50 to-pink-50 px-4 md:m-6 dark:from-indigo-950 dark:to-pink-950">
+              <LoaderAIIcon className="mb-4 size-12 text-indigo-500/80" />
 
               <motion.p
                 initial={{ opacity: 0, y: 5 }}
@@ -684,7 +692,7 @@ const AIRecommendation = ({
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -50 }}
                   transition={{ duration: 0.3 }}
-                  className="flex flex-1 flex-col"
+                  className="flex flex-1 flex-col overflow-y-auto"
                 >
                   <AIRecommendationDetail
                     recommendation={selectedRecommendation}
@@ -729,19 +737,33 @@ const AIRecommendation = ({
                           size="icon"
                           onClick={() =>
                             recommendations.length > 0 &&
-                            shareRecommendation(recommendations[0])
+                            onShareRecommendation(recommendations)
                           }
                           className="size-8 rounded-sm"
                         />
                       </BetterTooltip>
-                      <BetterTooltip content="Guardar recomendaciones">
-                        <SaveButton
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onSaveRecommendation(recommendations)}
-                          className="size-8 rounded-sm"
-                        />
-                      </BetterTooltip>
+                      {allRecommendationsSaved ? (
+                        <BetterTooltip content="Recomendaciones guardadas">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8 cursor-default rounded-sm text-emerald-500 hover:bg-transparent dark:text-emerald-400"
+                          >
+                            <CheckCheck className="size-4" />
+                          </Button>
+                        </BetterTooltip>
+                      ) : (
+                        <BetterTooltip content="Guardar recomendaciones">
+                          <SaveButton
+                            variant="ghost"
+                            size="icon"
+                            onClick={() =>
+                              onSaveRecommendation(recommendations)
+                            }
+                            className="size-8 rounded-sm"
+                          />
+                        </BetterTooltip>
+                      )}
                     </div>
                   </div>
                   <div className="overflow-y-auto">
@@ -752,9 +774,10 @@ const AIRecommendation = ({
                           recommendation={rec}
                           medicalHistory={medicalHistory}
                           currentItem={selectedRecommendation}
+                          savedRecommendations={savedRecommendations}
                           onViewDetails={() => setSelectedRecommendation(rec)}
                           onSave={onSaveRecommendation}
-                          onShare={shareRecommendation}
+                          onShare={onShareRecommendation}
                         />
                       ))}
                     </div>

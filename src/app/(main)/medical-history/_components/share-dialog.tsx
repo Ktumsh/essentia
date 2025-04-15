@@ -24,6 +24,14 @@ import {
   DialogTitle,
 } from "@/components/kit/dialog";
 import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/kit/drawer";
+import {
   Form,
   FormControl,
   FormField,
@@ -32,6 +40,7 @@ import {
   FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { emailSchema } from "@/lib/form-schemas";
 import { cn } from "@/lib/utils";
 
@@ -80,7 +89,7 @@ const SHARE_OPTIONS = [
 interface ShareDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  recommendation: AIRecommendationType | null;
+  recommendation: AIRecommendationType | AIRecommendationType[] | null;
 }
 
 type ShareMethod = "clipboard" | "whatsapp" | "email" | "pdf";
@@ -90,6 +99,8 @@ export default function ShareDialog({
   onClose,
   recommendation,
 }: ShareDialogProps) {
+  const isMobile = useIsMobile();
+
   const [shareMethod, setShareMethod] = useState<ShareMethod>("clipboard");
   const [isSharing, setIsSharing] = useState(false);
   const [isShared, setIsShared] = useState(false);
@@ -108,13 +119,25 @@ export default function ShareDialog({
   if (!recommendation) return null;
 
   const getRecommendationText = () => {
-    return `${recommendation.title}
-
-${recommendation.description}
-
-Prioridad: ${getPriorityText(recommendation.priority)}
-
-Esta recomendación fue generada por IA basada en mi historial médico.`;
+    if (Array.isArray(recommendation)) {
+      return (
+        recommendation
+          .map(
+            (rec) =>
+              `${rec.title}\n\n${rec.description}\n\nPrioridad: ${getPriorityText(rec.priority)}\n`,
+          )
+          .join("\n----------------\n") +
+        "\n\nEsta(s) recomendación(es) fueron generadas por IA basada(s) en mi historial médico."
+      );
+    } else {
+      return `${recommendation.title}
+      
+  ${recommendation.description}
+      
+  Prioridad: ${getPriorityText(recommendation.priority)}
+      
+  Esta recomendación fue generada por IA basada en mi historial médico.`;
+    }
   };
 
   const handleShare = async () => {
@@ -167,6 +190,220 @@ Esta recomendación fue generada por IA basada en mi historial médico.`;
     }
   };
 
+  const isArrayRec = Array.isArray(recommendation);
+
+  const content = (
+    <div className="space-y-4 overflow-y-auto p-4 md:p-6">
+      {isArrayRec ? (
+        recommendation.map((rec, index) => (
+          <Card key={index}>
+            <CardHeader isSecondary className="pb-0!">
+              <CardTitle>{rec.title}</CardTitle>
+              <Badge
+                className={cn(
+                  "mt-1 h-5 rounded-full px-1.5 py-0",
+                  getPriorityColor(rec.priority),
+                  rec.priority === "high"
+                    ? "bg-red-50 dark:bg-red-950"
+                    : rec.priority === "medium"
+                      ? "bg-yellow-50 dark:bg-yellow-950"
+                      : "bg-green-50 dark:bg-green-950",
+                )}
+              >
+                Prioridad: {getPriorityText(rec.priority)}
+              </Badge>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <p className="text-muted-foreground mt-2 line-clamp-2 text-sm">
+                {rec.description}
+              </p>
+            </CardContent>
+          </Card>
+        ))
+      ) : (
+        <Card>
+          <CardHeader isSecondary className="pb-0!">
+            <CardTitle>{recommendation.title}</CardTitle>
+            <Badge
+              className={cn(
+                "mt-1 h-5 rounded-full px-1.5 py-0",
+                getPriorityColor(recommendation.priority),
+                recommendation.priority === "high"
+                  ? "bg-red-50 dark:bg-red-950"
+                  : recommendation.priority === "medium"
+                    ? "bg-yellow-50 dark:bg-yellow-950"
+                    : "bg-green-50 dark:bg-green-950",
+              )}
+            >
+              Prioridad: {getPriorityText(recommendation.priority)}
+            </Badge>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <p className="text-muted-foreground mt-2 line-clamp-2 text-sm">
+              {recommendation.description}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="space-y-3">
+        <h3 className="text-sm font-medium">Método de compartir</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {SHARE_OPTIONS.map((option) => (
+            <div
+              key={option.id}
+              className={cn(
+                "cursor-pointer rounded-xl border p-3 transition-all hover:shadow-md",
+                shareMethod === option.id && option.color,
+              )}
+              onClick={() => {
+                setShareMethod(option.id as ShareMethod);
+                setIsShared(false);
+                setValue("email", "");
+              }}
+            >
+              <div className="flex flex-col items-center gap-2 text-center">
+                <div className={cn("rounded-full p-2", option.color)}>
+                  {option.icon}
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium">{option.title}</h4>
+                  <p className="text-muted-foreground text-xs">
+                    {option.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {shareMethod === "email" && (
+        <Form {...form}>
+          <form className="bg-accent flex flex-col space-y-2 rounded-xl border p-3">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="email">Correo electrónico</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setValue("email", e.target.value);
+                      }}
+                      id="email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="ejemplo@correo.com"
+                      className="bg-background"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+      )}
+
+      {isShared && (
+        <div className="flex items-start gap-2 rounded-xl border border-green-100 bg-green-50 p-3 dark:border-green-800 dark:bg-green-950">
+          <BadgeAlert
+            variant="success"
+            className="mb-0 size-7 [&_svg]:size-4!"
+          />
+          <div>
+            <p className="text-sm font-medium text-green-700 dark:text-green-200">
+              Compartido correctamente
+            </p>
+            <p className="text-xs text-green-600 dark:text-green-300">
+              {shareMethod === "clipboard"
+                ? "La recomendación ha sido copiada al portapapeles."
+                : shareMethod === "whatsapp"
+                  ? "La recomendación ha sido compartida por WhatsApp."
+                  : shareMethod === "email"
+                    ? `La recomendación ha sido enviada a ${email}`
+                    : "La recomendación ha sido descargada como PDF."}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer
+        open={isOpen}
+        onOpenChange={() => {
+          onClose();
+          setShareMethod("clipboard");
+          setIsShared(false);
+        }}
+      >
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle className="flex items-center justify-center gap-2">
+              <Share2 className="size-4 shrink-0 text-blue-500" />
+              <span>
+                {isArrayRec
+                  ? "Compartir recomendaciones"
+                  : "Compartir recomendación"}
+              </span>
+            </DrawerTitle>
+          </DrawerHeader>
+          <DrawerDescription className="p-4">
+            {isArrayRec
+              ? "Selecciona cómo quieres compartir estas recomendaciones."
+              : "Selecciona cómo quieres compartir esta recomendación."}
+          </DrawerDescription>
+          {content}
+          <DrawerFooter>
+            <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+              <Button
+                variant="mobile"
+                onClick={() => {
+                  onClose();
+                  setShareMethod("clipboard");
+                  setIsShared(false);
+                }}
+                className="justify-center"
+              >
+                Cancelar
+              </Button>
+            </div>
+            <Button
+              variant="mobile-danger"
+              onClick={() => {
+                if (shareMethod === "email") {
+                  handleSubmit(handleShare)();
+                } else {
+                  handleShare();
+                }
+              }}
+              disabled={isSharing || (shareMethod === "email" && !email)}
+              className={cn(
+                "text-foreground",
+                shareMethod === "clipboard"
+                  ? "bg-blue-400! dark:bg-blue-700!"
+                  : shareMethod === "whatsapp"
+                    ? "bg-green-400! dark:bg-green-700!"
+                    : shareMethod === "email"
+                      ? "bg-purple-400! dark:bg-purple-700!"
+                      : "bg-amber-400! dark:bg-amber-700!",
+              )}
+            >
+              {isSharing ? <Loader className="animate-spin" /> : "Compartir"}
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
   return (
     <Dialog
       open={isOpen}
@@ -179,125 +416,18 @@ Esta recomendación fue generada por IA basada en mi historial médico.`;
       <DialogContent isSecondary>
         <DialogHeader isSecondary>
           <DialogTitle className="flex items-center gap-2">
-            <Share2 className="h-5 w-5 text-blue-500" />
-            Compartir recomendación
+            <Share2 className="size-5 text-blue-500" />
+            {isArrayRec
+              ? "Compartir recomendaciones"
+              : "Compartir recomendación"}
           </DialogTitle>
           <DialogDescription>
-            Elige cómo quieres compartir esta recomendación.
+            {isArrayRec
+              ? "Selecciona cómo quieres compartir estas recomendaciones."
+              : "Selecciona cómo quieres compartir esta recomendación."}
           </DialogDescription>
         </DialogHeader>
-
-        <div className="space-y-4 overflow-y-auto p-4 md:p-6">
-          <Card>
-            <CardHeader isSecondary className="pb-0!">
-              <CardTitle>{recommendation.title}</CardTitle>
-              <Badge
-                className={cn(
-                  "mt-1 h-5 rounded-full px-1.5 py-0",
-                  getPriorityColor(recommendation.priority),
-                  recommendation.priority === "high"
-                    ? "bg-red-50 dark:bg-red-950"
-                    : recommendation.priority === "medium"
-                      ? "bg-yellow-50 dark:bg-yellow-950"
-                      : "bg-green-50 dark:bg-green-950",
-                )}
-              >
-                Prioridad: {getPriorityText(recommendation.priority)}
-              </Badge>
-            </CardHeader>
-            <CardContent className="p-4 pt-0">
-              <p className="text-muted-foreground mt-2 line-clamp-2 text-sm">
-                {recommendation.description}
-              </p>
-            </CardContent>
-          </Card>
-
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium">Método de compartir</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {SHARE_OPTIONS.map((option) => (
-                <div
-                  key={option.id}
-                  className={cn(
-                    "cursor-pointer rounded-xl border p-3 transition-all hover:shadow-md",
-                    shareMethod === option.id && option.color,
-                  )}
-                  onClick={() => {
-                    setShareMethod(option.id as ShareMethod);
-                    setIsShared(false);
-                    setValue("email", "");
-                  }}
-                >
-                  <div className="flex flex-col items-center gap-2 text-center">
-                    <div className={cn("rounded-full p-2", option.color)}>
-                      {option.icon}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium">{option.title}</h4>
-                      <p className="text-muted-foreground text-xs">
-                        {option.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {shareMethod === "email" && (
-            <Form {...form}>
-              <form className="bg-accent flex flex-col space-y-2 rounded-xl border p-3">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel htmlFor="email">Correo electrónico</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          onChange={(e) => {
-                            field.onChange(e);
-                            setValue("email", e.target.value);
-                          }}
-                          id="email"
-                          type="email"
-                          autoComplete="email"
-                          placeholder="ejemplo@correo.com"
-                          className="bg-background"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form>
-          )}
-
-          {isShared && (
-            <div className="flex items-start gap-2 rounded-xl border border-green-100 bg-green-50 p-3 dark:border-green-800 dark:bg-green-950">
-              <BadgeAlert
-                variant="success"
-                className="mb-0 size-7 [&_svg]:size-4!"
-              />
-              <div>
-                <p className="text-sm font-medium text-green-700 dark:text-green-200">
-                  Compartido correctamente
-                </p>
-                <p className="text-xs text-green-600 dark:text-green-300">
-                  {shareMethod === "clipboard"
-                    ? "La recomendación ha sido copiada al portapapeles."
-                    : shareMethod === "whatsapp"
-                      ? "La recomendación ha sido compartida por WhatsApp."
-                      : shareMethod === "email"
-                        ? `La recomendación ha sido enviada a ${email}`
-                        : "La recomendación ha sido descargada como PDF."}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
+        {content}
         <DialogFooter isSecondary>
           <Button
             variant="outline"

@@ -18,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
+import { ClockLoopIcon } from "@/components/ui/icons/clock-loop-icon";
 import PaymentModal from "@/components/ui/payment/payment-modal";
 import { Payment, Subscription } from "@/db/schema";
 import { useTrial } from "@/hooks/use-trial";
@@ -41,12 +42,26 @@ const SubscriptionDetails = ({
 }: SubscriptionDetailsProps) => {
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
-  const { subscription: sub } = useUserSubscription();
+  const { subscription: sub, trial } = useUserSubscription();
   const { isTrialActive } = useTrial();
 
   const subscriptionPlan = sub?.plan;
   const isPremiumPlan = subscriptionPlan?.name === "Premium";
   const isPremiumPlusPlan = subscriptionPlan?.name === "Premium Plus";
+
+  const trialExpiresAt = trial.expiresAt;
+  const now = new Date();
+
+  const daysLeft = Math.ceil(
+    ((trialExpiresAt || now).getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  const trialMessage =
+    daysLeft <= 0
+      ? "Tu prueba gratuita ha finalizado"
+      : daysLeft === 1
+        ? "Te queda 1 día de tu prueba gratuita"
+        : `Te quedan ${daysLeft} días de tu prueba gratuita`;
 
   const { amount } = payment || {};
   const { type, expiresAt, isPremium, status } = subscription || {};
@@ -93,6 +108,31 @@ const SubscriptionDetails = ({
               <p>Este es el resumen de tu plan de Essentia.</p>
               <p>Puedes cambiar o mejorar tu plan en cualquier momento.</p>
             </CardDescription>
+            {isTrialActive && (
+              <div className="mt-3 w-full rounded-lg border border-indigo-300 bg-indigo-50 p-3 text-xs text-indigo-800 shadow-sm md:text-sm dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
+                <div className="inline-flex items-center gap-2">
+                  <ClockLoopIcon className="size-3.5 md:size-4" />
+                  <p className="font-medium">{trialMessage}</p>
+                </div>
+                <div className="bg-background relative mt-1 h-2 w-full overflow-hidden rounded-full">
+                  <div
+                    className="bg-premium absolute top-0 left-0 h-2 transition-all"
+                    style={{
+                      width: `${Math.min(((7 - daysLeft) / 7) * 100, 100)}%`,
+                    }}
+                  />
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute top-1/2 h-2 w-0.5 -translate-y-1/2 bg-indigo-50 dark:bg-indigo-950"
+                      style={{
+                        left: `${((i + 1) / 7) * 100}%`,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </CardHeader>
           <CardContent>
             <div className="border-border rounded-lg border px-4 py-3">

@@ -22,7 +22,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
   return (
     <SidebarGroup>
       <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
-        Recursos
+        Recursos educativos
       </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item, index) => {

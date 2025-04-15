@@ -6,16 +6,16 @@ import { useEffect, useState } from "react";
 import { useUserProfile } from "@/hooks/use-user-profile";
 
 const GREETINGS = [
-  "Estoy lista para ayudarte con lo que necesites.",
+  "Estoy lista para ayudarte con lo que necesites",
   "¿Qué quieres descubrir con Essentia hoy?",
-  "Activa el poder del conocimiento ahora mismo.",
-  "Tu guía inteligente está atenta, solo pregunta.",
-  "Despejemos tus dudas y exploremos soluciones.",
-  "La magia de Essentia está lista para ti.",
-  "Dime en qué puedo ayudarte hoy.",
-  "Explora, pregunta y deja que fluya la magia.",
-  "Listos para aprender algo nuevo juntos.",
-  "Haz tu consulta y abramos posibilidades.",
+  "Activa el poder del conocimiento ahora mismo",
+  "Tu guía inteligente está atenta, solo pregunta",
+  "Despejemos tus dudas y exploremos soluciones",
+  "La magia de Essentia está lista para ti",
+  "Dime en qué puedo ayudarte hoy",
+  "Explora, pregunta y deja que fluya la magia",
+  "Listos para aprender algo nuevo juntos",
+  "Haz tu consulta y abramos posibilidades",
 ];
 
 export const Greeting = () => {

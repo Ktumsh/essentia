@@ -62,8 +62,11 @@ const PricingSelector = ({
             className={cn(
               "flex-1 rounded-full",
               selectedPlan.id === plan.id &&
-                (plan.id === premium || plan.id === premiumPlus) &&
-                "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 data-[state=active]:text-white",
+                plan.id === premium &&
+                "bg-premium data-[state=active]:text-white",
+              selectedPlan.id === plan.id &&
+                plan.id === premiumPlus &&
+                "bg-premium-plus data-[state=active]:text-white",
             )}
           >
             {plan.name}

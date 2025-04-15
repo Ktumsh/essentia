@@ -8,6 +8,8 @@ import {
 } from "@/db/querys/medical-history-querys";
 import { formatDate } from "@/utils/format";
 
+import type { AIRecommendationType } from "../_components/ai-recommendation";
+
 export const getTagColor = (tag: string): string => {
   const medicalCategories: Record<string, string> = {
     Alergia:
@@ -79,8 +81,6 @@ export function getFileTypeColor(type: MedicalFileType): string {
       return "text-purple-500";
     case "Imagenología":
       return "text-rose-500";
-    case "Imagenología":
-      return "text-cyan-500";
     case "Certificado":
       return "text-teal-500";
     case "Epicrisis":
@@ -88,7 +88,40 @@ export function getFileTypeColor(type: MedicalFileType): string {
     case "Consentimiento":
       return "text-indigo-500";
     default:
-      return "text-gray-500";
+      return "text-cyan-500";
+  }
+}
+
+export function getFileTypeBorderColor(
+  type: MedicalFileType,
+  direction: "top" | "left" = "top",
+): string {
+  const mappingTop: Record<string, string> = {
+    Examen: "border-t-blue-500",
+    Receta: "border-t-green-500",
+    Informe: "border-t-amber-500",
+    Diagnóstico: "border-t-purple-500",
+    Imagenología: "border-t-rose-500",
+    Certificado: "border-t-teal-500",
+    Epicrisis: "border-t-red-500",
+    Consentimiento: "border-t-indigo-500",
+  };
+
+  const mappingLeft: Record<string, string> = {
+    Examen: "border-l-blue-500",
+    Receta: "border-l-green-500",
+    Informe: "border-l-amber-500",
+    Diagnóstico: "border-l-purple-500",
+    Imagenología: "border-l-rose-500",
+    Certificado: "border-l-teal-500",
+    Epicrisis: "border-l-red-500",
+    Consentimiento: "border-l-indigo-500",
+  };
+
+  if (direction === "top") {
+    return mappingTop[type] || "border-t-cyan-500";
+  } else {
+    return mappingLeft[type] || "border-l-cyan-500";
   }
 }
 
@@ -155,11 +188,24 @@ export const getActionColor = (action: string) => {
 export const getPriorityColor = (priority: "high" | "medium" | "low") => {
   switch (priority) {
     case "high":
-      return "text-red-600 dark:text-red-500";
+      return "text-red-500";
     case "medium":
-      return "text-amber-600 dark:text-amber-500";
+      return "text-amber-500";
     case "low":
-      return "text-green-600 dark:text-green-500";
+      return "text-green-500";
+    default:
+      return "";
+  }
+};
+
+export const getPriorityBgColor = (priority: "high" | "medium" | "low") => {
+  switch (priority) {
+    case "high":
+      return "bg-red-50 dark:bg-red-950";
+    case "medium":
+      return "bg-amber-50 dark:bg-amber-950";
+    case "low":
+      return "bg-green-50 dark:bg-green-950";
     default:
       return "";
   }
@@ -177,6 +223,29 @@ export const getPriorityText = (priority: "high" | "medium" | "low") => {
       return "";
   }
 };
+
+export function getPriorityBorderColor(
+  priority: "high" | "medium" | "low",
+  direction: "top" | "left" = "top",
+): string {
+  const mappingTop: Record<string, string> = {
+    high: "border-t-red-500!",
+    medium: "border-t-amber-500!",
+    low: "border-t-green-500!",
+  };
+
+  const mappingLeft: Record<string, string> = {
+    high: "border-l-red-500!",
+    medium: "border-l-amber-500!",
+    low: "border-l-green-500!",
+  };
+
+  if (direction === "top") {
+    return mappingTop[priority] || "border-t-gray-500";
+  } else {
+    return mappingLeft[priority] || "border-l-gray-500";
+  }
+}
 
 export const getRelativeTime = (date: Date) => {
   const now = new Date();
@@ -381,3 +450,16 @@ export const exportActivityAsExcel = async (
   link.click();
   URL.revokeObjectURL(url);
 };
+
+export function isRecommendationSaved(
+  recommendation: AIRecommendationType,
+  savedRecommendations: AIRecommendationType[],
+): boolean {
+  return savedRecommendations.some(
+    (r) =>
+      r.title === recommendation.title &&
+      r.description === recommendation.description &&
+      r.type === recommendation.type &&
+      r.priority === recommendation.priority,
+  );
+}

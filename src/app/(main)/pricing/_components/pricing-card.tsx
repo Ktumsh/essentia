@@ -107,7 +107,7 @@ const PricingCard = ({
     <>
       <Card
         className={cn(
-          "relative flex shrink-0 snap-start flex-col rounded-2xl md:max-w-[362px] md:rounded-3xl",
+          "border-alternative relative flex shrink-0 snap-start flex-col rounded-2xl md:max-w-[362px] md:rounded-3xl",
           isPremiumStyle &&
             "bg-premium z-10 border-none text-white after:absolute after:inset-px after:rounded-2xl after:content-[''] md:after:rounded-3xl",
           isPremiumPlus && "bg-premium-plus",
@@ -115,7 +115,7 @@ const PricingCard = ({
       >
         <CardHeader
           className={cn(
-            "text-foreground relative z-10 flex-col items-stretch gap-3 space-y-0 p-3 after:-z-10 after:border-b-0 md:p-6",
+            "text-foreground relative z-10 flex-col gap-3 space-y-0 p-3 after:-z-10 after:border-b-0 md:p-6",
             !isPremiumStyle && "after:inset-0!",
             isPremiumStyle
               ? "after:bg-background dark:after:border-background after:absolute after:inset-0.5 after:bottom-0 after:rounded-[15px] after:content-[''] md:after:rounded-[22px]"

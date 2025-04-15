@@ -7,6 +7,8 @@ import {
   FilterX,
   Sparkles,
   LockKeyhole,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -15,6 +17,7 @@ import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import { Card, CardContent } from "@/components/kit/card";
 import { Dialog, DialogContent } from "@/components/kit/dialog";
+import { Drawer, DrawerContent } from "@/components/kit/drawer";
 import { Input } from "@/components/kit/input";
 import {
   Select,
@@ -23,14 +26,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/kit/select";
+import { BetterTooltip } from "@/components/kit/tooltip";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import { cn } from "@/lib/utils";
 
 import { AIRecommendationDetail } from "./ai-recommendation-detail";
 import SavedDeleteConfirmationDialog from "./saved-delete-confirmation-dialog";
 import SavedRecommendationsCard from "./saved-recommendations-card";
 import SavedRecommendationsLoading from "./saved-recommendations-loading";
+import { useViewMode } from "../_hooks/use-view-mode";
 
 interface SavedRecommendationsProps {
   medicalHistory: MedicalHistoryWithTags[];
@@ -53,6 +60,7 @@ export default function SavedRecommendations({
   onOpenPremiumModal,
   isRecommendationLoading,
 }: SavedRecommendationsProps) {
+  const isMobile = useIsMobile();
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<SavedAIRecommendation | null>(null);
@@ -68,6 +76,10 @@ export default function SavedRecommendations({
   const { user } = useUserProfile();
 
   const isPremium = user?.isPremium;
+
+  const { getViewMode, setViewMode } = useViewMode();
+
+  const viewMode = getViewMode("saved");
 
   // Filtrar recomendaciones según la búsqueda y la pestaña activa
   const filteredRecommendations = savedRecommendations.filter((rec) => {
@@ -191,6 +203,38 @@ export default function SavedRecommendations({
                     </SelectItem>
                   </SelectContent>
                 </Select>
+                {!isMobile && (
+                  <div className="flex items-center space-x-1">
+                    <BetterTooltip content="Vista en grilla">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setViewMode("saved", "grid")}
+                        className={cn(
+                          "size-7 rounded-sm",
+                          viewMode === "grid" && "bg-background shadow-sm",
+                        )}
+                        aria-label="Vista en grilla"
+                      >
+                        <LayoutGrid className="size-3.5!" />
+                      </Button>
+                    </BetterTooltip>
+                    <BetterTooltip content="Vista en lista">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setViewMode("saved", "list")}
+                        className={cn(
+                          "size-7 rounded-sm",
+                          viewMode === "list" && "bg-background shadow-sm",
+                        )}
+                        aria-label="Vista en lista"
+                      >
+                        <List className="size-3.5!" />
+                      </Button>
+                    </BetterTooltip>
+                  </div>
+                )}
                 {(searchTerm || priorityFilter !== "all") && (
                   <Button
                     variant="ghost"
@@ -213,11 +257,6 @@ export default function SavedRecommendations({
               </LockButton>
             )}
           </div>
-
-          {/* <p className="text-foreground/80 mt-2 max-w-2xl text-sm text-balance">
-            Accede a todas las recomendaciones de IA que has guardado. Puedes
-            ver, compartir, añadir notas o eliminar cada recomendación.
-          </p> */}
         </div>
       </div>
 
@@ -243,7 +282,9 @@ export default function SavedRecommendations({
             </CardContent>
           </Card>
         ) : isRecommendationLoading ? (
-          <SavedRecommendationsLoading />
+          <SavedRecommendationsLoading
+            viewMode={isMobile ? "grid" : viewMode}
+          />
         ) : filteredRecommendations.length === 0 ? (
           <Card className="border">
             <CardContent className="flex flex-col items-center justify-center py-10">
@@ -268,7 +309,13 @@ export default function SavedRecommendations({
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-3 @xl/list:grid-cols-2 @5xl/list:grid-cols-3">
+          <div
+            className={cn(
+              "grid gap-3 @xl/list:grid-cols-2 @5xl/list:grid-cols-3",
+              viewMode === "list" &&
+                "@xl/list:grid-cols-1 @5xl/list:grid-cols-1",
+            )}
+          >
             {filteredRecommendations.map((rec) => (
               <SavedRecommendationsCard
                 key={rec.id}
@@ -276,26 +323,43 @@ export default function SavedRecommendations({
                 onShareRecommendation={onShareRecommendation}
                 onDeleteRecommendation={confirmDelete}
                 openDetailDialog={openDetailDialog}
+                viewMode={isMobile ? "grid" : viewMode}
               />
             ))}
           </div>
         )}
       </div>
       {/* Diálogo de detalles de recomendación */}
-      <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-        <DialogContent isSecondary className="sm:max-w-xl">
-          <button className="sr-only" />
-          {selectedRecommendation && (
-            <AIRecommendationDetail
-              recommendation={selectedRecommendation}
-              medicalHistory={medicalHistory}
-              onSaveNotes={saveNotes}
-              isFromSavedRecommendations
-              onViewFile={onViewFile}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+      {isMobile ? (
+        <Drawer open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
+          <DrawerContent>
+            {selectedRecommendation && (
+              <AIRecommendationDetail
+                recommendation={selectedRecommendation}
+                medicalHistory={medicalHistory}
+                onSaveNotes={saveNotes}
+                isFromSavedRecommendations
+                onViewFile={onViewFile}
+              />
+            )}
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
+          <DialogContent isSecondary className="sm:max-w-xl">
+            <button className="sr-only" />
+            {selectedRecommendation && (
+              <AIRecommendationDetail
+                recommendation={selectedRecommendation}
+                medicalHistory={medicalHistory}
+                onSaveNotes={saveNotes}
+                isFromSavedRecommendations
+                onViewFile={onViewFile}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+      )}
 
       {/* Diálogo de confirmación para eliminar */}
       <SavedDeleteConfirmationDialog

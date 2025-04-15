@@ -29,7 +29,9 @@ interface StepEmailProps {
       email: string;
     },
     any,
-    undefined
+    {
+      email: string;
+    }
   >;
 }
 

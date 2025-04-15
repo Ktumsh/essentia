@@ -23,7 +23,7 @@ import MedicalHistoryFilters from "./medical-history-filters";
 import MedicalHistoryForm, {
   MedicalHistoryFormData,
 } from "./medical-history-form";
-import MedicalHistoryHeader from "./medical-history-headert";
+import MedicalHistoryHeader from "./medical-history-header";
 import MedicalHistoryList from "./medical-history-list";
 import SavedRecommendations from "./saved-recommendation";
 import ShareDialog from "./share-dialog";
@@ -33,7 +33,10 @@ import { useCanUploadFile } from "../_hooks/use-can-upload-files";
 import { useMedicalHistoryActions } from "../_hooks/use-medical-history-actions";
 import { useRecommendationsActions } from "../_hooks/use-recommendations-actions";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type {
+  MedicalFileType,
+  MedicalHistoryWithTags,
+} from "@/db/querys/medical-history-querys";
 
 const MedicalHistory = () => {
   // Datos globales y obtenidos mediante SWR
@@ -97,6 +100,10 @@ const MedicalHistory = () => {
   const [documentTypeFilter, setDocumentTypeFilter] = useState<
     "all" | "recent" | "shared" | "private"
   >("all");
+  const [documentCategoryFilter, setDocumentCategoryFilter] = useState<
+    MedicalFileType | "all"
+  >("all");
+
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const [selectedItemsForAI, setSelectedItemsForAI] = useState<string[]>([]);
   const [fileToView, setFileToView] = useState<{
@@ -105,7 +112,9 @@ const MedicalHistory = () => {
   } | null>(null);
   const [hasNewActivity, setHasNewActivity] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [recommendationToShare, setRecommendationToShare] = useState<any>(null);
+  const [recommendationsToShare, setRecommendationsToShare] = useState<
+    AIRecommendationType[]
+  >([]);
 
   // Extracción de funciones de acciones a partir de hooks
   const { createRecord, updateRecord, deleteRecord, restoreDocument } =
@@ -128,11 +137,13 @@ const MedicalHistory = () => {
   // Filtrado de historial y conteo por etiquetas
   const filteredHistory = useMemo(() => {
     let filtered = medicalHistory || [];
+
     if (selectedTags.length > 0) {
       filtered = filtered.filter((item) =>
         selectedTags.some((tag) => item.tags.includes(tag)),
       );
     }
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
@@ -144,8 +155,15 @@ const MedicalHistory = () => {
           item.tags.some((tag) => tag.toLowerCase().includes(term)),
       );
     }
+
+    if (documentCategoryFilter !== "all") {
+      filtered = filtered.filter(
+        (item) => item.type === documentCategoryFilter,
+      );
+    }
+
     return filtered;
-  }, [medicalHistory, selectedTags, searchTerm]);
+  }, [medicalHistory, selectedTags, searchTerm, documentCategoryFilter]);
 
   const getTagCount = useCallback(
     (tag: string): number =>
@@ -249,8 +267,13 @@ const MedicalHistory = () => {
     }
   };
 
-  const handleShareRecommendation = (recommendation: AIRecommendationType) => {
-    setRecommendationToShare(recommendation);
+  const handleShareRecommendation = (
+    recommendation: AIRecommendationType | AIRecommendationType[],
+  ) => {
+    const recs = Array.isArray(recommendation)
+      ? recommendation
+      : [recommendation];
+    setRecommendationsToShare(recs);
     setDialogs((prev) => ({ ...prev, isShareDialogOpen: true }));
   };
 
@@ -278,9 +301,9 @@ const MedicalHistory = () => {
     },
     onAddDocument: () =>
       setDialogs((prev) => ({ ...prev, isAddDialogOpen: true })),
-    onOpenOptions: (item: MedicalHistoryWithTags) => {
+    onOpenOptions: (item: MedicalHistoryWithTags | null) => {
       setCurrentItem(item);
-      setIsOpenOptions(true);
+      setIsOpenOptions(!!item);
     },
   };
 
@@ -423,6 +446,8 @@ const MedicalHistory = () => {
         filteredHistory={filteredHistory}
         documentTypeFilter={documentTypeFilter}
         setDocumentTypeFilter={setDocumentTypeFilter}
+        documentCategoryFilter={documentCategoryFilter}
+        setDocumentCategoryFilter={setDocumentCategoryFilter}
         clearFilters={clearFilters}
         currentItem={currentItem}
         isOpen={isOpenOptions}
@@ -501,7 +526,9 @@ const MedicalHistory = () => {
         medicalHistory={medicalHistory || []}
         selectedItems={selectedItemsForAI}
         selectedTags={selectedTags}
+        savedRecommendations={savedRecommendations || []}
         onSaveRecommendation={handleSaveRecommendation}
+        onShareRecommendation={handleShareRecommendation}
       />
 
       {/* Visor de archivos */}
@@ -521,7 +548,7 @@ const MedicalHistory = () => {
         onClose={() =>
           setDialogs((prev) => ({ ...prev, isShareDialogOpen: false }))
         }
-        recommendation={recommendationToShare}
+        recommendation={recommendationsToShare}
       />
 
       {/* Modal de pago */}

@@ -151,7 +151,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
           </div>
           <div
             role="group"
-            className="mb-0! flex flex-1 flex-col space-y-6 overflow-y-auto px-6 py-4"
+            className="mb-0! flex flex-1 flex-col space-y-4 overflow-y-auto px-6 py-4"
           >
             <div className="flex w-full flex-col space-y-1.5">
               {mainLinks.map((item) => {
@@ -177,7 +177,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             <div className="flex w-full flex-col space-y-1.5">
               <div className="group flex">
                 <div className="text-muted-foreground inline-flex h-8 shrink-0 items-center rounded-md text-xs font-medium">
-                  Recursos
+                  Recursos educativos
                 </div>
               </div>
               <div className="flex w-full flex-col space-y-1.5">
