@@ -4,11 +4,10 @@ import { UseChatHelpers } from "@ai-sdk/react";
 import equal from "fast-deep-equal";
 import { motion } from "motion/react";
 import { memo, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useCopyToClipboard } from "usehooks-ts";
 
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
-import { PencilEditIcon } from "@/components/ui/icons/action";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
@@ -28,6 +27,7 @@ import {
   RoutineStock,
   TaskStock,
 } from "./tools";
+import { deleteTrailingMessages } from "../actions";
 import { Weather } from "./tools/weather";
 
 import type { ChatVote } from "@/db/schema";
@@ -64,6 +64,7 @@ const PurePreviewMessage = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<"view" | "edit">("view");
+  const [, copyToClipboard] = useCopyToClipboard();
 
   const { tasks, setTasks, isLoading: isTaskLoading } = useTasks();
 
@@ -108,6 +109,29 @@ const PurePreviewMessage = ({
   const fileAttachments = experimental_attachments?.filter((attachment) =>
     attachment.contentType?.startsWith("application"),
   );
+
+  const handleCopyMessage = async () => {
+    const textFromParts = message.parts
+      ?.filter((part) => part.type === "text")
+      .map((part) => part.text)
+      .join("\n")
+      .trim();
+
+    if (!textFromParts) {
+      toast.error("¡No hay texto que copiar!");
+      return;
+    }
+
+    await copyToClipboard(textFromParts);
+    toast.success("¡Texto copiado!");
+  };
+
+  const handleRetryResponse = async () => {
+    await deleteTrailingMessages({
+      id: message.id,
+    });
+    reload();
+  };
 
   return (
     <motion.article
@@ -194,22 +218,6 @@ const PurePreviewMessage = ({
                       "items-start justify-end": userRole,
                     })}
                   >
-                    {userRole && !isReadonly && !isMobile && (
-                      <BetterTooltip content="Editar mensaje">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          radius="md"
-                          className="text-muted-foreground bg-background mt-1.5 opacity-0 group-hover/message:opacity-100"
-                          onClick={() => {
-                            setMode("edit");
-                          }}
-                        >
-                          <PencilEditIcon />
-                        </Button>
-                      </BetterTooltip>
-                    )}
-
                     <div
                       data-testid="message-content"
                       role={isMobile && userRole ? "button" : undefined}
@@ -220,13 +228,13 @@ const PurePreviewMessage = ({
                       }
                       onClick={() => isMobile && userRole && setIsOpen(true)}
                       className={cn("flex flex-col gap-4", {
-                        "transition-transform-opacity rounded-xl rounded-tr-xs bg-gradient-to-r from-indigo-500 to-indigo-600 px-3 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
+                        "transition-transform-opacity rounded-xl rounded-tr-xs bg-linear-to-r/shorter from-indigo-500 to-indigo-600 px-3 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
                           userRole,
                       })}
                     >
                       <Markdown
                         className={cn(
-                          "prose-sm md:prose md:text-base!",
+                          "prose-sm md:prose md:text-[14px]!",
                           userRole && "text-white!",
                         )}
                       >
@@ -242,7 +250,7 @@ const PurePreviewMessage = ({
               return (
                 <div
                   key={key}
-                  className="flex w-full flex-row items-start gap-2"
+                  className="flex w-full flex-row items-start gap-2 self-end group-data-[role=user]/message:max-w-[75%]"
                 >
                   <div className="hidden size-8 shrink-0 md:block" />
                   <MessageEditor
@@ -314,10 +322,22 @@ const PurePreviewMessage = ({
               message={message}
               vote={vote}
               isLoading={isLoading}
+              isReadonly={isReadonly}
+              isEditing={mode === "edit"}
+              onEdit={() => {
+                setMode("edit");
+              }}
+              onCopy={handleCopyMessage}
+              onRetry={handleRetryResponse}
             />
           )}
 
-          <EditModal isOpen={isOpen} setIsOpen={setIsOpen} setMode={setMode} />
+          <EditModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onEdit={() => setMode("edit")}
+            onCopy={handleCopyMessage}
+          />
         </div>
       </div>
     </motion.article>

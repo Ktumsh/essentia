@@ -1,7 +1,6 @@
 "use client";
 
-import { PencilLine } from "lucide-react";
-import React, { Dispatch, SetStateAction } from "react";
+import { Copy, PencilLine } from "lucide-react";
 
 import { Button } from "@/components/kit/button";
 import {
@@ -13,15 +12,17 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/kit/drawer";
+import { Separator } from "@/components/kit/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface EditModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  setMode: Dispatch<SetStateAction<"view" | "edit">>;
+  onEdit: () => void;
+  onCopy: () => void;
 }
 
-const EditModal = ({ isOpen, setIsOpen, setMode }: EditModalProps) => {
+const EditModal = ({ isOpen, setIsOpen, onEdit, onCopy }: EditModalProps) => {
   const isMobile = useIsMobile();
 
   if (!isMobile) return null;
@@ -35,7 +36,14 @@ const EditModal = ({ isOpen, setIsOpen, setMode }: EditModalProps) => {
         <DrawerFooter>
           <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
             <DrawerClose asChild>
-              <Button variant="mobile" onClick={() => setMode("edit")}>
+              <Button variant="mobile" onClick={onCopy}>
+                <Copy />
+                Copiar mensaje
+              </Button>
+            </DrawerClose>
+            <Separator className="dark:bg-alternative/50 z-10 ml-6" />
+            <DrawerClose asChild>
+              <Button variant="mobile" onClick={onEdit}>
                 <PencilLine />
                 Editar mensaje
               </Button>

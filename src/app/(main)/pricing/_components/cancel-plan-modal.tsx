@@ -85,7 +85,7 @@ const CancelPlanModal = ({
               </div>
             ) : (
               <Button
-                variant="mobile-danger"
+                variant="mobile-primary"
                 disabled={isPending}
                 onClick={handleCancelPlan}
               >

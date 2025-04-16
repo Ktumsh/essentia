@@ -38,6 +38,7 @@ export enum ResultCode {
   INVALID_CURRENT_PASSWORD = "INVALID_CURRENT_PASSWORD",
   PASSWORD_CHANGE_FAILED = "PASSWORD_CHANGE_FAILED",
   PASSWORDS_DO_NOT_MATCH = "PASSWORDS_DO_NOT_MATCH",
+  INVALID_LENGTH_TITLE = "INVALID_LENGTH_TITLE",
 }
 
 const resultMessages: Record<ResultCode, string> = {
@@ -95,6 +96,8 @@ const resultMessages: Record<ResultCode, string> = {
   [ResultCode.PASSWORD_CHANGE_FAILED]:
     "No se pudo cambiar la contraseña, intenta de nuevo",
   [ResultCode.PASSWORDS_DO_NOT_MATCH]: "Las contraseñas no coinciden",
+  [ResultCode.INVALID_LENGTH_TITLE]:
+    "El título debe tener menos de 100 caracteres",
 };
 
 export const getMessageFromCode = (resultCode: ResultCode): string => {

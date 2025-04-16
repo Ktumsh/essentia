@@ -475,7 +475,7 @@ export default function MedicalHistoryForm({
           </div>
           <Button
             disabled={isSubmitting}
-            variant="mobile-danger"
+            variant="mobile-primary"
             onClick={handleSubmit(onSubmit)}
           >
             {isSubmitting ? (

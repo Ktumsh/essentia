@@ -93,7 +93,7 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
                 </Button>
               </DrawerClose>
             </div>
-            <Button variant="mobile-danger" onClick={handleClearHistory}>
+            <Button variant="mobile-primary" onClick={handleClearHistory}>
               Sí, continuar
             </Button>
           </DrawerFooter>

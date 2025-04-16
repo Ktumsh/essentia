@@ -5,19 +5,27 @@ import equal from "fast-deep-equal";
 import { memo } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
-import { useCopyToClipboard } from "usehooks-ts";
 
 import { CopyButton } from "@/components/button-kit/copy-button";
 import { DislikeButton } from "@/components/button-kit/dislike-button";
 import { LikeButton } from "@/components/button-kit/like-button";
+import { PencilButton } from "@/components/button-kit/pencil-button";
+import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { type ChatVote } from "@/db/schema";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 interface PureMessageActionsProps {
   chatId: string;
   message: Message;
   vote: ChatVote | undefined;
   isLoading: boolean;
+  isReadonly?: boolean;
+  isEditing: boolean;
+  onEdit: () => void;
+  onCopy: () => void;
+  onRetry: () => void;
 }
 
 const PureMessageActions = ({
@@ -25,28 +33,17 @@ const PureMessageActions = ({
   message,
   vote,
   isLoading,
+  isReadonly,
+  isEditing,
+  onEdit,
+  onCopy,
+  onRetry,
 }: PureMessageActionsProps) => {
   const { mutate } = useSWRConfig();
-  const [, copyToClipboard] = useCopyToClipboard();
+  const userRole = message.role === "user";
+  const isMobile = useIsMobile();
 
   if (isLoading) return null;
-  if (message.role === "user") return null;
-
-  const onCopy = async () => {
-    const textFromParts = message.parts
-      ?.filter((part) => part.type === "text")
-      .map((part) => part.text)
-      .join("\n")
-      .trim();
-
-    if (!textFromParts) {
-      toast.error("¡No hay texto que copiar!");
-      return;
-    }
-
-    await copyToClipboard(textFromParts);
-    toast.success("¡Texto copiado!");
-  };
 
   const upvoteResponse = async () => {
     const upvote = fetch("/api/vote", {
@@ -131,41 +128,73 @@ const PureMessageActions = ({
   const isUpvoted = vote?.isUpvoted === true;
   const isDownvoted = vote?.isUpvoted === false;
 
+  if ((isMobile && userRole) || isEditing) return null;
+
   return (
-    <div className="flex flex-row gap-2 transition-opacity group-hover/message:opacity-100 md:opacity-0">
-      <BetterTooltip content="Copiar texto">
+    <div
+      className={cn(
+        "flex flex-row gap-2 transition-opacity group-hover/message:opacity-100 md:opacity-0",
+        { "justify-end": userRole },
+      )}
+    >
+      {userRole && !isReadonly && (
+        <BetterTooltip content="Editar mensaje">
+          <PencilButton
+            variant="ghost"
+            size="icon"
+            className="text-foreground/80 size-6 rounded-sm"
+            onClick={onEdit}
+          >
+            <span className="sr-only">Editar mensaje</span>
+          </PencilButton>
+        </BetterTooltip>
+      )}
+      <BetterTooltip content="Copiar">
         <CopyButton
           variant="ghost"
           size="icon"
           onClick={onCopy}
-          className="hover:bg-background text-foreground/80 size-6 rounded-sm"
+          className="text-foreground/80 size-6 rounded-sm"
         >
           <span className="sr-only">Copiar</span>
         </CopyButton>
       </BetterTooltip>
-
-      <BetterTooltip content="Buena respuesta" hidden={isUpvoted}>
-        <LikeButton
-          variant="ghost"
-          size="icon"
-          disabled={vote?.isUpvoted}
-          onClick={upvoteResponse}
-          className="hover:bg-background text-foreground/80 size-6 rounded-sm"
-        >
-          <span className="sr-only">Votar buena respuesta</span>
-        </LikeButton>
-      </BetterTooltip>
-      <BetterTooltip content="Mala respuesta" hidden={isDownvoted}>
-        <DislikeButton
-          variant="ghost"
-          size="icon"
-          disabled={vote && !vote.isUpvoted}
-          onClick={downvoteResponse}
-          className="hover:bg-background text-foreground/80 size-6 rounded-sm"
-        >
-          <span className="sr-only">Votar mala respuesta</span>
-        </DislikeButton>
-      </BetterTooltip>
+      {!userRole && !isReadonly && (
+        <>
+          <BetterTooltip content="Reintentarlo">
+            <RefreshButton
+              variant="ghost"
+              size="icon"
+              onClick={onRetry}
+              className="text-foreground/80 size-6 rounded-sm"
+            >
+              <span className="sr-only">Reintentarlo</span>
+            </RefreshButton>
+          </BetterTooltip>
+          <BetterTooltip content="Buena respuesta" hidden={isUpvoted}>
+            <LikeButton
+              variant="ghost"
+              size="icon"
+              disabled={vote?.isUpvoted}
+              onClick={upvoteResponse}
+              className="text-foreground/80 size-6 rounded-sm"
+            >
+              <span className="sr-only">Votar buena respuesta</span>
+            </LikeButton>
+          </BetterTooltip>
+          <BetterTooltip content="Mala respuesta" hidden={isDownvoted}>
+            <DislikeButton
+              variant="ghost"
+              size="icon"
+              disabled={vote && !vote.isUpvoted}
+              onClick={downvoteResponse}
+              className="text-foreground/80 size-6 rounded-sm"
+            >
+              <span className="sr-only">Votar mala respuesta</span>
+            </DislikeButton>
+          </BetterTooltip>
+        </>
+      )}
     </div>
   );
 };
@@ -175,6 +204,7 @@ export const MessageActions = memo(
   (prevProps, nextProps) => {
     if (!equal(prevProps.vote, nextProps.vote)) return false;
     if (prevProps.isLoading !== nextProps.isLoading) return false;
+    if (prevProps.isEditing !== nextProps.isEditing) return false;
     return true;
   },
 );

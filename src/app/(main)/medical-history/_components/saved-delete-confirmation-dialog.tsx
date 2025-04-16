@@ -90,7 +90,7 @@ const SavedDeleteConfirmationDialog = ({
                 Cancelar
               </Button>
             </div>
-            <Button variant="mobile-danger" onClick={onDelete}>
+            <Button variant="mobile-primary" onClick={onDelete}>
               Eliminar
             </Button>
           </DrawerFooter>

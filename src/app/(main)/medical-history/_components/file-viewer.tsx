@@ -270,7 +270,7 @@ export default function FileViewer({
               Abrir en nueva pestaña
             </Button>
           </div>
-          <Button variant="mobile-danger" onClick={handleDownload}>
+          <Button variant="mobile-primary" onClick={handleDownload}>
             <Download />
             Descargar
           </Button>

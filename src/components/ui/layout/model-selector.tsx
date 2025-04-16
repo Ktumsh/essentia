@@ -27,7 +27,6 @@ import { CheckCircledIcon } from "../icons/common";
 
 export function ModelSelector({
   selectedModelId,
-  className,
   isMobile = false,
 }: {
   selectedModelId: string;
@@ -44,19 +43,22 @@ export function ModelSelector({
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger
-        asChild
-        className={cn(
-          "bg-accent md:bg-background dark:border-alternative/50 md:border-border text-foreground data-[state=open]:text-muted-foreground dark:data-[state=open]:bg-accent/50 data-[state=open]:bg-accent w-full md:w-auto",
-          className,
-        )}
-      >
-        <Button variant="outline" className="h-8 px-3">
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant={isMobile ? "outline" : "ghost"}
+          size="sm"
+          className="h-12 w-full rounded-xl md:h-8 md:w-fit md:rounded-md"
+        >
           {selectedChatModel?.name}
           {isMobile ? (
             <ChevronsUpDown className="ml-auto size-4" />
           ) : (
-            <ChevronDown />
+            <ChevronDown
+              className={cn(
+                "transition-transform",
+                open ? "rotate-180" : "rotate-0",
+              )}
+            />
           )}
         </Button>
       </DropdownMenuTrigger>
@@ -88,10 +90,10 @@ export function ModelSelector({
                         className="group/item h-auto! justify-between"
                       >
                         <div className="flex flex-col items-start gap-1 text-start">
-                          <div>{chatModel.name}</div>
-                          <div className="text-muted-foreground text-xs text-wrap">
+                          <span className="font-medium">{chatModel.name}</span>
+                          <p className="text-muted-foreground text-xs text-wrap">
                             {chatModel.description}
-                          </div>
+                          </p>
                         </div>
                         <div className="opacity-0 group-data-[active=true]/item:opacity-100">
                           <CheckCircledIcon className="text-primary size-5!" />
@@ -125,13 +127,12 @@ export function ModelSelector({
                 className="group/item flex flex-row items-center justify-between gap-4"
                 data-active={id === optimisticModelId}
               >
-                <div className="flex flex-col items-start gap-1">
-                  <div>{chatModel.name}</div>
-                  <div className="text-muted-foreground text-xs">
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">{chatModel.name}</span>
+                  <p className="text-muted-foreground text-xs">
                     {chatModel.description}
-                  </div>
+                  </p>
                 </div>
-
                 <div className="opacity-0 group-data-[active=true]/item:opacity-100">
                   <CheckCircledIcon className="text-primary" />
                 </div>

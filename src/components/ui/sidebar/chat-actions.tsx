@@ -178,7 +178,7 @@ const ChatActions = ({
                   <span className="text-foreground">{chat.title}</span>.
                 </p>
                 <p className="font-semibold text-amber-500">
-                  ¿Deseas continuar?
+                  Esta acción no se puede deshacer. ¿Deseas continuar?
                 </p>
               </div>
             </DrawerDescription>
@@ -190,8 +190,8 @@ const ChatActions = ({
                   </Button>
                 </DrawerClose>
               </div>
-              <Button variant="mobile-danger" onClick={handleDelete}>
-                Sí, continuar
+              <Button variant="mobile-destructive" onClick={handleDelete}>
+                Eliminar
               </Button>
             </DrawerFooter>
           </DrawerContent>
@@ -254,7 +254,7 @@ const ChatActions = ({
                   <strong className="text-foreground">{chat.title}</strong>.
                 </p>
                 <p className="font-semibold text-amber-500">
-                  ¿Deseas continuar?
+                  Esta acción no se puede deshacer. ¿Deseas continuar?
                 </p>
               </div>
             </DialogDescription>
@@ -265,8 +265,13 @@ const ChatActions = ({
                 Cancelar
               </Button>
             </DialogClose>
-            <Button disabled={isPending} radius="full" onClick={handleDelete}>
-              Continuar
+            <Button
+              variant="destructive"
+              disabled={isPending}
+              radius="full"
+              onClick={handleDelete}
+            >
+              Eliminar
             </Button>
           </DialogFooter>
         </DialogContent>

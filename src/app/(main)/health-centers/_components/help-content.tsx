@@ -1087,11 +1087,13 @@ const HelpContent = () => {
           </h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="hover:bg-accent flex items-center gap-3 rounded-lg p-2 transition-colors">
-              <div className="flex size-8 items-center justify-center rounded-full bg-red-500 text-white">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
                 <HospitalIcon className="size-4" />
               </div>
               <div>
-                <span className="text-sm font-medium">Centros de salud</span>
+                <p className="text-xs font-medium md:text-sm">
+                  Centros de salud
+                </p>
                 <p className="text-muted-foreground text-xs">
                   Hospitales y clínicas
                 </p>
@@ -1099,11 +1101,11 @@ const HelpContent = () => {
             </div>
 
             <div className="hover:bg-accent flex items-center gap-3 rounded-lg p-2 transition-colors">
-              <div className="flex size-8 items-center justify-center rounded-full bg-blue-500 text-white">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white">
                 <PharmacyIcon className="size-4" />
               </div>
               <div>
-                <span className="text-sm font-medium">Farmacias</span>
+                <p className="text-xs font-medium md:text-sm">Farmacias</p>
                 <p className="text-muted-foreground text-xs">
                   Medicamentos y más
                 </p>
@@ -1111,19 +1113,19 @@ const HelpContent = () => {
             </div>
 
             <div className="hover:bg-accent flex items-center gap-3 rounded-lg p-2 transition-colors">
-              <div className="relative size-8 rounded-full bg-green-500"></div>
+              <div className="relative size-8 shrink-0 rounded-full bg-green-500"></div>
               <div>
-                <span className="text-sm font-medium">Tu ubicación</span>
+                <p className="text-xs font-medium md:text-sm">Tu ubicación</p>
                 <p className="text-muted-foreground text-xs">Posición actual</p>
               </div>
             </div>
 
             <div className="hover:bg-accent flex items-center gap-3 rounded-lg p-2 transition-colors">
-              <div className="flex size-8 items-center justify-center rounded-full bg-orange-100 text-orange-500">
-                <Navigation className="size-5" />
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-500">
+                <Navigation className="size-4" />
               </div>
               <div>
-                <span className="text-sm font-medium">Indicaciones</span>
+                <p className="text-xs font-medium md:text-sm">Indicaciones</p>
                 <p className="text-muted-foreground text-xs">Cómo llegar</p>
               </div>
             </div>

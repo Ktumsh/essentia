@@ -83,7 +83,7 @@ const FeedbackBox = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <MessageButton variant="ghost" size="sm" className="border">
+        <MessageButton variant="ghost" size="sm">
           Feedback
         </MessageButton>
       </PopoverTrigger>

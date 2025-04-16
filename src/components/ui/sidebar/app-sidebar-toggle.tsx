@@ -38,14 +38,21 @@ const AppSidebarToggle = () => {
       align="start"
     >
       <Button
+        size="icon"
         variant="ghost"
         onClick={() => toggleSidebar()}
-        className="text-foreground/80 size-9"
+        className="text-foreground/80 size-8 md:size-9"
       >
         {isOpen ? (
-          <SidebarFillIcon aria-hidden="true" className="size-5! rotate-180" />
+          <SidebarFillIcon
+            aria-hidden="true"
+            className="size-6! rotate-180 md:size-5!"
+          />
         ) : (
-          <SidebarIcon aria-hidden="true" className="size-5! rotate-180" />
+          <SidebarIcon
+            aria-hidden="true"
+            className="size-6! rotate-180 md:size-5!"
+          />
         )}
         <span className="sr-only">
           {isOpen ? "Ocultar historial de chat" : "Mostrar historial de chat"}

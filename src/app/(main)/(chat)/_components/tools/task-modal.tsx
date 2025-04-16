@@ -586,7 +586,7 @@ const TaskModal = ({
             </div>
             <Button
               disabled={loading || !hasChanges}
-              variant="mobile-danger"
+              variant="mobile-primary"
               onClick={handleSubmit(handleSave, onError)}
             >
               {loading ? <Loader className="animate-spin" /> : "Guardar"}

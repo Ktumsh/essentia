@@ -126,7 +126,7 @@ const EditAvatarModal = ({
             </ReactCrop>
           </div>
           <DrawerFooter>
-            <Button variant="mobile-danger" fullWidth onClick={handleSave}>
+            <Button variant="mobile-primary" fullWidth onClick={handleSave}>
               Guardar nueva imagen de perfil
             </Button>
           </DrawerFooter>

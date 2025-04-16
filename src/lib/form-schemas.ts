@@ -383,3 +383,12 @@ export const AIRecommendationSchema = z.object({
     }),
   ),
 });
+
+export const chatTitleSchema = z.object({
+  chatTitle: z
+    .string()
+    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_FIELD) })
+    .max(100, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_TITLE) }),
+});
+
+export type ChatTitleFormData = z.infer<typeof chatTitleSchema>;

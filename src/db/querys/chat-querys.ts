@@ -98,7 +98,7 @@ export async function saveMessages({
   messages: Array<ChatMessage>;
 }) {
   try {
-    return await db.insert(chatMessage).values(messages);
+    return await db.insert(chatMessage).values(messages).onConflictDoNothing();
   } catch (error) {
     console.error("Error al guardar los mensajes:", error);
     throw error;

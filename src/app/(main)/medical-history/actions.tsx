@@ -40,7 +40,7 @@ export async function generateAiMedicalRecommendations(
   )[] = [
     {
       type: "text",
-      text: prompt,
+      text: payload.question || "",
     },
     ...files,
   ];
@@ -48,6 +48,7 @@ export async function generateAiMedicalRecommendations(
   try {
     const { object: result } = await generateObject({
       model: modelProvider.languageModel("chat-model-large"),
+      system: prompt,
       schema: AIRecommendationSchema,
       messages: [
         {

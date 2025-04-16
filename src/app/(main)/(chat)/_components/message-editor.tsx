@@ -65,16 +65,17 @@ export function MessageEditor({
   };
 
   return (
-    <div className="bg-background outline-danger/50 flex w-full flex-col gap-2 rounded-xl px-2.5 py-1.5 outline-2 md:px-4 md:py-2.5">
+    <div className="bg-background border-alternative flex w-full flex-col gap-2 rounded-xl border px-2.5 py-1.5 md:px-4 md:py-2.5">
       <Textarea
         ref={textareaRef}
-        className="text-foreground [field-sizing:content] h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto rounded-none border-none p-0 text-base! shadow-none focus-visible:ring-0"
+        className="text-foreground [field-sizing:content] h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto rounded-none border-none p-0 shadow-none focus-visible:ring-0"
         value={draftContent}
         onChange={handleInput}
       />
 
       <div className="flex flex-row justify-end gap-2">
         <Button
+          size="sm"
           variant="outline"
           radius="full"
           onClick={() => {
@@ -83,8 +84,20 @@ export function MessageEditor({
         >
           Cancelar
         </Button>
-        <Button radius="full" disabled={isSubmitting} onClick={handleSubmit}>
-          {isSubmitting ? <Loader className="size-4 animate-spin" /> : "Enviar"}
+        <Button
+          size="sm"
+          radius="full"
+          disabled={isSubmitting}
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader className="size-4 animate-spin" />
+              Enviando...
+            </>
+          ) : (
+            "Enviar"
+          )}
         </Button>
       </div>
     </div>

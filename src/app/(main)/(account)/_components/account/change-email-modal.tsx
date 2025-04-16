@@ -210,7 +210,7 @@ const ChangeEmailModal = ({
             </div>
           )}
           <Button
-            variant="mobile-danger"
+            variant="mobile-primary"
             className="justify-center"
             disabled={
               isPending || isVerifying || (step === 2 && code.length < 6)

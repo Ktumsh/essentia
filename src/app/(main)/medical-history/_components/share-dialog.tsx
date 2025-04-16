@@ -376,7 +376,7 @@ export default function ShareDialog({
               </Button>
             </div>
             <Button
-              variant="mobile-danger"
+              variant="mobile-primary"
               onClick={() => {
                 if (shareMethod === "email") {
                   handleSubmit(handleShare)();

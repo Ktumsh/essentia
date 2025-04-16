@@ -111,7 +111,7 @@ const DeleteAccountModal = ({
               </DrawerClose>
             </div>
             <Button
-              variant="mobile-danger"
+              variant="mobile-primary"
               disabled={isPending}
               onClick={handleDeleteUser}
             >

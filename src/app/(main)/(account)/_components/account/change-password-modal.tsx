@@ -215,7 +215,7 @@ const ChangePasswordModal = ({
           <DrawerFooter>
             <Button
               type="button"
-              variant="mobile-danger"
+              variant="mobile-primary"
               disabled={isPending}
               onClick={handleSubmit(onSubmit)}
             >

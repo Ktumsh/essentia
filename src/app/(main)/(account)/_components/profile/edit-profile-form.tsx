@@ -408,7 +408,7 @@ const EditProfileForm = ({
             </ScrollArea>
             <DrawerFooter>
               <Button
-                variant="mobile-danger"
+                variant="mobile-primary"
                 disabled={isPending}
                 onClick={handleSubmit(onSubmit, onError)}
               >

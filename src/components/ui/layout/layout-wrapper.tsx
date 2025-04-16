@@ -100,10 +100,10 @@ const LayoutWrapper = ({
                 variant="ghost"
                 size="icon"
                 onClick={() => router.push("/")}
-                className="bg-background/80 shadow-little-pretty absolute top-2 left-0 z-10 h-8 w-12 justify-end gap-0.5 rounded-l-none border px-2 backdrop-blur-sm backdrop-saturate-150"
+                className="bg-background/80 shadow-little-pretty absolute top-2 left-0 z-10 h-9 w-14 justify-end gap-0.5 rounded-l-none border px-2 backdrop-blur-sm backdrop-saturate-150"
               >
-                <HomeFillIcon className="text-primary" />
-                <ArrowLeft className="size-2.5!" />
+                <HomeFillIcon className="text-primary size-5!" />
+                <ArrowLeft className="size-3!" />
                 <span className="sr-only">Volver a la página principal</span>
               </Button>
               {children}
