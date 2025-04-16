@@ -11,6 +11,7 @@ import { useProfileMessage } from "@/hooks/use-profile-message";
 import { cn } from "@/lib/utils";
 
 import CenterSwitch from "./center-switch";
+import HelpButton from "./help-button";
 import MapActions from "./map-actions";
 import MapHeader from "./map-header";
 import MapIndicator from "./map-indicator";
@@ -280,6 +281,7 @@ const GoogleMaps = () => {
           travelMode={travelMode}
           clearDirections={clearDirections}
         />
+        <HelpButton />
       </div>
     </div>
   );

@@ -32,39 +32,36 @@ const MapActions = (props: MapActionsProps) => {
           <Button
             aria-label="Centrar ubicación"
             variant="outline"
-            radius="full"
             size="icon"
             onClick={centerLocation}
-            className="bg-background size-11! md:size-9!"
+            className="bg-background size-9"
           >
             <span className="sr-only">Centrar ubicación</span>
-            <CenterLocationIcon className="size-6! md:size-5!" />
+            <CenterLocationIcon className="size-5!" />
           </Button>
         </BetterTooltip>
         <BetterTooltip content="Aumentar" side="left">
           <Button
             aria-label="Aumentar"
             variant="outline"
-            radius="full"
             size="icon"
             onClick={handleZoomIn}
-            className="bg-background size-11! md:size-9!"
+            className="bg-background size-9"
           >
             <span className="sr-only">Aumentar</span>
-            <ZoomInIcon className="size-6! md:size-5!" />
+            <ZoomInIcon className="size-5!" />
           </Button>
         </BetterTooltip>
         <BetterTooltip content="Alejar" side="left">
           <Button
             aria-label="Alejar"
             variant="outline"
-            radius="full"
             size="icon"
             onClick={handleZoomOut}
-            className="bg-background size-11! md:size-9!"
+            className="bg-background size-9"
           >
             <span className="sr-only">Alejar</span>
-            <ZoomOutIcon className="size-6! md:size-5!" />
+            <ZoomOutIcon className="size-5!" />
           </Button>
         </BetterTooltip>
       </div>
