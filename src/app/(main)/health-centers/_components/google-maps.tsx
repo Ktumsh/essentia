@@ -10,7 +10,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { cn } from "@/lib/utils";
 
-import CenterSwitch from "./center-switch";
 import HelpButton from "./help-button";
 import MapActions from "./map-actions";
 import MapHeader from "./map-header";
@@ -243,9 +242,7 @@ const GoogleMaps = () => {
         !isDismissed && "min-h-[calc(100dvh-148px)]",
       )}
     >
-      <MapHeader>
-        <CenterSwitch onSwitchChange={handleSwitchChange} />
-      </MapHeader>
+      <MapHeader onSwitchChange={handleSwitchChange} />
       <div
         className={cn(
           "h-[calc(100dvh-68px)] md:relative",

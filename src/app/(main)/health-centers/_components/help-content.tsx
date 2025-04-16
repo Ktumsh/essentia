@@ -59,6 +59,9 @@ const HelpContent = () => {
 
   return (
     <div className="from-background to-accent overflow-y-auto bg-linear-to-br/shorter">
+      <p className="text-foreground/80 p-4 pb-0 text-sm md:hidden">
+        Un buscador de centros de salud y farmacias cercanas a tu ubicación 🔎🌎
+      </p>
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-4 grid w-full grid-cols-3 rounded-full p-1 md:w-fit">

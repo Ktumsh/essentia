@@ -110,8 +110,8 @@ export default function HelpButton() {
             </DrawerTitle>
           </DrawerHeader>
           <DrawerDescription className="sr-only">
-            Aquí encontrarás información útil sobre cómo usar la aplicación y
-            sus funciones.
+            Un buscador de centros de salud y farmacias cercanas a tu ubicación
+            🔎🌎
           </DrawerDescription>
           <HelpContent />
         </DrawerContent>
@@ -161,21 +161,23 @@ export default function HelpButton() {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent isSecondary isBlurred className="sm:max-w-xl">
-          <DialogHeader isSecondary className="flex-row items-center p-6!">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className="bg-premium mb-0! flex size-7 items-center justify-center rounded-full"
-            >
-              <Info className="size-4 text-white" />
-            </motion.div>
-            <DialogTitle className="mb-0! text-indigo-500">
-              Guía interactiva
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              Aquí encontrarás información útil sobre cómo usar la aplicación y
-              sus funciones.
+          <DialogHeader isSecondary className="p-6!">
+            <div className="flex items-center gap-2">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                className="bg-premium mb-0! flex size-7 items-center justify-center rounded-full"
+              >
+                <Info className="size-4 text-white" />
+              </motion.div>
+              <DialogTitle className="mb-0! text-indigo-500">
+                Guía interactiva
+              </DialogTitle>
+            </div>
+            <DialogDescription>
+              Un buscador de centros de salud y farmacias cercanas a tu
+              ubicación 🔎🌎
             </DialogDescription>
           </DialogHeader>
           <HelpContent />
