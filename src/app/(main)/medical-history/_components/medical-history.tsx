@@ -247,6 +247,8 @@ const MedicalHistory = () => {
   const clearFilters = useCallback(() => {
     setSelectedTags([]);
     setSearchTerm("");
+    setDocumentTypeFilter("all");
+    setDocumentCategoryFilter("all");
   }, []);
 
   // Handler para ver un documento (utilizado en ActivitySection)
@@ -393,30 +395,6 @@ const MedicalHistory = () => {
         setDialogs={setDialogs}
       />
 
-      {/* Filtros y búsqueda */}
-      <MedicalHistoryFilters
-        medicalTags={medicalTags || []}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        clearFilters={clearFilters}
-        getTagCount={getTagCount}
-        filteredHistory={filteredHistory}
-        onAIClick={openAIRecommendationsForSelected}
-      />
-
-      {/* Actividad reciente */}
-      <ActivitySection
-        activities={activities || []}
-        onViewDocument={handleViewDocumentFromActivity}
-        onRestoreDocument={handleRestoreDocument}
-        hasNewActivity={hasNewActivity}
-        onViewAll={() =>
-          setDialogs((prev) => ({ ...prev, isActivityFullViewOpen: true }))
-        }
-      />
-
       {isHistoryLoading || isRecommendationsLoading ? (
         <StorageLimitLoading />
       ) : (
@@ -432,6 +410,17 @@ const MedicalHistory = () => {
         )
       )}
 
+      {/* Actividad reciente */}
+      <ActivitySection
+        activities={activities || []}
+        onViewDocument={handleViewDocumentFromActivity}
+        onRestoreDocument={handleRestoreDocument}
+        hasNewActivity={hasNewActivity}
+        onViewAll={() =>
+          setDialogs((prev) => ({ ...prev, isActivityFullViewOpen: true }))
+        }
+      />
+
       <ActivityFullView
         isOpen={dialogs.isActivityFullViewOpen}
         onClose={() =>
@@ -440,6 +429,19 @@ const MedicalHistory = () => {
         activities={activities || []}
         onViewDocument={handleViewDocumentFromActivity}
         onRestoreDocument={handleRestoreDocument}
+      />
+
+      {/* Filtros y búsqueda */}
+      <MedicalHistoryFilters
+        medicalTags={medicalTags || []}
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        clearFilters={clearFilters}
+        getTagCount={getTagCount}
+        filteredHistory={filteredHistory}
+        onAIClick={openAIRecommendationsForSelected}
       />
 
       <MedicalHistoryList
@@ -453,6 +455,8 @@ const MedicalHistory = () => {
         isOpen={isOpenOptions}
         setIsOpen={setIsOpenOptions}
         isHistoryLoading={isHistoryLoading}
+        searchTerm={searchTerm}
+        selectedTags={selectedTags}
         {...listHandlers}
       />
 

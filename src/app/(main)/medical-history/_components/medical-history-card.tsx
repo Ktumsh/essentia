@@ -265,7 +265,7 @@ const MedicalHistoryCard = ({
         }
       }}
       className={cn(
-        "group/item active:bg-accent overflow-hidden shadow-xs transition-shadow duration-200 hover:shadow-md active:duration-75 md:active:bg-inherit",
+        "group/item active:bg-accent overflow-hidden shadow-none transition-shadow duration-200 hover:shadow-md active:duration-75 md:active:bg-inherit",
         viewMode === "grid"
           ? "flex flex-col border-t-2"
           : "flex flex-row items-stretch border-l-2",
@@ -320,16 +320,19 @@ const MedicalHistoryCard = ({
                   <Badge
                     key={tag}
                     variant="outline"
-                    className={cn("h-5 px-1.5 py-0 text-xs", getTagColor(tag))}
+                    className={cn(
+                      "h-6 rounded-[6px] border-0 px-2 py-0 text-xs font-normal",
+                      getTagColor(tag),
+                    )}
                   >
-                    <Tag className="mr-1 size-2.5!" />
+                    <Tag className="size-2.5!" />
                     {tag}
                   </Badge>
                 ))}
                 {item.tags.length > 2 && (
                   <Badge
                     variant="outline"
-                    className="bg-accent text-foreground/80 h-5 rounded-full px-1.5 py-0 text-xs"
+                    className="bg-accent text-foreground/80 h-6 rounded-[6px] px-2 py-0 text-xs"
                   >
                     +{item.tags.length - 2}
                   </Badge>
@@ -378,18 +381,18 @@ const MedicalHistoryCard = ({
                         key={tag}
                         variant="outline"
                         className={cn(
-                          "h-5 px-1.5 py-0 text-xs",
+                          "h-6 rounded-[6px] border-0 px-2 py-0 text-xs font-normal",
                           getTagColor(tag),
                         )}
                       >
-                        <Tag className="mr-1 size-2.5!" />
+                        <Tag className="size-2.5!" />
                         {tag}
                       </Badge>
                     ))}
                     {item.tags.length > 4 && (
                       <Badge
                         variant="outline"
-                        className="bg-accent text-foreground/80 h-5 rounded-full px-1.5 py-0 text-xs"
+                        className="bg-accent text-foreground/80 h-6 rounded-[6px] px-2 py-0 text-xs"
                       >
                         +{item.tags.length - 4}
                       </Badge>

@@ -142,12 +142,15 @@ const MedicalHistoryFilters = ({
       </Popover>
       {/* Etiquetas seleccionadas */}
       {selectedTags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {selectedTags.map((tag) => (
             <Badge
               key={tag}
               variant="outline"
-              className={cn("flex items-center gap-1", getTagColor(tag))}
+              className={cn(
+                "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                getTagColor(tag),
+              )}
             >
               {tag}
               <button

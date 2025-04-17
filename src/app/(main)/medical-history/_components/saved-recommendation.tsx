@@ -4,13 +4,13 @@ import {
   Lightbulb,
   BookmarkCheck,
   Search,
-  FilterX,
   Sparkles,
   LockKeyhole,
   LayoutGrid,
   List,
 } from "lucide-react";
 import { useState } from "react";
+import { useDebounceCallback } from "usehooks-ts";
 
 import { LockButton } from "@/components/button-kit/lock-button";
 import { Badge } from "@/components/kit/badge";
@@ -72,6 +72,16 @@ export default function SavedRecommendations({
   const [priorityFilter, setPriorityFilter] = useState<
     "all" | "high" | "medium" | "low"
   >("all");
+
+  const [inputValue, setInputValue] = useState(searchTerm);
+
+  const debouncedSetSearchTerm = useDebounceCallback(setSearchTerm, 150);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    debouncedSetSearchTerm(value);
+  };
 
   const { user } = useUserProfile();
 
@@ -170,8 +180,8 @@ export default function SavedRecommendations({
                   <Input
                     placeholder="Buscar recomendaciones..."
                     className="bg-background h-9 rounded-full border-indigo-500 pl-8 text-sm shadow-none focus:border-indigo-500! focus-visible:ring-indigo-300 dark:focus:ring-indigo-700 dark:focus-visible:ring-indigo-700"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    value={inputValue}
+                    onChange={handleChange}
                   />
                 </div>
                 <Select
@@ -234,17 +244,6 @@ export default function SavedRecommendations({
                       </Button>
                     </BetterTooltip>
                   </div>
-                )}
-                {(searchTerm || priorityFilter !== "all") && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={clearFilters}
-                    className="size-9"
-                    title="Limpiar filtros"
-                  >
-                    <FilterX />
-                  </Button>
                 )}
               </div>
             ) : (

@@ -102,7 +102,7 @@ const SavedRecommendationsCard = ({
   return (
     <Card
       className={cn(
-        "group/item flex flex-col overflow-hidden border border-indigo-200 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-indigo-900",
+        "group/item flex flex-col overflow-hidden border border-indigo-200 shadow-none transition-shadow duration-200 hover:shadow-md dark:border-indigo-900",
         viewMode === "grid" ? "border-t-2" : "border-l-2",
         priorityBorderColor,
       )}
@@ -120,7 +120,7 @@ const SavedRecommendationsCard = ({
                 <Badge
                   className={cn(
                     priorityColor,
-                    "bg-opacity-10 h-5 px-1.5 py-0 text-xs",
+                    "bg-opacity-10 h-6 rounded-[6px] px-2 py-0 text-xs",
                     priorityBgColor,
                   )}
                 >
@@ -143,16 +143,19 @@ const SavedRecommendationsCard = ({
                   <Badge
                     key={tag}
                     variant="outline"
-                    className={cn("h-5 px-1.5 py-0 text-xs", getTagColor(tag))}
+                    className={cn(
+                      "h-6 rounded-[6px] border-0 px-2 py-0 text-xs font-normal",
+                      getTagColor(tag),
+                    )}
                   >
-                    <Tag className="size-2!" />
+                    <Tag className="size-2.5!" />
                     {tag}
                   </Badge>
                 ))}
                 {recommendation.relatedTags.length > 2 && (
                   <Badge
                     variant="outline"
-                    className="bg-accent text-foreground/80 h-5 rounded-full px-1.5 py-0 text-xs"
+                    className="bg-accent text-foreground/80 h-6 rounded-[6px] px-2 py-0 text-xs"
                   >
                     +{recommendation.relatedTags.length - 2}
                   </Badge>
@@ -199,18 +202,18 @@ const SavedRecommendationsCard = ({
                       key={tag}
                       variant="outline"
                       className={cn(
-                        "h-5 px-1.5 py-0 text-xs",
+                        "h-6 rounded-[6px] border-0 px-2 py-0 text-xs font-normal",
                         getTagColor(tag),
                       )}
                     >
-                      <Tag className="mr-1 size-2.5!" />
+                      <Tag className="size-2.5!" />
                       {tag}
                     </Badge>
                   ))}
                   {recommendation.relatedTags.length > 4 && (
                     <Badge
                       variant="outline"
-                      className="bg-accent text-foreground/80 h-5 rounded-full px-1.5 py-0 text-xs"
+                      className="bg-accent text-foreground/80 h-6 rounded-[6px] px-2 py-0 text-xs"
                     >
                       +{recommendation.relatedTags.length - 4}
                     </Badge>
@@ -228,7 +231,7 @@ const SavedRecommendationsCard = ({
                 <Badge
                   className={cn(
                     priorityColor,
-                    "bg-opacity-10 h-5 px-1.5 py-0 text-xs",
+                    "bg-opacity-10 h-6 rounded-[6px] px-2 py-0 text-xs",
                     priorityBgColor,
                   )}
                 >

@@ -13,59 +13,59 @@ import type { AIRecommendationType } from "../_components/ai-recommendation";
 export const getTagColor = (tag: string): string => {
   const medicalCategories: Record<string, string> = {
     Alergia:
-      "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/20",
+      "bg-red-50 text-red-600 border-red-100 dark:bg-red-950 dark:text-red-400 dark:border-red-900/50",
     Cirugía:
-      "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-900/10 dark:text-purple-400 dark:border-purple-900/20",
+      "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-900/50",
     "Consulta General":
-      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/10 dark:text-blue-400 dark:border-blue-900/20",
+      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/50",
     Diagnóstico:
-      "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/10 dark:text-amber-400 dark:border-amber-900/20",
+      "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900/50",
     "Enfermedad Crónica":
-      "bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-900/10 dark:text-rose-400 dark:border-rose-900/20",
+      "bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-950 dark:text-rose-400 dark:border-rose-900/50",
     "Examen de Laboratorio":
-      "bg-cyan-50 text-cyan-600 border-cyan-100 dark:bg-cyan-900/10 dark:text-cyan-400 dark:border-cyan-900/20",
+      "bg-cyan-50 text-cyan-600 border-cyan-100 dark:bg-cyan-950 dark:text-cyan-400 dark:border-cyan-900/50",
     "Examen de Imagenología":
-      "bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-900/10 dark:text-indigo-400 dark:border-indigo-900/20",
+      "bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-950 dark:text-indigo-400 dark:border-indigo-900/50",
     Medicación:
-      "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/10 dark:text-emerald-400 dark:border-emerald-900/20",
+      "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900/50",
     Vacunación:
-      "bg-green-50 text-green-600 border-green-100 dark:bg-green-900/10 dark:text-green-400 dark:border-green-900/20",
+      "bg-green-50 text-green-600 border-green-100 dark:bg-green-950 dark:text-green-400 dark:border-green-900/50",
     "Salud Mental":
-      "bg-violet-50 text-violet-600 border-violet-100 dark:bg-violet-900/10 dark:text-violet-400 dark:border-violet-900/20",
+      "bg-violet-50 text-violet-600 border-violet-100 dark:bg-violet-950 dark:text-violet-400 dark:border-violet-900/50",
     Nutrición:
-      "bg-lime-50 text-lime-600 border-lime-100 dark:bg-lime-900/10 dark:text-lime-400 dark:border-lime-900/20",
+      "bg-lime-50 text-lime-600 border-lime-200 dark:bg-lime-950 dark:text-lime-400 dark:border-lime-900/50",
     Odontología:
-      "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-900/10 dark:text-sky-400 dark:border-sky-900/20",
+      "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-950 dark:text-sky-400 dark:border-sky-900/50",
     Oftalmología:
-      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/10 dark:text-blue-400 dark:border-blue-900/20",
+      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/50",
     Pediatría:
-      "bg-orange-50 text-orange-600 border-orange-100 dark:bg-orange-900/10 dark:text-orange-400 dark:border-orange-900/20",
+      "bg-orange-50 text-orange-600 border-orange-100 dark:bg-orange-950 dark:text-orange-400 dark:border-orange-900/50",
     Cardiología:
-      "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/20",
+      "bg-red-50 text-red-600 border-red-100 dark:bg-red-950 dark:text-red-400 dark:border-red-900/50",
     Dermatología:
-      "bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-900/10 dark:text-pink-400 dark:border-pink-900/20",
+      "bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-950 dark:text-pink-400 dark:border-pink-900/50",
     Neurología:
-      "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-900/10 dark:text-purple-400 dark:border-purple-900/20",
+      "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-900/50",
     "Certificado Médico":
-      "bg-slate-50 text-slate-600 border-slate-100 dark:bg-slate-900/10 dark:text-slate-400 dark:border-slate-900",
+      "bg-lime-50 text-lime-600 border-lime-200 dark:bg-lime-950 dark:text-lime-400 dark:border-lime-900/50",
     "Informe Médico":
-      "bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-900/10 dark:text-gray-400 dark:border-gray-900/20",
+      "bg-fuchsia-50 text-fuchsia-600 border-fuchsia-100 dark:bg-fuchsia-950 dark:text-fuchsia-400 dark:border-fuchsia-900/50",
     Epicrisis:
-      "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/10 dark:text-amber-400 dark:border-amber-900/20",
+      "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900/50",
     "Consentimiento Informado":
-      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/10 dark:text-blue-400 dark:border-blue-900/20",
+      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/50",
     "Receta Médica":
-      "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/10 dark:text-emerald-400 dark:border-emerald-900/20",
+      "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900/50",
     Rehabilitación:
-      "bg-teal-50 text-teal-600 border-teal-100 dark:bg-teal-900/10 dark:text-teal-400 dark:border-teal-900/20",
+      "bg-teal-50 text-teal-600 border-teal-100 dark:bg-teal-950 dark:text-teal-400 dark:border-teal-900/50",
     Ginecología:
-      "bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-900/10 dark:text-pink-400 dark:border-pink-900/20",
-    Otro: "bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-900/10 dark:text-gray-400 dark:border-gray-900",
+      "bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-950 dark:text-pink-400 dark:border-pink-900/50",
+    Otro: "bg-stone-50 text-stone-600 border-stone-200 dark:bg-stone-950 dark:text-stone-400 dark:border-stone-900",
   };
 
   return (
     medicalCategories[tag] ||
-    "bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-900/10 dark:text-gray-400 dark:border-gray-900/20"
+    "bg-stone-50 text-stone-600 border-stone-200 dark:bg-stone-950 dark:text-stone-400 dark:border-stone-900/20"
   );
 };
 
@@ -173,15 +173,15 @@ export const getActionText = (action: string) => {
 export const getActionColor = (action: string) => {
   switch (action) {
     case "created":
-      return "bg-green-50 text-green-600 border-green-100 dark:bg-green-900/10 dark:text-green-400 dark:border-green-900/20";
+      return "bg-green-50 text-green-600 border-green-100 dark:bg-green-950 dark:text-green-400 dark:border-green-900/20";
     case "updated":
-      return "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/10 dark:text-blue-400 dark:border-blue-900/20";
+      return "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/20";
     case "deleted":
-      return "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/20";
+      return "bg-red-50 text-red-600 border-red-100 dark:bg-red-950 dark:text-red-400 dark:border-red-900/20";
     case "restored":
-      return "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/10 dark:text-amber-400 dark:border-amber-900/20";
+      return "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900/20";
     default:
-      return "bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-900/10 dark:text-gray-400 dark:border-gray-900/20";
+      return "bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-950 dark:text-gray-400 dark:border-gray-900/20";
   }
 };
 

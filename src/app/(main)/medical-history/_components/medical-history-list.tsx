@@ -42,6 +42,8 @@ interface MedicalHistoryListProps {
   setIsOpen: (open: boolean) => void;
   clearFilters: () => void;
   isHistoryLoading: boolean;
+  searchTerm: string;
+  selectedTags: string[];
 }
 
 const MedicalHistoryList = ({
@@ -62,6 +64,8 @@ const MedicalHistoryList = ({
   setIsOpen,
   clearFilters,
   isHistoryLoading,
+  searchTerm,
+  selectedTags,
 }: MedicalHistoryListProps) => {
   const isMobile = useIsMobile();
   const { getViewMode, setViewMode } = useViewMode();
@@ -165,7 +169,12 @@ const MedicalHistoryList = ({
           <MedicalHistoryLoading viewMode={isMobile ? "grid" : viewMode} />
         ) : docs.length === 0 ? (
           <EmptyState
-            hasFilters={documentTypeFilter !== "all"}
+            hasFilters={
+              documentTypeFilter !== "all" ||
+              documentCategoryFilter !== "all" ||
+              searchTerm.trim() !== "" ||
+              selectedTags.length > 0
+            }
             onClearFilters={clearFilters}
             onAddDocument={onAddDocument}
           />

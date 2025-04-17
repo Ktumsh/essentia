@@ -385,7 +385,7 @@ export default function MedicalHistoryForm({
                           key={tagId}
                           variant="outline"
                           className={cn(
-                            "flex items-center gap-1",
+                            "flex h-6 items-center gap-1 rounded-[6px] border-0 px-2 py-0",
                             getTagColor(tag!.name),
                           )}
                         >
@@ -396,9 +396,9 @@ export default function MedicalHistoryForm({
                                 field.value.filter((t) => t !== tagId),
                               )
                             }
-                            className="ml-1 rounded-full p-0.5 hover:bg-black/10 dark:hover:bg-white/10"
+                            className="rounded-full p-0.5 hover:bg-black/10 dark:hover:bg-white/10"
                           >
-                            <X className="h-3 w-3" />
+                            <X className="size-3" />
                           </button>
                         </Badge>
                       );
