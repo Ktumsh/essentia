@@ -1,1 +1,0 @@
-ALTER TABLE "notification_subscription" ADD COLUMN "timezone" text DEFAULT 'UTC' NOT NULL;

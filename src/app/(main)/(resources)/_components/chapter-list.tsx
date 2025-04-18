@@ -15,22 +15,22 @@ import { Badge } from "@/components/kit/badge";
 import { CircularProgress } from "@/components/kit/circular-progress";
 import { cn } from "@/lib/utils";
 
-import type { Modules } from "@/types/resource";
+import type { Stages } from "@/types/resource";
 
 interface ChapterListProps {
-  modules?: Modules[];
-  resourceSlug?: string;
+  stages?: Stages[];
+  routeSlug?: string;
   completedLessons?: string[];
-  moduleProgress: { [moduleId: string]: number };
+  stageProgress: { [moduleId: string]: number };
   onLessonClick?: (href: string) => void;
   isDisaled?: boolean;
 }
 
 const ChapterList = ({
-  modules,
-  resourceSlug,
+  stages,
+  routeSlug,
   completedLessons = [],
-  moduleProgress,
+  stageProgress,
   onLessonClick,
   isDisaled = false,
 }: ChapterListProps) => {
@@ -55,7 +55,7 @@ const ChapterList = ({
     return "stroke-green-500";
   };
 
-  const currentModule = modules
+  const currentModule = stages
     ?.map((mod, index) =>
       mod.lessons.some((l) => pathname.includes(l.slug))
         ? `module-${index}`
@@ -66,37 +66,35 @@ const ChapterList = ({
   return (
     <Accordion
       type="multiple"
-      defaultValue={
-        pathname === `/${resourceSlug}` ? ["module-0"] : currentModule
-      }
+      defaultValue={pathname === `/${routeSlug}` ? ["module-0"] : currentModule}
       className="mt-0! w-full space-y-4"
     >
-      {modules?.map((item, index) => {
+      {stages?.map((item, index) => {
         return (
           <AccordionItem
             disabled={isDisaled}
-            key={item.module.title}
+            key={item.stage.title}
             value={`module-${index}`}
             className="rounded-2xl border!"
           >
             <AccordionTrigger className="text-foreground/80 gap-2 px-3 py-2 underline-offset-2 md:gap-4 md:px-6 md:py-4 md:hover:no-underline">
               <CircularProgress
-                aria-label={moduleProgress[item.module.id] + "%"}
-                value={moduleProgress[item.module.id] || 0}
+                aria-label={stageProgress[item.stage.id] + "%"}
+                value={stageProgress[item.stage.id] || 0}
                 showLabel
                 labelClassName="text-xxs"
                 size={32}
                 strokeWidth={3}
                 progressClassName={getProgressColor(
-                  moduleProgress[item.module.id],
+                  stageProgress[item.stage.id],
                 )}
               />
               <div className="w-full">
                 <span className="text-foreground/80 text-sm font-normal text-nowrap">
-                  Capítulo {item.module.order}
+                  Etapa {item.stage.order + 1}
                 </span>
                 <h4 className="text-foreground text-base">
-                  {item.module.title}
+                  {item.stage.title}
                 </h4>
               </div>
             </AccordionTrigger>
@@ -113,7 +111,7 @@ const ChapterList = ({
                 {item.lessons.map((lesson) => {
                   const isActive = pathname.includes(lesson.slug);
                   const completed = completedLessons.includes(lesson.id);
-                  const href = `/${resourceSlug}/${item.module.slug}/${lesson.slug}`;
+                  const href = `/${routeSlug}/${item.stage.slug}/${lesson.slug}`;
 
                   return (
                     <li key={lesson.slug}>
@@ -139,16 +137,16 @@ const ChapterList = ({
                     </li>
                   );
                 })}
-                {item.exam && (
-                  <li key={`exam-${item.exam.slug}`}>
+                {item.review && (
+                  <li key={`exam-${item.review.slug}`}>
                     <Link
-                      href={`/${resourceSlug}/${item.module.slug}/${item.exam.slug}`}
+                      href={`/${routeSlug}/${item.stage.slug}/${item.review.slug}`}
                       className={cn(
                         "text-foreground/80 hover:text-foreground dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-slate-200",
                         "pointer-events-none",
                         {
                           "text-foreground dark:bg-dark bg-slate-200":
-                            pathname.includes(item.exam.slug),
+                            pathname.includes(item.review.slug),
                         },
                       )}
                     >

@@ -5,41 +5,36 @@ import { AnimatePresence, motion, Variants } from "motion/react";
 import Image from "next/image";
 import { memo, useRef, useState } from "react";
 
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
-import { PlayIcon } from "@/components/ui/icons/action";
-import { cn, getResourceDetails, getResourceIndex } from "@/lib/utils";
+import { cn, getRouteDetails, getRouteIndex } from "@/lib/utils";
 import { formatTitle } from "@/utils/format";
 
-import ResourceBadge from "./resource-badge";
-import VideoModal from "./video-modal";
+import RouteBadge from "./route-badge";
 
-import type { Resource } from "@/db/schema";
-import type { Modules, Resources } from "@/types/resource";
+import type { Route } from "@/db/schema";
+import type { Resources, Stages } from "@/types/resource";
 
 interface ResourceWrapperProps {
   userId: string;
-  resource: Resource & Resources;
-  modules: Modules[];
+  resource: Route & Resources;
+  stages: Stages[];
   isPremium?: boolean | null;
   completedLessons: string[];
-  moduleProgress: { [moduleId: string]: number };
-  courseProgress: { completed: boolean; progress: number };
-  courseInitialized: boolean;
+  stageProgress: { [moduleId: string]: number };
+  routeProgress: { completed: boolean; progress: number };
+  routeInitialized: boolean;
 }
 
 const ResourceWrapper = ({
   userId,
   resource,
-  modules,
+  stages,
   isPremium,
   completedLessons,
-  moduleProgress,
-  courseProgress,
-  courseInitialized,
+  stageProgress,
+  routeProgress,
+  routeInitialized,
 }: ResourceWrapperProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -53,17 +48,15 @@ const ResourceWrapper = ({
     about,
     intro,
     quote,
-    videoTitle,
-    videoLink,
     imageFull,
     component: Component,
   } = resource;
 
   const formatedTitle = formatTitle(name || title);
 
-  const resourceIndex = getResourceIndex(name || title);
+  const routeIndex = getRouteIndex(name || title);
 
-  const resourceDetails = getResourceDetails(name || title);
+  const routeDetails = getRouteDetails(name || title);
 
   const scrollTo = ({ to }: { to: "start" | "end" }) => {
     if (sectionRef.current) {
@@ -74,7 +67,7 @@ const ResourceWrapper = ({
     }
   };
 
-  const video = {
+  /*   const video = {
     videoTitle,
     videoLink,
   };
@@ -82,7 +75,7 @@ const ResourceWrapper = ({
   const modal = {
     isOpen,
     setIsOpen,
-  };
+  }; */
 
   const animationVariants: Variants = {
     initial: (showIntro: boolean) => ({
@@ -106,14 +99,14 @@ const ResourceWrapper = ({
 
   const componentProps = {
     userId,
-    resource: { resourceId: id, resourceName: name },
-    modules,
+    route: { routeId: id, routeName: name },
+    stages,
     about,
     slug,
     completedLessons,
-    moduleProgress,
-    courseProgress,
-    courseInitialized,
+    stageProgress,
+    routeProgress,
+    routeInitialized,
     isPremium,
   };
 
@@ -123,9 +116,9 @@ const ResourceWrapper = ({
         id={`introduccion-a-${formatedTitle}`}
         className="relative z-10 col-[1/2] row-[1/2] -mx-6 flex aspect-908/384 flex-1 flex-col overflow-hidden md:mx-0 lg:flex-row lg:rounded-b-2xl"
       >
-        <ResourceBadge
-          resourceIndex={resourceIndex}
-          resourceDetails={resourceDetails}
+        <RouteBadge
+          routeIndex={routeIndex}
+          routeDetails={routeDetails}
           className="absolute top-0 right-0 p-5"
         />
         <div className="group text-foreground relative flex w-full flex-col justify-center overflow-hidden">
@@ -155,7 +148,7 @@ const ResourceWrapper = ({
           />
           <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/0 to-40%"></div>
         </div>
-        <div className="absolute right-0 bottom-0 z-20 px-5 py-3">
+        {/* <div className="absolute right-0 bottom-0 z-20 px-5 py-3">
           <BetterTooltip content="Ver video presentación">
             <Button
               aria-label="Ver video presentación"
@@ -168,7 +161,7 @@ const ResourceWrapper = ({
               <span className="sr-only">Ver video presentación</span>
             </Button>
           </BetterTooltip>
-        </div>
+        </div> */}
       </section>
       <section className="group relative col-[2/3] row-[1/2] hidden items-center md:max-w-md lg:flex">
         <AnimatePresence mode="wait">
@@ -255,7 +248,7 @@ const ResourceWrapper = ({
         </div>
       </section>
       <Component {...componentProps} />
-      <VideoModal video={video} modal={modal} />
+      {/* <VideoModal video={video} modal={modal} /> */}
     </>
   );
 };

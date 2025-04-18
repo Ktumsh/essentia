@@ -23,20 +23,20 @@ import {
 } from "@/components/kit/table";
 import { getLastCompletedLesson } from "@/db/querys/progress-querys";
 import { getProgressColor } from "@/lib/utils";
-import { Courses } from "@/types/resource";
+import { LearningRoutes } from "@/types/resource";
 import { formatDate } from "@/utils/format";
 
-interface CourseProgressTableProps {
+interface RouteProgressTableProps {
   userId: string;
-  courses: Courses;
+  routes: LearningRoutes;
   isPremium: boolean | null;
 }
 
-const CourseProgressTable = ({
+const RouteProgressTable = ({
   userId,
-  courses,
+  routes,
   isPremium,
-}: CourseProgressTableProps) => {
+}: RouteProgressTableProps) => {
   const router = useRouter();
 
   const continueCourse = useCallback(
@@ -63,7 +63,7 @@ const CourseProgressTable = ({
 
         if (lastLesson) {
           router.push(
-            `/${resourceSlug}/${lastLesson.moduleSlug}/${lastLesson.lessonSlug}`,
+            `/${resourceSlug}/${lastLesson.stageSlug}/${lastLesson.lessonSlug}`,
           );
         } else {
           router.push(`/${resourceSlug}#aprende-sobre-${resourceSlug}`);
@@ -75,7 +75,7 @@ const CourseProgressTable = ({
     [userId, isPremium, router],
   );
 
-  return courses.length > 0 ? (
+  return routes.length > 0 ? (
     <Table>
       <TableHeader>
         <TableRow>
@@ -112,20 +112,20 @@ const CourseProgressTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {courses.map((course) => (
-          <TableRow key={course.courseId}>
+        {routes.map((course) => (
+          <TableRow key={course.routeId}>
             <TableCell>
               <button
-                aria-label={`Continuar curso ${course.courseName}`}
+                aria-label={`Continuar curso ${course.routeName}`}
                 className="text-nowrap hover:underline"
                 onClick={() =>
                   continueCourse({
-                    resourceId: course.courseId,
-                    resourceSlug: course.courseSlug,
+                    resourceId: course.routeId,
+                    resourceSlug: course.routeSlug,
                   })
                 }
               >
-                {course.courseName}
+                {course.routeName}
               </button>
             </TableCell>
             <TableCell className="flex items-center">
@@ -173,4 +173,4 @@ const CourseProgressTable = ({
   );
 };
 
-export default CourseProgressTable;
+export default RouteProgressTable;

@@ -1,8 +1,8 @@
 import { FC, type JSX } from "react";
 
-import { Exam, Lesson, Module } from "@/db/schema";
-
 import { IconSvgProps } from "./common";
+
+import type { Lesson, Review, Stage } from "@/db/schema";
 
 export interface MaincapResources {
   id: number;
@@ -14,32 +14,32 @@ export interface MaincapResources {
   requiresPremium?: boolean;
 }
 
-export interface Modules {
-  module: Module;
+export interface Stages {
+  stage: Stage;
   lessons: Lesson[];
-  exam: Exam | null;
+  review: Review | null;
 }
 
-export type Course = {
+export type LearningRoute = {
   userId: string;
-  resource: {
-    resourceId: string;
-    resourceName: string;
+  route: {
+    routeId: string;
+    routeName: string;
   };
-  modules: Modules[];
+  stages: Stages[];
   about: string;
   slug: string;
   completedLessons: string[];
-  moduleProgress: { [moduleId: string]: number };
-  courseProgress: { completed: boolean; progress: number };
-  courseInitialized: boolean;
+  stageProgress: { [stageId: string]: number };
+  routeProgress: { completed: boolean; progress: number };
+  routeInitialized: boolean;
   isPremium?: boolean | null;
 };
 
-export type Courses = {
-  courseId: string;
-  courseName: string;
-  courseSlug: string;
+export type LearningRoutes = {
+  routeId: string;
+  routeName: string;
+  routeSlug: string;
   progress: number;
   completed: boolean;
   startedAt: Date | null;
@@ -57,8 +57,8 @@ export interface Resources {
   description: string;
   image: string;
   imageFull: string;
-  resource: string;
-  component: FC<{ isPremium?: boolean | null } & Course>;
+  route: string;
+  component: FC<{ isPremium?: boolean | null } & LearningRoute>;
 }
 
 export interface Video {

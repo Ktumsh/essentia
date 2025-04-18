@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import { getModules, getResourceBySlug } from "@/db/querys/resource-querys";
+import { getStages, getRouteBySlug } from "@/db/querys/resource-querys";
 
 const useLessonName = (
-  resourceSlug: string | null,
-  moduleSlug: string | null,
+  routeSlug: string | null,
+  stageSlug: string | null,
   lessonSlug: string | null,
 ) => {
   const [lessonName, setLessonName] = useState<string | null>(null);
@@ -14,20 +14,20 @@ const useLessonName = (
   useEffect(() => {
     const fetchLessonName = async () => {
       try {
-        if (!resourceSlug || !moduleSlug || !lessonSlug) {
+        if (!routeSlug || !stageSlug || !lessonSlug) {
           setLessonName(null);
           return;
         }
 
-        const resource = await getResourceBySlug(resourceSlug);
+        const resource = await getRouteBySlug(routeSlug);
         if (!resource) {
           setLessonName(null);
           return;
         }
 
-        const modules = await getModules(resource.id);
+        const modules = await getStages(resource.id);
         const currentModule = modules.find(
-          (mod) => mod.module.slug === moduleSlug,
+          (mod) => mod.stage.slug === stageSlug,
         );
 
         if (!currentModule) {
@@ -51,7 +51,7 @@ const useLessonName = (
     };
 
     fetchLessonName();
-  }, [resourceSlug, moduleSlug, lessonSlug]);
+  }, [routeSlug, stageSlug, lessonSlug]);
 
   return lessonName;
 };

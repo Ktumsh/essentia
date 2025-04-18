@@ -31,8 +31,8 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
 
   const { username } = user || {};
 
-  const resourceSlug = params.resource as string;
-  const moduleSlug = params.module as string;
+  const routeSlug = params.route as string;
+  const stageSlug = params.stage as string;
   const lessonSlug = params.lesson as string;
 
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -44,8 +44,7 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
   const chatId = isChat ? pathSegments[pathSegments.length - 1] : null;
 
   const { chatName } = useChatName(chatId || activeChatId) || null;
-  const lessonName =
-    useLessonName(resourceSlug, moduleSlug, lessonSlug) || null;
+  const lessonName = useLessonName(routeSlug, stageSlug, lessonSlug) || null;
 
   return (
     <Breadcrumb>
@@ -64,7 +63,7 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
         </BreadcrumbItem>
         {pathSegments.length > 0 && <BreadcrumbSeparator />}
         {pathSegments.map((segment, index) => {
-          if (segment === "chat" || segment === moduleSlug) {
+          if (segment === "chat" || segment === stageSlug) {
             return null;
           }
 

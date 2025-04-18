@@ -1,1 +1,0 @@
-ALTER TABLE "subscription" ALTER COLUMN "type" SET DEFAULT 'free';

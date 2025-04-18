@@ -5,12 +5,10 @@ import Nutrition from "@/app/(main)/(resources)/_components/nutrition";
 import SexEducation from "@/app/(main)/(resources)/_components/sex-education";
 import Wellbeing from "@/app/(main)/(resources)/_components/wellbeing";
 
-import type { Resources } from "@/types/resource";
-
 const BASE_URL =
   "https://res.cloudinary.com/dcub4itgg/image/upload/f_auto,q_auto/v1/essentia/resource";
 
-export const RESOURCES: Resources[] = [
+export const RESOURCES_DATA = [
   {
     title: "Salud y Bienestar",
     subtitle: "Para tu salud",
@@ -24,7 +22,7 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-salud-1920x1080.webp",
     image: "/extras/salud-600x400.webp",
     imageFull: `${BASE_URL}/r-01`,
-    resource: "salud-y-bienestar",
+    route: "salud-y-bienestar",
     component: HealthWellness,
   },
   {
@@ -40,7 +38,7 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-fitness-1920x1080.webp",
     image: "/extras/ejercicio-600x400.webp",
     imageFull: `${BASE_URL}/r-02`,
-    resource: "ejercicios-y-fitness",
+    route: "ejercicios-y-fitness",
     component: ExcerciseFitness,
   },
   {
@@ -55,7 +53,7 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-nutricion-1920x1080.webp",
     image: "/extras/nutricion-600x400.webp",
     imageFull: `${BASE_URL}/r-03`,
-    resource: "nutricion-y-alimentacion",
+    route: "nutricion-y-alimentacion",
     component: Nutrition,
   },
   {
@@ -71,7 +69,7 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-bienestar-1920x1080.webp",
     image: "/extras/bienestar-600x400.webp",
     imageFull: `${BASE_URL}/r-04`,
-    resource: "bienestar-emocional",
+    route: "bienestar-emocional",
     component: Wellbeing,
   },
   {
@@ -87,7 +85,7 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-sexualidad-1920x1080.webp",
     image: "/extras/sexualidad-600x400.webp",
     imageFull: `${BASE_URL}/r-05`,
-    resource: "salud-y-educacion-sexual",
+    route: "salud-y-educacion-sexual",
     component: SexEducation,
   },
   {
@@ -103,7 +101,9 @@ export const RESOURCES: Resources[] = [
     videoImage: "/videos/miniatura-edades-1920x1080.webp",
     image: "/extras/edades-600x400.webp",
     imageFull: `${BASE_URL}/r-06`,
-    resource: "salud-en-todas-las-edades",
+    route: "salud-en-todas-las-edades",
     component: ForAllAges,
   },
 ];
+
+export type LearningRoutes = (typeof RESOURCES_DATA)[number];

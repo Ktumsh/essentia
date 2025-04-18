@@ -5,35 +5,35 @@ import CardList from "./card-list";
 import CourseList from "./course-list";
 import SectionTitle from "./section-title";
 
-import type { Course } from "@/types/resource";
+import type { LearningRoute } from "@/types/resource";
 
-const HealthWellness = (props: Course) => {
+const HealthWellness = (props: LearningRoute) => {
   const {
     userId,
-    resource,
-    modules,
+    route,
+    stages,
     about,
     slug,
     completedLessons,
-    moduleProgress,
-    courseProgress,
-    courseInitialized,
+    stageProgress,
+    routeProgress,
+    routeInitialized,
     isPremium,
   } = props;
 
   return (
     <>
-      {modules && (
+      {stages && (
         <CourseList
           userId={userId}
-          resource={resource}
-          modules={modules}
+          route={route}
+          stages={stages}
           about={about}
           slug={slug}
           completedLessons={completedLessons}
-          moduleProgress={moduleProgress}
-          courseProgress={courseProgress}
-          courseInitialized={courseInitialized}
+          stageProgress={stageProgress}
+          routeProgress={routeProgress}
+          routeInitialized={routeInitialized}
           isPremium={isPremium}
         />
       )}

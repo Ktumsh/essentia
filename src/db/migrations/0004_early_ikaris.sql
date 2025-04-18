@@ -1,1 +1,0 @@
-ALTER TABLE "subscription" ALTER COLUMN "status" SET DEFAULT 'paused';

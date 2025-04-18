@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:medical-tags": "bun ./src/db/seed/medical-tags.ts"
+    "seed:resources": "bun ./src/db/seed/resources.ts"
   },
   "dependencies": {
     "@ai-sdk/fireworks": "^0.2.11",

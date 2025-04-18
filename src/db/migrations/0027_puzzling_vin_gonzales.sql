@@ -1,1 +1,0 @@
-ALTER TABLE "subscription" ADD CONSTRAINT "subscription_type_plan_id_fk" FOREIGN KEY ("type") REFERENCES "public"."plan"("id") ON DELETE no action ON UPDATE no action;

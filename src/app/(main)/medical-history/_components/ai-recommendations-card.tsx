@@ -81,10 +81,12 @@ export const AIRecommendationsCard = ({
               {recommendation.relatedTags.slice(0, 2).map((tag) => (
                 <Badge
                   key={tag}
-                  variant="outline"
-                  className={cn("h-5 px-1.5 py-0 text-xs", getTagColor(tag))}
+                  className={cn(
+                    "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                    getTagColor(tag),
+                  )}
                 >
-                  <Tag className="mr-1 size-2.5" />
+                  <Tag className="size-2.5!" />
                   {tag}
                 </Badge>
               ))}
@@ -130,7 +132,9 @@ export const AIRecommendationsCard = ({
       </CardContent>
 
       <CardFooter className="flex justify-between px-4 pt-2 pb-4">
-        <p className="text-muted-foreground text-xs">Generado por IA</p>
+        <p className="bg-premium bg-clip-text text-xs font-medium text-transparent">
+          Generado por IA
+        </p>
         <div
           className={cn(
             "flex gap-1 transition-opacity",

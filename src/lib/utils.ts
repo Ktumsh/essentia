@@ -156,7 +156,7 @@ export const getProgressColor = (value: number) => {
   return "bg-green-500";
 };
 
-export const getResourceColor = (
+export const getRouteColor = (
   index: number,
   colorType: "gradient" | "background" | "text",
 ): string => {
@@ -194,7 +194,7 @@ export const getResourceColor = (
   return colorMap[colorType][index];
 };
 
-export const getResourceDarkColor = (index: number): string => {
+export const getRouteDarkColor = (index: number): string => {
   const colorMap: { [key: number]: string } = {
     0: "dark:bg-emerald-500/20",
     1: "dark:bg-fuchsia-500/20",
@@ -207,9 +207,9 @@ export const getResourceDarkColor = (index: number): string => {
   return colorMap[index];
 };
 
-export const getResourceIndex = (name: string): number => {
-  const resources = navConfig.asideMenuLinks;
-  const index = resources.findIndex(
+export const getRouteIndex = (name: string): number => {
+  const routes = navConfig.asideMenuLinks;
+  const index = routes.findIndex(
     (resource) =>
       resource.name.toLowerCase().normalize("NFD") ===
       name.toLowerCase().normalize("NFD"),
@@ -217,9 +217,9 @@ export const getResourceIndex = (name: string): number => {
   return index;
 };
 
-export const getResourceDetails = (name: string) => {
-  const resources = navConfig.asideMenuLinks;
-  const resource = resources.find(
+export const getRouteDetails = (name: string) => {
+  const routes = navConfig.asideMenuLinks;
+  const resource = routes.find(
     (resource) =>
       resource.name.toLowerCase().normalize("NFD") ===
       name.toLowerCase().normalize("NFD"),

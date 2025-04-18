@@ -423,13 +423,13 @@ const AIRecommendation = ({
                     <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
                       <BadgeAlert
                         variant="warning"
-                        className="mb-0 size-7 [&_svg]:size-4!"
+                        className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
                       />
                       <div>
-                        <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
+                        <p className="text-xs font-medium text-amber-900 md:text-sm dark:text-amber-200">
                           Información importante
                         </p>
-                        <p className="text-xs">
+                        <p className="text-xs md:text-sm">
                           El análisis incluirá todos tus documentos médicos (
                           {medicalHistory.length}). Si prefieres un análisis más
                           específico, selecciona “Documentos específicos” o “Por
@@ -449,7 +449,12 @@ const AIRecommendation = ({
                     {allTags.map((tag) => (
                       <div key={tag} className="space-y-2">
                         <div className="grid grid-cols-2 justify-between">
-                          <Badge className={cn("text-xs", getTagColor(tag))}>
+                          <Badge
+                            className={cn(
+                              "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                              getTagColor(tag),
+                            )}
+                          >
                             <Tag className="size-3" />
                             {tag} ({documentsByTag[tag].length})
                           </Badge>
@@ -514,9 +519,9 @@ const AIRecommendation = ({
                       <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
                         <BadgeAlert
                           variant="warning"
-                          className="mb-0 size-7 [&_svg]:size-4!"
+                          className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
                         />
-                        <p className="text-sm">
+                        <p className="text-xs md:text-sm">
                           Selecciona al menos un documento para continuar.
                         </p>
                       </div>
@@ -543,7 +548,12 @@ const AIRecommendation = ({
                             htmlFor={`tag-${tag}`}
                             className="flex-1 cursor-pointer text-sm"
                           >
-                            <Badge className={cn("text-xs", getTagColor(tag))}>
+                            <Badge
+                              className={cn(
+                                "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                                getTagColor(tag),
+                              )}
+                            >
                               {tag} ({documentsByTag[tag].length})
                             </Badge>
                           </label>
@@ -554,9 +564,9 @@ const AIRecommendation = ({
                       <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
                         <BadgeAlert
                           variant="warning"
-                          className="mb-0 size-7 [&_svg]:size-4!"
+                          className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
                         />
-                        <p className="text-sm">
+                        <p className="text-xs md:text-sm">
                           Selecciona al menos una categoría para continuar.
                         </p>
                       </div>
@@ -641,7 +651,7 @@ const AIRecommendation = ({
         >
           {isLoading ? (
             <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-linear-to-r/shorter from-indigo-50 to-pink-50 px-4 md:m-6 dark:from-indigo-950 dark:to-pink-950">
-              <LoaderAIIcon className="mb-4 size-12 text-indigo-500/80" />
+              <LoaderAIIcon className="mb-4 size-10 text-indigo-500/80" />
 
               <motion.p
                 initial={{ opacity: 0, y: 5 }}
@@ -684,14 +694,14 @@ const AIRecommendation = ({
               </AnimatePresence>
             </div>
           ) : (
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               {selectedRecommendation ? (
                 <motion.div
                   key="detail"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                   className="flex flex-1 flex-col overflow-y-auto"
                 >
                   <AIRecommendationDetail
@@ -703,10 +713,10 @@ const AIRecommendation = ({
               ) : (
                 <motion.div
                   key="list"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 50 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                   className="flex flex-1 flex-col overflow-hidden"
                 >
                   <div className="flex items-center justify-between px-4 pb-4 md:px-6 md:pb-6">

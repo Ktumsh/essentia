@@ -1,1 +1,0 @@
-ALTER TABLE "email_verification" RENAME COLUMN "token" TO "code";

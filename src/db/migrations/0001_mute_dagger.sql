@@ -1,1 +1,0 @@
-ALTER TABLE "payment" ALTER COLUMN "currency" DROP NOT NULL;

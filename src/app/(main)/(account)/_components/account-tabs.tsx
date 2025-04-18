@@ -11,17 +11,17 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import useSubscription from "@/hooks/use-subscription";
-import { Courses } from "@/types/resource";
+import { LearningRoutes } from "@/types/resource";
 
 import AccountDetails from "./account/account-details";
 import ProfileInfo from "./profile/profile-info";
 import SubscriptionDetails from "./subscription/subscription-details";
 
 interface AccountTabsProps {
-  courses: Courses;
+  routes: LearningRoutes;
 }
 
-const AccountTabs = ({ courses }: AccountTabsProps) => {
+const AccountTabs = ({ routes }: AccountTabsProps) => {
   const pathname = usePathname();
 
   const { subscription, payment } = useSubscription();
@@ -31,7 +31,7 @@ const AccountTabs = ({ courses }: AccountTabsProps) => {
       {
         value: "/account",
         label: "Mi cuenta",
-        component: <AccountDetails courses={courses} />,
+        component: <AccountDetails routes={routes} />,
       },
       {
         value: "/profile",
@@ -46,7 +46,7 @@ const AccountTabs = ({ courses }: AccountTabsProps) => {
         ),
       },
     ];
-  }, [courses, subscription, payment]);
+  }, [routes, subscription, payment]);
 
   return (
     <div className="flex flex-col">

@@ -61,23 +61,24 @@ export const AIRecommendationDetail = ({
   return (
     <>
       {onBack ? (
-        <div className="mb-4 space-y-2 px-4 md:px-6">
+        <div className="space-y-2 px-4 md:mb-4 md:px-6">
           <ArrowLeftButton
             variant="ghost"
             size="sm"
             onClick={onBack}
-            className="self-start rounded-full [&_svg]:size-3.5!"
+            className="text-muted-foreground h-auto self-start rounded-full px-0! py-1.5 hover:bg-transparent [&_svg]:size-3.5!"
           >
             Volver a resultados
           </ArrowLeftButton>
 
           <div className="flex items-center justify-between">
-            <h3 className="font-merriweather mb-2 flex items-center gap-2 text-base font-semibold">
+            <h3 className="font-merriweather flex items-center gap-2 text-base font-semibold">
               <Lightbulb className="size-5 shrink-0 text-amber-500" />
               {recommendation.title}
             </h3>
             <Badge
               className={cn(
+                "h-6 rounded-[6px] px-2 py-0",
                 getPriorityColor(recommendation.priority),
                 recommendation.priority === "high"
                   ? "bg-red-50 dark:bg-red-950"
@@ -115,6 +116,7 @@ export const AIRecommendationDetail = ({
           </DialogDescription>
           <Badge
             className={cn(
+              "h-6 rounded-[6px] px-2 py-0",
               getPriorityColor(recommendation.priority),
               recommendation.priority === "high"
                 ? "bg-red-50 dark:bg-red-950"
@@ -130,20 +132,6 @@ export const AIRecommendationDetail = ({
 
       <div className="space-y-4 p-4 md:p-6 md:pt-0">
         <div className="space-y-1 text-sm">
-          {isMobile && (
-            <Badge
-              className={cn(
-                getPriorityColor(recommendation.priority),
-                recommendation.priority === "high"
-                  ? "bg-red-50 dark:bg-red-950"
-                  : recommendation.priority === "medium"
-                    ? "bg-yellow-50 dark:bg-yellow-950"
-                    : "bg-green-50 dark:bg-green-950",
-              )}
-            >
-              Prioridad: {getPriorityText(recommendation.priority)}
-            </Badge>
-          )}
           <h4 className="mb-1 font-medium">Recomendación generada</h4>
           <div className="space-y-1 rounded-lg border p-4">
             <p>{recommendation.description}</p>
@@ -155,14 +143,16 @@ export const AIRecommendationDetail = ({
             <h4 className="mb-2 text-sm font-medium">
               Categorías relacionadas
             </h4>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1.5">
               {recommendation.relatedTags.map((tag) => (
                 <Badge
                   key={tag}
-                  variant="outline"
-                  className={cn("h-5 px-1.5 py-0 text-xs", getTagColor(tag))}
+                  className={cn(
+                    "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                    getTagColor(tag),
+                  )}
                 >
-                  <Tag className="size-2!" />
+                  <Tag className="size-2.5!" />
                   {tag}
                 </Badge>
               ))}
@@ -179,67 +169,72 @@ export const AIRecommendationDetail = ({
               <div className="space-y-2">
                 {recommendation.relatedDocuments.map((docId) => {
                   const doc = medicalHistory.find((d) => d.id === docId);
-                  return doc ? (
-                    <div
-                      key={docId}
-                      className="bg-accent relative rounded-lg p-3"
-                    >
-                      <div className="grid grid-cols-[auto_1fr] gap-2 pr-24">
-                        <FileText
-                          className={cn("size-5", getFileTypeColor(doc.type))}
-                        />
-                        <div className="grid space-y-1 truncate">
-                          <p className="truncate text-sm font-medium">
-                            {doc.condition}
-                          </p>
-                          <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                            {doc.issuer && <span>{doc.issuer}</span>}
-                            {doc.documentDate && (
-                              <span>
-                                {formatDate(
-                                  new Date(doc.documentDate),
-                                  "dd MMM yyyy",
-                                )}
-                              </span>
+                  return (
+                    doc && (
+                      <div
+                        key={docId}
+                        className="bg-accent relative rounded-lg p-3"
+                      >
+                        <div className="grid grid-cols-[auto_1fr] gap-2 pr-24">
+                          <FileText
+                            className={cn("size-5", getFileTypeColor(doc.type))}
+                          />
+                          <div className="grid space-y-1 truncate">
+                            <p className="truncate text-sm font-medium">
+                              {doc.condition}
+                            </p>
+                            <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                              {doc.issuer && <span>{doc.issuer}</span>}
+                              {doc.documentDate && (
+                                <span>
+                                  {formatDate(
+                                    new Date(doc.documentDate),
+                                    "dd MMM yyyy",
+                                  )}
+                                </span>
+                              )}
+                            </div>
+                            {doc.description && (
+                              <p className="truncate text-xs">
+                                {doc.description}
+                              </p>
                             )}
                           </div>
-                          {doc.description && (
-                            <p className="truncate text-xs">
-                              {doc.description}
-                            </p>
-                          )}
                         </div>
-                      </div>
-                      <div className="absolute inset-y-0 right-0 m-4 flex items-center gap-2">
-                        {onViewFile && doc.file?.url && (
-                          <BetterTooltip content="Ver documento" side="top">
-                            <EyeButton
+                        <div className="absolute inset-y-0 right-0 m-4 flex items-center gap-2">
+                          {onViewFile && doc.file?.url && (
+                            <BetterTooltip content="Ver documento" side="top">
+                              <EyeButton
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  onViewFile({
+                                    url: doc.file?.url,
+                                    name: doc.file?.name || "documento",
+                                  });
+                                }}
+                                className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
+                              >
+                                <span className="sr-only">Ver</span>
+                              </EyeButton>
+                            </BetterTooltip>
+                          )}
+                          <BetterTooltip
+                            content="Descargar documento"
+                            side="top"
+                          >
+                            <DownloadButton
                               variant="outline"
                               size="icon"
-                              onClick={() => {
-                                onViewFile({
-                                  url: doc.file?.url,
-                                  name: doc.file?.name || "documento",
-                                });
-                              }}
                               className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
                             >
-                              <span className="sr-only">Ver</span>
-                            </EyeButton>
+                              <span className="sr-only">Descargar</span>
+                            </DownloadButton>
                           </BetterTooltip>
-                        )}
-                        <BetterTooltip content="Descargar documento" side="top">
-                          <DownloadButton
-                            variant="outline"
-                            size="icon"
-                            className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
-                          >
-                            <span className="sr-only">Descargar</span>
-                          </DownloadButton>
-                        </BetterTooltip>
+                        </div>
                       </div>
-                    </div>
-                  ) : null;
+                    )
+                  );
                 })}
               </div>
             </div>
@@ -297,9 +292,9 @@ export const AIRecommendationDetail = ({
         <div className="flex items-start gap-2 rounded-lg border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
           <BadgeAlert
             variant="success"
-            className="mb-0 size-7 [&_svg]:size-4!"
+            className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
           />
-          <p className="text-sm">
+          <p className="text-xs md:text-sm">
             Esta recomendación fue generada por IA basada en tu historial
             médico. Siempre consulta con profesionales de la salud antes de
             tomar decisiones médicas.

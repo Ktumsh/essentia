@@ -17,23 +17,23 @@ import CourseList from "./course-list";
 import NutritionCarousel from "./nutrition-carousel";
 import SectionTitle from "./section-title";
 
-import type { Course } from "@/types/resource";
+import type { LearningRoute } from "@/types/resource";
 
-interface NutritionProps extends Course {
+interface NutritionProps extends LearningRoute {
   isPremium?: boolean | null;
 }
 
 const Nutrition = (props: NutritionProps) => {
   const {
     userId,
-    resource,
-    modules,
+    route,
+    stages,
     about,
     slug,
     completedLessons,
-    moduleProgress,
-    courseProgress,
-    courseInitialized,
+    stageProgress,
+    routeProgress,
+    routeInitialized,
     isPremium,
   } = props;
 
@@ -61,14 +61,14 @@ const Nutrition = (props: NutritionProps) => {
     <>
       <CourseList
         userId={userId}
-        resource={resource}
-        modules={modules}
+        route={route}
+        stages={stages}
         about={about}
         slug={slug}
         completedLessons={completedLessons}
-        moduleProgress={moduleProgress}
-        courseProgress={courseProgress}
-        courseInitialized={courseInitialized}
+        stageProgress={stageProgress}
+        routeProgress={routeProgress}
+        routeInitialized={routeInitialized}
         isPremium={isPremium}
       />
       <section className="col-[1/2] lg:col-[1/3]">

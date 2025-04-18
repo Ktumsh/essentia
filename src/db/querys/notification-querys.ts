@@ -8,7 +8,7 @@ import webpush from "web-push";
 import {
   notificationSubscription,
   user,
-  userCourseProgress,
+  userRouteProgress,
   userNotification,
 } from "../schema";
 
@@ -80,8 +80,8 @@ export async function notifyUsersWithoutCourse() {
     const usersWithoutCourse = await db
       .select({ id: user.id, email: user.email })
       .from(user)
-      .leftJoin(userCourseProgress, eq(user.id, userCourseProgress.userId))
-      .where(isNull(userCourseProgress.userId));
+      .leftJoin(userRouteProgress, eq(user.id, userRouteProgress.userId))
+      .where(isNull(userRouteProgress.userId));
 
     for (const u of usersWithoutCourse) {
       const existingNotification = await db

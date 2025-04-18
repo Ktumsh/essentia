@@ -1,1 +1,0 @@
-ALTER TABLE "user_medical_file" RENAME COLUMN "original_name" TO "name";

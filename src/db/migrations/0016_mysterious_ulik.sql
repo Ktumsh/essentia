@@ -1,9 +1,0 @@
-ALTER TABLE "user_exam_progress" DROP CONSTRAINT "user_exam_progress_user_id_module_id_user_module_progress_user_id_module_id_fk";
---> statement-breakpoint
-ALTER TABLE "user_lesson_progress" DROP CONSTRAINT "user_lesson_progress_user_id_module_id_user_module_progress_user_id_module_id_fk";
---> statement-breakpoint
-ALTER TABLE "user_module_progress" DROP CONSTRAINT "user_module_progress_user_id_course_id_user_course_progress_user_id_course_id_fk";
---> statement-breakpoint
-ALTER TABLE "user_exam_progress" ADD CONSTRAINT "user_exam_progress_user_id_module_id_user_module_progress_user_id_module_id_fk" FOREIGN KEY ("user_id","module_id") REFERENCES "public"."user_module_progress"("user_id","module_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "user_lesson_progress" ADD CONSTRAINT "user_lesson_progress_user_id_module_id_user_module_progress_user_id_module_id_fk" FOREIGN KEY ("user_id","module_id") REFERENCES "public"."user_module_progress"("user_id","module_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "user_module_progress" ADD CONSTRAINT "user_module_progress_user_id_course_id_user_course_progress_user_id_course_id_fk" FOREIGN KEY ("user_id","course_id") REFERENCES "public"."user_course_progress"("user_id","course_id") ON DELETE cascade ON UPDATE no action;

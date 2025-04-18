@@ -4,35 +4,35 @@ import { redirect } from "next/navigation";
 import { auth } from "@/app/(auth)/auth";
 import {
   getCompletedLessons,
-  getCourseProgress,
+  getRouteProgress,
   getLessonProgress,
-  getModuleProgress,
+  getStageProgress,
 } from "@/db/querys/progress-querys";
 import {
   getLessonBySlug,
-  getModules,
-  getResourceBySlug,
+  getStages,
+  getRouteBySlug,
 } from "@/db/querys/resource-querys";
 import { getUserProfileData } from "@/utils/profile";
 
 import Lesson from "../../../_components/lesson";
 
 type LessonPageProps = {
-  params: Promise<{ resource: string; module: string; lesson: string }>;
+  params: Promise<{ route: string; stage: string; lesson: string }>;
 };
 
 export async function generateMetadata({
   params,
 }: LessonPageProps): Promise<Metadata> {
-  const resourceSlug = (await params).resource;
-  const moduleSlug = (await params).module;
+  const routeSlug = (await params).route;
+  const stageSlug = (await params).stage;
   const lessonSlug = (await params).lesson;
 
-  const resource = await getResourceBySlug(resourceSlug);
+  const route = await getRouteBySlug(routeSlug);
 
-  const modules = await getModules(resource.id);
+  const stages = await getStages(route.id);
 
-  const currentModule = modules.find((mod) =>
+  const currentModule = stages.find((mod) =>
     mod.lessons.some((l) => l.slug === lessonSlug),
   );
 
@@ -40,35 +40,35 @@ export async function generateMetadata({
     return { title: "Clase no encontrada" };
   }
 
-  const lesson = await getLessonBySlug(currentModule.module.id, lessonSlug);
+  const lesson = await getLessonBySlug(currentModule.stage.id, lessonSlug);
 
   return {
     title: lesson.title,
     alternates: {
-      canonical: `/${resourceSlug}/${moduleSlug}/${lessonSlug}`,
+      canonical: `/${routeSlug}/${stageSlug}/${lessonSlug}`,
     },
   };
 }
 
 const LessonPage = async (props: LessonPageProps) => {
   const params = await props.params;
-  const resourceSlug = params.resource;
+  const routeSlug = params.route;
   const lessonSlug = params.lesson;
 
   const session = await auth();
 
   const userId = session?.user?.id as string;
 
-  const resource = await getResourceBySlug(resourceSlug);
+  const route = await getRouteBySlug(routeSlug);
 
-  const modules = await getModules(resource.id);
+  const modules = await getStages(route.id);
 
   const currentModule = modules.find((mod) =>
     mod.lessons.some((l) => l.slug === lessonSlug),
   );
 
   const lesson = await getLessonBySlug(
-    currentModule?.module.id || "",
+    currentModule?.stage.id || "",
     lessonSlug,
   );
 
@@ -79,30 +79,30 @@ const LessonPage = async (props: LessonPageProps) => {
   );
 
   if (!session) {
-    redirect(`/${resourceSlug}`);
+    redirect(`/${routeSlug}`);
   }
 
   const completedLessons = session
     ? await getCompletedLessons(userId, lessonIds)
     : [];
 
-  const moduleProgress: { [key: string]: number } = {};
+  const stageProgress: { [key: string]: number } = {};
 
   for (const mod of modules) {
-    const progressData = (await getModuleProgress(userId, mod.module.id)) || {};
-    moduleProgress[mod.module.id] = progressData.progress || 0;
+    const progressData = (await getStageProgress(userId, mod.stage.id)) || {};
+    stageProgress[mod.stage.id] = progressData.progress || 0;
   }
 
-  const resourceData = {
-    resourceId: resource.id,
-    resourceName: resource.name,
-    resourceSlug: resource.slug,
+  const routeData = {
+    routeId: route.id,
+    routeName: route.name,
+    routeSlug: route.slug,
   };
 
-  const course = await getCourseProgress(userId, resource.id);
+  const course = await getRouteProgress(userId, route.id);
 
   if (!course) {
-    redirect(`/${resourceSlug}`);
+    redirect(`/${routeSlug}`);
   }
 
   const userData = userId ? await getUserProfileData({ userId }) : null;
@@ -112,11 +112,11 @@ const LessonPage = async (props: LessonPageProps) => {
   return (
     <Lesson
       lesson={lesson}
-      modules={modules}
-      resource={resourceData}
+      stages={modules}
+      route={routeData}
       isCompleted={progress}
       completedLessons={completedLessons}
-      moduleProgress={moduleProgress}
+      stageProgress={stageProgress}
       isCourseCompleted={course.completed}
       isPremium={isPremium ?? false}
     />

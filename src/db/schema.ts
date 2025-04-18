@@ -174,7 +174,7 @@ export const chatVote = table(
 
 export type ChatVote = InferSelectModel<typeof chatVote>;
 
-export const resource = table("resource", {
+export const route = table("route", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   slug: varchar("slug", { length: 100 }).unique().notNull(),
   name: varchar("name", { length: 100 }).unique().notNull(),
@@ -182,13 +182,13 @@ export const resource = table("resource", {
   about: text("about").notNull(),
 });
 
-export type Resource = InferSelectModel<typeof resource>;
+export type Route = InferSelectModel<typeof route>;
 
-export const resourceModule = table("module", {
+export const stage = table("stage", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
-  resourceId: uuid("resource_id")
+  routeId: uuid("route_id")
     .notNull()
-    .references(() => resource.id, { onDelete: "cascade" }),
+    .references(() => route.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 150 }).notNull(),
   slug: varchar("slug", { length: 100 }).notNull(),
   description: text("description"),
@@ -196,13 +196,13 @@ export const resourceModule = table("module", {
   order: integer("order").notNull(),
 });
 
-export type Module = InferSelectModel<typeof resourceModule>;
+export type Stage = InferSelectModel<typeof stage>;
 
 export const lesson = table("lesson", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
-  moduleId: uuid("module_id")
+  stageId: uuid("stage_id")
     .notNull()
-    .references(() => resourceModule.id, { onDelete: "cascade" }),
+    .references(() => stage.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 150 }).notNull(),
   slug: varchar("slug", { length: 100 }).notNull(),
   objective: text("objective"),
@@ -212,74 +212,74 @@ export const lesson = table("lesson", {
 
 export type Lesson = InferSelectModel<typeof lesson>;
 
-export const exam = table("exam", {
+export const review = table("review", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
-  moduleId: uuid("module_id")
+  stageId: uuid("stage_id")
     .notNull()
-    .references(() => resourceModule.id, { onDelete: "cascade" }),
+    .references(() => stage.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 150 }).notNull(),
   slug: varchar("slug", { length: 100 }).notNull(),
   instructions: text("instructions").notNull(),
 });
 
-export type Exam = InferSelectModel<typeof exam>;
+export type Review = InferSelectModel<typeof review>;
 
-export const examQuestion = table("exam_question", {
+export const reviewQuestion = table("review_question", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
-  examId: uuid("exam_id")
+  reviewId: uuid("review_id")
     .notNull()
-    .references(() => exam.id, { onDelete: "cascade" }),
+    .references(() => review.id, { onDelete: "cascade" }),
   question: text("question").notNull(),
   options: text("options").notNull(),
   answer: integer("answer").notNull(),
 });
 
-export type Question = InferSelectModel<typeof examQuestion>;
+export type ReviewQuestion = InferSelectModel<typeof reviewQuestion>;
 
-export const userCourseProgress = table(
-  "user_course_progress",
+export const userRouteProgress = table(
+  "user_route_progress",
   {
     userId: uuid("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    courseId: uuid("course_id")
+    routeId: uuid("route_id")
       .notNull()
-      .references(() => resource.id, { onDelete: "cascade" }),
+      .references(() => route.id, { onDelete: "cascade" }),
     completed: boolean("completed").notNull().default(false),
     progress: integer("progress").default(0).notNull(),
     completedAt: timestamp("completed_at").default(sql`NULL`),
     startedAt: timestamp("started_at").defaultNow(),
   },
-  (t) => [primaryKey({ columns: [t.userId, t.courseId] })],
+  (t) => [primaryKey({ columns: [t.userId, t.routeId] })],
 );
 
-export type UserCourseProgress = InferSelectModel<typeof userCourseProgress>;
+export type UserRouteProgress = InferSelectModel<typeof userRouteProgress>;
 
-export const userModuleProgress = table(
-  "user_module_progress",
+export const userStageProgress = table(
+  "user_stage_progress",
   {
     userId: uuid("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    moduleId: uuid("module_id")
+    stageId: uuid("stage_id")
       .notNull()
-      .references(() => resourceModule.id, { onDelete: "cascade" }),
-    courseId: uuid("course_id").notNull(),
+      .references(() => stage.id, { onDelete: "cascade" }),
+    routeId: uuid("route_id").notNull(),
     completed: boolean("completed").notNull().default(false),
     progress: integer("progress").default(0),
     startedAt: timestamp("started_at").defaultNow(),
     completedAt: timestamp("completed_at"),
   },
   (t) => [
-    primaryKey({ columns: [t.userId, t.moduleId] }),
+    primaryKey({ columns: [t.userId, t.stageId] }),
     foreignKey({
-      columns: [t.userId, t.courseId],
-      foreignColumns: [userCourseProgress.userId, userCourseProgress.courseId],
+      columns: [t.userId, t.routeId],
+      foreignColumns: [userRouteProgress.userId, userRouteProgress.routeId],
     }).onDelete("cascade"),
   ],
 );
 
-export type UserModuleProgress = InferSelectModel<typeof userModuleProgress>;
+export type UserStageProgress = InferSelectModel<typeof userStageProgress>;
 
 export const userLessonProgress = table(
   "user_lesson_progress",
@@ -290,7 +290,7 @@ export const userLessonProgress = table(
     lessonId: uuid("lesson_id")
       .notNull()
       .references(() => lesson.id, { onDelete: "cascade" }),
-    moduleId: uuid("module_id").notNull(),
+    stageId: uuid("stage_id").notNull(),
     completed: boolean("completed").notNull().default(false),
     startedAt: timestamp("started_at").defaultNow(),
     completedAt: timestamp("completed_at"),
@@ -298,39 +298,39 @@ export const userLessonProgress = table(
   (t) => [
     primaryKey({ columns: [t.userId, t.lessonId] }),
     foreignKey({
-      columns: [t.userId, t.moduleId],
-      foreignColumns: [userModuleProgress.userId, userModuleProgress.moduleId],
+      columns: [t.userId, t.stageId],
+      foreignColumns: [userStageProgress.userId, userStageProgress.stageId],
     }).onDelete("cascade"),
   ],
 );
 
 export type UserLessonProgress = InferSelectModel<typeof userLessonProgress>;
 
-export const userExamProgress = table(
-  "user_exam_progress",
+export const userReviewProgress = table(
+  "user_review_progress",
   {
     userId: uuid("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    examId: uuid("exam_id")
+    reviewId: uuid("review_id")
       .notNull()
-      .references(() => exam.id, { onDelete: "cascade" }),
-    moduleId: uuid("module_id").notNull(),
+      .references(() => review.id, { onDelete: "cascade" }),
+    stageId: uuid("stage_id").notNull(),
     completed: boolean("completed").default(false),
     score: integer("score").default(0),
     startedAt: timestamp("started_at").defaultNow(),
     completedAt: timestamp("completed_at"),
   },
   (t) => [
-    primaryKey({ columns: [t.userId, t.examId] }),
+    primaryKey({ columns: [t.userId, t.reviewId] }),
     foreignKey({
-      columns: [t.userId, t.moduleId],
-      foreignColumns: [userModuleProgress.userId, userModuleProgress.moduleId],
+      columns: [t.userId, t.stageId],
+      foreignColumns: [userStageProgress.userId, userStageProgress.stageId],
     }).onDelete("cascade"),
   ],
 );
 
-export type UserExamProgress = InferSelectModel<typeof userExamProgress>;
+export type UserReviewProgress = InferSelectModel<typeof userReviewProgress>;
 
 export const notificationSubscription = table("notification_subscription", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),

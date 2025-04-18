@@ -10,7 +10,7 @@ import {
   RecommendationsFillIcon,
 } from "@/components/ui/icons/miscellaneus";
 import { navConfig } from "@/config/nav.config";
-import resources from "@/db/data/resources.json";
+import resources from "@/db/data/resources_actualizado_rutas.json";
 import { IconSvgProps } from "@/types/common";
 
 import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
@@ -23,53 +23,53 @@ type Hierarchy = {
   lvl3?: string | null;
 };
 
-const HEALTH_WELLNESS_COURSE = resources.resources.find(
+const HEALTH_WELLNESS_ROUTE = resources.resources.find(
   (resource) => resource.slug === "salud-y-bienestar",
 );
 
-const HEALTH_WELLNESS_LESSONS = HEALTH_WELLNESS_COURSE?.modules.flatMap(
+const HEALTH_WELLNESS_LESSONS = HEALTH_WELLNESS_ROUTE?.modules.flatMap(
   (module) =>
     module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const EXCERCISE_FITNESS_COURSE = resources.resources.find(
+const EXCERCISE_FITNESS_ROUTE = resources.resources.find(
   (resource) => resource.slug === "ejercicios-y-fitness",
 );
 
-const EXCERCISE_FITNESS_LESSONS = EXCERCISE_FITNESS_COURSE?.modules.flatMap(
+const EXCERCISE_FITNESS_LESSONS = EXCERCISE_FITNESS_ROUTE?.modules.flatMap(
   (module) =>
     module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const NUTRITION_COURSE = resources.resources.find(
+const NUTRITION_ROUTE = resources.resources.find(
   (resource) => resource.slug === "nutricion-y-alimentacion",
 );
 
-const NUTRITION_LESSONS = NUTRITION_COURSE?.modules.flatMap((module) =>
+const NUTRITION_LESSONS = NUTRITION_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const WELLBEING_COURSE = resources.resources.find(
+const WELLBEING_ROUTE = resources.resources.find(
   (resource) => resource.slug === "bienestar-emocional",
 );
 
-const WELLBEING_LESSONS = WELLBEING_COURSE?.modules.flatMap((module) =>
+const WELLBEING_LESSONS = WELLBEING_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const SEX_EDUCATION_COURSE = resources.resources.find(
+const SEX_EDUCATION_ROUTE = resources.resources.find(
   (resource) => resource.slug === "salud-y-educacion-sexual",
 );
 
-const SEX_EDUCATION_LESSONS = SEX_EDUCATION_COURSE?.modules.flatMap((module) =>
+const SEX_EDUCATION_LESSONS = SEX_EDUCATION_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const FOR_ALL_AGES_COURSE = resources.resources.find(
+const FOR_ALL_AGES_ROUTE = resources.resources.find(
   (resource) => resource.slug === "salud-en-todas-las-edades",
 );
 
-const FOR_ALL_AGES_LESSONS = FOR_ALL_AGES_COURSE?.modules.flatMap((module) =>
+const FOR_ALL_AGES_LESSONS = FOR_ALL_AGES_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 

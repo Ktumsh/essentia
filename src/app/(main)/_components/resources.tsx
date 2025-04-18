@@ -1,15 +1,15 @@
-import { RESOURCES } from "@/consts/resources";
+import { RESOURCES_DATA } from "@/consts/resources-data";
 
 import ResourcesItem from "./resources-item";
 
 const Resources = () => {
-  const itemId = RESOURCES.map(
-    ({ title, subtitle, quote, image, resource }) => ({
+  const itemId = RESOURCES_DATA.map(
+    ({ title, subtitle, quote, image, route }) => ({
       title,
       subtitle,
       quote,
       image,
-      href: `/${resource}`,
+      href: `/${route}`,
     }),
   );
   return (

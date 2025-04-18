@@ -48,28 +48,28 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import {
   cn,
   getProgressColor,
-  getResourceColor,
-  getResourceIndex,
+  getRouteColor,
+  getRouteIndex,
 } from "@/lib/utils";
-import { Course } from "@/types/resource";
+import { LearningRoute } from "@/types/resource";
 
 import ChapterList from "./chapter-list";
 import SectionTitle from "./section-title";
-import { useCourseProgress } from "../_hooks/use-course-progress";
+import { useRouteProgress } from "../_hooks/use-route-progress";
 
 const CourseList = ({
   userId,
-  resource,
-  modules,
+  route,
+  stages,
   about,
   slug,
   completedLessons,
-  moduleProgress,
-  courseProgress,
-  courseInitialized,
+  routeProgress,
+  stageProgress,
+  routeInitialized,
   isPremium,
-}: Course) => {
-  const { resourceId, resourceName } = resource || {};
+}: LearningRoute) => {
+  const { routeId, routeName } = route || {};
 
   const router = useRouter();
 
@@ -78,22 +78,19 @@ const CourseList = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
 
-  const firstModule = modules?.[0].module.slug;
-  const firstLesson = modules?.[0].lessons[0].slug;
+  const firstStage = stages?.[0].stage.slug;
+  const firstLesson = stages?.[0].lessons[0].slug;
 
-  const classes = modules.reduce((acc, curr) => acc + curr.lessons.length, 0);
-  const exams = modules.reduce((acc, curr) => acc + (curr.exam ? 1 : 0), 0);
+  const classes = stages.reduce((acc, curr) => acc + curr.lessons.length, 0);
+  const exams = stages.reduce((acc, curr) => acc + (curr.review ? 1 : 0), 0);
 
-  const resourceIndex = useMemo(
-    () => getResourceIndex(resourceName),
-    [resourceName],
-  );
+  const resourceIndex = useMemo(() => getRouteIndex(routeName), [routeName]);
 
-  const { processing, startCourse, continueCourse } = useCourseProgress({
+  const { processing, startRoute, continueRoute } = useRouteProgress({
     userId,
-    resourceId,
+    routeId,
     slug,
-    firstModule,
+    firstStage,
     firstLesson,
   });
 
@@ -113,17 +110,17 @@ const CourseList = ({
       toast.info("¡Hola! Para continuar con el curso debes iniciar sesión");
       return;
     }
-    if (!courseInitialized) {
+    if (!routeInitialized) {
       setIsOpen(true);
     } else {
       router.push(href);
     }
   };
 
-  const handleStartCourse = async () => {
+  const handleStartRoute = async () => {
     if (isPremiumResource) return;
     try {
-      await startCourse();
+      await startRoute();
     } catch (error) {
       console.error("Error al iniciar el curso:", error);
     } finally {
@@ -131,7 +128,7 @@ const CourseList = ({
     }
   };
 
-  if (modules?.length === 0) {
+  if (stages?.length === 0) {
     return (
       <Card className="border-red-200 dark:border-red-900">
         <CardHeader className="flex-row items-center gap-2">
@@ -148,23 +145,23 @@ const CourseList = ({
       <div className="relative mb-5 grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
         <section className="col-[1/2] row-[1/2]">
           <SectionTitle
-            title={`Aprende sobre ${resourceName}`}
+            title={`Aprende sobre ${routeName}`}
             hash={`aprende-sobre-${slug}`}
           >
-            {courseInitialized && (
+            {routeInitialized && (
               <Badge
                 variant="warning"
                 className={cn(
-                  courseProgress.completed &&
+                  routeProgress.completed &&
                     "bg-linear-to-br text-white! shadow-sm",
-                  getResourceColor(resourceIndex, "gradient"),
+                  getRouteColor(resourceIndex, "gradient"),
                 )}
               >
-                {!courseProgress.completed && (
+                {!routeProgress.completed && (
                   <span className="mr-2 size-1.5 rounded-full bg-amber-500" />
                 )}
-                {courseProgress.completed ? "Finalizado" : "En progreso"}
-                {courseProgress.completed && (
+                {routeProgress.completed ? "Finalizado" : "En progreso"}
+                {routeProgress.completed && (
                   <CheckCheck className="ml-1.5 size-3.5" />
                 )}
               </Badge>
@@ -182,7 +179,7 @@ const CourseList = ({
               Contenido del curso
             </h4>
             <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
-              <span>{modules?.length} secciones</span>
+              <span>{stages?.length} secciones</span>
               <span aria-hidden="true">•</span>
               <span>{classes} clases</span>
             </div>
@@ -222,20 +219,20 @@ const CourseList = ({
                 </div>
               </div>
               <ChapterList
-                modules={modules}
-                resourceSlug={slug}
+                stages={stages}
+                routeSlug={slug}
                 completedLessons={completedLessons}
-                moduleProgress={moduleProgress}
+                stageProgress={stageProgress}
                 onLessonClick={handleLessonClick}
                 isDisaled
               />
             </div>
           ) : (
             <ChapterList
-              modules={modules}
-              resourceSlug={slug}
+              stages={stages}
+              routeSlug={slug}
               completedLessons={completedLessons}
-              moduleProgress={moduleProgress}
+              stageProgress={stageProgress}
               onLessonClick={handleLessonClick}
             />
           )}
@@ -258,7 +255,7 @@ const CourseList = ({
                       <LibraryBig className="text-muted-foreground size-3.5" />
                     </div>
                     <p className="block text-base">
-                      {modules?.length} secciones
+                      {stages?.length} secciones
                     </p>
                   </div>
                 </li>
@@ -286,18 +283,18 @@ const CourseList = ({
                 </li>
               </ul>
             </CardContent>
-            {!courseProgress.completed && !isPremiumResource && userId ? (
+            {!routeProgress.completed && !isPremiumResource && userId ? (
               <CardFooter>
                 <Button
                   fullWidth
                   radius="full"
                   disabled={processing}
-                  onClick={courseInitialized ? continueCourse : startCourse}
+                  onClick={routeInitialized ? continueRoute : startRoute}
                 >
                   {!processing && <Play />}
                   {processing ? (
                     <Loader className="animate-spin" />
-                  ) : courseInitialized ? (
+                  ) : routeInitialized ? (
                     "Continuar curso"
                   ) : (
                     "Iniciar curso"
@@ -305,7 +302,7 @@ const CourseList = ({
                 </Button>
               </CardFooter>
             ) : (
-              !courseProgress.completed &&
+              !routeProgress.completed &&
               !isPremiumResource && (
                 <CardFooter>
                   <Button
@@ -321,7 +318,7 @@ const CourseList = ({
               )
             )}
           </Card>
-          {courseInitialized && (
+          {routeInitialized && (
             <div className="px-6 lg:px-0">
               <Card className="mt-5 rounded-xl">
                 <CardHeader isSecondary className="space-y-4">
@@ -330,15 +327,15 @@ const CourseList = ({
                   </CardTitle>
                   <CardDescription>
                     <div className="inline font-semibold">
-                      <span>{courseProgress.progress}</span>
+                      <span>{routeProgress.progress}</span>
                       <span className="text-xs">%</span>{" "}
                     </div>
                     <span className="ml-1">completado</span>
                   </CardDescription>
                   <Progress
-                    aria-label={`${courseProgress.progress}%`}
-                    value={courseProgress.progress}
-                    indicatorColor={getProgressColor(courseProgress.progress)}
+                    aria-label={`${routeProgress.progress}%`}
+                    value={routeProgress.progress}
+                    indicatorColor={getProgressColor(routeProgress.progress)}
                   />
                 </CardHeader>
               </Card>
@@ -367,7 +364,7 @@ const CourseList = ({
               <Button
                 variant="destructive"
                 disabled={processing}
-                onClick={handleStartCourse}
+                onClick={handleStartRoute}
               >
                 Iniciar curso
               </Button>
@@ -394,7 +391,7 @@ const CourseList = ({
               <Button
                 disabled={processing}
                 radius="full"
-                onClick={handleStartCourse}
+                onClick={handleStartRoute}
               >
                 {processing ? (
                   <Loader className="animate-spin" />

@@ -19,152 +19,139 @@ import { Card, CardContent, CardFooter } from "@/components/kit/card";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
 import {
-  completeCourse,
+  completeRoute,
   updateLessonProgress,
 } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  cn,
-  getResourceColor,
-  getResourceDetails,
-  getResourceIndex,
-} from "@/lib/utils";
-import { Modules } from "@/types/resource";
+import { cn, getRouteColor, getRouteDetails, getRouteIndex } from "@/lib/utils";
+import { Stages } from "@/types/resource";
 
 import ChapterList from "./chapter-list";
-import ResourceBadge from "./resource-badge";
+import RouteBadge from "./route-badge";
 
 import type { Lesson } from "@/db/schema";
 
 type LessonNavigation = {
-  moduleSlug: string;
+  stageSlug: string;
   lessonSlug: string;
   lessonId: string;
 };
 
 interface LessonProps {
-  resource: {
-    resourceId: string;
-    resourceName: string;
-    resourceSlug: string;
+  route: {
+    routeId: string;
+    routeName: string;
+    routeSlug: string;
   };
   lesson: Lesson;
-  modules: Modules[];
+  stages: Stages[];
   isCompleted: boolean;
   completedLessons?: string[];
-  moduleProgress: { [moduleId: string]: number };
+  stageProgress: { [stageId: string]: number };
   isCourseCompleted: boolean;
   isPremium?: boolean | null;
 }
 
 const Lesson = ({
-  resource,
+  route,
   lesson,
-  modules,
+  stages,
   isCompleted,
   completedLessons,
-  moduleProgress,
+  stageProgress,
   isCourseCompleted,
   isPremium,
 }: LessonProps) => {
-  const { resourceId, resourceName, resourceSlug } = resource;
+  const { routeId, routeName, routeSlug } = route;
 
   const isMobile = useIsMobile();
 
-  const resourceIndex = useMemo(
-    () => getResourceIndex(resourceName),
-    [resourceName],
-  );
+  const routeIndex = useMemo(() => getRouteIndex(routeName), [routeName]);
 
-  const resourceDetails = useMemo(
-    () => getResourceDetails(resourceName),
-    [resourceName],
-  );
+  const routeDetails = useMemo(() => getRouteDetails(routeName), [routeName]);
 
   const { data: session } = useSession();
   const userId = session?.user?.id;
   const router = useRouter();
 
-  const { currentModuleIndex, currentLessonIndex, chapter } = useMemo(() => {
-    const moduleIdx = modules.findIndex((module) =>
+  const { currentStageIndex, currentLessonIndex, chapter } = useMemo(() => {
+    const stageIdx = stages.findIndex((module) =>
       module.lessons.some((l) => l.id === lesson.id),
     );
-    if (moduleIdx === -1) {
-      return { currentModuleIndex: -1, currentLessonIndex: -1, chapter: 0 };
+    if (stageIdx === -1) {
+      return { currentStageIndex: -1, currentLessonIndex: -1, chapter: 0 };
     }
-    const currentModule = modules[moduleIdx];
-    const lessonIdx = currentModule.lessons.findIndex(
-      (l) => l.id === lesson.id,
-    );
+    const currentStage = stages[stageIdx];
+    const lessonIdx = currentStage.lessons.findIndex((l) => l.id === lesson.id);
     return {
-      currentModuleIndex: moduleIdx,
+      currentStageIndex: stageIdx,
       currentLessonIndex: lessonIdx,
-      chapter: currentModule.module.order,
+      chapter: currentStage.stage.order,
     };
-  }, [modules, lesson.id]);
+  }, [stages, lesson.id]);
 
   const totalLessons = useMemo(() => {
-    const currentModule = modules[currentModuleIndex];
-    return currentModule?.lessons.length || 0;
-  }, [modules, currentModuleIndex]);
+    const currentStage = stages[currentStageIndex];
+    return currentStage?.lessons.length || 0;
+  }, [stages, currentStageIndex]);
 
   const findNextLesson = useCallback((): LessonNavigation | null => {
-    if (currentModuleIndex === -1 || currentLessonIndex === -1) return null;
-    const currentModule = modules[currentModuleIndex];
-    if (currentLessonIndex + 1 < currentModule.lessons.length) {
-      const nextLesson = currentModule.lessons[currentLessonIndex + 1];
+    if (currentStageIndex === -1 || currentLessonIndex === -1) return null;
+    const currentStage = stages[currentStageIndex];
+    if (currentLessonIndex + 1 < currentStage.lessons.length) {
+      const nextLesson = currentStage.lessons[currentLessonIndex + 1];
       return {
-        moduleSlug: currentModule.module.slug,
+        stageSlug: currentStage.stage.slug,
         lessonSlug: nextLesson.slug,
         lessonId: nextLesson.id,
       };
     }
-    const nextModule = modules[currentModuleIndex + 1];
+    const nextModule = stages[currentStageIndex + 1];
     if (nextModule && nextModule.lessons.length > 0) {
       const firstLesson = nextModule.lessons[0];
       return {
-        moduleSlug: nextModule.module.slug,
+        stageSlug: nextModule.stage.slug,
         lessonSlug: firstLesson.slug,
         lessonId: firstLesson.id,
       };
     }
     return null;
-  }, [modules, currentModuleIndex, currentLessonIndex]);
+  }, [stages, currentStageIndex, currentLessonIndex]);
 
   const findPreviousLesson = useCallback((): LessonNavigation | null => {
-    if (currentModuleIndex === -1 || currentLessonIndex === -1) return null;
-    const currentModule = modules[currentModuleIndex];
+    if (currentStageIndex === -1 || currentLessonIndex === -1) return null;
+    const currentStage = stages[currentStageIndex];
     if (currentLessonIndex > 0) {
-      const prevLesson = currentModule.lessons[currentLessonIndex - 1];
+      const prevLesson = currentStage.lessons[currentLessonIndex - 1];
       return {
-        moduleSlug: currentModule.module.slug,
+        stageSlug: currentStage.stage.slug,
         lessonSlug: prevLesson.slug,
         lessonId: prevLesson.id,
       };
     }
-    const prevModule = modules[currentModuleIndex - 1];
+    const prevModule = stages[currentStageIndex - 1];
     if (prevModule && prevModule.lessons.length > 0) {
       const lastLesson = prevModule.lessons[prevModule.lessons.length - 1];
       return {
-        moduleSlug: prevModule.module.slug,
+        stageSlug: prevModule.stage.slug,
         lessonSlug: lastLesson.slug,
         lessonId: lastLesson.id,
       };
     }
     return null;
-  }, [modules, currentModuleIndex, currentLessonIndex]);
+  }, [stages, currentStageIndex, currentLessonIndex]);
 
   const isLastLesson = useMemo(() => {
-    if (currentModuleIndex === -1 || currentLessonIndex === -1) return false;
-    const isLastModule = currentModuleIndex === modules.length - 1;
+    if (currentStageIndex === -1 || currentLessonIndex === -1) return false;
+    const isLastModule = currentStageIndex === stages.length - 1;
     if (!isLastModule) return false;
-    const currentModule = modules[currentModuleIndex];
-    return currentLessonIndex === currentModule.lessons.length - 1;
-  }, [currentModuleIndex, currentLessonIndex, modules]);
+    const currentStage = stages[currentStageIndex];
+    return currentLessonIndex === currentStage.lessons.length - 1;
+  }, [currentStageIndex, currentLessonIndex, stages]);
 
   const areAllPreviousLessonsCompleted = useCallback((): boolean => {
-    for (const currentModule of modules) {
-      for (const lessonItem of currentModule.lessons) {
+    for (const currentStage of stages) {
+      for (const lessonItem of currentStage.lessons) {
         if (lessonItem.id === lesson.id) {
           return true;
         }
@@ -174,7 +161,7 @@ const Lesson = ({
       }
     }
     return true;
-  }, [modules, lesson.id, completedLessons]);
+  }, [stages, lesson.id, completedLessons]);
 
   const handleLessonComplete = useCallback(async () => {
     if (!userId) return;
@@ -183,9 +170,9 @@ const Lesson = ({
 
     if (isCompleted) {
       if (next) {
-        router.push(`/${resourceSlug}/${next.moduleSlug}/${next.lessonSlug}`);
+        router.push(`/${routeSlug}/${next.stageSlug}/${next.lessonSlug}`);
       } else {
-        toast.info("No hay más clases disponibles.");
+        toast.info("No hay más lecciones disponibles.");
       }
       return;
     }
@@ -193,12 +180,12 @@ const Lesson = ({
     try {
       const prevLesson = findPreviousLesson();
       if (prevLesson && !completedLessons?.includes(prevLesson.lessonId)) {
-        toast.error("Para continuar debes completar la clase anterior", {
+        toast.error("Para continuar debes completar la lección anterior", {
           action: {
             label: "Ir",
             onClick: () => {
               router.push(
-                `/${resourceSlug}/${prevLesson.moduleSlug}/${prevLesson.lessonSlug}`,
+                `/${routeSlug}/${prevLesson.stageSlug}/${prevLesson.lessonSlug}`,
               );
             },
           },
@@ -208,16 +195,16 @@ const Lesson = ({
 
       toast.promise(
         (async () => {
-          await updateLessonProgress(userId, lesson.id, resourceId);
+          await updateLessonProgress(userId, lesson.id, routeId);
         })(),
         {
-          loading: "Avanzando a la siguiente clase...",
-          success: "¡Clase completada!",
-          error: "Error al avanzar a la siguiente clase",
+          loading: "Avanzando a la siguiente lección...",
+          success: "¡Lección completada!",
+          error: "Error al avanzar a la siguiente lección",
         },
       );
       if (next) {
-        router.push(`/${resourceSlug}/${next.moduleSlug}/${next.lessonSlug}`);
+        router.push(`/${routeSlug}/${next.stageSlug}/${next.lessonSlug}`);
       }
     } catch (error) {
       console.error("Error al completar la lección:", error);
@@ -231,8 +218,8 @@ const Lesson = ({
     findPreviousLesson,
     completedLessons,
     lesson.id,
-    resourceId,
-    resourceSlug,
+    routeId,
+    routeSlug,
     router,
   ]);
 
@@ -242,24 +229,24 @@ const Lesson = ({
     try {
       if (!areAllPreviousLessonsCompleted()) {
         toast.error(
-          "Para finalizar el curso debes haber completado todas las clases anteriores",
+          "Para finalizar el curso debes haber completado todas las lecciones anteriores",
         );
         return;
       }
 
       toast.promise(
         (async () => {
-          await updateLessonProgress(userId, lesson.id, resourceId);
-          await completeCourse(userId, resourceId);
+          await updateLessonProgress(userId, lesson.id, routeId);
+          await completeRoute(userId, routeId);
         })(),
         {
           loading: "Finalizando curso...",
-          success: `¡Haz finalizado el curso de ${resourceName}!`,
+          success: `¡Haz finalizado el curso de ${routeName}!`,
           error: "Error al finalizar el curso",
         },
       );
 
-      router.push(`/${resourceSlug}`);
+      router.push(`/${routeSlug}`);
     } catch (error) {
       console.error("Error al finalizar el curso:", error);
       toast.error(
@@ -271,25 +258,25 @@ const Lesson = ({
   }, [
     userId,
     lesson.id,
-    resourceId,
-    resourceName,
-    resourceSlug,
+    routeId,
+    routeName,
+    routeSlug,
     router,
     areAllPreviousLessonsCompleted,
   ]);
 
-  const isPremiumResource =
+  const isPremiumRoute =
     [
       "ejercicios-y-fitness",
       "nutricion-y-alimentacion",
       "bienestar-emocional",
       "salud-y-educacion-sexual",
       "salud-en-todas-las-edades",
-    ].includes(resourceSlug) && !isPremium;
+    ].includes(routeSlug) && !isPremium;
 
-  if (isPremiumResource) return null;
+  if (isPremiumRoute) return null;
 
-  if (currentModuleIndex === -1 || currentLessonIndex === -1) {
+  if (currentStageIndex === -1 || currentLessonIndex === -1) {
     return (
       <Card className="border-red-200 dark:border-red-900">
         <CardFooter className="flex-row items-center gap-2">
@@ -310,7 +297,7 @@ const Lesson = ({
               radius="full"
               variant="ghost"
               className="text-muted-foreground -ml-2 shrink-0 self-start"
-              onClick={() => router.push(`/${resourceSlug}`)}
+              onClick={() => router.push(`/${routeSlug}`)}
             >
               <ArrowLeft className="size-5!" />
             </Button>
@@ -321,8 +308,8 @@ const Lesson = ({
           <BetterTooltip
             content={
               isCompleted
-                ? "¡Haz completado esta clase!"
-                : "Esta clase está pendiente"
+                ? "¡Haz completado esta lección!"
+                : "Esta lección está pendiente"
             }
           >
             <Badge variant={isCompleted ? "success" : "warning"}>
@@ -336,70 +323,64 @@ const Lesson = ({
           </BetterTooltip>
         </div>
         <div className="inline-flex w-full items-center gap-4">
-          <Link href={`/${resourceSlug}`}>
-            <ResourceBadge
-              resourceIndex={resourceIndex}
-              resourceDetails={resourceDetails}
-            />
+          <Link href={`/${routeSlug}`}>
+            <RouteBadge routeIndex={routeIndex} routeDetails={routeDetails} />
           </Link>
           <div className="leading-tight">
             <Link
-              href={`/${resourceSlug}`}
+              href={`/${routeSlug}`}
               className={cn(
                 "block w-fit font-semibold",
-                getResourceColor(resourceIndex, "text"),
+                getRouteColor(routeIndex, "text"),
               )}
             >
-              {resourceName}
+              {routeName}
             </Link>
             <div className="text-foreground/80 flex flex-wrap items-center gap-2 text-sm">
               <span>Capítulo {chapter}</span>
               <span aria-hidden="true">•</span>
               <span>
-                Clase {lesson.order} de {totalLessons}
+                Lección {lesson.order} de {totalLessons}
               </span>
             </div>
           </div>
         </div>
-        <div className="flex flex-col space-y-1">
+        <div className="dark:bg-accent/50 relative flex flex-col space-y-1.5 rounded-xl bg-slate-50 p-3">
           <div className="inline-flex items-center gap-2">
             <CheckCheck className="size-4 text-green-500" />
-            <h3 className="font-merriweather text-lg font-semibold">
-              Objetivo de la clase
+            <h3 className="font-merriweather text-base font-semibold md:text-lg">
+              Objetivo de la lección
             </h3>
           </div>
-          <div className="relative mb-6 flex justify-between gap-4 md:mb-0">
+          <div className="relative flex justify-between gap-4">
             <p className="text-foreground/80 text-sm md:text-base">
               {lesson.objective}
             </p>
-            <div
-              className={cn(
-                "absolute right-0 -bottom-10 flex justify-end gap-2 self-end px-6 md:static md:px-0",
-                {
-                  "sm:justify-end!": !findPreviousLesson(),
-                },
-              )}
-            >
-              <PreviousClassButton
-                resource={resource}
-                findPreviousLesson={findPreviousLesson}
-                hideLabel
-              />
-              <NextClassButton
-                isLastLesson={isLastLesson}
-                isCourseCompleted={isCourseCompleted}
-                handleFinishCourse={handleFinishCourse}
-                handleLessonComplete={handleLessonComplete}
-                findNextLesson={findNextLesson}
-                hideLabel
-              />
-            </div>
+          </div>
+          <div
+            className={cn("absolute top-0 right-0 flex justify-end gap-2 p-3", {
+              "sm:justify-end!": !findPreviousLesson(),
+            })}
+          >
+            <PreviousClassButton
+              route={route}
+              findPreviousLesson={findPreviousLesson}
+              hideLabel
+            />
+            <NextClassButton
+              isLastLesson={isLastLesson}
+              isCourseCompleted={isCourseCompleted}
+              handleFinishCourse={handleFinishCourse}
+              handleLessonComplete={handleLessonComplete}
+              findNextLesson={findNextLesson}
+              hideLabel
+            />
           </div>
         </div>
       </section>
       <section className="relative lg:col-[1/2] lg:row-[2/4]">
-        <Card className="dark:bg-accent/30 dark:border-alternative/50 rounded-xl bg-slate-50">
-          <CardContent className="p-5">
+        <Card className="rounded-none border-0">
+          <CardContent className="p-0">
             <Markdown className="prose-sm md:prose prose-marker prose-headings:text-foreground prose-headings:text-pretty prose-headings:font-bold prose-headings:text-base md:prose-headings:text-lg prose-headings:mb-2 prose-p:text-foreground/80 prose-p:text-pretty prose-p:leading-normal prose-p:mb-6 prose-p:mt-3 prose-strong:text-foreground prose-hr:border-slate-200 dark:prose-hr:border-alternative/50 prose-hr:my-5 prose-h3:text-base max-w-full! md:text-base!">
               {lesson.content as string}
             </Markdown>
@@ -407,14 +388,14 @@ const Lesson = ({
           <CardFooter
             isSecondary
             className={cn(
-              "dark:border-t-alternative/50! flex-col gap-2 p-5! sm:flex-row sm:justify-between",
+              "mt-6 flex-col gap-2 bg-transparent! p-5! sm:flex-row sm:justify-between",
               {
                 "sm:justify-end!": !findPreviousLesson(),
               },
             )}
           >
             <PreviousClassButton
-              resource={resource}
+              route={route}
               findPreviousLesson={findPreviousLesson}
             />
             <NextClassButton
@@ -430,12 +411,12 @@ const Lesson = ({
           <>
             {isLastLesson && (
               <p className="mt-2 text-center text-xs md:text-sm">
-                *Para marcar la clase como{" "}
+                *Para marcar la lección como{" "}
                 <span className="font-semibold text-emerald-500">
                   completada
                 </span>{" "}
                 debes {isMobile ? "presionar " : "hacer clic "}en el botón de{" "}
-                <span className="font-semibold">Clase siguiente</span>.
+                <span className="font-semibold">Lección siguiente</span>.
               </p>
             )}
             {!isCourseCompleted &&
@@ -443,12 +424,12 @@ const Lesson = ({
               (isLastLesson ? (
                 <p className="mt-2 text-center text-xs md:text-sm">
                   *Para poder finalizar el curso asegúrate de haber completado
-                  todas las clases anteriores.
+                  todas las lecciones anteriores.
                 </p>
               ) : (
                 <p className="mt-2 text-center text-xs md:text-sm">
-                  *Recuerda que debes completar las clases en orden para poder
-                  avanzar.
+                  *Recuerda que debes completar las lecciones en orden para
+                  poder avanzar.
                 </p>
               ))}
           </>
@@ -459,10 +440,10 @@ const Lesson = ({
           Capítulos
         </h3>
         <ChapterList
-          modules={modules}
-          resourceSlug={resourceSlug}
+          stages={stages}
+          routeSlug={routeSlug}
           completedLessons={completedLessons}
-          moduleProgress={moduleProgress}
+          stageProgress={stageProgress}
         />
         {isCourseCompleted && (
           <div className="mt-6 inline-flex w-full items-center justify-center text-sm">
@@ -503,27 +484,24 @@ function PureNextClassButton({
     </Button>
   ) : (
     findNextLesson() && (
-      <BetterTooltip content="Clase siguiente" hidden={!hideLabel}>
+      <BetterTooltip content="Lección siguiente" hidden={!hideLabel}>
         <Button
-          aria-label="Clase siguiente"
+          aria-label="Lección siguiente"
           radius="full"
           variant="outline"
-          className={cn(
-            "dark:border-alternative/50 bg-background w-full sm:w-fit",
-            {
-              "size-9! p-0": hideLabel,
-            },
-          )}
+          className={cn("bg-background w-full sm:w-fit", {
+            "size-6 p-0 md:size-7!": hideLabel,
+          })}
           onClick={handleLessonComplete}
         >
           {hideLabel ? (
             <>
-              <span className="sr-only">Clase siguiente</span>
+              <span className="sr-only">Lección siguiente</span>
             </>
           ) : (
-            <>Clase siguiente</>
+            <>Lección siguiente</>
           )}
-          <ArrowRight />
+          <ArrowRight className="size-3.5!" />
         </Button>
       </BetterTooltip>
     )
@@ -543,43 +521,40 @@ const NextClassButton = memo(PureNextClassButton, (prevProps, nextProps) => {
 });
 
 function PurePreviousClassButton({
-  resource,
+  route,
   findPreviousLesson,
   hideLabel,
 }: {
-  resource: { resourceSlug: string };
+  route: { routeSlug: string };
   findPreviousLesson: () => LessonNavigation | null;
   hideLabel?: boolean;
 }) {
   const router = useRouter();
   return (
-    <BetterTooltip content="Clase anterior" hidden={!hideLabel}>
+    <BetterTooltip content="Lección anterior" hidden={!hideLabel}>
       <Button
-        aria-label="Clase anterior"
+        aria-label="Lección anterior"
         radius="full"
         variant="outline"
-        className={cn(
-          "dark:border-alternative/50 bg-background w-full sm:w-fit",
-          {
-            "size-9! p-0": hideLabel,
-          },
-        )}
+        className={cn("bg-background w-full sm:w-fit", {
+          "size-6 p-0 md:size-7!": hideLabel,
+        })}
         onClick={() => {
           const prevLesson = findPreviousLesson();
           if (prevLesson) {
             router.push(
-              `/${resource.resourceSlug}/${prevLesson.moduleSlug}/${prevLesson.lessonSlug}`,
+              `/${route.routeSlug}/${prevLesson.stageSlug}/${prevLesson.lessonSlug}`,
             );
           }
         }}
       >
-        <ArrowLeft />
+        <ArrowLeft className="size-3.5!" />
         {hideLabel ? (
           <>
-            <span className="sr-only">Clase anterior</span>
+            <span className="sr-only">Lección anterior</span>
           </>
         ) : (
-          <>Clase anterior</>
+          <>Lección anterior</>
         )}
       </Button>
     </BetterTooltip>
@@ -589,7 +564,7 @@ function PurePreviousClassButton({
 const PreviousClassButton = memo(
   PurePreviousClassButton,
   (prevProps, nextProps) => {
-    if (prevProps.resource !== nextProps.resource) return false;
+    if (prevProps.route !== nextProps.route) return false;
     if (prevProps.findPreviousLesson !== nextProps.findPreviousLesson)
       return false;
 

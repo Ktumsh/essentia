@@ -4,142 +4,130 @@ import { and, asc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { Modules } from "@/types/resource";
+import { Stages } from "@/types/resource";
 
-import {
-  exam,
-  examQuestion,
-  lesson,
-  resourceModule,
-  resource,
-} from "../schema";
+import { review, reviewQuestion, lesson, stage, route } from "../schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
 
-export async function getResourceBySlug(slug: string) {
+export async function getRouteBySlug(slug: string) {
+  try {
+    const result = await db.select().from(route).where(eq(route.slug, slug));
+    return result[0];
+  } catch (error) {
+    console.error("Error al obtener la ruta:", error);
+    throw error;
+  }
+}
+
+export async function getStagesByRoute(routeId: string) {
+  try {
+    return await db.select().from(stage).where(eq(stage.routeId, routeId));
+  } catch (error) {
+    console.error("Error al obtener las etapas:", error);
+    throw error;
+  }
+}
+
+export async function getStageBySlug(slug: string) {
   try {
     const result = await db
       .select()
-      .from(resource)
-      .where(eq(resource.slug, slug));
+      .from(stage)
+      .leftJoin(lesson, eq(stage.id, lesson.stageId))
+      .where(eq(stage.slug, slug));
     return result[0];
   } catch (error) {
-    console.error("Error al obtener el recurso:", error);
+    console.error("Error al obtener la etapa:", error);
     throw error;
   }
 }
 
-export async function getModuleByResource(resourceId: string) {
-  try {
-    return await db
-      .select()
-      .from(resourceModule)
-      .where(eq(resourceModule.resourceId, resourceId));
-  } catch (error) {
-    console.error("Error al obtener los módulos:", error);
-    throw error;
-  }
-}
-
-export async function getModuleBySlug(slug: string) {
-  try {
-    const result = await db
-      .select()
-      .from(resourceModule)
-      .leftJoin(lesson, eq(resourceModule.id, lesson.moduleId))
-      .where(eq(resourceModule.slug, slug));
-    return result[0];
-  } catch (error) {
-    console.error("Error al obtener el módulo:", error);
-    throw error;
-  }
-}
-
-export async function getModules(resourceId: string): Promise<Array<Modules>> {
+export async function getStages(routeId: string): Promise<Array<Stages>> {
   try {
     const result = await db
       .select({
-        module: resourceModule,
+        stage,
         lesson,
-        exam,
+        review,
       })
-      .from(resourceModule)
-      .leftJoin(lesson, eq(resourceModule.id, lesson.moduleId))
-      .leftJoin(exam, eq(resourceModule.id, exam.moduleId))
-      .where(eq(resourceModule.resourceId, resourceId))
-      .orderBy(asc(resourceModule.order), asc(lesson.order))
+      .from(stage)
+      .leftJoin(lesson, eq(stage.id, lesson.stageId))
+      .leftJoin(review, eq(stage.id, review.stageId))
+      .where(eq(stage.routeId, routeId))
+      .orderBy(asc(stage.order), asc(lesson.order))
       .execute();
 
-    const modules: Array<Modules> = [];
+    const stages: Array<Stages> = [];
 
     for (const row of result) {
-      let existingModule = modules.find(
-        (item) => item.module.title === row.module.title
+      let existingStage = stages.find(
+        (item) => item.stage.title === row.stage.title,
       );
 
-      if (!existingModule) {
-        existingModule = {
-          module: row.module,
+      if (!existingStage) {
+        existingStage = {
+          stage: row.stage,
           lessons: [],
-          exam: row.exam,
+          review: row.review,
         };
-        modules.push(existingModule);
+        stages.push(existingStage);
       }
 
       if (row.lesson?.title) {
-        existingModule?.lessons.push(row.lesson);
+        existingStage.lessons.push(row.lesson);
       }
     }
 
-    return modules;
+    return stages;
   } catch (error) {
-    console.error("Error al obtener el módulo:", error);
+    console.error("Error al obtener las etapas:", error);
     throw error;
   }
 }
 
-export async function getLessonsByModule(moduleId: string) {
+export async function getLessonsByStage(stageId: string) {
   try {
-    return await db.select().from(lesson).where(eq(lesson.moduleId, moduleId));
+    return await db.select().from(lesson).where(eq(lesson.stageId, stageId));
   } catch (error) {
     console.error("Error al obtener las lecciones:", error);
     throw error;
   }
 }
 
-export async function getLessonBySlug(moduleId: string, lessonSlug: string) {
+export async function getLessonBySlug(stageId: string, lessonSlug: string) {
   const result = await db
     .select()
     .from(lesson)
-    .where(and(eq(lesson.moduleId, moduleId), eq(lesson.slug, lessonSlug)))
+    .where(and(eq(lesson.stageId, stageId), eq(lesson.slug, lessonSlug)))
     .limit(1);
 
   return result[0];
 }
 
-export async function getExamByModule(moduleId: string) {
+export async function getReviewByStage(stageId: string) {
   try {
     const result = await db
       .select()
-      .from(exam)
-      .where(eq(exam.moduleId, moduleId));
+      .from(review)
+      .where(eq(review.stageId, stageId));
 
     return result[0];
   } catch (error) {
-    console.error("Error al obtener el examen:", error);
+    console.error("Error al obtener la revisión:", error);
     throw error;
   }
 }
 
-export async function getQuestionsByExam(examId: string) {
+export async function getQuestionsByReview(reviewId: string) {
   try {
     return await db
       .select()
-      .from(examQuestion)
-      .where(eq(examQuestion.examId, examId));
+      .from(reviewQuestion)
+      .where(eq(reviewQuestion.reviewId, reviewId));
   } catch (error) {
-    console.error("Error al obtener las preguntas del examen:", error);
+    console.error("Error al obtener las preguntas de la revisión:", error);
     throw error;
   }
 }

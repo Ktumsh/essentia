@@ -5,42 +5,42 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import {
-  initializeCourseProgress,
+  initializeRouteProgress,
   getLastCompletedLesson,
 } from "@/db/querys/progress-querys";
 
-interface UseCourseProgressProps {
+interface UseRouteProgressProps {
   userId?: string;
-  resourceId?: string;
+  routeId?: string;
   slug?: string;
-  firstModule?: string;
+  firstStage?: string;
   firstLesson?: string;
 }
 
-export const useCourseProgress = ({
+export const useRouteProgress = ({
   userId,
-  resourceId,
+  routeId,
   slug,
-  firstModule,
+  firstStage,
   firstLesson,
-}: UseCourseProgressProps) => {
+}: UseRouteProgressProps) => {
   const [processing, setProcessing] = useState(false);
 
   const router = useRouter();
 
-  const startCourse = async () => {
+  const startRoute = async () => {
     try {
-      if (!resourceId || !userId) return;
+      if (!routeId || !userId) return;
 
       setProcessing(true);
 
       toast.promise(
         (async () => {
-          await initializeCourseProgress(userId, resourceId);
+          await initializeRouteProgress(userId, routeId);
 
           setProcessing(false);
 
-          router.push(`/${slug}/${firstModule}/${firstLesson}`);
+          router.push(`/${slug}/${firstStage}/${firstLesson}`);
         })(),
         {
           loading: "¡El curso está por comenzar!",
@@ -53,20 +53,20 @@ export const useCourseProgress = ({
     }
   };
 
-  const continueCourse = async () => {
+  const continueRoute = async () => {
     try {
-      if (!userId || !resourceId) return;
+      if (!userId || !routeId) return;
 
       setProcessing(true);
 
-      const lastLesson = await getLastCompletedLesson(userId, resourceId);
+      const lastLesson = await getLastCompletedLesson(userId, routeId);
 
       if (lastLesson) {
         router.push(
-          `/${slug}/${lastLesson.moduleSlug}/${lastLesson.lessonSlug}`,
+          `/${slug}/${lastLesson.stageSlug}/${lastLesson.lessonSlug}`,
         );
       } else {
-        router.push(`/${slug}/${firstModule}/${firstLesson}`);
+        router.push(`/${slug}/${firstStage}/${firstLesson}`);
       }
     } catch (error) {
       console.error("Error al continuar el curso:", error);
@@ -77,7 +77,7 @@ export const useCourseProgress = ({
 
   return {
     processing,
-    startCourse,
-    continueCourse,
+    startRoute,
+    continueRoute,
   };
 };

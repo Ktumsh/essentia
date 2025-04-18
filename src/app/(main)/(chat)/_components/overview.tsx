@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle } from "@/components/kit/card";
 import { StarsIcon } from "@/components/ui/icons/common";
 import Logo from "@/components/ui/layout/logo";
-import { cn, getResourceColor, getResourceDarkColor } from "@/lib/utils";
+import { cn, getRouteColor, getRouteDarkColor } from "@/lib/utils";
 
 const resources = [
   { title: "salud y bienestar" },
@@ -36,8 +36,8 @@ const Overview = () => {
                   <code
                     className={cn(
                       "rounded-sm px-1 py-0.5",
-                      getResourceColor(index, "background"),
-                      getResourceDarkColor(index),
+                      getRouteColor(index, "background"),
+                      getRouteDarkColor(index),
                     )}
                   >
                     {resource.title}
@@ -49,8 +49,8 @@ const Overview = () => {
               <code
                 className={cn(
                   "rounded-sm px-1 py-0.5",
-                  getResourceColor(resources.length, "background"),
-                  getResourceDarkColor(resources.length),
+                  getRouteColor(resources.length, "background"),
+                  getRouteDarkColor(resources.length),
                 )}
               >
                 más

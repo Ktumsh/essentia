@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { Card, CardHeader } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn, getResourceColor, getResourceDetails } from "@/lib/utils";
+import { cn, getRouteColor, getRouteDetails } from "@/lib/utils";
 
 type ResoucesItemProps = {
   index: number;
@@ -19,7 +19,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
   const { index, title, subtitle, href, quote } = props;
   const isMobile = useIsMobile();
 
-  const resourceDetails = getResourceDetails(title);
+  const resourceDetails = getRouteDetails(title);
 
   if (!resourceDetails) return null;
 
@@ -31,11 +31,11 @@ const ResourcesItem = (props: ResoucesItemProps) => {
             <div
               className={cn(
                 "flex size-10 items-center justify-center rounded-lg",
-                getResourceColor(index, "background"),
+                getRouteColor(index, "background"),
               )}
             >
               <resourceDetails.activeIcon
-                className={cn("size-5", getResourceColor(index, "text"))}
+                className={cn("size-5", getRouteColor(index, "text"))}
               />
             </div>
             <span className="text-xxs text-muted-foreground absolute top-6 right-6 font-bold tracking-wide uppercase">
@@ -58,7 +58,7 @@ const ResourcesItem = (props: ResoucesItemProps) => {
       <Link
         href={href}
         className={cn(
-          getResourceColor(index, "gradient"),
+          getRouteColor(index, "gradient"),
           "relative flex aspect-auto min-h-36 min-w-36 flex-col items-center justify-center gap-2 rounded-2xl bg-linear-to-br transition first:rounded-tr-2xl! last:rounded-bl-2xl! odd:rounded-tr-sm odd:rounded-br-sm even:rounded-tl-sm even:rounded-bl-sm active:scale-[0.97] md:hidden [&:nth-child(2)]:rounded-tl-2xl [&:nth-child(5)]:rounded-br-2xl",
         )}
       >

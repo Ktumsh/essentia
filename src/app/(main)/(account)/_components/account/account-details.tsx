@@ -13,20 +13,20 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { Courses } from "@/types/resource";
+import { LearningRoutes } from "@/types/resource";
 import { formatDate } from "@/utils/format";
 
 import ChangeEmailModal from "./change-email-modal";
 import ChangePasswordModal from "./change-password-modal";
-import CourseProgressTable from "./course-progress-table";
 import DeleteAccountModal from "./delete-account-modal";
+import RouuteProgressTable from "./route-progress-table";
 import InfoFieldItem from "../info-field-item";
 
 interface AccountDetailsProps {
-  courses: Courses;
+  routes: LearningRoutes;
 }
 
-const AccountDetails = ({ courses }: AccountDetailsProps) => {
+const AccountDetails = ({ routes }: AccountDetailsProps) => {
   const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
   const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -104,9 +104,9 @@ const AccountDetails = ({ courses }: AccountDetailsProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <CourseProgressTable
+            <RouuteProgressTable
               userId={id}
-              courses={courses}
+              routes={routes}
               isPremium={isPremium}
             />
           </CardContent>

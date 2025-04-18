@@ -1,1 +1,0 @@
-ALTER TABLE "user_medical_history" ADD COLUMN "file_uploaded_at" timestamp;
