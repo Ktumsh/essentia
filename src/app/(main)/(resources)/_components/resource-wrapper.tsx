@@ -1,15 +1,23 @@
 "use client";
 
-import { ChevronsLeft, TextSearch } from "lucide-react";
-import { AnimatePresence, motion, Variants } from "motion/react";
+import { CheckCheck, Loader } from "lucide-react";
 import Image from "next/image";
-import { memo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { memo, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
-import { Markdown } from "@/components/markdown";
-import { cn, getRouteDetails, getRouteIndex } from "@/lib/utils";
+import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
+import { PlayButton } from "@/components/button-kit/play-button";
+import { Badge } from "@/components/kit/badge";
+import { Button } from "@/components/kit/button";
+import PageWrapper from "@/components/ui/layout/page-wrapper";
+import { useScrollRef } from "@/hooks/use-scroll-ref";
+import { cn, getRouteColor, getRouteIndex } from "@/lib/utils";
 import { formatTitle } from "@/utils/format";
 
-import RouteBadge from "./route-badge";
+import CourseList from "./route-list";
+import VideoModal from "./video-modal";
+import { useRouteProgress } from "../_hooks/use-route-progress";
 
 import type { Route } from "@/db/schema";
 import type { Resources, Stages } from "@/types/resource";
@@ -35,9 +43,6 @@ const ResourceWrapper = ({
   routeProgress,
   routeInitialized,
 }: ResourceWrapperProps) => {
-  const [showIntro, setShowIntro] = useState(true);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   const {
     id,
     slug,
@@ -46,209 +51,232 @@ const ResourceWrapper = ({
     subtitle,
     description,
     about,
-    intro,
     quote,
+    videoTitle,
+    videoLink,
     imageFull,
     component: Component,
+    audience,
+    benefits,
+    learningOutcomes,
   } = resource;
+
+  const router = useRouter();
+
+  const route = { routeId: id, routeName: name };
+
+  const [isOpenVideo, setIsOpenVideo] = useState(false);
+
+  const imageRef = useRef<HTMLImageElement>(null);
+  const scrollRef = useScrollRef();
+
+  useEffect(() => {
+    const container = scrollRef?.current;
+    const img = imageRef.current;
+    if (!container || !img) return;
+
+    const scrollHeight = container.scrollHeight - container.clientHeight;
+
+    const ticking = { current: false };
+
+    const updateParallax = () => {
+      const progress = container.scrollTop / scrollHeight;
+      const translateY = progress * 600;
+
+      img.style.transform = `translateY(${translateY}px)`;
+      ticking.current = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking.current) {
+        requestAnimationFrame(updateParallax);
+        ticking.current = true;
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [scrollRef]);
+
+  const firstStage = stages?.[0].stage.slug;
+  const firstLesson = stages?.[0].lessons[0].slug;
+
+  const { processing, startRoute, continueRoute } = useRouteProgress({
+    userId,
+    routeId: id,
+    slug,
+    firstStage,
+    firstLesson,
+  });
+
+  const isPremiumResource =
+    [
+      "ejercicios-y-fitness",
+      "nutricion-y-alimentacion",
+      "bienestar-emocional",
+      "salud-y-educacion-sexual",
+      "salud-en-todas-las-edades",
+    ].includes(slug) && !isPremium;
 
   const formatedTitle = formatTitle(name || title);
 
   const routeIndex = getRouteIndex(name || title);
 
-  const routeDetails = getRouteDetails(name || title);
-
-  const scrollTo = ({ to }: { to: "start" | "end" }) => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollTo({
-        left: to === "start" ? 0 : sectionRef.current.scrollWidth,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  /*   const video = {
-    videoTitle,
-    videoLink,
-  };
-
-  const modal = {
-    isOpen,
-    setIsOpen,
-  }; */
-
-  const animationVariants: Variants = {
-    initial: (showIntro: boolean) => ({
-      x: showIntro ? "0%" : "-100%",
-      opacity: 0,
-    }),
-    animate: {
-      x: "0%",
-      opacity: 1,
-    },
-    exit: (showIntro: boolean) => ({
-      x: showIntro ? "0%" : "-100%",
-      opacity: 0,
-    }),
-  };
-
-  const transitionSettings = {
-    x: { ease: "easeInOut", duration: 0.3 },
-    opacity: { ease: "linear", duration: 0.3 },
-  };
-
-  const componentProps = {
-    userId,
-    route: { routeId: id, routeName: name },
-    stages,
-    about,
-    slug,
-    completedLessons,
-    stageProgress,
-    routeProgress,
-    routeInitialized,
-    isPremium,
-  };
+  const lessons = stages.reduce((acc, curr) => acc + curr.lessons.length, 0);
+  const reviews = stages.reduce((acc, curr) => acc + (curr.review ? 1 : 0), 0);
 
   return (
     <>
       <section
         id={`introduccion-a-${formatedTitle}`}
-        className="relative z-10 col-[1/2] row-[1/2] -mx-6 flex aspect-908/384 flex-1 flex-col overflow-hidden md:mx-0 lg:flex-row lg:rounded-b-2xl"
+        className="relative overflow-hidden"
       >
-        <RouteBadge
-          routeIndex={routeIndex}
-          routeDetails={routeDetails}
-          className="absolute top-0 right-0 p-5"
-        />
-        <div className="group text-foreground relative flex w-full flex-col justify-center overflow-hidden">
-          <div className="absolute top-0 z-10 flex w-full shrink-0 flex-col items-start justify-start px-5 pt-3 transition-opacity duration-500 group-active:opacity-0 lg:group-hover:opacity-0">
-            <span className="font-semibold text-white/70 uppercase">
+        <div className="absolute inset-0 z-0 before:absolute before:inset-0 before:z-1 before:size-full before:bg-blue-950/30 before:content-['']">
+          <Image
+            ref={imageRef}
+            priority
+            quality={100}
+            src={imageFull}
+            alt={name || title}
+            width={1920}
+            height={1280}
+            className={cn(
+              "size-full object-cover object-bottom brightness-[0.85] will-change-transform",
+              routeIndex > 1 && routeIndex < 5 && "object-center",
+            )}
+          />
+        </div>
+        <div className="relative z-10 mx-auto flex h-96 max-w-7xl flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center lg:px-8">
+          <div className="my-auto max-w-2xl">
+            <Badge
+              className={cn(
+                "mb-4 h-6 bg-linear-to-r/shorter px-3 text-white uppercase",
+                getRouteColor(routeIndex, "gradient"),
+                (routeIndex === 2 || routeIndex === 5) && "text-black",
+              )}
+            >
               {subtitle}
-            </span>
-            <h2 className="font-merriweather text-2xl font-bold text-white md:text-3xl">
-              {name || title}
-            </h2>
-          </div>
-          <div className="absolute inset-0 z-10 flex size-full items-center justify-center rounded-xl opacity-0 transition duration-500 group-active:opacity-100 group-active:backdrop-blur-lg md:group-hover:opacity-100 md:group-hover:backdrop-blur-lg">
-            <div className="relative z-10 inline-flex transition duration-500 before:absolute before:inset-0 before:z-[-1] before:rounded-full before:bg-black/40 before:blur-xl">
-              <q className="font-merriweather px-10 text-center font-medium text-white md:text-xl xl:text-2xl">
+            </Badge>
+            <h1 className="font-merriweather mb-4 text-3xl font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl md:text-5xl">
+              {title}
+            </h1>
+            <div className="mb-6 max-w-lg">
+              <q className="text-sm text-white/90 drop-shadow-md md:text-lg">
                 {quote}
               </q>
             </div>
-          </div>
-          <Image
-            priority
-            width={780}
-            height={330}
-            quality={80}
-            src={imageFull}
-            alt={name || title}
-            className="relative z-0 flex aspect-908/384 size-full max-w-full! items-center justify-center rounded-none object-cover object-center brightness-95"
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/0 to-40%"></div>
-        </div>
-        {/* <div className="absolute right-0 bottom-0 z-20 px-5 py-3">
-          <BetterTooltip content="Ver video presentación">
-            <Button
-              aria-label="Ver video presentación"
-              variant="ghost"
-              radius="sm"
-              className="z-10 aspect-video h-8 bg-black/40 backdrop-blur-xs backdrop-saturate-150 transition! hover:bg-black/60!"
-              onClick={() => setIsOpen(true)}
-            >
-              <PlayIcon className="group absolute top-1/2 left-1/2 z-10 size-4 -translate-x-1/2 -translate-y-1/2 text-white" />
-              <span className="sr-only">Ver video presentación</span>
-            </Button>
-          </BetterTooltip>
-        </div> */}
-      </section>
-      <section className="group relative col-[2/3] row-[1/2] hidden items-center md:max-w-md lg:flex">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={showIntro ? "intro" : "description"}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            custom={showIntro}
-            variants={animationVariants}
-            transition={transitionSettings}
-            className={cn(
-              "relative w-full p-6",
-              !showIntro &&
-                "bg-accent dark:bg-accent/50 border-border rounded-2xl border",
-            )}
-          >
-            <div className="prose text-foreground dark:prose-invert antialiased will-change-transform">
-              {showIntro ? (
-                <Markdown>{intro}</Markdown>
+            <div className="flex flex-wrap gap-4">
+              {!routeProgress.completed && !isPremiumResource && userId ? (
+                <ArrowLeftButton
+                  size="lg"
+                  onClick={routeInitialized ? continueRoute : startRoute}
+                  className={cn(
+                    "flex-row-reverse rounded-lg bg-linear-to-r/shorter text-white duration-300 hover:scale-105 hover:saturate-150 [&_svg]:rotate-180",
+                    getRouteColor(routeIndex, "gradient"),
+                    (routeIndex === 2 || routeIndex === 5) && "text-black",
+                  )}
+                >
+                  {processing ? (
+                    <>
+                      <Loader className="animate-spin" />
+                      Continuando...
+                    </>
+                  ) : routeInitialized ? (
+                    "Continuar ruta"
+                  ) : (
+                    "Comenzar a aprender"
+                  )}
+                </ArrowLeftButton>
               ) : (
-                <>
-                  <h3>¿Qué es {name}?</h3>
-                  <Markdown>{description}</Markdown>
-                </>
+                !routeProgress.completed && (
+                  <ArrowLeftButton
+                    size="lg"
+                    onClick={() => router.push(`/login?next=/${slug}`)}
+                    className={cn(
+                      "flex-row-reverse rounded-lg bg-linear-to-r/shorter text-white duration-300 hover:scale-105 hover:saturate-150 [&_svg]:rotate-180",
+                      getRouteColor(routeIndex, "gradient"),
+                      (routeIndex === 2 || routeIndex === 5) && "text-black",
+                    )}
+                  >
+                    Comenzar a aprender
+                  </ArrowLeftButton>
+                )
               )}
+              {routeProgress.completed && userId && (
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    toast.info("¡Felicidades! 🎉", {
+                      description: "Haz completado la ruta ☺️",
+                    });
+                  }}
+                  className={cn(
+                    "rounded-lg bg-linear-to-r/shorter text-white duration-300 hover:scale-105 hover:saturate-150",
+                    getRouteColor(routeIndex, "gradient"),
+                    (routeIndex === 2 || routeIndex === 5) && "text-black",
+                  )}
+                >
+                  Ruta completada
+                  <CheckCheck />
+                </Button>
+              )}
+              <PlayButton
+                size="lg"
+                variant="outline"
+                onClick={() => setIsOpenVideo(true)}
+                className="rounded-lg border-white/50 bg-white/20 text-white backdrop-blur-sm duration-300 hover:scale-105 hover:text-white hover:opacity-100 hover:saturate-150"
+              >
+                Ver video introductorio
+              </PlayButton>
             </div>
-          </motion.div>
-        </AnimatePresence>
-        <motion.div
-          key={showIntro ? "intro" : "description"}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            duration: showIntro ? 0.8 : 1.4,
-            ease: "easeInOut",
-          }}
-          className="absolute right-0 bottom-0 flex px-5"
-        >
-          <button
-            aria-label={
-              showIntro ? "Mostrar descripción" : "Mostrar introducción"
-            }
-            className="text-muted-foreground"
-            onClick={() => setShowIntro(!showIntro)}
-          >
-            {showIntro ? (
-              <TextSearch className="size-8" />
-            ) : (
-              <ChevronsLeft className="size-8" />
-            )}
-          </button>
-        </motion.div>
-      </section>
-      <section
-        ref={sectionRef}
-        className="group col-[1/2] row-[2/3] inline-flex flex-1 snap-x snap-mandatory overflow-x-auto lg:hidden"
-      >
-        <div className="prose-sm text-foreground dark:prose-invert relative flex max-w-full shrink-0 snap-center flex-col justify-between pb-2 md:w-full md:px-6">
-          <Markdown className="prose-sm">{intro}</Markdown>
-          <div className="mt-2 flex w-full justify-end">
-            <button
-              aria-label="Ir al final"
-              onClick={() => scrollTo({ to: "end" })}
-            >
-              <ChevronsLeft className="text-muted-foreground size-8 rotate-180" />
-            </button>
           </div>
-        </div>
-        <div className="prose-sm text-foreground dark:prose-invert relative flex max-w-full shrink-0 snap-center flex-col justify-between pb-2 md:w-full md:px-6">
-          <h3 className="font-semibold text-[#111827] dark:text-white">
-            ¿Qué es {name}?
-          </h3>
-          <Markdown className="prose-sm">{description}</Markdown>
-          <div className="mt-2 flex w-full justify-end">
-            <button
-              aria-label="Ir al final"
-              onClick={() => scrollTo({ to: "start" })}
-            >
-              <ChevronsLeft className="text-foreground-l-l size-8" />
-            </button>
+          <div className="hidden rounded-xl border-2 border-white/20 [background-image:var(--bento-gradient)] p-4 shadow-md backdrop-blur-md md:block lg:p-6">
+            <div className="flex items-center gap-6 text-white">
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{stages.length}</span>
+                <span className="text-sm">Etapas</span>
+              </div>
+              <div className="h-12 w-px bg-white/20"></div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{lessons}</span>
+                <span className="text-sm">Lecciones</span>
+              </div>
+              <div className="h-12 w-px bg-white/20"></div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{reviews}</span>
+                <span className="text-sm">Revisiones</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      <Component {...componentProps} />
-      {/* <VideoModal video={video} modal={modal} /> */}
+      <PageWrapper className="mt-6 md:mt-12">
+        {stages && (
+          <CourseList
+            userId={userId}
+            route={route}
+            stages={stages}
+            about={about}
+            slug={slug}
+            completedLessons={completedLessons}
+            stageProgress={stageProgress}
+            routeProgress={routeProgress}
+            routeInitialized={routeInitialized}
+            isPremium={isPremium}
+            description={description}
+            audience={audience}
+            benefits={benefits}
+            learningOutcomes={learningOutcomes}
+          />
+        )}
+        <Component />
+      </PageWrapper>
+      <VideoModal
+        videoTitle={videoTitle}
+        videoLink={videoLink}
+        isOpen={isOpenVideo}
+        setIsOpen={setIsOpenVideo}
+      />
     </>
   );
 };

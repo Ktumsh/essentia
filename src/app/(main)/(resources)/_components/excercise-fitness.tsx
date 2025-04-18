@@ -12,34 +12,18 @@ import PaymentModal from "@/components/ui/payment/payment-modal";
 import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 import CardList from "./card-list";
-import CourseList from "./course-list";
 import SectionTitle from "./section-title";
 
-import type { LearningRoute } from "@/types/resource";
-
-interface ExerciseFitnessProps extends LearningRoute {
-  isPremium?: boolean | null;
-}
-
-const ExcerciseFitness = (props: ExerciseFitnessProps) => {
-  const {
-    userId,
-    route,
-    stages,
-    about,
-    slug,
-    completedLessons,
-    stageProgress,
-    routeProgress,
-    routeInitialized,
-    isPremium,
-  } = props;
-
+const ExcerciseFitness = () => {
   const router = useRouter();
 
   const { data: session } = useSession();
+  const { user } = useUserProfile();
+
+  const { isPremium } = user ?? {};
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -59,18 +43,6 @@ const ExcerciseFitness = (props: ExerciseFitnessProps) => {
 
   return (
     <>
-      <CourseList
-        userId={userId}
-        route={route}
-        stages={stages}
-        about={about}
-        slug={slug}
-        completedLessons={completedLessons}
-        stageProgress={stageProgress}
-        routeProgress={routeProgress}
-        routeInitialized={routeInitialized}
-        isPremium={isPremium}
-      />
       <section className="col-[1/2] lg:col-[1/3]">
         <SectionTitle
           title="Rutinas de Ejercicios"

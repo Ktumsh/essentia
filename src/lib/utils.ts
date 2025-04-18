@@ -158,12 +158,23 @@ export const getProgressColor = (value: number) => {
 
 export const getRouteColor = (
   index: number,
-  colorType: "gradient" | "background" | "text",
+  colorType:
+    | "gradient"
+    | "background"
+    | "text"
+    | "text-strong"
+    | "text-contrast"
+    | "text-muted"
+    | "border",
 ): string => {
   const colorMap: {
     gradient: { [key: number]: string };
     background: { [key: number]: string };
     text: { [key: number]: string };
+    "text-strong": { [key: number]: string };
+    "text-contrast": { [key: number]: string };
+    "text-muted": { [key: number]: string };
+    border: { [key: number]: string };
   } = {
     gradient: {
       0: "from-emerald-600 to-emerald-500",
@@ -182,12 +193,44 @@ export const getRouteColor = (
       5: "bg-lime-100 dark:bg-lime-950",
     },
     text: {
-      0: "text-emerald-600",
-      1: "text-fuchsia-600",
+      0: "text-emerald-500",
+      1: "text-fuchsia-500",
       2: "text-yellow-500",
       3: "text-blue-500",
-      4: "text-rose-600",
-      5: "text-lime-600",
+      4: "text-rose-500",
+      5: "text-lime-500",
+    },
+    "text-strong": {
+      0: "prose-strong:text-emerald-950 dark:prose-strong:text-emerald-50",
+      1: "prose-strong:text-fuchsia-950 dark:prose-strong:text-fuchsia-50",
+      2: "prose-strong:text-yellow-950 dark:prose-strong:text-yellow-50",
+      3: "prose-strong:text-blue-950 dark:prose-strong:text-blue-50",
+      4: "prose-strong:text-rose-950 dark:prose-strong:text-rose-50",
+      5: "prose-strong:text-lime-950 dark:prose-strong:text-lime-50",
+    },
+    "text-contrast": {
+      0: "text-emerald-950 dark:text-emerald-50",
+      1: "text-fuchsia-950 dark:text-fuchsia-50",
+      2: "text-yellow-950 dark:text-yellow-50",
+      3: "text-blue-950 dark:text-blue-50",
+      4: "text-rose-950 dark:text-rose-50",
+      5: "text-lime-950 dark:text-lime-50",
+    },
+    "text-muted": {
+      0: "text-emerald-800! dark:text-emerald-200!",
+      1: "text-fuchsia-800! dark:text-fuchsia-200!",
+      2: "text-yellow-800! dark:text-yellow-200!",
+      3: "text-blue-800! dark:text-blue-200!",
+      4: "text-rose-800! dark:text-rose-200!",
+      5: "text-lime-800! dark:text-lime-200!",
+    },
+    border: {
+      0: "border-emerald-200 dark:border-emerald-900",
+      1: "border-fuchsia-200 dark:border-fuchsia-900",
+      2: "border-yellow-200 dark:border-yellow-900",
+      3: "border-blue-200 dark:border-blue-900",
+      4: "border-rose-200 dark:border-rose-900",
+      5: "border-lime-200 dark:border-lime-900",
     },
   };
 

@@ -58,7 +58,10 @@ export interface Resources {
   image: string;
   imageFull: string;
   route: string;
-  component: FC<{ isPremium?: boolean | null } & LearningRoute>;
+  component: FC;
+  audience: string[];
+  benefits: string[];
+  learningOutcomes: string[];
 }
 
 export interface Video {

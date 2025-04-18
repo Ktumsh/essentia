@@ -1,9 +1,9 @@
 "use client";
 
-import { CheckCircle, CircleDashed } from "lucide-react";
+import { Award, BookOpen, CheckCircle, CircleDashed } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MouseEvent } from "react";
+import { MouseEvent, useMemo } from "react";
 
 import {
   Accordion,
@@ -13,11 +13,12 @@ import {
 } from "@/components/kit/accordion";
 import { Badge } from "@/components/kit/badge";
 import { CircularProgress } from "@/components/kit/circular-progress";
-import { cn } from "@/lib/utils";
+import { cn, getRouteColor } from "@/lib/utils";
 
 import type { Stages } from "@/types/resource";
 
 interface ChapterListProps {
+  routeIndex: number;
   stages?: Stages[];
   routeSlug?: string;
   completedLessons?: string[];
@@ -27,6 +28,7 @@ interface ChapterListProps {
 }
 
 const ChapterList = ({
+  routeIndex,
   stages,
   routeSlug,
   completedLessons = [],
@@ -63,6 +65,11 @@ const ChapterList = ({
     )
     .filter((index): index is string => index !== null);
 
+  const textMutedColor = useMemo(
+    () => getRouteColor(routeIndex, "text-muted"),
+    [routeIndex],
+  );
+
   return (
     <Accordion
       type="multiple"
@@ -90,7 +97,12 @@ const ChapterList = ({
                 )}
               />
               <div className="w-full">
-                <span className="text-foreground/80 text-sm font-normal text-nowrap">
+                <span
+                  className={cn(
+                    "text-sm font-normal text-nowrap",
+                    textMutedColor,
+                  )}
+                >
                   Etapa {item.stage.order + 1}
                 </span>
                 <h4 className="text-foreground text-base">
@@ -100,7 +112,7 @@ const ChapterList = ({
             </AccordionTrigger>
             <AccordionContent
               className={cn(
-                "bg-accent dark:bg-accent/50 m-1 overflow-hidden rounded-xl pb-0",
+                "dark:bg-accent/50 m-1 overflow-hidden rounded-xl bg-slate-50 pb-0",
                 {
                   "pointer-events-none": isDisaled,
                 },
@@ -119,12 +131,13 @@ const ChapterList = ({
                         href={href}
                         onClick={(e) => handleLessonClick(e, href)}
                         className={cn(
-                          "dark:hover:bg-accent relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-slate-200",
+                          "hover:bg-accent relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150",
                           {
-                            "dark:bg-accent bg-slate-200": isActive,
+                            "bg-accent": isActive,
                           },
                         )}
                       >
+                        <BookOpen className="text-muted-foreground size-3.5" />
                         <p className="flex grow items-center gap-1">
                           {lesson.title}
                         </p>
@@ -142,19 +155,21 @@ const ChapterList = ({
                     <Link
                       href={`/${routeSlug}/${item.stage.slug}/${item.review.slug}`}
                       className={cn(
-                        "text-foreground/80 hover:text-foreground dark:hover:bg-dark relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150 hover:bg-slate-200",
+                        "text-foreground/80 hover:text-foreground hover:bg-accent relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150",
                         "pointer-events-none",
                         {
-                          "text-foreground dark:bg-dark bg-slate-200":
-                            pathname.includes(item.review.slug),
+                          "text-foreground bg-accent": pathname.includes(
+                            item.review.slug,
+                          ),
                         },
                       )}
                     >
+                      <Award className="size-3.5 text-amber-500" />
                       <p className="flex grow items-center gap-1 opacity-50">
-                        ¡Evalúa lo que aprendiste!
+                        ¡Reflexiona sobre lo aprendido!
                       </p>
-                      <Badge className="bg-primary/10! text-primary! font-normal">
-                        Próximamente
+                      <Badge className="bg-primary/10! text-primary! rounded-[6px] font-normal">
+                        ¡Próximamente!
                       </Badge>
                     </Link>
                   </li>

@@ -117,12 +117,6 @@
 }
 
 :root {
-  --capra-ramp-1: #ffc400;
-  --capra-ramp-2: #ff9100;
-  --capra-ramp-3: #ff530f;
-  --capra-ramp-4: #e62c6d;
-  --capra-ramp-5: #b25aff;
-
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(222.2, 84%, 4.9%);
   --card: hsl(0, 0%, 100%);

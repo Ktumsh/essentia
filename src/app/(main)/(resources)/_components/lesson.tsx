@@ -86,7 +86,7 @@ const Lesson = ({
     return {
       currentStageIndex: stageIdx,
       currentLessonIndex: lessonIdx,
-      chapter: currentStage.stage.order,
+      chapter: currentStage.stage.order + 1,
     };
   }, [stages, lesson.id]);
 
@@ -302,7 +302,9 @@ const Lesson = ({
               <ArrowLeft className="size-5!" />
             </Button>
             <h1 className="font-merriweather text-xl font-bold md:text-2xl">
-              {lesson.title}
+              {lesson.title}{" "}
+              {lesson.title.includes("Introducción a la ruta") &&
+                " de aprendizaje"}
             </h1>
           </div>
           <BetterTooltip
@@ -337,10 +339,10 @@ const Lesson = ({
               {routeName}
             </Link>
             <div className="text-foreground/80 flex flex-wrap items-center gap-2 text-sm">
-              <span>Capítulo {chapter}</span>
+              <span>Etapa {chapter}</span>
               <span aria-hidden="true">•</span>
               <span>
-                Lección {lesson.order} de {totalLessons}
+                Lección {lesson.order + 1} de {totalLessons}
               </span>
             </div>
           </div>
@@ -423,7 +425,7 @@ const Lesson = ({
               !isCompleted &&
               (isLastLesson ? (
                 <p className="mt-2 text-center text-xs md:text-sm">
-                  *Para poder finalizar el curso asegúrate de haber completado
+                  *Para poder finalizar esta ruta asegúrate de haber completado
                   todas las lecciones anteriores.
                 </p>
               ) : (
@@ -435,11 +437,10 @@ const Lesson = ({
           </>
         )}
       </section>
-      <section className="sticky top-0 px-6 py-5 lg:col-[2/3] lg:row-[1/3] lg:px-0">
-        <h3 className="font-merriweather mb-2 text-lg font-semibold">
-          Capítulos
-        </h3>
+      <section className="sticky top-0 pt-0 pb-5 md:pt-16 lg:col-[2/3] lg:row-[1/3]">
+        <h3 className="font-merriweather mb-2 text-lg font-semibold">Etapas</h3>
         <ChapterList
+          routeIndex={routeIndex}
           stages={stages}
           routeSlug={routeSlug}
           completedLessons={completedLessons}
@@ -447,7 +448,7 @@ const Lesson = ({
         />
         {isCourseCompleted && (
           <div className="mt-6 inline-flex w-full items-center justify-center text-sm">
-            <p>¡Felicidades! Haz finalizado este curso 🎉</p>
+            <p>¡Felicidades! Haz finalizado esta ruta 🎉</p>
           </div>
         )}
       </section>

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
+import PageWrapper from "@/components/ui/layout/page-wrapper";
 import {
   getCompletedLessons,
   getRouteProgress,
@@ -110,16 +111,20 @@ const LessonPage = async (props: LessonPageProps) => {
   const { isPremium } = userData || {};
 
   return (
-    <Lesson
-      lesson={lesson}
-      stages={modules}
-      route={routeData}
-      isCompleted={progress}
-      completedLessons={completedLessons}
-      stageProgress={stageProgress}
-      isCourseCompleted={course.completed}
-      isPremium={isPremium ?? false}
-    />
+    <PageWrapper>
+      <div className="mx-auto grid grid-cols-1 gap-6 lg:grid-cols-[1fr_424px]">
+        <Lesson
+          lesson={lesson}
+          stages={modules}
+          route={routeData}
+          isCompleted={progress}
+          completedLessons={completedLessons}
+          stageProgress={stageProgress}
+          isCourseCompleted={course.completed}
+          isPremium={isPremium ?? false}
+        />
+      </div>
+    </PageWrapper>
   );
 };
 

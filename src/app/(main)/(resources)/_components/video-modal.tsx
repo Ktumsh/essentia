@@ -14,25 +14,19 @@ import { formatTitle } from "@/utils/format";
 
 import { useModalHash } from "../_hooks/use-modal-hash";
 
-type Modal = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-};
-
-type Video = {
+interface VideoModalProps {
   videoTitle?: string;
   videoLink?: string;
-};
-
-interface VideoModalProps {
-  video: Video;
-  modal: Modal;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-const VideoModal = ({ video, modal }: VideoModalProps) => {
-  const { isOpen, setIsOpen } = modal;
-  const { videoTitle, videoLink } = video;
-
+const VideoModal = ({
+  videoTitle,
+  videoLink,
+  isOpen,
+  setIsOpen,
+}: VideoModalProps) => {
   const formatedTitle = formatTitle(videoTitle as string);
 
   useModalHash(formatedTitle, isOpen, setIsOpen);
@@ -49,7 +43,7 @@ const VideoModal = ({ video, modal }: VideoModalProps) => {
             Video sobre {videoTitle}
           </DialogDescription>
         </DialogHeader>
-        {video && (
+        {videoLink && (
           <LiteYouTubeEmbed
             id={videoLink || ""}
             title={videoTitle || ""}

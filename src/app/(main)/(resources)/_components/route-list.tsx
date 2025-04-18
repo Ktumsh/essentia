@@ -1,19 +1,20 @@
 import {
-  BookCheck,
-  BookOpenText,
+  Award,
+  BookOpen,
   CheckCheck,
-  LibraryBig,
+  CheckCircle2,
+  Clock,
   Loader,
-  Play,
   TriangleAlert,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { memo, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { LoginButton } from "@/components/button-kit/login-button";
+import { PlayButton } from "@/components/button-kit/play-button";
 import { Badge } from "@/components/kit/badge";
-import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
   Card,
@@ -23,28 +24,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/kit/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/kit/drawer";
 import { Progress } from "@/components/kit/progress";
 import { StarsIcon } from "@/components/ui/icons/common";
 import PaymentModal from "@/components/ui/payment/payment-modal";
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
   cn,
   getProgressColor,
@@ -54,10 +36,19 @@ import {
 import { LearningRoute } from "@/types/resource";
 
 import ChapterList from "./chapter-list";
+import InitializeRouteAlert from "./initialize-route-alert";
+import RouteInfoPanel from "./route-info-panel";
 import SectionTitle from "./section-title";
 import { useRouteProgress } from "../_hooks/use-route-progress";
 
-const CourseList = ({
+interface RouteListProps extends LearningRoute {
+  description: string;
+  audience: string[];
+  benefits: string[];
+  learningOutcomes: string[];
+}
+
+const RouteList = ({
   userId,
   route,
   stages,
@@ -68,12 +59,14 @@ const CourseList = ({
   stageProgress,
   routeInitialized,
   isPremium,
-}: LearningRoute) => {
+  description,
+  audience,
+  benefits,
+  learningOutcomes,
+}: RouteListProps) => {
   const { routeId, routeName } = route || {};
 
   const router = useRouter();
-
-  const isMobile = useIsMobile();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
@@ -81,10 +74,10 @@ const CourseList = ({
   const firstStage = stages?.[0].stage.slug;
   const firstLesson = stages?.[0].lessons[0].slug;
 
-  const classes = stages.reduce((acc, curr) => acc + curr.lessons.length, 0);
-  const exams = stages.reduce((acc, curr) => acc + (curr.review ? 1 : 0), 0);
+  const lessons = stages.reduce((acc, curr) => acc + curr.lessons.length, 0);
+  const reviews = stages.reduce((acc, curr) => acc + (curr.review ? 1 : 0), 0);
 
-  const resourceIndex = useMemo(() => getRouteIndex(routeName), [routeName]);
+  const routeIndex = useMemo(() => getRouteIndex(routeName), [routeName]);
 
   const { processing, startRoute, continueRoute } = useRouteProgress({
     userId,
@@ -107,7 +100,7 @@ const CourseList = ({
     if (isPremiumResource) return;
 
     if (!userId) {
-      toast.info("¡Hola! Para continuar con el curso debes iniciar sesión");
+      toast.info("¡Hola! Para continuar con esta ruta debes iniciar sesión");
       return;
     }
     if (!routeInitialized) {
@@ -122,7 +115,7 @@ const CourseList = ({
     try {
       await startRoute();
     } catch (error) {
-      console.error("Error al iniciar el curso:", error);
+      console.error("Error al iniciar la ruta:", error);
     } finally {
       setIsOpen(false);
     }
@@ -142,7 +135,7 @@ const CourseList = ({
   }
   return (
     <>
-      <div className="relative mb-5 grid grid-cols-1 gap-6 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
+      <div className="relative mb-5 grid grid-cols-1 gap-6 md:gap-8 lg:col-[1/3] lg:grid-cols-[1fr_424px]">
         <section className="col-[1/2] row-[1/2]">
           <SectionTitle
             title={`Aprende sobre ${routeName}`}
@@ -154,7 +147,7 @@ const CourseList = ({
                 className={cn(
                   routeProgress.completed &&
                     "bg-linear-to-br text-white! shadow-sm",
-                  getRouteColor(resourceIndex, "gradient"),
+                  getRouteColor(routeIndex, "gradient"),
                 )}
               >
                 {!routeProgress.completed && (
@@ -172,16 +165,23 @@ const CourseList = ({
               {about}
             </p>
           </div>
+          <RouteInfoPanel
+            index={routeIndex}
+            routeName={routeName}
+            description={description}
+            audience={audience}
+            benefits={benefits}
+          />
         </section>
         <section className="col-[1/2] row-[3/4] flex flex-col justify-start select-none lg:row-[2/6]">
           <div className="mb-4 flex flex-col space-y-1">
             <h4 className="font-merriweather text-lg font-semibold">
-              Contenido del curso
+              Contenido de la ruta de aprendizaje
             </h4>
             <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
-              <span>{stages?.length} secciones</span>
+              <span>{stages?.length} etapas</span>
               <span aria-hidden="true">•</span>
-              <span>{classes} clases</span>
+              <span>{lessons} lecciones</span>
             </div>
           </div>
           {isPremiumResource ? (
@@ -192,7 +192,7 @@ const CourseList = ({
               >
                 <div className="animate-slide-up flex size-full flex-col items-center justify-center gap-4">
                   <p className="text-center font-semibold md:text-lg">
-                    ¡Este curso es exclusivo para usuarios premium! 🌟
+                    ¡Esta ruta es exclusiva para usuarios premium! 🌟
                   </p>
                   {userId ? (
                     <Button
@@ -219,6 +219,7 @@ const CourseList = ({
                 </div>
               </div>
               <ChapterList
+                routeIndex={routeIndex}
                 stages={stages}
                 routeSlug={slug}
                 completedLessons={completedLessons}
@@ -229,6 +230,7 @@ const CourseList = ({
             </div>
           ) : (
             <ChapterList
+              routeIndex={routeIndex}
               stages={stages}
               routeSlug={slug}
               completedLessons={completedLessons}
@@ -238,174 +240,161 @@ const CourseList = ({
           )}
         </section>
         <section className="top-20 col-[1/2] row-[2/3] -mx-6 md:mx-0 lg:sticky lg:col-[2/3] lg:row-[1/4]">
-          <Card className="dark:bg-accent/50 bg-accent rounded-none border-y md:rounded-2xl md:border">
-            <CardHeader isSecondary>
-              <CardTitle className="text-center text-lg">
-                El curso incluye
+          <Card className="dark:bg-accent/50 rounded-none bg-slate-50 md:rounded-xl">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">
+                La ruta de aprendizaje incluye
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="grid grid-cols-2 gap-2">
-                <li className="bg-background flex flex-1 items-center justify-center rounded-xl p-2">
+              <ul className="grid grid-cols-2 gap-4">
+                <li className="flex flex-1 items-center gap-3">
+                  <div className="border-background bg-primary/10 grid size-10 shrink-0 place-content-center rounded-full border-2">
+                    <BookOpen className="text-primary size-4" />
+                  </div>
                   <div>
-                    <div className="inline-flex items-center gap-2">
-                      <span className="text-muted-foreground block text-sm">
-                        Módulos
-                      </span>
-                      <LibraryBig className="text-muted-foreground size-3.5" />
-                    </div>
-                    <p className="block text-base">
-                      {stages?.length} secciones
+                    <span className="text-muted-foreground text-sm">
+                      Etapas
+                    </span>
+                    <p className="block text-base font-medium">
+                      {stages?.length} etapas
                     </p>
                   </div>
                 </li>
-                <li className="bg-background flex flex-1 items-center justify-center rounded-xl p-2">
+                <li className="flex flex-1 items-center gap-3">
+                  <div className="border-background bg-primary/10 grid size-10 shrink-0 place-content-center rounded-full border-2">
+                    <Clock className="text-primary size-4" />
+                  </div>
                   <div>
-                    <div className="inline-flex items-center gap-2">
-                      <span className="text-muted-foreground text-sm">
-                        Lecciones
-                      </span>
-                      <BookOpenText className="text-muted-foreground size-3.5" />
-                    </div>
-                    <p className="block text-base">{classes} clases</p>
+                    <span className="text-muted-foreground text-sm">
+                      Lecciones
+                    </span>
+                    <p className="block text-base font-medium">
+                      {lessons} lecciones
+                    </p>
                   </div>
                 </li>
-                <li className="bg-background col-span-2 flex flex-1 items-center justify-center rounded-xl p-2">
+                <li className="col-span-2 flex flex-1 items-center gap-3">
+                  <div className="border-background bg-primary/10 grid size-10 shrink-0 place-content-center rounded-full border-2">
+                    <Award className="text-primary size-4" />
+                  </div>
                   <div>
-                    <div className="inline-flex items-center gap-2">
-                      <span className="text-muted-foreground text-sm">
-                        Exámenes
-                      </span>
-                      <BookCheck className="text-muted-foreground size-3.5" />
-                    </div>
-                    <p className="block text-base">{exams} evaluaciones</p>
+                    <span className="text-muted-foreground text-sm">
+                      Revisiones
+                    </span>
+                    <p className="block text-base font-medium">
+                      {reviews} revisiones prácticas
+                    </p>
                   </div>
                 </li>
               </ul>
+              <div className="space-y-2 pt-6">
+                <h4 className="text-base font-medium">Lo que aprenderás</h4>
+                <ul className="space-y-2.5">
+                  {learningOutcomes.map((outcome, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-500" />
+                      <span className="text-sm">{outcome}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </CardContent>
             {!routeProgress.completed && !isPremiumResource && userId ? (
               <CardFooter>
-                <Button
-                  fullWidth
-                  radius="full"
+                <ArrowLeftButton
                   disabled={processing}
                   onClick={routeInitialized ? continueRoute : startRoute}
+                  className="w-full flex-row-reverse [&_svg]:rotate-180"
                 >
-                  {!processing && <Play />}
                   {processing ? (
-                    <Loader className="animate-spin" />
+                    <>
+                      <Loader className="animate-spin" />
+                      Continuando...
+                    </>
                   ) : routeInitialized ? (
-                    "Continuar curso"
+                    "Continuar ruta"
                   ) : (
-                    "Iniciar curso"
+                    "Comenzar a aprender"
                   )}
-                </Button>
+                </ArrowLeftButton>
               </CardFooter>
             ) : (
               !routeProgress.completed &&
               !isPremiumResource && (
                 <CardFooter>
-                  <Button
-                    fullWidth
-                    radius="full"
+                  <PlayButton
                     disabled={processing}
                     onClick={() => router.push(`/login?next=/${slug}`)}
+                    className="w-full"
                   >
-                    {!processing && <Play />}
-                    Inicia sesión para continuar
-                  </Button>
+                    Comenzar a aprender
+                  </PlayButton>
                 </CardFooter>
               )
             )}
           </Card>
           {routeInitialized && (
             <div className="px-6 lg:px-0">
-              <Card className="mt-5 rounded-xl">
+              <Card className="mt-5">
                 <CardHeader isSecondary className="space-y-4">
                   <CardTitle className="text-lg">
-                    Tu progreso del curso
+                    Tu progreso de la ruta
                   </CardTitle>
-                  <CardDescription>
-                    <div className="inline font-semibold">
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="inline-flex w-full items-center justify-between text-sm">
+                    <div className="inline font-medium">
                       <span>{routeProgress.progress}</span>
                       <span className="text-xs">%</span>{" "}
+                      <span className="ml-1">completado</span>
                     </div>
-                    <span className="ml-1">completado</span>
-                  </CardDescription>
+                    <span className="text-sm text-slate-500">
+                      {completedLessons.length}
+                      <span className="text-xs">/</span>
+                      {lessons} lecciones
+                    </span>
+                  </div>
                   <Progress
                     aria-label={`${routeProgress.progress}%`}
                     value={routeProgress.progress}
                     indicatorColor={getProgressColor(routeProgress.progress)}
                   />
-                </CardHeader>
+                  {routeInitialized &&
+                    !routeProgress.completed &&
+                    !isPremiumResource &&
+                    userId && (
+                      <PlayButton
+                        variant="outline"
+                        disabled={processing}
+                        onClick={routeInitialized ? continueRoute : startRoute}
+                        className="bg-background w-full"
+                      >
+                        {processing ? (
+                          <>
+                            <Loader className="animate-spin" />
+                            Continuando...
+                          </>
+                        ) : (
+                          "Continúa donde lo dejaste"
+                        )}
+                      </PlayButton>
+                    )}
+                </CardContent>
               </Card>
             </div>
           )}
         </section>
       </div>
-      {isMobile ? (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Iniciar curso</DrawerTitle>
-              <DrawerDescription className="px-4" asChild>
-                <div>
-                  <p>Para comenzar con esta lección, debes iniciar el curso.</p>
-                  <p>¿Deseas iniciarlo ahora?</p>
-                </div>
-              </DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button variant="outline" disabled={processing}>
-                  Cancelar
-                </Button>
-              </DrawerClose>
-              <Button
-                variant="destructive"
-                disabled={processing}
-                onClick={handleStartRoute}
-              >
-                Iniciar curso
-              </Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent isSecondary>
-            <DialogHeader isSecondary className="pb-6!">
-              <BadgeAlert variant="question" />
-              <DialogTitle>Iniciar curso</DialogTitle>
-              <DialogDescription>
-                Para comenzar con esta lección, debes iniciar el curso. ¿Deseas
-                iniciarlo ahora?
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter isSecondary>
-              <DialogClose asChild>
-                <Button variant="outline" radius="full" disabled={processing}>
-                  Cancelar
-                </Button>
-              </DialogClose>
-              <Button
-                disabled={processing}
-                radius="full"
-                onClick={handleStartRoute}
-              >
-                {processing ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <>Iniciar curso</>
-                )}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      )}
+      <InitializeRouteAlert
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        handleStartRoute={handleStartRoute}
+        processing={processing}
+      />
       <PaymentModal isOpen={isOpenPayment} setIsOpen={setIsOpenPayment} />
     </>
   );
 };
 
-export default memo(CourseList);
+export default RouteList;

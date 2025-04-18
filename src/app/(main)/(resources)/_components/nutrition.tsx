@@ -12,34 +12,18 @@ import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
 import { RECIPES } from "@/consts/recipes-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
-import CourseList from "./course-list";
 import NutritionCarousel from "./nutrition-carousel";
 import SectionTitle from "./section-title";
 
-import type { LearningRoute } from "@/types/resource";
-
-interface NutritionProps extends LearningRoute {
-  isPremium?: boolean | null;
-}
-
-const Nutrition = (props: NutritionProps) => {
-  const {
-    userId,
-    route,
-    stages,
-    about,
-    slug,
-    completedLessons,
-    stageProgress,
-    routeProgress,
-    routeInitialized,
-    isPremium,
-  } = props;
-
+const Nutrition = () => {
   const router = useRouter();
 
   const { data: session } = useSession();
+  const { user } = useUserProfile();
+
+  const { isPremium } = user ?? {};
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -59,18 +43,6 @@ const Nutrition = (props: NutritionProps) => {
 
   return (
     <>
-      <CourseList
-        userId={userId}
-        route={route}
-        stages={stages}
-        about={about}
-        slug={slug}
-        completedLessons={completedLessons}
-        stageProgress={stageProgress}
-        routeProgress={routeProgress}
-        routeInitialized={routeInitialized}
-        isPremium={isPremium}
-      />
       <section className="col-[1/2] lg:col-[1/3]">
         <SectionTitle title="Recetas" hash="recetas">
           {!isMobile && session?.user && (

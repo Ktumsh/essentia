@@ -14,6 +14,7 @@ interface ArrowLeftButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   variant?: ButtonVariant;
   iconSize?: number;
+  disabled?: boolean;
 }
 
 const pathVariants: Variants = {
@@ -43,6 +44,7 @@ const ArrowLeftButton = ({
   size,
   variant,
   iconSize = 28,
+  disabled,
   ...props
 }: ArrowLeftButtonProps) => {
   const controls = useAnimation();
@@ -67,6 +69,7 @@ const ArrowLeftButton = ({
     <Button
       size={size}
       variant={variant}
+      disabled={disabled}
       className={cn(className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

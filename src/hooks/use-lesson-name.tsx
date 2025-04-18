@@ -39,7 +39,9 @@ const useLessonName = (
           (lesson) => lesson.slug === lessonSlug,
         );
 
-        if (lesson) {
+        if (lesson?.title.includes("Introducción a")) {
+          setLessonName(lesson.title + " de aprendizaje");
+        } else if (lesson) {
           setLessonName(lesson.title);
         } else {
           setLessonName("Lección desconocida");
