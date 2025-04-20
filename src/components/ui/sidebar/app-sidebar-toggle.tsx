@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/kit/button";
 import { useSidebar } from "@/components/kit/sidebar";
 import { BetterTooltip } from "@/components/kit/tooltip";
+import { useIsMac } from "@/hooks/use-is-mac";
 
 import { SidebarFillIcon, SidebarIcon } from "../icons/navigation";
 
@@ -13,6 +14,8 @@ const AppSidebarToggle = () => {
   const pathname = usePathname();
   const { open: isOpen, toggleSidebar } = useSidebar();
   const isAiPage = pathname.startsWith("/essentia-ai");
+
+  const isMac = useIsMac();
 
   const tooltipContent = isOpen
     ? isAiPage
@@ -25,10 +28,18 @@ const AppSidebarToggle = () => {
   return (
     <BetterTooltip
       content={
-        <div className="inline-flex">
+        <div className="inline-flex items-center">
           <span>{tooltipContent}</span>
           <kbd className="pointer-events-none inline-flex items-center gap-1 px-1.5 text-xs select-none">
-            <Command className="size-2.5" />B
+            <kbd className="bg-background text-xxs text-muted-foreground pointer-events-none ml-auto inline-flex h-5 items-center gap-1 rounded px-1.5 font-medium opacity-100 select-none">
+              {isMac ? (
+                <span className="inline-flex items-center gap-1 font-mono">
+                  <Command className="size-[9px]" />+ B
+                </span>
+              ) : (
+                <span className="mt-px font-mono">Ctrl + B</span>
+              )}
+            </kbd>
             <span className="sr-only">
               Ctrl o Command + B para abrir la búsqueda rápida
             </span>

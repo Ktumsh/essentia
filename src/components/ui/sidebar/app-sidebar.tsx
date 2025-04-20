@@ -144,7 +144,12 @@ export function AppSidebar({
         <>
           <AppHeader />
           <SidebarContent>
-            <MainSidebar isPremium={isPremium} />
+            <ScrollArea
+              className="h-[743px] overflow-y-auto"
+              scrollThumbClassName="bg-background"
+            >
+              <MainSidebar isPremium={isPremium} />
+            </ScrollArea>
           </SidebarContent>
           <AppFooter
             session={session}

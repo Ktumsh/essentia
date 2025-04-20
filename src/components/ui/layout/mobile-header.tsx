@@ -7,6 +7,7 @@ import { Session } from "next-auth";
 
 import { Button } from "@/components/kit/button";
 import useIsScrolled from "@/hooks/use-is-scrolled";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
@@ -23,10 +24,13 @@ interface MobileHeaderProps {
 
 const MobileHeader = ({ user, session }: MobileHeaderProps) => {
   const pathname = usePathname();
+  const isMobile = useIsMobile();
 
   const isScrolled = useIsScrolled();
 
   const isAIPage = pathname.startsWith("/essentia-ai");
+
+  if (!isMobile) return null;
 
   return (
     <>

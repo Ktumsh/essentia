@@ -25,6 +25,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useProfileMessage } from "@/hooks/use-profile-message";
+import { usePathname } from "next/navigation";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -420,7 +421,7 @@ function SidebarGroupLabel({
       data-sidebar="group-label"
       className={cn(
         "text-muted-foreground ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] ease-in-out focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
-        "group-data-[collapsible=icon]:opacity-0",
+        "truncate group-data-[collapsible=icon]:opacity-0",
         className,
       )}
       {...props}
@@ -525,6 +526,9 @@ function SidebarMenuButton({
   const Comp = asChild ? Slot : "button";
   const { isMobile, state } = useSidebar();
 
+  const pathname = usePathname();
+  const isAiPage = pathname.startsWith("/essentia-ai");
+
   const button = (
     <Comp
       data-slot="sidebar-menu-button"
@@ -552,7 +556,7 @@ function SidebarMenuButton({
       <TooltipContent
         side="right"
         align="center"
-        hidden={state !== "collapsed" || isMobile}
+        hidden={(state !== "collapsed" && !isAiPage) || isMobile}
         {...tooltip}
       />
     </Tooltip>

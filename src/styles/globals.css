@@ -341,8 +341,6 @@
 @layer base {
   * {
     @apply border-border outline-ring/50 font-poppins scroll-smooth;
-    scrollbar-color: var(--color-border) var(--color-background);
-    scrollbar-width: thin;
   }
   *,
   ::after,
@@ -357,6 +355,20 @@
   [role="button"],
   button {
     cursor: pointer;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-alternative rounded-full;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-alternative/50;
   }
 }
 
@@ -412,7 +424,7 @@
   :where(ul > li):not(
     :where([class~="not-prose"], [class~="not-prose"] *)
   )::marker {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 
 .prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {

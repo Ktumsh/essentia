@@ -15,7 +15,7 @@ import { useScrollRef } from "@/hooks/use-scroll-ref";
 import { cn, getRouteColor, getRouteIndex } from "@/lib/utils";
 import { formatTitle } from "@/utils/format";
 
-import CourseList from "./route-list";
+import RouteList from "./route-list";
 import VideoModal from "./video-modal";
 import { useRouteProgress } from "../_hooks/use-route-progress";
 
@@ -252,7 +252,7 @@ const ResourceWrapper = ({
       </section>
       <PageWrapper className="mt-6 md:mt-12">
         {stages && (
-          <CourseList
+          <RouteList
             userId={userId}
             route={route}
             stages={stages}

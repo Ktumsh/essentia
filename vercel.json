@@ -5,8 +5,8 @@
       "schedule": "0 1 * * *"
     },
     {
-      "path": "/api/send-task-reminder",
-      "schedule": "0 0 * * *"
+      "path": "/api/deactivate-trials",
+      "schedule": "0 1 * * *"
     }
   ]
 }

@@ -3,18 +3,19 @@
 import { ChevronRight, SearchIcon, X } from "lucide-react";
 import { matchSorter } from "match-sorter";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback, useMemo, useId, memo } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 import { Button } from "@/components/kit/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/kit/dialog";
+  Command,
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandGroup,
+  CommandItem,
+  CommandEmpty,
+} from "@/components/kit/command";
 import {
   Drawer,
   DrawerContent,
@@ -23,7 +24,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/kit/drawer";
-import { Input } from "@/components/kit/input";
 import {
   MATCH_KEYS,
   RECENT_SEARCHES_KEY,
@@ -33,8 +33,6 @@ import {
 import { SearchResult, useSearchData } from "@/consts/search-data";
 import useDebounce from "@/hooks/use-debounce";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { searchStyles } from "@/styles/search-styles";
 import { formatText } from "@/utils/format";
 
 import { SearchAIIcon } from "../icons/action";
@@ -46,324 +44,246 @@ interface MainSearchProps {
 }
 
 const MainSearch = ({ isPremium, children }: MainSearchProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const id = useId();
+  const [open, setOpen] = useState(false);
   const router = useRouter();
-
   const isMobile = useIsMobile();
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [recentSearches, setRecentSearches] = useLocalStorage<SearchResult[]>(
     RECENT_SEARCHES_KEY,
     [],
   );
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 150);
-
+  const debouncedTerm = useDebounce(searchTerm, 150);
   const searchData = useSearchData();
 
+  /* --------- recomendados --------- */
   const recommendedItems = useMemo(() => {
-    const lvl1WithIntroduction = searchData.filter(
-      (item) => item.type === "lvl1" && item.content.includes("Introducción"),
+    const lvl1Intro = searchData.filter(
+      (i) => i.type === "lvl1" && i.content.includes("Introducción"),
     );
-
     const otherLvl1 = searchData.filter(
-      (item) => item.type === "lvl1" && !item.content.includes("Introducción"),
+      (i) => i.type === "lvl1" && !i.content.includes("Introducción"),
     );
-
-    return [...lvl1WithIntroduction, ...otherLvl1];
+    return [...lvl1Intro, ...otherLvl1];
   }, [searchData]);
 
-  useEffect(() => {
-    if (debouncedSearchTerm.length < 2) {
-      setSearchResults([]);
-    } else {
-      const normalizedValue = formatText(debouncedSearchTerm);
-      const results = matchSorter(searchData, normalizedValue, {
-        keys: MATCH_KEYS,
-        sorter: (matches) =>
-          matches.sort((a, b) =>
-            a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0,
-          ),
-      }).slice(0, MAX_RESULTS);
-      setSearchResults(results);
-    }
-  }, [debouncedSearchTerm, searchData]);
+  const filteredRecommended = useMemo(
+    () =>
+      recommendedItems.filter(
+        (item) => !recentSearches.some((r) => r.objectID === item.objectID),
+      ),
+    [recommendedItems, recentSearches],
+  );
 
-  const saveRecentSearch = useCallback(
-    (search: SearchResult) => {
-      const updatedSearches = [
-        search,
-        ...recentSearches.filter((s) => s.objectID !== search.objectID),
+  /* --------- búsqueda --------- */
+  useEffect(() => {
+    if (debouncedTerm.length < 2) {
+      setResults([]);
+      return;
+    }
+    const norm = formatText(debouncedTerm);
+    const found = matchSorter(searchData, norm, {
+      keys: MATCH_KEYS,
+      sorter: (m) =>
+        m.sort((a, b) =>
+          a.item.type === "lvl1" ? -1 : b.item.type === "lvl1" ? 1 : 0,
+        ),
+    }).slice(0, MAX_RESULTS);
+    setResults(found);
+  }, [debouncedTerm, searchData]);
+
+  const saveRecent = useCallback(
+    (item: SearchResult) => {
+      const updated = [
+        item,
+        ...recentSearches.filter((s) => s.objectID !== item.objectID),
       ].slice(0, MAX_RECENT_SEARCHES);
-      setRecentSearches(updatedSearches);
+      setRecentSearches(updated);
     },
     [recentSearches, setRecentSearches],
   );
 
-  const handleSearchChange = useCallback((value: string) => {
-    setSearchTerm(value);
-  }, []);
-
-  const handleSearchSelect = useCallback(
-    (search: SearchResult) => {
-      router.push(search.url);
-      saveRecentSearch(search);
-      setIsOpen(false);
+  const onSelect = useCallback(
+    (item: SearchResult) => {
+      router.push(item.url);
+      saveRecent(item);
+      setOpen(false);
     },
-    [router, saveRecentSearch, setIsOpen],
+    [router, saveRecent],
   );
 
+  /* --------- ⌘/Ctrl+K shortcut --------- */
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
+  /* --------- item renderer --------- */
   const renderItem = useCallback(
     (item: SearchResult, isRecent = false) => {
       const isLvl1 = item.type === "lvl1";
       const isLvl2 = item.type === "lvl2";
-
-      const mainIcon = isRecent ? (
-        <SearchIcon className={cn(searchStyles.icon, searchStyles.dataText)} />
+      const icon = isRecent ? (
+        <SearchIcon className="opacity-70" />
       ) : (isLvl1 && item.icon) || (isLvl2 && item.icon) ? (
-        <item.icon className={cn(searchStyles.icon, searchStyles.dataText)} />
+        <item.icon className="opacity-70" />
       ) : (isLvl1 && item.emoji) || (isLvl2 && item.emoji) ? (
         <span>{item.emoji}</span>
       ) : (
-        <HashFillIcon
-          className={cn(searchStyles.icon, searchStyles.dataText)}
-        />
+        <HashFillIcon className="opacity-70" />
       );
 
       return (
-        <Button
+        <CommandItem
           key={item.objectID}
-          role="option"
-          data-value={item.content}
-          size="lg"
-          variant="ghost"
-          fullWidth
-          className={cn(
-            searchStyles.buttonCommon,
-            searchStyles.buttonTextColor,
-          )}
-          onClick={() => handleSearchSelect(item)}
+          value={String(item.objectID)} /* <- valor único */
+          onSelect={() => onSelect(item)}
+          className="flex cursor-pointer items-center justify-between gap-2"
         >
-          {mainIcon}
-          <div
-            className={cn(
-              "flex w-full flex-col justify-center truncate",
-              !isLvl1 && "py-2",
-            )}
-          >
+          {icon}
+          <div className="flex flex-1 flex-col truncate">
             {!isLvl1 && item.hierarchy && (
-              <span
-                className={cn(
-                  "flex items-center text-xs select-none",
-                  searchStyles.dataText,
-                )}
-              >
+              <span className="text-muted-foreground truncate text-xs">
                 {item.hierarchy.lvl1}
                 {item.hierarchy.lvl3 ? ` > ${item.hierarchy.lvl2}` : ""}
               </span>
             )}
-            <h3
-              className={cn(
-                "text-foreground/80 truncate text-sm select-none",
-                searchStyles.dataText,
-              )}
-            >
-              {item.content}
-            </h3>
+            <span className="truncate text-sm">{item.content}</span>
           </div>
-          <ChevronRight className={cn("size-5", searchStyles.dataText)} />
-        </Button>
+          <ChevronRight className="size-4 opacity-50" />
+        </CommandItem>
       );
     },
-    [handleSearchSelect],
+    [onSelect],
   );
 
-  const SearchContent = useCallback(() => {
-    return (
-      <div
-        role="listbox"
-        aria-label="Sugerencias"
-        aria-labelledby={id}
-        id={id}
-        className={cn(
-          searchStyles.modalContent,
-          searchTerm.length >= 1 &&
-            searchResults.length === 0 &&
-            "flex flex-1 items-center justify-center",
-        )}
-      >
-        {/* Búsquedas recientes */}
-        {searchTerm.length < 1 && recentSearches.length > 0 && (
-          <div role="presentation" data-value="recent">
-            <div id={id}>
-              <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-muted-foreground text-xs">Recientes</span>
-              </div>
-            </div>
-            <div role="group" aria-labelledby={id}>
-              {recentSearches.map((search) => renderItem(search, true))}
-            </div>
-          </div>
-        )}
-        {/* Búsquedas recomendadas */}
-        {searchTerm.length < 1 && recommendedItems.length > 0 && (
-          <div role="presentation" data-value="recent">
-            <div id={id}>
-              <div className="flex h-10 items-center justify-between px-2">
-                <span className="text-muted-foreground text-xs">
-                  Recomendados
-                </span>
-              </div>
-            </div>
-            <div role="group" aria-labelledby={id}>
-              {recommendedItems.map((item) => renderItem(item))}
-            </div>
-          </div>
-        )}
-        {/* No results found */}
-        {searchTerm.length >= 1 && searchResults.length === 0 && (
-          <div role="presentation" data-value="no-results">
-            <div className={cn(searchStyles.noResults)}>
-              <div className="space-y-4">
-                <div className="text-sm">
-                  <p>No hay resultados para &quot;{searchTerm}&quot;</p>
-                  <p className="text-muted-foreground">
-                    {isPremium ? (
-                      <>
-                        {searchTerm.length < 6
-                          ? "Intenta agregar más caracteres al término de búsqueda."
-                          : "Intenta buscar otra cosa o prueba buscando con Essentia AI."}
-                      </>
-                    ) : (
-                      <>
-                        {searchTerm.length < 6
-                          ? "Intenta agregar más caracteres al término de búsqueda."
-                          : "Intenta buscar otra cosa."}
-                      </>
-                    )}
-                  </p>
-                </div>
-                {isPremium && (
-                  <Button
-                    variant="gradient"
-                    onClick={() => {
-                      router.push(
-                        `/essentia-ai?search=${encodeURIComponent(searchTerm)}`,
-                      );
-                      setIsOpen(false);
-                    }}
-                  >
-                    Buscar con Essentia AI
-                    <SearchAIIcon
-                      aria-hidden="true"
-                      className="size-5 text-white"
-                    />
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-        {/* Search Results */}
-        {searchResults.length > 0 && (
-          <div role="presentation" data-value="search">
-            {searchResults.map((result) => renderItem(result))}
-          </div>
+  /* --------- Command UI --------- */
+  const EmptyState = () => (
+    <CommandEmpty>
+      <div className="space-y-4 overflow-hidden p-4 text-sm">
+        <p className="line-clamp-3">
+          <strong className="font-semibold">No hay resultados para</strong>{" "}
+          &quot;
+          {searchTerm}&quot;
+        </p>
+        <p className="text-muted-foreground">
+          {isPremium
+            ? debouncedTerm.length < 6
+              ? "Intenta agregar más caracteres al término de búsqueda."
+              : "Prueba buscar otra cosa o usa Essentia AI."
+            : debouncedTerm.length < 6
+              ? "Intenta agregar más caracteres al término de búsqueda."
+              : "Intenta buscar otra cosa."}
+        </p>
+        {isPremium && (
+          <Button
+            variant="gradient"
+            onClick={() => {
+              router.push(
+                `/essentia-ai?search=${encodeURIComponent(searchTerm)}`,
+              );
+              setOpen(false);
+            }}
+            className="rounded-full"
+          >
+            Buscar con IA
+            <SearchAIIcon />
+          </Button>
         )}
       </div>
-    );
-  }, [
-    searchTerm,
-    recentSearches,
-    recommendedItems,
-    searchResults,
-    isPremium,
-    id,
-    router,
-    renderItem,
-  ]);
+    </CommandEmpty>
+  );
 
-  const Search = useCallback(() => {
-    return (
-      <>
-        <div className={cn(searchStyles.inputWrapper)}>
-          <SearchIcon className="mr-2 size-4 shrink-0 opacity-50" />
-          <Input
-            role="combobox"
-            autoFocus
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck="false"
-            aria-autocomplete="list"
-            aria-expanded="true"
-            aria-controls={id}
-            aria-labelledby={id}
-            placeholder="Explora nuestros recursos..."
-            value={searchTerm}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className={cn(searchStyles.input)}
-          />
+  const Cmd = (
+    <Command
+      shouldFilter={false}
+      className="[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"
+    >
+      <div className="relative px-1">
+        <CommandInput
+          autoFocus
+          placeholder="Explora nuestros recursos..."
+          value={searchTerm}
+          onValueChange={setSearchTerm}
+          className="pr-16"
+        />
+        <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center gap-2">
           {searchTerm.length > 0 && (
             <Button
               size="icon"
-              variant="outline"
+              variant="ghost"
               onClick={() => setSearchTerm("")}
-              className={cn(searchStyles.clearButton)}
+              className="size-5"
             >
-              <X className="size-3.5!" />
+              <X className="size-3!" />
             </Button>
           )}
           <Button
-            onClick={() => setIsOpen(false)}
+            onClick={() => setOpen(false)}
             variant="outline"
-            className="text-xxs ml-2 hidden h-fit rounded-sm px-2 py-1 md:inline-flex"
+            className="text-xxs hidden h-fit rounded-sm px-2 py-1 md:inline-flex"
           >
             Esc
           </Button>
         </div>
-      </>
-    );
-  }, [id, searchTerm, handleSearchChange]);
+      </div>
 
+      <CommandList className="max-h-full">
+        {searchTerm === "" && recentSearches.length > 0 && (
+          <CommandGroup heading="Recientes">
+            {recentSearches.map((s) => renderItem(s, true))}
+          </CommandGroup>
+        )}
+
+        {searchTerm === "" && filteredRecommended.length > 0 && (
+          <CommandGroup heading="Recomendados">
+            {filteredRecommended.map((i) => renderItem(i))}
+          </CommandGroup>
+        )}
+
+        {results.length > 0 && (
+          <CommandGroup>{results.map((r) => renderItem(r))}</CommandGroup>
+        )}
+
+        {results.length === 0 && debouncedTerm.length >= 1 && <EmptyState />}
+      </CommandList>
+    </Command>
+  );
+
+  /* --------- render --------- */
   if (isMobile) {
     return (
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent className="h-full">
-          <DrawerHeader className="border-border gap-0 border-b p-0">
+          <DrawerHeader className="border-b">
             <DrawerTitle>Buscar</DrawerTitle>
             <DrawerDescription className="sr-only">
-              Busca rápida
+              Busca entre nuestros recursos y encuentra lo que necesitas.
             </DrawerDescription>
-            <Search />
           </DrawerHeader>
-          <SearchContent />
+          {Cmd}
         </DrawerContent>
       </Drawer>
     );
-  } else {
-    return (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent
-          isSecondary
-          closeButton={false}
-          className="max-h-[427px]! min-h-[427px]!"
-        >
-          <DialogHeader className="border-border border-b">
-            <DialogTitle className="sr-only">Busca rápida</DialogTitle>
-            <DialogDescription className="sr-only">
-              Busca rápida
-            </DialogDescription>
-            <Search />
-          </DialogHeader>
-          <SearchContent />
-        </DialogContent>
-      </Dialog>
-    );
   }
+
+  return (
+    <>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        {Cmd}
+      </CommandDialog>
+      <span onClick={() => setOpen(true)}>{children}</span>
+    </>
+  );
 };
 
 export default memo(MainSearch);

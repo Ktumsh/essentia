@@ -3,7 +3,7 @@
 import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { compare, genSaltSync, hashSync } from "bcrypt-ts";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, lt, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
 import postgres from "postgres";
@@ -304,6 +304,14 @@ export async function getUserTrialStatus(userId: string): Promise<{
 export type UserTrialStatusType = Awaited<
   ReturnType<typeof getUserTrialStatus>
 >;
+
+export async function deactivateExpiredTrials() {
+  const now = new Date();
+  await db
+    .update(userTrial)
+    .set({ isActive: false })
+    .where(and(lt(userTrial.expiresAt, now), eq(userTrial.isActive, true)));
+}
 
 export async function getUserSubscriptionInfo(userId: string): Promise<{
   trial: UserTrialStatusType;
