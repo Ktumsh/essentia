@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 
 import { deactivateExpiredTrials } from "@/db/querys/user-querys";
 
-export const runtime = "nodejs";
-
 const CRON_SECRET = process.env.CRON_SECRET!;
 
 export async function GET(req: Request) {
