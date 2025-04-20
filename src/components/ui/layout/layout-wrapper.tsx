@@ -129,7 +129,7 @@ const LayoutWrapper = ({
             ) : (
               <ScrollArea
                 scrollRef={scrollRef}
-                className={cn("h-[calc(100dvh-12px)]", {
+                className={cn("h-[calc(100dvh-16px)]", {
                   "h-[calc(100dvh-48px)]": !isDismissed,
                 })}
               >

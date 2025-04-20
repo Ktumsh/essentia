@@ -11,9 +11,19 @@ import {
 } from "@/components/kit/tabs";
 import { navConfig } from "@/config/nav.config";
 
-export default function AdditionalsTabs() {
+export default function AdditionalsTabs({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const additionalTabs = navConfig.additionalLinks;
+
+  const isGuidePage = pathname.includes("/additionals/guides/");
+
+  if (isGuidePage) {
+    return <>{children}</>;
+  }
 
   return (
     <Tabs

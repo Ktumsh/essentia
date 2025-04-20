@@ -205,7 +205,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
   const Cmd = (
     <Command
       shouldFilter={false}
-      className="[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"
+      className="[&_[cmdk-group-heading]]:text-muted-foreground bg-popover md:bg-background **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"
     >
       <div className="relative px-1">
         <CommandInput
@@ -264,7 +264,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent className="h-full">
-          <DrawerHeader className="border-b">
+          <DrawerHeader>
             <DrawerTitle>Buscar</DrawerTitle>
             <DrawerDescription className="sr-only">
               Busca entre nuestros recursos y encuentra lo que necesitas.

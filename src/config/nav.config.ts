@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 import Emergencies from "@/app/(main)/additionals/_components/emergencies";
-import Guides from "@/app/(main)/additionals/_components/guides";
+import Guides from "@/app/(main)/additionals/guides/_components/guides";
 import Links from "@/app/(main)/additionals/_components/links";
 import Recommendations from "@/app/(main)/additionals/_components/recommendations";
 import {

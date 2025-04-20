@@ -1,14 +1,17 @@
 import PageWrapper from "@/components/ui/layout/page-wrapper";
 
+import AdditionalsHeader from "./_components/additionals-header";
 import AdditionalsTabs from "./_components/additionals-tabs";
 
-export default function AdditionalsLayout() {
+export default function AdditionalsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <PageWrapper>
-      <h1 className="font-merriweather py-4 text-2xl leading-none font-semibold sm:text-3xl md:pt-11 dark:text-white">
-        Recursos Adicionales
-      </h1>
-      <AdditionalsTabs />
+      <AdditionalsHeader />
+      <AdditionalsTabs>{children}</AdditionalsTabs>
     </PageWrapper>
   );
 }

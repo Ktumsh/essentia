@@ -9,13 +9,12 @@ import {
   EmergenciesFillIcon,
   GuidesFillIcon,
   HealthCentersFillIcon,
-  LinksFillIcon,
-  RecommendationsFillIcon,
 } from "@/components/ui/icons/miscellaneus";
 import { navConfig } from "@/config/nav.config";
 import resources from "@/db/data/resources_actualizado_rutas.json";
 import { IconSvgProps } from "@/types/common";
 
+import { GUIDES_DATA } from "./guide-data";
 import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
 import { RECIPES } from "./recipes-data";
 import { ROUTINES } from "./routines-data";
@@ -456,30 +455,6 @@ const additionalsSearchData: SearchResult[] = [
     icon: EmergenciesFillIcon,
   },
   {
-    content: "Enlaces",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/additionals/links",
-    hierarchy: {
-      lvl1: "Recursos Adicionales",
-      lvl2: "Enlaces",
-      lvl3: null,
-    },
-    icon: LinksFillIcon,
-  },
-  {
-    content: "Recomendaciones",
-    objectID: nanoid(),
-    type: "lvl2",
-    url: "/additionals/recommendations",
-    hierarchy: {
-      lvl1: "Recursos Adicionales",
-      lvl2: "Recomendaciones",
-      lvl3: null,
-    },
-    icon: RecommendationsFillIcon,
-  },
-  {
     content: "Teléfonos de Emergencia",
     objectID: nanoid(),
     type: "lvl3",
@@ -524,6 +499,20 @@ const additionalsSearchData: SearchResult[] = [
     },
   },
 ];
+
+const additionalsGuidesSearchData: SearchResult[] = GUIDES_DATA.map(
+  (guide) => ({
+    content: guide.title,
+    objectID: nanoid(),
+    type: "lvl2",
+    url: `/additionals/guides/${guide.id}`,
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Guias",
+      lvl3: guide.title,
+    },
+  }),
+);
 
 const healthModalSearchData: SearchResult[] = HEALTH_WELLNESS_ARTICLES.map(
   (data) => ({
@@ -584,6 +573,7 @@ export const useSearchData = () => {
       ...fitnessModalSearchData,
       ...nutritionModalSearchData,
       ...additionalsSearchData,
+      ...additionalsGuidesSearchData,
     ],
     [],
   );

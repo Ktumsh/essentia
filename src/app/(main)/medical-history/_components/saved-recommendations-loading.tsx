@@ -29,7 +29,7 @@ const SavedRecommendationsLoading = ({
         <Card
           key={i}
           className={cn(
-            "overflow-hidden border border-indigo-200 shadow-xs dark:border-indigo-900",
+            "overflow-hidden border border-indigo-200 dark:border-indigo-900",
             viewMode === "grid"
               ? "flex flex-col border-t-2"
               : "flex flex-row items-stretch border-l-2",

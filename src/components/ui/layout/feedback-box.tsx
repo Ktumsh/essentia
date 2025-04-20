@@ -199,10 +199,10 @@ const FeedbackBox = () => {
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Feedback</DrawerTitle>
+            <DrawerTitle>Dar feedback</DrawerTitle>
           </DrawerHeader>
-          <DrawerDescription className="p-4">
-            Danos tu opinión sobre la app, nos ayuda a mejorar ☺️
+          <DrawerDescription className="sr-only">
+            Danos tu opinión sobre la app, nos ayuda a mejorar.
           </DrawerDescription>
           {content}
           <DrawerFooter>

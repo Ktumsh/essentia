@@ -29,7 +29,7 @@ const MedicalHistoryLoading = ({
         <Card
           key={i}
           className={cn(
-            "overflow-hidden shadow-xs",
+            "overflow-hidden",
             viewMode === "grid"
               ? "flex flex-col border-t-2"
               : "flex flex-row items-stretch border-l-2",

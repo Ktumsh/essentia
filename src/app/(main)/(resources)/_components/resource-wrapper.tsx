@@ -3,7 +3,7 @@
 import { CheckCheck, Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
@@ -11,6 +11,8 @@ import { PlayButton } from "@/components/button-kit/play-button";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useParallax } from "@/hooks/use-parallax";
 import { useScrollRef } from "@/hooks/use-scroll-ref";
 import { cn, getRouteColor, getRouteIndex } from "@/lib/utils";
 import { formatTitle } from "@/utils/format";
@@ -67,36 +69,12 @@ const ResourceWrapper = ({
 
   const [isOpenVideo, setIsOpenVideo] = useState(false);
 
+  const isMobile = useIsMobile();
+
   const imageRef = useRef<HTMLImageElement>(null);
   const scrollRef = useScrollRef();
 
-  useEffect(() => {
-    const container = scrollRef?.current;
-    const img = imageRef.current;
-    if (!container || !img) return;
-
-    const scrollHeight = container.scrollHeight - container.clientHeight;
-
-    const ticking = { current: false };
-
-    const updateParallax = () => {
-      const progress = container.scrollTop / scrollHeight;
-      const translateY = progress * 600;
-
-      img.style.transform = `translateY(${translateY}px)`;
-      ticking.current = false;
-    };
-
-    const handleScroll = () => {
-      if (!ticking.current) {
-        requestAnimationFrame(updateParallax);
-        ticking.current = true;
-      }
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [scrollRef]);
+  useParallax(isMobile ? null : scrollRef, imageRef, { factor: 500 });
 
   const firstStage = stages?.[0].stage.slug;
   const firstLesson = stages?.[0].lessons[0].slug;
@@ -131,7 +109,12 @@ const ResourceWrapper = ({
         id={`introduccion-a-${formatedTitle}`}
         className="relative overflow-hidden"
       >
-        <div className="absolute inset-0 z-0 before:absolute before:inset-0 before:z-1 before:size-full before:bg-blue-950/30 before:content-['']">
+        <div
+          className={cn(
+            "absolute inset-0 z-0 flex items-center before:absolute before:inset-0 before:z-1 before:size-full before:bg-blue-950/30 before:content-[''] md:items-end",
+            routeIndex > 1 && routeIndex < 5 && "items-center",
+          )}
+        >
           <Image
             ref={imageRef}
             priority
@@ -140,10 +123,7 @@ const ResourceWrapper = ({
             alt={name || title}
             width={1920}
             height={1280}
-            className={cn(
-              "size-full object-cover object-bottom brightness-[0.85] will-change-transform",
-              routeIndex > 1 && routeIndex < 5 && "object-center",
-            )}
+            className="animate-fade-in size-full object-cover object-center brightness-[0.85] transition-transform [transition-timing-function:cubic-bezier(0,0,0,1)] will-change-transform md:h-auto"
           />
         </div>
         <div className="relative z-10 mx-auto flex h-96 max-w-7xl flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center lg:px-8">

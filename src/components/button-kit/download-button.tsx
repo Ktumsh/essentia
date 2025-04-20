@@ -14,6 +14,7 @@ interface DownloadButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   variant?: ButtonVariant;
   iconSize?: number;
+  disabled?: boolean;
 }
 
 const arrowVariants: Variants = {
@@ -35,6 +36,7 @@ const DownloadButton = ({
   className,
   size,
   variant,
+  disabled,
   iconSize = 28,
   ...props
 }: DownloadButtonProps) => {
@@ -60,6 +62,7 @@ const DownloadButton = ({
     <Button
       size={size}
       variant={variant}
+      disabled={disabled}
       className={cn(className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
