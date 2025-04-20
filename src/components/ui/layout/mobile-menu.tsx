@@ -35,6 +35,7 @@ import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
+import FeedbackBox from "./feedback-box";
 import Greeting from "./greeting";
 import Logo from "./logo";
 import ThemeToggle from "./theme-toggle";
@@ -113,7 +114,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               <>
                 <AddUserButton
                   onClick={() => router.push("/register")}
-                  className="mb-0! w-full rounded-full"
+                  className="mb-0! w-full"
                 >
                   Regístrate
                 </AddUserButton>
@@ -126,7 +127,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                       router.push(`/login?next=${pathname}`);
                     }
                   }}
-                  className="w-full rounded-full"
+                  className="w-full"
                 >
                   Inicia sesión
                 </LoginButton>
@@ -137,7 +138,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 <Button
                   variant="gradient"
                   onClick={() => setIsPaymentModalOpen(true)}
-                  className="w-full rounded-full"
+                  className="mb-0! w-full"
                 >
                   {!isTrialUsed
                     ? "Activa tu prueba gratuita"
@@ -205,6 +206,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             <Separator />
           </div>
           <DrawerFooter className="gap-0 space-y-2 p-6 pt-0 text-sm">
+            <FeedbackBox />
             <Collapsible className="group/collapsible">
               <CollapsibleTrigger asChild>
                 <button className="inline-flex w-full items-center py-1.5">

@@ -1,7 +1,10 @@
 import { nanoid } from "nanoid";
 import { useMemo, type JSX } from "react";
 
-import { AdditionalFillIcon } from "@/components/ui/icons/interface";
+import {
+  AdditionalFillIcon,
+  MedicalHistoryFillIcon,
+} from "@/components/ui/icons/interface";
 import {
   EmergenciesFillIcon,
   GuidesFillIcon,
@@ -84,6 +87,21 @@ export interface SearchResult {
 }
 
 const resourceIcons = navConfig.asideMenuLinks;
+
+const medicalHistorySearchData: SearchResult[] = [
+  {
+    content: "Historial médico",
+    objectID: nanoid(),
+    type: "lvl1",
+    url: "/medical-history",
+    hierarchy: {
+      lvl1: "Historial médico",
+      lvl2: null,
+      lvl3: null,
+    },
+    icon: MedicalHistoryFillIcon,
+  },
+];
 
 const healthCentersSearchData: SearchResult[] = [
   {
@@ -548,6 +566,7 @@ const nutritionModalSearchData: SearchResult[] = RECIPES.map((data) => ({
 export const useSearchData = () => {
   return useMemo<SearchResult[]>(
     () => [
+      ...medicalHistorySearchData,
       ...healthCentersSearchData,
       ...healthSearchData,
       ...fitnessSearchData,
