@@ -32,7 +32,7 @@ export default function AdditionalsTabs({
       className="flex flex-col space-y-10"
     >
       <TabsList className="border-border h-12 w-full justify-start rounded-none border-b bg-transparent! p-0">
-        {additionalTabs.slice(0, 2).map((tab, index) => (
+        {additionalTabs.map((tab, index) => (
           <TabsTrigger
             key={tab.path}
             value={tab.path}
@@ -49,16 +49,16 @@ export default function AdditionalsTabs({
                     ) : null}
                   </>
                 ) : (
-                  <tab.icon className="text-foreground/80 size-4" />
+                  <tab.icon className="text-muted-foreground size-4" />
                 )}
-                <span>{tab.name}</span>
+                <span className="leading-normal">{tab.name}</span>
               </div>
             </Link>
           </TabsTrigger>
         ))}
       </TabsList>
-      {additionalTabs.slice(0, 2).map((tab, index) => (
-        <TabsContent key={index} value={tab.path}>
+      {additionalTabs.map((tab, index) => (
+        <TabsContent key={index} value={tab.path} className="mb-0!">
           {<tab.component />}
         </TabsContent>
       ))}

@@ -1,6 +1,4 @@
-"use client";
-
-import { LinkIcon } from "lucide-react";
+import { Hash } from "lucide-react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -32,7 +30,7 @@ const SectionTitle = ({
           className="group font-merriweather inline-flex h-auto w-fit items-center gap-0 bg-transparent text-xl font-bold transition hover:opacity-80 md:text-2xl"
         >
           {title}
-          <LinkIcon className="ml-1.5 hidden size-5 opacity-0 transition-opacity group-hover:opacity-100 md:block" />
+          <Hash className="ml-1.5 hidden size-5 opacity-0 transition-opacity group-hover:opacity-100 md:block" />
         </Link>
       </h3>
       {children}

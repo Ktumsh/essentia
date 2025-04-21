@@ -9,6 +9,7 @@ import {
   EmergenciesFillIcon,
   GuidesFillIcon,
   HealthCentersFillIcon,
+  KitFillIcon,
 } from "@/components/ui/icons/miscellaneus";
 import { navConfig } from "@/config/nav.config";
 import resources from "@/db/data/resources_actualizado_rutas.json";
@@ -488,14 +489,26 @@ const additionalsSearchData: SearchResult[] = [
     },
   },
   {
-    content: "Medicamentos para un botiquín de primeros auxilios",
+    content: "Botiquín",
     objectID: nanoid(),
-    type: "lvl3",
-    url: "/additionals/emergencies#medicamentos-para-un-botiquin-de-primeros-auxilios",
+    type: "lvl2",
+    url: "/additionals/kit",
     hierarchy: {
       lvl1: "Recursos Adicionales",
-      lvl2: "Emergencias",
-      lvl3: "Medicamentos para un Botiquín de Primeros Auxilios",
+      lvl2: "Botiquín",
+      lvl3: null,
+    },
+    icon: KitFillIcon,
+  },
+  {
+    content: "Medicamentos para un botiquín",
+    objectID: nanoid(),
+    type: "lvl3",
+    url: "/additionals/kit#medicamentos-para-un-botiquin",
+    hierarchy: {
+      lvl1: "Recursos Adicionales",
+      lvl2: "Botiquín",
+      lvl3: "Medicamentos para un botiquín",
     },
   },
 ];

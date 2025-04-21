@@ -89,18 +89,6 @@ export type MedicineCategory = {
   items: MedicineItem[];
 };
 
-type Step = {
-  step: number;
-  title: string;
-  description: string;
-  color: string;
-};
-
-export type EmergencySteps = {
-  title: string;
-  steps: Step[];
-};
-
 type Description = {
   type: "bold" | "text";
   content: string;

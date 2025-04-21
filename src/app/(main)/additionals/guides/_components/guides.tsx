@@ -15,7 +15,7 @@ import {
 import { GUIDE_THEME_COLORS, GUIDES_DATA } from "@/consts/guide-data";
 import { cn } from "@/lib/utils";
 
-import DownloadGuideButton from "./download-guide-button";
+import DownloadGuideButton from "../../_components/download-guide-button";
 
 const Guides = () => {
   const route = useRouter();
@@ -45,7 +45,8 @@ const Guides = () => {
                 <Image
                   src={guide.thumbnail}
                   alt={`Imagen de la ${guide.title.toLowerCase()}`}
-                  width={361}
+                  quality={100}
+                  width={384}
                   height={192}
                   className="h-96 w-full object-cover transition-transform duration-500 group-hover/item:scale-105 md:h-48"
                 />
@@ -73,7 +74,7 @@ const Guides = () => {
                   onClick={() => {
                     route.push(`/additionals/guides/${guide.id}`);
                   }}
-                  className="text-foreground after:bg-primary hover:text-primary relative ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] [&_svg]:rotate-180"
+                  className="text-foreground after:bg-primary hover:text-primary relative ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] md:text-xs [&_svg]:rotate-180 md:[&_svg]:size-3.5!"
                 >
                   Ver detalles
                 </ArrowLeftButton>

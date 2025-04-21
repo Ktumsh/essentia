@@ -12,10 +12,9 @@ import {
   User,
 } from "lucide-react";
 
-import Emergencies from "@/app/(main)/additionals/_components/emergencies";
+import Emergencies from "@/app/(main)/additionals/emergencies/_components/emergencies";
 import Guides from "@/app/(main)/additionals/guides/_components/guides";
-import Links from "@/app/(main)/additionals/_components/links";
-import Recommendations from "@/app/(main)/additionals/_components/recommendations";
+import Kit from "@/app/(main)/additionals/kit/_components/kit";
 import {
   AdditionalFillIcon,
   AdditionalIcon,
@@ -45,10 +44,8 @@ import {
   GuidesIcon,
   HealthCentersFillIcon,
   HealthCentersIcon,
-  LinksFillIcon,
-  LinksIcon,
-  RecommendationsFillIcon,
-  RecommendationsIcon,
+  KitFillIcon,
+  KitIcon,
 } from "@/components/ui/icons/miscellaneus";
 
 export const navConfig = {
@@ -144,18 +141,11 @@ export const navConfig = {
       component: Emergencies,
     },
     {
-      name: "Enlaces",
-      path: "/additionals/links",
-      icon: LinksIcon,
-      activeIcon: LinksFillIcon,
-      component: Links,
-    },
-    {
-      name: "Recomendaciones",
-      path: "/additionals/recommendations",
-      icon: RecommendationsIcon,
-      activeIcon: RecommendationsFillIcon,
-      component: Recommendations,
+      name: "Botiquín",
+      path: "/additionals/kit",
+      icon: KitIcon,
+      activeIcon: KitFillIcon,
+      component: Kit,
     },
   ],
   menuFooterLinks: {

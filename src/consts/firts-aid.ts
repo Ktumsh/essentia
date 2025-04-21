@@ -1,5 +1,6 @@
 export const FIRST_AID = [
   {
+    id: 1,
     title: "Cómo actuar durante un paro cardíaco",
     steps: [
       {
@@ -71,6 +72,7 @@ export const FIRST_AID = [
     ],
   },
   {
+    id: 2,
     title: "Qué hacer en caso de asfixia",
     steps: [
       {
@@ -94,7 +96,6 @@ export const FIRST_AID = [
           {
             type: "highlight",
             content: "si la persona no puede hablar, toser o respirar",
-            highlightClass: "text-red-500",
           },
         ],
         description: [
@@ -146,6 +147,7 @@ export const FIRST_AID = [
     ],
   },
   {
+    id: 3,
     title: "Qué hacer si alguien sufre un ataque epiléptico",
     steps: [
       {
@@ -252,6 +254,7 @@ export const FIRST_AID = [
     ],
   },
   {
+    id: 4,
     title: "Cómo actuar en caso de intoxicación",
     steps: [
       {
@@ -340,6 +343,7 @@ export const FIRST_AID = [
     ],
   },
   {
+    id: 5,
     title: "Qué hacer en caso de quemaduras graves",
     steps: [
       {
@@ -411,6 +415,7 @@ export const FIRST_AID = [
     ],
   },
   {
+    id: 6,
     title: "Cómo actuar durante una reacción alérgica severa",
     steps: [
       {
@@ -486,3 +491,58 @@ export const FIRST_AID = [
     ],
   },
 ];
+
+export type FirstAid = (typeof FIRST_AID)[number];
+
+export const FIRST_AID_COLORS = {
+  1: {
+    bg: "bg-blue-50 dark:bg-blue-950",
+    bgMuted: "bg-blue-100 dark:bg-blue-900",
+    text: "text-blue-600 dark:text-blue-400",
+    border: "border-blue-200 dark:border-blue-900/50",
+    borderAccent: "border-l-blue-500!",
+    fill: "**:fill-blue-600 dark:**:fill-blue-400",
+  },
+  2: {
+    bg: "bg-green-50 dark:bg-green-950",
+    bgMuted: "bg-green-100 dark:bg-green-900",
+    text: "text-green-600 dark:text-green-400",
+    border: "border-green-200 dark:border-green-900/50",
+    borderAccent: "border-l-green-500!",
+    fill: "**:fill-green-600 dark:**:fill-green-400",
+  },
+  3: {
+    bg: "bg-yellow-50 dark:bg-yellow-950",
+    bgMuted: "bg-yellow-100 dark:bg-yellow-900",
+    text: "text-yellow-600 dark:text-yellow-400",
+    border: "border-yellow-200 dark:border-yellow-900/50",
+    borderAccent: "border-l-yellow-500!",
+    fill: "**:fill-yellow-600 dark:**:fill-yellow-400",
+  },
+  4: {
+    bg: "bg-red-50 dark:bg-red-950",
+    bgMuted: "bg-red-100 dark:bg-red-900",
+    text: "text-red-600 dark:text-red-400",
+    border: "border-red-200 dark:border-red-900/50",
+    borderAccent: "border-l-red-500!",
+    fill: "**:fill-red-600 dark:**:fill-red-400",
+  },
+  5: {
+    bg: "bg-purple-50 dark:bg-purple-950",
+    bgMuted: "bg-purple-100 dark:bg-purple-900",
+    text: "text-purple-600 dark:text-purple-400",
+    border: "border-purple-200 dark:border-purple-900/50",
+    borderAccent: "border-l-purple-500!",
+    fill: "**:fill-purple-600 dark:**:fill-purple-400",
+  },
+  6: {
+    bg: "bg-pink-50 dark:bg-pink-950",
+    bgMuted: "bg-pink-100 dark:bg-pink-900",
+    text: "text-pink-600 dark:text-pink-400",
+    border: "border-pink-200 dark:border-pink-900/50",
+    borderAccent: "border-l-pink-500!",
+    fill: "**:fill-pink-600 dark:**:fill-pink-400",
+  },
+};
+
+export type FirstAidColors = (typeof FIRST_AID_COLORS)[1];

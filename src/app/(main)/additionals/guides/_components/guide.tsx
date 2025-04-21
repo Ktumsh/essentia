@@ -18,9 +18,9 @@ import { BetterTooltip } from "@/components/kit/tooltip";
 import { GUIDE_THEME_COLORS, Guide as GuideType } from "@/consts/guide-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import DownloadGuideButton from "./download-guide-button";
 import GuideContent from "./guide-content";
 import GuideFaqs from "./guide-faqs";
+import DownloadGuideButton from "../../_components/download-guide-button";
 
 interface GuideProps {
   guide: GuideType;

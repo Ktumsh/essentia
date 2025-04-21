@@ -1,7 +1,6 @@
-import { SexualEmergency } from "@/types/resource";
-
-export const SEXUALITY_EMERGENCY: SexualEmergency[] = [
+export const SEXUALITY_EMERGENCY = [
   {
+    id: 1,
     title: "Emergencias de Salud Sexual",
     steps: [
       {
@@ -139,3 +138,17 @@ export const SEXUALITY_EMERGENCY: SexualEmergency[] = [
     ],
   },
 ];
+
+export type SexualityEmergency = (typeof SEXUALITY_EMERGENCY)[number];
+
+export const SEXUALITY_EMERGENCY_COLORS = {
+  1: {
+    bg: "bg-rose-50 dark:bg-rose-950",
+    bgMuted: "bg-rose-100 dark:bg-rose-900",
+    text: "text-rose-600 dark:text-rose-400",
+    border: "border-rose-200 dark:border-rose-900/50",
+    borderAccent: "border-l-rose-500!",
+  },
+};
+
+export type SexualityEmergencyColors = (typeof SEXUALITY_EMERGENCY_COLORS)[1];
