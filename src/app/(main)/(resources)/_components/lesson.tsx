@@ -20,6 +20,7 @@ import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
 import {
   completeRoute,
+  StageProgressType,
   updateLessonProgress,
 } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -47,7 +48,7 @@ interface LessonProps {
   stages: Stages[];
   isCompleted: boolean;
   completedLessons?: string[];
-  stageProgress: { [stageId: string]: number };
+  stageProgress: StageProgressType[];
   isCourseCompleted: boolean;
   isPremium?: boolean | null;
 }
@@ -86,7 +87,7 @@ const Lesson = ({
     return {
       currentStageIndex: stageIdx,
       currentLessonIndex: lessonIdx,
-      chapter: currentStage.stage.order + 1,
+      chapter: currentStage.stage.order,
     };
   }, [stages, lesson.id]);
 
@@ -342,7 +343,7 @@ const Lesson = ({
               <span>Etapa {chapter}</span>
               <span aria-hidden="true">•</span>
               <span>
-                Lección {lesson.order + 1} de {totalLessons}
+                Lección {lesson.order} de {totalLessons}
               </span>
             </div>
           </div>

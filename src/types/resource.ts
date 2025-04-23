@@ -1,5 +1,7 @@
 import { FC, type JSX } from "react";
 
+import { StageProgressType } from "@/db/querys/progress-querys";
+
 import { IconSvgProps } from "./common";
 
 import type { Lesson, Review, Stage } from "@/db/schema";
@@ -14,10 +16,14 @@ export interface MaincapResources {
   requiresPremium?: boolean;
 }
 
+export interface ReviewWithCount extends Review {
+  questionCount?: number;
+}
+
 export interface Stages {
   stage: Stage;
   lessons: Lesson[];
-  review: Review | null;
+  review: ReviewWithCount | null;
 }
 
 export type LearningRoute = {
@@ -30,7 +36,7 @@ export type LearningRoute = {
   about: string;
   slug: string;
   completedLessons: string[];
-  stageProgress: { [stageId: string]: number };
+  stageProgress: StageProgressType[];
   routeProgress: { completed: boolean; progress: number };
   routeInitialized: boolean;
   isPremium?: boolean | null;

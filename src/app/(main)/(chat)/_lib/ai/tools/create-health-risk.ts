@@ -14,7 +14,10 @@ export const createHealthRisk = tool({
   }),
   execute: async (args) => {
     try {
-      const results = await generateHealthRisk(args);
+      const results = await generateHealthRisk({
+        ...args,
+        currentDate: new Date(),
+      });
       return results;
     } catch (error) {
       console.error("Error en riskAssessment:", error);

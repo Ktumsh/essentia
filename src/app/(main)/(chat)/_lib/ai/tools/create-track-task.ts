@@ -14,7 +14,7 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
   tool({
     description: "Crea un seguimiento personalizado para una tarea específica",
     parameters: z.object({
-      name: z.string().max(80).describe("Nombre de la tarea"),
+      name: z.string().describe("Nombre de la tarea"),
       schedule: z.object({
         frequency: z
           .enum([
@@ -25,13 +25,7 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
             "Anualmente",
           ])
           .describe("Frecuencia de la tarea"),
-        time: z
-          .string()
-          .regex(
-            /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-            "Hora en formato 24 horas (hh:mm)",
-          )
-          .describe("Hora específica para realizar la tarea"),
+        time: z.string().describe("Hora específica para realizar la tarea"),
         weekDay: z
           .enum([
             "lunes",
@@ -43,12 +37,10 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
             "domingo",
           ])
           .nullable()
-          .optional()
           .describe("Día de la semana para tareas semanales o sin repetición"),
         monthDay: z
           .number()
           .nullable()
-          .optional()
           .describe(
             "Día del mes para tareas mensuales, anuales o sin repetición",
           ),
@@ -68,7 +60,6 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
             "diciembre",
           ])
           .nullable()
-          .optional()
           .describe("Mes para tareas anuales o sin repetición"),
       }),
     }),
@@ -83,7 +74,9 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
           instructions: result.task.instructions,
           frequency: result.task.schedule.frequency,
           time: result.task.schedule.time,
-          exactDate: result.task.schedule.exactDate ?? null,
+          exactDate: result.task.schedule.exactDate
+            ? new Date(result.task.schedule.exactDate)
+            : null,
           weekDay: result.task.schedule.weekDay ?? null,
           monthDay: result.task.schedule.monthDay ?? null,
           month: result.task.schedule.month ?? null,

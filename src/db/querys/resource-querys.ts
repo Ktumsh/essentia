@@ -1,12 +1,19 @@
 "use server";
 
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import { Stages } from "@/types/resource";
 
-import { review, reviewQuestion, lesson, stage, route } from "../schema";
+import {
+  review,
+  reviewQuestion,
+  lesson,
+  stage,
+  route,
+  ReviewQuestion,
+} from "../schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -50,7 +57,13 @@ export async function getStages(routeId: string): Promise<Array<Stages>> {
       .select({
         stage,
         lesson,
-        review,
+        review: {
+          ...review,
+          questionCount:
+            sql<number>`(SELECT COUNT(*) FROM review_question WHERE review_id = ${review.id})`.as(
+              "question_count",
+            ),
+        },
       })
       .from(stage)
       .leftJoin(lesson, eq(stage.id, lesson.stageId))
@@ -70,7 +83,12 @@ export async function getStages(routeId: string): Promise<Array<Stages>> {
         existingStage = {
           stage: row.stage,
           lessons: [],
-          review: row.review,
+          review: row.review
+            ? {
+                ...row.review,
+                questionCount: (row.review as any).questionCount ?? 0,
+              }
+            : null,
         };
         stages.push(existingStage);
       }
@@ -120,12 +138,23 @@ export async function getReviewByStage(stageId: string) {
   }
 }
 
-export async function getQuestionsByReview(reviewId: string) {
+export type ParsedReviewQuestion = Omit<ReviewQuestion, "options"> & {
+  options: string[];
+};
+
+export async function getQuestionsByReview(
+  reviewId: string,
+): Promise<ParsedReviewQuestion[]> {
   try {
-    return await db
+    const result = await db
       .select()
       .from(reviewQuestion)
       .where(eq(reviewQuestion.reviewId, reviewId));
+
+    return result.map((question) => ({
+      ...question,
+      options: question.options as string[],
+    }));
   } catch (error) {
     console.error("Error al obtener las preguntas de la revisión:", error);
     throw error;

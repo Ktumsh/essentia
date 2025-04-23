@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import {
   initializeRouteProgress,
   getLastCompletedLesson,
+  getOrderedLessonsByRoute,
 } from "@/db/querys/progress-querys";
 
 interface UseRouteProgressProps {
@@ -43,33 +44,43 @@ export const useRouteProgress = ({
           router.push(`/${slug}/${firstStage}/${firstLesson}`);
         })(),
         {
-          loading: "¡El curso está por comenzar!",
-          success: "¡Curso iniciado!",
-          error: "Error al iniciar el curso",
+          loading: "¡La ruta está por comenzar!",
+          success: "¡Ruta iniciada!",
+          error: "No se pudo iniciar la ruta",
         },
       );
     } catch (error) {
-      console.error("Error al iniciar el curso:", error);
+      console.error("No se pudo iniciar la ruta:", error);
     }
   };
 
   const continueRoute = async () => {
+    if (!userId || !routeId) return;
+
+    setProcessing(true);
+
     try {
-      if (!userId || !routeId) return;
-
-      setProcessing(true);
-
       const lastLesson = await getLastCompletedLesson(userId, routeId);
+      const allLessons = await getOrderedLessonsByRoute(routeId);
 
-      if (lastLesson) {
+      const lastIndex = allLessons.findIndex(
+        (l) =>
+          l.lessonSlug === lastLesson?.lessonSlug &&
+          l.stageSlug === lastLesson?.stageSlug,
+      );
+
+      const nextLesson = allLessons[lastIndex + 1];
+
+      if (nextLesson) {
         router.push(
-          `/${slug}/${lastLesson.stageSlug}/${lastLesson.lessonSlug}`,
+          `/${slug}/${nextLesson.stageSlug}/${nextLesson.lessonSlug}`,
         );
       } else {
-        router.push(`/${slug}/${firstStage}/${firstLesson}`);
+        toast.success("¡Ya completaste toda la ruta!");
       }
     } catch (error) {
-      console.error("Error al continuar el curso:", error);
+      console.error("Error al continuar la ruta:", error);
+      toast.error("Ocurrió un error al continuar la ruta.");
     } finally {
       setProcessing(false);
     }

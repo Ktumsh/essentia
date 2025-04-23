@@ -184,7 +184,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                       <Button
                         size="icon"
                         variant="ghost"
-                        className="hover:bg-background"
+                        className="hover:bg-background size-7 rounded-sm"
                         onClick={() => handleEditTask(task.id)}
                       >
                         <PencilLine />
@@ -195,7 +195,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="hover:bg-background"
+                            className="hover:bg-background size-7 rounded-sm"
                           >
                             <MoreVertical />
                           </Button>

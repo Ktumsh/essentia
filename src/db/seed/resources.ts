@@ -31,7 +31,7 @@ async function seedLearningRoutes() {
 
       const routeId = routeResult[0].id;
 
-      for (const [stageIndex, m] of r.modules.entries()) {
+      for (const m of r.modules) {
         const stageResult = await db
           .insert(stage)
           .values({
@@ -40,20 +40,20 @@ async function seedLearningRoutes() {
             slug: m.slug,
             description: m.description,
             objectives: m.objectives,
-            order: stageIndex,
+            order: m.order,
           })
           .returning({ id: stage.id });
 
         const stageId = stageResult[0].id;
 
-        for (const [lessonIndex, l] of m.lessons.entries()) {
+        for (const l of m.lessons) {
           await db.insert(lesson).values({
             stageId,
             title: l.title,
             slug: l.slug,
             objective: l.objective,
             content: l.content,
-            order: lessonIndex,
+            order: l.order,
           });
         }
 

@@ -1,6 +1,6 @@
 {
-  "id": "a144c2e4-8889-4479-82f2-d1b7ff9053a2",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "82da95b3-2f7b-4c4a-99a1-e4b2eebcca94",
+  "prevId": "42c522cb-b537-4685-9bc5-81315207b093",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -870,7 +870,7 @@
         },
         "options": {
           "name": "options",
-          "type": "text",
+          "type": "json",
           "primaryKey": false,
           "notNull": true
         },
@@ -1869,6 +1869,98 @@
         }
       },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user_review_answer": {
+      "name": "user_review_answer",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "review_id": {
+          "name": "review_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_id": {
+          "name": "question_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "selected": {
+          "name": "selected",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answered_at": {
+          "name": "answered_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_review_answer_user_id_user_id_fk": {
+          "name": "user_review_answer_user_id_user_id_fk",
+          "tableFrom": "user_review_answer",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_review_answer_review_id_review_id_fk": {
+          "name": "user_review_answer_review_id_review_id_fk",
+          "tableFrom": "user_review_answer",
+          "tableTo": "review",
+          "columnsFrom": [
+            "review_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_review_answer_question_id_review_question_id_fk": {
+          "name": "user_review_answer_question_id_review_question_id_fk",
+          "tableFrom": "user_review_answer",
+          "tableTo": "review_question",
+          "columnsFrom": [
+            "question_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "user_review_answer_user_id_question_id_pk": {
+          "name": "user_review_answer_user_id_question_id_pk",
+          "columns": [
+            "user_id",
+            "question_id"
+          ]
+        }
+      },
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},

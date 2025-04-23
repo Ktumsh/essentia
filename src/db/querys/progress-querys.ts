@@ -2,6 +2,7 @@
 
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
+import { revalidatePath } from "next/cache";
 import postgres from "postgres";
 
 import {
@@ -14,6 +15,7 @@ import {
   userReviewProgress,
   userLessonProgress,
   userStageProgress,
+  userReviewAnswer,
 } from "../schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
@@ -100,6 +102,7 @@ export async function initializeRouteProgress(userId: string, routeId: string) {
         lessonId: les.id,
         stageId: les.stageId,
         completed: false,
+        startedAt: null,
       }));
       await db.insert(userLessonProgress).values(insertLessons);
     }
@@ -129,6 +132,7 @@ export async function initializeRouteProgress(userId: string, routeId: string) {
         reviewId: r.id,
         stageId: r.stageId,
         completed: false,
+        startedAt: null,
       }));
       await db.insert(userReviewProgress).values(insertReviews);
     }
@@ -281,6 +285,21 @@ export async function getLastCompletedLesson(userId: string, routeId: string) {
     .limit(1);
 
   return result[0] || null;
+}
+
+export async function getOrderedLessonsByRoute(routeId: string) {
+  const results = await db
+    .select({
+      lessonId: lesson.id,
+      lessonSlug: lesson.slug,
+      stageSlug: stage.slug,
+    })
+    .from(lesson)
+    .innerJoin(stage, eq(lesson.stageId, stage.id))
+    .where(eq(stage.routeId, routeId))
+    .orderBy(stage.order, lesson.order);
+
+  return results;
 }
 
 export async function getRouteProgress(
@@ -524,6 +543,31 @@ export async function areAllPreviousLessonsCompleted(
   }
 }
 
+export async function areAllLessonsInStageCompleted(
+  userId: string,
+  stageId: string,
+): Promise<boolean> {
+  const lessons = await db
+    .select()
+    .from(lesson)
+    .where(eq(lesson.stageId, stageId));
+
+  const lessonIds = lessons.map((l) => l.id);
+
+  const completedLessons = await db
+    .select()
+    .from(userLessonProgress)
+    .where(
+      and(
+        eq(userLessonProgress.userId, userId),
+        eq(userLessonProgress.completed, true),
+        inArray(userLessonProgress.lessonId, lessonIds),
+      ),
+    );
+
+  return completedLessons.length === lessons.length;
+}
+
 export async function getLessonProgress(
   userId: string,
   lessonId: string,
@@ -567,25 +611,203 @@ export async function getCompletedLessons(userId: string, lessonIds: string[]) {
   }
 }
 
+// /db/querys/progress-querys.ts
 export async function getStageProgress(userId: string, stageId: string) {
-  try {
-    const result = await db
-      .select({
-        progress: userStageProgress.progress,
-        completed: userStageProgress.completed,
-      })
-      .from(userStageProgress)
-      .where(
-        and(
-          eq(userStageProgress.userId, userId),
-          eq(userStageProgress.stageId, stageId),
-        ),
-      )
-      .limit(1);
+  const [stageData] = await db
+    .select({
+      progress: userStageProgress.progress,
+      completed: userStageProgress.completed,
+    })
+    .from(userStageProgress)
+    .where(
+      and(
+        eq(userStageProgress.userId, userId),
+        eq(userStageProgress.stageId, stageId),
+      ),
+    )
+    .limit(1);
 
-    return result[0];
-  } catch (error) {
-    console.error("Error al obtener el progreso de la etapa:", error);
-    throw error;
+  const [reviewData] = await db
+    .select({
+      completed: userReviewProgress.completed,
+      score: userReviewProgress.score,
+    })
+    .from(userReviewProgress)
+    .where(
+      and(
+        eq(userReviewProgress.userId, userId),
+        eq(userReviewProgress.stageId, stageId),
+      ),
+    )
+    .limit(1);
+
+  return {
+    stageId,
+    progress: stageData?.progress || 0,
+    completed: stageData?.completed || false,
+    reviewCompleted: reviewData?.completed || false,
+    reviewScore: reviewData?.score ?? null,
+  };
+}
+
+export type StageProgressType = Awaited<ReturnType<typeof getStageProgress>>;
+
+export async function startReview({
+  userId,
+  reviewId,
+}: {
+  userId: string;
+  reviewId: string;
+}) {
+  const startedAt = new Date();
+
+  await db
+    .update(userReviewProgress)
+    .set({ startedAt })
+    .where(
+      and(
+        eq(userReviewProgress.userId, userId),
+        eq(userReviewProgress.reviewId, reviewId),
+      ),
+    );
+
+  return startedAt;
+}
+
+export async function cancelReview({
+  userId,
+  reviewId,
+}: {
+  userId: string;
+  reviewId: string;
+}) {
+  await db
+    .update(userReviewProgress)
+    .set({
+      startedAt: null,
+    })
+    .where(
+      and(
+        eq(userReviewProgress.userId, userId),
+        eq(userReviewProgress.reviewId, reviewId),
+      ),
+    );
+}
+
+export async function saveReviewProgress({
+  userId,
+  reviewId,
+  score,
+  answers,
+}: {
+  userId: string;
+  reviewId: string;
+  score: number;
+  answers: Record<string, number>;
+}) {
+  if (!userId) throw new Error("No autorizado");
+
+  await db
+    .update(userReviewProgress)
+    .set({
+      completed: true,
+      score,
+      completedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(userReviewProgress.userId, userId),
+        eq(userReviewProgress.reviewId, reviewId),
+      ),
+    );
+
+  const answerEntries = Object.entries(answers);
+  if (answerEntries.length > 0) {
+    await Promise.all(
+      answerEntries.map(([questionId, selected]) =>
+        db
+          .insert(userReviewAnswer)
+          .values({
+            userId,
+            reviewId,
+            questionId,
+            selected,
+          })
+          .onConflictDoUpdate({
+            target: [userReviewAnswer.userId, userReviewAnswer.questionId],
+            set: { selected },
+          }),
+      ),
+    );
   }
+}
+
+export async function resetReviewProgress({
+  userId,
+  reviewId,
+  routeSlug,
+  stageSlug,
+}: {
+  userId: string;
+  reviewId: string;
+  routeSlug: string;
+  stageSlug: string;
+}) {
+  if (!userId) throw new Error("No autorizado");
+
+  await db
+    .update(userReviewProgress)
+    .set({
+      completed: false,
+      score: 0,
+      completedAt: null,
+    })
+    .where(
+      eq(userReviewProgress.userId, userId) &&
+        eq(userReviewProgress.reviewId, reviewId),
+    );
+
+  revalidatePath(`/${routeSlug}/${stageSlug}/review`);
+}
+
+export async function checkReviewCompletion({
+  reviewId,
+  userId,
+}: {
+  reviewId: string;
+  userId: string;
+}) {
+  const result = await db
+    .select()
+    .from(userReviewProgress)
+    .where(
+      and(
+        eq(userReviewProgress.reviewId, reviewId),
+        eq(userReviewProgress.userId, userId),
+      ),
+    )
+    .limit(1);
+
+  return result[0] ?? null;
+}
+
+export async function getUserReviewAnswers({
+  userId,
+  reviewId,
+}: {
+  userId: string;
+  reviewId: string;
+}) {
+  return await db
+    .select({
+      questionId: userReviewAnswer.questionId,
+      selected: userReviewAnswer.selected,
+    })
+    .from(userReviewAnswer)
+    .where(
+      and(
+        eq(userReviewAnswer.userId, userId),
+        eq(userReviewAnswer.reviewId, reviewId),
+      ),
+    );
 }

@@ -10,6 +10,7 @@ import { Button, ButtonSize, ButtonVariant } from "../kit/button";
 import type { HTMLAttributes } from "react";
 
 interface ArrowRightButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  type?: "button" | "submit" | "reset";
   size?: ButtonSize;
   variant?: ButtonVariant;
   iconSize?: number;
@@ -24,6 +25,7 @@ const ArrowRightButton = ({
   variant,
   iconSize = 24,
   disabled,
+  type,
   ...props
 }: ArrowRightButtonProps) => {
   const controls = useAnimationControls();
@@ -59,6 +61,7 @@ const ArrowRightButton = ({
 
   return (
     <Button
+      type={type}
       size={size}
       variant={variant}
       disabled={disabled}

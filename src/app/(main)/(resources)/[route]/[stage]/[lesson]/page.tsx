@@ -62,9 +62,9 @@ const LessonPage = async (props: LessonPageProps) => {
 
   const route = await getRouteBySlug(routeSlug);
 
-  const modules = await getStages(route.id);
+  const stages = await getStages(route.id);
 
-  const currentModule = modules.find((mod) =>
+  const currentModule = stages.find((mod) =>
     mod.lessons.some((l) => l.slug === lessonSlug),
   );
 
@@ -75,7 +75,7 @@ const LessonPage = async (props: LessonPageProps) => {
 
   const progress = await getLessonProgress(userId, lesson.id);
 
-  const lessonIds = modules.flatMap((mod) =>
+  const lessonIds = stages.flatMap((mod) =>
     mod.lessons.map((lesson) => lesson.id),
   );
 
@@ -87,12 +87,11 @@ const LessonPage = async (props: LessonPageProps) => {
     ? await getCompletedLessons(userId, lessonIds)
     : [];
 
-  const stageProgress: { [key: string]: number } = {};
-
-  for (const mod of modules) {
-    const progressData = (await getStageProgress(userId, mod.stage.id)) || {};
-    stageProgress[mod.stage.id] = progressData.progress || 0;
-  }
+  const stageProgress = userId
+    ? await Promise.all(
+        stages.map((mod) => getStageProgress(userId, mod.stage.id)),
+      )
+    : [];
 
   const routeData = {
     routeId: route.id,
@@ -115,7 +114,7 @@ const LessonPage = async (props: LessonPageProps) => {
       <div className="mx-auto grid grid-cols-1 gap-6 lg:grid-cols-[1fr_424px]">
         <Lesson
           lesson={lesson}
-          stages={modules}
+          stages={stages}
           route={routeData}
           isCompleted={progress}
           completedLessons={completedLessons}

@@ -5,9 +5,13 @@ import { generateObject } from "ai";
 import { modelProvider } from "./models";
 import {
   HEALTH_RISK_PROMPT,
+  HEALTH_RISK_SYSTEM_PROMPT,
   MOOD_TRACK_PROMPT,
+  MOOD_TRACK_SYSTEM_PROMPT,
   NUTRITIONAL_PLAN_PROMPT,
+  NUTRITIONAL_PLAN_SYSTEM_PROMPT,
   ROUTINE_PROMPT,
+  ROUTINE_SYSTEM_PROMPT,
   TRACK_TASK_PROMPT,
   TRACK_TASK_SYSTEM_PROMPT,
 } from "./prompts";
@@ -34,6 +38,7 @@ export type HealthRisk = {
   familyHistory: string;
   lifestyle: string;
   healthConditions: string;
+  currentDate: Date;
 };
 
 export type NutritionalPlan = {
@@ -65,6 +70,7 @@ export type Task = {
 export async function generateRoutine(props: Routine) {
   const { object: routine } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
+    system: ROUTINE_SYSTEM_PROMPT,
     prompt: ROUTINE_PROMPT(props),
     schema: routineSchema,
   });
@@ -75,6 +81,7 @@ export async function generateRoutine(props: Routine) {
 export async function generateHealthRisk(props: HealthRisk) {
   const { object: healthRisk } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
+    system: HEALTH_RISK_SYSTEM_PROMPT,
     prompt: HEALTH_RISK_PROMPT(props),
     schema: healthRiskSchema,
   });
@@ -85,6 +92,7 @@ export async function generateHealthRisk(props: HealthRisk) {
 export async function generateNutritionalPlan(props: NutritionalPlan) {
   const { object: nutritionalPlan } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
+    system: NUTRITIONAL_PLAN_SYSTEM_PROMPT,
     prompt: NUTRITIONAL_PLAN_PROMPT(props),
     schema: nutritionalPlanSchema,
   });
@@ -95,6 +103,7 @@ export async function generateNutritionalPlan(props: NutritionalPlan) {
 export async function generateMoodTrack(props: MoodTrack) {
   const { object: moodTrack } = await generateObject({
     model: modelProvider.languageModel("chat-model-small"),
+    system: MOOD_TRACK_SYSTEM_PROMPT,
     prompt: MOOD_TRACK_PROMPT(props),
     schema: moodTrackSchema,
   });

@@ -2,11 +2,11 @@ import { redirect } from "next/navigation";
 
 import { getStageBySlug } from "@/db/querys/resource-querys";
 
-type ModulePageProps = {
+type StagePageProps = {
   params: Promise<{ route: string; stage: string }>;
 };
 
-const ModulePage = async (props: ModulePageProps) => {
+const StagePage = async (props: StagePageProps) => {
   const params = await props.params;
   const routeSlug = params.route;
   const stageSlug = params.stage;
@@ -22,4 +22,4 @@ const ModulePage = async (props: ModulePageProps) => {
   );
 };
 
-export default ModulePage;
+export default StagePage;

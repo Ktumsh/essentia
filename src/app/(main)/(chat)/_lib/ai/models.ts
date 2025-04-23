@@ -1,23 +1,18 @@
-import { fireworks } from "@ai-sdk/fireworks";
 import { openai } from "@ai-sdk/openai";
-import {
-  customProvider,
-  extractReasoningMiddleware,
-  wrapLanguageModel,
-} from "ai";
+import { customProvider } from "ai";
 
 export const DEFAULT_CHAT_MODEL: string = "chat-model-small";
 
 export const modelProvider = customProvider({
   languageModels: {
-    "chat-model-small": openai("gpt-4o-mini"),
-    "chat-model-large": openai("gpt-4o"),
-    "chat-model-reasoning": wrapLanguageModel({
+    "chat-model-small": openai.responses("gpt-4.1-mini"),
+    "chat-model-large": openai.responses("gpt-4.1"),
+    /* "chat-model-reasoning": wrapLanguageModel({
       model: fireworks("accounts/fireworks/models/deepseek-r1"),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
-    }),
-    /* "chat-model-reasoning": openai("o3-mini"), */
-    "title-model": openai("gpt-4o-mini"),
+    }), */
+    "chat-model-reasoning": openai.responses("o4-mini"),
+    "title-model": openai("gpt-4.1-nano"),
   },
   imageModels: {
     "small-model": openai.image("dall-e-2"),

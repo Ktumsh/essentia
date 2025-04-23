@@ -1,3 +1,4 @@
+import { openai } from "@ai-sdk/openai";
 import {
   UIMessage,
   appendResponseMessages,
@@ -36,23 +37,6 @@ import {
 } from "../../_lib/utils";
 
 export const maxDuration = 60;
-
-type AllowedTools =
-  | "getWeather"
-  | "createRoutine"
-  | "createHealthRisk"
-  | "createNutritionalPlan"
-  | "createMoodTrack"
-  | "createTrackTask";
-
-const allTools: AllowedTools[] = [
-  "getWeather",
-  "createRoutine",
-  "createHealthRisk",
-  "createNutritionalPlan",
-  "createMoodTrack",
-  "createTrackTask",
-];
 
 export async function POST(request: Request) {
   try {
@@ -152,11 +136,18 @@ export async function POST(request: Request) {
           system: systemPrompt,
           messages,
           maxSteps: 5,
-          experimental_activeTools:
-            selectedChatModel === "chat-model-reasoning" ? [] : allTools,
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
           tools: {
+            web_search_preview: openai.tools.webSearchPreview({
+              searchContextSize: "high",
+              userLocation: {
+                type: "approximate",
+                country: "CL",
+                city: "Santiago",
+                timezone: "America/Santiago",
+              },
+            }),
             getWeather,
             createRoutine,
             createHealthRisk,
@@ -164,6 +155,7 @@ export async function POST(request: Request) {
             createMoodTrack,
             createTrackTask: createTrackTask({ userId, chatId: id }),
           },
+          toolChoice: { type: "tool", toolName: "web_search_preview" },
           onFinish: async ({ response }) => {
             if (session?.user?.id) {
               try {
@@ -210,6 +202,7 @@ export async function POST(request: Request) {
 
         result.mergeIntoDataStream(dataStream, {
           sendReasoning: true,
+          sendSources: true,
         });
       },
       onError: (error) => {

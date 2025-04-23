@@ -30,13 +30,17 @@ function AlertDialogPortal({
 
 function AlertDialogOverlay({
   className,
+  isBlurred,
   ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Overlay>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Overlay> & {
+  isBlurred?: boolean;
+}) {
   return (
     <AlertDialogPrimitive.Overlay
       data-slot="alert-dialog-overlay"
       className={cn(
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        isBlurred && "backdrop-blur-md backdrop-saturate-150",
         className,
       )}
       {...props}
@@ -47,13 +51,15 @@ function AlertDialogOverlay({
 function AlertDialogContent({
   className,
   isSecondary,
+  isBlurred,
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content> & {
   isSecondary?: boolean;
+  isBlurred?: boolean;
 }) {
   return (
     <AlertDialogPortal>
-      <AlertDialogOverlay />
+      <AlertDialogOverlay isBlurred={isBlurred} />
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
         className={cn(

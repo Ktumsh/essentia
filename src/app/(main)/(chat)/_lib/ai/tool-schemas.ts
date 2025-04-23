@@ -8,47 +8,29 @@ export const routineSchema = z.object({
         reps: z
           .number()
           .nullable()
-          .optional()
           .describe("Número de repeticiones por serie"),
-        sets: z
-          .number()
-          .nullable()
-          .optional()
-          .describe("Número de series por ejercicio"),
+        sets: z.number().nullable().describe("Número de series por ejercicio"),
         duration: z
           .string()
           .nullable()
-          .optional()
           .describe("Duración del ejercicio o serie"),
         rest: z
           .string()
           .nullable()
-          .optional()
           .describe("Tiempo de descanso entre series o ejercicios"),
         progression: z
           .string()
           .nullable()
-          .optional()
           .describe("Instrucciones para aumentar la dificultad"),
-        equipment: z
-          .string()
-          .nullable()
-          .optional()
-          .describe("Equipamiento necesario"),
+        equipment: z.string().nullable().describe("Equipamiento necesario"),
         instructions: z
           .string()
           .nullable()
-          .optional()
           .describe("Instrucciones detalladas del ejercicio"),
-        benefits: z
-          .string()
-          .nullable()
-          .optional()
-          .describe("Beneficios para la salud"),
+        benefits: z.string().nullable().describe("Beneficios para la salud"),
         modifications: z
           .string()
           .nullable()
-          .optional()
           .describe("Modificaciones para distintos niveles o limitaciones"),
       }),
     ),
@@ -58,12 +40,10 @@ export const routineSchema = z.object({
     warmUp: z
       .string()
       .nullable()
-      .optional()
       .describe("Recomendaciones para el calentamiento"),
     coolDown: z
       .string()
       .nullable()
-      .optional()
       .describe("Recomendaciones para el enfriamiento"),
 
     schedule: z
@@ -76,12 +56,10 @@ export const routineSchema = z.object({
         }),
       )
       .nullable()
-      .optional()
       .describe("Programa semanal de ejercicios"),
     recommendations: z
       .string()
       .nullable()
-      .optional()
       .describe("Recomendaciones finales basadas en el progreso esperado"),
   }),
 });
@@ -95,11 +73,11 @@ export const healthRiskSchema = z.object({
       level: z.string().describe("Nivel de riesgo de diabetes"),
       interpretation: z
         .string()
-        .optional()
+        .nullable()
         .describe("Interpretación personalizada del riesgo de diabetes"),
       recommendedActions: z
         .string()
-        .optional()
+        .nullable()
         .describe("Acciones recomendadas para reducir el riesgo de diabetes"),
     }),
     heartDisease: z.object({
@@ -109,11 +87,11 @@ export const healthRiskSchema = z.object({
       level: z.string().describe("Nivel de riesgo de enfermedad cardiaca"),
       interpretation: z
         .string()
-        .optional()
+        .nullable()
         .describe("Interpretación personalizada del riesgo cardiaco"),
       recommendedActions: z
         .string()
-        .optional()
+        .nullable()
         .describe("Acciones recomendadas para reducir el riesgo cardiaco"),
     }),
     hypertension: z.object({
@@ -121,11 +99,11 @@ export const healthRiskSchema = z.object({
       level: z.string().describe("Nivel de riesgo de hipertensión"),
       interpretation: z
         .string()
-        .optional()
+        .nullable()
         .describe("Interpretación personalizada del riesgo de hipertensión"),
       recommendedActions: z
         .string()
-        .optional()
+        .nullable()
         .describe(
           "Acciones recomendadas para reducir el riesgo de hipertensión",
         ),
@@ -137,11 +115,11 @@ export const healthRiskSchema = z.object({
       level: z.string().describe("Nivel de riesgo de enfermedad pulmonar"),
       interpretation: z
         .string()
-        .optional()
+        .nullable()
         .describe("Interpretación personalizada del riesgo pulmonar"),
       recommendedActions: z
         .string()
-        .optional()
+        .nullable()
         .describe("Acciones recomendadas para reducir el riesgo pulmonar"),
     }),
     kidneyDisease: z.object({
@@ -151,11 +129,11 @@ export const healthRiskSchema = z.object({
       level: z.string().describe("Nivel de riesgo de enfermedad renal"),
       interpretation: z
         .string()
-        .optional()
+        .nullable()
         .describe("Interpretación personalizada del riesgo renal"),
       recommendedActions: z
         .string()
-        .optional()
+        .nullable()
         .describe("Acciones recomendadas para reducir el riesgo renal"),
     }),
     generalRiskLevelPercentage: z
@@ -185,7 +163,7 @@ export const nutritionalPlanSchema = z.object({
           time: z.string().describe("Horario sugerido"),
         }),
       )
-      .optional(),
+      .nullable(),
     lunch: z
       .array(
         z.object({
@@ -196,7 +174,7 @@ export const nutritionalPlanSchema = z.object({
           time: z.string().describe("Horario sugerido"),
         }),
       )
-      .optional(),
+      .nullable(),
     snack: z
       .array(
         z.object({
@@ -207,7 +185,7 @@ export const nutritionalPlanSchema = z.object({
           time: z.string().describe("Horario sugerido"),
         }),
       )
-      .optional(),
+      .nullable(),
     dinner: z
       .array(
         z.object({
@@ -218,7 +196,7 @@ export const nutritionalPlanSchema = z.object({
           time: z.string().describe("Horario sugerido"),
         }),
       )
-      .optional(),
+      .nullable(),
     additional: z
       .array(
         z.object({
@@ -229,8 +207,8 @@ export const nutritionalPlanSchema = z.object({
           time: z.string().describe("Horario sugerido"),
         }),
       )
-      .optional(),
-    totalCalories: z.number().optional().describe("Calorías totales diarias"),
+      .nullable(),
+    totalCalories: z.number().nullable().describe("Calorías totales diarias"),
     macronutrients: z
       .object({
         proteins: z.number().describe("Gramos de proteínas"),
@@ -269,7 +247,7 @@ export const moodTrackSchema = z.object({
           .describe("Frase poética o inspiradora sin comillas."),
         author: z.string().describe("Autor real de la frase poética."),
       })
-      .optional(),
+      .nullable(),
   }),
 });
 
@@ -277,10 +255,9 @@ export type MoodTrack = z.infer<typeof moodTrackSchema.shape.moodTrack>;
 
 export const taskSchema = z.object({
   task: z.object({
-    name: z.string().max(80).describe("Nombre de la tarea"),
+    name: z.string().describe("Nombre de la tarea"),
     instructions: z
       .string()
-      .max(100)
       .describe(
         "Instrucción breve y estructurada para generar un mensaje de notificación",
       ),
@@ -294,19 +271,11 @@ export const taskSchema = z.object({
           "Anualmente",
         ])
         .describe("Frecuencia de la tarea"),
-      time: z
-        .string()
-        .regex(
-          /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-          "Hora en formato 24 horas (hh:mm)",
-        )
-        .describe("Hora específica para realizar la tarea"),
+      time: z.string().describe("Hora específica para realizar la tarea"),
       exactDate: z
-        .union([z.string(), z.date()])
-        .transform((val) => (typeof val === "string" ? new Date(val) : val))
+        .string()
         .nullable()
-        .optional()
-        .describe("Fecha exacta para tareas únicas"),
+        .describe("Fecha exacta en formato ISO (YYYY-MM-DD)"),
       weekDay: z
         .enum([
           "lunes",
@@ -318,12 +287,10 @@ export const taskSchema = z.object({
           "domingo",
         ])
         .nullable()
-        .optional()
         .describe("Día de la semana para tareas semanales o sin repetición"),
       monthDay: z
         .number()
         .nullable()
-        .optional()
         .describe(
           "Día del mes para tareas mensuales, anuales o sin repetición",
         ),
@@ -343,7 +310,6 @@ export const taskSchema = z.object({
           "diciembre",
         ])
         .nullable()
-        .optional()
         .describe("Mes para tareas anuales o sin repetición"),
     }),
   }),

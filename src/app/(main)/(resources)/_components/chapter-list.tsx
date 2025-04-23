@@ -2,9 +2,11 @@
 
 import { Award, BookOpen, CheckCircle, CircleDashed } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MouseEvent, useMemo } from "react";
 
+import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
+import { PlayButton } from "@/components/button-kit/play-button";
 import {
   Accordion,
   AccordionContent,
@@ -13,6 +15,12 @@ import {
 } from "@/components/kit/accordion";
 import { Badge } from "@/components/kit/badge";
 import { CircularProgress } from "@/components/kit/circular-progress";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/kit/hover-card";
+import { StageProgressType } from "@/db/querys/progress-querys";
 import { cn, getRouteColor } from "@/lib/utils";
 
 import type { Stages } from "@/types/resource";
@@ -22,7 +30,7 @@ interface ChapterListProps {
   stages?: Stages[];
   routeSlug?: string;
   completedLessons?: string[];
-  stageProgress: { [moduleId: string]: number };
+  stageProgress: StageProgressType[];
   onLessonClick?: (href: string) => void;
   isDisaled?: boolean;
 }
@@ -36,7 +44,10 @@ const ChapterList = ({
   onLessonClick,
   isDisaled = false,
 }: ChapterListProps) => {
+  const router = useRouter();
   const pathname = usePathname();
+
+  const isLessonPage = pathname !== `/${routeSlug}`;
 
   const handleLessonClick = (
     e: MouseEvent<HTMLAnchorElement>,
@@ -65,6 +76,11 @@ const ChapterList = ({
     )
     .filter((index): index is string => index !== null);
 
+  const bgColor = useMemo(
+    () => getRouteColor(routeIndex, "background"),
+    [routeIndex],
+  );
+
   const textMutedColor = useMemo(
     () => getRouteColor(routeIndex, "text-muted"),
     [routeIndex],
@@ -77,6 +93,10 @@ const ChapterList = ({
       className="mt-0! w-full space-y-4"
     >
       {stages?.map((item, index) => {
+        const prog = stageProgress.find((p) => p.stageId === item.stage.id)!;
+        const isDone = prog.completed;
+        const isReviewDone = prog.reviewCompleted;
+
         return (
           <AccordionItem
             disabled={isDisaled}
@@ -86,15 +106,13 @@ const ChapterList = ({
           >
             <AccordionTrigger className="text-foreground/80 gap-2 px-3 py-2 underline-offset-2 md:gap-4 md:px-6 md:py-4 md:hover:no-underline">
               <CircularProgress
-                aria-label={stageProgress[item.stage.id] + "%"}
-                value={stageProgress[item.stage.id] || 0}
+                aria-label={(prog?.progress ?? 0) + "%"}
+                value={prog?.progress ?? 0}
                 showLabel
                 labelClassName="text-xxs"
                 size={32}
                 strokeWidth={3}
-                progressClassName={getProgressColor(
-                  stageProgress[item.stage.id],
-                )}
+                progressClassName={getProgressColor(prog?.progress ?? 0)}
               />
               <div className="w-full">
                 <span
@@ -103,7 +121,7 @@ const ChapterList = ({
                     textMutedColor,
                   )}
                 >
-                  Etapa {item.stage.order + 1}
+                  Etapa {item.stage.order}
                 </span>
                 <h4 className="text-foreground text-base">
                   {item.stage.title}
@@ -154,23 +172,100 @@ const ChapterList = ({
                   <li key={`exam-${item.review.slug}`}>
                     <Link
                       href={`/${routeSlug}/${item.stage.slug}/${item.review.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (isReviewDone) {
+                          router.push(
+                            `/${routeSlug}/${item.stage.slug}/${item.review?.slug}`,
+                          );
+                          return;
+                        }
+                      }}
                       className={cn(
-                        "text-foreground/80 hover:text-foreground hover:bg-accent relative flex w-full items-center justify-between gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150",
-                        "pointer-events-none",
-                        {
-                          "text-foreground bg-accent": pathname.includes(
-                            item.review.slug,
-                          ),
-                        },
+                        "hover:bg-accent relative flex w-full items-center gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150",
+                        !isDone && "pointer-events-none opacity-60",
+                        pathname.includes(item.review.slug) && "bg-accent",
                       )}
                     >
-                      <Award className="size-3.5 text-amber-500" />
-                      <p className="flex grow items-center gap-1 opacity-50">
+                      <HoverCard>
+                        <HoverCardTrigger asChild>
+                          <Award className="size-3.5 text-amber-500" />
+                        </HoverCardTrigger>
+                        <HoverCardContent>
+                          {isDone ? (
+                            <p className="text-foreground text-sm font-normal">
+                              ¡Revisión disponible!
+                            </p>
+                          ) : (
+                            <p className="text-foreground text-sm font-normal">
+                              ¡Revisión bloqueada!
+                            </p>
+                          )}
+                        </HoverCardContent>
+                      </HoverCard>
+                      <p
+                        className={cn("text-start", {
+                          "opacity-50": !isDone,
+                        })}
+                      >
                         ¡Reflexiona sobre lo aprendido!
                       </p>
-                      <Badge className="bg-primary/10! text-primary! rounded-[6px] font-normal">
-                        ¡Próximamente!
-                      </Badge>
+                      {isReviewDone ? (
+                        <Badge
+                          variant="premium"
+                          className="pl-1.5! font-normal shadow-sm"
+                        >
+                          🏅 ¡Realizada!
+                        </Badge>
+                      ) : (
+                        !isLessonPage && (
+                          <Badge
+                            className={cn(
+                              "rounded-[6px] font-normal",
+                              isDone
+                                ? [bgColor, textMutedColor]
+                                : "bg-primary/10! text-primary!",
+                            )}
+                          >
+                            {isDone ? "Disponible" : "Bloqueada"}
+                          </Badge>
+                        )
+                      )}
+                      {!isDone && !isLessonPage && (
+                        <p className="text-xxs text-muted-foreground ml-auto font-normal">
+                          ¡Completa la etapa para desbloquear!
+                        </p>
+                      )}
+                      {isDone && !isReviewDone && (
+                        <PlayButton
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            router.push(
+                              `/${routeSlug}/${item.stage.slug}/${item.review?.slug}`,
+                            );
+                          }}
+                          className="hover:bg-background ml-auto h-6 rounded-sm px-2! text-xs [&_svg]:size-3.5!"
+                        >
+                          Realizar
+                        </PlayButton>
+                      )}
+                      {isReviewDone && !isLessonPage && (
+                        <ArrowLeftButton
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            router.push(
+                              `/${routeSlug}/${item.stage.slug}/${item.review?.slug}`,
+                            );
+                          }}
+                          className="hover:bg-background ml-auto h-6 flex-row-reverse rounded-sm px-2! text-xs [&_svg]:size-3.5! [&_svg]:rotate-180"
+                        >
+                          Ver resultados
+                        </ArrowLeftButton>
+                      )}
                     </Link>
                   </li>
                 )}

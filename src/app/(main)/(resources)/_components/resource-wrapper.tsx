@@ -11,6 +11,7 @@ import { PlayButton } from "@/components/button-kit/play-button";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
+import { StageProgressType } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useParallax } from "@/hooks/use-parallax";
 import { useScrollRef } from "@/hooks/use-scroll-ref";
@@ -30,7 +31,7 @@ interface ResourceWrapperProps {
   stages: Stages[];
   isPremium?: boolean | null;
   completedLessons: string[];
-  stageProgress: { [moduleId: string]: number };
+  stageProgress: StageProgressType[];
   routeProgress: { completed: boolean; progress: number };
   routeInitialized: boolean;
 }

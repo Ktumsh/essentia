@@ -120,7 +120,7 @@ const TaskStock = ({
 
   return (
     <>
-      <Card className="flex w-fit max-w-80 min-w-72 items-center justify-between rounded-xl border-none pr-3">
+      <Card className="bg-accent flex w-fit max-w-80 min-w-72 items-center justify-between rounded-xl border-none pr-3">
         <CardHeader className="px-5 py-4">
           <div className="relative inline-flex items-center gap-2">
             <CardTitle className="text-sm">
@@ -138,7 +138,11 @@ const TaskStock = ({
         </CardHeader>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size="icon" variant="ghost">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="hover:bg-background size-7 rounded-sm"
+            >
               <MoreVertical />
             </Button>
           </DropdownMenuTrigger>

@@ -2,7 +2,7 @@ export const siteConfig = {
   appId: "essentia-web",
   name: "Essentia",
   description:
-    "Tu recurso de información esencial y confiable para una vida más saludable y equilibrada",
+    "Gestiona tu historial médico, recibe recomendaciones personalizadas y mejora tu bienestar con nuestra plataforma integral de salud",
   url: "https://essentia-web.vercel.app",
   keywords: [
     "essentia",

@@ -230,7 +230,7 @@ export const reviewQuestion = table("review_question", {
     .notNull()
     .references(() => review.id, { onDelete: "cascade" }),
   question: text("question").notNull(),
-  options: text("options").notNull(),
+  options: json("options").notNull(),
   answer: integer("answer").notNull(),
 });
 
@@ -331,6 +331,26 @@ export const userReviewProgress = table(
 );
 
 export type UserReviewProgress = InferSelectModel<typeof userReviewProgress>;
+
+export const userReviewAnswer = table(
+  "user_review_answer",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    reviewId: uuid("review_id")
+      .notNull()
+      .references(() => review.id, { onDelete: "cascade" }),
+    questionId: uuid("question_id")
+      .notNull()
+      .references(() => reviewQuestion.id, { onDelete: "cascade" }),
+    selected: integer("selected").notNull(),
+    answeredAt: timestamp("answered_at").defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.questionId] })],
+);
+
+export type UserReviewAnswer = InferSelectModel<typeof userReviewAnswer>;
 
 export const notificationSubscription = table("notification_subscription", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),

@@ -165,16 +165,19 @@ export const getRouteColor = (
     | "text-strong"
     | "text-contrast"
     | "text-muted"
-    | "border",
+    | "border"
+    | "borderAccent",
 ): string => {
   const colorMap: {
-    gradient: { [key: number]: string };
-    background: { [key: number]: string };
-    text: { [key: number]: string };
-    "text-strong": { [key: number]: string };
-    "text-contrast": { [key: number]: string };
-    "text-muted": { [key: number]: string };
-    border: { [key: number]: string };
+    [key in
+      | "gradient"
+      | "background"
+      | "text"
+      | "text-strong"
+      | "text-contrast"
+      | "text-muted"
+      | "border"
+      | "borderAccent"]: { [index: number]: string };
   } = {
     gradient: {
       0: "from-emerald-600 to-emerald-500",
@@ -231,6 +234,14 @@ export const getRouteColor = (
       3: "border-blue-200 dark:border-blue-900",
       4: "border-rose-200 dark:border-rose-900",
       5: "border-lime-200 dark:border-lime-900",
+    },
+    borderAccent: {
+      0: "border-emerald-500",
+      1: "border-fuchsia-500",
+      2: "border-yellow-500",
+      3: "border-blue-500",
+      4: "border-rose-500",
+      5: "border-lime-500",
     },
   };
 

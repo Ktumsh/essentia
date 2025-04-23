@@ -23,7 +23,7 @@ const badgeAlertVariants = cva(
       },
       size: {
         default: "size-9 [&>svg]:size-5",
-        sm: "size-7 [&>svg]:size-5",
+        sm: "size-7 [&>svg]:size-4",
         lg: "size-11 [&>svg]:size-6",
         xl: "size-12 [&>svg]:size-7",
       },

@@ -133,6 +133,8 @@ const PurePreviewMessage = ({
     reload();
   };
 
+  console.log({ parts });
+
   return (
     <motion.article
       initial={{ y: 5, opacity: 0 }}
@@ -155,7 +157,7 @@ const PurePreviewMessage = ({
           <UserAvatar profileImage={profileImage} username={username} />
         )}
 
-        <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full flex-col gap-4">
           {experimental_attachments && experimental_attachments.length > 0 && (
             <>
               {imageAttachments && imageAttachments.length > 0 && (
@@ -234,7 +236,7 @@ const PurePreviewMessage = ({
                     >
                       <Markdown
                         className={cn(
-                          "prose-sm md:prose md:text-[14px]!",
+                          "prose-sm md:prose text-foreground! max-w-full! md:text-[14px]!",
                           userRole && "text-white!",
                         )}
                       >

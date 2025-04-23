@@ -63,14 +63,11 @@ const ResourcePage = async (props: Props) => {
     ? await getCompletedLessons(userId, lessonIds)
     : [];
 
-  const stageProgress: { [key: string]: number } = {};
-
-  if (userId) {
-    for (const mod of stages) {
-      const progressData = (await getStageProgress(userId, mod.stage.id)) || {};
-      stageProgress[mod.stage.id] = progressData.progress || 0;
-    }
-  }
+  const stageProgress = userId
+    ? await Promise.all(
+        stages.map((mod) => getStageProgress(userId, mod.stage.id)),
+      )
+    : [];
 
   const course = userId ? await getRouteProgress(userId, resource.id) : null;
 

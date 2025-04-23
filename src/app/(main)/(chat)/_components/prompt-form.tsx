@@ -236,14 +236,14 @@ const PurePromptForm = ({
             onChange={handleFileChange}
             className="pointer-events-none fixed -top-4 -left-4 size-0.5 opacity-0"
           />
-          {status === "submitted" ? (
+          {status === "submitted" || status !== "ready" ? (
             <StopButton stop={stop} setMessages={setMessages} />
           ) : (
             <SendButton
               input={input}
-              handleSubmit={handleSubmit}
               uploadQueue={uploadQueue}
               isPremium={isPremium}
+              status={status}
             />
           )}
         </div>
@@ -312,28 +312,32 @@ function PureStopButton({
 
 const StopButton = memo(PureStopButton);
 
-const MotionArrowRightButton = motion(ArrowRightButton);
+const MotionArrowRightButton = motion.create(ArrowRightButton);
 
 function PureSendButton({
-  handleSubmit,
   input,
   uploadQueue,
   isPremium,
+  status,
 }: {
-  handleSubmit: () => void;
   input: string;
   uploadQueue: Array<string>;
   isPremium: boolean | null;
+  status: UseChatHelpers["status"];
 }) {
   const isMobile = useIsMobile();
-  const disabled = input.length === 0 || uploadQueue.length > 0 || !isPremium;
+  const disabled =
+    input.length === 0 ||
+    uploadQueue.length > 0 ||
+    !isPremium ||
+    status !== "ready";
 
   return (
     <MotionArrowRightButton
+      type="submit"
       layout
       variant="gradient"
       size="sm"
-      onClick={handleSubmit}
       disabled={disabled}
       transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
       className={cn(

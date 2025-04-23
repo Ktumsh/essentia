@@ -131,7 +131,7 @@ export default function Guide({ guide }: GuideProps) {
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              className="flex flex-1 items-center justify-center rounded-full"
+              className="flex flex-1 items-center justify-center rounded-full px-3"
             >
               {tab.icon}
               <span className="leading-normal">{tab.label}</span>

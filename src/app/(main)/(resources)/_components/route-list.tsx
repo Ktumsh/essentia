@@ -27,6 +27,7 @@ import {
 import { Progress } from "@/components/kit/progress";
 import { StarsIcon } from "@/components/ui/icons/common";
 import PaymentModal from "@/components/ui/payment/payment-modal";
+import { startReview } from "@/db/querys/progress-querys";
 import {
   cn,
   getProgressColor,
@@ -40,6 +41,7 @@ import InitializeRouteAlert from "./initialize-route-alert";
 import RouteInfoPanel from "./route-info-panel";
 import SectionTitle from "./section-title";
 import { useRouteProgress } from "../_hooks/use-route-progress";
+import { getEstimatedReviewTime } from "../_lib/utils";
 
 interface RouteListProps extends LearningRoute {
   description: string;
@@ -119,6 +121,13 @@ const RouteList = ({
     } finally {
       setIsOpen(false);
     }
+  };
+
+  const handleStartReview = async (stageSlug: string, reviewId?: string) => {
+    if (!userId || !reviewId) return;
+
+    await startReview({ userId, reviewId });
+    router.push(`/${slug}/${stageSlug}/review`);
   };
 
   if (stages?.length === 0) {
@@ -310,7 +319,7 @@ const RouteList = ({
                   {processing ? (
                     <>
                       <Loader className="animate-spin" />
-                      Continuando...
+                      {routeInitialized ? "Continuando..." : "Iniciando..."}
                     </>
                   ) : routeInitialized ? (
                     "Continuar ruta"
@@ -382,6 +391,104 @@ const RouteList = ({
                     )}
                 </CardContent>
               </Card>
+            </div>
+          )}
+          {routeInitialized && userId && (
+            <div className="mt-5 px-6 lg:px-0">
+              {(() => {
+                const availableReviews = stages.filter(({ stage, review }) => {
+                  const progress = stageProgress.find(
+                    (sp) => sp.stageId === stage.id,
+                  );
+                  return review && progress?.completed;
+                });
+
+                if (availableReviews.length === 0) return null;
+
+                return (
+                  <Card className="border-indigo-200 dark:border-indigo-900">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="flex items-center gap-2 text-base font-semibold md:text-lg">
+                        <Award className="size-5 shrink-0 text-yellow-500" />
+                        Revisiones prácticas disponibles
+                      </CardTitle>
+                      <CardDescription className="text-xs md:text-sm">
+                        Refuerza tu aprendizaje al finalizar cada etapa.
+                      </CardDescription>
+                    </CardHeader>
+
+                    <CardContent>
+                      <div className="flex flex-col gap-4">
+                        {availableReviews.map(({ stage, review }) => {
+                          const estimatedTime = getEstimatedReviewTime(
+                            review?.questionCount || 0,
+                          );
+                          const prog = stageProgress.find(
+                            (p) => p.stageId === stage.id,
+                          )!;
+                          const isReviewDone = prog.reviewCompleted;
+                          const reviewScore = prog.reviewScore ?? null;
+
+                          return (
+                            <div
+                              key={stage.id}
+                              className="hover:shadow-little-pretty flex flex-1 items-center justify-between gap-4 rounded-xl border border-indigo-200 bg-gradient-to-r from-indigo-100 to-indigo-300 p-3 transition duration-300 md:p-4 dark:border-indigo-900 dark:from-indigo-950 dark:to-indigo-800"
+                            >
+                              <div className="flex flex-col gap-0.5">
+                                <h4 className="text-xs font-medium md:text-sm">
+                                  {stage.title}
+                                </h4>
+                                <p className="text-muted-foreground text-xxs md:text-xs">
+                                  Tiempo estimado: {estimatedTime} min
+                                </p>
+                                {isReviewDone && reviewScore !== null && (
+                                  <span className="text-xxs font-medium text-indigo-600 md:text-xs dark:text-indigo-400">
+                                    % de logro: {reviewScore}%
+                                  </span>
+                                )}
+                              </div>
+
+                              {isReviewDone ? (
+                                <div className="flex flex-col items-center gap-2">
+                                  <Badge
+                                    variant="premium"
+                                    className="pl-1.5! font-normal shadow-sm"
+                                  >
+                                    🏅 ¡Realizada!
+                                  </Badge>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="bg-background/50 h-6 gap-1 rounded-sm border-0 px-2! text-xs font-normal backdrop-blur-sm [&__svg]:size-3.5!"
+                                    onClick={() =>
+                                      router.push(
+                                        `/${slug}/${stage.slug}/review`,
+                                      )
+                                    }
+                                  >
+                                    Ver resultados
+                                  </Button>
+                                </div>
+                              ) : (
+                                <PlayButton
+                                  size="sm"
+                                  variant="gradient"
+                                  onClick={() =>
+                                    handleStartReview(stage.slug, review?.id)
+                                  }
+                                  className="h-6 gap-1 rounded-sm px-2! text-xs [&__svg]:size-3.5!"
+                                >
+                                  Realizar
+                                </PlayButton>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
             </div>
           )}
         </section>
