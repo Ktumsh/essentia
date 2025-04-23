@@ -1,7 +1,7 @@
-import { HealthFact } from "@/types/common";
-
 import DailyTipLoading from "./daily-tip-loading";
 import HealthFactsCard from "./health-facts-card";
+
+import type { HealthFact } from "@/types/common";
 
 interface DesktopDailyTipProps {
   facts: HealthFact[] | null;
@@ -10,24 +10,14 @@ interface DesktopDailyTipProps {
 
 const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
   return (
-    <aside className="@8xl:block sticky top-0 right-0 hidden max-h-dvh w-full max-w-72 select-none">
-      <div className="relative float-end flex h-full w-72">
-        <div className="flex w-full flex-col items-center p-2 pb-0 lg:justify-between">
-          <div className="flex w-full flex-col">
-            <h3 className="text-foreground mb-2 ml-3 px-5 pt-3 text-base font-semibold lg:px-0">
-              Dato curioso del día
-            </h3>
-            <article className="flex h-full flex-col">
-              {loading ? (
-                <DailyTipLoading />
-              ) : (
-                <HealthFactsCard facts={facts} />
-              )}
-            </article>
-          </div>
-        </div>
-      </div>
-    </aside>
+    <div className="flex w-full flex-col">
+      <h3 className="text-foreground mb-2 ml-3 px-5 pt-3 text-base font-semibold lg:px-0">
+        Dato curioso del día
+      </h3>
+      <article className="flex h-full flex-col">
+        {loading ? <DailyTipLoading /> : <HealthFactsCard facts={facts} />}
+      </article>
+    </div>
   );
 };
 

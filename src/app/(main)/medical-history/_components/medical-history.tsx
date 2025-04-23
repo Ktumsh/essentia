@@ -8,7 +8,6 @@ import useSWR from "swr";
 import PaymentModal, {
   FeatureType,
 } from "@/components/ui/payment/payment-modal";
-import { MedicalTag } from "@/db/schema";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { fetcher } from "@/lib/utils";
@@ -37,9 +36,9 @@ import type {
   MedicalFileType,
   MedicalHistoryWithTags,
 } from "@/db/querys/medical-history-querys";
+import type { MedicalTag } from "@/db/schema";
 
 const MedicalHistory = () => {
-  // Datos globales y obtenidos mediante SWR
   const { user } = useUserProfile();
   const { data: session } = useSession();
   const { data: medicalTags } = useSWR<MedicalTag[]>(

@@ -4,21 +4,24 @@ import { useEffect, useState } from "react";
 
 import { dailyFacts } from "@/app/actions";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { UserProfileData } from "@/types/auth";
 import { HealthFact } from "@/types/common";
 
-import DesktopDailyTip from "./desktop-daily-tip";
+import AsideRight from "./aside-right";
 import MobileDailyTip from "./mobile-daily-tip";
 import RecomCard from "./recom-card";
 import Recomendations from "./recomendations";
 import Resources from "./resources";
+import StorageMobile from "./storage-mobile";
+import UpgradeCard from "./upgrade-card";
+
+import type { UserProfileData } from "@/types/auth";
 
 interface HomeProps {
-  profileData: UserProfileData | null;
+  userData: UserProfileData | null;
 }
 
-const Home = ({ profileData }: HomeProps) => {
-  const { isPremium } = profileData ?? {};
+const Home = ({ userData }: HomeProps) => {
+  const { isPremium } = userData ?? {};
 
   const [facts, setFacts] = useState<HealthFact[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,7 +59,7 @@ const Home = ({ profileData }: HomeProps) => {
           )}
           <div className="relative my-5 flex w-full flex-col md:hidden">
             <section className="flex w-full flex-1 flex-col px-6 md:px-0">
-              <RecomCard profileData={profileData} />
+              <RecomCard profileData={userData} />
             </section>
           </div>
           <div className="dark:bg-accent/50 bg-accent relative rounded-t-3xl pb-16 md:rounded-none md:bg-transparent md:pb-0 md:dark:bg-transparent">
@@ -64,15 +67,25 @@ const Home = ({ profileData }: HomeProps) => {
               <h2 className="font-merriweather md:font-poppins mb-2 ml-3 px-8 text-xl font-semibold tracking-tight md:px-0 md:text-base md:tracking-normal">
                 Recursos educativos
               </h2>
-              <section className="mb-6 px-6 md:mb-0 md:px-0">
-                <Resources />
-              </section>
-              <MobileDailyTip facts={facts} loading={loading} />
+              <div className="flex flex-col space-y-8">
+                <section className="px-6 md:px-0">
+                  <Resources />
+                </section>
+                <MobileDailyTip facts={facts} loading={loading} />
+                {userData && <StorageMobile />}
+                {isMobile && userData && !isPremium && (
+                  <section className="flex w-full flex-col px-6">
+                    <UpgradeCard />
+                  </section>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {!isMobile && <DesktopDailyTip facts={facts} loading={loading} />}
+      {!isMobile && (
+        <AsideRight facts={facts} loading={loading} userData={userData} />
+      )}
     </div>
   );
 };

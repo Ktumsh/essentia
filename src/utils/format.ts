@@ -138,6 +138,7 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
   notifications: "Notificaciones y recordatorios",
   support: "Soporte",
   pricing: "Planes y precios",
+  review: "Revisión práctica",
 };
 
 export const formatSegment = (segment: string) => {

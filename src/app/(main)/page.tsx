@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 const MainPage = async () => {
   const session = await auth();
   const userId = session?.user?.id as string;
-  const profileData = userId ? await getUserProfileData({ userId }) : null;
-  return <Home profileData={profileData} />;
+  const userData = userId ? await getUserProfileData({ userId }) : null;
+  return <Home userData={userData} />;
 };
 
 export default MainPage;

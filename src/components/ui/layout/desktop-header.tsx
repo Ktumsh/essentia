@@ -3,8 +3,8 @@
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
+import { AddUserButton } from "@/components/button-kit/add-user-button";
 import { LoginButton } from "@/components/button-kit/login-button";
-import { Button } from "@/components/kit/button";
 import { Separator } from "@/components/kit/separator";
 import { useChatContext } from "@/hooks/use-chat-context";
 import useIsScrolled from "@/hooks/use-is-scrolled";
@@ -82,8 +82,10 @@ const DesktopHeader = ({
               )}
               {!user && (
                 <>
+                  <Separator orientation="vertical" className="h-4!" />
                   <LoginButton
-                    variant="outline"
+                    variant="secondary"
+                    size="sm"
                     onClick={() => {
                       if (pathname === "/") {
                         router.push("/login");
@@ -94,9 +96,12 @@ const DesktopHeader = ({
                   >
                     Iniciar sesión
                   </LoginButton>
-                  <Button onClick={() => router.push("/register")}>
+                  <AddUserButton
+                    size="sm"
+                    onClick={() => router.push("/register")}
+                  >
                     Crear cuenta
-                  </Button>
+                  </AddUserButton>
                 </>
               )}
               {user && <NotificationList userId={user.id} />}
