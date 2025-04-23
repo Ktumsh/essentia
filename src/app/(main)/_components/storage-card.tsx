@@ -68,13 +68,13 @@ const StorageCard = () => {
     <>
       {isLoading ? (
         <Card className="border-0 md:border">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
             <CardTitle className="flex items-center gap-2">
               <Skeleton className="size-6" />
             </CardTitle>
             <Skeleton className="h-4 w-14 rounded-full" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 pt-0">
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <Skeleton className="h-4 w-28" />
@@ -88,7 +88,7 @@ const StorageCard = () => {
         </Card>
       ) : (
         <Card className="border-0 md:border">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
             <CardTitle className="flex items-center gap-2">
               <FileHeart className="size-5 text-indigo-500" />
             </CardTitle>
@@ -112,7 +112,7 @@ const StorageCard = () => {
               </Badge>
             </BetterTooltip>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 pt-0">
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-medium">
