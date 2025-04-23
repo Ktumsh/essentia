@@ -54,14 +54,14 @@ const StorageCard = () => {
 
   const message = useMemo(() => {
     if (remainingFiles === 0) {
-      return "Has alcanzado el límite de archivos para tu plan actual 😱";
+      return "Has alcanzado el límite de documentos para tu plan actual 😱";
     }
 
     if (remainingFiles <= 3) {
-      return `¡Atención! Solo puedes subir ${remainingFiles} ${remainingFiles === 1 ? "archivo más" : "archivos más"} con tu plan actual 🙂`;
+      return `¡Atención! Solo puedes subir ${remainingFiles} ${remainingFiles === 1 ? "documento más" : "documentos más"} con tu plan actual 🙂`;
     }
 
-    return `Puedes subir ${remainingFiles} ${remainingFiles === 1 ? "archivo más" : "archivos más"} con tu plan actual 😊`;
+    return `Puedes subir ${remainingFiles} ${remainingFiles === 1 ? "documento más" : "documentos más"} con tu plan actual 😊`;
   }, [remainingFiles]);
 
   return (
