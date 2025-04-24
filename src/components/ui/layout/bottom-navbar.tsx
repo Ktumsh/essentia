@@ -13,13 +13,13 @@ const BottomNav = () => {
 
   const normalizedPath = formatPathName(pathname);
   const isEssentiaAi = pathname.startsWith("/essentia-ai");
-  const isAdditionals = pathname.startsWith("/additionals");
+  const isAdditionals = pathname.startsWith("/adicionales");
 
   const pages = navConfig.navLinks.map((page) => ({
     ...page,
     active:
       normalizedPath === page.path ||
-      (page.path === "/additionals" && isAdditionals) ||
+      (page.path === "/adicionales" && isAdditionals) ||
       (page.path === "/essentia-ai" && isEssentiaAi),
   }));
 

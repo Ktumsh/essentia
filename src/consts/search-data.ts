@@ -93,7 +93,7 @@ const medicalHistorySearchData: SearchResult[] = [
     content: "Historial médico",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/medical-history",
+    url: "/historial-medico",
     hierarchy: {
       lvl1: "Historial médico",
       lvl2: null,
@@ -108,7 +108,7 @@ const healthCentersSearchData: SearchResult[] = [
     content: "Centros de Salud",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/health-centers",
+    url: "/centros-de-salud",
     hierarchy: {
       lvl1: "Centros de Salud",
       lvl2: null,
@@ -423,7 +423,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Recursos Adicionales",
     objectID: nanoid(),
     type: "lvl1",
-    url: "/additionals",
+    url: "/adicionales",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: null,
@@ -435,7 +435,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Guías",
     objectID: nanoid(),
     type: "lvl2",
-    url: "/additionals/guides",
+    url: "/adicionales/guias",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Guias",
@@ -447,7 +447,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Emergencias",
     objectID: nanoid(),
     type: "lvl2",
-    url: "/additionals/emergencies",
+    url: "/adicionales/emergencias",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Emergencias",
@@ -459,7 +459,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Teléfonos de Emergencia",
     objectID: nanoid(),
     type: "lvl3",
-    url: "/additionals/emergencies#telefonos-de-emergencia",
+    url: "/adicionales/emergencias#telefonos-de-emergencia",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Emergencias",
@@ -470,7 +470,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Primeros Auxilios",
     objectID: nanoid(),
     type: "lvl3",
-    url: "/additionals/emergencies#primeros-auxilios",
+    url: "/adicionales/emergencias#primeros-auxilios",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Emergencias",
@@ -481,7 +481,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Emergencias de salud sexual",
     objectID: nanoid(),
     type: "lvl3",
-    url: "/additionals/emergencies#emergencias-de-salud-sexual",
+    url: "/adicionales/emergencias#emergencias-de-salud-sexual",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Emergencias",
@@ -492,7 +492,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Botiquín",
     objectID: nanoid(),
     type: "lvl2",
-    url: "/additionals/kit",
+    url: "/adicionales/botiquin",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Botiquín",
@@ -504,7 +504,7 @@ const additionalsSearchData: SearchResult[] = [
     content: "Medicamentos para un botiquín",
     objectID: nanoid(),
     type: "lvl3",
-    url: "/additionals/kit#medicamentos-para-un-botiquin",
+    url: "/adicionales/kit#medicamentos-para-un-botiquin",
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Botiquín",
@@ -518,7 +518,7 @@ const additionalsGuidesSearchData: SearchResult[] = GUIDES_DATA.map(
     content: guide.title,
     objectID: nanoid(),
     type: "lvl2",
-    url: `/additionals/guides/${guide.id}`,
+    url: `/adicionales/guides/${guide.id}`,
     hierarchy: {
       lvl1: "Recursos Adicionales",
       lvl2: "Guias",

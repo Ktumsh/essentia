@@ -34,16 +34,16 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
       if (newTheme === "system") {
         if (systemTheme && systemTheme !== resolvedTheme) {
           setTheme(newTheme);
-          if (pathname === "/health-centers") {
-            router.replace("/health-centers");
+          if (pathname === "/centros-de-salud") {
+            router.replace("/centros-de-salud");
           }
         } else {
           setTheme(newTheme);
         }
       } else {
         setTheme(newTheme);
-        if (pathname === "/health-centers") {
-          router.replace("/health-centers");
+        if (pathname === "/centros-de-salud") {
+          router.replace("/centros-de-salud");
         }
       }
     }

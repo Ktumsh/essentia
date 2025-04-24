@@ -1,6 +1,7 @@
 "use client";
 
 import { FileHeart } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
 
@@ -22,6 +23,8 @@ import { cn, fetcher } from "@/lib/utils";
 import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 
 const StorageCard = () => {
+  const router = useRouter();
+
   const { data: medicalHistory, isLoading } = useSWR<MedicalHistoryWithTags[]>(
     "/api/medical-history",
     fetcher,
@@ -143,6 +146,7 @@ const StorageCard = () => {
             <FileStackButton
               variant="secondary"
               size="sm"
+              onClick={() => router.push("/historial-medico")}
               className="mt-4 w-full text-xs [&_svg]:size-3.5!"
             >
               Ver mis documentos

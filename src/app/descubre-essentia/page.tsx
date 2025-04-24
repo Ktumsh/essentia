@@ -9,12 +9,12 @@ import AboutWrapper from "./_components/about-wrapper";
 export const metadata: Metadata = {
   title: "Descubre " + siteConfig.name,
   alternates: {
-    canonical: "/about",
+    canonical: "/descubre-essentia",
   },
   openGraph: {
     title: "Desubre" + siteConfig.name,
     description: siteConfig.description,
-    url: siteConfig.url + "/about",
+    url: siteConfig.url + "/descubre-essentia",
     type: "website",
     images: [
       {

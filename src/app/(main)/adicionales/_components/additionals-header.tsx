@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 const AdditionalsHeader = () => {
   const pathname = usePathname();
 
-  const isGuidePage = pathname.includes("/additionals/guides/");
+  const isGuidePage = pathname.includes("/adicionales/guias/");
 
   if (isGuidePage) return null;
 

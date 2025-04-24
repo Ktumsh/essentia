@@ -12,7 +12,7 @@ const AccountHeader = ({ username }: AccountHeaderProps) => {
   const isAccount = pathname === "/account";
   const isProfile = pathname === "/profile";
   const isProfiles = pathname.startsWith("/profiles");
-  const isMedicalHistory = pathname === "/medical-history";
+  const isMedicalHistory = pathname === "/historial-medico";
 
   return (
     <h1 className="font-merriweather py-4 text-2xl leading-none font-semibold sm:text-3xl md:pt-11 dark:text-white">

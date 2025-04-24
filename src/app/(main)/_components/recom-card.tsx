@@ -20,7 +20,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
     <div className="flex size-full">
       <div className="grid w-full grid-cols-2 gap-4 md:gap-2">
         <Link
-          href="/health-centers"
+          href="/centros-de-salud"
           scroll={false}
           className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
         >
@@ -30,7 +30,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </div>
         </Link>
         <Link
-          href="/additionals"
+          href="/adicionales"
           className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
@@ -39,7 +39,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </div>
         </Link>
         <Link
-          href="/medical-history"
+          href="/historial-medico"
           className="dark:border-border dark:bg-accent/50 bg-accent col-span-2 flex items-center justify-center rounded-2xl border border-slate-300"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">

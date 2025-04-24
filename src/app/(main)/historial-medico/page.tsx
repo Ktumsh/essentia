@@ -9,7 +9,7 @@ import UnauthenticatedState from "./_components/unauthenticated-state";
 export const metadata: Metadata = {
   title: "Historial médico",
   alternates: {
-    canonical: "/medical-history",
+    canonical: "/historial-medico",
   },
 };
 

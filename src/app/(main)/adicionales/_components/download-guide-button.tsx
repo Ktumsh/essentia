@@ -26,7 +26,7 @@ export default function DownloadGuideButton({
   className,
 }: DownloadGuideButtonProps) {
   const pathname = usePathname();
-  const isEmergencies = pathname.includes("/additionals/emergencies");
+  const isEmergencies = pathname.includes("/adicionales/emergencias");
 
   const handleDownload = useCallback(async () => {
     try {

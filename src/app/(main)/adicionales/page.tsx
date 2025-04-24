@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 export const metadata: Metadata = {
   title: "Adicionales",
   alternates: {
-    canonical: "/additionals",
+    canonical: "/adicionales",
   },
 };
 
 const AdditionalsPage = () => {
-  return redirect("/additionals/guides");
+  return redirect("/adicionales/guias");
 };
 
 export default AdditionalsPage;

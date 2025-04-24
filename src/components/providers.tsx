@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 
-import { ViewModeProvider } from "@/app/(main)/medical-history/_hooks/use-view-mode";
+import { ViewModeProvider } from "@/app/(main)/historial-medico/_hooks/use-view-mode";
 import { UserSubscriptionInfo } from "@/db/querys/user-querys";
 import { MobileProvider } from "@/hooks/use-mobile";
 import { ProfileMessageProvider } from "@/hooks/use-profile-message";

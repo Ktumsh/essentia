@@ -11,7 +11,7 @@ interface UseActivityFilterOptions {
   defaultDateRange?: DateRangeOption;
   defaultStartDate?: string;
   defaultEndDate?: string;
-  defaultActiveTab?: string; // Ej: "all", "created", "updated", "deleted", etc.
+  defaultActiveTab?: string;
   defaultSortOrder?: SortOrder;
 }
 

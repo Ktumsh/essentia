@@ -12,9 +12,9 @@ import {
   User,
 } from "lucide-react";
 
-import Emergencies from "@/app/(main)/additionals/emergencies/_components/emergencies";
-import Guides from "@/app/(main)/additionals/guides/_components/guides";
-import Kit from "@/app/(main)/additionals/kit/_components/kit";
+import Kit from "@/app/(main)/adicionales/botiquin/_components/kit";
+import Emergencies from "@/app/(main)/adicionales/emergencias/_components/emergencies";
+import Guides from "@/app/(main)/adicionales/guias/_components/guides";
 import {
   AdditionalFillIcon,
   AdditionalIcon,
@@ -64,19 +64,19 @@ export const navConfig = {
     },
     {
       name: "Centros de salud",
-      path: "/health-centers",
+      path: "/centros-de-salud",
       icon: HealthCentersIcon,
       activeIcon: HealthCentersFillIcon,
     },
     {
       name: "Historial médico",
-      path: "/medical-history",
+      path: "/historial-medico",
       icon: MedicalHistoryIcon,
       activeIcon: MedicalHistoryFillIcon,
     },
     {
       name: "Recursos adicionales",
-      path: "/additionals",
+      path: "/adicionales",
       icon: AdditionalIcon,
       activeIcon: AdditionalFillIcon,
     },
@@ -128,21 +128,21 @@ export const navConfig = {
   additionalLinks: [
     {
       name: "Guías",
-      path: "/additionals/guides",
+      path: "/adicionales/guias",
       icon: GuidesIcon,
       activeIcon: GuidesFillIcon,
       component: Guides,
     },
     {
       name: "Emergencias",
-      path: "/additionals/emergencies",
+      path: "/adicionales/emergencias",
       icon: EmergenciesIcon,
       activeIcon: EmergenciesFillIcon,
       component: Emergencies,
     },
     {
       name: "Botiquín",
-      path: "/additionals/kit",
+      path: "/adicionales/botiquin",
       icon: KitIcon,
       activeIcon: KitFillIcon,
       component: Kit,
@@ -150,7 +150,7 @@ export const navConfig = {
   ],
   menuFooterLinks: {
     extras: [
-      { name: "Descubre Essentia", path: "/about", icon: Info },
+      { name: "Descubre Essentia", path: "/descubre-essentia", icon: Info },
       { name: "Planes y Precios", path: "/pricing", icon: Stars },
       { name: "Términos y Condiciones", path: "#", icon: FileText },
       { name: "Política de Privacidad", path: "#", icon: Lock },
@@ -194,19 +194,18 @@ export const navConfig = {
       },
     ],
     additionalresources: [
-      { path: "/additionals/guides", text: "Guías" },
+      { path: "/adicionales/guias", text: "Guías" },
       {
-        path: "/additionals/emergencies",
+        path: "/adicionales/emergencias",
         text: "Emergencias",
       },
-      { path: "/additionals/links", text: "Enlaces" },
       {
-        path: "/additionals/recommendations",
-        text: "Recomendaciones",
+        path: "/adicionales/botiquin",
+        text: "Botiquín",
       },
     ],
     more: [
-      { path: "/about", text: "Descubre Essentia" },
+      { path: "/descubre-essentia", text: "Descubre Essentia" },
       { path: "", text: "Privacidad" },
       { path: "", text: "Términos" },
       { path: "", text: "Cookies" },
@@ -217,7 +216,7 @@ export const navConfig = {
       { path: "", text: "Políticas de privacidad" },
       { path: "", text: "Términos y condiciones" },
       { path: "", text: "Cookies" },
-      { path: "/about", text: "Descubre Essentia" },
+      { path: "/descubre-essentia", text: "Descubre Essentia" },
     ],
   },
 };
