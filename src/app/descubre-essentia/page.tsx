@@ -1,10 +1,8 @@
 import { Metadata } from "next";
 
-import { auth } from "@/app/(auth)/auth";
 import { siteConfig } from "@/config/site.config";
-import { getSubscription } from "@/db/querys/payment-querys";
 
-import AboutWrapper from "./_components/about-wrapper";
+import Discover from "./_components/discover";
 
 export const metadata: Metadata = {
   title: "Descubre " + siteConfig.name,
@@ -12,7 +10,7 @@ export const metadata: Metadata = {
     canonical: "/descubre-essentia",
   },
   openGraph: {
-    title: "Desubre" + siteConfig.name,
+    title: "Descubre " + siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url + "/descubre-essentia",
     type: "website",
@@ -39,11 +37,5 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const session = await auth();
-  const [subscription] = session
-    ? await getSubscription(session?.user?.id as string)
-    : [];
-  const isPremium = subscription ? subscription.isPremium : false;
-
-  return <AboutWrapper session={session} isPremium={isPremium} />;
+  return <Discover />;
 }
