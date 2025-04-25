@@ -30,7 +30,7 @@ export async function sendEmailAction(
 ) {
   const BASE_URL = process.env.DEVELOPMENT
     ? "http://localhost:3000"
-    : "https://essentia-web.vercel.app";
+    : "https://www.essentia.plus";
 
   let endpoint = "";
 

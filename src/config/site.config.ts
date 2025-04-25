@@ -3,7 +3,7 @@ export const siteConfig = {
   name: "Essentia",
   description:
     "Gestiona tu historial médico, recibe recomendaciones personalizadas y mejora tu bienestar con nuestra plataforma integral de salud",
-  url: "https://essentia-web.vercel.app",
+  url: "https://www.essentia.plus",
   keywords: [
     "essentia",
     "salud",

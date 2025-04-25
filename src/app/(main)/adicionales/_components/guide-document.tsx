@@ -192,7 +192,7 @@ export default function GuidePdfDocument({
           <Text style={{ fontSize: 10 }}>
             Visita{" "}
             <Link
-              src="https://essentia-web.vercel.app"
+              src="https://www.essentia.plus"
               style={{
                 color: "#2563eb",
                 textDecoration: "underline",

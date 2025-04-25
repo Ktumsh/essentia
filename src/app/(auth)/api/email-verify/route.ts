@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const baseUrl = process.env.DEVELOPMENT
       ? "http://localhost:3000"
-      : "https://essentia-web.vercel.app";
+      : "https://www.essentia.plus";
 
     htmlContent = htmlContent
       .replace("{{username}}", username)

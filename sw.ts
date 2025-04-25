@@ -31,7 +31,7 @@ self.addEventListener("push", (event) => {
       image: data.image || undefined,
       vibrate: [100, 50, 100],
       data: {
-        url: data.url || "https://essentia-web.vercel.app",
+        url: data.url || "https://www.essentia.plus",
         dateOfArrival: Date.now(),
         primaryKey: "2",
       },

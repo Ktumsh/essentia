@@ -30,7 +30,7 @@ export default function Guide({ guide }: GuideProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
   const pathname = usePathname();
-  const fullUrl = "https://essentia-web.vercel.app" + pathname;
+  const fullUrl = "https://www.essentia.plus" + pathname;
 
   const handleShare = useCallback(async () => {
     const shareData = {

@@ -427,8 +427,8 @@ export const exportActivityAsExcel = async (
   worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
   const footerCell = worksheet.getCell(`A${footerRow.number}`);
   footerCell.value = {
-    text: "Archivo generado automáticamente por Essentia - https://essentia-web.vercel.app",
-    hyperlink: "https://essentia-web.vercel.app",
+    text: "Archivo generado automáticamente por Essentia - https://www.essentia.plus",
+    hyperlink: "https://www.essentia.plus",
   };
   footerCell.font = {
     italic: true,
