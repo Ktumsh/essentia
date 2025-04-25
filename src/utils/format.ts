@@ -122,12 +122,11 @@ export const formatPathName = (pathname: string): string => {
 
 const CUSTOM_SEGMENTS: { [key: string]: string } = {
   "essentia-ai": "Essentia AI",
-  "health-centers": "Buscador centros de salud",
-  "medical-history": "Historial médico",
-  additionals: "Recursos adicionales",
-  guides: "Guías",
-  emergencies: "Emergencias",
-  kit: "Botiquín",
+  "centros-de-salud": "Buscador centros de salud",
+  "historial-medico": "Historial médico",
+  adicionales: "Recursos adicionales",
+  guias: "Guías",
+  botiquin: "Botiquín",
   account: "Cuenta",
   profile: "Perfil",
   subscription: "Suscripción",
