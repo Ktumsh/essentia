@@ -36,9 +36,9 @@ const MobileHeader = ({ user, session }: MobileHeaderProps) => {
     <>
       <header
         className={cn(
-          "bg-background/80 sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden px-6 transition-all duration-300 md:hidden",
+          "bg-background sticky top-0 z-50 flex h-14 items-center justify-between overflow-hidden px-6 transition-all duration-300 md:hidden",
           {
-            "shadow-little-pretty backdrop-blur-lg backdrop-saturate-150":
+            "shadow-little-pretty bg-background/80 backdrop-blur-lg backdrop-saturate-150":
               isScrolled,
           },
         )}

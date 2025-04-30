@@ -1,9 +1,7 @@
 "use client";
 
-import { PlusCircle } from "lucide-react";
-
+import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Button } from "@/components/kit/button";
 
 import type { FeatureType } from "@/components/ui/payment/payment-modal";
 
@@ -42,12 +40,11 @@ const MedicalHistoryHeader = ({
           <SparklesButton
             size="default"
             onClick={openAIRecommendationsForAll}
-            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-full"
+            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-md"
           >
             Recomendaciones IA
           </SparklesButton>
-          <Button
-            radius="full"
+          <SmilePlusButton
             onClick={() => {
               if (!uploadStatus?.allowed) {
                 setPremiumFeatureType("upload-limit");
@@ -56,11 +53,10 @@ const MedicalHistoryHeader = ({
               }
               setDialogs((prev) => ({ ...prev, isAddDialogOpen: true }));
             }}
-            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-full"
+            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-md"
           >
-            <PlusCircle />
             Añadir documento
-          </Button>
+          </SmilePlusButton>
         </div>
       </div>
     </div>

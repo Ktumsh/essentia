@@ -92,7 +92,7 @@ const UnauthenticatedState = () => {
           <LoginButton
             variant="secondary"
             size="lg"
-            onClick={() => router.push("/login?next=medical-history")}
+            onClick={() => router.push("/login?next=historial-medico")}
             className="rounded-full"
           >
             Iniciar sesión

@@ -93,7 +93,13 @@ const ChapterList = ({
       className="mt-0! w-full space-y-4"
     >
       {stages?.map((item, index) => {
-        const prog = stageProgress.find((p) => p.stageId === item.stage.id)!;
+        const prog = stageProgress.find(
+          (p) => p.stageId === item.stage.id,
+        )! || {
+          progress: 0,
+          completed: false,
+          reviewCompleted: false,
+        };
         const isDone = prog.completed;
         const isReviewDone = prog.reviewCompleted;
 

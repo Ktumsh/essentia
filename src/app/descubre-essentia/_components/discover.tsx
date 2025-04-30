@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 
+import { useIsMobile } from "@/hooks/use-mobile";
+
 import AiSection from "./ai-section";
 import CtaSection from "./cta-section";
 import FeatureSection from "./feature-section";
@@ -15,6 +17,7 @@ import ScrollToTopButton from "./scroll-to-top-button";
 import VisionSection from "./vision-section";
 
 const Discover = () => {
+  const isMobile = useIsMobile();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   return (
     <div
@@ -22,7 +25,7 @@ const Discover = () => {
       className="min-h-screen min-w-screen overflow-y-auto bg-gradient-to-br from-rose-50 via-purple-50 to-sky-50"
     >
       <Navbar scrollRef={scrollRef} />
-      <main>
+      <main className="overflow-hidden">
         <HeroSection />
         <FeatureSection />
         <ResourcesSection />
@@ -33,7 +36,11 @@ const Discover = () => {
         <CtaSection />
       </main>
       <Footer />
-      <ScrollToTopButton scrollRef={scrollRef} />
+      {isMobile ? (
+        <ScrollToTopButton />
+      ) : (
+        <ScrollToTopButton scrollRef={scrollRef} />
+      )}
     </div>
   );
 };

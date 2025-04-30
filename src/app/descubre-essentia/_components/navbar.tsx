@@ -1,12 +1,22 @@
 "use client";
 
-import { Menu, X, LogIn } from "lucide-react";
+import { Menu, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
+import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { LoginButton } from "@/components/button-kit/login-button";
 import { Button } from "@/components/kit/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/kit/drawer";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,89 +27,91 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/kit/navigation-menu";
 import Logo from "@/components/ui/layout/logo";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+
+const mainNavItems = [
+  { title: "Descubre Essentia", href: "/", hasDropdown: true },
+  { title: "Planes", href: "/planes" },
+  { title: "Sobre Nosotros", href: "/sobre-nosotros" },
+  /* { title: "Blog", href: "/blog" }, */
+  { title: "Soporte", href: "/soporte" },
+];
+
+const discoverItems = [
+  {
+    title: "Nuestro Método",
+    href: "/descubre-essentia#metodo",
+    description:
+      "Conoce el enfoque integral y personalizado de Essentia para tu bienestar.",
+  },
+  {
+    title: "Nuestros Recursos",
+    href: "/descubre-essentia#recursos",
+    description:
+      "Accede a rutas de aprendizaje con etapas, revisiones prácticas, artículos, guías y más recursos para tu bienestar.",
+  },
+  {
+    title: "Historial Médico",
+    href: "/descubre-essentia#historial-medico",
+    description:
+      "Gestiona y consulta tu información médica de forma segura y centralizada.",
+  },
+  {
+    title: "Essentia AI",
+    href: "/descubre-essentia#ai",
+    description:
+      "Aprovecha la inteligencia artificial para recomendaciones y seguimiento personalizado.",
+  },
+  {
+    title: "Progreso",
+    href: "/descubre-essentia#progreso",
+    description:
+      "Visualiza tus avances y logros en tu camino hacia una vida más saludable.",
+  },
+  {
+    title: "Visión y Propósito",
+    href: "/descubre-essentia#vision-proposito",
+    description:
+      "Descubre la misión y valores que impulsan el proyecto Essentia.",
+  },
+];
 
 const Navbar = ({
   scrollRef,
 }: {
   scrollRef: React.RefObject<HTMLElement | null>;
 }) => {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const scrollElement = scrollRef.current;
+    const scrollElement = isMobile ? window : scrollRef.current;
 
     const handleScroll = () => {
-      if (scrollElement && scrollElement.scrollTop > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      const scrollTop = isMobile
+        ? window.scrollY
+        : (scrollRef.current?.scrollTop ?? 0);
+      setIsScrolled(scrollTop > 10);
     };
 
     scrollElement?.addEventListener("scroll", handleScroll);
     return () => scrollElement?.removeEventListener("scroll", handleScroll);
-  }, [scrollRef]);
-
-  const mainNavItems = [
-    { title: "Inicio", href: "/" },
-    { title: "Planes", href: "/planes" },
-    { title: "Recursos", href: "#", hasDropdown: true },
-    { title: "Sobre Nosotros", href: "/sobre-nosotros" },
-    { title: "Blog", href: "/blog" },
-    { title: "Soporte", href: "/soporte" },
-  ];
-
-  const resourcesItems = [
-    {
-      title: "Nuestro Método",
-      href: "/descubre-essentia#metodo",
-      description:
-        "Conoce el enfoque integral y personalizado de Essentia para tu bienestar.",
-    },
-    {
-      title: "Nuestros Recursos Educativos",
-      href: "/descubre-essentia#recursos",
-      description:
-        "Accede a rutas de aprendizaje con etapas, revisiones prácticas, artículos, guías y más recursos para tu bienestar.",
-    },
-    {
-      title: "Historial Médico",
-      href: "/descubre-essentia#historial-medico",
-      description:
-        "Gestiona y consulta tu información médica de forma segura y centralizada.",
-    },
-    {
-      title: "Essentia AI",
-      href: "/descubre-essentia#ai",
-      description:
-        "Aprovecha la inteligencia artificial para recomendaciones y seguimiento personalizado.",
-    },
-    {
-      title: "Progreso",
-      href: "/descubre-essentia#progreso",
-      description:
-        "Visualiza tus avances y logros en tu camino hacia una vida más saludable.",
-    },
-    {
-      title: "Visión y Propósito",
-      href: "/descubre-essentia#vision-proposito",
-      description:
-        "Descubre la misión y valores que impulsan el proyecto Essentia.",
-    },
-  ];
+  }, [scrollRef, isMobile]);
 
   return (
     <header
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+      className={cn(
+        "fixed top-0 right-0 left-0 z-50 flex items-center transition-all duration-300",
         isScrolled
-          ? "bg-white/90 py-2 shadow-sm backdrop-blur-md"
-          : "bg-transparent py-4"
-      }`}
+          ? "shadow-little-pretty h-12 bg-white/80 backdrop-blur-lg backdrop-saturate-150"
+          : "h-14 bg-transparent",
+      )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
             <Logo />
@@ -109,7 +121,6 @@ const Navbar = ({
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden items-center md:flex">
           <NavigationMenu>
             <NavigationMenuList>
@@ -119,6 +130,10 @@ const Navbar = ({
                     <NavigationMenuTrigger
                       className={cn(
                         "bg-transparent",
+                        {
+                          "hover:bg-white hover:data-[state=open]:bg-white":
+                            !isScrolled,
+                        },
                         pathname.startsWith("/recursos") &&
                           "font-medium text-indigo-600",
                       )}
@@ -127,7 +142,7 @@ const Navbar = ({
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        {resourcesItems.map((resource) => (
+                        {discoverItems.map((resource) => (
                           <ListItem
                             key={resource.title}
                             title={resource.title}
@@ -151,6 +166,7 @@ const Navbar = ({
                       className={cn(
                         navigationMenuTriggerStyle(),
                         "bg-transparent",
+                        { "hover:bg-white": !isScrolled },
                         pathname === item.href && "font-medium text-indigo-600",
                       )}
                     >
@@ -167,84 +183,113 @@ const Navbar = ({
           <LoginButton
             variant="outline"
             size="sm"
-            className="border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50"
+            className="border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
           >
             Iniciar sesión
           </LoginButton>
           <Link href="/planes">
-            <Button
-              className="hidden bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-indigo-600 hover:to-pink-600 md:flex"
-              size="sm"
-            >
+            <Button size="sm" variant="gradient" className="hidden md:flex">
               Hazte premium
             </Button>
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="text-gray-700 md:hidden"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        <Drawer
+          open={isMobileMenuOpen}
+          onOpenChange={setIsMobileMenuOpen}
+          direction="right"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-full right-0 left-0 flex flex-col gap-4 bg-white px-4 py-4 shadow-lg md:hidden">
-          {mainNavItems.map((item) =>
-            item.hasDropdown ? (
-              <div key={item.title} className="py-2">
-                <div className="mb-2 font-medium">{item.title}</div>
-                <div className="space-y-2 pl-4">
-                  {resourcesItems.map((resource) => (
-                    <Link
-                      key={resource.title}
-                      href={resource.href}
-                      className={`block py-1 ${
-                        pathname === resource.href
-                          ? "font-medium text-indigo-600"
-                          : "text-gray-700 hover:text-indigo-600"
-                      }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {resource.title}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ) : (
+          <DrawerTrigger className="flex size-8 items-center justify-center text-gray-700 md:hidden">
+            <Menu className="size-6" />
+          </DrawerTrigger>
+          <DrawerContent className="p-0!">
+            <DrawerHeader className="sr-only">
+              <DrawerTitle>Navegación</DrawerTitle>
+              <DrawerDescription>Navega por las secciones.</DrawerDescription>
+            </DrawerHeader>
+            <div className="mb-4 flex flex-col gap-4 p-6 pb-0">
               <Link
-                key={item.title}
-                href={item.href}
-                className={`py-2 ${
-                  pathname === item.href
-                    ? "font-medium text-indigo-600"
-                    : "text-gray-700 hover:text-indigo-600"
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
+                href="/"
+                className="relative inline-flex items-center gap-2"
               >
-                {item.title}
+                <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
+                  <Logo width={16} height={16} className="h-4" />
+                </div>
+                <div className="grid flex-1 text-left text-sm">
+                  <span className="truncate font-semibold">Essentia</span>
+                </div>
               </Link>
-            ),
-          )}
-          <div className="mt-2 flex flex-col gap-2">
-            <Button
-              variant="outline"
-              className="w-full border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50"
-            >
-              <LogIn className="mr-2 h-4 w-4" />
-              Iniciar sesión
-            </Button>
-            <Link href="/planes" className="w-full">
-              <Button className="w-full bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-indigo-600 hover:to-pink-600">
-                Hazte premium
+              <ArrowLeftButton
+                size="sm"
+                variant="secondary"
+                className="h-7 rounded-sm text-xs [&_svg]:size-3.5!"
+              >
+                Regresar al sitio
+              </ArrowLeftButton>
+            </div>
+            <nav className="flex flex-col divide-y divide-slate-200 overflow-y-auto px-6 text-base">
+              {mainNavItems.map((item) =>
+                item.hasDropdown ? (
+                  <div key={item.title} className="border-t py-4">
+                    <div className="mb-2 text-sm font-semibold text-gray-900">
+                      {item.title}
+                    </div>
+                    <div className="space-y-2 pl-2">
+                      {discoverItems.map((subItem) => (
+                        <Link
+                          key={subItem.title}
+                          href={subItem.href}
+                          className={cn(
+                            "flex items-center gap-2 rounded py-2 text-sm transition",
+                            pathname === subItem.href
+                              ? "font-medium text-indigo-600"
+                              : "text-gray-700 hover:text-indigo-600",
+                          )}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <ChevronRight className="size-3 text-gray-400" />
+                          {subItem.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    className={cn(
+                      "block py-4 text-sm font-semibold text-gray-900 transition",
+                      pathname === item.href
+                        ? "text-indigo-600"
+                        : "text-gray-700 hover:text-indigo-600",
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.title}
+                  </Link>
+                ),
+              )}
+            </nav>
+            <DrawerFooter className="flex flex-col gap-2">
+              <LoginButton
+                variant="outline"
+                className="w-full border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
+              >
+                Iniciar sesión
+              </LoginButton>
+              <Button
+                variant="gradient"
+                onClick={() => router.push("/signup")}
+                className="w-full"
+              >
+                Comenzar gratis
               </Button>
-            </Link>
-          </div>
-        </div>
-      )}
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </div>
+      {/* Mobile Menu */}
     </header>
   );
 };

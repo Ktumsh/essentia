@@ -230,10 +230,9 @@
   --alternative: hsl(214, 72%, 25%);
 
   --alternative-gradient: linear-gradient(
-    111.1deg,
-    hsl(214, 80%, 12%) -100%,
-    hsl(0, 100%, 73%) 82.7%,
-    hsl(24, 100%, 74%) 97.2%
+    to right,
+    hsl(335, 78%, 42%),
+    hsl(6, 93%, 71%)
   );
 
   --gradient-from: hsl(214, 80%, 12%);

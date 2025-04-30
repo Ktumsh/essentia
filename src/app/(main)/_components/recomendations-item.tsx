@@ -57,7 +57,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
       )}
       <div
         aria-hidden
-        className="absolute inset-0 z-[-1] rounded-xl bg-linear-to-t from-black/30 from-40% to-transparent transition duration-500 group-hover:backdrop-blur-xs"
+        className="absolute inset-0 z-[-1] rounded-xl bg-blue-950/30 transition duration-500 group-hover:backdrop-blur-xs"
       />
       <CardHeader className="pb-0">
         <div

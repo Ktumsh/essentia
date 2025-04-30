@@ -12,7 +12,7 @@ const useScrollToUp = (scrollRef?: React.RefObject<HTMLElement | null>) => {
       const scrollTop = scrollRef?.current
         ? scrollRef.current.scrollTop
         : window.scrollY;
-      setIsVisible(scrollTop > 20);
+      setIsVisible(scrollTop > 100);
     };
 
     if (scrollElement === window) {
