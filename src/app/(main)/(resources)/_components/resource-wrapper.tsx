@@ -88,15 +88,6 @@ const ResourceWrapper = ({
     firstLesson,
   });
 
-  const isPremiumResource =
-    [
-      "ejercicios-y-fitness",
-      "nutricion-y-alimentacion",
-      "bienestar-emocional",
-      "salud-y-educacion-sexual",
-      "salud-en-todas-las-edades",
-    ].includes(slug) && !isPremium;
-
   const formatedTitle = formatTitle(name || title);
 
   const routeIndex = getRouteIndex(name || title);
@@ -147,7 +138,7 @@ const ResourceWrapper = ({
               </q>
             </div>
             <div className="flex flex-wrap gap-4">
-              {!routeProgress.completed && !isPremiumResource && userId ? (
+              {!routeProgress.completed && userId ? (
                 <ArrowLeftButton
                   size="lg"
                   onClick={routeInitialized ? continueRoute : startRoute}

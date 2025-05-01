@@ -12,7 +12,6 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import { LoginButton } from "@/components/button-kit/login-button";
 import { PlayButton } from "@/components/button-kit/play-button";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
@@ -25,7 +24,6 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { Progress } from "@/components/kit/progress";
-import { StarsIcon } from "@/components/ui/icons/common";
 import PaymentModal from "@/components/ui/payment/payment-modal";
 import { startReview } from "@/db/querys/progress-querys";
 import {
@@ -60,7 +58,6 @@ const RouteList = ({
   routeProgress,
   stageProgress,
   routeInitialized,
-  isPremium,
   description,
   audience,
   benefits,
@@ -89,18 +86,7 @@ const RouteList = ({
     firstLesson,
   });
 
-  const isPremiumResource =
-    [
-      "ejercicios-y-fitness",
-      "nutricion-y-alimentacion",
-      "bienestar-emocional",
-      "salud-y-educacion-sexual",
-      "salud-en-todas-las-edades",
-    ].includes(slug) && !isPremium;
-
   const handleLessonClick = (href: string) => {
-    if (isPremiumResource) return;
-
     if (!userId) {
       toast.info("¡Hola! Para continuar con esta ruta debes iniciar sesión");
       return;
@@ -113,7 +99,6 @@ const RouteList = ({
   };
 
   const handleStartRoute = async () => {
-    if (isPremiumResource) return;
     try {
       await startRoute();
     } catch (error) {
@@ -193,60 +178,14 @@ const RouteList = ({
               <span>{lessons} lecciones</span>
             </div>
           </div>
-          {isPremiumResource ? (
-            <div className="relative mb-4 flex flex-col space-y-1">
-              <div
-                aria-hidden="true"
-                className="animate-fade-in border-border absolute inset-0 z-10 mb-0! rounded-2xl border bg-white/50 p-6 backdrop-blur-md duration-2000 ease-in-out dark:bg-black/10"
-              >
-                <div className="animate-slide-up flex size-full flex-col items-center justify-center gap-4">
-                  <p className="text-center font-semibold md:text-lg">
-                    ¡Esta ruta es exclusiva para usuarios premium! 🌟
-                  </p>
-                  {userId ? (
-                    <Button
-                      variant="gradient"
-                      fullWidth
-                      radius="full"
-                      onClick={() => setIsOpenPayment(true)}
-                      className="shadow-pretty max-w-60 focus:text-white active:shadow-xs"
-                    >
-                      <StarsIcon
-                        aria-hidden="true"
-                        className="size-4 **:fill-white focus:outline-hidden"
-                      />
-                      Hazte premium
-                    </Button>
-                  ) : (
-                    <LoginButton
-                      onClick={() => router.push(`/login?next=/${slug}`)}
-                      className="shadow-pretty w-full max-w-60 rounded-full focus:text-white active:shadow-xs"
-                    >
-                      Inicia sesión
-                    </LoginButton>
-                  )}
-                </div>
-              </div>
-              <ChapterList
-                routeIndex={routeIndex}
-                stages={stages}
-                routeSlug={slug}
-                completedLessons={completedLessons}
-                stageProgress={stageProgress}
-                onLessonClick={handleLessonClick}
-                isDisaled
-              />
-            </div>
-          ) : (
-            <ChapterList
-              routeIndex={routeIndex}
-              stages={stages}
-              routeSlug={slug}
-              completedLessons={completedLessons}
-              stageProgress={stageProgress}
-              onLessonClick={handleLessonClick}
-            />
-          )}
+          <ChapterList
+            routeIndex={routeIndex}
+            stages={stages}
+            routeSlug={slug}
+            completedLessons={completedLessons}
+            stageProgress={stageProgress}
+            onLessonClick={handleLessonClick}
+          />
         </section>
         <section className="top-20 col-[1/2] row-[2/3] -mx-6 md:mx-0 lg:sticky lg:col-[2/3] lg:row-[1/4]">
           <Card className="dark:bg-accent/50 rounded-none bg-slate-50 md:rounded-xl">
@@ -309,7 +248,7 @@ const RouteList = ({
                 </ul>
               </div>
             </CardContent>
-            {!routeProgress.completed && !isPremiumResource && userId ? (
+            {!routeProgress.completed && userId ? (
               <CardFooter>
                 <ArrowLeftButton
                   disabled={processing}
@@ -329,8 +268,7 @@ const RouteList = ({
                 </ArrowLeftButton>
               </CardFooter>
             ) : (
-              !routeProgress.completed &&
-              !isPremiumResource && (
+              !routeProgress.completed && (
                 <CardFooter>
                   <PlayButton
                     disabled={processing}
@@ -369,26 +307,23 @@ const RouteList = ({
                     value={routeProgress.progress}
                     indicatorColor={getProgressColor(routeProgress.progress)}
                   />
-                  {routeInitialized &&
-                    !routeProgress.completed &&
-                    !isPremiumResource &&
-                    userId && (
-                      <PlayButton
-                        variant="outline"
-                        disabled={processing}
-                        onClick={routeInitialized ? continueRoute : startRoute}
-                        className="bg-background w-full"
-                      >
-                        {processing ? (
-                          <>
-                            <Loader className="animate-spin" />
-                            Continuando...
-                          </>
-                        ) : (
-                          "Continúa donde lo dejaste"
-                        )}
-                      </PlayButton>
-                    )}
+                  {routeInitialized && !routeProgress.completed && userId && (
+                    <PlayButton
+                      variant="outline"
+                      disabled={processing}
+                      onClick={routeInitialized ? continueRoute : startRoute}
+                      className="bg-background w-full"
+                    >
+                      {processing ? (
+                        <>
+                          <Loader className="animate-spin" />
+                          Continuando...
+                        </>
+                      ) : (
+                        "Continúa donde lo dejaste"
+                      )}
+                    </PlayButton>
+                  )}
                 </CardContent>
               </Card>
             </div>

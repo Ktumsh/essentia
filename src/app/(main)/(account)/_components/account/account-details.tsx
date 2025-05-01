@@ -37,7 +37,7 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
     return null;
   }
 
-  const { id, email, createdAt, genre, isPremium } = user;
+  const { id, email, createdAt, genre } = user;
 
   return (
     <>
@@ -104,11 +104,7 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <RouuteProgressTable
-              userId={id}
-              routes={routes}
-              isPremium={isPremium}
-            />
+            <RouuteProgressTable userId={id} routes={routes} />
           </CardContent>
         </Card>
         <Card className="border-red-200 dark:border-red-900">

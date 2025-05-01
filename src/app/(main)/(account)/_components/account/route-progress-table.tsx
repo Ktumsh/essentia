@@ -29,14 +29,9 @@ import { formatDate } from "@/utils/format";
 interface RouteProgressTableProps {
   userId: string;
   routes: LearningRoutes;
-  isPremium: boolean | null;
 }
 
-const RouteProgressTable = ({
-  userId,
-  routes,
-  isPremium,
-}: RouteProgressTableProps) => {
+const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
   const router = useRouter();
 
   const continueCourse = useCallback(
@@ -47,17 +42,8 @@ const RouteProgressTable = ({
       resourceId: string;
       resourceSlug: string;
     }) => {
-      const isPremiumResource =
-        [
-          "ejercicios-y-fitness",
-          "nutricion-y-alimentacion",
-          "bienestar-emocional",
-          "salud-y-educacion-sexual",
-          "salud-en-todas-las-edades",
-        ].includes(resourceSlug) && !isPremium;
-
       try {
-        if (!userId || !resourceId || isPremiumResource) return;
+        if (!userId || !resourceId) return;
 
         const lastLesson = await getLastCompletedLesson(userId, resourceId);
 
@@ -72,7 +58,7 @@ const RouteProgressTable = ({
         console.error("Error al continuar el curso:", error);
       }
     },
-    [userId, isPremium, router],
+    [userId, router],
   );
 
   return routes.length > 0 ? (
