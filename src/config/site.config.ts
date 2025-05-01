@@ -2,7 +2,7 @@ export const siteConfig = {
   appId: "essentia-web",
   name: "Essentia",
   description:
-    "Gestiona tu historial médico, recibe recomendaciones personalizadas y mejora tu bienestar con nuestra plataforma integral de salud",
+    "Centraliza tu historial médico, recibe orientación personalizada con IA y accede a rutas de aprendizaje que fortalecen tu bienestar integral",
   url: "https://www.essentia.plus",
   keywords: [
     "essentia",

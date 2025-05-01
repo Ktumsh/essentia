@@ -1,8 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
 
 import {
   FacebookIcon,
@@ -10,13 +6,11 @@ import {
   TwitterIcon,
 } from "@/components/ui/icons/media";
 import Logo from "@/components/ui/layout/logo";
+import { navConfig } from "@/config/nav.config";
 
 const Footer = () => {
-  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
-
   const footerSections = [
     {
-      id: "descubre",
       title: "Descubre Essentia",
       links: [
         { name: "Nuestro método", href: "/descubre-essentia#metodo" },
@@ -34,19 +28,13 @@ const Footer = () => {
       ],
     },
     {
-      id: "empresa",
-      title: "Empresa",
-      links: [
-        { name: "Planes", href: "/pricing" },
-        { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-        // { name: "Equipo", href: "#" }, // Comentado según lo solicitado
-        // { name: "Carreras", href: "#" }, // Comentado según lo solicitado
-        /* { name: "Blog", href: "/blog" }, */
-        { name: "Soporte", href: "/soporte" },
-      ],
+      title: "Sitio",
+      links: navConfig.publicLinks.slice(1).map((link) => ({
+        name: link.title,
+        href: link.href,
+      })),
     },
     {
-      id: "legal",
       title: "Legal",
       links: [
         { name: "Términos de Servicio", href: "/terminos" },
@@ -106,12 +94,8 @@ const Footer = () => {
             </div>
           </div>
 
-          {footerSections.map((section) => (
-            <div
-              key={section.id}
-              onMouseEnter={() => setHoveredSection(section.id)}
-              onMouseLeave={() => setHoveredSection(null)}
-            >
+          {footerSections.map((section, index) => (
+            <div key={index}>
               <h3 className="mb-4 font-semibold">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((link, index) => (
@@ -126,14 +110,6 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-              {hoveredSection === section.id && (
-                <motion.div
-                  className="absolute mt-2 -ml-3 h-1 w-1 rounded-full bg-indigo-600"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
             </div>
           ))}
         </div>

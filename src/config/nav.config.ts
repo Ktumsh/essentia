@@ -219,6 +219,52 @@ export const navConfig = {
       { path: "/descubre-essentia", text: "Descubre Essentia" },
     ],
   },
+  publicLinks: [
+    { title: "Descubre Essentia", href: "/", hasDropdown: true },
+    { title: "Planes y Precios", href: "/pricing" },
+    /* { title: "Sobre Nosotros", href: "/sobre-nosotros" }, */
+    /* { title: "Blog", href: "/blog" }, */
+    { title: "Soporte", href: "/soporte" },
+    { title: "Panel Essentia", href: "/" },
+  ],
+  publicListLinks: [
+    {
+      title: "Nuestro Método",
+      href: "/descubre-essentia#metodo",
+      description:
+        "Conoce el enfoque integral y personalizado de Essentia para tu bienestar.",
+    },
+    {
+      title: "Nuestros Recursos",
+      href: "/descubre-essentia#recursos",
+      description:
+        "Accede a rutas de aprendizaje con etapas, revisiones prácticas, artículos, guías y más recursos para tu bienestar.",
+    },
+    {
+      title: "Historial Médico",
+      href: "/descubre-essentia#historial-medico",
+      description:
+        "Gestiona y consulta tu información médica de forma segura y centralizada.",
+    },
+    {
+      title: "Essentia AI",
+      href: "/descubre-essentia#ai",
+      description:
+        "Aprovecha la inteligencia artificial para recomendaciones y seguimiento personalizado.",
+    },
+    {
+      title: "Progreso",
+      href: "/descubre-essentia#progreso",
+      description:
+        "Visualiza tus avances y logros en tu camino hacia una vida más saludable.",
+    },
+    {
+      title: "Visión y Propósito",
+      href: "/descubre-essentia#vision-proposito",
+      description:
+        "Descubre la misión y valores que impulsan el proyecto Essentia.",
+    },
+  ],
 };
 
 export type NavConfig = typeof navConfig;
