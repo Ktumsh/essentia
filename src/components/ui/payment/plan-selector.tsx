@@ -73,7 +73,7 @@ export const PlanSelector = ({
         <Link
           target="_blank"
           rel="noopener noreferrer"
-          href="/pricing"
+          href="/planes"
           className="inline-flex items-center gap-x-1 font-semibold text-green-500"
         >
           página de precios <LinkIcon />

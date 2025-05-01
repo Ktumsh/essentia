@@ -29,8 +29,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/adicionales",
-        destination: "/adicionales/guias",
+        source: "/herramientas",
+        destination: "/herramientas/guias",
         permanent: true,
       },
     ];

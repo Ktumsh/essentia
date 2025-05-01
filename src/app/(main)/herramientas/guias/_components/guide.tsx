@@ -77,7 +77,7 @@ export default function Guide({ guide }: GuideProps) {
         variant="ghost"
         size="sm"
         className="mb-4 -translate-x-3 hover:bg-transparent"
-        onClick={() => router.push("/adicionales/guias")}
+        onClick={() => router.push("/herramientas/guias")}
       >
         Volver a guías
       </ArrowLeftButton>

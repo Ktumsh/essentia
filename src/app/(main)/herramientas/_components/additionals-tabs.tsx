@@ -19,7 +19,7 @@ export default function AdditionalsTabs({
   const pathname = usePathname();
   const additionalTabs = navConfig.additionalLinks;
 
-  const isGuidePage = pathname.includes("/adicionales/guias/");
+  const isGuidePage = pathname.includes("/herramientas/guias/");
 
   if (isGuidePage) {
     return <>{children}</>;

@@ -74,7 +74,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     title: "Accede a recursos gratuitos",
     description:
       "Explora guías, recomendaciones y herramientas gratuitas diseñadas para mejorar tu bienestar.",
-    link: "/adicionales",
+    link: "/herramientas",
     image: `${BASE_URL}/cap-06`,
     icon: AdditionalFillIcon,
     requiresPremium: false,

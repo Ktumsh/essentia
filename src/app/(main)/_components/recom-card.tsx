@@ -30,7 +30,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </div>
         </Link>
         <Link
-          href="/adicionales"
+          href="/herramientas"
           className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
@@ -62,7 +62,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
           </Link>
         ) : (
           <Link
-            href="/pricing"
+            href="/planes"
             className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
           >
             <div className="inline-flex h-16 items-center justify-center gap-4">

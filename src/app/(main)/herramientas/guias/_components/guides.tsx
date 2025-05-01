@@ -72,7 +72,7 @@ const Guides = () => {
                 <ArrowLeftButton
                   variant="link"
                   onClick={() => {
-                    route.push(`/adicionales/guias/${guide.id}`);
+                    route.push(`/herramientas/guias/${guide.id}`);
                   }}
                   className="text-foreground after:bg-primary hover:text-primary relative ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] md:text-xs [&_svg]:rotate-180 md:[&_svg]:size-3.5!"
                 >

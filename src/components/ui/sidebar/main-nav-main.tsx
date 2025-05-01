@@ -78,7 +78,7 @@ const MainNavMain = ({ items, isPremium, isCollapsed }: MainNavMainProps) => {
       </SidebarGroup>
       <SidebarGroup>
         <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
-          Principal
+          Panel general
         </SidebarGroupLabel>
         <SidebarMenu>
           {items.map((item, index) => {

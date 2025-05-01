@@ -59,7 +59,7 @@ const Navbar = ({
       )}
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6">
-        <Link href="/descubre-essentia" className="flex items-center gap-2">
+        <Link href="/essentia" className="flex items-center gap-2">
           <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
             <Logo />
           </div>

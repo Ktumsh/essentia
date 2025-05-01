@@ -6,7 +6,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 import Footer from "./footer";
 import Navbar from "./navbar";
-import ScrollToTopButton from "../descubre-essentia/_components/scroll-to-top-button";
+import ScrollToTopButton from "../essentia/_components/scroll-to-top-button";
 
 const PublicWrapper = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile();

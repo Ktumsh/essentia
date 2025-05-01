@@ -6,7 +6,7 @@ export const FEATURE_PLAN_DATA = {
     feature: [
       "Recursos principales",
       "Buscador de centros de salud",
-      "Recursos adicionales",
+      "Herramientas de apoyo",
       "Acceso a contenido educativo limitado (1 curso)",
       "Recomendaciones básicas de salud",
     ],

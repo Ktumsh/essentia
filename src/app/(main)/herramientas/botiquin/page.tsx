@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Botiquín",
   alternates: {
-    canonical: "/adicionales/botiquin",
+    canonical: "/herramientas/botiquin",
   },
 };
 

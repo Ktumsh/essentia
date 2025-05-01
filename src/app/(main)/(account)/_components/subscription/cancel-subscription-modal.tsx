@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import ReasonCheckbox from "@/app/(main)/pricing/_components/reason-checkbox";
+import ReasonCheckbox from "@/app/(main)/planes/_components/reason-checkbox";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {

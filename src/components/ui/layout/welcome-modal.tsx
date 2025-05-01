@@ -69,7 +69,7 @@ const WelcomeModal = () => {
                 esencial de salud y bienestar 🌿
               </p>
               <Link
-                href="/descubre-essentia"
+                href="/essentia"
                 target="_blank"
                 className="inline-flex flex-1 justify-center gap-1 leading-4 text-blue-500 hover:underline"
               >

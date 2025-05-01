@@ -12,7 +12,7 @@ import VisionSection from "./_components/vision-section";
 export const metadata: Metadata = {
   title: "Descubre",
   alternates: {
-    canonical: "/descubre-essentia",
+    canonical: "/essentia",
   },
 };
 

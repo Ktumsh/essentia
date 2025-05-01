@@ -535,9 +535,9 @@ export const getReadableContext = (path: string): string => {
     "/bienestar-emocional": "Recurso Bienestar Emocional",
     "/salud-y-educacion-sexual": "Recurso Salud y Educación Sexual",
     "/salud-en-todas-las-edades": "Recurso Salud en Todas las Edades",
-    "/adicionales/guias": "Guías de salud",
-    "/adicionales/emergenciass": "Emergencias",
-    "/adicionales/botiquin": "Botiquín",
+    "/herramientas/guias": "Guías de salud",
+    "/herramientas/emergenciass": "Emergencias",
+    "/herramientas/botiquin": "Botiquín",
     "/settings": "Configuración",
     "/settings/accessibility": "Configuración de accesibilidad",
     "/settings/account": "Configuración de cuenta",
@@ -546,7 +546,7 @@ export const getReadableContext = (path: string): string => {
     "/settings/support": "Configuración de soporte",
     "/centros-de-salud": "Centros de salud",
     "/historial-medico": "Historial médico",
-    "/pricing": "Planes y precios",
+    "/planes": "Planes y precios",
   };
 
   if (/^\/essentia-ai\/chat\/[^/]+$/.test(path)) {

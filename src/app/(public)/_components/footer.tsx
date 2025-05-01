@@ -13,17 +13,17 @@ const Footer = () => {
     {
       title: "Descubre Essentia",
       links: [
-        { name: "Nuestro método", href: "/descubre-essentia#metodo" },
-        { name: "Nuestros recursos", href: "/descubre-essentia#recursos" },
+        { name: "Nuestro método", href: "/essentia#metodo" },
+        { name: "Nuestros recursos", href: "/essentia#recursos" },
         {
           name: "Historial médico",
-          href: "/descubre-essentia#historial-medico",
+          href: "/essentia#historial-medico",
         },
-        { name: "Essentia AI", href: "/descubre-essentia#ai" },
-        { name: "Progreso", href: "/descubre-essentia#progreso" },
+        { name: "Essentia AI", href: "/essentia#ai" },
+        { name: "Progreso", href: "/essentia#progreso" },
         {
           name: "Visión y propósito",
-          href: "/descubre-essentia#vision-proposito",
+          href: "/essentia#vision-proposito",
         },
       ],
     },

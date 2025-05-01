@@ -1,20 +1,22 @@
 import {
   BadgeCheck,
   Bug,
+  Cookie,
   CreditCard,
   FileText,
   HelpCircle,
   Info,
   Lock,
   LogOut,
+  ScrollText,
   Settings,
   Stars,
   User,
 } from "lucide-react";
 
-import Kit from "@/app/(main)/adicionales/botiquin/_components/kit";
-import Emergencies from "@/app/(main)/adicionales/emergencias/_components/emergencies";
-import Guides from "@/app/(main)/adicionales/guias/_components/guides";
+import Kit from "@/app/(main)/herramientas/botiquin/_components/kit";
+import Emergencies from "@/app/(main)/herramientas/emergencias/_components/emergencies";
+import Guides from "@/app/(main)/herramientas/guias/_components/guides";
 import {
   AdditionalFillIcon,
   AdditionalIcon,
@@ -75,8 +77,8 @@ export const navConfig = {
       activeIcon: MedicalHistoryFillIcon,
     },
     {
-      name: "Recursos adicionales",
-      path: "/adicionales",
+      name: "Herramientas de apoyo",
+      path: "/herramientas",
       icon: AdditionalIcon,
       activeIcon: AdditionalFillIcon,
     },
@@ -128,21 +130,21 @@ export const navConfig = {
   additionalLinks: [
     {
       name: "Guías",
-      path: "/adicionales/guias",
+      path: "/herramientas/guias",
       icon: GuidesIcon,
       activeIcon: GuidesFillIcon,
       component: Guides,
     },
     {
       name: "Emergencias",
-      path: "/adicionales/emergencias",
+      path: "/herramientas/emergencias",
       icon: EmergenciesIcon,
       activeIcon: EmergenciesFillIcon,
       component: Emergencies,
     },
     {
       name: "Botiquín",
-      path: "/adicionales/botiquin",
+      path: "/herramientas/botiquin",
       icon: KitIcon,
       activeIcon: KitFillIcon,
       component: Kit,
@@ -150,10 +152,12 @@ export const navConfig = {
   ],
   menuFooterLinks: {
     extras: [
-      { name: "Descubre Essentia", path: "/descubre-essentia", icon: Info },
-      { name: "Planes y Precios", path: "/pricing", icon: Stars },
-      { name: "Términos y Condiciones", path: "#", icon: FileText },
+      { name: "Descubre Essentia", path: "/essentia", icon: Info },
+      { name: "Planes y Precios", path: "/planes", icon: Stars },
+      { name: "Términos de Servicio", path: "#", icon: FileText },
       { name: "Política de Privacidad", path: "#", icon: Lock },
+      { name: "Cookies", path: "#", icon: Cookie },
+      { name: "Licencias", path: "#", icon: ScrollText },
     ],
     config: [
       {
@@ -194,18 +198,18 @@ export const navConfig = {
       },
     ],
     additionalresources: [
-      { path: "/adicionales/guias", text: "Guías" },
+      { path: "/herramientas/guias", text: "Guías" },
       {
-        path: "/adicionales/emergencias",
+        path: "/herramientas/emergencias",
         text: "Emergencias",
       },
       {
-        path: "/adicionales/botiquin",
+        path: "/herramientas/botiquin",
         text: "Botiquín",
       },
     ],
     more: [
-      { path: "/descubre-essentia", text: "Descubre Essentia" },
+      { path: "/essentia", text: "Descubre Essentia" },
       { path: "", text: "Privacidad" },
       { path: "", text: "Términos" },
       { path: "", text: "Cookies" },
@@ -216,12 +220,12 @@ export const navConfig = {
       { path: "", text: "Políticas de privacidad" },
       { path: "", text: "Términos y condiciones" },
       { path: "", text: "Cookies" },
-      { path: "/descubre-essentia", text: "Descubre Essentia" },
+      { path: "/essentia", text: "Descubre Essentia" },
     ],
   },
   publicLinks: [
     { title: "Descubre Essentia", href: "/", hasDropdown: true },
-    { title: "Planes y Precios", href: "/pricing" },
+    { title: "Planes y Precios", href: "/planes" },
     /* { title: "Sobre Nosotros", href: "/sobre-nosotros" }, */
     /* { title: "Blog", href: "/blog" }, */
     { title: "Soporte", href: "/soporte" },
@@ -230,37 +234,37 @@ export const navConfig = {
   publicListLinks: [
     {
       title: "Nuestro Método",
-      href: "/descubre-essentia#metodo",
+      href: "/essentia#metodo",
       description:
         "Conoce el enfoque integral y personalizado de Essentia para tu bienestar.",
     },
     {
       title: "Nuestros Recursos",
-      href: "/descubre-essentia#recursos",
+      href: "/essentia#recursos",
       description:
         "Accede a rutas de aprendizaje con etapas, revisiones prácticas, artículos, guías y más recursos para tu bienestar.",
     },
     {
       title: "Historial Médico",
-      href: "/descubre-essentia#historial-medico",
+      href: "/essentia#historial-medico",
       description:
         "Gestiona y consulta tu información médica de forma segura y centralizada.",
     },
     {
       title: "Essentia AI",
-      href: "/descubre-essentia#ai",
+      href: "/essentia#ai",
       description:
         "Aprovecha la inteligencia artificial para recomendaciones y seguimiento personalizado.",
     },
     {
       title: "Progreso",
-      href: "/descubre-essentia#progreso",
+      href: "/essentia#progreso",
       description:
         "Visualiza tus avances y logros en tu camino hacia una vida más saludable.",
     },
     {
       title: "Visión y Propósito",
-      href: "/descubre-essentia#vision-proposito",
+      href: "/essentia#vision-proposito",
       description:
         "Descubre la misión y valores que impulsan el proyecto Essentia.",
     },

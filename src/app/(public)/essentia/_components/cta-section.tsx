@@ -110,7 +110,7 @@ const CtaSection = () => {
               size="lg"
               variant="outline"
               className="group h-12 flex-row-reverse rounded-full border-2 border-indigo-200 px-8 text-base text-indigo-700 shadow-sm transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-md [&_svg]:size-5! [&_svg]:rotate-180"
-              onClick={() => router.push("/pricing")}
+              onClick={() => router.push("/planes")}
             >
               Ver planes premium
             </ArrowLeftButton>

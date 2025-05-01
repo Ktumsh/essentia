@@ -184,9 +184,7 @@ const SubscriptionsStg = ({
                 isButton
                 hasValue={false}
                 buttonAction={() =>
-                  isPremium
-                    ? handleSection("benefits")
-                    : router.push("/pricing")
+                  isPremium ? handleSection("benefits") : router.push("/planes")
                 }
               />
             </ul>

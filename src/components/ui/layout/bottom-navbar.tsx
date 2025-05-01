@@ -14,7 +14,7 @@ const BottomNav = () => {
 
   const normalizedPath = formatPathName(pathname);
   const isEssentiaAi = pathname.startsWith("/essentia-ai");
-  const isAdditionals = pathname.startsWith("/adicionales");
+  const isAdditionals = pathname.startsWith("/herramientas");
   const { user } = useUserProfile();
   const isPremium = user?.isPremium || false;
 
@@ -22,7 +22,7 @@ const BottomNav = () => {
     ...page,
     active:
       normalizedPath === page.path ||
-      (page.path === "/adicionales" && isAdditionals) ||
+      (page.path === "/herramientas" && isAdditionals) ||
       (page.path === "/essentia-ai" && isEssentiaAi),
   }));
 

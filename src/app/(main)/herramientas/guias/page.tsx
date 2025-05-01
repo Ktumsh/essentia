@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Guías",
   alternates: {
-    canonical: "/adicionales/guias",
+    canonical: "/herramientas/guias",
   },
 };
 

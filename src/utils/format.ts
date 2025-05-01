@@ -124,7 +124,7 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
   "essentia-ai": "Essentia AI",
   "centros-de-salud": "Buscador centros de salud",
   "historial-medico": "Historial médico",
-  adicionales: "Recursos adicionales",
+  herramientas: "Herramientas de apoyo",
   guias: "Guías",
   botiquin: "Botiquín",
   account: "Cuenta",

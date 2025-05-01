@@ -201,13 +201,13 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                   ) : (
                     <>
                       <DropdownMenuItem asChild>
-                        <Link href="/descubre-essentia">
+                        <Link href="/essentia">
                           <BadgeInfo />
                           Descubre Essentia
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href="/pricing">
+                        <Link href="/planes">
                           <Sparkles />
                           Planes y Precios
                         </Link>
