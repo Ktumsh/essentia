@@ -73,7 +73,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
       action: () => {
         setIsPaymentModalOpen(true);
       },
-      text: "Hacerme premium",
+      text: "Actualizar a Premium",
     });
   }
 

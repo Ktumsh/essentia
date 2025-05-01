@@ -219,12 +219,16 @@ const PurePromptForm = ({
           onChange={handleInput}
           onKeyDown={onKeyDown}
           className={cn(
-            "text-foreground min-h-10 w-full resize-none rounded-xl border-none bg-transparent px-4 pt-3 pb-0 text-sm shadow-none focus-visible:ring-0 md:min-h-20 md:text-[14px]",
+            "text-foreground min-h-10 w-full resize-none rounded-xl border-none bg-transparent px-4 pt-3 pb-0 text-sm shadow-none focus-visible:ring-0 disabled:cursor-default md:min-h-20 md:text-[14px]",
             { "min-h-10!": hasMessages },
           )}
         />
         <div className="pointer-events-none inline-flex w-full items-center justify-between gap-2 p-3">
-          <AttachmentsButton fileInputRef={fileInputRef} status={status} />
+          <AttachmentsButton
+            fileInputRef={fileInputRef}
+            status={status}
+            isPremium={isPremium}
+          />
 
           <input
             type="file"
@@ -263,16 +267,20 @@ export const PromptForm = memo(PurePromptForm, (prevProps, nextProps) => {
 function PureAttachmentsButton({
   fileInputRef,
   status,
+  isPremium,
 }: {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   status: UseChatHelpers["status"];
+  isPremium: boolean | null;
 }) {
+  const disabled = !isPremium || status !== "ready";
+
   return (
     <BetterTooltip content="Añadir archivo" hidden={status !== "ready"}>
       <AttachButton
         size="icon"
         variant="ghost"
-        disabled={status !== "ready"}
+        disabled={disabled}
         className="hover:bg-background bg-background pointer-events-auto size-8 rounded-sm md:size-7 md:bg-transparent [&_svg]:size-3.5!"
         onClick={(e) => {
           e.preventDefault();

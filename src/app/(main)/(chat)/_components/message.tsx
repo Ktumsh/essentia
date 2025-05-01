@@ -133,8 +133,6 @@ const PurePreviewMessage = ({
     reload();
   };
 
-  console.log({ parts });
-
   return (
     <motion.article
       initial={{ y: 5, opacity: 0 }}

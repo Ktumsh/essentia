@@ -11,6 +11,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { LinkIcon } from "@/components/ui/icons/action";
 import ButtonToBottom from "@/components/ui/layout/button-to-bottom";
 import { useChatContext } from "@/hooks/use-chat-context";
+import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import AlertPanel from "./alert-panel";
@@ -71,7 +72,7 @@ const ChatPanel = (props: ChatPanelProps) => {
 
   const { setActiveChatId } = useChatContext();
 
-  const { isPremium = false, username } = user || {};
+  const { isPremium, username } = user || {};
 
   useEffect(() => {
     if (searchQuery && !hasProcessedQueryRef.current) {
@@ -113,7 +114,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                     : { opacity: 1, y: 0, scale: 1 }
                 }
                 transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
-                className="space-y-4 md:pb-6"
+                className={cn("space-y-4 md:pb-6", { hidden: !isPremium })}
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
                   <div className="flex items-end gap-2 overflow-x-auto pt-3">
@@ -178,13 +179,13 @@ const ChatPanel = (props: ChatPanelProps) => {
                   setMessages={setMessages}
                   uploadQueue={uploadQueue}
                   setUploadQueue={setUploadQueue}
-                  isPremium={isPremium}
+                  isPremium={isPremium || false}
                   hasMessages={messages.length > 0}
                 />
               </motion.div>
               <AlertPanel
                 session={session}
-                isPremium={isPremium}
+                isPremium={isPremium || false}
                 isChat={isChat}
               />
             </div>
@@ -193,7 +194,7 @@ const ChatPanel = (props: ChatPanelProps) => {
               messages={messages}
               attachments={attachments}
               uploadQueue={uploadQueue}
-              isPremium={isPremium}
+              isPremium={isPremium || false}
               setInput={setInput}
             />
           </div>

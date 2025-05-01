@@ -46,7 +46,8 @@ function PureMessages({
       })}
       ref={containerRef}
     >
-      {messages.length === 0 && (user ? <Greeting /> : <Overview />)}
+      {messages.length === 0 &&
+        (user && user.isPremium ? <Greeting /> : <Overview />)}
       {messages.map((message, index) => (
         <PreviewMessage
           key={message.id}

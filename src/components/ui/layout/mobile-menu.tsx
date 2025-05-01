@@ -142,7 +142,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 >
                   {!isTrialUsed
                     ? "Activa tu prueba gratuita"
-                    : "Actualiza a Premium"}
+                    : "Actualizar a Premium"}
                 </Button>
               </DrawerClose>
             )}

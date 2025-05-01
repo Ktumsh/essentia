@@ -10,8 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/kit/dialog";
-
-import PaymentModal from "./payment-modal";
+import PaymentModal from "@/components/ui/payment/payment-modal";
 
 interface WarningModalProps {
   isPremium: boolean | null;
@@ -37,9 +36,9 @@ const WarningModal = ({ isPremium, isPaymentModalOpen }: WarningModalProps) => {
           isBlurred
           overlayClassName="bg-white/50 dark:bg-black/80"
           closeButton={false}
-          className="before:bg-background max-w-sm! gap-0 rounded-3xl border-none bg-gradient-to-r from-indigo-500 to-pink-500 p-0 before:absolute before:inset-[2px] before:z-[-1] before:rounded-[23px] before:content-[''] sm:rounded-3xl"
+          className="before:bg-background bg-premium max-w-sm! gap-0 rounded-3xl border-none p-0 before:absolute before:inset-[2px] before:z-[-1] before:rounded-[23px] before:content-[''] sm:rounded-3xl"
         >
-          <DialogHeader className="text-foreground flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-indigo-500 to-pink-500 p-3 text-center md:p-6">
+          <DialogHeader className="text-foreground bg-premium flex-col items-center justify-center rounded-3xl p-3 text-center md:p-6">
             <DialogTitle className="font-merriweather text-2xl leading-normal font-extrabold tracking-widest text-white uppercase">
               Essentia Premium
             </DialogTitle>

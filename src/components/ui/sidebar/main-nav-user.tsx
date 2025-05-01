@@ -179,7 +179,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         >
                           {!isTrialUsed
                             ? "Activa tu prueba gratuita"
-                            : "Actualiza a Premium"}
+                            : "Actualizar a Premium"}
                         </SparklesButton>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
