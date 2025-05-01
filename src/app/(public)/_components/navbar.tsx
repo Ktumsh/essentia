@@ -1,7 +1,8 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import { LoginButton } from "@/components/button-kit/login-button";
@@ -18,19 +19,27 @@ import {
 import Logo from "@/components/ui/layout/logo";
 import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
 
 import ListItem from "./list-item";
 import MobileNavbar from "./mobile-navbar";
 
+import type { Session } from "next-auth";
+
 const Navbar = ({
   scrollRef,
+  session,
 }: {
   scrollRef: React.RefObject<HTMLElement | null>;
+  session: Session | null;
 }) => {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const { user } = useUserProfile();
+  const isPremium = user?.isPremium || false;
 
   const mainNavItems = navConfig.publicLinks;
   const discoverItems = navConfig.publicListLinks;
@@ -49,26 +58,118 @@ const Navbar = ({
     return () => scrollElement?.removeEventListener("scroll", handleScroll);
   }, [scrollRef, isMobile]);
 
+  const logoVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 },
+  };
+  const btnVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  const navMenuVariants = {
+    visible: {
+      opacity: 1,
+      display: "flex",
+    },
+    hidden: {
+      opacity: 0,
+      transitionEnd: {
+        display: "none",
+      },
+    },
+  };
+
+  const actions = session?.user ? (
+    <>
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => router.push("/")}
+        className="bg-white"
+      >
+        Panel Essentia
+      </Button>
+      {!isPremium && (
+        <Button
+          size="sm"
+          variant="gradient"
+          onClick={() => router.push("/planes")}
+        >
+          Hazte premium
+        </Button>
+      )}
+    </>
+  ) : (
+    <>
+      <LoginButton
+        variant="outline"
+        size="sm"
+        onClick={() => router.push("/login")}
+        className="bg-white"
+      >
+        Iniciar sesión
+      </LoginButton>
+      <Link href="/planes">
+        <Button size="sm" variant="gradient">
+          Hazte premium
+        </Button>
+      </Link>
+    </>
+  );
+
   return (
     <header
-      className={cn(
-        "fixed top-0 right-0 left-0 z-50 flex items-center transition-all duration-300",
-        isScrolled
-          ? "shadow-little-pretty h-12 bg-white/80 backdrop-blur-lg backdrop-saturate-150"
-          : "h-14 bg-transparent",
-      )}
+      className={cn("fixed top-0 right-0 left-0 z-50 flex h-14 items-center", {
+        "pointer-events-none": isScrolled,
+      })}
     >
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6">
-        <Link href="/essentia" className="flex items-center gap-2">
-          <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
-            <Logo />
-          </div>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">Essentia</span>
-          </div>
-        </Link>
+      <div className="pointer-events-auto relative m-auto flex w-full max-w-7xl items-center justify-between px-6">
+        <AnimatePresence>
+          {!isScrolled ? (
+            <motion.div
+              key="staticLogo"
+              className="flex items-center gap-2"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={logoVariants}
+              transition={{ duration: 0.25 }}
+            >
+              <Link href="/essentia" className="flex items-center gap-2">
+                <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
+                  <Logo />
+                </div>
+                <span className="truncate text-sm font-semibold">Essentia</span>
+              </Link>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="fixedLogo"
+              className="fixed inset-y-0 left-6 z-50 flex h-14 items-center"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={logoVariants}
+              transition={{ duration: 0.25 }}
+            >
+              <Link href="/essentia" className="flex items-center gap-2">
+                <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
+                  <Logo />
+                </div>
+                <span className="truncate text-sm font-semibold">Essentia</span>
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <div className="hidden items-center md:flex">
+        <motion.div
+          initial="visible"
+          animate={isScrolled ? "hidden" : "visible"}
+          variants={navMenuVariants}
+          transition={{ duration: 0.25 }}
+          className="hidden items-center md:flex"
+        >
           <NavigationMenu>
             <NavigationMenuList>
               {mainNavItems.map((item) =>
@@ -127,24 +228,35 @@ const Navbar = ({
               )}
             </NavigationMenuList>
           </NavigationMenu>
-        </div>
+        </motion.div>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <LoginButton
-            variant="outline"
-            size="sm"
-            className="border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
-          >
-            Iniciar sesión
-          </LoginButton>
-          <Link href="/planes">
-            <Button size="sm" variant="gradient" className="hidden md:flex">
-              Hazte premium
-            </Button>
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
+        <AnimatePresence>
+          {!isScrolled ? (
+            <motion.div
+              key="staticBtns"
+              className="hidden items-center gap-3 md:flex"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={btnVariants}
+              transition={{ duration: 0.25 }}
+            >
+              {actions}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="fixedBtns"
+              className="pointer-events-auto fixed inset-y-0 right-6 z-50 hidden h-14 items-center gap-3 md:flex"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={btnVariants}
+              transition={{ duration: 0.25 }}
+            >
+              {actions}
+            </motion.div>
+          )}
+        </AnimatePresence>
         <MobileNavbar />
       </div>
     </header>

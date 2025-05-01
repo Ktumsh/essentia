@@ -1,9 +1,12 @@
+import { auth } from "../(auth)/auth";
 import PublicWrapper from "./_components/public-wrapper";
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <PublicWrapper>{children}</PublicWrapper>;
+  const session = await auth();
+
+  return <PublicWrapper session={session}>{children}</PublicWrapper>;
 }

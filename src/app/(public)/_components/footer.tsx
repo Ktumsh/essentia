@@ -40,7 +40,6 @@ const Footer = () => {
         { name: "Términos de Servicio", href: "/terminos" },
         { name: "Política de Privacidad", href: "/privacidad" },
         { name: "Cookies", href: "/cookies" },
-        { name: "Licencias", href: "/licencias" },
       ],
     },
   ];

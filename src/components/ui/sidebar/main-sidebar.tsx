@@ -12,7 +12,7 @@ interface MainSidebarProps {
 const MainSidebar = ({ isCollapsed, isPremium }: MainSidebarProps) => {
   const mainLinks = navConfig.navLinks;
   const resourceLinks = navConfig.asideMenuLinks;
-  const infoLinks = navConfig.menuFooterLinks.extras;
+  const infoLinks = navConfig.menuFooterLinks;
 
   return (
     <>

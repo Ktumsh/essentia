@@ -28,12 +28,12 @@ import {
   useSidebar,
 } from "@/components/kit/sidebar";
 
-import { InfoCircledIcon, WarningCircledIcon } from "../icons/common";
+import { InfoCircledIcon, LegalIcon } from "../icons/common";
 
 import type { NavConfig } from "@/config/nav.config";
 
 interface MainNavInfoProps {
-  items: NavConfig["menuFooterLinks"]["extras"];
+  items: NavConfig["menuFooterLinks"];
   isCollapsed?: boolean;
 }
 
@@ -48,66 +48,94 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
       <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
         Adicional
       </SidebarGroupLabel>
-      <SidebarMenu>
-        <Collapsible asChild className="group/collapsible">
-          <SidebarMenuItem>
-            {state === "expanded" && !isAIPage ? (
-              <>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton
-                    tooltip="Sobre Essentia"
-                    className="transition-all hover:gap-3 hover:duration-300"
-                  >
-                    <InfoCircledIcon />
-                    <span>Sobre Essentia</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent className="transition-height">
-                  <SidebarMenuSub>
-                    {items.map((item) => (
-                      <SidebarMenuSubItem key={item.name}>
-                        <SidebarMenuSubButton
-                          asChild
-                          className="shrink-0 text-nowrap"
-                        >
-                          <Link href={item.path} role="link" target="_self">
-                            {item.name}
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                </CollapsibleContent>
-              </>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton tooltip="Sobre Essentia">
-                    <WarningCircledIcon />
-                    <span>Sobre Essentia</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="right" align="start" sideOffset={4}>
-                  <DropdownMenuGroup>
-                    {items.map((item) => (
-                      <DropdownMenuItem key={item.name}>
-                        <item.icon />
-                        <Link href={item.path} role="link" target="_self">
-                          <span>{item.name}</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </SidebarMenuItem>
-        </Collapsible>
-      </SidebarMenu>
+      <SidebarDropdown
+        label="Sobre Essentia"
+        icon={InfoCircledIcon}
+        items={items.extras}
+        tooltip="Sobre Essentia"
+        isAIPage={isAIPage}
+        state={state}
+      />
+      <SidebarDropdown
+        label="Legal"
+        icon={LegalIcon}
+        items={items.legal}
+        tooltip="Legal"
+        isAIPage={isAIPage}
+        state={state}
+      />
     </SidebarGroup>
   );
 };
 
 export default MainNavInfo;
+
+const SidebarDropdown = ({
+  label,
+  icon: Icon,
+  items,
+  tooltip,
+  isAIPage,
+  state,
+}: {
+  label: string;
+  icon: React.ElementType;
+  items: NavConfig["menuFooterLinks"]["extras" | "legal"];
+  tooltip: string;
+  isAIPage: boolean;
+  state: "expanded" | "collapsed";
+}) => (
+  <SidebarMenu>
+    <Collapsible asChild className="group/collapsible">
+      <SidebarMenuItem>
+        {state === "expanded" && !isAIPage ? (
+          <>
+            <CollapsibleTrigger asChild>
+              <SidebarMenuButton tooltip={tooltip}>
+                <Icon />
+                <span>{label}</span>
+                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+              </SidebarMenuButton>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="transition-height">
+              <SidebarMenuSub>
+                {items.map((item) => (
+                  <SidebarMenuSubItem key={item.name}>
+                    <SidebarMenuSubButton
+                      asChild
+                      className="shrink-0 text-nowrap"
+                    >
+                      <Link href={item.path}>{item.name}</Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                ))}
+              </SidebarMenuSub>
+            </CollapsibleContent>
+          </>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton tooltip={tooltip}>
+                <Icon />
+                <span>{label}</span>
+                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="right" align="start" sideOffset={4}>
+              <DropdownMenuGroup>
+                {items.map((item) => (
+                  <DropdownMenuItem key={item.name}>
+                    <item.icon />
+                    <Link href={item.path}>
+                      <span>{item.name}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </SidebarMenuItem>
+    </Collapsible>
+  </SidebarMenu>
+);

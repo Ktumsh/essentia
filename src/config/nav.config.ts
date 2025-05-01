@@ -8,7 +8,6 @@ import {
   Info,
   Lock,
   LogOut,
-  ScrollText,
   Settings,
   Stars,
   User,
@@ -154,10 +153,12 @@ export const navConfig = {
     extras: [
       { name: "Descubre Essentia", path: "/essentia", icon: Info },
       { name: "Planes y Precios", path: "/planes", icon: Stars },
-      { name: "Términos de Servicio", path: "#", icon: FileText },
-      { name: "Política de Privacidad", path: "#", icon: Lock },
-      { name: "Cookies", path: "#", icon: Cookie },
-      { name: "Licencias", path: "#", icon: ScrollText },
+      { name: "Soporte", path: "/soporte", icon: HelpCircle },
+    ],
+    legal: [
+      { name: "Términos de Servicio", path: "/terminos", icon: FileText },
+      { name: "Política de Privacidad", path: "/privacidad", icon: Lock },
+      { name: "Cookies", path: "/cookies", icon: Cookie },
     ],
     config: [
       {

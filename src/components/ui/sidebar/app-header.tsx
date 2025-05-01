@@ -25,7 +25,10 @@ const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
             size="lg"
             asChild
             isActive
-            className={cn("border-border", isCollapsed && "size-8! p-0")}
+            className={cn(
+              "group-data-[collapsible=icon]:border-background",
+              isCollapsed && "border-background size-8! p-0",
+            )}
           >
             <Link href="/">
               <div

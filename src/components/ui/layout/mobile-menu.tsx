@@ -210,12 +210,12 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
             <Collapsible className="group/collapsible">
               <CollapsibleTrigger asChild>
                 <button className="inline-flex w-full items-center py-1.5">
-                  <span>Información</span>
+                  <span>Sobre Essentia</span>
                   <ChevronRight className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </button>
               </CollapsibleTrigger>
               <CollapsibleContent className="transition-height">
-                {menuFooterLinks.extras.map((item) => (
+                {menuFooterLinks.extras.slice(0, 2).map((item) => (
                   <DrawerClose asChild key={item.name}>
                     <Link
                       href={item.path}
@@ -261,7 +261,31 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 ))}
               </CollapsibleContent>
             </Collapsible>
-            <div className="inline-flex items-center justify-between py-1.5">
+            <Collapsible className="group/collapsible">
+              <CollapsibleTrigger asChild>
+                <button className="inline-flex w-full items-center py-1.5">
+                  <span>Legal</span>
+                  <ChevronRight className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="transition-height">
+                {menuFooterLinks.legal.map((item) => (
+                  <DrawerClose asChild key={item.name}>
+                    <Link
+                      href={item.path}
+                      className="inline-flex w-full items-center gap-3 py-1.5"
+                    >
+                      {React.createElement(item.icon as React.ElementType, {
+                        strokeWidth: 1.5,
+                        className: "size-3.5",
+                      })}
+                      <span>{item.name}</span>
+                    </Link>
+                  </DrawerClose>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
+            <div className="mb-0! inline-flex items-center justify-between">
               <div className="flex flex-row items-center gap-3">
                 <SunMoon className="size-3.5" />
                 <span>Tema</span>
