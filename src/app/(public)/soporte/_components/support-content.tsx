@@ -131,12 +131,12 @@ const SoporteContent = () => {
 
   return (
     <div className="mt-14 bg-slate-50">
-      <section
+      <header
         className="bg-linear-to-tr/shorter from-indigo-500 to-purple-500 text-white"
         aria-labelledby="search-heading"
       >
-        <div className="container mx-auto px-4 py-8">
-          <div className="mx-auto max-w-2xl text-center">
+        <div className="mx-auto flex h-60 max-w-7xl items-center justify-center px-4 py-8">
+          <div className="mx-auto w-full max-w-2xl text-center">
             <h1
               id="search-heading"
               className="font-merriweather mb-3 text-3xl font-bold"
@@ -153,12 +153,12 @@ const SoporteContent = () => {
               />
               <Input
                 placeholder="Buscar en el centro de soporte..."
-                className="h-10 bg-white pr-9 pl-9 text-gray-900"
                 value={searchQuery}
                 onChange={(e: {
                   target: { value: React.SetStateAction<string> };
                 }) => setSearchQuery(e.target.value)}
                 aria-label="Buscar en el centro de soporte"
+                className="h-10 bg-white pr-9 pl-9 text-gray-900"
               />
               {searchQuery && (
                 <button
@@ -172,12 +172,12 @@ const SoporteContent = () => {
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Resultados de búsqueda */}
       {isSearching && (
         <section
-          className="container mx-auto px-4 py-5"
+          className="mx-auto max-w-7xl px-4 py-5"
           aria-live="polite"
           aria-labelledby="search-results-heading"
         >
@@ -271,7 +271,7 @@ const SoporteContent = () => {
 
       {/* Contenido principal - Solo visible cuando no se está buscando */}
       {!isSearching && (
-        <article className="container mx-auto px-4 py-6">
+        <article className="mx-auto max-w-7xl px-4 py-6">
           <div className="mx-auto max-w-4xl">
             {/* Preguntas frecuentes */}
             <section id="faq" className="mb-6" aria-labelledby="faq-heading">
