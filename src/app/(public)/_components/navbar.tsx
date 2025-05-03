@@ -70,7 +70,7 @@ const Navbar = ({
   const navMenuVariants = {
     visible: {
       opacity: 1,
-      display: "flex",
+      display: isMobile ? "none" : "flex",
     },
     hidden: {
       opacity: 0,
@@ -120,48 +120,69 @@ const Navbar = ({
 
   return (
     <header
-      className={cn("fixed top-0 right-0 left-0 z-50 flex h-14 items-center", {
-        "pointer-events-none": isScrolled,
-      })}
+      className={cn(
+        "fixed top-0 right-0 left-0 z-50 flex h-14 items-center transition-all",
+        {
+          "pointer-events-none bg-white/80 backdrop-blur-md backdrop-saturate-150 md:bg-transparent md:backdrop-blur-none md:backdrop-saturate-100":
+            isScrolled,
+        },
+      )}
     >
       <div className="pointer-events-auto relative m-auto flex w-full max-w-7xl items-center justify-between px-6">
-        <AnimatePresence>
-          {!isScrolled ? (
-            <motion.div
-              key="staticLogo"
-              className="flex items-center gap-2"
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={logoVariants}
-              transition={{ duration: 0.25 }}
-            >
-              <Link href="/essentia" className="flex items-center gap-2">
-                <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
-                  <Logo />
-                </div>
-                <span className="truncate text-sm font-semibold">Essentia</span>
-              </Link>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="fixedLogo"
-              className="fixed inset-y-0 left-6 z-50 flex h-14 items-center"
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={logoVariants}
-              transition={{ duration: 0.25 }}
-            >
-              <Link href="/essentia" className="flex items-center gap-2">
-                <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
-                  <Logo />
-                </div>
-                <span className="truncate text-sm font-semibold">Essentia</span>
-              </Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isMobile && (
+          <AnimatePresence>
+            {!isScrolled ? (
+              <motion.div
+                key="staticLogo"
+                className="flex items-center gap-2"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={logoVariants}
+                transition={{ duration: 0.25 }}
+              >
+                <Link href="/essentia" className="flex items-center gap-2">
+                  <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
+                    <Logo />
+                  </div>
+                  <span className="truncate text-sm font-semibold">
+                    Essentia
+                  </span>
+                </Link>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="fixedLogo"
+                className="fixed inset-y-0 left-6 z-50 flex h-14 items-center"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={logoVariants}
+                transition={{ duration: 0.25 }}
+              >
+                <Link href="/essentia" className="flex items-center gap-2">
+                  <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
+                    <Logo />
+                  </div>
+                  <span className="truncate text-sm font-semibold">
+                    Essentia
+                  </span>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
+
+        {isMobile && (
+          <div className="flex items-center gap-2">
+            <Link href="/essentia" className="flex items-center gap-2">
+              <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
+                <Logo />
+              </div>
+              <span className="truncate text-sm font-semibold">Essentia</span>
+            </Link>
+          </div>
+        )}
 
         <motion.div
           initial="visible"

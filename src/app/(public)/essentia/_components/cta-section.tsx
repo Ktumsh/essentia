@@ -52,7 +52,7 @@ const CtaSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="transform rounded-2xl bg-white p-6 text-start shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="shadow-pretty transform rounded-2xl bg-white p-6 text-start transition-all duration-300 hover:-translate-y-1"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
                 <ShieldCheck className="text-indigo-600" size={24} />
@@ -70,7 +70,7 @@ const CtaSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="transform rounded-2xl bg-white p-6 text-start shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="shadow-pretty transform rounded-2xl bg-white p-6 text-start transition-all duration-300 hover:-translate-y-1"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
                 <HeartPulse className="text-rose-600" size={24} />
@@ -86,7 +86,7 @@ const CtaSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="transform rounded-2xl bg-white p-6 text-start shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="shadow-pretty transform rounded-2xl bg-white p-6 text-start transition-all duration-300 hover:-translate-y-1"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
                 <Sparkles className="text-blue-600" size={24} />
@@ -113,7 +113,7 @@ const CtaSection = () => {
             <ArrowLeftButton
               size="lg"
               variant="outline"
-              className="group h-12 flex-row-reverse rounded-full border-2 border-indigo-200 px-8 text-base text-indigo-700 shadow-sm transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-md [&_svg]:size-5! [&_svg]:rotate-180"
+              className="group hover:shadow-pretty h-12 flex-row-reverse rounded-full border-2 border-indigo-200 px-8 text-base text-indigo-700 shadow-sm transition-all duration-300 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 [&_svg]:size-5! [&_svg]:rotate-180"
               onClick={() => router.push("/planes")}
             >
               Ver planes premium
@@ -121,7 +121,7 @@ const CtaSection = () => {
           </div>
 
           {!session?.user && (
-            <div className="mx-auto mt-16 max-w-3xl rounded-2xl bg-white p-8 shadow-lg">
+            <div className="shadow-pretty mx-auto mt-16 max-w-3xl rounded-2xl bg-white p-8">
               <div className="flex flex-col items-center gap-6 md:flex-row">
                 <div className="md:w-1/3">
                   <div className="relative">

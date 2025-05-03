@@ -42,7 +42,7 @@ const ProgressSection = () => {
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <motion.div variants={item}>
-                <div className="h-full transform rounded-2xl bg-white p-6 text-start shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
                     <FileStack className="text-blue-600" size={24} />
                   </div>
@@ -56,7 +56,7 @@ const ProgressSection = () => {
                 </div>
               </motion.div>
               <motion.div variants={item}>
-                <div className="h-full transform rounded-2xl bg-white p-6 text-start shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
                     <Brain className="text-purple-600" size={24} />
                   </div>
@@ -70,7 +70,7 @@ const ProgressSection = () => {
                 </div>
               </motion.div>
               <motion.div variants={item}>
-                <div className="h-full transform rounded-2xl bg-white p-6 text-start shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                     <BookOpenCheck className="text-green-600" size={24} />
                   </div>
@@ -84,7 +84,7 @@ const ProgressSection = () => {
                 </div>
               </motion.div>
               <motion.div variants={item}>
-                <div className="h-full transform rounded-2xl bg-white p-6 text-start shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
                     <Database className="text-rose-600" size={24} />
                   </div>

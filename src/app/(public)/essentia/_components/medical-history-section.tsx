@@ -64,7 +64,7 @@ const MedicalHistorySection = () => {
             className="order-2 lg:order-1"
           >
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="transform rounded-xl bg-white p-6 shadow-md transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg">
+              <div className="shadow-little-pretty hover:shadow-pretty transform rounded-xl bg-white p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100">
                   <FileText className="text-indigo-600" size={24} />
                 </div>
@@ -75,7 +75,7 @@ const MedicalHistorySection = () => {
                 </p>
               </div>
 
-              <div className="transform rounded-xl bg-white p-6 shadow-md transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg">
+              <div className="shadow-little-pretty hover:shadow-pretty transform rounded-xl bg-white p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100">
                   <Brain className="text-purple-600" size={24} />
                 </div>
@@ -86,7 +86,7 @@ const MedicalHistorySection = () => {
                 </p>
               </div>
 
-              <div className="transform rounded-xl bg-white p-6 shadow-md transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg">
+              <div className="shadow-little-pretty hover:shadow-pretty transform rounded-xl bg-white p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-green-100">
                   <Shield className="text-green-600" size={24} />
                 </div>
@@ -99,7 +99,7 @@ const MedicalHistorySection = () => {
                 </p>
               </div>
 
-              <div className="transform rounded-xl bg-white p-6 shadow-md transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg">
+              <div className="shadow-little-pretty hover:shadow-pretty transform rounded-xl bg-white p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-rose-100">
                   <Share2 className="text-rose-600" size={24} />
                 </div>

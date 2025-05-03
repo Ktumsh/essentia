@@ -67,7 +67,7 @@ const ResourcesSection = () => {
           className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
           <motion.div variants={item}>
-            <div className="h-full transform rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100">
                 <HealthFillIcon className="text-green-600" size={28} />
               </div>
@@ -82,7 +82,7 @@ const ResourcesSection = () => {
           </motion.div>
 
           <motion.div variants={item}>
-            <div className="h-full transform rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100">
                 <ExerciseFillIcon className="text-indigo-600" size={28} />
               </div>
@@ -97,7 +97,7 @@ const ResourcesSection = () => {
           </motion.div>
 
           <motion.div variants={item}>
-            <div className="h-full transform rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-yellow-100">
                 <NutritionFillIcon className="text-yellow-600" size={28} />
               </div>
@@ -112,7 +112,7 @@ const ResourcesSection = () => {
           </motion.div>
 
           <motion.div variants={item}>
-            <div className="h-full transform rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100">
                 <WellbeingFillIcon className="text-blue-600" size={28} />
               </div>
@@ -127,7 +127,7 @@ const ResourcesSection = () => {
           </motion.div>
 
           <motion.div variants={item}>
-            <div className="h-full transform rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100">
                 <SexualityFillIcon className="text-red-600" size={28} />
               </div>
@@ -142,7 +142,7 @@ const ResourcesSection = () => {
           </motion.div>
 
           <motion.div variants={item}>
-            <div className="h-full transform rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-lime-100">
                 <ForAllAgesFillIcon className="text-lime-600" size={28} />
               </div>

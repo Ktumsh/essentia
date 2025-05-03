@@ -22,7 +22,8 @@
       "@/*": ["./src/*"],
       "@@/*": ["./*"]
     },
-    "types": ["@serwist/next/typings"]
+    "types": ["@serwist/next/typings"],
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",

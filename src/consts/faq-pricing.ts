@@ -5,7 +5,7 @@ export const FAQ_PRICING: FAQPrincing[] = [
     id: 1,
     question: "¿Qué incluye el plan gratuito de Essentia?",
     answer:
-      "El plan gratuito te da acceso a recursos educativos básicos, un mapa de centros de salud, carga de hasta 6 archivos médicos, y recomendaciones generales de salud.",
+      "El plan gratuito te da acceso a recursos educativos, un mapa de centros de salud, carga de hasta 6 archivos médicos, y recomendaciones generales de salud.",
   },
   {
     id: 2,
