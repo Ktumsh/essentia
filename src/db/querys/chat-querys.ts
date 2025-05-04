@@ -10,7 +10,7 @@ import {
   chatVote,
   chatMessage,
   type ChatMessage,
-  stream,
+  chatStream,
 } from "@/db/schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
@@ -41,7 +41,7 @@ export async function deleteChatById({ id }: { id: string }) {
   try {
     await db.delete(chatVote).where(eq(chatVote.chatId, id));
     await db.delete(chatMessage).where(eq(chatMessage.chatId, id));
-    await db.delete(stream).where(eq(stream.chatId, id));
+    await db.delete(chatStream).where(eq(chatStream.chatId, id));
 
     return await db.delete(chat).where(eq(chat.id, id));
   } catch (error) {
@@ -308,7 +308,7 @@ export async function createStreamId({
 }) {
   try {
     await db
-      .insert(stream)
+      .insert(chatStream)
       .values({ id: streamId, chatId, createdAt: new Date() });
   } catch (error) {
     console.error("Failed to create stream id in database");
@@ -319,10 +319,10 @@ export async function createStreamId({
 export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
   try {
     const streamIds = await db
-      .select({ id: stream.id })
-      .from(stream)
-      .where(eq(stream.chatId, chatId))
-      .orderBy(desc(stream.createdAt))
+      .select({ id: chatStream.id })
+      .from(chatStream)
+      .where(eq(chatStream.chatId, chatId))
+      .orderBy(desc(chatStream.createdAt))
       .execute();
 
     return streamIds.map(({ id }) => id);

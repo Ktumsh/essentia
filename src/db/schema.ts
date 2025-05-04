@@ -175,8 +175,8 @@ export const chatVote = table(
 
 export type ChatVote = InferSelectModel<typeof chatVote>;
 
-export const stream = table(
-  "Stream",
+export const chatStream = table(
+  "chat_stream",
   {
     id: uuid("id").notNull().defaultRandom(),
     chatId: uuid("chatId").notNull(),
@@ -191,7 +191,7 @@ export const stream = table(
   ],
 );
 
-export type Stream = InferSelectModel<typeof stream>;
+export type ChatStream = InferSelectModel<typeof chatStream>;
 
 export const route = table("route", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),

@@ -26,11 +26,11 @@ const ResourcesItem = (props: ResoucesItemProps) => {
   return (
     <>
       {!isMobile && (
-        <Card className="hover:shadow-pretty dark:bg-accent/30 hidden min-h-52 min-w-64 rounded-xl bg-slate-50 transition will-change-transform hover:-translate-y-1 md:block">
+        <Card className="hover:shadow-pretty dark:bg-accent/50 hidden min-h-52 min-w-64 rounded-xl bg-slate-50 transition will-change-transform hover:-translate-y-1 md:block">
           <CardHeader className="space-y-0 pb-0">
             <div
               className={cn(
-                "flex size-10 items-center justify-center rounded-lg",
+                "shadow-background flex size-10 items-center justify-center rounded-lg shadow-[0_0_0_1px]",
                 getRouteColor(index, "background"),
               )}
             >
