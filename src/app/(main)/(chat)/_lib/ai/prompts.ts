@@ -28,7 +28,10 @@ type SystemPrompt = {
   weight?: number | null;
   genre?: string | null;
   premiumExpiresAt?: string | null;
-  selectedChatModel: string;
+  selectedChatModel:
+    | "chat-model-small"
+    | "chat-model-large"
+    | "chat-model-reasoning";
   requestHints: RequestHints;
 };
 
@@ -52,6 +55,7 @@ export const systemPrompt = (params: SystemPrompt): string => {
     weight,
     genre,
     premiumExpiresAt,
+    selectedChatModel,
     requestHints,
   } = params;
 
@@ -164,6 +168,12 @@ export const systemPrompt = (params: SystemPrompt): string => {
   prompt += `    3. Hora específica.\n`;
   prompt += `    4. (Opcional) Fecha si la tarea es única.\n`;
   prompt += `    5. Si el usuario menciona tareas complejas como "Cada 3 días", responde con un mensaje claro sobre las limitaciones y ofrece alternativas válidas.\n`;
+
+  if (selectedChatModel !== "chat-model-reasoning") {
+    prompt += `#### 🌐 web_search_preview\n`;
+    prompt += `- **Uso:** Esta herramienta permite hacer una búsqueda web simulada para obtener contexto adicional cuando el usuario pide información específica que puede requerir datos actualizados.\n`;
+    prompt += `- **Ejemplo:** Si el usuario pregunta: "¿Cuáles son los beneficios actuales del nuevo medicamento aprobado por el ISP en 2025?", puedes usar esta herramienta para buscar esa información antes de responder.\n`;
+  }
 
   prompt += `\n\n### Datos del Usuario\n`;
 
