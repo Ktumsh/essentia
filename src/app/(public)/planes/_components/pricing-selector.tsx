@@ -8,7 +8,7 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
-} from "@/components/kit/tabs"; // asegúrate que sea el componente correcto
+} from "@/components/kit/tabs";
 import { siteConfig } from "@/config/site.config";
 import {
   SUBSCRIPTION_PLANS,

@@ -4,10 +4,11 @@ import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 
 import type { FeatureType } from "@/components/ui/payment/payment-modal";
+import type { CanUploadMedicalFile } from "@/db/querys/medical-history-querys";
 
 type MedicalHistoryHeaderProps = {
   openAIRecommendationsForAll: () => void;
-  uploadStatus?: { allowed?: boolean; max?: number };
+  uploadStatus?: CanUploadMedicalFile;
   setPremiumFeatureType: (type: FeatureType) => void;
   setDialogs: React.Dispatch<
     React.SetStateAction<{
@@ -22,6 +23,7 @@ type MedicalHistoryHeaderProps = {
       isShareDialogOpen: boolean;
     }>
   >;
+  loading: boolean;
 };
 
 const MedicalHistoryHeader = ({
@@ -29,6 +31,7 @@ const MedicalHistoryHeader = ({
   uploadStatus,
   setPremiumFeatureType,
   setDialogs,
+  loading,
 }: MedicalHistoryHeaderProps) => {
   return (
     <div className="flex flex-col items-end justify-between gap-4 @3xl/header:flex-row">
@@ -39,12 +42,14 @@ const MedicalHistoryHeader = ({
         <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row">
           <SparklesButton
             size="default"
+            disabled={loading}
             onClick={openAIRecommendationsForAll}
             className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-md"
           >
             Recomendaciones IA
           </SparklesButton>
           <SmilePlusButton
+            disabled={loading}
             onClick={() => {
               if (!uploadStatus?.allowed) {
                 setPremiumFeatureType("upload-limit");

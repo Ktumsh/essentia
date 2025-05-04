@@ -23,7 +23,7 @@ const PublicWrapper = ({ children, session }: PublicWrapperProps) => {
       className="min-h-screen min-w-screen overflow-y-auto bg-gradient-to-br from-rose-50 via-purple-50 to-sky-50"
     >
       <Navbar scrollRef={scrollRef} session={session} />
-      <main className="overflow-hidden">{children}</main>
+      <main>{children}</main>
       <Footer />
       {isMobile ? (
         <ScrollToTopButton />

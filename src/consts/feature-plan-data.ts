@@ -7,7 +7,7 @@ export const FEATURE_PLAN_DATA = {
       "Recursos principales",
       "Buscador de centros de salud",
       "Herramientas de apoyo",
-      "Acceso a contenido educativo limitado (1 curso)",
+      "Acceso a contenido educativo",
       "Recomendaciones básicas de salud",
     ],
   },
@@ -18,7 +18,6 @@ export const FEATURE_PLAN_DATA = {
     subname: "Recomendado",
     feature: [
       "Todo lo del plan básico +",
-      "Acceso a todo el contenido educativo (6 cursos)",
       "Acceso completo a Essentia AI",
       "Seguimiento de chats",
       "Interacción personalizada con la IA",

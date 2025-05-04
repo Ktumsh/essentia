@@ -9,24 +9,25 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 
 import { Button } from "@/components/kit/button";
 import { Input } from "@/components/kit/input";
 import { Markdown } from "@/components/markdown";
+import { cn } from "@/lib/utils";
 
 interface LegalPageProps {
   title: string;
   description: string;
   lastUpdated: string;
-  children: React.ReactNode;
+  content: string;
 }
 
 const LegalWrapper = ({
   title,
   description,
   lastUpdated,
-  children,
+  content,
 }: LegalPageProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState<string>("");
@@ -41,26 +42,27 @@ const LegalWrapper = ({
     { title: "Política de Cookies", icon: Cookie, href: "/cookies" },
   ];
 
-  useEffect(() => {
-    if (contentRef.current) {
-      const headings = contentRef.current.querySelectorAll("h2, h3");
-      const toc = Array.from(headings).map((heading) => {
-        const id =
-          heading.id ||
-          heading.textContent?.toLowerCase().replace(/[^a-z0-9]+/g, "-") ||
-          "";
-        if (!heading.id) heading.id = id;
-
-        return {
-          id,
-          title: heading.textContent || "",
-          level: heading.tagName === "H2" ? 2 : 3,
-        };
-      });
-
-      setTableOfContents(toc);
-    }
-  }, [children]);
+  useLayoutEffect(() => {
+    if (!contentRef.current) return;
+    const headings = contentRef.current.querySelectorAll("h2, h3");
+    const toc = Array.from(headings).map((heading) => {
+      const id =
+        heading.id ||
+        heading
+          .textContent!.toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "");
+      heading.id = id;
+      return {
+        id,
+        title: heading.textContent!,
+        level: heading.tagName === "H2" ? 2 : 3,
+      };
+    });
+    setTableOfContents(toc);
+  }, [content]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,31 +84,17 @@ const LegalWrapper = ({
     };
   }, [tableOfContents]);
 
-  // Filtrar los elementos del TOC basados en la búsqueda
   const filteredToc = tableOfContents.filter((item) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 100;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
-    <div className="mt-14 bg-slate-50">
+    <div className="mt-14 bg-slate-50 text-base">
       <header
         className="bg-linear-to-tr/shorter from-indigo-500 to-purple-500 text-white"
         aria-labelledby="legal-heading"
       >
-        <div className="mx-auto flex h-60 max-w-7xl items-center justify-center px-4 py-8">
+        <div className="mx-auto flex min-h-60 max-w-7xl items-center justify-center px-4 py-8">
           <div className="mx-auto max-w-2xl text-center">
             <h1
               id="legal-heading"
@@ -114,8 +102,10 @@ const LegalWrapper = ({
             >
               {title}
             </h1>
-            <p className="mb-5 text-balance text-indigo-100">{description}</p>
-            <p className="text-sm text-indigo-200">
+            <p className="mb-5 text-sm text-indigo-100 md:text-base">
+              {description}
+            </p>
+            <p className="text-xs text-indigo-200 md:text-sm">
               Última actualización: {lastUpdated}
             </p>
           </div>
@@ -126,7 +116,7 @@ const LegalWrapper = ({
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Barra lateral */}
           <aside className="shrink-0 lg:w-64 xl:w-72">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-6 space-y-6">
               {/* Navegación entre documentos legales */}
               <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
                 <div className="border-b border-gray-100 bg-gray-50 px-4 py-3">
@@ -134,18 +124,19 @@ const LegalWrapper = ({
                     Documentos legales
                   </h3>
                 </div>
-                <nav className="divide-y divide-gray-100">
+                <nav>
                   {legalPages.map((page) => {
                     const isCurrentPage = page.title === title;
                     return (
                       <Link
                         key={page.href}
                         href={page.href}
-                        className={`flex items-center gap-2 p-3 transition-colors ${
+                        className={cn(
+                          "flex items-center gap-2 border-l-4 border-transparent p-3 transition-colors",
                           isCurrentPage
-                            ? "bg-indigo-50 font-medium text-indigo-600"
-                            : "text-gray-600 hover:bg-gray-50"
-                        }`}
+                            ? "border-indigo-600 bg-indigo-50 font-medium text-indigo-600"
+                            : "text-gray-600 hover:bg-gray-50",
+                        )}
                       >
                         <page.icon className="h-4 w-4" />
                         <span>{page.title}</span>
@@ -159,7 +150,7 @@ const LegalWrapper = ({
               </div>
 
               {/* Búsqueda en índice */}
-              <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+              <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
                 <div className="border-b border-gray-100 bg-gray-50 px-4 py-3">
                   <h3 className="font-medium text-gray-900">
                     Índice de contenidos
@@ -181,17 +172,19 @@ const LegalWrapper = ({
                   {filteredToc.length > 0 ? (
                     <nav className="max-h-80 space-y-1 overflow-y-auto pt-1 pr-2">
                       {filteredToc.map((item) => (
-                        <button
+                        <a
                           key={item.id}
-                          onClick={() => scrollToSection(item.id)}
-                          className={`block w-full rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
+                          href={`#${item.id}`}
+                          className={cn(
+                            "block w-full rounded-sm px-2 py-1 text-left text-sm transition-colors",
                             activeSection === item.id
                               ? "bg-indigo-50 font-medium text-indigo-600"
-                              : "text-gray-700 hover:bg-gray-50"
-                          } ${item.level === 3 ? "pl-4" : ""}`}
+                              : "text-gray-700 hover:bg-gray-50",
+                            item.level === 3 && "pl-4",
+                          )}
                         >
                           {item.title}
-                        </button>
+                        </a>
                       ))}
                     </nav>
                   ) : (
@@ -219,10 +212,9 @@ const LegalWrapper = ({
             </div>
           </aside>
 
-          {/* Contenido principal */}
           <article ref={contentRef} className="min-w-0 flex-1">
-            <Markdown className="prose prose-indigo prose-headings:scroll-mt-24 prose-headings:font-medium prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:text-indigo-700 prose-img:rounded-xl max-w-none">
-              {children as string}
+            <Markdown className="prose-sm md:prose! prose-indigo prose-headings:scroll-mt-24 prose-headings:font-medium prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:text-indigo-700 prose-img:rounded-xl max-w-none! md:max-w-none! md:text-base!">
+              {content}
             </Markdown>
 
             <div className="mt-12 border-t border-gray-100 pt-6">
@@ -230,16 +222,11 @@ const LegalWrapper = ({
                 <p className="text-sm text-gray-500">
                   © 2024 Essentia. Todos los derechos reservados.
                 </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    window.scrollTo({ top: 0, behavior: "smooth" })
-                  }
-                  className="self-end"
-                >
-                  Volver arriba
-                </Button>
+                <Link href="#legal-heading">
+                  <Button variant="outline" size="sm" className="self-end">
+                    Volver arriba
+                  </Button>
+                </Link>
               </div>
             </div>
           </article>

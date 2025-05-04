@@ -121,7 +121,7 @@ const RouteList = ({
         <CardHeader className="flex-row items-center gap-2">
           <TriangleAlert className="size-5 text-red-500" />
           <CardDescription className="mt-0! text-base">
-            Hubo un error al cargar el contenido del curso.
+            Hubo un error al cargar el contenido de la ruta.
           </CardDescription>
         </CardHeader>
       </Card>

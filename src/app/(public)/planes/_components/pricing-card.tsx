@@ -48,7 +48,6 @@ const PricingCard = ({
     features,
   } = plan;
 
-  // Constantes descriptivas para evitar repetición
   const isPremiumPlus = planName === "Premium Plus";
   const isPremiumStyle = isPremiumPlan || isPremiumPlus;
 
@@ -57,7 +56,6 @@ const PricingCard = ({
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  // Redirige al login si no hay sesión; de lo contrario, ejecuta el callback
   const requireSession = (callback: () => void) => {
     if (session) {
       callback();
@@ -107,7 +105,7 @@ const PricingCard = ({
     <>
       <Card
         className={cn(
-          "border-alternative relative flex shrink-0 snap-start flex-col rounded-2xl md:max-w-[362px] md:rounded-3xl",
+          "border-alternative relative flex shrink-0 snap-start flex-col rounded-2xl shadow-sm md:max-w-[362px] md:rounded-3xl",
           isPremiumStyle &&
             "bg-premium z-10 border-none text-white after:absolute after:inset-px after:rounded-2xl after:content-[''] md:after:rounded-3xl",
           isPremiumPlus && "bg-premium-plus",
@@ -174,7 +172,7 @@ const PricingCard = ({
           <ul role="list" className="grid gap-3">
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
-                <div className="flex flex-1 items-center justify-start gap-3 tabular-nums">
+                <div className="flex flex-1 items-start justify-start gap-3 tabular-nums">
                   <div
                     className={cn(
                       "relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']",
@@ -184,7 +182,7 @@ const PricingCard = ({
                     <CheckCircledIcon className="inline-flex size-5 shrink-0 text-emerald-400" />
                   </div>
                   <span
-                    className={cn("text-foreground text-left", {
+                    className={cn("text-foreground mt-0.5 text-left", {
                       "text-white": isPremiumStyle,
                     })}
                   >

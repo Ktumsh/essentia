@@ -23,7 +23,7 @@ export const siteConfig = {
   plan: {
     free: "free",
     premium: "premium",
-    premiumPlus: "premium_plus",
+    premiumPlus: "premium-plus",
   },
   priceId: {
     free: "price_free",

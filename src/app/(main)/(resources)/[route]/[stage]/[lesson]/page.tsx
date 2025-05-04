@@ -99,9 +99,9 @@ const LessonPage = async (props: LessonPageProps) => {
     routeSlug: route.slug,
   };
 
-  const course = await getRouteProgress(userId, route.id);
+  const routeProgress = await getRouteProgress(userId, route.id);
 
-  if (!course) {
+  if (!routeProgress) {
     redirect(`/${routeSlug}`);
   }
 
@@ -119,7 +119,7 @@ const LessonPage = async (props: LessonPageProps) => {
           isCompleted={progress}
           completedLessons={completedLessons}
           stageProgress={stageProgress}
-          isCourseCompleted={course.completed}
+          isRouteCompleted={routeProgress.completed}
           isPremium={isPremium ?? false}
         />
       </div>

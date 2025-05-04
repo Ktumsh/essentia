@@ -38,11 +38,16 @@ const StorageCard = () => {
 
   const totalDocuments = medicalHistory?.length || 0;
 
-  const currentLimit = subscription?.plan?.maxFiles || 6;
+  const currentLimit = subscription?.plan?.maxDocuments ?? 12;
+  const isUnlimited = subscription?.plan?.isUnlimited || currentLimit === null;
 
-  const remainingFiles = Math.max(0, currentLimit - totalDocuments);
+  const remainingDocuments = isUnlimited
+    ? Infinity
+    : Math.max(0, currentLimit - totalDocuments);
 
-  const usagePercentage = Math.min(100, (totalDocuments / currentLimit) * 100);
+  const usagePercentage = isUnlimited
+    ? 0
+    : Math.min(100, (totalDocuments / currentLimit) * 100);
 
   const planName = isTrialActive
     ? "Prueba Gratis"
@@ -56,16 +61,20 @@ const StorageCard = () => {
   };
 
   const message = useMemo(() => {
-    if (remainingFiles === 0) {
+    if (isUnlimited) {
+      return "Tu plan permite subir documentos ilimitados 🚀";
+    }
+
+    if (remainingDocuments === 0) {
       return "Has alcanzado el límite de documentos para tu plan actual 😱";
     }
 
-    if (remainingFiles <= 3) {
-      return `¡Atención! Solo puedes subir ${remainingFiles} ${remainingFiles === 1 ? "documento más" : "documentos más"} con tu plan actual 🙂`;
+    if (remainingDocuments <= 3) {
+      return `¡Atención! Solo puedes subir ${remainingDocuments} ${remainingDocuments === 1 ? "documento más" : "documentos más"} con tu plan actual 🙂`;
     }
 
-    return `Puedes subir ${remainingFiles} ${remainingFiles === 1 ? "documento más" : "documentos más"} con tu plan actual 😊`;
-  }, [remainingFiles]);
+    return `Puedes subir ${remainingDocuments} ${remainingDocuments === 1 ? "documento más" : "documentos más"} con tu plan actual 😊`;
+  }, [isUnlimited, remainingDocuments]);
 
   return (
     <>
@@ -119,25 +128,33 @@ const StorageCard = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-medium">
-                  {totalDocuments} de {currentLimit} documentos
+                  {isUnlimited
+                    ? `${totalDocuments} ${totalDocuments === 1 ? "documento" : "documentos"}`
+                    : `${totalDocuments} de ${currentLimit} documentos`}
                 </span>
                 <span className="text-muted-foreground">
-                  {remainingFiles} restantes
+                  {isUnlimited
+                    ? "Ilimitado"
+                    : `${remainingDocuments} restantes`}
                 </span>
               </div>
-              <Progress
-                value={usagePercentage}
-                indicatorColor={cn("bg-gradient-to-r", getProgressColor())}
-                className="dark:bg-alternative/50 h-1.5 bg-slate-200"
-              />
+              {!isUnlimited && (
+                <Progress
+                  value={usagePercentage}
+                  indicatorColor={cn("bg-gradient-to-r", getProgressColor())}
+                  className="dark:bg-alternative/50 h-1.5 bg-slate-200"
+                />
+              )}
               <div
                 className={cn(
                   "mt-3 flex items-start gap-2 rounded-md p-2 text-xs",
-                  remainingFiles === 0
-                    ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400"
-                    : remainingFiles <= 3
-                      ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400"
-                      : "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
+                  isUnlimited
+                    ? "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400"
+                    : remainingDocuments === 0
+                      ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400"
+                      : remainingDocuments <= 3
+                        ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400"
+                        : "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
                 )}
               >
                 <p>{message}</p>

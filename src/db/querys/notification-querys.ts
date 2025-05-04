@@ -90,10 +90,13 @@ export async function notifyUsersWithoutCourse() {
         .where(
           and(
             eq(userNotification.userId, u.id),
-            eq(userNotification.title, "¡Comienza a explorar nuestros cursos!"),
+            eq(
+              userNotification.title,
+              "¡Comienza a explorar nuestras rutas de aprendizaje!",
+            ),
             eq(
               userNotification.message,
-              "Observamos que todavía no has iniciado ninguno de nuestros cursos. ¡No esperes más y comienza ahora!",
+              "Observamos que todavía no has iniciado ninguna de nuestras rutas de aprendizaje. ¡No esperes más y comienza ahora!",
             ),
           ),
         )
@@ -102,15 +105,15 @@ export async function notifyUsersWithoutCourse() {
       if (existingNotification.length === 0) {
         await createNotification({
           userId: u.id,
-          title: "¡Comienza a explorar nuestros cursos!",
+          title: "¡Comienza a explorar nuestras rutas de aprendizaje!",
           message:
-            "Observamos que todavía no has iniciado ninguno de nuestros cursos. ¡No esperes más y comienza ahora!",
+            "Observamos que todavía no has iniciado ninguna de nuestras rutas de aprendizaje. ¡No esperes más y comienza ahora!",
           url: "/salud-y-bienestar",
         });
       }
     }
   } catch (error) {
-    console.error("Error al notificar usuarios sin curso:", error);
+    console.error("Error al notificar usuarios sin ruta:", error);
   }
 }
 

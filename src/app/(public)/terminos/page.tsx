@@ -9,8 +9,7 @@ export default function TermsPage() {
       title={terms.title}
       description={terms.description}
       lastUpdated={terms.lastUpdated}
-    >
-      {terms.content}
-    </LegalWrapper>
+      content={terms.content}
+    />
   );
 }

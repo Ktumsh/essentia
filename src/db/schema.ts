@@ -86,7 +86,8 @@ export const plan = table("plan", {
   id: varchar("id", { length: 50 }).primaryKey().notNull(),
   name: varchar("name", { length: 100 }).notNull(),
   description: text("description"),
-  maxFiles: integer("max_files").notNull().default(6),
+  maxDocuments: integer("max_documents"),
+  isUnlimited: boolean("is_unlimited").notNull().default(false),
   price: integer("price").default(0),
   supportLevel: varchar("support_level", {
     enum: ["basic", "standard", "priority"],

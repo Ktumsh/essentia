@@ -92,17 +92,19 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Progreso de tus cursos</CardTitle>
+            <CardTitle className="text-base">Progreso de tus rutas</CardTitle>
             <CardDescription className="space-y-1">
               <p>
-                Estos son los cursos en los que te has inscrito. Revisa tu
-                progreso y continúa donde lo dejaste.
+                Estas son las rutas de aprendizaje en las que estás
+                participando. Revisa tu progreso y continúa donde lo dejaste.
               </p>
               <p>
-                ¡Sigue avanzando para completar tus objetivos de aprendizaje!
+                ¡Sigue avanzando para completar tus etapas y mejorar tu
+                bienestar!
               </p>
             </CardDescription>
           </CardHeader>
+
           <CardContent>
             <RouuteProgressTable userId={id} routes={routes} />
           </CardContent>

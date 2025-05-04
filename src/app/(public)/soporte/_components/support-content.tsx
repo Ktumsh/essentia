@@ -82,7 +82,7 @@ const knowledgeBase = {
   ],
 };
 
-const SoporteContent = () => {
+const SupportContent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -130,7 +130,7 @@ const SoporteContent = () => {
   }, [searchFocusFaqId]);
 
   return (
-    <div className="mt-14 bg-slate-50">
+    <div className="mt-14 bg-slate-50 text-base">
       <header
         className="bg-linear-to-tr/shorter from-indigo-500 to-purple-500 text-white"
         aria-labelledby="search-heading"
@@ -143,7 +143,7 @@ const SoporteContent = () => {
             >
               Centro de Soporte
             </h1>
-            <p className="mb-5 text-indigo-100">
+            <p className="mb-5 text-sm text-indigo-100 md:text-base">
               Encuentra respuestas a tus preguntas sobre Essentia
             </p>
             <div className="relative">
@@ -534,4 +534,4 @@ const SoporteContent = () => {
   );
 };
 
-export default SoporteContent;
+export default SupportContent;

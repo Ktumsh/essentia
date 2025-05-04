@@ -34,7 +34,7 @@ interface RouteProgressTableProps {
 const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
   const router = useRouter();
 
-  const continueCourse = useCallback(
+  const continueroute = useCallback(
     async ({
       resourceId,
       resourceSlug,
@@ -55,7 +55,7 @@ const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
           router.push(`/${resourceSlug}#aprende-sobre-${resourceSlug}`);
         }
       } catch (error) {
-        console.error("Error al continuar el curso:", error);
+        console.error("Error al continuar la ruta:", error);
       }
     },
     [userId, router],
@@ -68,7 +68,7 @@ const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
           <TableHead className="text-foreground/80">
             <div className="flex items-center gap-1.5">
               <GraduationCap className="size-3.5" />
-              <span className="text-nowrap">Nombre del curso</span>
+              <span className="text-nowrap">Nombre de la ruta</span>
             </div>
           </TableHead>
           <TableHead className="text-foreground/80">
@@ -98,42 +98,42 @@ const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {routes.map((course) => (
-          <TableRow key={course.routeId}>
+        {routes.map((route) => (
+          <TableRow key={route.routeId}>
             <TableCell>
               <button
-                aria-label={`Continuar curso ${course.routeName}`}
+                aria-label={`Continuar ruta ${route.routeName}`}
                 className="text-nowrap hover:underline"
                 onClick={() =>
-                  continueCourse({
-                    resourceId: course.routeId,
-                    resourceSlug: course.routeSlug,
+                  continueroute({
+                    resourceId: route.routeId,
+                    resourceSlug: route.routeSlug,
                   })
                 }
               >
-                {course.routeName}
+                {route.routeName}
               </button>
             </TableCell>
             <TableCell className="flex items-center">
-              <span>{course.progress}</span>
+              <span>{route.progress}</span>
               <span className="text-xxs text-foreground/80 ml-1">%</span>
               <Progress
-                value={course.progress}
+                value={route.progress}
                 className="ms-2 h-1.5 w-2/3"
-                indicatorColor={getProgressColor(course.progress)}
+                indicatorColor={getProgressColor(route.progress)}
               />
             </TableCell>
             <TableCell className="text-nowrap">
-              {course.completed ? "Finalizado" : "En progreso"}
+              {route.completed ? "Finalizado" : "En progreso"}
             </TableCell>
             <TableCell className="text-nowrap">
-              {course.startedAt
-                ? formatDate(course.startedAt, "dd/MM/yyyy")
+              {route.startedAt
+                ? formatDate(route.startedAt, "dd/MM/yyyy")
                 : "No iniciado"}
             </TableCell>
             <TableCell className="text-nowrap">
-              {course.completedAt
-                ? formatDate(course.completedAt, "dd/MM/yyyy")
+              {route.completedAt
+                ? formatDate(route.completedAt, "dd/MM/yyyy")
                 : "No finalizado"}
             </TableCell>
           </TableRow>
@@ -145,8 +145,8 @@ const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
       <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
         <BookOpenText className="size-8" />
         <p className="text-xs md:text-sm">
-          Aún no te has inscrito en ningún curso. ¡Es un buen momento para
-          empezar a aprender algo nuevo!
+          Aún no te has inscrito en ninguna ruta. ¡Es un buen momento para
+          comenzar tu camino hacia una mejor salud!
         </p>
         <Link
           href="/salud-y-bienestar#aprende-sobre-salud-y-bienestar"

@@ -26,11 +26,16 @@ export default function StorageLimitIndicator({
 
   const { isTrialActive } = useTrial();
 
-  const currentLimit = subscription?.plan?.maxFiles || 6;
+  const currentLimit = subscription?.plan?.maxDocuments ?? 12;
+  const isUnlimited = subscription?.plan?.isUnlimited || currentLimit === null;
 
-  const remainingFiles = Math.max(0, currentLimit - totalDocuments);
+  const remainingDocuments = isUnlimited
+    ? Infinity
+    : Math.max(0, currentLimit - totalDocuments);
 
-  const usagePercentage = Math.min(100, (totalDocuments / currentLimit) * 100);
+  const usagePercentage = isUnlimited
+    ? 0
+    : Math.min(100, (totalDocuments / currentLimit) * 100);
 
   const isPremium = subscription?.subscription.isPremium;
   const isPremiumPlus = subscription?.plan?.id === "premium-plus";
@@ -47,15 +52,18 @@ export default function StorageLimitIndicator({
   };
 
   const getMessage = () => {
-    if (remainingFiles === 0) {
+    if (isUnlimited)
+      return "Tu plan actual permite subir documentos ilimitados 🎉";
+
+    if (remainingDocuments === 0) {
       return "Has alcanzado el límite de documentos para tu plan actual 😱";
     }
 
-    if (remainingFiles <= 3) {
-      return `¡Atención! Solo puedes subir ${remainingFiles} ${remainingFiles === 1 ? "documento más" : "documentos más"} con tu plan actual 🙂`;
+    if (remainingDocuments <= 3) {
+      return `¡Atención! Solo puedes subir ${remainingDocuments} ${remainingDocuments === 1 ? "documento más" : "documentos más"} con tu plan actual 🙂`;
     }
 
-    return `Puedes subir ${remainingFiles} ${remainingFiles === 1 ? "documento más" : "documentos más"} con tu plan actual 😊`;
+    return `Puedes subir ${remainingDocuments} ${remainingDocuments === 1 ? "documento más" : "documentos más"} con tu plan actual 😊`;
   };
 
   const getPlanBadgeColor = () => {
@@ -82,7 +90,11 @@ export default function StorageLimitIndicator({
           </h3>
           <BetterTooltip
             className="max-w-44 text-center"
-            content={`Tu plan actual permite hasta ${currentLimit} documentos`}
+            content={
+              isUnlimited
+                ? "Tu plan actual permite documentos ilimitados"
+                : `Tu plan actual permite hasta ${currentLimit} documentos`
+            }
           >
             <Badge
               className={cn("h-5 px-1.5 py-0 text-xs", getPlanBadgeColor())}
@@ -92,62 +104,72 @@ export default function StorageLimitIndicator({
           </BetterTooltip>
         </div>
 
-        <Progress
-          value={usagePercentage}
-          indicatorColor={cn("bg-gradient-to-r", getProgressColor())}
-          className="dark:bg-alternative/50 h-1.5 bg-slate-200"
-        />
+        {!isUnlimited && (
+          <Progress
+            value={usagePercentage}
+            indicatorColor={cn("bg-gradient-to-r", getProgressColor())}
+            className="dark:bg-alternative/50 h-1.5 bg-slate-200"
+          />
+        )}
 
         <div className="mt-2 flex justify-between text-sm">
           <span>
-            {totalDocuments} de {currentLimit} documentos
+            {isUnlimited
+              ? `${totalDocuments} ${totalDocuments === 1 ? "documento" : "documentos"}`
+              : `${totalDocuments} de ${currentLimit} documentos`}
           </span>
           <span
             className={
-              remainingFiles <= 3
+              !isUnlimited && remainingDocuments <= 3
                 ? "font-medium text-red-500"
                 : "text-muted-foreground"
             }
           >
-            {remainingFiles} restantes
+            {isUnlimited ? "Ilimitado" : `${remainingDocuments} restantes`}
           </span>
         </div>
 
-        <div
-          className={cn(
-            "mt-3 flex items-start gap-2 rounded-md p-2 text-sm",
-            remainingFiles === 0
-              ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400"
-              : remainingFiles <= 3
-                ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400"
-                : "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
-          )}
-        >
-          {remainingFiles <= 3 && <AlertCircle className="h-4 w-4 shrink-0" />}
-          <div>
-            <p className="font-medium">{getMessage()}</p>
-            {remainingFiles <= 3 &&
-              subscription?.plan?.id !== "premium-plus" && (
-                <p className="mt-0.5 text-[11px] opacity-80">
-                  Actualiza tu plan para aumentar tu capacidad de
-                  almacenamiento.
-                </p>
-              )}
-          </div>
-        </div>
-      </CardContent>
-      {remainingFiles <= 3 && subscription?.plan?.id !== "premium-plus" && (
-        <CardFooter className="justify-end p-4 pt-0">
-          <UpgradeButton
-            variant="gradient"
-            size="sm"
-            onClick={onOpenPayment}
-            className="mt-3 rounded-full"
+        {!isUnlimited && (
+          <div
+            className={cn(
+              "mt-3 flex items-start gap-2 rounded-md p-2 text-sm",
+              remainingDocuments === 0
+                ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400"
+                : remainingDocuments <= 3
+                  ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400"
+                  : "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
+            )}
           >
-            Mejorar plan
-          </UpgradeButton>
-        </CardFooter>
-      )}
+            {remainingDocuments <= 3 && (
+              <AlertCircle className="h-4 w-4 shrink-0" />
+            )}
+            <div>
+              <p className="font-medium">{getMessage()}</p>
+              {remainingDocuments <= 3 &&
+                subscription?.plan?.id !== "premium-plus" && (
+                  <p className="mt-0.5 text-[11px] opacity-80">
+                    Actualiza tu plan para aumentar tu capacidad de
+                    almacenamiento.
+                  </p>
+                )}
+            </div>
+          </div>
+        )}
+      </CardContent>
+      {!isUnlimited &&
+        remainingDocuments <= 3 &&
+        subscription?.plan?.id !== "premium-plus" && (
+          <CardFooter className="justify-end p-4 pt-0">
+            <UpgradeButton
+              variant="gradient"
+              size="sm"
+              onClick={onOpenPayment}
+              className="mt-3 rounded-full"
+            >
+              Mejorar plan
+            </UpgradeButton>
+          </CardFooter>
+        )}
     </Card>
   );
 }

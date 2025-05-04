@@ -8,14 +8,24 @@ import {
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const pathname = usePathname();
-  const isAbout = pathname.startsWith("/essentia");
+  const pathsToExclude = [
+    "/essentia",
+    "/soporte",
+    "/planes",
+    "/blog",
+    "/terminos",
+    "/privacidad",
+    "/cookies",
+  ];
+  const isExcluded = pathsToExclude.includes(pathname);
+
   return (
     <NextThemesProvider
       {...props}
       enableSystem={true}
       attribute="class"
       defaultTheme="system"
-      forcedTheme={isAbout ? "light" : undefined}
+      forcedTheme={isExcluded ? "light" : undefined}
     >
       {children}
     </NextThemesProvider>

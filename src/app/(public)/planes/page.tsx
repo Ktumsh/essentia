@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
 import { getSubscription } from "@/db/querys/payment-querys";
 
 import FAQ from "./_components/faq";
@@ -25,12 +24,12 @@ const PricingPage = async () => {
   const isPremium = subscription ? subscription[0].isPremium : false;
 
   return (
-    <PageWrapper>
+    <div className="mt-14 bg-slate-50 text-base">
       <PricingHeader />
       <PricingCards session={session} isPremium={isPremium} />
       <PlanComparisonTable />
       <FAQ />
-    </PageWrapper>
+    </div>
   );
 };
 

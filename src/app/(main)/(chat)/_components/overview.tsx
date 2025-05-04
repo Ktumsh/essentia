@@ -1,5 +1,6 @@
-import { Card, CardHeader, CardTitle } from "@/components/kit/card";
-import { StarsIcon } from "@/components/ui/icons/common";
+import { motion } from "motion/react";
+
+import { Card, CardHeader } from "@/components/kit/card";
 import Logo from "@/components/ui/layout/logo";
 import { cn, getRouteColor, getRouteDarkColor } from "@/lib/utils";
 
@@ -18,18 +19,32 @@ const Overview = () => {
         <Card className="border-0 bg-transparent text-center leading-relaxed">
           <CardHeader className="items-center gap-4 md:gap-8 md:p-8">
             <div className="flex flex-col items-center gap-2">
-              <Logo className="h-8 w-fit" width={32} height={32} />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Logo className="h-8 w-fit" width={32} height={32} />
+              </motion.div>
               <div className="bg-background flex items-center gap-2 rounded-md px-3 py-1">
-                <StarsIcon
-                  aria-hidden="true"
-                  className="stars-icon size-5! focus:outline-hidden"
-                />
-                <CardTitle className="from-gradient-from via-gradient-via to-gradient-to bg-gradient-to-r bg-clip-text text-lg font-extrabold tracking-wider text-transparent sm:text-xl dark:from-[-100%]">
+                <motion.h1
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="bg-premium w-fit bg-clip-text text-3xl font-semibold text-transparent md:text-4xl"
+                >
                   Essentia AI
-                </CardTitle>
+                </motion.h1>
               </div>
             </div>
-            <p className="text-sm md:text-base">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ delay: 0.6 }}
+              className="text-sm md:text-base"
+            >
               Haz preguntas sobre{" "}
               {resources.map((resource, index) => (
                 <span key={index}>
@@ -56,10 +71,16 @@ const Overview = () => {
                 más
               </code>
               .
-            </p>
-            <p className="text-sm md:text-base">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ delay: 0.7 }}
+              className="text-sm md:text-base"
+            >
               Obtén respuestas precisas y cuida tu bienestar con confianza.
-            </p>
+            </motion.p>
           </CardHeader>
         </Card>
       </div>

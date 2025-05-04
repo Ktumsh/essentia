@@ -4,13 +4,13 @@ import { useEffect, RefObject, Dispatch, SetStateAction } from "react";
 
 const useScrollCheck = (
   containerRef: RefObject<HTMLElement | null>,
-  setHasScroll: Dispatch<SetStateAction<boolean>>
+  setHasScroll: Dispatch<SetStateAction<boolean>>,
 ) => {
   useEffect(() => {
     const checkScroll = () => {
       if (containerRef.current) {
         setHasScroll(
-          containerRef.current.scrollWidth > containerRef.current.clientWidth
+          containerRef.current.scrollWidth > containerRef.current.clientWidth,
         );
       }
     };

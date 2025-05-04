@@ -166,7 +166,7 @@ export const navConfig = {
         path: "/settings/account-profile",
         icon: Settings,
       },
-      { name: "Soporte", path: "#", icon: HelpCircle },
+      { name: "Soporte", path: "/soporte", icon: HelpCircle },
       {
         name: "Reportar un error",
         path: "https://github.com/Ktumsh/essentia/issues/new",

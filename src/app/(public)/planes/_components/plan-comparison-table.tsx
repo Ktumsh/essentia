@@ -2,34 +2,68 @@
 
 import { Check, X } from "lucide-react";
 
-import { PLAN_FEATURES_DETAILS } from "@/consts/subscriptions-plans";
+import {
+  PLAN_FEATURES_DETAILS,
+  SUBSCRIPTION_PLANS,
+} from "@/consts/subscriptions-plans";
+import { cn } from "@/lib/utils";
 
-type PlanKey = "básico" | "premium" | "premiumPlus";
+type PlanKey = "basico" | "premium" | "premiumPlus";
 
-const PLAN_ORDER: PlanKey[] = ["básico", "premium", "premiumPlus"];
+const PLAN_ORDER: PlanKey[] = ["basico", "premium", "premiumPlus"];
 
 const PLAN_LABELS: Record<PlanKey, string> = {
-  básico: "Básico",
+  basico: "Básico",
   premium: "Premium",
   premiumPlus: "Premium Plus",
 };
 
 const PlanComparisonTable = () => {
   return (
-    <div className="flex flex-col gap-8 py-12 md:py-16">
-      <h2 className="font-merriweather text-center text-2xl font-semibold tracking-tighter md:text-4xl">
+    <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 md:py-12">
+      <h2 className="font-merriweather mb-3 text-center text-2xl font-bold md:text-3xl">
         Comparativa de Planes
       </h2>
 
       {/* 🖥 Tabla para desktop */}
-      <div className="hidden overflow-x-auto rounded-xl border md:block">
+      <div className="hidden overflow-x-auto rounded-xl border bg-white md:block">
         <table className="min-w-full border-collapse text-left text-sm">
-          <thead className="bg-accent text-foreground font-semibold">
+          <thead className="bg-accent text-foreground text-base font-semibold">
             <tr>
               <th className="w-[240px] p-4">Funcionalidad</th>
               {PLAN_ORDER.map((plan) => (
                 <th key={plan} className="p-4 text-center">
-                  {PLAN_LABELS[plan]}
+                  <span
+                    className={cn("block", {
+                      "bg-premium bg-clip-text text-transparent":
+                        plan === "premium",
+                      "bg-premium-plus bg-clip-text text-transparent":
+                        plan === "premiumPlus",
+                    })}
+                  >
+                    {PLAN_LABELS[plan]}
+                  </span>
+                  {PLAN_LABELS[plan] === "Básico" &&
+                    SUBSCRIPTION_PLANS[0].monthlyAmount === 0 && (
+                      <span className="text-muted-foreground text-sm font-medium">
+                        Gratis
+                      </span>
+                    )}
+                  {PLAN_LABELS[plan] === "Premium" && (
+                    <span className="text-muted-foreground text-sm font-medium">
+                      $
+                      {SUBSCRIPTION_PLANS[1].monthlyAmount.toLocaleString(
+                        "es-CL",
+                      )}
+                      /mes
+                    </span>
+                  )}
+                  {PLAN_LABELS[plan] === "Premium Plus" && (
+                    <span className="text-muted-foreground text-sm font-medium">
+                      ${SUBSCRIPTION_PLANS[2].amount.toLocaleString("es-CL")}
+                      /año
+                    </span>
+                  )}
                 </th>
               ))}
             </tr>

@@ -63,10 +63,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-gray-200 bg-white py-12 text-base">
+    <footer className="border-t border-gray-200 bg-white py-12 text-sm md:text-base">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div>
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" className="mb-4 flex items-center gap-2">
               <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
                 <Logo />

@@ -13,6 +13,7 @@ interface SmilePlusButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   variant?: ButtonVariant;
   iconSize?: number;
+  disabled?: boolean;
 }
 
 const SmilePlusButton = ({
@@ -22,6 +23,7 @@ const SmilePlusButton = ({
   size,
   variant,
   iconSize = 28,
+  disabled,
   ...props
 }: SmilePlusButtonProps) => {
   const controls = useAnimation();
@@ -38,6 +40,7 @@ const SmilePlusButton = ({
     <Button
       size={size}
       variant={variant}
+      disabled={disabled}
       className={cn(className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

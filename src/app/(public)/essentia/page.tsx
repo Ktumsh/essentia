@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function DiscoverPage() {
   return (
-    <>
+    <div className="overflow-hidden">
       <HeroSection />
       <FeatureSection />
       <ResourcesSection />
@@ -27,6 +27,6 @@ export default async function DiscoverPage() {
       <ProgressSection />
       <VisionSection />
       <CtaSection />
-    </>
+    </div>
   );
 }

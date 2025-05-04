@@ -72,7 +72,6 @@ const MedicalHistory = () => {
     fallbackData: [],
   });
 
-  // Estados para diálogos y vistas (agrupados)
   const [dialogs, setDialogs] = useState({
     isPremiumModal: false,
     isAddDialogOpen: false,
@@ -115,7 +114,6 @@ const MedicalHistory = () => {
     AIRecommendationType[]
   >([]);
 
-  // Extracción de funciones de acciones a partir de hooks
   const { createRecord, updateRecord, deleteRecord, restoreDocument } =
     useMedicalHistoryActions({
       userId,
@@ -133,7 +131,6 @@ const MedicalHistory = () => {
     mutateSavedRecommendations,
   });
 
-  // Filtrado de historial y conteo por etiquetas
   const filteredHistory = useMemo(() => {
     let filtered = medicalHistory || [];
 
@@ -170,17 +167,21 @@ const MedicalHistory = () => {
     [medicalHistory],
   );
 
-  // Handlers para formularios de creación y edición
   const handleCreateRecord = useCallback(
     async (data: MedicalHistoryFormData) => {
       setIsSubmitting(true);
+
       if (!uploadStatus?.allowed) {
-        toast.error("Has alcanzado tu límite de archivos", {
-          description: `Tu plan permite hasta ${uploadStatus?.max} documentos médicos.`,
+        const isUnlimited = uploadStatus?.max === null;
+        toast.error("Límite alcanzado", {
+          description: isUnlimited
+            ? "Ocurrió un error al verificar tu límite de documentos."
+            : `Tu plan permite hasta ${uploadStatus?.max} documentos médicos.`,
         });
         setIsSubmitting(false);
         return;
       }
+
       await createRecord(data);
       setDialogs((prev) => ({ ...prev, isAddDialogOpen: false }));
       setIsSubmitting(false);
@@ -392,6 +393,7 @@ const MedicalHistory = () => {
         uploadStatus={uploadStatus}
         setPremiumFeatureType={setPremiumFeatureType}
         setDialogs={setDialogs}
+        loading={isHistoryLoading || isRecommendationsLoading}
       />
 
       {isHistoryLoading || isRecommendationsLoading ? (

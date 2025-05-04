@@ -62,7 +62,7 @@ const RouteInfoPanel = ({
   const panels = [
     { key: "what-is", label: `¿Qué es ${routeName}?` },
     { key: "benefits", label: "Beneficios" },
-    { key: "audience", label: "¿Para quién es este curso?" },
+    { key: "audience", label: "¿Para quién es esta ruta?" },
   ] as const;
 
   return (

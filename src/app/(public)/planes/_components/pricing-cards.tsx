@@ -47,7 +47,7 @@ const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
   );
 
   return (
-    <div className="w-full pb-12 md:pb-16">
+    <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
       {isMobile ? (
         <div className="mx-auto w-full max-w-[450px] md:hidden">
           <PricingSelector
@@ -60,7 +60,7 @@ const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
         <div className="hidden md:block">
           <div
             ref={containerRef}
-            className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto py-4"
+            className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto py-4 xl:overflow-visible"
           >
             {SUBSCRIPTION_PLANS.map((plan, index) => (
               <PricingCard

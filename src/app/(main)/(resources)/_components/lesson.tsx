@@ -49,7 +49,7 @@ interface LessonProps {
   isCompleted: boolean;
   completedLessons?: string[];
   stageProgress: StageProgressType[];
-  isCourseCompleted: boolean;
+  isRouteCompleted: boolean;
   isPremium?: boolean | null;
 }
 
@@ -60,7 +60,7 @@ const Lesson = ({
   isCompleted,
   completedLessons,
   stageProgress,
-  isCourseCompleted,
+  isRouteCompleted,
   isPremium,
 }: LessonProps) => {
   const { routeId, routeName, routeSlug } = route;
@@ -230,7 +230,7 @@ const Lesson = ({
     try {
       if (!areAllPreviousLessonsCompleted()) {
         toast.error(
-          "Para finalizar el curso debes haber completado todas las lecciones anteriores",
+          "Para finalizar la ruta debes haber completado todas las lecciones anteriores",
         );
         return;
       }
@@ -241,17 +241,17 @@ const Lesson = ({
           await completeRoute(userId, routeId);
         })(),
         {
-          loading: "Finalizando curso...",
-          success: `¡Haz finalizado el curso de ${routeName}!`,
-          error: "Error al finalizar el curso",
+          loading: "Finalizando ruta...",
+          success: `¡Haz finalizado la ruta de ${routeName}!`,
+          error: "Error al finalizar la ruta",
         },
       );
 
       router.push(`/${routeSlug}`);
     } catch (error) {
-      console.error("Error al finalizar el curso:", error);
+      console.error("Error al finalizar la ruta:", error);
       toast.error(
-        "Hubo un error al finalizar el curso. Por favor, intenta nuevamente.",
+        "Hubo un error al finalizar la ruta. Por favor, intenta nuevamente.",
       );
     } finally {
       router.refresh();
@@ -372,7 +372,7 @@ const Lesson = ({
             />
             <NextClassButton
               isLastLesson={isLastLesson}
-              isCourseCompleted={isCourseCompleted}
+              isRouteCompleted={isRouteCompleted}
               handleFinishCourse={handleFinishCourse}
               handleLessonComplete={handleLessonComplete}
               findNextLesson={findNextLesson}
@@ -403,7 +403,7 @@ const Lesson = ({
             />
             <NextClassButton
               isLastLesson={isLastLesson}
-              isCourseCompleted={isCourseCompleted}
+              isRouteCompleted={isRouteCompleted}
               handleFinishCourse={handleFinishCourse}
               handleLessonComplete={handleLessonComplete}
               findNextLesson={findNextLesson}
@@ -422,7 +422,7 @@ const Lesson = ({
                 <span className="font-semibold">Lección siguiente</span>.
               </p>
             )}
-            {!isCourseCompleted &&
+            {!isRouteCompleted &&
               !isCompleted &&
               (isLastLesson ? (
                 <p className="mt-2 text-center text-xs md:text-sm">
@@ -447,7 +447,7 @@ const Lesson = ({
           completedLessons={completedLessons}
           stageProgress={stageProgress}
         />
-        {isCourseCompleted && (
+        {isRouteCompleted && (
           <div className="mt-6 inline-flex w-full items-center justify-center text-sm">
             <p>¡Felicidades! Haz finalizado esta ruta 🎉</p>
           </div>
@@ -461,27 +461,27 @@ export default Lesson;
 
 function PureNextClassButton({
   isLastLesson,
-  isCourseCompleted,
+  isRouteCompleted,
   handleFinishCourse,
   handleLessonComplete,
   findNextLesson,
   hideLabel,
 }: {
   isLastLesson: boolean;
-  isCourseCompleted: boolean;
+  isRouteCompleted: boolean;
   handleFinishCourse: () => void;
   handleLessonComplete: () => void;
   findNextLesson: () => LessonNavigation | null;
   hideLabel?: boolean;
 }) {
-  return isLastLesson && !isCourseCompleted ? (
+  return isLastLesson && !isRouteCompleted ? (
     <Button
       radius="full"
       variant="outline"
       className="w-full sm:w-fit"
       onClick={handleFinishCourse}
     >
-      Finalizar Curso
+      Finalizar ruta
       <CheckCheck />
     </Button>
   ) : (
@@ -512,7 +512,7 @@ function PureNextClassButton({
 
 const NextClassButton = memo(PureNextClassButton, (prevProps, nextProps) => {
   if (prevProps.isLastLesson !== nextProps.isLastLesson) return false;
-  if (prevProps.isCourseCompleted !== nextProps.isCourseCompleted) return false;
+  if (prevProps.isRouteCompleted !== nextProps.isRouteCompleted) return false;
   if (prevProps.handleFinishCourse !== nextProps.handleFinishCourse)
     return false;
   if (prevProps.handleLessonComplete !== nextProps.handleLessonComplete)

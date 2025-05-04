@@ -82,24 +82,29 @@ export async function canUploadMedicalFile(userId: string) {
         ),
       );
 
-    let maxFiles = 6;
+    let maxDocuments = 12;
     let isPremium = false;
+    let isUnlimited = false;
 
     if (subscription?.plan) {
-      maxFiles = subscription.plan.maxFiles;
+      maxDocuments = subscription.plan.maxDocuments ?? Infinity;
       isPremium = subscription.subscription.isPremium;
+      isUnlimited = subscription.plan.isUnlimited ?? false;
     } else if (trial?.isActive) {
-      maxFiles = 6;
+      maxDocuments = 12;
     }
 
+    const allowed = isUnlimited || total < maxDocuments;
+
     return {
-      allowed: total < maxFiles,
+      allowed,
       current: total,
-      max: maxFiles,
+      max: isUnlimited ? null : maxDocuments,
       isPremium,
+      isUnlimited,
     };
   } catch (error) {
-    console.error("Error verificando límite de archivos:", error);
+    console.error("Error verificando límite de documentos:", error);
     throw error;
   }
 }
