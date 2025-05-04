@@ -192,14 +192,16 @@ export async function POST(request: Request) {
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
           tools: {
-            web_search_preview: openai.tools.webSearchPreview({
-              searchContextSize: "high",
-              userLocation: {
-                type: "approximate",
-                country: "CL",
-                city: "Santiago",
-                timezone: "America/Santiago",
-              },
+            ...(selectedChatModel !== "chat-model-reasoning" && {
+              web_search_preview: openai.tools.webSearchPreview({
+                searchContextSize: "high",
+                userLocation: {
+                  type: "approximate",
+                  country: "CL",
+                  city: "Santiago",
+                  timezone: "America/Santiago",
+                },
+              }),
             }),
             getWeather,
             createRoutine,
