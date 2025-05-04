@@ -81,6 +81,7 @@ export default async function ChatPage(props: ChatPageProps) {
         session={session}
         user={profileData}
         isReadonly={session?.user?.id !== chat.userId}
+        autoResume={true}
       />
     );
   }
@@ -94,6 +95,7 @@ export default async function ChatPage(props: ChatPageProps) {
       session={session}
       user={profileData}
       isReadonly={session?.user?.id !== chat.userId}
+      autoResume={true}
     />
   );
 }

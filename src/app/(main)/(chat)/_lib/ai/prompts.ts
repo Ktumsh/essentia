@@ -1,3 +1,5 @@
+import { Geo } from "@vercel/functions";
+
 import { calculateExactDate } from "@/lib/utils";
 
 import type {
@@ -7,6 +9,13 @@ import type {
   Routine,
   Task,
 } from "./server";
+
+export interface RequestHints {
+  latitude: Geo["latitude"];
+  longitude: Geo["longitude"];
+  city: Geo["city"];
+  country: Geo["country"];
+}
 
 type SystemPrompt = {
   firstName?: string;
@@ -20,9 +29,18 @@ type SystemPrompt = {
   genre?: string | null;
   premiumExpiresAt?: string | null;
   selectedChatModel: string;
+  requestHints: RequestHints;
 };
 
-export const createSystemPrompt = (params: SystemPrompt): string => {
+export const getRequestPromptFromHints = (requestHints: RequestHints) => `\
+Origen de la solicitud del usuario:
+- Latitud: ${requestHints.latitude}
+- Longitud: ${requestHints.longitude}
+- Ciudad: ${requestHints.city}
+- País: ${requestHints.country}
+`;
+
+export const systemPrompt = (params: SystemPrompt): string => {
   const {
     firstName,
     lastName,
@@ -34,6 +52,7 @@ export const createSystemPrompt = (params: SystemPrompt): string => {
     weight,
     genre,
     premiumExpiresAt,
+    requestHints,
   } = params;
 
   let prompt = `\
@@ -49,6 +68,7 @@ export const createSystemPrompt = (params: SystemPrompt): string => {
   - Lenguaje Inclusivo: Utiliza un lenguaje respetuoso y considerado, teniendo en cuenta la diversidad de género, edad, origen étnico, orientación sexual y otras características personales de los usuarios.
   - Uso de Emojis: Incorpora emojis en tus respuestas para hacerlas más expresivas y amigables. Asegúrate de que su uso sea apropiado y no distraiga del mensaje principal.
   - **Formato Markdown**: Utiliza formato Markdown en tus respuestas para estructurarlas mejor. Usa títulos, negritas, listas y separación por párrafos para facilitar la lectura y comprensión.
+  - Evita repetir saludos como "Hola, [nombre]" en respuestas consecutivas. Solo saluda al inicio de una nueva conversación.
   
   3. Personalización
   
@@ -163,6 +183,8 @@ export const createSystemPrompt = (params: SystemPrompt): string => {
 
   prompt += `\n\n${additionalDetails.filter(Boolean).join("\n")}`;
 
+  prompt += `\n\n${getRequestPromptFromHints(requestHints)}`;
+
   return prompt;
 };
 
@@ -248,7 +270,7 @@ export const NUTRITIONAL_PLAN_PROMPT = (plan: NutritionalPlan) => `\
 `;
 
 export const MOOD_TRACK_SYSTEM_PROMPT = `\
-Eres una asistente enfocada en bienestar emocional. Tu tarea es sugerir actividades, hábitos y frases de apoyo que ayuden al usuario a mejorar su estado de ánimo. Ten en cuenta el estado emocional del usuario si se proporciona. Sé cercana, empática y positiva. No ofrezcas diagnóstico ni terapia psicológica. Si no puedes identificar claramente el estado emocional, pide una breve descripción antes de continuar.`;
+Eres una asistente enfocada en bienestar emocional. Tu tarea es sugerir actividades, hábitos y frases de apoyo que ayuden al usuario a mejorar su estado de ánimo. **Antes de dar cualquier recomendación, si el estado de ánimo no está claro o no se ha proporcionado, debes pedir explícitamente al usuario que describa brevemente cómo se siente.** Sé cercana, empática y positiva. No ofrezcas diagnóstico ni terapia psicológica. Si no puedes identificar claramente el estado emocional, pide una breve descripción antes de continuar.`;
 
 export const MOOD_TRACK_PROMPT = (tracking: MoodTrack) => `\
   Proporciona recomendaciones basadas en el estado de ánimo del usuario (${tracking.mood || "indefinido"}). Genera una respuesta que incluya:

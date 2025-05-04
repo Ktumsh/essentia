@@ -175,6 +175,24 @@ export const chatVote = table(
 
 export type ChatVote = InferSelectModel<typeof chatVote>;
 
+export const stream = table(
+  "Stream",
+  {
+    id: uuid("id").notNull().defaultRandom(),
+    chatId: uuid("chatId").notNull(),
+    createdAt: timestamp("createdAt").notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.id] }),
+    foreignKey({
+      columns: [t.chatId],
+      foreignColumns: [chat.id],
+    }),
+  ],
+);
+
+export type Stream = InferSelectModel<typeof stream>;
+
 export const route = table("route", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   slug: varchar("slug", { length: 100 }).unique().notNull(),

@@ -1,10 +1,17 @@
 "use server";
 
-import { eq, desc, asc, and, gte, inArray } from "drizzle-orm";
+import { eq, desc, asc, and, gte, inArray, count } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { chat, chatVote, chatMessage, type ChatMessage } from "@/db/schema";
+import { VisibilityType } from "@/components/ui/layout/visibility-selector";
+import {
+  chat,
+  chatVote,
+  chatMessage,
+  type ChatMessage,
+  stream,
+} from "@/db/schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
@@ -13,15 +20,17 @@ export async function saveChat({
   id,
   userId,
   title,
+  visibility,
 }: {
   id: string;
   userId: string;
   title: string;
+  visibility: VisibilityType;
 }) {
   try {
     return await db
       .insert(chat)
-      .values({ id, userId, title, createdAt: new Date() });
+      .values({ id, userId, title, createdAt: new Date(), visibility });
   } catch (error) {
     console.error("Error al guardar el chat:", error);
     throw error;
@@ -32,6 +41,7 @@ export async function deleteChatById({ id }: { id: string }) {
   try {
     await db.delete(chatVote).where(eq(chatVote.chatId, id));
     await db.delete(chatMessage).where(eq(chatMessage.chatId, id));
+    await db.delete(stream).where(eq(stream.chatId, id));
 
     return await db.delete(chat).where(eq(chat.id, id));
   } catch (error) {
@@ -251,6 +261,73 @@ export async function updateChatTitle({
     return await db.update(chat).set({ title }).where(eq(chat.id, chatId));
   } catch (error) {
     console.error("Error al actualizar el título del chat:", error);
+    throw error;
+  }
+}
+
+export async function getMessageCountByUserId({
+  id,
+  differenceInHours,
+}: {
+  id: string;
+  differenceInHours: number;
+}) {
+  try {
+    const twentyFourHoursAgo = new Date(
+      Date.now() - differenceInHours * 60 * 60 * 1000,
+    );
+
+    const [stats] = await db
+      .select({ count: count(chatMessage.id) })
+      .from(chatMessage)
+      .innerJoin(chat, eq(chatMessage.chatId, chat.id))
+      .where(
+        and(
+          eq(chat.userId, id),
+          gte(chatMessage.createdAt, twentyFourHoursAgo),
+          eq(chatMessage.role, "user"),
+        ),
+      )
+      .execute();
+
+    return stats?.count ?? 0;
+  } catch (error) {
+    console.error(
+      "Error al obtener el conteo de mensajes por ID de usuario en las últimas 24 horas de la base de datos",
+    );
+    throw error;
+  }
+}
+
+export async function createStreamId({
+  streamId,
+  chatId,
+}: {
+  streamId: string;
+  chatId: string;
+}) {
+  try {
+    await db
+      .insert(stream)
+      .values({ id: streamId, chatId, createdAt: new Date() });
+  } catch (error) {
+    console.error("Failed to create stream id in database");
+    throw error;
+  }
+}
+
+export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
+  try {
+    const streamIds = await db
+      .select({ id: stream.id })
+      .from(stream)
+      .where(eq(stream.chatId, chatId))
+      .orderBy(desc(stream.createdAt))
+      .execute();
+
+    return streamIds.map(({ id }) => id);
+  } catch (error) {
+    console.error("Failed to get stream ids by chat id from database");
     throw error;
   }
 }

@@ -36,6 +36,7 @@ const AIPage = async () => {
         session={session}
         user={userData}
         isReadonly={false}
+        autoResume={false}
       />
     );
   }
@@ -50,6 +51,7 @@ const AIPage = async () => {
       session={session}
       user={userData}
       isReadonly={false}
+      autoResume={false}
     />
   );
 };

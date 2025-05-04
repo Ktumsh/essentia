@@ -44,6 +44,7 @@ export interface ChatProps {
   selectedVisibilityType: VisibilityType;
   session: Session | null;
   user: UserProfileData | null;
+  autoResume: boolean;
 }
 
 export function Chat({
@@ -54,6 +55,7 @@ export function Chat({
   selectedVisibilityType,
   session,
   user,
+  autoResume,
 }: ChatProps) {
   const { mutate } = useSWRConfig();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,9 +76,15 @@ export function Chat({
     stop,
     reload,
     data: streamingData,
+    experimental_resume,
   } = useChat({
     id,
-    body: { id, selectedChatModel },
+    experimental_prepareRequestBody: (body) => ({
+      id,
+      message: body.messages.at(-1),
+      selectedChatModel,
+      selectedVisibilityType,
+    }),
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,
@@ -89,6 +97,15 @@ export function Chat({
       toast.error("Ha ocurrido un error. ¡Por favor intenta de nuevo!");
     },
   });
+
+  useEffect(() => {
+    if (autoResume) {
+      experimental_resume();
+    }
+
+    // note: this hook has no dependencies since it only needs to run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setNewChatId(id);

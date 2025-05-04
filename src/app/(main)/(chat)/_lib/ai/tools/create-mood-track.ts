@@ -7,7 +7,7 @@ export const createMoodTrack = tool({
   description:
     "Mostrar recomendación de actividades para mejorar el estado de ánimo",
   parameters: z.object({
-    mood: z.string().describe("Estado de ánimo"),
+    mood: z.string().describe("Estado de ánimo actual del usuario"),
   }),
   execute: async (args) => {
     try {

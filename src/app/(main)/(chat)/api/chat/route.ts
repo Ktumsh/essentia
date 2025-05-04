@@ -1,18 +1,27 @@
 import { openai } from "@ai-sdk/openai";
+import { geolocation } from "@vercel/functions";
 import {
-  UIMessage,
+  appendClientMessage,
   appendResponseMessages,
-  createDataStreamResponse,
+  createDataStream,
   smoothStream,
   streamText,
 } from "ai";
+import { after } from "next/server";
+import {
+  createResumableStreamContext,
+  type ResumableStreamContext,
+} from "resumable-stream";
 
 import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(main)/(chat)/actions";
 import { isProductionEnvironment } from "@/consts/env";
 import {
+  createStreamId,
   deleteChatById,
   getChatById,
+  getMessagesByChatId,
+  getStreamIdsByChatId,
   saveChat,
   saveMessages,
 } from "@/db/querys/chat-querys";
@@ -22,30 +31,56 @@ import { calculateAge } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 import { getUserProfileData } from "@/utils/profile";
 
+import { postRequestBodySchema, type PostRequestBody } from "./schema";
 import { modelProvider } from "../../_lib/ai/models";
-import { createSystemPrompt } from "../../_lib/ai/prompts";
+import { systemPrompt, type RequestHints } from "../../_lib/ai/prompts";
 import { createHealthRisk } from "../../_lib/ai/tools/create-health-risk";
 import { createMoodTrack } from "../../_lib/ai/tools/create-mood-track";
 import { createNutritionalPlan } from "../../_lib/ai/tools/create-nutritional-plan";
 import { createRoutine } from "../../_lib/ai/tools/create-routine";
 import { createTrackTask } from "../../_lib/ai/tools/create-track-task";
 import { getWeather } from "../../_lib/ai/tools/get-weather";
-import {
-  generateUUID,
-  getMostRecentUserMessage,
-  getTrailingMessageId,
-} from "../../_lib/utils";
+import { generateUUID, getTrailingMessageId } from "../../_lib/utils";
+
+import type { Chat } from "@/db/schema";
 
 export const maxDuration = 60;
 
+let globalStreamContext: ResumableStreamContext | null = null;
+
+function getStreamContext() {
+  if (!globalStreamContext) {
+    try {
+      globalStreamContext = createResumableStreamContext({
+        waitUntil: after,
+      });
+    } catch (error: any) {
+      if (error.message.includes("REDIS_URL")) {
+        console.log(
+          " > Resumable streams are disabled due to missing REDIS_URL",
+        );
+      } else {
+        console.error(error);
+      }
+    }
+  }
+
+  return globalStreamContext;
+}
+
 export async function POST(request: Request) {
+  let requestBody: PostRequestBody;
+
   try {
-    const {
-      id,
-      messages,
-      selectedChatModel,
-    }: { id: string; messages: Array<UIMessage>; selectedChatModel: string } =
-      await request.json();
+    const json = await request.json();
+    requestBody = postRequestBodySchema.parse(json);
+  } catch {
+    return new Response("Invalid request body", { status: 400 });
+  }
+
+  try {
+    const { id, message, selectedChatModel, selectedVisibilityType } =
+      requestBody;
 
     const session = await auth();
 
@@ -83,59 +118,77 @@ export async function POST(request: Request) {
 
     const age = calculateAge(user?.birthdate as Date);
 
-    const userMessage = getMostRecentUserMessage(messages);
-
-    if (!userMessage) {
-      return new Response("Mensaje de usuario no encontrado", { status: 400 });
-    }
-
     const chat = await getChatById({ id });
 
     if (!chat) {
       const title = await generateTitleFromUserMessage({
-        message: userMessage,
+        message,
       });
-      await saveChat({ id, userId: session.user.id, title });
+      await saveChat({
+        id,
+        userId: session.user.id,
+        title,
+        visibility: selectedVisibilityType,
+      });
     } else {
       if (chat.userId !== session.user.id) {
-        return new Response("No autorizado", { status: 401 });
+        return new Response("No autorizado", { status: 403 });
       }
     }
+
+    const previousMessages = await getMessagesByChatId({ id });
+
+    const messages = appendClientMessage({
+      // @ts-expect-error: todo add type conversion from DBMessage[] to UIMessage[]
+      messages: previousMessages,
+      message,
+    });
+
+    const { longitude, latitude, city, country } = geolocation(request);
+
+    const requestHints: RequestHints = {
+      longitude,
+      latitude,
+      city,
+      country,
+    };
 
     await saveMessages({
       messages: [
         {
           chatId: id,
-          id: userMessage.id,
+          id: message.id,
           role: "user",
-          parts: userMessage.parts,
-          attachments: userMessage.experimental_attachments ?? [],
+          parts: message.parts,
+          attachments: message.experimental_attachments ?? [],
           createdAt: new Date(),
         },
       ],
     });
 
-    const systemPrompt = createSystemPrompt({
-      firstName,
-      lastName,
-      birthdate,
-      location,
-      bio,
-      weight,
-      height,
-      genre,
-      age,
-      premiumExpiresAt,
-      selectedChatModel,
-    });
+    const streamId = generateUUID();
+    await createStreamId({ streamId, chatId: id });
 
-    return createDataStreamResponse({
+    const stream = createDataStream({
       execute: (dataStream) => {
         const result = streamText({
           model: modelProvider.languageModel(selectedChatModel),
-          system: systemPrompt,
-          messages,
+          system: systemPrompt({
+            firstName,
+            lastName,
+            birthdate,
+            location,
+            bio,
+            weight,
+            height,
+            genre,
+            age,
+            premiumExpiresAt,
+            selectedChatModel,
+            requestHints,
+          }),
           maxSteps: 5,
+          messages,
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
           tools: {
@@ -155,7 +208,6 @@ export async function POST(request: Request) {
             createMoodTrack,
             createTrackTask: createTrackTask({ userId, chatId: id }),
           },
-          toolChoice: { type: "tool", toolName: "web_search_preview" },
           onFinish: async ({ response }) => {
             if (session?.user?.id) {
               try {
@@ -170,7 +222,7 @@ export async function POST(request: Request) {
                 }
 
                 const [, assistantMessage] = appendResponseMessages({
-                  messages: [userMessage],
+                  messages: [message],
                   responseMessages: response.messages,
                 });
 
@@ -210,11 +262,83 @@ export async function POST(request: Request) {
         return "Lo lamento, ha ocurrido un error inesperado!";
       },
     });
+
+    const streamContext = getStreamContext();
+
+    if (streamContext) {
+      return new Response(
+        await streamContext.resumableStream(streamId, () => stream),
+      );
+    } else {
+      return new Response(stream);
+    }
   } catch {
     return new Response("¡Se produjo un error al procesar tu solicitud!", {
       status: 404,
     });
   }
+}
+
+export async function GET(request: Request) {
+  const streamContext = getStreamContext();
+
+  if (!streamContext) {
+    return new Response(null, { status: 204 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const chatId = searchParams.get("chatId");
+
+  if (!chatId) {
+    return new Response("id es requerida", { status: 400 });
+  }
+
+  const session = await auth();
+
+  if (!session?.user) {
+    return new Response("No autorizado", { status: 401 });
+  }
+
+  let chat: Chat;
+
+  try {
+    chat = await getChatById({ id: chatId });
+  } catch {
+    return new Response("Not found", { status: 404 });
+  }
+
+  if (!chat) {
+    return new Response("Not found", { status: 404 });
+  }
+
+  if (chat.visibility === "private" && chat.userId !== session.user.id) {
+    return new Response("No autorizado", { status: 403 });
+  }
+
+  const streamIds = await getStreamIdsByChatId({ chatId });
+
+  if (!streamIds.length) {
+    return new Response("No se encontraron streams", { status: 404 });
+  }
+
+  const recentStreamId = streamIds.at(-1);
+
+  if (!recentStreamId) {
+    return new Response("No se encontró ningún stream reciente", {
+      status: 404,
+    });
+  }
+
+  const emptyDataStream = createDataStream({
+    execute: () => {},
+  });
+
+  return new Response(
+    await streamContext.resumableStream(recentStreamId, () => emptyDataStream),
+    {
+      status: 200,
+    },
+  );
 }
 
 export async function DELETE(request: Request) {
