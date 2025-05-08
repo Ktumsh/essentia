@@ -1,6 +1,17 @@
 "use server";
 
-import { eq, desc, asc, and, gte, inArray, count } from "drizzle-orm";
+import {
+  eq,
+  desc,
+  asc,
+  and,
+  gte,
+  inArray,
+  count,
+  SQL,
+  gt,
+  lt,
+} from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -9,8 +20,9 @@ import {
   chat,
   chatVote,
   chatMessage,
-  type ChatMessage,
   chatStream,
+  type Chat,
+  type ChatMessage,
 } from "@/db/schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
@@ -59,13 +71,68 @@ export async function deleteAllChatsByUserId({ id }: { id: string }) {
   }
 }
 
-export async function getChatsByUserId({ id }: { id: string }) {
+export async function getChatsByUserId({
+  id,
+  limit,
+  startingAfter,
+  endingBefore,
+}: {
+  id: string;
+  limit: number;
+  startingAfter: string | null;
+  endingBefore: string | null;
+}) {
   try {
-    return await db
-      .select()
-      .from(chat)
-      .where(eq(chat.userId, id))
-      .orderBy(desc(chat.createdAt));
+    const extendedLimit = limit + 1;
+
+    const query = (whereCondition?: SQL<any>) =>
+      db
+        .select()
+        .from(chat)
+        .where(
+          whereCondition
+            ? and(whereCondition, eq(chat.userId, id))
+            : eq(chat.userId, id),
+        )
+        .orderBy(desc(chat.createdAt))
+        .limit(extendedLimit);
+
+    let filteredChats: Array<Chat> = [];
+
+    if (startingAfter) {
+      const [selectedChat] = await db
+        .select()
+        .from(chat)
+        .where(eq(chat.id, startingAfter))
+        .limit(1);
+
+      if (!selectedChat) {
+        throw new Error(`Chat with id ${startingAfter} not found`);
+      }
+
+      filteredChats = await query(gt(chat.createdAt, selectedChat.createdAt));
+    } else if (endingBefore) {
+      const [selectedChat] = await db
+        .select()
+        .from(chat)
+        .where(eq(chat.id, endingBefore))
+        .limit(1);
+
+      if (!selectedChat) {
+        throw new Error(`Chat with id ${endingBefore} not found`);
+      }
+
+      filteredChats = await query(lt(chat.createdAt, selectedChat.createdAt));
+    } else {
+      filteredChats = await query();
+    }
+
+    const hasMore = filteredChats.length > limit;
+
+    return {
+      chats: hasMore ? filteredChats.slice(0, limit) : filteredChats,
+      hasMore,
+    };
   } catch (error) {
     console.error("Error al obtener los chats:", error);
     throw error;

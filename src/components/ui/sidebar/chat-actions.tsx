@@ -9,7 +9,6 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { KeyedMutator } from "swr";
 
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
@@ -47,12 +46,14 @@ import { cn } from "@/lib/utils";
 
 import ChatShareModal from "./chat-share-action";
 
+import type { ChatHistory } from "@/app/(main)/(chat)/_lib/utils";
 import type { Chat } from "@/db/schema";
+import type { SWRInfiniteKeyedMutator } from "swr/infinite";
 
 interface ChatActionsProps {
   chat: Chat;
   isActive?: boolean;
-  mutate: KeyedMutator<Chat[]>;
+  mutate: SWRInfiniteKeyedMutator<ChatHistory[]>;
   handleEditMode: () => void;
 }
 
@@ -88,9 +89,12 @@ const ChatActions = ({
     toast.promise(deletePromise, {
       loading: "Eliminando chat...",
       success: () => {
-        mutate((history) => {
-          if (history) {
-            return history.filter((h) => h.id !== id);
+        mutate((chatHistories) => {
+          if (chatHistories) {
+            return chatHistories.map((chatHistory) => ({
+              ...chatHistory,
+              chats: chatHistory.chats.filter((chat) => chat.id !== deleteId),
+            }));
           }
         });
         return "Chat eliminado!";

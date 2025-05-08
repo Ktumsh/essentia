@@ -2,9 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
-import { useEffect } from "react";
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 
+import {
+  getChatHistoryPaginationKey,
+  type ChatHistory,
+} from "@/app/(main)/(chat)/_lib/utils";
 import {
   Drawer,
   DrawerContent,
@@ -14,7 +17,6 @@ import {
 } from "@/components/kit/drawer";
 import { ScrollArea } from "@/components/kit/scroll-area";
 import { Sidebar, SidebarContent, useSidebar } from "@/components/kit/sidebar";
-import { Chat } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, fetcher } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
@@ -44,18 +46,14 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
   const isCollapsed = isAIPage && session;
 
   const {
-    data: history,
-    mutate,
+    data: paginatedChatHistories,
+    setSize,
+    isValidating,
     isLoading,
-  } = useSWR<Array<Chat>>(session?.user ? "/api/history" : null, fetcher, {
+    mutate,
+  } = useSWRInfinite<ChatHistory>(getChatHistoryPaginationKey, fetcher, {
     fallbackData: [],
   });
-
-  useEffect(() => {
-    if (!isMobile) {
-      mutate();
-    }
-  }, [isMobile, pathname, mutate]);
 
   if (isMobile)
     return (
@@ -65,13 +63,18 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
             <DrawerTitle>Historial de chats</DrawerTitle>
             <DrawerDescription className="sr-only"></DrawerDescription>
           </DrawerHeader>
-          <ChatHeader session={session} history={history} />
+          <ChatHeader
+            session={session}
+            paginatedChatHistories={paginatedChatHistories}
+          />
           <SidebarContent>
             <ChatSidebar
               session={session}
-              history={history}
+              paginatedChatHistories={paginatedChatHistories}
               mutate={mutate}
               isLoading={isLoading}
+              isValidating={isValidating}
+              setSize={setSize}
             />
           </SidebarContent>
           <AppFooter session={session} user={user} isMobile={isMobile} />
@@ -109,14 +112,19 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
             collapsible="none"
             className="bg-background border-border my-2 flex h-auto flex-1 rounded-2xl border shadow-sm transition-opacity duration-300 group-data-[collapsible=icon]:pointer-events-none! group-data-[collapsible=icon]:opacity-0!"
           >
-            <ChatHeader session={session} history={history} />
+            <ChatHeader
+              session={session}
+              paginatedChatHistories={paginatedChatHistories}
+            />
             <SidebarContent>
               <ScrollArea className="max-w-[221px] overflow-y-auto">
                 <ChatSidebar
                   session={session}
-                  history={history}
+                  paginatedChatHistories={paginatedChatHistories}
                   mutate={mutate}
                   isLoading={isLoading}
+                  isValidating={isValidating}
+                  setSize={setSize}
                 />
               </ScrollArea>
             </SidebarContent>

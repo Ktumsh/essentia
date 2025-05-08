@@ -2,25 +2,32 @@
 
 import { Session } from "next-auth";
 import { Suspense } from "react";
-import { KeyedMutator } from "swr";
 
 import HistoryLoading from "@/app/(main)/(chat)/_components/history-loading";
-import { Chat } from "@/db/schema";
 
 import ChatHistory from "./chat-history";
 
+import type { ChatHistory as ChatHistoryType } from "@/app/(main)/(chat)/_lib/utils";
+import type { SWRInfiniteKeyedMutator } from "swr/infinite";
+
 interface ChatSidebarProps {
   session: Session | null;
-  history?: Chat[];
-  mutate: KeyedMutator<Chat[]>;
+  paginatedChatHistories?: ChatHistoryType[];
+  mutate: SWRInfiniteKeyedMutator<ChatHistoryType[]>;
   isLoading: boolean;
+  isValidating: boolean;
+  setSize: (
+    size: number | ((_size: number) => number),
+  ) => Promise<ChatHistoryType[] | undefined>;
 }
 
 const ChatSidebar = ({
   session,
-  history,
+  paginatedChatHistories,
   mutate,
   isLoading,
+  isValidating,
+  setSize,
 }: ChatSidebarProps) => {
   if (!session?.user) return null;
 
@@ -30,7 +37,12 @@ const ChatSidebar = ({
         <HistoryLoading />
       ) : (
         <Suspense fallback={<HistoryLoading />}>
-          <ChatHistory history={history} mutate={mutate} />
+          <ChatHistory
+            paginatedChatHistories={paginatedChatHistories}
+            mutate={mutate}
+            isValidating={isValidating}
+            setSize={setSize}
+          />
         </Suspense>
       )}
     </>
