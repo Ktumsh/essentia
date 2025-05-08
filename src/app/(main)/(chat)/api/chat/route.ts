@@ -7,6 +7,7 @@ import {
   smoothStream,
   streamText,
 } from "ai";
+import { differenceInSeconds } from "date-fns";
 import { after } from "next/server";
 import {
   createResumableStreamContext,
@@ -81,8 +82,6 @@ export async function POST(request: Request) {
   try {
     const { id, message, selectedChatModel, selectedVisibilityType } =
       requestBody;
-
-    console.log("selectedChatModel", selectedChatModel);
 
     const session = await auth();
 
@@ -285,6 +284,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   const streamContext = getStreamContext();
+  const resumeRequestedAt = new Date();
 
   if (!streamContext) {
     return new Response(null, { status: 204 });
@@ -337,12 +337,42 @@ export async function GET(request: Request) {
     execute: () => {},
   });
 
-  return new Response(
-    await streamContext.resumableStream(recentStreamId, () => emptyDataStream),
-    {
-      status: 200,
-    },
+  const stream = await streamContext.resumableStream(
+    recentStreamId,
+    () => emptyDataStream,
   );
+
+  if (!stream) {
+    const messages = await getMessagesByChatId({ id: chatId });
+    const mostRecentMessage = messages.at(-1);
+
+    if (!mostRecentMessage) {
+      return new Response(emptyDataStream, { status: 200 });
+    }
+
+    if (mostRecentMessage.role !== "assistant") {
+      return new Response(emptyDataStream, { status: 200 });
+    }
+
+    const messageCreatedAt = new Date(mostRecentMessage.createdAt);
+
+    if (differenceInSeconds(resumeRequestedAt, messageCreatedAt) > 15) {
+      return new Response(emptyDataStream, { status: 200 });
+    }
+
+    const restoredStream = createDataStream({
+      execute: (buffer) => {
+        buffer.writeData({
+          type: "append-message",
+          message: JSON.stringify(mostRecentMessage),
+        });
+      },
+    });
+
+    return new Response(restoredStream, { status: 200 });
+  }
+
+  return new Response(stream, { status: 200 });
 }
 
 export async function DELETE(request: Request) {

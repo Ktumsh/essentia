@@ -54,7 +54,7 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
 
   const { visibilityType } = useChatVisibility({
     chatId: chat.id,
-    initialVisibility: chat.visibility,
+    initialVisibilityType: chat.visibility,
   });
 
   useEffect(() => {

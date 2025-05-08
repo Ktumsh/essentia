@@ -70,7 +70,7 @@ export default async function ChatPage(props: ChatPageProps) {
     <Chat
       id={chat.id}
       initialMessages={convertToUIMessages(messagesFromDb)}
-      selectedVisibilityType={chat.visibility}
+      initialVisibilityType={chat.visibility}
       session={session}
       user={profileData}
       isReadonly={session?.user?.id !== chat.userId}

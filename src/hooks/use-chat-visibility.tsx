@@ -9,10 +9,10 @@ import { type Chat } from "@/db/schema";
 
 export function useChatVisibility({
   chatId,
-  initialVisibility,
+  initialVisibilityType,
 }: {
   chatId: string;
-  initialVisibility: VisibilityType;
+  initialVisibilityType: VisibilityType;
 }) {
   const { mutate, cache } = useSWRConfig();
   const history: Array<Chat> = cache.get("/api/history")?.data;
@@ -21,8 +21,8 @@ export function useChatVisibility({
     `${chatId}-visibility`,
     null,
     {
-      fallbackData: initialVisibility,
-    }
+      fallbackData: initialVisibilityType,
+    },
   );
 
   const visibilityType = useMemo(() => {
@@ -50,7 +50,7 @@ export function useChatVisibility({
             })
           : [];
       },
-      { revalidate: false }
+      { revalidate: false },
     );
 
     updateChatVisibility({

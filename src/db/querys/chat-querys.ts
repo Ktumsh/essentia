@@ -322,7 +322,7 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
       .select({ id: chatStream.id })
       .from(chatStream)
       .where(eq(chatStream.chatId, chatId))
-      .orderBy(desc(chatStream.createdAt))
+      .orderBy(asc(chatStream.createdAt))
       .execute();
 
     return streamIds.map(({ id }) => id);

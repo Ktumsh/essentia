@@ -1,76 +1,80 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-  type RefObject,
-} from "react";
+import { useRef, useEffect, useCallback } from "react";
+import useSWR from "swr";
 
-export function useScrollToBottom<T extends HTMLElement>(): [
-  RefObject<T | null>,
-  RefObject<T | null>,
-  () => void,
-  boolean,
-] {
-  const containerRef = useRef<T>(null);
-  const endRef = useRef<T>(null);
-  const [isAtBottom, setIsAtBottom] = useState(true);
+type ScrollFlag = ScrollBehavior | false;
+
+export function useScrollToBottom() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
+
+  const { data: isAtBottom = false, mutate: setIsAtBottom } = useSWR(
+    "messages:is-at-bottom",
+    null,
+    { fallbackData: false },
+  );
+  const { data: scrollBehavior = false, mutate: setScrollBehavior } =
+    useSWR<ScrollFlag>("messages:should-scroll", null, { fallbackData: false });
+
   const isAtBottomRef = useRef(isAtBottom);
-
   useEffect(() => {
     isAtBottomRef.current = isAtBottom;
   }, [isAtBottom]);
 
-  const scrollToBottom = useCallback(() => {
-    const end = endRef.current;
-    if (end) {
-      end.scrollIntoView({ behavior: "smooth", block: "end" });
+  useEffect(() => {
+    if (scrollBehavior) {
+      endRef.current?.scrollIntoView({ behavior: scrollBehavior });
+      setScrollBehavior(false);
     }
-  }, []);
+  }, [scrollBehavior, setScrollBehavior]);
+
+  const scrollToBottom = useCallback(
+    (behavior: ScrollBehavior = "smooth") => {
+      setScrollBehavior(behavior);
+    },
+    [setScrollBehavior],
+  );
+
+  const onViewportEnter = useCallback(() => {
+    setIsAtBottom(true);
+  }, [setIsAtBottom]);
+
+  const onViewportLeave = useCallback(() => {
+    setIsAtBottom(false);
+  }, [setIsAtBottom]);
 
   useEffect(() => {
     const container = containerRef.current;
     const end = endRef.current;
-
     if (!container || !end) return;
 
-    const mutationObserver = new MutationObserver(() => {
+    const mo = new MutationObserver(() => {
       if (isAtBottomRef.current) {
         scrollToBottom();
       }
     });
+    mo.observe(container, { childList: true, subtree: true });
 
-    mutationObserver.observe(container, {
-      childList: true,
-      subtree: true,
-      attributes: false,
-      characterData: false,
-    });
-
-    const intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        const atBottom = entry.isIntersecting;
-        if (atBottom !== isAtBottomRef.current) {
-          isAtBottomRef.current = atBottom;
-          setIsAtBottom(atBottom);
-        }
-      },
-      {
-        root: container,
-        threshold: 0.5,
-      },
+    const io = new IntersectionObserver(
+      ([entry]) =>
+        entry.isIntersecting ? onViewportEnter() : onViewportLeave(),
+      { root: container, threshold: 0.5 },
     );
-
-    intersectionObserver.observe(end);
+    io.observe(end);
 
     scrollToBottom();
 
     return () => {
-      mutationObserver.disconnect();
-      intersectionObserver.disconnect();
+      mo.disconnect();
+      io.disconnect();
     };
-  }, [scrollToBottom]);
+  }, [scrollToBottom, onViewportEnter, onViewportLeave]);
 
-  return [containerRef, endRef, scrollToBottom, isAtBottom];
+  return {
+    containerRef,
+    endRef,
+    isAtBottom,
+    scrollToBottom,
+    onViewportEnter,
+    onViewportLeave,
+  };
 }

@@ -3,6 +3,7 @@
 import { UseChatHelpers } from "@ai-sdk/react";
 import equal from "fast-deep-equal";
 import { AnimatePresence, motion } from "motion/react";
+import { usePathname } from "next/navigation";
 import {
   ChangeEvent,
   Dispatch,
@@ -64,16 +65,16 @@ const PurePromptForm = ({
   setUploadQueue,
   hasMessages,
 }: PromptFormProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const pathname = usePathname();
   const isMobile = useIsMobile();
 
+  const isChatPage = pathname.startsWith("/essentia-ai/chat/");
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const { setActiveChatId } = useChatContext();
-
   const { textareaRef, adjustHeight } = useAdjustHeight();
-
   const { formRef, onKeyDown } = useEnterSubmit();
-
   const [localStorageInput, setLocalStorageInput] = useLocalStorage(
     "input",
     "",
@@ -92,12 +93,13 @@ const PurePromptForm = ({
   }, []);
 
   useEffect(() => {
+    if (isChatPage) return;
     const timer = setTimeout(() => {
       textareaRef.current?.focus();
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [textareaRef]);
+  }, [textareaRef, isChatPage]);
 
   useEffect(() => {
     setLocalStorageInput(input);
@@ -254,7 +256,7 @@ const PurePromptForm = ({
             onChange={handleFileChange}
             className="pointer-events-none fixed -top-4 -left-4 size-0.5 opacity-0"
           />
-          {status === "submitted" || status !== "ready" ? (
+          {status === "submitted" ? (
             <StopButton stop={stop} setMessages={setMessages} />
           ) : (
             <SendButton

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
 
-import { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
 import { useLocalStorage } from "@/hooks/use-local-storage";
@@ -15,10 +14,11 @@ import { UserProfileData } from "@/types/auth";
 
 import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
-import { useScrollToBottom } from "../_hooks/use-scroll-to-bottom";
+import { useAutoResume } from "../_hooks/use-auto-resume";
 import { useUserMessageId } from "../_hooks/use-user-message-id";
 import { generateUUID } from "../_lib/utils";
 
+import type { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import type { ChatVote } from "@/db/schema";
 import type { Attachment, UIMessage } from "ai";
 
@@ -41,7 +41,7 @@ export interface ChatProps {
   id: string;
   initialMessages: Array<UIMessage>;
   isReadonly: boolean;
-  selectedVisibilityType: VisibilityType;
+  initialVisibilityType: VisibilityType;
   session: Session | null;
   user: UserProfileData | null;
   autoResume: boolean;
@@ -51,7 +51,7 @@ export function Chat({
   id,
   initialMessages,
   isReadonly,
-  selectedVisibilityType,
+  initialVisibilityType,
   session,
   user,
   autoResume,
@@ -76,20 +76,20 @@ export function Chat({
     status,
     stop,
     reload,
-    data: streamingData,
+    data,
     experimental_resume,
   } = useChat({
     id,
-    experimental_prepareRequestBody: (body) => ({
-      id,
-      message: body.messages.at(-1),
-      selectedChatModel: model,
-      selectedVisibilityType,
-    }),
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,
     generateId: generateUUID,
+    experimental_prepareRequestBody: (body) => ({
+      id,
+      message: body.messages.at(-1),
+      selectedChatModel: model,
+      selectedVisibilityType: initialVisibilityType,
+    }),
     onFinish: () => {
       mutate("/api/history");
     },
@@ -112,12 +112,12 @@ export function Chat({
     setNewChatId(id);
     setChatData({
       isReadonly: isReadonly,
-      selectedVisibilityType: selectedVisibilityType,
+      selectedVisibilityType: initialVisibilityType,
     });
   });
 
   useEffect(() => {
-    const mostRecentDelta = streamingData?.at(-1);
+    const mostRecentDelta = data?.at(-1);
     if (!mostRecentDelta) return;
 
     const delta = mostRecentDelta as StreamingDelta;
@@ -126,17 +126,22 @@ export function Chat({
       setUserMessageIdFromServer(delta.content as string);
       return;
     }
-  }, [streamingData, setUserMessageIdFromServer]);
+  }, [data, setUserMessageIdFromServer]);
 
   const { data: votes } = useSWR<Array<ChatVote>>(
     messages.length >= 2 ? `/api/vote?chatId=${id}` : null,
     fetcher,
   );
 
-  const [containerRef, endRef, scrollToBottom, isAtBottom] =
-    useScrollToBottom<HTMLDivElement>();
-
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+
+  useAutoResume({
+    autoResume,
+    initialMessages,
+    experimental_resume,
+    data,
+    setMessages,
+  });
 
   return (
     <>
@@ -145,12 +150,10 @@ export function Chat({
         status={status}
         votes={votes}
         messages={messages}
-        isReadonly={isReadonly}
-        user={user}
-        containerRef={containerRef}
-        endRef={endRef}
         setMessages={setMessages}
         reload={reload}
+        isReadonly={isReadonly}
+        user={user}
       />
 
       <ChatPanel
@@ -166,8 +169,6 @@ export function Chat({
         setMessages={setMessages}
         status={status}
         session={session}
-        scrollToBottom={scrollToBottom}
-        isAtBottom={isAtBottom}
         isReadonly={isReadonly}
         user={user}
       />

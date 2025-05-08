@@ -73,7 +73,7 @@ const ChatActions = ({
 
   const { visibilityType } = useChatVisibility({
     chatId: chat.id,
-    initialVisibility: chat.visibility,
+    initialVisibilityType: chat.visibility,
   });
 
   const isMobile = useIsMobile();

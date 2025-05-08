@@ -1,6 +1,5 @@
 "use client";
 
-import { UseChatHelpers } from "@ai-sdk/react";
 import equal from "fast-deep-equal";
 import { motion } from "motion/react";
 import { memo, useEffect, useState } from "react";
@@ -31,28 +30,31 @@ import { deleteTrailingMessages } from "../actions";
 import { Weather } from "./tools/weather";
 
 import type { ChatVote } from "@/db/schema";
+import type { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 
 interface MessageProps {
   chatId: string;
   message: UIMessage;
-  vote: ChatVote | undefined;
-  user?: UserProfileData | null;
-  isReadonly?: boolean;
-  isLoading: boolean;
   setMessages: UseChatHelpers["setMessages"];
+  vote: ChatVote | undefined;
+  isLoading: boolean;
   reload: UseChatHelpers["reload"];
+  isReadonly?: boolean;
+  requiresScrollPadding: boolean;
+  user?: UserProfileData | null;
 }
 
 const PurePreviewMessage = ({
   chatId,
   message,
-  vote,
-  user,
-  isReadonly,
-  isLoading,
   setMessages,
+  vote,
+  isLoading,
   reload,
+  isReadonly,
+  requiresScrollPadding,
+  user,
 }: MessageProps) => {
   const isMobile = useIsMobile();
 
@@ -155,7 +157,11 @@ const PurePreviewMessage = ({
           <UserAvatar profileImage={profileImage} username={username} />
         )}
 
-        <div className="flex w-full flex-col gap-4">
+        <div
+          className={cn("flex w-full flex-col gap-4", {
+            "min-h-96": message.role === "assistant" && requiresScrollPadding,
+          })}
+        >
           {experimental_attachments && experimental_attachments.length > 0 && (
             <>
               {imageAttachments && imageAttachments.length > 0 && (
@@ -347,8 +353,11 @@ export const PreviewMessage = memo(
   (prevProps, nextProps) => {
     if (prevProps.isLoading !== nextProps.isLoading) return false;
     if (prevProps.message.id !== nextProps.message.id) return false;
+    if (prevProps.requiresScrollPadding !== nextProps.requiresScrollPadding)
+      return false;
     if (!equal(prevProps.message.parts, nextProps.message.parts)) return false;
     if (!equal(prevProps.vote, nextProps.vote)) return false;
+
     return true;
   },
 );

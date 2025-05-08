@@ -9,15 +9,16 @@ import { Session } from "next-auth";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { LinkIcon } from "@/components/ui/icons/action";
-import ButtonToBottom from "@/components/ui/layout/button-to-bottom";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import AlertPanel from "./alert-panel";
+import ButtonToBottom from "./button-to-bottom";
 import { PreviewAttachment } from "./preview-attachment";
 import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
+import { useScrollToBottom } from "../_hooks/use-scroll-to-bottom";
 import { extractFilePath } from "../_lib/utils";
 
 export interface ChatPanelProps {
@@ -33,8 +34,6 @@ export interface ChatPanelProps {
   setMessages: UseChatHelpers["setMessages"];
   status: UseChatHelpers["status"];
   session: Session | null;
-  scrollToBottom: () => void;
-  isAtBottom: boolean;
   isReadonly: boolean;
   user: UserProfileData | null;
 }
@@ -53,8 +52,6 @@ const ChatPanel = (props: ChatPanelProps) => {
     setMessages,
     status,
     session,
-    scrollToBottom,
-    isAtBottom,
     isReadonly,
     user,
   } = props;
@@ -95,6 +92,14 @@ const ChatPanel = (props: ChatPanelProps) => {
     setActiveChatId,
     chatId,
   ]);
+
+  const { isAtBottom, scrollToBottom } = useScrollToBottom();
+
+  useEffect(() => {
+    if (status === "submitted") {
+      scrollToBottom();
+    }
+  }, [status, scrollToBottom]);
 
   return (
     <>
@@ -189,14 +194,14 @@ const ChatPanel = (props: ChatPanelProps) => {
                 isChat={isChat}
               />
             </div>
-            <SuggestedActions
-              chatId={chatId}
-              messages={messages}
-              attachments={attachments}
-              uploadQueue={uploadQueue}
-              isPremium={isPremium || false}
-              setInput={setInput}
-            />
+            {messages.length === 0 &&
+              attachments.length === 0 &&
+              uploadQueue.length === 0 && (
+                <SuggestedActions
+                  isPremium={isPremium || false}
+                  setInput={setInput}
+                />
+              )}
           </div>
         ) : (
           <div className="border-border bg-background relative w-full border-t px-4 py-0 pb-16 sm:rounded-xl sm:border sm:py-4">

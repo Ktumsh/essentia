@@ -25,7 +25,7 @@ const AIPage = async () => {
       key={id}
       id={id}
       initialMessages={[]}
-      selectedVisibilityType="private"
+      initialVisibilityType="private"
       session={session}
       user={userData}
       isReadonly={false}
