@@ -270,3 +270,113 @@ export const formatFileSize = (size: number) => {
     return `${(size / (1024 * 1024)).toFixed(2)} MB`;
   }
 };
+
+export const getRiskColorByPercentage = (percentage: number) => {
+  if (percentage < 18.5) return "text-blue-500";
+  if (percentage < 24.9) return "text-green-500";
+  if (percentage < 29.9) return "text-yellow-500";
+  if (percentage < 34.9) return "text-orange-500";
+  if (percentage < 39.9) return "text-red-500";
+  return "text-red-700";
+};
+
+export const getRiskBgColor = (level: string) => {
+  switch (level.toLowerCase()) {
+    case "bajo":
+      return "bg-green-500";
+    case "moderado":
+      return "bg-yellow-500";
+    case "alto":
+      return "bg-orange-500";
+    case "muy alto":
+      return "bg-red-500";
+    default:
+      return "bg-blue-500";
+  }
+};
+
+export const getRiskColor = (level: string) => {
+  switch (level.toLowerCase()) {
+    case "bajo":
+      return "text-green-500";
+    case "moderado":
+      return "text-amber-500";
+    case "alto":
+      return "text-orange-500";
+    case "muy alto":
+      return "text-red-500";
+    default:
+      return "text-blue-500";
+  }
+};
+
+export const getRiskLevelBgColor = (level: string) => {
+  switch (level.toLowerCase()) {
+    case "bajo":
+      return "bg-green-500";
+    case "moderado":
+      return "bg-amber-500";
+    case "alto":
+      return "bg-orange-500";
+    case "muy alto":
+      return "bg-red-500";
+    default:
+      return "bg-blue-500";
+  }
+};
+
+export const getRiskLevelBgColorOpacity = (level: string) => {
+  switch (level.toLowerCase()) {
+    case "bajo":
+      return "bg-green-500/20";
+    case "moderado":
+      return "bg-amber-500/20";
+    case "alto":
+      return "bg-orange-500/20";
+    case "muy alto":
+      return "bg-red-500/20";
+    default:
+      return "bg-blue-500/20";
+  }
+};
+
+export const getRiskLevelBadgeColor = (level: string) => {
+  switch (level.toLowerCase()) {
+    case "bajo":
+      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
+    case "moderado":
+      return "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400";
+    case "alto":
+      return "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400";
+    case "muy alto":
+      return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+    default:
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
+  }
+};
+
+export const getActivityColor = (index: number) => {
+  const colors = [
+    "bg-blue-500",
+    "bg-purple-500",
+    "bg-green-500",
+    "bg-amber-500",
+    "bg-rose-500",
+    "bg-teal-500",
+    "bg-indigo-500",
+  ];
+  return colors[index % colors.length];
+};
+
+export const getActivityTextColor = (index: number) => {
+  const colors = [
+    "text-blue-500",
+    "text-purple-500",
+    "text-green-500",
+    "text-amber-500",
+    "text-rose-500",
+    "text-teal-500",
+    "text-indigo-500",
+  ];
+  return colors[index % colors.length];
+};

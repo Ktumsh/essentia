@@ -19,7 +19,7 @@ export const HealthRiskStock = dynamic(
 );
 
 export const NutritionPlanStock = dynamic(
-  () => import("./nutrition-plan-stock").then((mod) => mod.default),
+  () => import("./nutritional-plan-stock").then((mod) => mod.default),
   {
     ssr: false,
     loading: () => <ToolSkeleton />,

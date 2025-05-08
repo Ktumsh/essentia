@@ -1,12 +1,11 @@
 import { openai } from "@ai-sdk/openai";
 import { customProvider } from "ai";
 
-export const DEFAULT_CHAT_MODEL: string = "chat-model-small";
+export const DEFAULT_CHAT_MODEL: string = "chat-model";
 
 export const modelProvider = customProvider({
   languageModels: {
-    "chat-model-small": openai.responses("gpt-4.1-mini"),
-    "chat-model-large": openai.responses("gpt-4.1"),
+    "chat-model": openai.responses("gpt-4.1"),
     /* "chat-model-reasoning": wrapLanguageModel({
       model: fireworks("accounts/fireworks/models/deepseek-r1"),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
@@ -28,12 +27,7 @@ interface ChatModel {
 
 export const CHAT_MODELS: Array<ChatModel> = [
   {
-    id: "chat-model-small",
-    name: "Modelo rápido",
-    description: "Respuestas ágiles para consultas generales",
-  },
-  {
-    id: "chat-model-large",
+    id: "chat-model",
     name: "Modelo avanzado",
     description: "Mayor profundidad y contexto en las respuestas",
   },

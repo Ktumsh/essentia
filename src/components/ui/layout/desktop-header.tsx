@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import FeedbackBox from "./feedback-box";
-import { ModelSelector } from "./model-selector";
 import NavbarLinks from "./navbar-links";
 import NotificationList from "./notifications-list";
 import { VisibilitySelector } from "./visibility-selector";
@@ -20,17 +19,11 @@ import AppSidebarToggle from "../sidebar/app-sidebar-toggle";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;
-  selectedChatModel: string;
   session: Session | null;
   scrollRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const DesktopHeader = ({
-  user,
-  selectedChatModel,
-  session,
-  scrollRef,
-}: DesktopHeaderProps) => {
+const DesktopHeader = ({ user, scrollRef }: DesktopHeaderProps) => {
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
   const router = useRouter();
@@ -41,15 +34,11 @@ const DesktopHeader = ({
 
   const chatId = params.id;
 
-  const isAIPage = pathname.startsWith("/essentia-ai");
-
-  const isPremium = user?.isPremium ?? false;
-
   return (
     <>
       <header
         role="banner"
-        className="sticky inset-x-0 top-0 z-50 hidden md:block"
+        className="@container/header sticky inset-x-0 top-0 z-50 hidden md:block"
       >
         <div
           className={cn(
@@ -68,7 +57,7 @@ const DesktopHeader = ({
             </div>
           </div>
           <div className="absolute top-0 right-0 z-40 h-14 px-6">
-            <div className="text-foreground/80 flex size-full items-center justify-center gap-3 text-sm font-normal">
+            <div className="text-foreground/80 bg-background flex size-full items-center justify-center gap-3 pl-4 text-sm font-normal">
               <FeedbackBox />
               {!isReadonly && chatId && (
                 <VisibilitySelector
@@ -77,9 +66,6 @@ const DesktopHeader = ({
                 />
               )}
 
-              {!isReadonly && isAIPage && session && isPremium && (
-                <ModelSelector selectedModelId={selectedChatModel} />
-              )}
               {!user && (
                 <>
                   <Separator orientation="vertical" className="h-4!" />

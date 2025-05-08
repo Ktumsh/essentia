@@ -1,5 +1,4 @@
 import { type Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
@@ -7,7 +6,6 @@ import { getChatById, getMessagesByChatId } from "@/db/querys/chat-querys";
 import { getUserProfileData } from "@/utils/profile";
 
 import { Chat } from "../../../_components/chat";
-import { DEFAULT_CHAT_MODEL } from "../../../_lib/ai/models";
 import { convertToUIMessages } from "../../../_lib/utils";
 
 export interface ChatPageProps {
@@ -68,29 +66,10 @@ export default async function ChatPage(props: ChatPageProps) {
     id,
   });
 
-  const cookieStore = await cookies();
-  const modelIdFromCookie = cookieStore.get("chat-model");
-
-  if (!modelIdFromCookie) {
-    return (
-      <Chat
-        id={chat.id}
-        initialMessages={convertToUIMessages(messagesFromDb)}
-        selectedChatModel={DEFAULT_CHAT_MODEL}
-        selectedVisibilityType={chat.visibility}
-        session={session}
-        user={profileData}
-        isReadonly={session?.user?.id !== chat.userId}
-        autoResume={true}
-      />
-    );
-  }
-
   return (
     <Chat
       id={chat.id}
       initialMessages={convertToUIMessages(messagesFromDb)}
-      selectedChatModel={modelIdFromCookie.value}
       selectedVisibilityType={chat.visibility}
       session={session}
       user={profileData}

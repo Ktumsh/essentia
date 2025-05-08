@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/kit/skeleton";
 
 const ToolSkeleton = () => {
   return (
-    <Card className="space-y-5 overflow-hidden">
+    <Card className="w-full max-w-lg space-y-5 overflow-hidden rounded-3xl border">
       <CardHeader className="p-0">
         <Skeleton className="h-52 rounded-none" />
       </CardHeader>

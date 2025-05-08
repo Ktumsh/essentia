@@ -73,16 +73,18 @@ export function VisibilitySelector({
         <Button
           variant={isMobile ? "outline" : "ghost"}
           size="sm"
-          className="h-12 w-full rounded-xl md:h-8 md:w-fit md:rounded-md"
+          className="h-12 w-full rounded-xl md:w-fit md:rounded-md @md/header:size-8 @md/header:rounded-full @md/header:px-0! @3xl/header:h-8 @3xl/header:w-fit @3xl/header:rounded-md @3xl/header:px-2.5!"
         >
           {selectedVisibility?.icon}
-          {selectedVisibility?.label}
+          <span className="@md/header:hidden @3xl/header:block">
+            {selectedVisibility?.label}
+          </span>
           {isMobile ? (
             <ChevronsUpDown className="ml-auto size-4" />
           ) : (
             <ChevronDown
               className={cn(
-                "transition-transform",
+                "@ transition-transform @md/header:hidden @3xl/header:block",
                 open ? "rotate-180" : "rotate-0",
               )}
             />

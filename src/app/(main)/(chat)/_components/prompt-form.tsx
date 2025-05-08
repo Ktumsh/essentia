@@ -18,15 +18,18 @@ import { useLocalStorage } from "usehooks-ts";
 
 import { ArrowRightButton } from "@/components/button-kit/arrow-right-button";
 import { AttachButton } from "@/components/button-kit/attach-button";
+import { LightbulbButton } from "@/components/button-kit/light-bulb-button";
 import { StopButton as StopButtonKit } from "@/components/button-kit/stop-button";
 import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { useChatContext } from "@/hooks/use-chat-context";
+import { useChatModel } from "@/hooks/use-chat-model";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 import { useAdjustHeight } from "../_hooks/use-adjust-height";
 import { useEnterSubmit } from "../_hooks/use-enter-submit";
+import { CHAT_MODELS } from "../_lib/models";
 
 import type { Attachment } from "ai";
 
@@ -75,6 +78,8 @@ const PurePromptForm = ({
     "input",
     "",
   );
+
+  const { setModel, isModelSet, setIsModelSet } = useChatModel();
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -224,11 +229,20 @@ const PurePromptForm = ({
           )}
         />
         <div className="pointer-events-none inline-flex w-full items-center justify-between gap-2 p-3">
-          <AttachmentsButton
-            fileInputRef={fileInputRef}
-            status={status}
-            isPremium={isPremium}
-          />
+          <div className="inline-flex items-center gap-1">
+            <AttachmentsButton
+              fileInputRef={fileInputRef}
+              status={status}
+              isPremium={isPremium}
+            />
+            <ThinkingButton
+              status={status}
+              isPremium={isPremium}
+              setModel={setModel}
+              isModelSet={isModelSet}
+              setIsModelSet={setIsModelSet}
+            />
+          </div>
 
           <input
             type="file"
@@ -281,7 +295,7 @@ function PureAttachmentsButton({
         size="icon"
         variant="ghost"
         disabled={disabled}
-        className="hover:bg-background bg-background pointer-events-auto size-8 rounded-sm md:size-7 md:bg-transparent [&_svg]:size-3.5!"
+        className="hover:bg-background bg-background pointer-events-auto size-8 rounded-sm md:size-7 md:bg-transparent"
         onClick={(e) => {
           e.preventDefault();
           fileInputRef.current?.click();
@@ -294,6 +308,62 @@ function PureAttachmentsButton({
 }
 
 const AttachmentsButton = memo(PureAttachmentsButton);
+
+function PureThinkingButton({
+  status,
+  isPremium,
+  setModel,
+  isModelSet,
+  setIsModelSet,
+}: {
+  status: UseChatHelpers["status"];
+  isPremium: boolean | null;
+  setModel: (model: string) => void;
+  isModelSet: boolean;
+  setIsModelSet: (isModelSet: boolean) => void;
+}) {
+  const disabled = !isPremium || status !== "ready";
+  const reasonerId = CHAT_MODELS[1].id;
+  const defaultId = CHAT_MODELS[0].id;
+  const isActive = isModelSet;
+
+  const handleSetModel = () => {
+    const next = !isModelSet;
+    setIsModelSet(next);
+    setModel(next ? reasonerId : defaultId);
+  };
+
+  return (
+    <BetterTooltip
+      content={isActive ? "Desactivar razonamiento" : "Activar razonamiento"}
+      hidden={status !== "ready"}
+    >
+      <LightbulbButton
+        size="sm"
+        variant="ghost"
+        disabled={disabled}
+        onClick={(e) => {
+          e.preventDefault();
+          handleSetModel();
+        }}
+        className={cn(
+          "bg-background hover:bg-background pointer-events-auto h-8 gap-1 rounded-sm px-1.5! text-xs md:size-7 md:p-0!",
+          {
+            "bg-linear-to-r/shorter from-indigo-500 to-indigo-600 text-white hover:text-white":
+              isActive,
+          },
+          {
+            "md:bg-transparent": !isActive,
+          },
+        )}
+      >
+        <span className="md:sr-only">Razonar</span>
+      </LightbulbButton>
+    </BetterTooltip>
+  );
+}
+
+const ThinkingButton = memo(PureThinkingButton);
 
 function PureStopButton({
   stop,

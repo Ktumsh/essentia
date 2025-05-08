@@ -12,7 +12,7 @@ import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 import { GUIDES_DATA } from "@/consts/guide-data";
 
 export function formatDate(
-  input: Date,
+  input: Date | string,
   formatStr: string = "dd/MM/yyyy",
 ): string {
   const date = new Date(input);

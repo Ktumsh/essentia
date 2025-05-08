@@ -8,8 +8,9 @@ import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import { Greeting } from "./greeting";
-import { PreviewMessage, ThinkingMessage } from "./message";
+import { PreviewMessage } from "./message";
 import Overview from "./overview";
+import ThinkingMessage from "./thinking-message";
 
 import type { ChatVote } from "@/db/schema";
 import type { UIMessage } from "ai";

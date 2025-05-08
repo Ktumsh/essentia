@@ -6,6 +6,7 @@ import * as React from "react";
 
 import { ViewModeProvider } from "@/app/(main)/historial-medico/_hooks/use-view-mode";
 import { UserSubscriptionInfo } from "@/db/querys/user-querys";
+import { ChatModelProvider } from "@/hooks/use-chat-model";
 import { MobileProvider } from "@/hooks/use-mobile";
 import { ProfileMessageProvider } from "@/hooks/use-profile-message";
 import { ReducedMotionProvider } from "@/hooks/use-reduce-motion";
@@ -61,15 +62,17 @@ export function Providers({
                   <PlanProvider currentPlan={currentPlan}>
                     <SidebarProvider defaultOpen={defaultOpen}>
                       <ChatProvider>
-                        <TasksProvider initialTasks={initialTasks}>
-                          <ReducedMotionProvider>
-                            <ThemeProvider disableTransitionOnChange>
-                              <ViewModeProvider initialModes={initialModes}>
-                                {children}
-                              </ViewModeProvider>
-                            </ThemeProvider>
-                          </ReducedMotionProvider>
-                        </TasksProvider>
+                        <ChatModelProvider>
+                          <TasksProvider initialTasks={initialTasks}>
+                            <ReducedMotionProvider>
+                              <ThemeProvider disableTransitionOnChange>
+                                <ViewModeProvider initialModes={initialModes}>
+                                  {children}
+                                </ViewModeProvider>
+                              </ThemeProvider>
+                            </ReducedMotionProvider>
+                          </TasksProvider>
+                        </ChatModelProvider>
                       </ChatProvider>
                     </SidebarProvider>
                   </PlanProvider>

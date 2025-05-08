@@ -11,7 +11,7 @@ import {
 } from "@/db/querys/chat-querys";
 import { deleteTasksByChatIdAfterTimestamp } from "@/db/querys/task-querys";
 
-import { modelProvider } from "./_lib/ai/models";
+import { modelProvider } from "./_lib/models";
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();

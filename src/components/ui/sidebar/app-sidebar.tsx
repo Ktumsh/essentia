@@ -30,15 +30,9 @@ interface AppSidebarProps {
   session: Session | null;
   user: UserProfileData | null;
   isPremium: boolean;
-  selectedChatModel: string;
 }
 
-export function AppSidebar({
-  session,
-  user,
-  isPremium,
-  selectedChatModel,
-}: AppSidebarProps) {
+export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
   const pathname = usePathname();
 
   const isMobile = useIsMobile();
@@ -80,12 +74,7 @@ export function AppSidebar({
               isLoading={isLoading}
             />
           </SidebarContent>
-          <AppFooter
-            session={session}
-            user={user}
-            isMobile={isMobile}
-            selectedChatModel={selectedChatModel}
-          />
+          <AppFooter session={session} user={user} isMobile={isMobile} />
         </DrawerContent>
       </Drawer>
     );
@@ -114,7 +103,6 @@ export function AppSidebar({
               user={user}
               isCollapsed
               isMobile={isMobile}
-              selectedChatModel={selectedChatModel}
             />
           </Sidebar>
           <Sidebar
@@ -132,12 +120,7 @@ export function AppSidebar({
                 />
               </ScrollArea>
             </SidebarContent>
-            <ChatFooter
-              session={session}
-              isMobile={isMobile}
-              isPremium={isPremium}
-              selectedChatModel={selectedChatModel}
-            />
+            <ChatFooter isMobile={isMobile} isPremium={isPremium} />
           </Sidebar>
         </>
       ) : (
@@ -151,12 +134,7 @@ export function AppSidebar({
               <MainSidebar isPremium={isPremium} />
             </ScrollArea>
           </SidebarContent>
-          <AppFooter
-            session={session}
-            user={user}
-            isMobile={isMobile}
-            selectedChatModel={selectedChatModel}
-          />
+          <AppFooter session={session} user={user} isMobile={isMobile} />
         </>
       )}
     </Sidebar>

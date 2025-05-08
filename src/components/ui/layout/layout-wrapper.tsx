@@ -37,7 +37,6 @@ const LayoutWrapper = ({
   session,
   user,
   isPremium,
-  selectedChatModel,
   children,
 }: LayoutWrapperProps) => {
   const router = useRouter();
@@ -82,12 +81,7 @@ const LayoutWrapper = ({
         <MobileHeader user={user} session={session} />
 
         {/* Sidebar */}
-        <AppSidebar
-          session={session}
-          user={user}
-          isPremium={isPremium}
-          selectedChatModel={selectedChatModel}
-        />
+        <AppSidebar session={session} user={user} isPremium={isPremium} />
 
         {/* Main content */}
         {isMobile ? (
@@ -124,7 +118,6 @@ const LayoutWrapper = ({
               <>
                 <DesktopHeader
                   user={user}
-                  selectedChatModel={selectedChatModel}
                   session={session}
                   scrollRef={scrollRef}
                 />
@@ -140,7 +133,6 @@ const LayoutWrapper = ({
                 {/* Desktop Header */}
                 <DesktopHeader
                   user={user}
-                  selectedChatModel={selectedChatModel}
                   session={session}
                   scrollRef={scrollRef}
                 />

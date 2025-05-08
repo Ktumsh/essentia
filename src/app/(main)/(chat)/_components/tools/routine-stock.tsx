@@ -1,313 +1,333 @@
 "use client";
 
-import Image from "next/image";
-import { Fragment } from "react";
-import { toast } from "sonner";
+import {
+  Calendar,
+  Clock,
+  Dumbbell,
+  Heart,
+  ArrowUpCircle,
+  Info,
+  AlertCircle,
+  CheckCircle2,
+  Flame,
+  Zap,
+} from "lucide-react";
+import { useState } from "react";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/kit/accordion";
 import { Badge } from "@/components/kit/badge";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Card, CardFooter, CardHeader } from "@/components/kit/card";
+import { Card } from "@/components/kit/card";
+import { ScrollArea } from "@/components/kit/scroll-area";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { BetterTooltip } from "@/components/kit/tooltip";
-import {
-  EquipmentIcon,
-  ItineraryIcon,
-  ProgressionIcon,
-  RestIcon,
-  ZapIcon,
-} from "@/components/ui/icons/miscellaneus";
-import { CalendarFillIcon, ClockIcon } from "@/components/ui/icons/status";
 import { cn } from "@/lib/utils";
 
-import DownloadButton from "./download-button";
-import { useDownloadTool } from "../../_hooks/use-download-tool";
-import { Routine } from "../../_lib/ai/tool-schemas";
+import StockFooter from "./stock-footer";
+import StockHeader from "./stock-header";
 
-const renderExerciseDetails = (routine: Routine["exercises"][number]) => {
-  return (
-    <>
-      <Tabs
-        aria-label="Alternar entre instrucciones del ejercicio"
-        defaultValue="exercises"
-      >
-        <TabsList className="border-border border">
-          <TabsTrigger value="exercises">Ejercicio</TabsTrigger>
-          <TabsTrigger value="how-to-do">Instrucciones</TabsTrigger>
-        </TabsList>
-        <TabsContent value="exercises" className="px-0">
-          <div className="flex flex-col">
-            <h3 className="text-foreground font-medium md:text-lg">
-              {routine.name}
-            </h3>
-            <div className="text-foreground/80 inline-flex flex-col justify-center gap-2">
-              {routine.reps && routine.sets && (
-                <div className="flex gap-2">
-                  {routine.reps && (
-                    <div className="inline-flex items-center gap-1">
-                      <span>{routine.reps} repeticiones</span>
-                    </div>
-                  )}
-                  {routine.reps && "-"}
-                  {routine.sets && (
-                    <div className="inline-flex items-center gap-1">
-                      <span>{routine.sets} series</span>
-                    </div>
-                  )}
-                </div>
-              )}
-              {routine.duration && (
-                <div className="inline-flex items-center gap-1">
-                  <BetterTooltip side="left" content="Duración">
-                    <div aria-hidden="true">
-                      <ClockIcon className="size-3" />
-                    </div>
-                  </BetterTooltip>
-                  <span>{routine.duration}</span>
-                </div>
-              )}
-              {routine.rest && (
-                <div className="inline-flex items-center gap-1">
-                  <BetterTooltip side="left" content="Descanso">
-                    <div aria-hidden="true">
-                      <RestIcon className="size-3" />
-                    </div>
-                  </BetterTooltip>
-                  <span>{routine.rest}</span>
-                </div>
-              )}
-              {routine.equipment && (
-                <div className="inline-flex items-center gap-1">
-                  <BetterTooltip side="left" content="Equipamiento">
-                    <div aria-hidden="true">
-                      <EquipmentIcon className="size-3" />
-                    </div>
-                  </BetterTooltip>
-                  <span>{routine.equipment}</span>
-                </div>
-              )}
-              {routine.progression && (
-                <div className="inline-flex gap-1 md:items-center">
-                  <BetterTooltip side="left" content="Progresión">
-                    <div aria-hidden="true" className="mt-1 md:mt-0">
-                      <ProgressionIcon className="size-3" />
-                    </div>
-                  </BetterTooltip>
-                  <span>{routine.progression}</span>
-                </div>
-              )}
-              {routine.modifications && (
-                <div className="inline-flex items-center gap-1">
-                  <BetterTooltip side="left" content="Modificaciones">
-                    <div aria-hidden="true">
-                      <ItineraryIcon className="size-3" />
-                    </div>
-                  </BetterTooltip>
-                  <span>{routine.modifications}</span>
-                </div>
-              )}
-              {routine.benefits && (
-                <div className="text-foreground/80 bg-accent flex w-fit items-center gap-3 rounded-lg p-3 text-xs md:text-sm">
-                  <div className="bg-background flex size-8 min-w-8 items-center justify-center rounded-lg text-amber-500 md:size-10 md:min-w-10">
-                    <ZapIcon className="size-5 md:size-6" />
-                  </div>
-                  <div className="flex flex-col">
-                    <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-                      Beneficios
-                    </h3>
-                    <p>{routine.benefits}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </TabsContent>
-        <TabsContent
-          value="how-to-do"
-          className="min-h-[272px] px-5 sm:min-h-56 md:min-h-[260px]"
-        >
-          <div className="flex min-h-[272px] items-center justify-center gap-2 sm:min-h-56 md:min-h-[260px]">
-            <div className="text-center md:max-w-sm">
-              <p>
-                {routine.instructions || "No hay instrucciones disponibles"}
-              </p>
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </>
-  );
-};
+import type { Routine } from "../../_lib/tool-schemas";
 
 const RoutineStock = (routine: Routine) => {
-  const { ref, downloadImage } = useDownloadTool("exercise-routine.png");
+  const [activeTab, setActiveTab] = useState("overview");
 
-  if (!routine)
-    return toast.error("Hubo un error al generar la rutina de ejercicios");
+  /* const fileName = `${routine.goal.replace(" ", "-")}.png`;
+  const { ref, downloadImage } = useDownloadTool(fileName); */
 
   return (
-    <Card ref={ref} className="group/card overflow-hidden rounded-xl">
-      <CardHeader className="relative z-0 rounded-none p-0">
-        <div className="h-36 overflow-hidden md:h-52">
-          <Image
-            width={696}
-            height={208}
-            quality={80}
-            src="/extras/exercise-routine-banner.jpg"
-            alt="Exercise Routine Banner"
-            className="aspect-auto h-36 object-cover object-center md:h-52"
-          />
+    <Card className="dark:shadow-alternative/15 dark:border-accent mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 shadow-[0_2px_20px_rgba(0,0,0,0.05)] transition-all duration-300">
+      <StockHeader
+        imageSrc="/extras/exercise-routine.png"
+        title={routine.goal}
+        label={routine.fitnessLevel}
+        infoItems={[
+          {
+            icon: <Calendar className="size-4" />,
+            text: `${routine.durationWeeks} semanas`,
+          },
+          {
+            icon: <Dumbbell className="size-4" />,
+            text: `${routine.exercises.length} ejercicios`,
+          },
+        ]}
+      />
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full gap-0"
+      >
+        <div className="dark:border-accent border-b border-slate-100 px-3 md:px-6">
+          <TabsList className="h-14 w-full bg-transparent md:justify-start md:gap-8">
+            {["overview", "exercises", "schedule"].map((tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab}
+                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-fuchsia-500 data-[state=active]:text-fuchsia-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-fuchsia-400"
+              >
+                {tab === "overview"
+                  ? "Resumen"
+                  : tab === "exercises"
+                    ? "Ejercicios"
+                    : "Programa"}
+              </TabsTrigger>
+            ))}
+          </TabsList>
         </div>
-        <div className="absolute inset-x-0 top-0 z-10 mt-0! flex w-full justify-between p-6">
-          <Badge className="shadow-md">Rutina de Ejercicios</Badge>
-          <DownloadButton downloadImage={downloadImage} />
-        </div>
-      </CardHeader>
-      <div className="text-foreground/80 space-y-2 p-2 md:space-y-4 md:p-6">
-        <div className="flex items-center justify-center">
-          <div className="flex w-full flex-1 flex-col items-center justify-between space-y-2 text-xs md:flex-row md:space-y-0 md:text-sm">
-            <Badge variant="outline" className="gap-1">
-              <span className="size-2 rounded-full bg-(--chart-4)"></span>
-              Diccionario
-            </Badge>
-            <div className="space-x-4 text-xs">
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <ClockIcon className="size-4" />
-                </div>
-                <span>Duración</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <RestIcon className="size-4" />
-                </div>
-                <span>Descanso</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <EquipmentIcon className="size-4" />
-                </div>
-                <span>Equipamiento</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <ProgressionIcon className="size-4" />
-                </div>
-                <span>Progresión</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5">
-                <div aria-hidden="true">
-                  <ItineraryIcon className="size-4" />
-                </div>
-                <span>Modificaciones</span>
+        <TabsContent
+          value="overview"
+          className="mt-0 focus-visible:ring-0 focus-visible:outline-none"
+        >
+          <ScrollArea className="h-[400px]">
+            <div className="space-y-5 p-3 md:p-6">
+              <div className="space-y-4">
+                <OverviewSection
+                  title="Calentamiento"
+                  content={routine.warmUp}
+                  icon={<Flame className="size-5 text-orange-500" />}
+                />
+
+                <OverviewSection
+                  title="Enfriamiento"
+                  content={routine.coolDown}
+                  icon={<Clock className="size-5 text-blue-500" />}
+                />
+
+                <OverviewSection
+                  title="Recomendaciones"
+                  content={routine.recommendations}
+                  icon={<Zap className="size-5 text-yellow-500" />}
+                />
               </div>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 md:mt-6 md:flex-row">
-          <div className="flex gap-2 md:w-1/2">
-            <div className="text-foreground/80 bg-accent flex w-full flex-col rounded-lg p-3 text-xs md:text-sm">
-              <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-                Objetivo
-              </h3>
-              <p>{routine.goal}</p>
-            </div>
-            <div className="text-foreground/80 bg-accent flex w-full flex-col rounded-lg p-3 text-xs md:text-sm">
-              <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-                Duración
-              </h3>
-              <p>{routine.durationWeeks} semanas</p>
-            </div>
-          </div>
-          <div className="text-foreground/80 bg-accent flex flex-col rounded-lg p-3 text-xs md:w-1/2 md:text-sm">
-            <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-              Nivel de Condición Física
-            </h3>
-            <p>{routine.fitnessLevel}</p>
-          </div>
-        </div>
-        {routine.warmUp && (
-          <div className="text-foreground/80 bg-accent flex w-full items-center gap-3 rounded-lg p-3 text-xs md:text-sm">
-            <BadgeAlert variant="warning" className="mb-0" />
-            <div className="flex flex-col">
-              <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-                Antes de comenzar
-              </h3>
-              <p>{routine.warmUp}</p>
-            </div>
-          </div>
-        )}
-        <ul className="space-y-2 md:space-y-4">
-          {routine.exercises.map((exercise, index) => (
-            <Fragment key={index}>
-              <li className="flex flex-col justify-center gap-2 text-xs md:text-sm">
-                {renderExerciseDetails(exercise)}
-              </li>
-            </Fragment>
-          ))}
-        </ul>
-      </div>
-      <CardFooter className="flex-col items-center justify-center space-y-2 p-2 pt-0! md:space-y-4 md:p-6">
-        {routine.coolDown && (
-          <div className="text-foreground/80 bg-accent flex w-full items-center gap-3 rounded-lg p-3 text-xs md:text-sm">
-            <BadgeAlert variant="success" className="mb-0" />
-            <div className="flex flex-col">
-              <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-                Al finalizar
-              </h3>
-              <p>{routine.coolDown}</p>
-            </div>
-          </div>
-        )}
-        {routine.schedule && (
-          <div className="text-foreground/80 bg-accent flex w-full flex-col space-y-2 rounded-lg p-2 text-xs md:space-y-3 md:p-3 md:text-sm">
-            <div className="inline-flex h-full items-center justify-center gap-2">
-              <CalendarFillIcon className="text-muted-foreground size-4" />
-              <h3 className="font-space-mono text-foreground font-extrabold uppercase">
-                Programa semanal
-              </h3>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {routine.schedule.map((daySchedule, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "prose bg-background text-foreground/80 flex flex-col items-center rounded-lg p-2 md:p-3",
-                    {
-                      "last:col-span-2": index % 2 === 0,
-                    },
-                  )}
-                >
-                  <h4 className="text-foreground text-sm font-semibold">
-                    {daySchedule.day}
-                  </h4>
-                  <ul className="w-fit text-xs md:text-sm">
-                    {daySchedule.exercises.map((exerciseName, idx) => (
-                      <li key={idx} className="pl-0 md:pl-[.375em]">
-                        {exerciseName}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+          </ScrollArea>
+        </TabsContent>
+
+        {/* Exercises Tab */}
+        <TabsContent
+          value="exercises"
+          className="mt-0 focus-visible:ring-0 focus-visible:outline-none"
+        >
+          <ScrollArea className="h-[400px]">
+            <Accordion
+              type="single"
+              collapsible
+              className="space-y-3 p-3 md:p-6"
+            >
+              {routine.exercises.map((exercise, index) => (
+                <ExerciseCard key={index} exercise={exercise} index={index} />
               ))}
+            </Accordion>
+          </ScrollArea>
+        </TabsContent>
+
+        {/* Schedule Tab */}
+        <TabsContent
+          value="schedule"
+          className="mt-0 focus-visible:ring-0 focus-visible:outline-none"
+        >
+          <ScrollArea className="h-[400px]">
+            <div className="space-y-4 p-3 md:p-6">
+              {routine.schedule ? (
+                routine.schedule.map((day, index) => (
+                  <ScheduleCard key={index} schedule={day} />
+                ))
+              ) : (
+                <div className="text-muted-foreground py-10 text-center">
+                  No hay programa semanal disponible
+                </div>
+              )}
             </div>
-          </div>
-        )}
-        {routine.recommendations && (
-          <div className="text-foreground/80 bg-accent rounded-lg p-3 text-xs md:text-sm">
-            <h3 className="font-space-mono text-foreground text-base font-extrabold uppercase md:text-xl">
-              Recomendaciones
-            </h3>
-            <p>{routine.recommendations}</p>
-          </div>
-        )}
-      </CardFooter>
+          </ScrollArea>
+        </TabsContent>
+      </Tabs>
+      <StockFooter />
     </Card>
   );
 };
 
 export default RoutineStock;
+
+function OverviewSection({
+  title,
+  content,
+  icon,
+}: {
+  title: string;
+  content: string | React.ReactNode;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="hover:bg-accent! dark:bg-accent/50 rounded-2xl bg-slate-50 p-4 transition-all duration-200">
+      <div className="mb-2 flex items-center gap-2">
+        {icon}
+        <h3 className="text-foreground text-base font-semibold">{title}</h3>
+      </div>
+      <p className="text-muted-foreground text-sm leading-relaxed">
+        {content || `No hay información de ${title.toLowerCase()} disponible.`}
+      </p>
+    </div>
+  );
+}
+
+function ExerciseCard({
+  exercise,
+  index,
+}: {
+  exercise: Routine["exercises"][number];
+  index: number;
+}) {
+  return (
+    <AccordionItem
+      value={`exercise-${index}`}
+      className="dark:data-[state=open]:bg-accent/50 dark:border-accent overflow-hidden rounded-2xl border! border-slate-100 data-[state=open]:bg-slate-50"
+    >
+      <AccordionTrigger className="flex items-center p-4 hover:no-underline">
+        <div className="flex items-center gap-3">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-fuchsia-100 text-sm font-medium text-fuchsia-500 dark:bg-fuchsia-900/30">
+            {index + 1}
+          </div>
+          <h3 className="font-medium">{exercise.name}</h3>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent className="space-y-4 px-4 pt-0 pb-5">
+        <div className="flex flex-wrap gap-2 pt-1">
+          {exercise.sets && (
+            <Badge
+              variant="outline"
+              className="bg-background rounded-full px-3 py-0.5 text-xs font-medium"
+            >
+              {exercise.sets} series
+            </Badge>
+          )}
+          {exercise.reps && (
+            <Badge
+              variant="outline"
+              className="bg-background rounded-full px-3 py-0.5 text-xs font-medium"
+            >
+              {exercise.reps} reps
+            </Badge>
+          )}
+          {exercise.duration && (
+            <Badge
+              variant="outline"
+              className="bg-background rounded-full px-3 py-0.5 text-xs font-medium"
+            >
+              {exercise.duration}
+            </Badge>
+          )}
+          {exercise.rest && (
+            <Badge
+              variant="outline"
+              className="bg-background rounded-full px-3 py-0.5 text-xs font-medium"
+            >
+              Descanso: {exercise.rest}
+            </Badge>
+          )}
+        </div>
+        {exercise.instructions && (
+          <ExerciseDetail
+            icon={<Info className="size-4 text-blue-500" />}
+            title="Instrucciones"
+            content={exercise.instructions}
+          />
+        )}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {exercise.equipment && (
+            <ExerciseDetail
+              icon={<Dumbbell className="size-4 text-gray-500" />}
+              title="Equipamiento"
+              content={exercise.equipment}
+            />
+          )}
+          {exercise.progression && (
+            <ExerciseDetail
+              icon={<ArrowUpCircle className="size-4 text-green-500" />}
+              title="Progresión"
+              content={exercise.progression}
+            />
+          )}
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {exercise.benefits && (
+            <ExerciseDetail
+              icon={<Heart className="size-4 text-red-500" />}
+              title="Beneficios"
+              content={exercise.benefits}
+            />
+          )}
+          {exercise.modifications && (
+            <ExerciseDetail
+              icon={<AlertCircle className="size-4 text-orange-500" />}
+              title="Modificaciones"
+              content={exercise.modifications}
+            />
+          )}
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+}
+
+function ExerciseDetail({
+  icon,
+  title,
+  content,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  content: string | React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        "bg-background space-y-1 rounded-2xl p-3",
+        title === "Instrucciones" && "bg-transparent p-0",
+      )}
+    >
+      <div className="text-foreground flex items-center gap-2 text-xs font-medium">
+        {icon}
+        {title}
+      </div>
+      <p className="text-muted-foreground pl-6 text-xs leading-relaxed">
+        {content}
+      </p>
+    </div>
+  );
+}
+
+function ScheduleCard({
+  schedule,
+}: {
+  schedule: { exercises: string[]; day: string };
+}) {
+  return (
+    <div className="dark:border-accent hover:shadow-little-pretty overflow-hidden rounded-2xl border border-slate-100 transition-all duration-200">
+      <div className="dark:border-accent border-b border-slate-100 bg-blue-50 px-4 py-3 dark:bg-blue-900/20">
+        <h3 className="text-foreground text-base font-medium">
+          {schedule.day}
+        </h3>
+      </div>
+      <div className="p-4">
+        <ul className="space-y-2">
+          {schedule.exercises.map((exercise, idx) => (
+            <li
+              key={idx}
+              className="text-muted-foreground flex items-start text-sm"
+            >
+              <CheckCircle2 className="mt-0.5 mr-2 size-4 flex-shrink-0 text-blue-500" />
+              <span>{exercise}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}

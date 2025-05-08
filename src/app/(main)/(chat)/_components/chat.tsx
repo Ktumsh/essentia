@@ -8,6 +8,7 @@ import useSWR, { useSWRConfig } from "swr";
 
 import { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import { useChatContext } from "@/hooks/use-chat-context";
+import { useChatModel } from "@/hooks/use-chat-model";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { fetcher } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
@@ -39,7 +40,6 @@ type StreamingDelta = {
 export interface ChatProps {
   id: string;
   initialMessages: Array<UIMessage>;
-  selectedChatModel: string;
   isReadonly: boolean;
   selectedVisibilityType: VisibilityType;
   session: Session | null;
@@ -50,7 +50,6 @@ export interface ChatProps {
 export function Chat({
   id,
   initialMessages,
-  selectedChatModel,
   isReadonly,
   selectedVisibilityType,
   session,
@@ -64,6 +63,8 @@ export function Chat({
   const { setChatData } = useChatContext();
 
   const { setUserMessageIdFromServer } = useUserMessageId();
+
+  const { model } = useChatModel();
 
   const {
     messages,
@@ -82,7 +83,7 @@ export function Chat({
     experimental_prepareRequestBody: (body) => ({
       id,
       message: body.messages.at(-1),
-      selectedChatModel,
+      selectedChatModel: model,
       selectedVisibilityType,
     }),
     initialMessages,

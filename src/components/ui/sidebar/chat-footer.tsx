@@ -1,7 +1,6 @@
 "use client";
 
-import { useParams, usePathname } from "next/navigation";
-import { Session } from "next-auth";
+import { useParams } from "next/navigation";
 
 import {
   SidebarFooter,
@@ -11,28 +10,17 @@ import {
 } from "@/components/kit/sidebar";
 import { useChatContext } from "@/hooks/use-chat-context";
 
-import { ModelSelector } from "../layout/model-selector";
 import { VisibilitySelector } from "../layout/visibility-selector";
 
 interface ChatFooterProps {
   isMobile: boolean;
   isPremium: boolean;
-  session: Session | null;
-  selectedChatModel: string;
 }
 
-const ChatFooter = ({
-  isMobile,
-  isPremium,
-  session,
-  selectedChatModel,
-}: ChatFooterProps) => {
-  const pathname = usePathname();
+const ChatFooter = ({ isMobile, isPremium }: ChatFooterProps) => {
   const params = useParams();
 
   const chatId = params.id;
-
-  const isAIPage = pathname.startsWith("/essentia-ai");
 
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
@@ -47,14 +35,6 @@ const ChatFooter = ({
                 <VisibilitySelector
                   chatId={chatId as string}
                   selectedVisibilityType={selectedVisibilityType || "private"}
-                  isMobile={isMobile}
-                />
-              )}
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              {!isReadonly && isAIPage && session && (
-                <ModelSelector
-                  selectedModelId={selectedChatModel}
                   isMobile={isMobile}
                 />
               )}

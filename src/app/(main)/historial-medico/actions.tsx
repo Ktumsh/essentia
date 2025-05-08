@@ -6,7 +6,7 @@ import { AIRecommendationSchema } from "@/lib/form-schemas";
 
 import { AIRecommendationType } from "./_components/ai-recommendation";
 import { AI_RECOMMENDATION_PROMPT, GeneratePayload } from "./_lib/prompt";
-import { modelProvider } from "../(chat)/_lib/ai/models";
+import { modelProvider } from "../(chat)/_lib/models";
 
 export async function generateAiMedicalRecommendations(
   payload: GeneratePayload,

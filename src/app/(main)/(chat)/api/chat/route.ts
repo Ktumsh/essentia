@@ -32,14 +32,14 @@ import { formatDate } from "@/utils/format";
 import { getUserProfileData } from "@/utils/profile";
 
 import { postRequestBodySchema, type PostRequestBody } from "./schema";
-import { modelProvider } from "../../_lib/ai/models";
-import { systemPrompt, type RequestHints } from "../../_lib/ai/prompts";
-import { createHealthRisk } from "../../_lib/ai/tools/create-health-risk";
-import { createMoodTrack } from "../../_lib/ai/tools/create-mood-track";
-import { createNutritionalPlan } from "../../_lib/ai/tools/create-nutritional-plan";
-import { createRoutine } from "../../_lib/ai/tools/create-routine";
-import { createTrackTask } from "../../_lib/ai/tools/create-track-task";
-import { getWeather } from "../../_lib/ai/tools/get-weather";
+import { modelProvider } from "../../_lib/models";
+import { systemPrompt, type RequestHints } from "../../_lib/prompts";
+import { createHealthRisk } from "../../_lib/tools/create-health-risk";
+import { createMoodTrack } from "../../_lib/tools/create-mood-track";
+import { createNutritionalPlan } from "../../_lib/tools/create-nutritional-plan";
+import { createRoutine } from "../../_lib/tools/create-routine";
+import { createTrackTask } from "../../_lib/tools/create-track-task";
+import { getWeather } from "../../_lib/tools/get-weather";
 import { generateUUID, getTrailingMessageId } from "../../_lib/utils";
 
 import type { Chat } from "@/db/schema";
@@ -81,6 +81,8 @@ export async function POST(request: Request) {
   try {
     const { id, message, selectedChatModel, selectedVisibilityType } =
       requestBody;
+
+    console.log("selectedChatModel", selectedChatModel);
 
     const session = await auth();
 
@@ -170,7 +172,7 @@ export async function POST(request: Request) {
     await createStreamId({ streamId, chatId: id });
 
     const stream = createDataStream({
-      execute: (dataStream) => {
+      execute: async (dataStream) => {
         const result = streamText({
           model: modelProvider.languageModel(selectedChatModel),
           system: systemPrompt({

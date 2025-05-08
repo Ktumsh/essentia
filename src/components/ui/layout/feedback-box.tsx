@@ -229,8 +229,12 @@ const FeedbackBox = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <MessageButton variant="ghost" size="sm">
-          Feedback
+        <MessageButton
+          variant="ghost"
+          size="sm"
+          className="@md/header:size-8 @md/header:rounded-full @md/header:px-0! @3xl/header:h-8 @3xl/header:w-fit @3xl/header:rounded-md @3xl/header:px-2.5!"
+        >
+          <span className="@md/header:hidden @3xl/header:block">Feedback</span>
         </MessageButton>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" align="end">

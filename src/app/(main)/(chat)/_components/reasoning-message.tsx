@@ -7,15 +7,12 @@ import { useState } from "react";
 import { Markdown } from "@/components/markdown";
 import { cn } from "@/lib/utils";
 
-interface MessageReasoningProps {
+interface ReasoningMessageProps {
   isLoading: boolean;
   reasoning: string;
 }
 
-export function MessageReasoning({
-  isLoading,
-  reasoning,
-}: MessageReasoningProps) {
+const ReasoningMessage = ({ isLoading, reasoning }: ReasoningMessageProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const variants = {
@@ -33,15 +30,6 @@ export function MessageReasoning({
     },
   };
 
-  const shimmerVariants = {
-    initial: {
-      opacity: 0.5,
-    },
-    animate: {
-      opacity: 1,
-    },
-  };
-
   return (
     <div className="flex flex-col">
       {isLoading ? (
@@ -49,25 +37,7 @@ export function MessageReasoning({
           className="text-muted-foreground flex flex-row items-center gap-2"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          <p className="text-sm md:text-base">
-            {"Razonando".split("").map((character, index) => (
-              <motion.span
-                key={index}
-                variants={shimmerVariants}
-                initial="initial"
-                animate="animate"
-                transition={{
-                  duration: 1,
-                  ease: "easeInOut",
-                  delay: index * 0.15,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-              >
-                {character === " " ? "\u00A0" : character}
-              </motion.span>
-            ))}
-          </p>
+          <p className="loading-shimmer text-sm md:text-base">Razonando</p>
           <div>
             <ChevronDown
               className={cn(
@@ -114,4 +84,6 @@ export function MessageReasoning({
       </AnimatePresence>
     </div>
   );
-}
+};
+
+export default ReasoningMessage;

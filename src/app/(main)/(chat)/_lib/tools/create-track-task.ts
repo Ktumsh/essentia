@@ -12,9 +12,10 @@ interface CreateTrackTaskProp {
 
 export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
   tool({
-    description: "Crea un seguimiento personalizado para una tarea específica",
+    description:
+      "Crea un recordatorio o seguimiento personalizado para una activida específica",
     parameters: z.object({
-      name: z.string().describe("Nombre de la tarea"),
+      name: z.string().describe("Nombre de la activida"),
       schedule: z.object({
         frequency: z
           .enum([
@@ -24,8 +25,8 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
             "Mensualmente",
             "Anualmente",
           ])
-          .describe("Frecuencia de la tarea"),
-        time: z.string().describe("Hora específica para realizar la tarea"),
+          .describe("Frecuencia de la activida"),
+        time: z.string().describe("Hora específica para realizar la activida"),
         weekDay: z
           .enum([
             "lunes",
@@ -37,12 +38,14 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
             "domingo",
           ])
           .nullable()
-          .describe("Día de la semana para tareas semanales o sin repetición"),
+          .describe(
+            "Día de la semana para actividades semanales o sin repetición",
+          ),
         monthDay: z
           .number()
           .nullable()
           .describe(
-            "Día del mes para tareas mensuales, anuales o sin repetición",
+            "Día del mes para actividades mensuales, anuales o sin repetición",
           ),
         month: z
           .enum([
@@ -60,7 +63,7 @@ export const createTrackTask = ({ userId, chatId }: CreateTrackTaskProp) =>
             "diciembre",
           ])
           .nullable()
-          .describe("Mes para tareas anuales o sin repetición"),
+          .describe("Mes para actividades anuales o sin repetición"),
       }),
     }),
     execute: async (args) => {

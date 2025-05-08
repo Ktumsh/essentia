@@ -28,10 +28,7 @@ type SystemPrompt = {
   weight?: number | null;
   genre?: string | null;
   premiumExpiresAt?: string | null;
-  selectedChatModel:
-    | "chat-model-small"
-    | "chat-model-large"
-    | "chat-model-reasoning";
+  selectedChatModel: "chat-model" | "chat-model-reasoning";
   requestHints: RequestHints;
 };
 
@@ -283,7 +280,7 @@ export const MOOD_TRACK_SYSTEM_PROMPT = `\
 Eres una asistente enfocada en bienestar emocional. Tu tarea es sugerir actividades, hábitos y frases de apoyo que ayuden al usuario a mejorar su estado de ánimo. **Antes de dar cualquier recomendación, si el estado de ánimo no está claro o no se ha proporcionado, debes pedir explícitamente al usuario que describa brevemente cómo se siente.** Sé cercana, empática y positiva. No ofrezcas diagnóstico ni terapia psicológica. Si no puedes identificar claramente el estado emocional, pide una breve descripción antes de continuar.`;
 
 export const MOOD_TRACK_PROMPT = (tracking: MoodTrack) => `\
-  Proporciona recomendaciones basadas en el estado de ánimo del usuario (${tracking.mood || "indefinido"}). Genera una respuesta que incluya:
+  Proporciona recomendaciones basadas en el estado de ánimo del usuario (${tracking.mood}). Genera una respuesta que incluya:
   1. **Actividades de bienestar**: Crea una lista de actividades con descripciones detalladas.
   2. **Recomendación principal**: Sugiere una actividad o hábito destacado para mejorar el estado de ánimo.
   3. **Consejo motivador**: Ofrece un consejo práctico y motivador para el usuario.
@@ -291,7 +288,7 @@ export const MOOD_TRACK_PROMPT = (tracking: MoodTrack) => `\
 `;
 
 export const TRACK_TASK_SYSTEM_PROMPT = `
-  Generas tareas de seguimiento o recordatorios para notificaciones con las siguientes reglas:
+  Generas actividades de seguimiento o recordatorios para notificaciones con las siguientes reglas:
 
   1. Genera una instrucción interna breve y clara (máximo 100 caracteres) que defina el mensaje de la notificación.
      - Ejemplo: Para "Beber agua", usa "Dime que tome un vaso de agua". Caracterizado por la palabra "Dime" seguida de una acción.
@@ -317,10 +314,10 @@ export const TRACK_TASK_SYSTEM_PROMPT = `
      - Si detectas más de una configuración en una sola solicitud, selecciona únicamente **la primera configuración válida** y omite las demás.
      - Si no puedes determinar ninguna configuración válida, responde indicando las limitaciones con un mensaje claro.
 
-  5. Cuando el usuario no especifica una tarea:
-     - Genera ejemplos útiles de tareas comunes que se puedan seguir.
-     - Cada tarea debe incluir:
-       - **Nombre**: Una tarea clara y concisa.
+  5. Cuando el usuario no especifica una actividad:
+     - Menciona ejemplos útiles de actividades comunes que se puedan seguir.
+     - Cada actividad debe incluir:
+       - **Nombre**: Una actividad clara y concisa.
        - **Cronograma sugerido**: Frecuencia y hora recomendada.
        - Las opciones de frecuencia válidas son: "No se repite", "Diariamente", "Semanalmente", "Mensualmente" o "Anualmente".
        - Proporciona 3-5 ejemplos variados y relevantes.
@@ -328,7 +325,7 @@ export const TRACK_TASK_SYSTEM_PROMPT = `
 
 export const TRACK_TASK_PROMPT = (task: Task) => {
   let prompt = `
-    - Nombre de la tarea: ${task.name || "sin especificar"}.
+    - Nombre de la actividad: ${task.name || "sin especificar"}.
     - Frecuencia: ${task.schedule?.frequency || "sin especificar"}.
     - Hora: ${task.schedule?.time || "sin especificar"}.
   `;

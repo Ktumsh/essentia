@@ -70,7 +70,7 @@ const TaskStock = ({
 
   if (!task || isLoading)
     return (
-      <Card className="skeleton skeleton-bg flex w-fit max-w-80 min-w-72 items-center justify-between rounded-xl border-none pr-3">
+      <Card className="skeleton skeleton-bg flex w-fit max-w-80 min-w-72 items-center justify-between rounded-xl pr-3">
         <CardHeader className="px-5 py-4">
           <CardTitle className="skeleton-text text-sm">
             Recordar beber agua

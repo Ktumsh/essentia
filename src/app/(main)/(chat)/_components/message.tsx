@@ -14,12 +14,12 @@ import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import EditModal from "./edit-modal";
-import { InitialLoading } from "./initial-loading";
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
-import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
+import ReasoningMessage from "./reasoning-message";
 import { BotAvatar, UserAvatar } from "./role-avatar";
+import ToolMessage from "./tool-message";
 import {
   HealthRiskStock,
   MoodTrackStock,
@@ -201,7 +201,7 @@ const PurePreviewMessage = ({
 
             if (type === "reasoning") {
               return (
-                <MessageReasoning
+                <ReasoningMessage
                   key={key}
                   isLoading={isLoading}
                   reasoning={part.reasoning}
@@ -281,7 +281,7 @@ const PurePreviewMessage = ({
                     ) : toolName === "trackTask" ? (
                       <TaskStock />
                     ) : (
-                      <InitialLoading />
+                      <ToolMessage />
                     )}
                   </div>
                 );
@@ -306,9 +306,7 @@ const PurePreviewMessage = ({
                       <MoodTrackStock {...result.moodTrack} />
                     ) : toolName === "createTrackTask" ? (
                       <TaskStock task={taskProps} isLoading={isTaskLoading} />
-                    ) : (
-                      <pre>{JSON.stringify(result, null, 2)}</pre>
-                    )}
+                    ) : null}
                   </div>
                 );
               }
@@ -354,55 +352,3 @@ export const PreviewMessage = memo(
     return true;
   },
 );
-
-export const ThinkingMessage = () => {
-  const role = "assistant";
-
-  const shimmerVariants = {
-    initial: {
-      opacity: 0.5,
-    },
-    animate: {
-      opacity: 1,
-    },
-  };
-
-  return (
-    <motion.div
-      initial={{ y: 5, opacity: 0 }}
-      animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
-      data-role={role}
-      className="group/message relative mx-auto flex w-full max-w-3xl items-start px-4"
-    >
-      <div
-        className={cn(
-          "flex w-full gap-4 rounded-xl group-data-[role=user]/message:ml-auto group-data-[role=user]/message:w-fit group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:px-3 group-data-[role=user]/message:py-2",
-          {
-            "group-data-[role=user]/message:bg-muted": true,
-          },
-        )}
-      >
-        <BotAvatar />
-        <span className="text-muted-foreground text-sm md:text-base">
-          {"Mmm...".split("").map((character, index) => (
-            <motion.span
-              key={index}
-              variants={shimmerVariants}
-              initial="initial"
-              animate="animate"
-              transition={{
-                duration: 1,
-                ease: "easeInOut",
-                delay: index * 0.15,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            >
-              {character === " " ? "\u00A0" : character}
-            </motion.span>
-          ))}
-        </span>
-      </div>
-    </motion.div>
-  );
-};

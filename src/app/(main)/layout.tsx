@@ -6,7 +6,7 @@ import LayoutWrapper from "@/components/ui/layout/layout-wrapper";
 import { getSubscription } from "@/db/querys/payment-querys";
 import { getUserProfileData } from "@/utils/profile";
 
-import { DEFAULT_CHAT_MODEL } from "./(chat)/_lib/ai/models";
+import { DEFAULT_CHAT_MODEL } from "./(chat)/_lib/models";
 
 export default async function MainLayout({
   children,
