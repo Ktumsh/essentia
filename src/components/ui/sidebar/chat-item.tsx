@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { KeyedMutator, useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 import {
   SidebarMenuButton,
@@ -22,13 +22,15 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import ChatActions from "./chat-actions";
 import ChatEditTitleDialog from "./chat-edit-title-dialog";
 
+import type { ChatHistory } from "@/app/(main)/(chat)/_lib/utils";
 import type { Chat } from "@/db/schema";
+import type { SWRInfiniteKeyedMutator } from "swr/infinite";
 
 interface ChatItemProps {
   index: number;
   chat: Chat;
   isActive: boolean;
-  mutate: KeyedMutator<Chat[]>;
+  mutate: SWRInfiniteKeyedMutator<ChatHistory[]>;
 }
 
 const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
@@ -89,13 +91,15 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
       if (!res) {
         return toast.error("No se ha podido renombrar el chat 😢");
       }
-      mutate((history) => {
-        if (history) {
-          return history.map((h) =>
-            h.id === chat.id ? { ...h, title: chatTitle.trim() } : h,
-          );
-        }
-      });
+      mutate((pages) => {
+        if (!pages) return [];
+        return pages.map((page) => ({
+          ...page,
+          chats: page.chats.map((c) =>
+            c.id === chat.id ? { ...c, title: chatTitle.trim() } : c,
+          ),
+        }));
+      }, false);
       mutateTitle(`/api/chat-title?id=${chat.id}`);
       toast.success("Chat renombrado exitosamente 🎉");
     } catch (error) {

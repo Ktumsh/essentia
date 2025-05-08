@@ -1,9 +1,12 @@
+import { Loader } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useParams } from "next/navigation";
 import { Fragment } from "react";
-import { KeyedMutator } from "swr";
 
-import { groupChatsByDate } from "@/app/(main)/(chat)/_lib/utils";
+import {
+  groupChatsByDate,
+  type ChatHistory as ChatHistoryType,
+} from "@/app/(main)/(chat)/_lib/utils";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -14,17 +17,34 @@ import { useChatContext } from "@/hooks/use-chat-context";
 
 import ChatItem from "./chat-item";
 
-import type { Chat } from "@/db/schema";
+import type { SWRInfiniteKeyedMutator } from "swr/infinite";
 
 interface ChatHistoryProps {
-  history?: Chat[];
-  mutate: KeyedMutator<Chat[]>;
+  paginatedChatHistories?: ChatHistoryType[];
+  mutate: SWRInfiniteKeyedMutator<ChatHistoryType[]>;
+  isValidating: boolean;
+  setSize: (
+    size: number | ((_size: number) => number),
+  ) => Promise<ChatHistoryType[] | undefined>;
 }
 
-const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
+const ChatHistory = ({
+  paginatedChatHistories,
+  mutate,
+  isValidating,
+  setSize,
+}: ChatHistoryProps) => {
   const { id } = useParams();
 
   const { activeChatId } = useChatContext();
+
+  const hasReachedEnd = paginatedChatHistories
+    ? paginatedChatHistories.some((page) => page.hasMore === false)
+    : false;
+
+  const hasEmptyChatHistory = paginatedChatHistories
+    ? paginatedChatHistories.every((page) => page.chats.length === 0)
+    : false;
 
   const ChatDateTitle = ({ day }: { day: string }) => {
     return (
@@ -34,7 +54,7 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
     );
   };
 
-  if (history?.length === 0) {
+  if (hasEmptyChatHistory) {
     return (
       <SidebarGroup>
         <SidebarGroupContent>
@@ -51,9 +71,13 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
       <SidebarGroup className="pt-0">
         <SidebarGroupContent>
           <SidebarMenu className="md:max-w-[197px]">
-            {history &&
+            {paginatedChatHistories &&
               (() => {
-                const groupedChats = groupChatsByDate(history);
+                const chatsFromHistory = paginatedChatHistories.flatMap(
+                  (paginatedChatHistory) => paginatedChatHistory.chats,
+                );
+
+                const groupedChats = groupChatsByDate(chatsFromHistory);
 
                 if (groupedChats) {
                   return (
@@ -157,6 +181,24 @@ const ChatHistory = ({ history, mutate }: ChatHistoryProps) => {
                   );
                 }
               })()}
+
+            <motion.div
+              onViewportEnter={() => {
+                if (!isValidating && !hasReachedEnd) {
+                  setSize((size) => size + 1);
+                }
+              }}
+            />
+
+            {hasReachedEnd ? (
+              <div className="text-muted-foreground mt-4 flex w-full flex-row items-center justify-center gap-2 px-2 text-center text-xs">
+                Has llegado al final del historial de chats.
+              </div>
+            ) : (
+              <div className="text-muted-foreground mt-4 flex flex-row items-center justify-center gap-2 p-2">
+                <Loader className="size-4 animate-spin" />
+              </div>
+            )}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

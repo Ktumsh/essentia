@@ -14,18 +14,23 @@ import {
   useSidebar,
 } from "@/components/kit/sidebar";
 import { deleteAllChatsByUserId } from "@/db/querys/chat-querys";
-import { Chat } from "@/db/schema";
 
 import ChatClearHistory from "./chat-clear-history";
 
+import type { ChatHistory } from "@/app/(main)/(chat)/_lib/utils";
+
 interface ChatSidebarProps {
   session: Session | null;
-  history: Chat[] | undefined;
+  paginatedChatHistories?: ChatHistory[];
 }
 
-const ChatHeader = ({ session, history }: ChatSidebarProps) => {
+const ChatHeader = ({ session, paginatedChatHistories }: ChatSidebarProps) => {
   const router = useRouter();
   const { isMobile, setOpenMobile } = useSidebar();
+
+  const isEnabledChatHistory = paginatedChatHistories
+    ? paginatedChatHistories.every((page) => page.chats.length > 0)
+    : false;
 
   return (
     <SidebarGroup>
@@ -60,7 +65,7 @@ const ChatHeader = ({ session, history }: ChatSidebarProps) => {
               id: session?.user?.id as string,
             })
           }
-          isEnabled={history ? history.length > 0 : false}
+          isEnabled={isEnabledChatHistory}
         />
       </SidebarMenu>
     </SidebarGroup>
