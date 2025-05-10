@@ -36,6 +36,13 @@
       "when": 1746362582191,
       "tag": "0005_swift_tinkerer",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1746844670172,
+      "tag": "0006_bitter_genesis",
+      "breakpoints": true
     }
   ]
 }

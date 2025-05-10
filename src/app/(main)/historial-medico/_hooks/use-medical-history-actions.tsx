@@ -74,19 +74,20 @@ export function useMedicalHistoryActions({
   ) {
     let updatedFile = null;
     try {
-      if (!data.file) return;
-      const uploadedFile = await uploadMedicalFile(data.file);
-      if (!uploadedFile) return;
+      if (data.file) {
+        const uploadedFile = await uploadMedicalFile(data.file);
+        if (uploadedFile) {
+          updatedFile = {
+            url: uploadedFile.url,
+            name: uploadedFile.name,
+            size: uploadedFile.size,
+            contentType: data.file.type,
+            uploadedAt: uploadedFile.uploadedAt,
+          };
+        }
+      }
 
-      updatedFile = {
-        url: uploadedFile.url,
-        name: uploadedFile.name,
-        size: uploadedFile.size,
-        contentType: data.file.type,
-        uploadedAt: uploadedFile.uploadedAt,
-      };
-
-      await updateMedicalHistory({
+      const res = await updateMedicalHistory({
         userId,
         id: editingItem.id,
         data: {
@@ -101,6 +102,8 @@ export function useMedicalHistoryActions({
         },
         file: updatedFile || undefined,
       });
+
+      console.log("res", res);
 
       toast.success("Documento actualizado correctamente 😊");
       mutate();

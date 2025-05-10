@@ -191,9 +191,11 @@ const MedicalHistory = () => {
 
   const handleUpdateRecord = useCallback(
     async (data: MedicalHistoryFormData) => {
+      console.log("handleUpdateRecord", data);
       if (!editingItem) return;
       setIsSubmitting(true);
-      await updateRecord(editingItem, data);
+      const res = await updateRecord(editingItem, data);
+      console.log("handleUpdateRecord", res);
       setDialogs((prev) => ({ ...prev, isEditDialogOpen: false }));
       setEditingItem(null);
       setIsSubmitting(false);

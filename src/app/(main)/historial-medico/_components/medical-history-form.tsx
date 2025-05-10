@@ -127,7 +127,6 @@ export default function MedicalHistoryForm({
     formState: { errors },
   } = form;
 
-  // Contenido común del formulario
   const formContent = (
     <div className="overflow-y-auto p-4 md:p-6">
       <Form {...form}>
