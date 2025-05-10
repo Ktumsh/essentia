@@ -38,12 +38,6 @@ export interface HealthFact {
   image: string;
 }
 
-export interface FAQPrincing {
-  id: number;
-  question: string;
-  answer: string;
-}
-
 interface BubbleData {
   ref: React.RefObject<HTMLImageElement | null> | null;
   src: string;

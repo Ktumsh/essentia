@@ -20,8 +20,7 @@ export const SUBSCRIPTION_PLANS = [
       "Hasta 12 documentos médicos activos",
       "Perfil de usuario con historial médico básico",
       "Recomendaciones generales de salud",
-      "Puedes cambiar de plan cuando quieras",
-      "Soporte estándar",
+      "Organización básica por tipo de documento",
     ],
   },
   {
@@ -29,7 +28,7 @@ export const SUBSCRIPTION_PLANS = [
     frequency: "Mensual",
     name: "Premium",
     description:
-      "Desbloquea IA, planes personalizados y más herramientas de salud.",
+      "Desbloquea IA, planes personalizados y herramientas avanzadas.",
     label: "Recomendado",
     other: "Cancela en cualquier momento",
     amount: 12000,
@@ -37,34 +36,34 @@ export const SUBSCRIPTION_PLANS = [
     currency: "clp",
     features: [
       "Todo lo del plan Básico +",
-      "Acceso a todos los recursos educativos",
-      "Essentia AI: Asistente 24/7 con IA personalizada",
-      "IA integrada con tu perfil médico",
       "Hasta 50 documentos médicos activos",
+      "Essentia AI: Asistente 24/7 con IA personalizada",
+      "Hasta 15 mensajes diarios en el chat",
+      "Recomendaciones con IA basadas en tus documentos médicos",
+      "Hasta 15 recomendaciones activas con IA",
       "Rutinas de ejercicio y planes nutricionales personalizados",
-      "Evaluación de riesgo de salud basada en tu historial",
-      "Seguimiento de hábitos y progreso",
+      "Evaluación de riesgo de salud según tu perfil",
       "Actividades para mejorar tu bienestar",
-      "Soporte rápido",
     ],
   },
   {
     id: premiumPlus,
-    frequency: "Anual",
+    frequency: "Mensual",
     name: "Premium Plus",
-    description:
-      "Ahorra 20% al año, obtén soporte prioritario y espacio médico ilimitado.",
-    label: "Ahorra más",
-    other: "Pago único anual de 115.200 CLP",
-    amount: 115200,
-    monthlyAmount: 9600,
+    description: "Todo sin límites, con IA avanzada y seguimiento completo.",
+    label: "Máximo acceso",
+    other: "Cancela en cualquier momento",
+    amount: 20000,
+    monthlyAmount: 20000,
     currency: "clp",
     features: [
       "Todo lo del plan Premium +",
       "Documentos médicos ilimitados",
-      "Soporte prioritario",
-      "Ahorro del 20% anual",
-      "Paga una vez y despreocúpate por todo un año",
+      "Recomendaciones con IA ilimitadas",
+      "Mensajes ilimitados en el chat Essentia AI",
+      "Sugerencias automáticas según tu actividad y documentos",
+      "Organización inteligente con filtros automáticos por tipo y fecha",
+      "Seguimiento de hábitos y progreso agrupado por herramienta de IA",
     ],
   },
 ];
@@ -109,11 +108,11 @@ export const PLAN_FEATURES_DETAILS = [
     key: "fileUploads",
     name: "Gestión de documentos médicos",
     description:
-      "Guarda tus exámenes, recetas, informes y otros documentos importantes relacionados con tu salud.",
+      "Sube y organiza tus exámenes, recetas, informes u otros documentos médicos importantes.",
     plans: {
       basico: "Hasta 12 documentos",
       premium: "Hasta 50 documentos",
-      premiumPlus: "Ilimitados*",
+      premiumPlus: "Ilimitados",
     },
   },
   {
@@ -131,7 +130,7 @@ export const PLAN_FEATURES_DETAILS = [
     key: "essentiaAI",
     name: "Essentia AI",
     description:
-      "Asistente de salud con IA que entrega recomendaciones personalizadas basadas en tu información médica.",
+      "Asistente de salud con IA que responde consultas y entrega recomendaciones basadas en tu actividad.",
     plans: {
       basico: false,
       premium: true,
@@ -139,14 +138,36 @@ export const PLAN_FEATURES_DETAILS = [
     },
   },
   {
-    key: "aiProfileIntegration",
-    name: "IA conectada a tu perfil",
+    key: "chatLimit",
+    name: "Mensajes en el chat Essentia AI",
     description:
-      "La IA analiza tus documentos médicos y hábitos para darte recomendaciones de salud precisas.",
+      "Número de mensajes diarios permitidos en el chat con el asistente Essentia AI.",
+    plans: {
+      basico: false,
+      premium: "Hasta 15 mensajes diarios",
+      premiumPlus: "Mensajes ilimitados",
+    },
+  },
+  {
+    key: "aiProfileIntegration",
+    name: "IA conectada a tus documentos",
+    description:
+      "La IA analiza los documentos que subes para generar recomendaciones personalizadas.",
     plans: {
       basico: false,
       premium: true,
       premiumPlus: true,
+    },
+  },
+  {
+    key: "aiRecommendations",
+    name: "Recomendaciones con IA",
+    description:
+      "Recibe recomendaciones generadas por IA basadas en tus documentos médicos.",
+    plans: {
+      basico: false,
+      premium: "Hasta 15 activas simultáneamente",
+      premiumPlus: "Ilimitadas",
     },
   },
   {
@@ -163,8 +184,7 @@ export const PLAN_FEATURES_DETAILS = [
   {
     key: "riskAssessment",
     name: "Evaluación de salud",
-    description:
-      "Análisis de riesgo personalizado en base a tu historial y comportamiento registrado.",
+    description: "Análisis de riesgo personalizado según tu perfil general.",
     plans: {
       basico: false,
       premium: true,
@@ -183,14 +203,14 @@ export const PLAN_FEATURES_DETAILS = [
     },
   },
   {
-    key: "support",
-    name: "Soporte",
+    key: "habitTracking",
+    name: "Seguimiento de hábitos y progreso",
     description:
-      "Accede a distintos niveles de soporte según tu plan: estándar (respuesta en 48h), rápido (respuesta en el mismo día hábil), y prioritario (respuesta preferente en menos de 12h).",
+      "Historial agrupado por herramienta utilizada con IA para ver tu evolución y hábitos saludables.",
     plans: {
-      basico: "Estándar 🕓",
-      premium: "Rápido ⚡",
-      premiumPlus: "Prioritario 🚀",
+      basico: false,
+      premium: false,
+      premiumPlus: true,
     },
   },
 ];

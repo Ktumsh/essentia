@@ -51,7 +51,7 @@ export const FAQ_SUPPORT = [
     id: "f7",
     question: "¿Qué incluye el plan gratuito de Essentia?",
     answer:
-      "El plan gratuito te da acceso a recursos educativos, un mapa de centros de salud, carga de hasta 6 archivos médicos, y recomendaciones generales de salud.",
+      "El plan gratuito te da acceso a recursos educativos, un mapa de centros de salud, rutas de aprendizaje, hasta 12 documentos médicos y recomendaciones generales de salud.",
     category: "planes",
     tags: ["plan gratuito", "funcionalidades", "archivos", "recursos"],
   },
@@ -59,7 +59,7 @@ export const FAQ_SUPPORT = [
     id: "f8",
     question: "¿Qué ventajas tiene el plan Premium?",
     answer:
-      "Incluye todo lo del plan gratuito, más acceso completo a Essentia AI, integración con tu historial médico, planes y rutinas personalizadas, evaluación de riesgo de salud, actividades de bienestar y soporte estándar.",
+      "Incluye todo lo del plan gratuito, además de acceso a Essentia AI con hasta 15 mensajes diarios, generación de recomendaciones con IA basadas en tus documentos médicos (hasta 15 activas), rutinas personalizadas, evaluación de riesgo de salud y actividades de bienestar.",
     category: "planes",
     tags: ["plan premium", "funcionalidades", "IA", "rutinas", "bienestar"],
   },
@@ -68,9 +68,9 @@ export const FAQ_SUPPORT = [
     question:
       "¿Cuáles son las diferencias entre el plan Premium y Premium Plus?",
     answer:
-      "El plan Premium Plus incluye todo lo del plan Premium, pero con mayor capacidad de almacenamiento médico (hasta 60 archivos), soporte prioritario y un pago único anual con un 20% de ahorro.",
+      "El plan Premium Plus ofrece todo lo del plan Premium, pero sin límites: mensajes ilimitados en el chat, recomendaciones con IA ilimitadas, documentos médicos sin tope, seguimiento agrupado por herramienta de IA y organización inteligente del historial médico.",
     category: "planes",
-    tags: ["premium plus", "almacenamiento", "soporte", "ahorro"],
+    tags: ["premium plus", "diferencias", "ilimitado", "comparación"],
   },
   {
     id: "f10",
@@ -91,9 +91,9 @@ export const FAQ_SUPPORT = [
     id: "f12",
     question: "¿Qué incluye el plan Premium Plus?",
     answer:
-      "Incluye todas las funciones del plan Premium, además de soporte prioritario, mayor almacenamiento médico y un ahorro del 20% con pago único anual de $115.200 CLP.",
+      "Incluye todas las funciones del plan Premium, además de documentos médicos ilimitados, recomendaciones con IA ilimitadas, mensajes sin restricción en el chat, organización inteligente del historial y seguimiento agrupado de hábitos según herramientas utilizadas.",
     category: "planes",
-    tags: ["premium plus", "soporte", "precio anual", "funciones"],
+    tags: ["premium plus", "ilimitado", "chat", "historial", "IA"],
   },
   {
     id: "f13",
@@ -136,6 +136,14 @@ export const FAQ_SUPPORT = [
     tags: ["IA", "Essentia AI", "planes"],
   },
   {
+    id: "f17b",
+    question: "¿Qué herramientas incluye Essentia AI según mi plan?",
+    answer:
+      "Essentia AI ofrece funciones como chat de salud personalizado, generación de rutinas y planes nutricionales, evaluación de riesgo de salud, recomendaciones según el clima y recordatorios relacionados con tu bienestar. En el plan Premium puedes enviar hasta 15 mensajes diarios. En el plan Premium Plus puedes usar todas estas herramientas sin límites.",
+    category: "planes",
+    tags: ["essentia ai", "funcionalidades", "chat", "planes", "herramientas"],
+  },
+  {
     id: "f18",
     question: "¿Puedo compartir mi suscripción Premium con otras personas?",
     answer:
@@ -152,10 +160,9 @@ export const FAQ_SUPPORT = [
   },
   {
     id: "f20",
-    question:
-      "¿Qué sucede si quiero cambiar de Premium Plus a Premium mensual?",
+    question: "¿Qué sucede si quiero cambiar de Premium Plus a Premium?",
     answer:
-      "Puedes hacerlo al finalizar tu año de suscripción. No se hacen reembolsos parciales.",
+      "Puedes hacerlo en cualquier momento desde tu perfil. El cambio se aplicará al finalizar tu ciclo de facturación mensual.",
     category: "planes",
     tags: ["cambio plan", "premium plus", "mensual"],
   },
@@ -187,9 +194,9 @@ export const FAQ_SUPPORT = [
     id: "f24",
     question: "¿Qué tipos de recomendaciones entrega Essentia?",
     answer:
-      "Essentia ofrece recomendaciones personalizadas sobre salud física, emocional y nutricional, basadas en los archivos médicos que subes. Esta función está disponible en el plan Premium.",
+      "Essentia genera recomendaciones personalizadas en base a los documentos médicos que subes. Estas recomendaciones incluyen consejos de salud, bienestar y estilo de vida, y están disponibles desde el plan Premium.",
     category: "tecnico",
-    tags: ["recomendaciones", "IA", "personalizadas", "premium"],
+    tags: ["recomendaciones", "IA", "documentos", "premium"],
   },
   {
     id: "f25",

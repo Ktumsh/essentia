@@ -1,30 +1,28 @@
-import { FAQPrincing } from "@/types/common";
-
-export const FAQ_PRICING: FAQPrincing[] = [
+export const FAQ_PRICING = [
   {
     id: 1,
     question: "¿Qué incluye el plan gratuito de Essentia?",
     answer:
-      "El plan gratuito te da acceso a recursos educativos, un mapa de centros de salud, carga de hasta 6 archivos médicos, y recomendaciones generales de salud.",
+      "El plan gratuito te da acceso a recursos educativos, un mapa de centros de salud, rutas de aprendizaje y hasta 12 documentos médicos, junto con recomendaciones generales de salud.",
   },
   {
     id: 2,
     question: "¿Qué ventajas tiene el plan Premium?",
     answer:
-      "Incluye todo lo del plan gratuito, más acceso completo a Essentia AI, integración con tu historial médico, planes y rutinas personalizadas, evaluación de riesgo de salud, actividades de bienestar y soporte estándar.",
+      "Incluye todo lo del plan gratuito, más acceso a Essentia AI con hasta 15 mensajes diarios, recomendaciones con IA basadas en tus documentos (hasta 15 activas), planes personalizados, evaluación de riesgo de salud y actividades de bienestar.",
   },
   {
     id: 3,
     question:
       "¿Cuáles son las diferencias entre el plan Premium y Premium Plus?",
     answer:
-      "El plan Premium Plus incluye todo lo del plan Premium, pero con mayor capacidad de almacenamiento médico (hasta 60 archivos), soporte prioritario y un pago único anual con un 20% de ahorro.",
+      "Premium Plus incluye todo lo del plan Premium, pero sin límites: recomendaciones con IA ilimitadas, mensajes ilimitados en el chat, documentos médicos ilimitados, organización inteligente del historial y seguimiento de progreso agrupado por herramientas de IA.",
   },
   {
     id: 4,
     question: "¿Puedo cambiar de plan en cualquier momento?",
     answer:
-      "Sí, puedes cambiar de plan cuando lo desees desde tu perfil. El cambio se aplicará de forma inmediata o al finalizar tu periodo actual, dependiendo del tipo de plan.",
+      "Sí, puedes cambiar de plan cuando lo desees desde tu perfil. El cambio se aplica de forma inmediata o al finalizar tu ciclo actual, según corresponda.",
   },
   {
     id: 5,
@@ -35,7 +33,7 @@ export const FAQ_PRICING: FAQPrincing[] = [
     id: 6,
     question: "¿Qué incluye el plan Premium Plus?",
     answer:
-      "Incluye todas las funciones del plan Premium, además de soporte prioritario, mayor almacenamiento médico y un ahorro del 20% con pago único anual de $115.200 CLP.",
+      "Incluye todas las funciones del plan Premium, pero sin límites: IA con mensajes y recomendaciones ilimitadas, documentos médicos sin tope, seguimiento agrupado por herramienta de IA y organización inteligente del historial.",
   },
   {
     id: 7,
@@ -65,7 +63,7 @@ export const FAQ_PRICING: FAQPrincing[] = [
     id: 11,
     question: "¿Essentia AI está disponible en todos los planes?",
     answer:
-      "No. Essentia AI solo está disponible para usuarios con los planes Premium o Premium Plus.",
+      "No. Essentia AI solo está disponible en los planes Premium y Premium Plus.",
   },
   {
     id: 12,
@@ -80,16 +78,15 @@ export const FAQ_PRICING: FAQPrincing[] = [
   },
   {
     id: 14,
-    question:
-      "¿Qué sucede si quiero cambiar de Premium Plus a Premium mensual?",
+    question: "¿Qué sucede si quiero cambiar de Premium Plus a Premium?",
     answer:
-      "Puedes hacerlo al finalizar tu año de suscripción. No se hacen reembolsos parciales.",
+      "Puedes cambiar en cualquier momento desde tu perfil. El nuevo plan se aplicará al finalizar tu ciclo de facturación actual.",
   },
   {
     id: 15,
     question: "¿Puedo probar el plan Premium antes de comprarlo?",
     answer:
-      "Sí, puedes acceder a una prueba gratuita de 7 días del plan Premium. Durante ese periodo, podrás explorar funcionalidades como Essentia AI, recomendaciones personalizadas, carga extendida de archivos y más. Al finalizar la prueba, puedes elegir si deseas continuar con el plan de pago.",
+      "Sí, puedes acceder a una prueba gratuita de 7 días del plan Premium. Durante ese periodo podrás explorar funcionalidades como Essentia AI, recomendaciones personalizadas y planes adaptados a tu perfil.",
   },
   {
     id: 16,
@@ -97,4 +94,12 @@ export const FAQ_PRICING: FAQPrincing[] = [
     answer:
       "Sí, los precios pueden cambiar. Si ya tienes una suscripción activa, te avisaremos con anticipación.",
   },
+  {
+    id: 17,
+    question: "¿Qué herramientas ofrece Essentia AI?",
+    answer:
+      "Essentia AI es un asistente conversacional que responde tus dudas sobre salud, bienestar, nutrición y ejercicio. A través del chat puedes generar rutinas personalizadas, planes nutricionales, actividades para mejorar el ánimo, recibir una evaluación de riesgo de salud, obtener recomendaciones según el clima de tu zona y recibir recordatorios relacionados con tu bienestar.",
+  },
 ];
+
+export type FAQPricing = (typeof FAQ_PRICING)[number];
