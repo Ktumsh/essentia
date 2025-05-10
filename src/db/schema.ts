@@ -187,7 +187,7 @@ export const chatStream = table(
     foreignKey({
       columns: [t.chatId],
       foreignColumns: [chat.id],
-    }),
+    }).onDelete("cascade"),
   ],
 );
 
