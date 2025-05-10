@@ -47,7 +47,7 @@ export async function generateAiMedicalRecommendations(
 
   try {
     const { object: result } = await generateObject({
-      model: modelProvider.languageModel("chat-model-large"),
+      model: modelProvider.languageModel("chat-model-reasoning"),
       system: prompt,
       schema: AIRecommendationSchema,
       messages: [
