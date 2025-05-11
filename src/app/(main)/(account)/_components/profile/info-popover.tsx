@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import Link from "next/link";
 import { memo, useMemo } from "react";
 
 import { Button } from "@/components/kit/button";
@@ -8,7 +9,10 @@ import {
   PopoverTrigger,
 } from "@/components/kit/popover";
 import { BetterTooltip } from "@/components/kit/tooltip";
+import { LinkIcon } from "@/components/ui/icons/action";
 import { QuestionMarkIcon } from "@/components/ui/icons/common";
+
+import type { JSX } from "react";
 
 type PopoverContentType =
   | "birthdate"
@@ -26,7 +30,7 @@ type PopoverContentType =
 
 type PopoverContent = {
   title: string;
-  content: string[];
+  content: (string | JSX.Element)[];
 };
 
 const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
@@ -39,14 +43,38 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
   bioFormat: {
     title: "Formato de instrucciones personalizadas",
     content: [
-      "¿Qué te gustaría que Essentia AI supiera sobre ti para poder mejorar sus respuestas?",
-      "Describe tus preferencias, objetivos, restricciones o cualquier información relevante en un máximo de 2000 caracteres.",
+      <>
+        ¿Qué debería saber{" "}
+        <Link
+          href="/soporte?q=Nyra"
+          target="_blank"
+          className="text-blue-500 underline hover:text-blue-600"
+        >
+          Nyra
+          <LinkIcon className="mb-1 ml-0.5 inline size-2" />
+        </Link>{" "}
+        para ayudarte mejor?
+      </>,
+      "Puedes incluir datos sobre tu salud, hábitos, estilo de vida, cómo prefieres que te respondan, qué temas evitar, o cualquier detalle que consideres importante.",
+      "Máximo 2000 caracteres.",
     ],
   },
   bioReason: {
-    title: "¿Por qué indicar instrucciones personalizadas?",
+    title: "¿Por qué entregar instrucciones personalizadas?",
     content: [
-      "Saber sobre ti nos permite mejorar tus respuestas y recomendaciones, ofreciéndote una experiencia más personalizada y relevante.",
+      <>
+        Tus instrucciones ayudan a que{" "}
+        <Link
+          href="/soporte?q=Nyra"
+          target="_blank"
+          className="text-blue-500 underline hover:text-blue-600"
+        >
+          Nyra
+          <LinkIcon className="mb-1 ml-0.5 inline size-2" />
+        </Link>{" "}
+        adapte sus respuestas a lo que tú realmente necesitas.
+      </>,
+      "Así podemos ofrecerte orientación más útil, cercana y alineada con tu estilo de vida.",
     ],
   },
   genre: {
@@ -97,16 +125,16 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     ],
   },
   taskName: {
-    title: "Formato de nombre de tarea",
+    title: "Formato de nombre de actividad",
     content: [
-      "Introduce un nombre breve para tu tarea o recordatorio en un máximo de 80 caracteres.",
+      "Introduce un nombre breve para tu actividad o recordatorio en un máximo de 80 caracteres.",
       'Por ejemplo, "Rutina de estiramientos post-entrenamiento" o "Preparar batido de proteínas"',
     ],
   },
   taskInstructions: {
-    title: "Formato de instrucciones de tarea",
+    title: "Formato de instrucciones de actividad",
     content: [
-      "Proporciona instrucciones claras y concisas para tu tarea o recordatorio en un máximo de 100 caracteres.",
+      "Proporciona instrucciones claras y concisas para tu actividad o recordatorio en un máximo de 100 caracteres.",
       'Por ejemplo, "Recuérdame hacer 10 minutos de estiramientos enfocados en piernas y espalda baja".',
     ],
   },
@@ -156,10 +184,13 @@ function InfoPopover({ type }: { type: PopoverContentType }) {
           </Button>
         </PopoverTrigger>
       </BetterTooltip>
-      <PopoverContent className="text-foreground/80 max-w-60 space-y-1.5 p-3 text-xs">
+      <PopoverContent
+        onClick={(e) => e.stopPropagation()}
+        className="text-foreground/80 max-w-60 space-y-1.5 p-3 text-xs"
+      >
         <h3 className="text-foreground font-semibold">{title}</h3>
-        {content.map((text, index) => (
-          <p key={index}>{text}</p>
+        {content.map((item, index) => (
+          <p key={index}>{typeof item === "string" ? item : item}</p>
         ))}
       </PopoverContent>
     </Popover>

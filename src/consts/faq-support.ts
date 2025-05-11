@@ -303,4 +303,12 @@ export const FAQ_SUPPORT = [
     category: "tecnico",
     tags: ["controles", "historial médico", "documentos"],
   },
+  {
+    id: "f38",
+    question: "¿Quién es Aeris?",
+    answer:
+      "Aeris es la identidad conversacional de Essentia AI, tu asistente personalizada de salud y bienestar. Está diseñada para responder con calidez, empatía y claridad, entregando recomendaciones, rutinas, recordatorios y orientación en temas relacionados con tu bienestar físico, emocional y nutricional. Aunque no reemplaza a profesionales de la salud, te acompaña día a día con consejos útiles y adaptados a tu perfil.",
+    category: "general",
+    tags: ["aeris", "essentia ai", "asistente", "ia", "bienestar"],
+  },
 ];

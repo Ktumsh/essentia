@@ -1,0 +1,1 @@
+ALTER TABLE "user_chat_usage" ALTER COLUMN "date" SET DATA TYPE date;

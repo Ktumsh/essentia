@@ -11,6 +11,7 @@ import {
   integer,
   foreignKey,
   unique,
+  date,
 } from "drizzle-orm/pg-core";
 
 export const user = table("user", {
@@ -71,7 +72,7 @@ export const userChatUsage = table(
     userId: uuid("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    date: timestamp("date").notNull(),
+    date: date("date").notNull(),
     messagesUsed: integer("messages_used").notNull().default(0),
   },
   (t) => [unique("user_day_unique").on(t.userId, t.date)],

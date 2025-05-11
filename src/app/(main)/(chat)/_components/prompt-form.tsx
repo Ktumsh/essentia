@@ -1,6 +1,5 @@
 "use client";
 
-import { UseChatHelpers } from "@ai-sdk/react";
 import equal from "fast-deep-equal";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
@@ -32,6 +31,7 @@ import { useAdjustHeight } from "../_hooks/use-adjust-height";
 import { useEnterSubmit } from "../_hooks/use-enter-submit";
 import { CHAT_MODELS } from "../_lib/models";
 
+import type { UseChatHelpers } from "@ai-sdk/react";
 import type { Attachment } from "ai";
 
 interface PromptFormProps {
@@ -76,7 +76,7 @@ const PurePromptForm = ({
 
   const { setActiveChatId } = useChatContext();
   const { textareaRef, adjustHeight } = useAdjustHeight();
-  const { formRef, onKeyDown } = useEnterSubmit();
+  const { formRef, onKeyDown } = useEnterSubmit(status);
   const [localStorageInput, setLocalStorageInput] = useLocalStorage(
     "input",
     "",

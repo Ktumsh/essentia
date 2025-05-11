@@ -1,6 +1,9 @@
 import { useRef, type RefObject } from "react";
+import { toast } from "sonner";
 
-export function useEnterSubmit(): {
+import type { UseChatHelpers } from "@ai-sdk/react";
+
+export function useEnterSubmit(status: UseChatHelpers["status"]): {
   formRef: RefObject<HTMLFormElement | null>;
   onKeyDown: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 } {
@@ -13,8 +16,12 @@ export function useEnterSubmit(): {
       !event.shiftKey &&
       !event.nativeEvent.isComposing
     ) {
-      formRef.current?.requestSubmit();
       event.preventDefault();
+      if (status !== "ready") {
+        toast.error("Por favor, espera a que Nyra termine su respuesta 😊");
+      } else {
+        formRef.current?.requestSubmit();
+      }
     }
   };
   return { formRef, onKeyDown: handleKeyDown };

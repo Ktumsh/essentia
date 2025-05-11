@@ -25,7 +25,7 @@ const ChatHeader = () => {
       {!isMobile && (
         <SidebarHeader className="mb-1">
           <div className="flex-1 text-center text-sm leading-tight">
-            <h4 className="font-merriweather font-semibold">
+            <h4 className="font-merriweather truncate font-semibold">
               Historial de chats
             </h4>
           </div>

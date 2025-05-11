@@ -1,6 +1,5 @@
 "use server";
 
-import { endOfDay, startOfDay } from "date-fns";
 import {
   eq,
   desc,
@@ -406,9 +405,7 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
 export async function getRemainingMessages(
   userId: string,
 ): Promise<number | null> {
-  const today = new Date();
-  const start = startOfDay(today);
-  const end = endOfDay(today);
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const [sub] = await db
     .select({ type: subscription.type })
@@ -419,9 +416,7 @@ export async function getRemainingMessages(
   if (!sub?.type) return null;
 
   const [planData] = await db
-    .select({
-      max: plan.maxChatMessagesPerDay,
-    })
+    .select({ max: plan.maxChatMessagesPerDay })
     .from(plan)
     .where(eq(plan.id, sub.type))
     .limit(1);
@@ -432,11 +427,7 @@ export async function getRemainingMessages(
     .select({ used: userChatUsage.messagesUsed })
     .from(userChatUsage)
     .where(
-      and(
-        eq(userChatUsage.userId, userId),
-        gte(userChatUsage.date, start),
-        lt(userChatUsage.date, end),
-      ),
+      and(eq(userChatUsage.userId, userId), eq(userChatUsage.date, todayDate)),
     );
 
   const used = usage?.used ?? 0;
@@ -444,14 +435,10 @@ export async function getRemainingMessages(
 }
 
 export async function canSendMessage(userId: string): Promise<boolean> {
-  const today = new Date();
-  const start = startOfDay(today);
-  const end = endOfDay(today);
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const [sub] = await db
-    .select({
-      type: subscription.type,
-    })
+    .select({ type: subscription.type })
     .from(subscription)
     .where(eq(subscription.userId, userId))
     .limit(1);
@@ -460,33 +447,25 @@ export async function canSendMessage(userId: string): Promise<boolean> {
     throw new Error("Usuario sin plan activo o con tipo inválido");
 
   const [planData] = await db
-    .select()
+    .select({ max: plan.maxChatMessagesPerDay })
     .from(plan)
     .where(eq(plan.id, sub.type))
     .limit(1);
 
-  if (!planData.maxChatMessagesPerDay) return true;
+  if (!planData?.max) return true;
 
   const [usage] = await db
-    .select()
+    .select({ messagesUsed: userChatUsage.messagesUsed })
     .from(userChatUsage)
     .where(
-      and(
-        eq(userChatUsage.userId, userId),
-        gte(userChatUsage.date, start),
-        lt(userChatUsage.date, end),
-      ),
+      and(eq(userChatUsage.userId, userId), eq(userChatUsage.date, todayDate)),
     );
 
-  if (!usage) return true;
-
-  return usage.messagesUsed < planData.maxChatMessagesPerDay;
+  return !usage || usage.messagesUsed < planData.max;
 }
 
 export async function incrementUserChatUsage(userId: string) {
-  const today = new Date();
-  const start = startOfDay(today);
-  const end = endOfDay(today);
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const [sub] = await db
     .select({ type: subscription.type })
@@ -508,11 +487,7 @@ export async function incrementUserChatUsage(userId: string) {
     .select()
     .from(userChatUsage)
     .where(
-      and(
-        eq(userChatUsage.userId, userId),
-        gte(userChatUsage.date, start),
-        lt(userChatUsage.date, end),
-      ),
+      and(eq(userChatUsage.userId, userId), eq(userChatUsage.date, todayDate)),
     );
 
   if (usage) {
@@ -523,26 +498,20 @@ export async function incrementUserChatUsage(userId: string) {
   } else {
     await db.insert(userChatUsage).values({
       userId,
-      date: new Date(),
+      date: todayDate,
       messagesUsed: 1,
     });
   }
 }
 
 export async function decrementUserChatUsage(userId: string): Promise<boolean> {
-  const today = new Date();
-  const start = startOfDay(today);
-  const end = endOfDay(today);
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const [usage] = await db
     .select()
     .from(userChatUsage)
     .where(
-      and(
-        eq(userChatUsage.userId, userId),
-        gte(userChatUsage.date, start),
-        lt(userChatUsage.date, end),
-      ),
+      and(eq(userChatUsage.userId, userId), eq(userChatUsage.date, todayDate)),
     );
 
   if (!usage || usage.messagesUsed <= 0) return false;

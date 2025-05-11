@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 import {
@@ -83,6 +84,7 @@ const knowledgeBase = {
 };
 
 const SupportContent = () => {
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -94,6 +96,13 @@ const SupportContent = () => {
   const contentRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const query = searchParams.get("q");
+    if (query) {
+      setSearchQuery(query);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
