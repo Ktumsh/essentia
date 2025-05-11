@@ -56,7 +56,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
     fallbackData: [],
   });
 
-  const { chatScrollRef, isAtBottom } = useChatScrollEnd();
+  const { containerRef, onScroll, isAtBottom } = useChatScrollEnd();
 
   if (isMobile)
     return (
@@ -67,7 +67,11 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
             <DrawerDescription className="sr-only"></DrawerDescription>
           </DrawerHeader>
           <ChatHeader />
-          <SidebarContent ref={chatScrollRef}>
+          <SidebarContent
+            ref={containerRef}
+            onScroll={onScroll}
+            className="overflow-y-auto"
+          >
             <ChatSidebar
               session={session}
               paginatedChatHistories={paginatedChatHistories}
@@ -75,7 +79,15 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
               isLoading={isLoading}
               isValidating={isValidating}
               setSize={setSize}
-              isAtBottom={isAtBottom}
+            />
+            <div
+              aria-hidden="true"
+              className={cn(
+                "from-background via-background/75 pointer-events-none absolute right-2 bottom-0 left-0 z-10 h-16 bg-gradient-to-t opacity-100 transition-opacity",
+                {
+                  "opacity-0": isAtBottom,
+                },
+              )}
             />
           </SidebarContent>
           <AppFooter session={session} user={user} isMobile={isMobile} />
@@ -111,25 +123,32 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
           </Sidebar>
           <Sidebar
             collapsible="none"
-            className="bg-background border-border my-2 flex h-auto flex-1 rounded-2xl border shadow-sm transition-opacity duration-300 group-data-[collapsible=icon]:pointer-events-none! group-data-[collapsible=icon]:opacity-0!"
+            className="bg-background border-border relative my-2 flex h-auto flex-1 overflow-hidden rounded-2xl border shadow-sm transition-opacity duration-300 group-data-[collapsible=icon]:pointer-events-none! group-data-[collapsible=icon]:opacity-0!"
           >
             <ChatHeader />
-            <SidebarContent>
-              <ScrollArea
-                scrollRef={chatScrollRef}
-                className="max-w-[221px] overflow-y-auto"
-              >
-                <ChatSidebar
-                  session={session}
-                  paginatedChatHistories={paginatedChatHistories}
-                  mutate={mutate}
-                  isLoading={isLoading}
-                  isValidating={isValidating}
-                  setSize={setSize}
-                  isAtBottom={isAtBottom}
-                />
-              </ScrollArea>
+            <SidebarContent
+              ref={containerRef}
+              onScroll={onScroll}
+              className="overflow-y-auto"
+            >
+              <ChatSidebar
+                session={session}
+                paginatedChatHistories={paginatedChatHistories}
+                mutate={mutate}
+                isLoading={isLoading}
+                isValidating={isValidating}
+                setSize={setSize}
+              />
             </SidebarContent>
+            <div
+              aria-hidden="true"
+              className={cn(
+                "from-background via-background/75 pointer-events-none absolute right-2 bottom-0 left-0 z-10 h-16 bg-gradient-to-t opacity-100 transition-opacity",
+                {
+                  "opacity-0": isAtBottom,
+                },
+              )}
+            />
             <ChatFooter isMobile={isMobile} isPremium={isPremium} />
           </Sidebar>
         </>

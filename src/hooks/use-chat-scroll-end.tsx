@@ -1,29 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
-export function useChatScrollEnd(offset: number = 5) {
-  const chatScrollRef = useRef<HTMLDivElement | null>(null);
+export function useChatScrollEnd(offset = 5) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
-  useEffect(() => {
-    const element = chatScrollRef.current;
-    if (!element) return;
+  const onScroll = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-    const handleScroll = () => {
-      const scrolledToBottom =
-        element.scrollHeight - element.scrollTop <=
-        element.clientHeight + offset;
-      setIsAtBottom(scrolledToBottom);
-    };
-
-    element.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => {
-      element.removeEventListener("scroll", handleScroll);
-    };
+    const bottom = el.scrollTop + el.clientHeight >= el.scrollHeight - offset;
+    setIsAtBottom(bottom);
   }, [offset]);
 
-  return { chatScrollRef, isAtBottom };
+  useEffect(() => {
+    onScroll();
+  }, [onScroll]);
+
+  return { containerRef, isAtBottom, onScroll };
 }

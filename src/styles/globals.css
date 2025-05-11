@@ -366,8 +366,8 @@
   }
   @media screen and (min-width: 768px) {
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-thumb {
       @apply bg-alternative rounded-full;
