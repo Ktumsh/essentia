@@ -5,6 +5,7 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
+import { unstable_serialize } from "swr/infinite";
 
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
@@ -16,7 +17,7 @@ import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
 import { useAutoResume } from "../_hooks/use-auto-resume";
 import { useUserMessageId } from "../_hooks/use-user-message-id";
-import { generateUUID } from "../_lib/utils";
+import { generateUUID, getChatHistoryPaginationKey } from "../_lib/utils";
 
 import type { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import type { ChatVote } from "@/db/schema";
@@ -91,7 +92,8 @@ export function Chat({
       selectedVisibilityType: initialVisibilityType,
     }),
     onFinish: () => {
-      mutate("/api/history");
+      mutate(unstable_serialize(getChatHistoryPaginationKey));
+      mutate("/api/remaining-messages");
     },
     onError: (error) => {
       console.log(error);

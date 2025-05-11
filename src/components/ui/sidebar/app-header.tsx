@@ -32,7 +32,7 @@ const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
             <Link href="/">
               <div
                 className={cn(
-                  "bg-logo flex shrink-0 items-center justify-center rounded-sm group-data-[state=collapsed]:size-[30px]",
+                  "bg-logo flex shrink-0 items-center justify-center rounded-md group-data-[state=collapsed]:size-[30px]",
                   isCollapsed ? "size-full" : "size-8",
                 )}
               >

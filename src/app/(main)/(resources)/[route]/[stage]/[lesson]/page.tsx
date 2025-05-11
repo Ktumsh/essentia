@@ -62,7 +62,7 @@ const LessonPage = async (props: LessonPageProps) => {
 
   const route = await getRouteBySlug(routeSlug);
 
-  const stages = await getStages(route.id);
+  const stages = route.id ? await getStages(route.id) : [];
 
   const currentModule = stages.find((mod) =>
     mod.lessons.some((l) => l.slug === lessonSlug),

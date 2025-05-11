@@ -1,14 +1,12 @@
 "use client";
 
-import { Command } from "lucide-react";
+import { Command, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/kit/button";
 import { useSidebar } from "@/components/kit/sidebar";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { useIsMac } from "@/hooks/use-is-mac";
-
-import { SidebarFillIcon, SidebarIcon } from "../icons/navigation";
 
 const AppSidebarToggle = () => {
   const pathname = usePathname();
@@ -27,6 +25,7 @@ const AppSidebarToggle = () => {
 
   return (
     <BetterTooltip
+      side="bottom"
       content={
         <div className="inline-flex items-center">
           <span>{tooltipContent}</span>
@@ -52,19 +51,9 @@ const AppSidebarToggle = () => {
         size="icon"
         variant="ghost"
         onClick={() => toggleSidebar()}
-        className="text-foreground/80 size-8 md:size-9"
+        className="size-8 rounded-md"
       >
-        {isOpen ? (
-          <SidebarFillIcon
-            aria-hidden="true"
-            className="size-6! rotate-180 md:size-5!"
-          />
-        ) : (
-          <SidebarIcon
-            aria-hidden="true"
-            className="size-6! rotate-180 md:size-5!"
-          />
-        )}
+        <MenuIcon className="size-5!" />
         <span className="sr-only">
           {isOpen ? "Ocultar historial de chat" : "Mostrar historial de chat"}
         </span>

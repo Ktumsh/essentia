@@ -15,14 +15,22 @@ export function useScrollToBottom() {
   const { data: scrollBehavior = false, mutate: setScrollBehavior } =
     useSWR<ScrollFlag>("messages:should-scroll", null, { fallbackData: false });
 
+  // Ref para leer la última posición
   const isAtBottomRef = useRef(isAtBottom);
   useEffect(() => {
     isAtBottomRef.current = isAtBottom;
   }, [isAtBottom]);
 
+  // Cuando recibimos la orden de scroll, lo hacemos SOLO en el contenedor
   useEffect(() => {
     if (scrollBehavior) {
-      endRef.current?.scrollIntoView({ behavior: scrollBehavior });
+      const container = containerRef.current;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: scrollBehavior,
+        });
+      }
       setScrollBehavior(false);
     }
   }, [scrollBehavior, setScrollBehavior]);
@@ -37,7 +45,6 @@ export function useScrollToBottom() {
   const onViewportEnter = useCallback(() => {
     setIsAtBottom(true);
   }, [setIsAtBottom]);
-
   const onViewportLeave = useCallback(() => {
     setIsAtBottom(false);
   }, [setIsAtBottom]);
@@ -47,6 +54,7 @@ export function useScrollToBottom() {
     const end = endRef.current;
     if (!container || !end) return;
 
+    // Cuando llega nuevo contenido y el usuario estaba abajo, volvemos a hacer scroll
     const mo = new MutationObserver(() => {
       if (isAtBottomRef.current) {
         scrollToBottom();
@@ -54,6 +62,7 @@ export function useScrollToBottom() {
     });
     mo.observe(container, { childList: true, subtree: true });
 
+    // Observamos solo para saber si el usuario está realmente al fondo
     const io = new IntersectionObserver(
       ([entry]) =>
         entry.isIntersecting ? onViewportEnter() : onViewportLeave(),
@@ -61,7 +70,7 @@ export function useScrollToBottom() {
     );
     io.observe(end);
 
-    scrollToBottom();
+    // NO «scrollIntoView()» general al montar: omitido
 
     return () => {
       mo.disconnect();

@@ -404,3 +404,11 @@ export const getActivityTextColor = (index: number) => {
   ];
   return colors[index % colors.length];
 };
+
+export const getEmojiForRemaining = (count: number): string => {
+  if (count >= 8) return "😊";
+  if (count >= 5) return "🫡";
+  if (count >= 3) return "😶";
+  if (count >= 1) return "😰";
+  return "😔";
+};

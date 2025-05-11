@@ -19,6 +19,7 @@ interface ChatSidebarProps {
   setSize: (
     size: number | ((_size: number) => number),
   ) => Promise<ChatHistoryType[] | undefined>;
+  isAtBottom: boolean;
 }
 
 const ChatSidebar = ({
@@ -28,6 +29,7 @@ const ChatSidebar = ({
   isLoading,
   isValidating,
   setSize,
+  isAtBottom,
 }: ChatSidebarProps) => {
   if (!session?.user) return null;
 
@@ -42,6 +44,7 @@ const ChatSidebar = ({
             mutate={mutate}
             isValidating={isValidating}
             setSize={setSize}
+            isAtBottom={isAtBottom}
           />
         </Suspense>
       )}

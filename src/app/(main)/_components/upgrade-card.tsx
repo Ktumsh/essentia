@@ -16,7 +16,7 @@ const UpgradeCard = () => {
         initial={{ opacity: 0, x: 60 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
-        className="relative mt-2 w-full overflow-hidden rounded-xl border border-dashed border-indigo-300 bg-indigo-50 px-4 py-3 shadow-md dark:border-indigo-700 dark:bg-indigo-950"
+        className="relative col-span-2 mt-2 w-full overflow-hidden rounded-xl border border-dashed border-indigo-300 bg-indigo-50 px-4 py-3 shadow-md dark:border-indigo-700 dark:bg-indigo-950"
       >
         <div className="mb-2 flex items-center gap-2">
           <div className="rounded-full bg-indigo-200 p-1.5 dark:bg-indigo-800">

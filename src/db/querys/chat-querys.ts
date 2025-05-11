@@ -1,5 +1,6 @@
 "use server";
 
+import { endOfDay, startOfDay } from "date-fns";
 import {
   eq,
   desc,
@@ -23,6 +24,9 @@ import {
   chatStream,
   type Chat,
   type ChatMessage,
+  subscription,
+  plan,
+  userChatUsage,
 } from "@/db/schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
@@ -397,4 +401,156 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
     console.error("Failed to get stream ids by chat id from database");
     throw error;
   }
+}
+
+export async function getRemainingMessages(
+  userId: string,
+): Promise<number | null> {
+  const today = new Date();
+  const start = startOfDay(today);
+  const end = endOfDay(today);
+
+  const [sub] = await db
+    .select({ type: subscription.type })
+    .from(subscription)
+    .where(eq(subscription.userId, userId))
+    .limit(1);
+
+  if (!sub?.type) return null;
+
+  const [planData] = await db
+    .select({
+      max: plan.maxChatMessagesPerDay,
+    })
+    .from(plan)
+    .where(eq(plan.id, sub.type))
+    .limit(1);
+
+  if (!planData?.max) return null;
+
+  const [usage] = await db
+    .select({ used: userChatUsage.messagesUsed })
+    .from(userChatUsage)
+    .where(
+      and(
+        eq(userChatUsage.userId, userId),
+        gte(userChatUsage.date, start),
+        lt(userChatUsage.date, end),
+      ),
+    );
+
+  const used = usage?.used ?? 0;
+  return Math.max(planData.max - used, 0);
+}
+
+export async function canSendMessage(userId: string): Promise<boolean> {
+  const today = new Date();
+  const start = startOfDay(today);
+  const end = endOfDay(today);
+
+  const [sub] = await db
+    .select({
+      type: subscription.type,
+    })
+    .from(subscription)
+    .where(eq(subscription.userId, userId))
+    .limit(1);
+
+  if (!sub?.type)
+    throw new Error("Usuario sin plan activo o con tipo inválido");
+
+  const [planData] = await db
+    .select()
+    .from(plan)
+    .where(eq(plan.id, sub.type))
+    .limit(1);
+
+  if (!planData.maxChatMessagesPerDay) return true;
+
+  const [usage] = await db
+    .select()
+    .from(userChatUsage)
+    .where(
+      and(
+        eq(userChatUsage.userId, userId),
+        gte(userChatUsage.date, start),
+        lt(userChatUsage.date, end),
+      ),
+    );
+
+  if (!usage) return true;
+
+  return usage.messagesUsed < planData.maxChatMessagesPerDay;
+}
+
+export async function incrementUserChatUsage(userId: string) {
+  const today = new Date();
+  const start = startOfDay(today);
+  const end = endOfDay(today);
+
+  const [sub] = await db
+    .select({ type: subscription.type })
+    .from(subscription)
+    .where(eq(subscription.userId, userId))
+    .limit(1);
+
+  if (!sub?.type) return;
+
+  const [planData] = await db
+    .select({ maxChatMessagesPerDay: plan.maxChatMessagesPerDay })
+    .from(plan)
+    .where(eq(plan.id, sub.type))
+    .limit(1);
+
+  if (!planData?.maxChatMessagesPerDay) return;
+
+  const [usage] = await db
+    .select()
+    .from(userChatUsage)
+    .where(
+      and(
+        eq(userChatUsage.userId, userId),
+        gte(userChatUsage.date, start),
+        lt(userChatUsage.date, end),
+      ),
+    );
+
+  if (usage) {
+    await db
+      .update(userChatUsage)
+      .set({ messagesUsed: usage.messagesUsed + 1 })
+      .where(eq(userChatUsage.id, usage.id));
+  } else {
+    await db.insert(userChatUsage).values({
+      userId,
+      date: new Date(),
+      messagesUsed: 1,
+    });
+  }
+}
+
+export async function decrementUserChatUsage(userId: string): Promise<boolean> {
+  const today = new Date();
+  const start = startOfDay(today);
+  const end = endOfDay(today);
+
+  const [usage] = await db
+    .select()
+    .from(userChatUsage)
+    .where(
+      and(
+        eq(userChatUsage.userId, userId),
+        gte(userChatUsage.date, start),
+        lt(userChatUsage.date, end),
+      ),
+    );
+
+  if (!usage || usage.messagesUsed <= 0) return false;
+
+  await db
+    .update(userChatUsage)
+    .set({ messagesUsed: usage.messagesUsed - 1 })
+    .where(eq(userChatUsage.id, usage.id));
+
+  return true;
 }

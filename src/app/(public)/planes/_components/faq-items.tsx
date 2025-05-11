@@ -4,10 +4,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/kit/accordion";
-import { FAQPrincing } from "@/types/common";
+
+import type { FAQPricing } from "@/consts/faq-pricing";
 
 interface FAQItemProps {
-  faqs: FAQPrincing[];
+  faqs: FAQPricing[];
 }
 
 const FAQItems = ({ faqs }: FAQItemProps) => {

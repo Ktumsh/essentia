@@ -7,14 +7,16 @@ import Link from "next/link";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 
 import { LinkIcon } from "@/components/ui/icons/action";
 import { useChatContext } from "@/hooks/use-chat-context";
-import { cn } from "@/lib/utils";
+import { cn, fetcher } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import AlertPanel from "./alert-panel";
 import ButtonToBottom from "./button-to-bottom";
+import MessagesUsageBanner from "./messages-usage-banner";
 import { PreviewAttachment } from "./preview-attachment";
 import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
@@ -56,12 +58,15 @@ const ChatPanel = (props: ChatPanelProps) => {
     user,
   } = props;
 
+  const { data: remainingMessages } = useSWR<number | null>(
+    "/api/remaining-messages",
+    fetcher,
+  );
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
-
-  const isChat = pathname.startsWith("/essentia-ai/chat");
 
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
 
@@ -101,6 +106,11 @@ const ChatPanel = (props: ChatPanelProps) => {
     }
   }, [status, scrollToBottom]);
 
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [upgradeToMoreMessages, setUpgradeToMoreMessages] = useState(false);
+
+  const isChat = pathname.startsWith("/essentia-ai/chat");
+
   return (
     <>
       <div className="relative z-1 mx-auto mt-auto flex w-full gap-2 px-2 pb-2 md:mt-0 md:mb-auto md:max-w-3xl md:px-4 md:pb-0">
@@ -119,7 +129,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                     : { opacity: 1, y: 0, scale: 1 }
                 }
                 transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
-                className={cn("space-y-4 md:pb-6", { hidden: !isPremium })}
+                className={cn("space-y-4 md:mb-6", { hidden: !isPremium })}
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
                   <div className="flex items-end gap-2 overflow-x-auto pt-3">
@@ -172,6 +182,25 @@ const ChatPanel = (props: ChatPanelProps) => {
                     ))}
                   </div>
                 )}
+                {isChat ? (
+                  <MessagesUsageBanner
+                    remainingMessages={remainingMessages}
+                    onOpenPayment={() => {
+                      setIsPaymentModalOpen(true);
+                      setUpgradeToMoreMessages(true);
+                    }}
+                  />
+                ) : (
+                  remainingMessages === 0 && (
+                    <MessagesUsageBanner
+                      remainingMessages={remainingMessages}
+                      onOpenPayment={() => {
+                        setIsPaymentModalOpen(true);
+                        setUpgradeToMoreMessages(true);
+                      }}
+                    />
+                  )
+                )}
                 <PromptForm
                   chatId={chatId}
                   status={status}
@@ -186,12 +215,15 @@ const ChatPanel = (props: ChatPanelProps) => {
                   setUploadQueue={setUploadQueue}
                   isPremium={isPremium || false}
                   hasMessages={messages.length > 0}
+                  remainingMessages={remainingMessages}
                 />
               </motion.div>
               <AlertPanel
                 session={session}
                 isPremium={isPremium || false}
-                isChat={isChat}
+                isPaymentModalOpen={isPaymentModalOpen}
+                setIsPaymentModalOpen={setIsPaymentModalOpen}
+                isUpgradeToMoreMessages={upgradeToMoreMessages}
               />
             </div>
             {messages.length === 0 &&

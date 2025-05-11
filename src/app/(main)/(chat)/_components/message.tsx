@@ -4,9 +4,11 @@ import equal from "fast-deep-equal";
 import { motion } from "motion/react";
 import { memo, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { mutate } from "swr";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import { Markdown } from "@/components/markdown";
+import { decrementUserChatUsage } from "@/db/querys/chat-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
@@ -60,7 +62,7 @@ const PurePreviewMessage = ({
 
   const { id, role, parts, experimental_attachments } = message;
 
-  const { profileImage, username } = user || {};
+  const { profileImage, username, id: userId } = user || {};
 
   const userRole = role === "user";
 
@@ -129,10 +131,19 @@ const PurePreviewMessage = ({
   };
 
   const handleRetryResponse = async () => {
-    await deleteTrailingMessages({
-      id: message.id,
-    });
-    reload();
+    try {
+      await deleteTrailingMessages({
+        id: message.id,
+      });
+      if (userId) {
+        await decrementUserChatUsage(userId);
+        mutate("/api/remaining-messages");
+      }
+      reload();
+    } catch (error) {
+      console.error("Error al intentar reintentar la respuesta:", error);
+      toast.error("¡No se pudo reintentar la respuesta! 😓");
+    }
   };
 
   return (

@@ -1,0 +1,2 @@
+ALTER TABLE "subscription" ADD COLUMN "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL;--> statement-breakpoint
+ALTER TABLE "subscription" ADD CONSTRAINT "one_active_subscription_per_user" UNIQUE("user_id");

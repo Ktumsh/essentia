@@ -13,17 +13,17 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
       {facts?.map((fact, index) => (
         <section
           key={index}
-          className="bg-background border-border relative overflow-hidden rounded-2xl md:min-h-52 md:rounded-xl md:border"
+          className="bg-background border-border relative overflow-hidden rounded-2xl md:rounded-xl md:border @7xl:min-h-52"
         >
-          <div className="flex items-center justify-between md:flex-col">
-            <div className="h-20 py-1 md:h-24 md:py-0">
+          <div className="flex items-center justify-between @7xl:flex-col">
+            <div className="h-20 w-full py-1 md:py-0 @3xl:h-[188px] @7xl:h-24">
               <Image
                 quality={60}
                 width={272}
                 height={96}
                 src={fact.image}
                 alt={fact.fact}
-                className="animate-fade-in aspect-auto h-full rounded-r-md object-cover object-center shadow-md md:h-24 md:rounded-none md:shadow-none"
+                className="animate-fade-in aspect-auto size-full rounded-r-md object-cover object-center shadow-md md:rounded-none md:shadow-none @3xl:h-[188px] @7xl:h-24"
               />
             </div>
             <div className="w-full p-6">

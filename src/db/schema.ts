@@ -10,6 +10,7 @@ import {
   boolean,
   integer,
   foreignKey,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const user = table("user", {
@@ -63,22 +64,55 @@ export const userTrial = table("user_trial", {
 
 export type UserTrial = InferSelectModel<typeof userTrial>;
 
-export const subscription = table("subscription", {
+export const userChatUsage = table(
+  "user_chat_usage",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    date: timestamp("date").notNull(),
+    messagesUsed: integer("messages_used").notNull().default(0),
+  },
+  (t) => [unique("user_day_unique").on(t.userId, t.date)],
+);
+
+export type UserChatUsage = InferSelectModel<typeof userChatUsage>;
+
+export const userAiRecommendationUsage = table("user_ai_recommendation_usage", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  subscriptionId: varchar("subscription_id", { length: 255 }),
-  clientId: varchar("client_id", { length: 255 }),
-  isPremium: boolean("is_premium").notNull().default(false),
-  status: varchar("status", { length: 255 }).default("paused"),
-  type: varchar("type", {
-    enum: ["free", "premium", "premium-plus"],
-    length: 50,
-  })
-    .references(() => plan.id)
-    .default("free"),
-  expiresAt: timestamp("expires_at"),
+  activeCount: integer("active_count").notNull().default(0),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export type UserAiRecommendationUsage = InferSelectModel<
+  typeof userAiRecommendationUsage
+>;
+
+export const subscription = table(
+  "subscription",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    subscriptionId: varchar("subscription_id", { length: 255 }),
+    clientId: varchar("client_id", { length: 255 }),
+    isPremium: boolean("is_premium").notNull().default(false),
+    status: varchar("status", { length: 255 }).default("paused"),
+    type: varchar("type", {
+      enum: ["free", "premium", "premium-plus"],
+      length: 50,
+    })
+      .references(() => plan.id)
+      .default("free"),
+    expiresAt: timestamp("expires_at"),
+  },
+  (t) => [unique("one_active_subscription_per_user").on(t.userId)],
+);
 
 export type Subscription = InferSelectModel<typeof subscription>;
 
@@ -89,11 +123,8 @@ export const plan = table("plan", {
   maxDocuments: integer("max_documents"),
   isUnlimited: boolean("is_unlimited").notNull().default(false),
   price: integer("price").default(0),
-  supportLevel: varchar("support_level", {
-    enum: ["basic", "standard", "priority"],
-  })
-    .notNull()
-    .default("basic"),
+  maxChatMessagesPerDay: integer("max_chat_messages_per_day"),
+  maxAiRecommendations: integer("max_ai_recommendations"),
   isAvailable: boolean("is_available").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

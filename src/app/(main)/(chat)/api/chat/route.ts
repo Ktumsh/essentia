@@ -18,11 +18,13 @@ import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(main)/(chat)/actions";
 import { isProductionEnvironment } from "@/consts/env";
 import {
+  canSendMessage,
   createStreamId,
   deleteChatById,
   getChatById,
   getMessagesByChatId,
   getStreamIdsByChatId,
+  incrementUserChatUsage,
   saveChat,
   saveMessages,
 } from "@/db/querys/chat-querys";
@@ -105,6 +107,14 @@ export async function POST(request: Request) {
     }
 
     const user = userId ? await getUserProfileData({ userId }) : null;
+
+    const canSend = await canSendMessage(userId);
+    if (!canSend) {
+      return new Response(
+        "Has alcanzado el límite diario de mensajes con Essentia AI.",
+        { status: 429 },
+      );
+    }
 
     const {
       firstName,
@@ -242,6 +252,8 @@ export async function POST(request: Request) {
                     },
                   ],
                 });
+
+                await incrementUserChatUsage(userId);
               } catch (error) {
                 console.error("Error al guardar el chat:", error);
               }

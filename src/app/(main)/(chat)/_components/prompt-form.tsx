@@ -48,6 +48,7 @@ interface PromptFormProps {
   uploadQueue: string[];
   setUploadQueue: Dispatch<SetStateAction<string[]>>;
   hasMessages: boolean;
+  remainingMessages?: number | null;
 }
 
 const PurePromptForm = ({
@@ -64,6 +65,7 @@ const PurePromptForm = ({
   uploadQueue,
   setUploadQueue,
   hasMessages,
+  remainingMessages = null,
 }: PromptFormProps) => {
   const pathname = usePathname();
   const isMobile = useIsMobile();
@@ -111,6 +113,12 @@ const PurePromptForm = ({
 
   const submitForm = useCallback(
     (e: FormEvent) => {
+      if (remainingMessages !== null && remainingMessages === 0) {
+        toast.info("¡Ups! Ya usaste todos tus mensajes de hoy", {
+          description: "Puedes actualizar tu plan para continuar chateando 😊",
+        });
+        return;
+      }
       window.history.replaceState({}, "", `/essentia-ai/chat/${chatId}`);
       setActiveChatId(chatId);
 
@@ -140,6 +148,7 @@ const PurePromptForm = ({
       setInput,
       isMobile,
       textareaRef,
+      remainingMessages,
     ],
   );
 
@@ -211,8 +220,11 @@ const PurePromptForm = ({
     adjustHeight();
   };
 
+  const hasRemainingMessages =
+    remainingMessages !== null && remainingMessages > 0;
+
   return (
-    <form ref={formRef} onSubmit={submitForm}>
+    <form ref={formRef} onSubmit={submitForm} className="relative z-1">
       <div className="bg-accent ai-prompt relative flex max-h-60 w-full grow flex-col rounded-[15px] after:rounded-xl">
         <Textarea
           ref={textareaRef}
@@ -236,6 +248,7 @@ const PurePromptForm = ({
               fileInputRef={fileInputRef}
               status={status}
               isPremium={isPremium}
+              hasRemainingMessages={hasRemainingMessages}
             />
             <ThinkingButton
               status={status}
@@ -243,6 +256,7 @@ const PurePromptForm = ({
               setModel={setModel}
               isModelSet={isModelSet}
               setIsModelSet={setIsModelSet}
+              hasRemainingMessages={hasRemainingMessages}
             />
           </div>
 
@@ -264,6 +278,7 @@ const PurePromptForm = ({
               uploadQueue={uploadQueue}
               isPremium={isPremium}
               status={status}
+              hasRemainingMessages={hasRemainingMessages}
             />
           )}
         </div>
@@ -284,12 +299,14 @@ function PureAttachmentsButton({
   fileInputRef,
   status,
   isPremium,
+  hasRemainingMessages,
 }: {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   status: UseChatHelpers["status"];
   isPremium: boolean | null;
+  hasRemainingMessages: boolean;
 }) {
-  const disabled = !isPremium || status !== "ready";
+  const disabled = !isPremium || status !== "ready" || !hasRemainingMessages;
 
   return (
     <BetterTooltip content="Añadir archivo" hidden={status !== "ready"}>
@@ -317,14 +334,16 @@ function PureThinkingButton({
   setModel,
   isModelSet,
   setIsModelSet,
+  hasRemainingMessages,
 }: {
   status: UseChatHelpers["status"];
   isPremium: boolean | null;
   setModel: (model: string) => void;
   isModelSet: boolean;
   setIsModelSet: (isModelSet: boolean) => void;
+  hasRemainingMessages: boolean;
 }) {
-  const disabled = !isPremium || status !== "ready";
+  const disabled = !isPremium || status !== "ready" || !hasRemainingMessages;
   const reasonerId = CHAT_MODELS[1].id;
   const defaultId = CHAT_MODELS[0].id;
   const isActive = isModelSet;
@@ -399,18 +418,21 @@ function PureSendButton({
   uploadQueue,
   isPremium,
   status,
+  hasRemainingMessages,
 }: {
   input: string;
   uploadQueue: Array<string>;
   isPremium: boolean | null;
   status: UseChatHelpers["status"];
+  hasRemainingMessages: boolean;
 }) {
   const isMobile = useIsMobile();
   const disabled =
     input.length === 0 ||
     uploadQueue.length > 0 ||
     !isPremium ||
-    status !== "ready";
+    status !== "ready" ||
+    !hasRemainingMessages;
 
   return (
     <MotionArrowRightButton

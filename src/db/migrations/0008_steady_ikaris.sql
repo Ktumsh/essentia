@@ -1,0 +1,1 @@
+ALTER TABLE "plan" DROP COLUMN "max_chat_messages_per_day";

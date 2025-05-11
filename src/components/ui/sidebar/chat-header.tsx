@@ -1,8 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Session } from "next-auth";
 import React from "react";
 
 import {
@@ -13,31 +11,21 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/kit/sidebar";
-import { deleteAllChatsByUserId } from "@/db/querys/chat-querys";
 
-import ChatClearHistory from "./chat-clear-history";
-
-import type { ChatHistory } from "@/app/(main)/(chat)/_lib/utils";
-
-interface ChatSidebarProps {
-  session: Session | null;
-  paginatedChatHistories?: ChatHistory[];
-}
-
-const ChatHeader = ({ session, paginatedChatHistories }: ChatSidebarProps) => {
+const ChatHeader = () => {
   const router = useRouter();
   const { isMobile, setOpenMobile } = useSidebar();
 
-  const isEnabledChatHistory = paginatedChatHistories
+  /*   const isEnabledChatHistory = paginatedChatHistories
     ? paginatedChatHistories.every((page) => page.chats.length > 0)
-    : false;
+    : false; */
 
   return (
     <SidebarGroup>
       {!isMobile && (
         <SidebarHeader className="mb-1">
-          <div className="flex-1 text-left text-sm leading-tight">
-            <h4 className="font-merriweather truncate font-semibold">
+          <div className="flex-1 text-center text-sm leading-tight">
+            <h4 className="font-merriweather font-semibold">
               Historial de chats
             </h4>
           </div>
@@ -53,20 +41,19 @@ const ChatHeader = ({ session, paginatedChatHistories }: ChatSidebarProps) => {
               router.push("/essentia-ai");
               router.refresh();
             }}
-            className="data-[active=true]:bg-accent border-border dark:border-alternative/50 data-[active=true]:hover:bg-accent rounded-md border text-sm focus-visible:outline-hidden"
+            className="dark:data-[active=true]:bg-accent/50 dark:border-alternative/50 dark:hover:data-[active=true]:bg-accent/50 justify-center rounded-md border text-sm focus-visible:outline-hidden data-[active=true]:bg-slate-50 data-[active=true]:hover:bg-slate-50"
           >
-            <Plus />
             <span>Nuevo chat</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
-        <ChatClearHistory
+        {/* <ChatClearHistory
           clearChats={() =>
             deleteAllChatsByUserId({
               id: session?.user?.id as string,
             })
           }
           isEnabled={isEnabledChatHistory}
-        />
+        /> */}
       </SidebarMenu>
     </SidebarGroup>
   );

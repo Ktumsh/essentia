@@ -43,6 +43,34 @@
       "when": 1746844670172,
       "tag": "0006_bitter_genesis",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1746858209792,
+      "tag": "0007_grey_morlocks",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1746858303323,
+      "tag": "0008_steady_ikaris",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1746858347375,
+      "tag": "0009_sticky_slayback",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1746862741398,
+      "tag": "0010_serious_living_lightning",
+      "breakpoints": true
     }
   ]
 }

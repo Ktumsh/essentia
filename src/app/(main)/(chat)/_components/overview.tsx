@@ -15,7 +15,7 @@ const resources = [
 const Overview = () => {
   return (
     <>
-      <div className="z-10 mx-auto mb-32 w-full max-w-xl px-4 pt-6 md:mb-20">
+      <div className="z-10 mx-auto mt-auto mb-32 w-full max-w-xl px-4 pt-6 md:mb-20">
         <Card className="border-0 bg-transparent text-center leading-relaxed">
           <CardHeader className="items-center gap-4 md:gap-8 md:p-8">
             <div className="flex flex-col items-center gap-2">

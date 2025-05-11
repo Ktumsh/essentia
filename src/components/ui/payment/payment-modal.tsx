@@ -3,6 +3,7 @@
 import {
   BookmarkCheck,
   Brain,
+  Crown,
   Loader,
   MessagesSquare,
   Sparkles,
@@ -48,6 +49,7 @@ export type FeatureType =
   | "upload-limit"
   | "routine"
   | "nutritional-plan"
+  | "upgrade-plan"
   | "general";
 
 interface PaymentModalProps {
@@ -72,9 +74,11 @@ const PaymentModal = ({
   const { user } = useUserProfile();
 
   const [selectedPlan, setSelectedPlan] = useState<string>(
-    currentPlan === siteConfig.plan.free
-      ? siteConfig.plan.premium
-      : currentPlan || siteConfig.plan.free,
+    featureType === "upgrade-plan"
+      ? siteConfig.plan.premiumPlus
+      : currentPlan === siteConfig.plan.free
+        ? siteConfig.plan.premium
+        : currentPlan || siteConfig.plan.free,
   );
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -196,6 +200,14 @@ const PaymentModal = ({
           icon: <FruitFillIcon className="size-5" />,
           color: "bg-red-500",
         };
+      case "upgrade-plan":
+        return {
+          title: "Desbloquea el máximo acceso a Essentia",
+          description:
+            "Accede a Essentia AI sin límites, documentos médicos ilimitados, sugerencias automáticas, organización inteligente y seguimiento completo de tu bienestar.",
+          icon: <Crown className="size-5" />,
+          color: "bg-yellow-500",
+        };
       default:
         return {
           title: "Mejora tu experiencia con Essentia Premium",
@@ -231,7 +243,7 @@ const PaymentModal = ({
               transition={{ duration: 0.25 }}
             >
               <DialogHeader isSecondary className="p-1! text-start text-white">
-                <div className="rounded-[20px] bg-gradient-to-r from-indigo-500 to-pink-500 p-5">
+                <div className="bg-premium rounded-[20px] p-5">
                   <div className="mb-2 flex items-center gap-2">
                     <Sparkles className="size-5 text-yellow-300 md:size-6" />
                     <DialogTitle className="text-base font-bold md:text-lg">
@@ -308,7 +320,13 @@ const PaymentModal = ({
               transition={{ duration: 0.25 }}
             >
               <DialogHeader isSecondary className="p-1! text-start text-white">
-                <div className="rounded-[20px] bg-gradient-to-r from-indigo-500 to-pink-500 p-5">
+                <div
+                  className={cn("bg-premium rounded-[20px] p-5", {
+                    "bg-premium-plus":
+                      featureType === "upgrade-plan" ||
+                      selectedPlan === siteConfig.plan.premiumPlus,
+                  })}
+                >
                   <div className="mb-2 flex items-center gap-2">
                     <div
                       className={cn(
@@ -331,6 +349,7 @@ const PaymentModal = ({
                 <PlanSelector
                   onSelect={setSelectedPlan}
                   selectedPlanId={selectedPlan}
+                  isUpgrade={featureType === "upgrade-plan"}
                 />
               </div>
               <DialogFooter isSecondary>
@@ -340,7 +359,7 @@ const PaymentModal = ({
                       <Button
                         size="lg"
                         disabled
-                        className="w-full rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 text-white"
+                        className="bg-premium w-full rounded-full text-white"
                       >
                         Usando prueba gratuita de Premium
                       </Button>
@@ -360,7 +379,14 @@ const PaymentModal = ({
                         selectedPlan === currentPlan
                       }
                       onClick={handleProceedToPayment}
-                      className="relative w-full rounded-full duration-500 after:absolute after:inset-0 after:-z-1 after:size-full after:bg-gradient-to-r after:from-indigo-500 after:to-pink-500 after:opacity-0 after:blur-lg after:saturate-150 after:transition-all after:duration-500 after:content-[''] hover:after:opacity-80"
+                      className={cn(
+                        "after:bg-premium relative w-full rounded-full duration-500 after:absolute after:inset-0 after:-z-1 after:size-full after:opacity-0 after:blur-lg after:saturate-150 after:transition-all after:duration-500 after:content-[''] hover:after:opacity-80",
+                        {
+                          "after:bg-premium-plus bg-premium-plus!":
+                            featureType === "upgrade-plan" ||
+                            selectedPlan === siteConfig.plan.premiumPlus,
+                        },
+                      )}
                     >
                       {isLoading ? (
                         <Loader className="size-4 animate-spin" />

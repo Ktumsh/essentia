@@ -11,7 +11,7 @@ interface DesktopDailyTipProps {
 const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
   return (
     <div className="flex w-full flex-col">
-      <h3 className="text-foreground mb-2 ml-3 px-5 pt-3 text-base font-semibold lg:px-0">
+      <h3 className="text-foreground mb-2 ml-3 px-5 text-base font-semibold lg:px-0 @7xl:pt-3">
         Dato curioso del día
       </h3>
       <article className="flex h-full flex-col">

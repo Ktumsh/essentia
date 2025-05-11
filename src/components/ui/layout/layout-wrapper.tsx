@@ -62,7 +62,14 @@ const LayoutWrapper = ({
   );
 
   return (
-    <>
+    <div
+      className={cn(
+        "relative flex size-full flex-col md:max-h-dvh md:min-h-dvh md:flex-row",
+        {
+          "md:bg-sidebar md:rounded-xl": !isDismissed,
+        },
+      )}
+    >
       <ScrollContext.Provider value={scrollRef}>
         {/* Background */}
 
@@ -152,7 +159,7 @@ const LayoutWrapper = ({
         {/* Welcome Modal */}
         {!session && <WelcomeModal />}
       </ScrollContext.Provider>
-    </>
+    </div>
   );
 };
 

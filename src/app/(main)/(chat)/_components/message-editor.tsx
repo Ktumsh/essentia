@@ -3,10 +3,13 @@
 import { UseChatHelpers } from "@ai-sdk/react";
 import { Loader } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
+import { mutate } from "swr";
 
 import { deleteTrailingMessages } from "@/app/(main)/(chat)/actions";
 import { Button } from "@/components/kit/button";
 import { Textarea } from "@/components/kit/textarea";
+import { decrementUserChatUsage } from "@/db/querys/chat-querys";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 import { useAdjustHeight } from "../_hooks/use-adjust-height";
 
@@ -25,6 +28,10 @@ export function MessageEditor({
   setMessages,
   reload,
 }: MessageEditorProps) {
+  const { user } = useUserProfile();
+
+  const userId = user?.id;
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const [draftContent, setDraftContent] = useState<string>(message.content);
@@ -59,6 +66,11 @@ export function MessageEditor({
 
       return messages;
     });
+
+    if (userId) {
+      await decrementUserChatUsage(userId);
+      mutate("/api/remaining-messages");
+    }
 
     setMode("view");
     reload();

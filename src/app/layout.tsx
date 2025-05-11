@@ -104,9 +104,7 @@ export default async function RootLayout({
         >
           <Toaster />
           <ProfileMessage user={userData} session={session} />
-          <div className="relative flex size-full flex-col md:max-h-dvh md:min-h-dvh md:flex-row">
-            {children}
-          </div>
+          {children}
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />

@@ -24,11 +24,13 @@ const ChatFooter = ({ isMobile, isPremium }: ChatFooterProps) => {
 
   const { isReadonly, selectedVisibilityType } = useChatContext();
 
+  if (!chatId) return null;
+
   if (isMobile) {
     if (isPremium) {
       return (
         <SidebarFooter className="gap-1">
-          <SidebarGroupLabel>Opciones del chat</SidebarGroupLabel>
+          <SidebarGroupLabel>Visibilidad</SidebarGroupLabel>
           <SidebarMenu className="gap-2">
             <SidebarMenuItem>
               {!isReadonly && chatId && (

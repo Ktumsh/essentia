@@ -136,7 +136,7 @@ const ChatItem = ({ index, chat, isActive, mutate }: ChatItemProps) => {
           <SidebarMenuButton
             asChild
             isActive={isActive}
-            className="hover:bg-accent hover:text-foreground data-[active=true]:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:dark:border-alternative/50"
+            className="hover:bg-accent hover:text-foreground data-[active=true]:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:dark:border-alternative/50 data-[active=true]:border-0 data-[active=true]:shadow-none"
           >
             <Link
               href={`/essentia-ai/chat/${chat.id}`}

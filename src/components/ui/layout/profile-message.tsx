@@ -15,6 +15,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/kit/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { useTrial } from "@/hooks/use-trial";
 import { cn } from "@/lib/utils";
@@ -37,11 +38,13 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
+  const isMobile = useIsMobile();
+
   const items = [];
 
-  const routesToIgnore = ["/essentia", "/soporte", "/blog"];
+  const routesToIgnore = ["/essentia", "/soporte", "/blog", "/planes"];
 
-  if (routesToIgnore.includes(pathname) || !session) return null;
+  if (routesToIgnore.includes(pathname) || !session?.user?.id) return null;
 
   const isProfileIncomplete =
     !user?.bio ||
@@ -102,7 +105,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
 
   return (
     <>
-      <div className="text-foreground relative inline-flex justify-center shadow-sm">
+      <div className="text-foreground relative flex justify-center">
         <Carousel
           opts={{ loop: true, watchDrag: false, duration: 40 }}
           plugins={[
@@ -113,33 +116,34 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
           ]}
           className="w-full"
         >
-          <CarouselContent className="ml-0 md:h-9">
+          <CarouselContent hasOverflow={isMobile} className="ml-0 md:h-9">
             {items.map((item, index) => {
-              const isFirstItem = index === 0;
+              const isFirstProfileItem =
+                item.title.includes("Completa tu perfil");
               return (
                 <CarouselItem
                   key={index}
                   className={cn(
-                    "pl-0",
-                    isFirstItem
-                      ? "bg-emerald-100 dark:bg-emerald-950"
-                      : "bg-gradient-to-r from-indigo-500 to-pink-500 md:h-9",
+                    "relative pl-0 before:absolute before:right-0 before:-bottom-5 before:size-5 before:content-[''] after:absolute after:-bottom-5 after:left-0 after:size-5 after:content-['']",
+                    isFirstProfileItem
+                      ? "bg-emerald-600 text-white! before:bg-emerald-600 after:bg-emerald-600"
+                      : "bg-premium before:bg-pink-500 after:bg-indigo-500 md:h-9",
                   )}
                 >
                   <div className="flex h-full flex-col justify-center gap-2 px-4 py-3 md:flex-row md:items-center md:py-2">
                     <div className="inline-flex items-center gap-2 pr-8 md:pr-0">
                       <BadgeAlert
-                        variant={isFirstItem ? "success" : "info"}
+                        variant={isFirstProfileItem ? "success" : "info"}
                         className={cn(
                           "mb-0 size-6 [&>svg]:size-3.5",
-                          isFirstItem
-                            ? "bg-green-500/20"
-                            : "bg-pink-300/50! text-pink-50",
+                          isFirstProfileItem
+                            ? "bg-green-200! text-green-800"
+                            : "bg-pink-200! text-pink-800",
                         )}
                       />
                       <p
                         className={cn("text-xs md:text-sm", {
-                          "text-white": !isFirstItem,
+                          "text-white": !isFirstProfileItem,
                         })}
                       >
                         {item.title}
@@ -156,13 +160,10 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
                             item.action();
                           }
                         }}
-                        className={cn(
-                          "ml-8 h-auto w-fit gap-1 px-0! text-xs hover:underline md:ml-0 md:text-sm",
-                          isFirstItem ? "text-foreground" : "text-white",
-                        )}
+                        className="ml-8 h-auto w-fit gap-1 px-0! text-xs text-white hover:underline md:ml-0 md:text-sm"
                       >
                         {item.text && item.text}
-                        {isFirstItem && <LinkIcon className="size-2!" />}
+                        {isFirstProfileItem && <LinkIcon className="size-2!" />}
                       </Button>
                     )}
                   </div>
@@ -175,7 +176,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
           size="icon"
           variant="outline"
           onClick={dismiss}
-          className="absolute top-2 right-2 size-6 border-0 md:inset-y-0 md:my-auto"
+          className="absolute top-2 right-2 size-6 border-0 text-white! md:inset-y-0 md:my-auto"
         >
           <X />
         </Button>

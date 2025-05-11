@@ -139,7 +139,7 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             }
             variant="ghost"
             size="icon"
-            className="relative size-8"
+            className="relative size-8 rounded-md"
           >
             {hasUnreadNotifications && (
               <span

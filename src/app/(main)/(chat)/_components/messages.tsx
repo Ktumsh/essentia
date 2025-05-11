@@ -83,7 +83,7 @@ function PureMessages({
         messages[messages.length - 1].role === "user" && <ThinkingMessage />}
       <motion.div
         ref={messagesEndRef}
-        className="min-h-6 min-w-6 shrink-0"
+        className="min-h-6 min-w-6"
         onViewportLeave={onViewportLeave}
         onViewportEnter={onViewportEnter}
       />

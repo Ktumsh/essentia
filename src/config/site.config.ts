@@ -27,8 +27,8 @@ export const siteConfig = {
   },
   priceId: {
     free: "price_free",
-    premium: "price_1RBTnII2PMoTUNZeKLuZVPfs",
-    premiumPlus: "price_1R5xyUI2PMoTUNZejBDMDpbn",
+    premium: "price_1RNB8AI2PMoTUNZeU1Rmaf5A",
+    premiumPlus: "price_1RNB8vI2PMoTUNZeDsZbDhFe",
   },
 };
 
