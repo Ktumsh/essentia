@@ -1,6 +1,9 @@
 "use client";
 
+import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import equal from "fast-deep-equal";
+import { CircleHelp } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import {
@@ -20,6 +23,17 @@ import { ArrowRightButton } from "@/components/button-kit/arrow-right-button";
 import { AttachButton } from "@/components/button-kit/attach-button";
 import { LightbulbButton } from "@/components/button-kit/light-bulb-button";
 import { StopButton as StopButtonKit } from "@/components/button-kit/stop-button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/kit/hover-card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/kit/popover";
+import { Progress } from "@/components/kit/progress";
 import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { useChatContext } from "@/hooks/use-chat-context";
@@ -30,6 +44,7 @@ import { cn } from "@/lib/utils";
 import { useAdjustHeight } from "../_hooks/use-adjust-height";
 import { useEnterSubmit } from "../_hooks/use-enter-submit";
 import { CHAT_MODELS } from "../_lib/models";
+import { getEmojiForRemaining } from "../_lib/utils";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
 import type { Attachment } from "ai";
@@ -259,7 +274,9 @@ const PurePromptForm = ({
               hasRemainingMessages={hasRemainingMessages}
             />
           </div>
-
+          {remainingMessages !== null && (
+            <MessageCount remainingMessages={remainingMessages} />
+          )}
           <input
             type="file"
             aria-label="Adjuntar archivos"
@@ -291,6 +308,7 @@ export const PromptForm = memo(PurePromptForm, (prevProps, nextProps) => {
   if (prevProps.input !== nextProps.input) return false;
   if (prevProps.status !== nextProps.status) return false;
   if (!equal(prevProps.attachments, nextProps.attachments)) return false;
+  if (prevProps.remainingMessages !== nextProps.remainingMessages) return false;
 
   return true;
 });
@@ -314,7 +332,7 @@ function PureAttachmentsButton({
         size="icon"
         variant="ghost"
         disabled={disabled}
-        className="hover:bg-background bg-background pointer-events-auto size-8 rounded-sm md:size-7 md:bg-transparent"
+        className="hover:bg-background bg-background pointer-events-auto size-8 rounded-full md:size-7 md:rounded-sm md:bg-transparent"
         onClick={(e) => {
           e.preventDefault();
           fileInputRef.current?.click();
@@ -368,7 +386,7 @@ function PureThinkingButton({
           handleSetModel();
         }}
         className={cn(
-          "bg-background hover:bg-background pointer-events-auto h-8 gap-1 rounded-sm px-1.5! text-xs md:size-7 md:p-0!",
+          "bg-background hover:bg-background pointer-events-auto h-8 gap-1 rounded-full px-2! text-xs md:size-7 md:rounded-sm md:p-0!",
           {
             "bg-linear-to-r/shorter from-indigo-500 to-indigo-600 text-white hover:text-white":
               isActive,
@@ -469,3 +487,83 @@ function PureSendButton({
 }
 
 const SendButton = memo(PureSendButton);
+
+function PureMessageCount({
+  remainingMessages,
+}: {
+  remainingMessages: number;
+}) {
+  const isMobile = useIsMobile();
+  const percentage = Math.floor((remainingMessages / 15) * 100);
+
+  if (isMobile) {
+    return (
+      <Popover>
+        <PopoverTrigger className="text-muted-foreground pointer-events-auto flex items-center self-end text-xs font-medium">
+          Límite de uso:<span className="mx-1 text-pink-500">Activo</span>
+          <CircleHelp className="inline size-3" />
+        </PopoverTrigger>
+        <PopoverContent
+          side="top"
+          className="w-52 rounded-lg border-pink-300 bg-linear-to-br/shorter from-indigo-100 to-pink-100 p-2 dark:border-pink-800 dark:from-indigo-950 dark:to-pink-950"
+        >
+          <div className="grid gap-2 text-xs">
+            <div className="flex items-center justify-between gap-1">
+              <span>
+                Mensajes restantes {getEmojiForRemaining(remainingMessages)}
+              </span>
+              <span className="text-foreground/60">{remainingMessages}/15</span>
+            </div>
+            <Progress
+              value={percentage}
+              indicatorColor="bg-pink-500 rounded-full"
+              className="bg-background h-1.5"
+            />
+            <span className="text-foreground/60">
+              Se reinicia mañana a las 00:00
+            </span>
+          </div>
+          <PopoverPrimitive.Arrow className="fill-pink-300 dark:fill-pink-900" />
+        </PopoverContent>
+      </Popover>
+    );
+  }
+
+  return (
+    <div className="text-muted-foreground flex items-center self-end text-xs font-medium">
+      Límite de uso:<span className="mx-1 text-pink-500">Activo</span>
+      <HoverCard openDelay={0} closeDelay={0}>
+        <HoverCardTrigger className="afte:content-[''] pointer-events-auto relative after:absolute after:-inset-1">
+          <CircleHelp className="size-3" />
+        </HoverCardTrigger>
+        <HoverCardContent
+          side="top"
+          className="w-52 rounded-lg border-pink-300 bg-linear-to-br/shorter from-indigo-100 to-pink-100 p-2 dark:border-pink-800 dark:from-indigo-950 dark:to-pink-950"
+        >
+          <div className="grid gap-2 text-xs">
+            <div className="flex items-center justify-between gap-1">
+              <span>
+                Mensajes restantes {getEmojiForRemaining(remainingMessages)}
+              </span>
+              <span className="text-foreground/60">{remainingMessages}/15</span>
+            </div>
+            <Progress
+              value={percentage}
+              indicatorColor="bg-pink-500 rounded-full"
+              className="bg-background h-1.5"
+            />
+            <span className="text-foreground/60">
+              Se reinicia mañana a las 00:00
+            </span>
+          </div>
+          <HoverCardPrimitive.Arrow className="fill-pink-300 dark:fill-pink-900" />
+        </HoverCardContent>
+      </HoverCard>
+    </div>
+  );
+}
+
+const MessageCount = memo(PureMessageCount, (prevProps, nextProps) => {
+  if (prevProps.remainingMessages !== nextProps.remainingMessages) return false;
+  return true;
+});

@@ -1,14 +1,11 @@
 "use client";
 
-import NumberFlow from "@number-flow/react";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/kit/button";
-
-import { getEmojiForRemaining } from "../_lib/utils";
 
 interface MessagesUsageBannerProps {
   remainingMessages?: number | null;
@@ -43,29 +40,15 @@ const MessagesUsageBanner = ({
           <div className="banner @container/banner flex items-center justify-between gap-2 py-1.5 pr-2 pl-3 text-sm">
             <div className="flex items-center gap-2">
               <div>
-                {remainingMessages > 8 ? (
-                  <>
-                    <span className="hidden @lg/banner:inline">
-                      ¿Quieres enviar mensajes sin límites? Actualiza a Premium
-                      Plus.
-                    </span>
-                    <span className="@lg/banner:hidden">
-                      Obtén mensajes ilimitados ☺️
-                    </span>
-                  </>
-                ) : (
-                  <span>
-                    Te quedan{" "}
-                    <NumberFlow
-                      willChange
-                      value={remainingMessages}
-                      locales="es-CL"
-                      className="mr-1 -translate-y-px font-semibold"
-                    />
-                    mensajes restantes por hoy{" "}
-                    {getEmojiForRemaining(remainingMessages)}
+                <>
+                  <span className="hidden @lg/banner:inline">
+                    ¿Quieres enviar mensajes sin límites? Actualiza a Premium
+                    Plus.
                   </span>
-                )}
+                  <span className="@lg/banner:hidden">
+                    Obtén mensajes ilimitados ☺️
+                  </span>
+                </>
                 <span className="@md/banner:hidden">
                   {" "}
                   <Button
