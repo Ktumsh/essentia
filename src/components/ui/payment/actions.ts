@@ -9,6 +9,7 @@ import {
   deleteSubscription,
   getSubscription,
   getSubscriptionByClientId,
+  getSubscriptionBySubscriptionId,
   setPaymentDetails,
   updateClientId,
   updatePaymentDetails,
@@ -238,7 +239,6 @@ export async function handleSubscriptionUpdated(
     : subscription.status;
   const type = subscription.items.data[0].plan.nickname;
   const currentPeriodEnd = subscription.current_period_end;
-  const clientId = subscription.customer as string;
 
   const planType =
     type === siteConfig.stripePlanName.premium
@@ -248,7 +248,14 @@ export async function handleSubscriptionUpdated(
         : siteConfig.plan.free;
 
   try {
-    const [subscription] = await getSubscriptionByClientId(clientId);
+    const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
+
+    if (!subscription) {
+      console.error(
+        `No se encontró la suscripción en la BD para ${subscriptionId}`,
+      );
+      return;
+    }
 
     await updateSubscription(
       subscription.userId,
