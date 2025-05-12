@@ -240,12 +240,16 @@ export async function handleSubscriptionUpdated(
   const type = subscription.items.data[0].plan.id;
   const currentPeriodEnd = subscription.current_period_end;
 
+  console.log("type", type);
+
   const planType =
     type === siteConfig.priceId.premium
       ? siteConfig.plan.premium
       : type === siteConfig.priceId.premiumPlus
         ? siteConfig.plan.premiumPlus
         : siteConfig.plan.free;
+
+  console.log("planType", planType);
 
   try {
     const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
