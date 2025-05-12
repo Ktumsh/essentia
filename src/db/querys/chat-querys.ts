@@ -1,5 +1,6 @@
 "use server";
 
+import { format, toZonedTime } from "date-fns-tz";
 import {
   eq,
   desc,
@@ -405,14 +406,17 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
 export async function getRemainingMessages(
   userId: string,
 ): Promise<number | null> {
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = format(
+    toZonedTime(new Date(), "America/Santiago"),
+    "yyyy-MM-dd",
+    { timeZone: "America/Santiago" },
+  );
 
   const [sub] = await db
     .select({ type: subscription.type })
     .from(subscription)
     .where(eq(subscription.userId, userId))
     .limit(1);
-
   if (!sub?.type) return null;
 
   const [planData] = await db
@@ -420,7 +424,6 @@ export async function getRemainingMessages(
     .from(plan)
     .where(eq(plan.id, sub.type))
     .limit(1);
-
   if (!planData?.max) return null;
 
   const [usage] = await db
@@ -435,14 +438,17 @@ export async function getRemainingMessages(
 }
 
 export async function canSendMessage(userId: string): Promise<boolean> {
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = format(
+    toZonedTime(new Date(), "America/Santiago"),
+    "yyyy-MM-dd",
+    { timeZone: "America/Santiago" },
+  );
 
   const [sub] = await db
     .select({ type: subscription.type })
     .from(subscription)
     .where(eq(subscription.userId, userId))
     .limit(1);
-
   if (!sub?.type)
     throw new Error("Usuario sin plan activo o con tipo inválido");
 
@@ -451,7 +457,6 @@ export async function canSendMessage(userId: string): Promise<boolean> {
     .from(plan)
     .where(eq(plan.id, sub.type))
     .limit(1);
-
   if (!planData?.max) return true;
 
   const [usage] = await db
@@ -465,14 +470,17 @@ export async function canSendMessage(userId: string): Promise<boolean> {
 }
 
 export async function incrementUserChatUsage(userId: string) {
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = format(
+    toZonedTime(new Date(), "America/Santiago"),
+    "yyyy-MM-dd",
+    { timeZone: "America/Santiago" },
+  );
 
   const [sub] = await db
     .select({ type: subscription.type })
     .from(subscription)
     .where(eq(subscription.userId, userId))
     .limit(1);
-
   if (!sub?.type) return;
 
   const [planData] = await db
@@ -480,7 +488,6 @@ export async function incrementUserChatUsage(userId: string) {
     .from(plan)
     .where(eq(plan.id, sub.type))
     .limit(1);
-
   if (!planData?.maxChatMessagesPerDay) return;
 
   const [usage] = await db
@@ -505,7 +512,11 @@ export async function incrementUserChatUsage(userId: string) {
 }
 
 export async function decrementUserChatUsage(userId: string): Promise<boolean> {
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = format(
+    toZonedTime(new Date(), "America/Santiago"),
+    "yyyy-MM-dd",
+    { timeZone: "America/Santiago" },
+  );
 
   const [usage] = await db
     .select()
