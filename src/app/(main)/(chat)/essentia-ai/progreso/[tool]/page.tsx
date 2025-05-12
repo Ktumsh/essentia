@@ -1,9 +1,10 @@
 import { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { SLUG_TO_TOOL, TOOL_NAME_LABELS } from "@/consts/tools";
 import { getToolsByUserAndToolName } from "@/db/querys/chat-querys";
+import { getSubscriptionType } from "@/db/querys/payment-querys";
 
 import GroupedTool from "../_components/gruped-tool";
 
@@ -34,18 +35,26 @@ export default async function ToolPage(props: ToolPageProps) {
 
   const session = await auth();
 
-  if (!session?.user?.id) {
-    redirect("/login");
+  const userId = session?.user?.id as string;
+
+  if (!userId) {
+    redirect("/essentia-ai");
+  }
+
+  const subscriptionType = session ? await getSubscriptionType(userId) : null;
+
+  if (subscriptionType?.type !== "premium-plus") {
+    redirect("/essentia-ai");
   }
 
   const toolName = SLUG_TO_TOOL[decodeURIComponent(tool)];
 
   if (!toolName) {
-    notFound();
+    redirect("/essentia-ai");
   }
 
   const invocations = await getToolsByUserAndToolName({
-    userId: session.user.id,
+    userId,
     toolName,
   });
 

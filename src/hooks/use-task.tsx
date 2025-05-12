@@ -62,7 +62,11 @@ export const TasksProvider = ({
 
   const addTask = useCallback(
     (newTask: UserTask) => {
-      setTasks((prevTasks: UserTask[]) => [...prevTasks, newTask]);
+      setTasks((prevTasks: UserTask[]) => {
+        const exists = prevTasks.some((task) => task.id === newTask.id);
+        if (exists) return prevTasks;
+        return [...prevTasks, newTask];
+      });
     },
     [setTasks],
   );

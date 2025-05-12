@@ -1,9 +1,11 @@
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import PageTitle from "@/components/ui/layout/page-title";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
 import { getGroupedChatToolsByUser } from "@/db/querys/chat-querys";
+import { getSubscriptionType } from "@/db/querys/payment-querys";
 
 import ToolList from "./_components/tool-list";
 
@@ -16,9 +18,17 @@ export const metadata: Metadata = {
 export default async function ProgressPage() {
   const session = await auth();
 
-  if (!session?.user?.id) return null;
+  const userId = session?.user?.id as string;
 
-  const toolsGroup = await getGroupedChatToolsByUser(session.user.id);
+  if (!userId) return null;
+
+  const subscriptionType = session ? await getSubscriptionType(userId) : null;
+
+  if (subscriptionType?.type !== "premium-plus") {
+    redirect("/essentia-ai");
+  }
+
+  const toolsGroup = await getGroupedChatToolsByUser(userId);
 
   return (
     <PageWrapper classNameContainer="w-full">

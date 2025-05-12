@@ -68,7 +68,21 @@ export async function createUserTask(args: {
     })
     .returning();
 
-  return task;
+  return {
+    task: {
+      id: task.id,
+      userId: task.userId,
+      chatId: task.chatId,
+      name: task.name,
+      instructions: task.instructions,
+      frequency: task.frequency,
+      time: task.time,
+      exactDate: task.exactDate,
+      weekDay: task.weekDay,
+      monthDay: task.monthDay,
+      month: task.month,
+    },
+  };
 }
 
 export async function getUserTask(userId: string, chatId: string) {
@@ -116,18 +130,13 @@ export async function updateUserTask(
     month: data.month ?? null,
     updatedAt: new Date(),
   };
-
-  console.log("Updating task with data:", newData);
-
   try {
-    console.log("taskId:", taskId, "userId:", userId);
     const [updated] = await db
       .update(userTask)
       .set(newData)
       .where(and(eq(userTask.id, taskId), eq(userTask.userId, userId)))
       .returning();
 
-    console.log("Task updated:", updated);
     return updated;
   } catch (error) {
     console.error("Error al actualizar la tarea:", error);

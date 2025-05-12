@@ -145,6 +145,25 @@ export async function getSubscription(
   }
 }
 
+export async function getSubscriptionType(userId: string): Promise<{
+  type: "free" | "premium" | "premium-plus" | null;
+}> {
+  try {
+    const result = await db
+      .select({
+        type: subscription.type,
+      })
+      .from(subscription)
+      .where(eq(subscription.userId, userId))
+      .limit(1);
+
+    return result[0];
+  } catch (error) {
+    console.error("Error al obtener la suscripción del usuario:", error);
+    throw error;
+  }
+}
+
 export async function getSubscriptionsByClientId(
   clientId: string,
 ): Promise<Array<Subscription>> {

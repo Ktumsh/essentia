@@ -46,34 +46,25 @@ export default async function RootLayout({
 
   const userId = session?.user?.id as string;
 
-  const userData = userId ? await getUserProfileData({ userId }) : null;
-
-  const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
-
   const [subscription] = session ? await getSubscription(userId) : [];
-
   const [payment] = session ? await getPaymentDetails(userId) : [];
 
-  const currentPlan = subscription ? subscription.type : "free";
-
   const initialTasks = session ? await getUserTasks(userId) : [];
-
-  const isMobile = cookieStore.get("isMobile")?.value === "true";
-
-  const medicalMode = cookieStore.get("view_mode_medical")?.value as
-    | "grid"
-    | "list";
-
-  const savedMode = cookieStore.get("view_mode_saved")?.value as
-    | "grid"
-    | "list";
-
+  const userData = userId ? await getUserProfileData({ userId }) : null;
   const initialUserSubscription = userId
     ? await getUserSubscriptionInfo(userId)
     : {
         trial: { hasUsed: false, isActive: false, expiresAt: null },
         subscription: null,
       };
+
+  const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
+  const isMobile = cookieStore.get("isMobile")?.value === "true";
+  const medicalMode =
+    (cookieStore.get("view_mode_medical")?.value as "grid" | "list") || "grid";
+  const savedMode =
+    (cookieStore.get("view_mode_saved")?.value as "grid" | "list") || "grid";
+  const currentPlan = subscription?.type || "free";
 
   return (
     <html lang="es" suppressHydrationWarning className="md:overflow-hidden">
@@ -97,10 +88,7 @@ export default async function RootLayout({
           initialTasks={initialTasks}
           initialMobileState={isMobile}
           initialUserSubscription={initialUserSubscription}
-          initialModes={{
-            medical: medicalMode || "grid",
-            saved: savedMode || "grid",
-          }}
+          initialModes={{ medical: medicalMode, saved: savedMode }}
         >
           <Toaster />
           <ProfileMessage user={userData} session={session} />

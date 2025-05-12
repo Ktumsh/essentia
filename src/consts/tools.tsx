@@ -23,6 +23,51 @@ export const SLUG_TO_TOOL = Object.fromEntries(
   Object.entries(TOOL_SLUGS).map(([k, v]) => [v, k]),
 );
 
+export const TOOL_CREATING_MESSAGE_ALTERNATIVES: Record<string, string[]> = {
+  createHealthRisk: [
+    "Analizando tu historial para cuidar tu salud",
+    "Evaluando factores que podrían afectarte",
+    "Revisando posibles riesgos para prevenir a tiempo",
+    "Cuidarte también es conocerte mejor",
+    "Poniendo un poco de esencia para entender tu bienestar",
+  ],
+  createRoutine: [
+    "Diseñando una rutina pensada para ti",
+    "Equilibrando movimiento y descanso",
+    "Buscando ejercicios que se adapten a tu cuerpo",
+    "Tu energía merece una guía personalizada",
+    "Poniendo un poco de esencia para ayudarte a avanzar",
+  ],
+  createNutritionalPlan: [
+    "Eligiendo alimentos que nutran tu día",
+    "Armando un plan rico y balanceado",
+    "Conectando tus metas con lo que comes",
+    "Cuidar tu cuerpo también es un acto de cariño",
+    "Poniendo un poco de esencia en tu plato",
+  ],
+  createMoodTrack: [
+    "Escuchando cómo te sientes hoy",
+    "Trazando tu mapa emocional",
+    "Ayudándote a comprender tus altibajos",
+    "Porque tu bienestar emocional también importa",
+    "Poniendo un poco de esencia para acompañarte",
+  ],
+  createTrackTask: [
+    "Creando tu nueva tarea de bienestar",
+    "Registrando lo que necesitas recordar",
+    "Organizando lo que importa para tu salud",
+    "Preparando tu recordatorio personalizado",
+    "Poniendo un poco de esencia para ayudarte a seguir tu camino",
+  ],
+  getWeather: [
+    "Revisando el clima para planificar tu día",
+    "Consultando el tiempo para sugerirte actividades al aire libre",
+    "Averiguando si hoy es buen día para una caminata",
+    "Viendo cómo está el clima en tu zona para cuidarte mejor",
+    "Poniendo un poco de esencia para hacer tu día más claro",
+  ],
+};
+
 export const TOOL_VISUALS: Record<
   string,
   {
