@@ -9,7 +9,6 @@ import {
   deleteSubscription,
   getSubscription,
   getSubscriptionByClientId,
-  getSubscriptionBySubscriptionId,
   setPaymentDetails,
   updateClientId,
   updatePaymentDetails,
@@ -251,15 +250,10 @@ export async function handleSubscriptionUpdated(
 
   console.log("planType", planType);
 
-  try {
-    const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
+  const clientId = subscription.customer as string;
 
-    if (!subscription) {
-      console.error(
-        `No se encontró la suscripción en la BD para ${subscriptionId}`,
-      );
-      return;
-    }
+  try {
+    const [subscription] = await getSubscriptionByClientId(clientId);
 
     await updateSubscription(
       subscription.userId,

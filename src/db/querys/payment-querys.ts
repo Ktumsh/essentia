@@ -160,23 +160,6 @@ export async function getSubscriptionByClientId(
   }
 }
 
-export async function getSubscriptionBySubscriptionId(
-  subscriptionId: string,
-): Promise<Subscription | null> {
-  try {
-    const result = await db
-      .select()
-      .from(subscription)
-      .where(eq(subscription.subscriptionId, subscriptionId))
-      .limit(1);
-
-    return result[0] ?? null;
-  } catch (error) {
-    console.error("Error al obtener la suscripción por ID:", error);
-    throw error;
-  }
-}
-
 export async function updateClientId(
   userId: string,
   clientId: string,
