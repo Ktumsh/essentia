@@ -37,8 +37,8 @@ export async function updateSubscription(
           subscriptionId: null,
           clientId: null,
           isPremium: false,
-          status: null,
-          type: null,
+          status: "paused",
+          type: "free",
           expiresAt: null,
         })
         .where(eq(subscription.userId, userId));

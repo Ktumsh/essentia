@@ -42,7 +42,14 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
 
   const items = [];
 
-  const routesToIgnore = ["/essentia", "/soporte", "/blog", "/planes"];
+  const routesToIgnore = [
+    "/essentia",
+    "/soporte",
+    "/blog",
+    "/planes",
+    "/payment/success",
+    "/payment/cancel",
+  ];
 
   if (routesToIgnore.includes(pathname) || !session?.user?.id) return null;
 
