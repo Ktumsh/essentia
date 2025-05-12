@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ReactNode } from "react";
 
 import { Badge } from "@/components/kit/badge";
+import { capitalize } from "@/utils/format";
 
 interface InfoItem {
   icon: ReactNode;
@@ -34,7 +35,7 @@ const StockHeader = ({
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full p-6">
         <Badge className="text-foreground bg-background/80 mb-2 rounded-full px-3 py-1 text-xs font-medium backdrop-blur">
-          {label}
+          {capitalize(label)}
         </Badge>
         <h2 className="text-lg font-semibold tracking-tight text-balance text-white md:text-2xl">
           {title.replace(".", " ")}

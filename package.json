@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:resources": "bun ./src/db/seed/resources.ts"
+    "seed:resources": "bun ./src/db/seed/resources.ts",
+    "seed:tools": "bun ./src/db/seed/tools.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",

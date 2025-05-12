@@ -17,6 +17,7 @@ import {
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { GUIDE_THEME_COLORS, Guide as GuideType } from "@/consts/guide-data";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 import GuideContent from "./guide-content";
 import GuideFaqs from "./guide-faqs";
@@ -76,14 +77,14 @@ export default function Guide({ guide }: GuideProps) {
       <ArrowLeftButton
         variant="ghost"
         size="sm"
-        className="mb-4 -translate-x-3 hover:bg-transparent"
+        className="mb-4 -translate-x-3 rounded-full"
         onClick={() => router.push("/herramientas/guias")}
       >
         Volver a guías
       </ArrowLeftButton>
 
       <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row">
-        <div className={`border-l-4 ${theme.borderAccent} pl-3`}>
+        <div className={cn("border-l-4 pl-3", theme.borderAccent)}>
           <h1 className="font-merriweather text-2xl font-semibold">
             {guide.title}
           </h1>

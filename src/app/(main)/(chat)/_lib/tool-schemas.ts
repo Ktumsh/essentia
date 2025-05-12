@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const routineSchema = z.object({
   routine: z.object({
+    title: z.string().describe("Título de la rutina"),
     exercises: z.array(
       z.object({
         name: z.string().describe("Nombre del ejercicio"),
@@ -68,6 +69,7 @@ export type Routine = z.infer<typeof routineSchema.shape.routine>;
 
 export const healthRiskSchema = z.object({
   healthRisk: z.object({
+    title: z.string().describe("Título de la evaluación de salud"),
     diabetes: z.object({
       percentage: z.number().describe("Porcentaje de riesgo de diabetes"),
       level: z.string().describe("Nivel de riesgo de diabetes"),
@@ -153,6 +155,7 @@ export type HealthRisk = z.infer<typeof healthRiskSchema.shape.healthRisk>;
 
 export const nutritionalPlanSchema = z.object({
   nutritionalPlan: z.object({
+    title: z.string().describe("Título del plan nutricional"),
     breakfast: z
       .array(
         z.object({
@@ -228,6 +231,7 @@ export type NutritionalPlan = z.infer<
 
 export const moodTrackSchema = z.object({
   moodTrack: z.object({
+    title: z.string().describe("Título del seguimiento del estado de ánimo"),
     mood: z.array(
       z.object({
         activity: z.string().describe("Actividad de bienestar recomendada"),

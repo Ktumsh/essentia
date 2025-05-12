@@ -43,11 +43,11 @@ const RoutineStock = (routine: Routine) => {
   const { ref, downloadImage } = useDownloadTool(fileName); */
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 shadow-[0_2px_20px_rgba(0,0,0,0.05)] transition-all duration-300">
+    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
       <StockHeader
         imageSrc="/extras/exercise-routine.png"
-        title={routine.goal}
-        label={routine.fitnessLevel}
+        title={routine.title ?? routine.goal}
+        label="Rutina de ejercicios"
         infoItems={[
           {
             icon: <Calendar className="size-4" />,
@@ -70,7 +70,7 @@ const RoutineStock = (routine: Routine) => {
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-fuchsia-500 data-[state=active]:text-fuchsia-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-fuchsia-400"
+                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-lime-500 data-[state=active]:text-lime-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-lime-400"
               >
                 {tab === "overview"
                   ? "Resumen"
@@ -191,7 +191,7 @@ function ExerciseCard({
     >
       <AccordionTrigger className="flex items-center p-4 hover:no-underline">
         <div className="flex items-center gap-3">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-fuchsia-100 text-sm font-medium text-fuchsia-500 dark:bg-fuchsia-900/30">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-lime-100 text-sm font-medium text-lime-500 dark:bg-lime-900/30">
             {index + 1}
           </div>
           <h3 className="font-medium">{exercise.name}</h3>

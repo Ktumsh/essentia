@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
@@ -61,6 +61,10 @@ const LessonPage = async (props: LessonPageProps) => {
   const userId = session?.user?.id as string;
 
   const route = await getRouteBySlug(routeSlug);
+
+  if (!route) {
+    notFound();
+  }
 
   const stages = route.id ? await getStages(route.id) : [];
 

@@ -12,7 +12,7 @@ import { SidebarInset } from "@/components/kit/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { ScrollContext } from "@/hooks/use-scroll-ref";
-import { cn, startsWithAny } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
 import BottomNav from "./bottom-navbar";
@@ -47,8 +47,12 @@ const LayoutWrapper = ({
 
   const scrollRef = useRef<HTMLDivElement>(null as unknown as HTMLDivElement);
 
-  const hideButtonUp = startsWithAny(pathname, HIDDEN_BUTTON_UP_PATHS);
-  const isEssentiaAI = pathname.startsWith("/essentia-ai");
+  const hideButtonUp =
+    HIDDEN_BUTTON_UP_PATHS.some((path) => pathname === path) ||
+    pathname.startsWith("/essentia-ai/chat/");
+
+  const isEssentiaAI =
+    pathname === "/essentia-ai" || pathname.startsWith("/essentia-ai/chat/");
 
   const backgroundClasses = useMemo(() => {
     return cn(

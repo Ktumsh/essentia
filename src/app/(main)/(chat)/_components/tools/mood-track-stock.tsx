@@ -33,11 +33,11 @@ const MoodTrackStock = (moodTrack: MoodTrack) => {
   const [selectedActivity, setSelectedActivity] = useState<number | null>(null);
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 shadow-[0_2px_20px_rgba(0,0,0,0.05)] transition-all duration-300">
+    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
       <StockHeader
         imageSrc="/extras/mood-tracking.png"
-        title="Actividades de Bienestar"
-        label="Bienestar"
+        title={moodTrack.title ?? "Actividades de Bienestar"}
+        label="Seguimiento del ánimo"
         infoItems={[
           {
             icon: <Smile className="size-4" />,
@@ -60,7 +60,7 @@ const MoodTrackStock = (moodTrack: MoodTrack) => {
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-pink-500 data-[state=active]:text-pink-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-pink-400"
+                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-fuchsia-500 data-[state=active]:text-fuchsia-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-fuchsia-400"
               >
                 {tab === "activities" ? "Actividades" : "Inspiración"}
               </TabsTrigger>
@@ -88,7 +88,7 @@ const MoodTrackStock = (moodTrack: MoodTrack) => {
                       size="sm"
                       variant="ghost"
                       onClick={() => setSelectedActivity(null)}
-                      className="rounded-full text-pink-500 hover:text-pink-600 dark:text-pink-400 dark:hover:text-pink-300"
+                      className="rounded-full text-fuchsia-500 hover:text-fuchsia-600 dark:text-fuchsia-400 dark:hover:text-fuchsia-300"
                     >
                       Volver a actividades
                     </ArrowLeftButton>
@@ -162,7 +162,7 @@ const MoodTrackStock = (moodTrack: MoodTrack) => {
               {moodTrack.poeticPhrase && (
                 <div className="dark:bg-accent/50 rounded-2xl bg-slate-50 p-5">
                   <div className="flex items-start">
-                    <Quote className="mt-1 mr-3 size-8 flex-shrink-0 text-purple-300 dark:text-pink-700" />
+                    <Quote className="mt-1 mr-3 size-8 flex-shrink-0 text-purple-300 dark:text-fuchsia-700" />
                     <div>
                       <p className="text-base leading-relaxed text-gray-800 italic md:text-lg dark:text-gray-200">
                         {moodTrack.poeticPhrase.phrase}
@@ -176,9 +176,9 @@ const MoodTrackStock = (moodTrack: MoodTrack) => {
               )}
 
               {/* Suggestion */}
-              <div className="rounded-2xl bg-pink-50 p-5 dark:bg-pink-900/20">
+              <div className="rounded-2xl bg-fuchsia-50 p-5 dark:bg-fuchsia-900/20">
                 <h3 className="text-foreground mb-2 flex items-center gap-2 text-base font-semibold">
-                  <Lightbulb className="size-5 text-pink-500" />
+                  <Lightbulb className="size-5 text-fuchsia-500" />
                   Sugerencia para Mejorar
                 </h3>
                 <p className="text-foreground/80 text-sm leading-relaxed md:text-base">
