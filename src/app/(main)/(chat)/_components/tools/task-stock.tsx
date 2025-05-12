@@ -48,12 +48,12 @@ const TaskStock = ({
 
   const { pauseTask, resumeTask } = useTasks();
 
-  const { isSubscribed, subscribeToPush } = useNotification();
+  const { permission, subscribeToPush } = useNotification();
 
   const hasNotified = useRef(false);
 
   useEffect(() => {
-    if (task && !isSubscribed && !hasNotified.current) {
+    if (task && permission === "default" && !hasNotified.current) {
       hasNotified.current = true;
       toast("¡Activa las notificaciones!", {
         duration: Infinity,
@@ -66,7 +66,7 @@ const TaskStock = ({
         },
       });
     }
-  }, [task, isSubscribed, subscribeToPush]);
+  }, [task, permission, subscribeToPush]);
 
   if (!task || isLoading)
     return (
