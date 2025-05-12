@@ -145,17 +145,33 @@ export async function getSubscription(
   }
 }
 
-export async function getSubscriptionByClientId(
+export async function getSubscriptionsByClientId(
   clientId: string,
 ): Promise<Array<Subscription>> {
   try {
     return await db
       .select()
       .from(subscription)
-      .where(eq(subscription.clientId, clientId))
-      .limit(1);
+      .where(eq(subscription.clientId, clientId));
   } catch (error) {
     console.error("Error al obtener la suscripción del usuario:", error);
+    throw error;
+  }
+}
+
+export async function getSubscriptionBySubscriptionId(
+  subscriptionId: string,
+): Promise<Subscription | null> {
+  try {
+    const result = await db
+      .select()
+      .from(subscription)
+      .where(eq(subscription.subscriptionId, subscriptionId))
+      .limit(1);
+
+    return result[0] ?? null;
+  } catch (error) {
+    console.error("Error al obtener la suscripción por ID:", error);
     throw error;
   }
 }
