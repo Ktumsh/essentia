@@ -31,9 +31,12 @@ export async function createSubscription({
     throw new Error("Usuario no encontrado.");
   }
 
-  const [subscription] = await getSubscription(user.id);
+  const subscriptions = await getSubscription(user.id);
+  const subscription = subscriptions.length ? subscriptions[0] : null;
 
-  let customerId = subscription?.clientId || null;
+  let customerId = subscription?.clientId ?? null;
+
+  console.log("customerId", customerId);
 
   try {
     if (!customerId) {
