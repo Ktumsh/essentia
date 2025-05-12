@@ -199,14 +199,14 @@ export async function handleSubscriptionCreated(
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
-  const type = subscription.items.data[0].plan.nickname;
+  const type = subscription.items.data[0].plan.id;
   const currentPeriodEnd = subscription.current_period_end;
   const clientId = subscription.customer as string;
 
   const planType =
-    type === siteConfig.stripePlanName.premium
+    type === siteConfig.priceId.premium
       ? siteConfig.plan.premium
-      : type === siteConfig.stripePlanName.premiumPlus
+      : type === siteConfig.priceId.premiumPlus
         ? siteConfig.plan.premiumPlus
         : siteConfig.plan.free;
 
@@ -237,13 +237,13 @@ export async function handleSubscriptionUpdated(
   const status = subscription.cancel_at_period_end
     ? "canceled"
     : subscription.status;
-  const type = subscription.items.data[0].plan.nickname;
+  const type = subscription.items.data[0].plan.id;
   const currentPeriodEnd = subscription.current_period_end;
 
   const planType =
-    type === siteConfig.stripePlanName.premium
+    type === siteConfig.priceId.premium
       ? siteConfig.plan.premium
-      : type === siteConfig.stripePlanName.premiumPlus
+      : type === siteConfig.priceId.premiumPlus
         ? siteConfig.plan.premiumPlus
         : siteConfig.plan.free;
 

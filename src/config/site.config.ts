@@ -20,10 +20,6 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/ktumsh/",
     twitter: "hhttps://twitter.com",
   },
-  stripePlanName: {
-    premium: "Premium",
-    premiumPlus: "Premium Plus",
-  },
   plan: {
     free: "free",
     premium: "premium",
