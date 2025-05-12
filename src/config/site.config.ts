@@ -20,6 +20,10 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/ktumsh/",
     twitter: "hhttps://twitter.com",
   },
+  stripePlanName: {
+    premium: "Premium",
+    premiumPlus: "Premium Plus",
+  },
   plan: {
     free: "free",
     premium: "premium",
@@ -27,8 +31,8 @@ export const siteConfig = {
   },
   priceId: {
     free: "price_free",
-    premium: "price_1RNB8AI2PMoTUNZeU1Rmaf5A",
-    premiumPlus: "price_1RNB8vI2PMoTUNZeDsZbDhFe",
+    premium: "price_1RNvLyI2PMoTUNZe8IKyFEyS",
+    premiumPlus: "price_1RNvMOI2PMoTUNZegGqYwx3X",
   },
 };
 

@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation";
 
+import PageTitle from "@/components/ui/layout/page-title";
+
 const AdditionalsHeader = () => {
   const pathname = usePathname();
 
@@ -9,13 +11,7 @@ const AdditionalsHeader = () => {
 
   if (isGuidePage) return null;
 
-  return (
-    <div className="mx-auto max-w-7xl">
-      <h1 className="font-merriweather py-4 text-2xl leading-none font-semibold sm:text-3xl md:pt-11 dark:text-white">
-        Herramientas de Apoyo
-      </h1>
-    </div>
-  );
+  return <PageTitle>Herramientas de Apoyo</PageTitle>;
 };
 
 export default AdditionalsHeader;

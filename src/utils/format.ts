@@ -138,6 +138,8 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
   support: "Soporte",
   pricing: "Planes y precios",
   review: "Revisión práctica",
+  progreso: "Hábitos y progreso",
+  "seguimientos-del-animo": "Seguimientos del ánimo",
 };
 
 export const formatSegment = (segment: string) => {

@@ -1,8 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React from "react";
+import { LockKeyholeIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
+import { GripButton } from "@/components/button-kit/grip-button";
+import { UpgradeButton } from "@/components/button-kit/upgrade-button";
 import {
   SidebarGroup,
   SidebarHeader,
@@ -11,51 +14,100 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/kit/sidebar";
+import { BetterTooltip } from "@/components/kit/tooltip";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
+
+import PaymentModal from "../payment/payment-modal";
 
 const ChatHeader = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   const { isMobile, setOpenMobile } = useSidebar();
 
-  /*   const isEnabledChatHistory = paginatedChatHistories
-    ? paginatedChatHistories.every((page) => page.chats.length > 0)
-    : false; */
+  const { subscription } = useUserSubscription();
+
+  const isPremium = subscription?.plan?.id === "premium";
+  const isPremiumPlus = subscription?.plan?.id === "premium-plus";
 
   return (
-    <SidebarGroup>
-      {!isMobile && (
-        <SidebarHeader className="mb-1">
-          <div className="flex-1 text-center text-sm leading-tight">
-            <h4 className="font-merriweather truncate font-semibold">
-              Historial de chats
-            </h4>
-          </div>
-        </SidebarHeader>
+    <>
+      <SidebarGroup>
+        {!isMobile && (
+          <SidebarHeader className="mb-1">
+            <div className="flex-1 text-center text-sm leading-tight">
+              <h4 className="font-merriweather truncate font-semibold">
+                Historial de chats
+              </h4>
+            </div>
+          </SidebarHeader>
+        )}
+        <SidebarMenu>
+          {isPremium && !isPremiumPlus && (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <UpgradeButton
+                  variant="gradient"
+                  onClick={() => {
+                    setOpen(true);
+                    setOpenMobile(false);
+                  }}
+                  className="bg-premium-plus! hover:text-white active:text-white"
+                >
+                  Mejorar plan
+                </UpgradeButton>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip="Nuevo chat"
+              isActive
+              onClick={() => {
+                setOpenMobile(false);
+                router.push("/essentia-ai");
+                router.refresh();
+              }}
+              className="dark:data-[active=true]:bg-accent/50 dark:border-alternative/50 dark:hover:data-[active=true]:bg-accent/50 mb-2 justify-center rounded-md border text-sm focus-visible:outline-hidden data-[active=true]:bg-slate-50 data-[active=true]:hover:bg-slate-50"
+            >
+              <span>Nuevo chat</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              disabled={!isPremiumPlus}
+              isActive={pathname === "/essentia-ai/progreso"}
+            >
+              <GripButton
+                variant="ghost"
+                onClick={() => router.push("/essentia-ai/progreso")}
+                className="hover:bg-accent hover:text-foreground data-[active=true]:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:dark:border-alternative/50 relative justify-start font-normal data-[active=true]:border-0 data-[active=true]:shadow-none"
+              >
+                Hábitos y progreso
+                {!isPremiumPlus && (
+                  <BetterTooltip content="Disponible con Premium Plus">
+                    <LockKeyholeIcon
+                      onClick={(e) => e.stopPropagation()}
+                      className="pointer-events-auto! absolute inset-y-0 right-3 z-1 my-auto cursor-default"
+                    />
+                  </BetterTooltip>
+                )}
+              </GripButton>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroup>
+      {isPremium && !isPremiumPlus && (
+        <PaymentModal
+          isOpen={open}
+          setIsOpen={setOpen}
+          featureType="upgrade-plan"
+        />
       )}
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            tooltip="Nuevo chat"
-            isActive
-            onClick={() => {
-              setOpenMobile(false);
-              router.push("/essentia-ai");
-              router.refresh();
-            }}
-            className="dark:data-[active=true]:bg-accent/50 dark:border-alternative/50 dark:hover:data-[active=true]:bg-accent/50 justify-center rounded-md border text-sm focus-visible:outline-hidden data-[active=true]:bg-slate-50 data-[active=true]:hover:bg-slate-50"
-          >
-            <span>Nuevo chat</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        {/* <ChatClearHistory
-          clearChats={() =>
-            deleteAllChatsByUserId({
-              id: session?.user?.id as string,
-            })
-          }
-          isEnabled={isEnabledChatHistory}
-        /> */}
-      </SidebarMenu>
-    </SidebarGroup>
+    </>
   );
 };
 

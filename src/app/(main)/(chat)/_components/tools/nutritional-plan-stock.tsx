@@ -48,10 +48,10 @@ const NutritionalPlanStock = (nutritionalPlan: NutritionalPlan) => {
   };
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 shadow-[0_2px_20px_rgba(0,0,0,0.05)] transition-all duration-300">
+    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
       <StockHeader
-        imageSrc="/extras/meal-nutritional-plan-top.jpg"
-        title="Plan Alimenticio Personalizado"
+        imageSrc="/extras/nutritional-plan.jpg"
+        title={nutritionalPlan.title ?? "Plan Alimenticio Personalizado"}
         label="Plan Nutricional"
         infoItems={[
           {
@@ -77,7 +77,7 @@ const NutritionalPlanStock = (nutritionalPlan: NutritionalPlan) => {
               <TabsTrigger
                 key={tab}
                 value={tab}
-                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-yellow-500 data-[state=active]:text-yellow-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-yellow-400"
+                className="flex-1 rounded-none border-b-2 border-transparent px-0 font-medium capitalize transition-all duration-200 data-[state=active]:border-red-500 data-[state=active]:text-red-500 data-[state=active]:shadow-none md:flex-0 dark:data-[state=active]:text-red-400"
               >
                 {tab === "overview"
                   ? "Resumen"

@@ -91,11 +91,11 @@ const HealthRiskStock = (healthRisk: HealthRisk) => {
   };
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 shadow-[0_2px_20px_rgba(0,0,0,0.05)] transition-all duration-300">
+    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
       <StockHeader
         imageSrc="/extras/health-risk.png"
-        title="Evaluación de Riesgos de Salud"
-        label={capitalize(healthRisk.generalRiskLevel)}
+        title={healthRisk.title ?? "Evaluación de Riesgos de Salud"}
+        label="Riesgos de Salud"
         infoItems={[
           {
             icon: <Scale className="size-4" />,

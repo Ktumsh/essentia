@@ -225,6 +225,20 @@ export const chatStream = table(
 
 export type ChatStream = InferSelectModel<typeof chatStream>;
 
+export const chatTool = table("chat_tool", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  chatMessageId: uuid("chat_message_id")
+    .notNull()
+    .references(() => chatMessage.id, { onDelete: "cascade" }),
+  toolName: text("tool_name").notNull(),
+  toolCallId: text("tool_call_id").notNull(),
+  args: json("args").notNull(),
+  result: json("result").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type ChatTool = InferSelectModel<typeof chatTool>;
+
 export const route = table("route", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   slug: varchar("slug", { length: 100 }).unique().notNull(),

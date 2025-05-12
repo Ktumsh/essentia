@@ -21,7 +21,7 @@ function CardHeader({
   ...props
 }: React.ComponentProps<"div"> & { isSecondary?: boolean }) {
   return (
-    <div
+    <header
       data-slot="card-header"
       className={cn(
         "flex flex-col gap-1.5 p-6",
@@ -72,13 +72,12 @@ function CardFooter({
   ...props
 }: React.ComponentProps<"div"> & { isSecondary?: boolean }) {
   return (
-    <div
+    <footer
       data-slot="card-footer"
       className={cn(
         "flex items-center p-6 pt-0",
         className,
-        isSecondary &&
-          "dark:bg-accent/50 border-border bg-accent border-t p-4 md:justify-between",
+        isSecondary && "bg-accent border-t p-4 md:justify-between",
       )}
       {...props}
     />

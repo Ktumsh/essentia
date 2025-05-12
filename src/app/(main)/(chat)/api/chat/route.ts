@@ -26,6 +26,7 @@ import {
   getStreamIdsByChatId,
   incrementUserChatUsage,
   saveChat,
+  saveChatToolsFromMessageParts,
   saveMessages,
 } from "@/db/querys/chat-querys";
 import { getSubscription } from "@/db/querys/payment-querys";
@@ -251,6 +252,18 @@ export async function POST(request: Request) {
                       createdAt: new Date(),
                     },
                   ],
+                });
+
+                await saveChatToolsFromMessageParts({
+                  message: {
+                    id: assistantId,
+                    chatId: id,
+                    role: assistantMessage.role,
+                    parts: assistantMessage.parts,
+                    attachments:
+                      assistantMessage.experimental_attachments ?? [],
+                    createdAt: new Date(),
+                  },
                 });
 
                 await incrementUserChatUsage(userId);

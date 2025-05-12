@@ -12,6 +12,7 @@ import {
   SQL,
   gt,
   lt,
+  not,
 } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -27,6 +28,8 @@ import {
   subscription,
   plan,
   userChatUsage,
+  chatTool,
+  ChatTool,
 } from "@/db/schema";
 
 const client = postgres(process.env.POSTGRES_URL!);
@@ -533,4 +536,136 @@ export async function decrementUserChatUsage(userId: string): Promise<boolean> {
     .where(eq(userChatUsage.id, usage.id));
 
   return true;
+}
+
+export type ToolGroup = {
+  toolName: string;
+  invocations: Array<{
+    toolCallId: string;
+    args: any;
+    result?: any;
+  }>;
+};
+
+export async function saveChatToolsFromMessageParts({
+  message,
+}: {
+  message: ChatMessage;
+}) {
+  try {
+    const parts = message.parts as any[];
+
+    const invocations = parts
+      .filter((p) => p.type === "tool-invocation")
+      .map((p) => {
+        const tool = p.toolInvocation;
+        return {
+          chatMessageId: message.id,
+          toolName: tool.toolName,
+          toolCallId: tool.toolCallId,
+          args: tool.args,
+          result: tool.result,
+          createdAt: message.createdAt,
+        };
+      });
+
+    if (invocations.length > 0) {
+      await db.insert(chatTool).values(invocations).onConflictDoNothing();
+    }
+  } catch (error) {
+    console.error("Error al guardar herramientas del mensaje:", error);
+    throw error;
+  }
+}
+
+const BANNED_TOOLS = ["getWeather", "createTrackTask"] as const;
+
+export async function getGroupedChatToolsByUser(userId: string): Promise<
+  Array<{
+    toolName: string;
+    count: number;
+    latest: Date | null;
+    recentDates: Date[];
+  }>
+> {
+  try {
+    const rows = await db
+      .select({
+        toolName: chatTool.toolName,
+        createdAt: chatTool.createdAt,
+      })
+      .from(chatTool)
+      .innerJoin(chatMessage, eq(chatTool.chatMessageId, chatMessage.id))
+      .innerJoin(chat, eq(chatMessage.chatId, chat.id))
+      .where(
+        and(
+          eq(chat.userId, userId),
+          not(inArray(chatTool.toolName, BANNED_TOOLS)),
+        ),
+      )
+      .orderBy(desc(chatTool.createdAt));
+
+    const groups = new Map<
+      string,
+      {
+        toolName: string;
+        count: number;
+        latest: Date | null;
+        recentDates: Date[];
+      }
+    >();
+
+    for (const { toolName, createdAt } of rows) {
+      const existing = groups.get(toolName) ?? {
+        toolName,
+        count: 0,
+        latest: null,
+        recentDates: [],
+      };
+
+      existing.count++;
+      if (!existing.latest || createdAt > existing.latest) {
+        existing.latest = createdAt;
+      }
+      if (existing.recentDates.length < 6) {
+        existing.recentDates.push(createdAt);
+      }
+
+      groups.set(toolName, existing);
+    }
+
+    return Array.from(groups.values());
+  } catch (error) {
+    console.error("Error al agrupar herramientas por usuario:", error);
+    throw error;
+  }
+}
+
+export async function getToolsByUserAndToolName({
+  userId,
+  toolName,
+}: {
+  userId: string;
+  toolName: string;
+}): Promise<ChatTool[]> {
+  try {
+    return await db
+      .select({
+        id: chatTool.id,
+        toolCallId: chatTool.toolCallId,
+        chatMessageId: chatTool.chatMessageId,
+        toolName: chatTool.toolName,
+        args: chatTool.args,
+        result: chatTool.result,
+        createdAt: chatTool.createdAt,
+      })
+      .from(chatTool)
+      .innerJoin(chatMessage, eq(chatTool.chatMessageId, chatMessage.id))
+      .innerJoin(chat, eq(chatMessage.chatId, chat.id))
+      .where(and(eq(chat.userId, userId), eq(chatTool.toolName, toolName)))
+      .orderBy(desc(chatTool.createdAt));
+  } catch (error) {
+    console.error("Error al obtener herramientas para el usuario:", error);
+    throw error;
+  }
 }

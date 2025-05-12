@@ -227,8 +227,9 @@ export const ROUTINE_PROMPT = (routine: Routine) => `\
   - **Disponibilidad de equipamiento**: ${routine.equipment || "ninguno"}.
 
   La rutina debe incluir:
-  1. **Duración total**: Entre 1 y 3 meses (especifica las semanas).
-  2. **Lista de ejercicios**: Cada ejercicio debe incluir:
+  1. **Título**: Escribe un título breve, claro y descriptivo para la rutina. No uses dos puntos (:). Evita títulos tipo slogan o frases promocionales. El título debe centrarse en el contenido real de los ejercicios.
+  2. **Duración total**: Entre 1 y 3 meses (especifica las semanas).
+  3. **Lista de ejercicios**: Cada ejercicio debe incluir:
      - Nombre del ejercicio.
      - Repeticiones y series (si aplican).
      - Duración (en caso de ser un ejercicio por tiempo).
@@ -237,10 +238,10 @@ export const ROUTINE_PROMPT = (routine: Routine) => `\
      - Instrucciones detalladas.
      - Beneficios del ejercicio.
      - Modificaciones para distintos niveles.
-  3. **Progresión**: Explica cómo aumentar la intensidad o dificultad con el tiempo.
-  4. **Calentamiento y enfriamiento**: Incluye ejercicios breves para ambos.
-  5. **Programa semanal**: Indica qué ejercicios realizar cada día.
-  6. **Recomendaciones finales**: Consejos para optimizar el progreso.
+  4. **Progresión**: Explica cómo aumentar la intensidad o dificultad con el tiempo.
+  5. **Calentamiento y enfriamiento**: Incluye ejercicios breves para ambos.
+  6. **Programa semanal**: Indica qué ejercicios realizar cada día.
+  7. **Recomendaciones finales**: Consejos para optimizar el progreso.
 `;
 
 export const HEALTH_RISK_SYSTEM_PROMPT = `\
@@ -256,7 +257,8 @@ export const HEALTH_RISK_PROMPT = (assessment: HealthRisk) => `\
   - **Fecha actual**: ${assessment.currentDate.toISOString()}.
 
   La evaluación debe incluir:
-  1. **Riesgos individuales**:
+  1. **Título**: Escribe un título breve, claro y descriptivo para la evaluación. No uses dos puntos (:). Evita títulos tipo slogan o frases promocionales. El título debe enfocarse en el tipo de análisis realizado.
+  2. **Riesgos individuales**:
      - Enfermedades cardiovasculares.
      - Diabetes.
      - Hipertensión.
@@ -265,10 +267,10 @@ export const HEALTH_RISK_PROMPT = (assessment: HealthRisk) => `\
      Para cada una, calcula el porcentaje de riesgo, clasifica el nivel como "bajo", "medio" o "alto", y proporciona:
      - Interpretación personalizada.
      - Acciones recomendadas para mitigar el riesgo.
-  2. **Riesgo general**: Calcula un porcentaje de riesgo general y clasifícalo como "bajo", "medio" o "alto".
-  3. **IMC**: Calcula el índice de masa corporal y clasifícalo (e.g., peso ideal, sobrepeso).
-  4. **Recomendaciones**: Proporciona consejos generales para reducir los riesgos.
-  5. **Fecha de evaluación**: Incluye la fecha actual en el resultado.
+  3. **Riesgo general**: Calcula un porcentaje de riesgo general y clasifícalo como "bajo", "medio" o "alto".
+  4. **IMC**: Calcula el índice de masa corporal y clasifícalo (e.g., peso ideal, sobrepeso).
+  5. **Recomendaciones**: Proporciona consejos generales para reducir los riesgos.
+  6. **Fecha de evaluación**: Incluye la fecha actual en el resultado.
 `;
 
 export const NUTRITIONAL_PLAN_SYSTEM_PROMPT = `\
@@ -285,14 +287,15 @@ export const NUTRITIONAL_PLAN_PROMPT = (plan: NutritionalPlan) => `\
   - **Objetivo de peso**: ${plan.weightGoal || "mantener el peso actual"}.
 
   El plan debe incluir:
-  1. **Distribución diaria**: Para cada comida (desayuno, almuerzo, cena, snacks y adicionales), detalla:
+  1. **Título**: Escribe un título breve, claro y descriptivo para el plan alimentario. No uses dos puntos (:). Evita títulos tipo slogan o frases promocionales. El título debe enfocarse en el enfoque nutricional del contenido.
+  2. **Distribución diaria**: Para cada comida (desayuno, almuerzo, cena, snacks y adicionales), detalla:
      - Nombre del alimento o plato.
      - Cantidad o porción.
      - Calorías estimadas.
      - Horario sugerido.
-  2. **Macronutrientes**: Proporciona un desglose total en gramos de proteínas, carbohidratos y grasas.
-  3. **Calorías totales diarias**: Calcula las calorías de todas las comidas.
-  4. **Recomendaciones**: Consejos para implementar el plan y alcanzar los objetivos nutricionales de manera sostenible.
+  3. **Macronutrientes**: Proporciona un desglose total en gramos de proteínas, carbohidratos y grasas.
+  4. **Calorías totales diarias**: Calcula las calorías de todas las comidas.
+  5. **Recomendaciones**: Consejos para implementar el plan y alcanzar los objetivos nutricionales de manera sostenible.
 `;
 
 export const MOOD_TRACK_SYSTEM_PROMPT = `\
@@ -300,10 +303,11 @@ Eres una asistente enfocada en bienestar emocional. Tu tarea es sugerir activida
 
 export const MOOD_TRACK_PROMPT = (tracking: MoodTrack) => `\
   Proporciona recomendaciones basadas en el estado de ánimo del usuario (${tracking.mood}). Genera una respuesta que incluya:
-  1. **Actividades de bienestar**: Crea una lista de actividades con descripciones detalladas.
-  2. **Recomendación principal**: Sugiere una actividad o hábito destacado para mejorar el estado de ánimo.
-  3. **Consejo motivador**: Ofrece un consejo práctico y motivador para el usuario.
-  4. **Frase inspiradora**: Incluye una frase poética o reflexiva relevante al estado emocional actual del usuario (indica el autor si corresponde).
+  1. **Título**: Escribe un título breve, claro y descriptivo para la sugerencia. No uses dos puntos (:). Evita títulos tipo slogan o frases promocionales. El título debe reflejar el enfoque emocional de manera directa y respetuosa.
+  2. **Actividades de bienestar**: Crea una lista de actividades con descripciones detalladas.
+  3. **Recomendación principal**: Sugiere una actividad o hábito destacado para mejorar el estado de ánimo.
+  4. **Consejo motivador**: Ofrece un consejo práctico y motivador para el usuario.
+  5. **Frase inspiradora**: Incluye una frase poética o reflexiva relevante al estado emocional actual del usuario (indica el autor si corresponde).
 `;
 
 export const TRACK_TASK_SYSTEM_PROMPT = `

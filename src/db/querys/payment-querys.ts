@@ -23,12 +23,28 @@ export async function updateSubscription(
   currentPeriodEnd: number | null,
   status?: string | null,
   type?: "free" | "premium" | "premium-plus" | null,
+  isDeleted?: boolean,
 ): Promise<void> {
   if (!userId) {
     throw new Error("userId es requerido");
   }
 
   try {
+    if (isDeleted) {
+      await db
+        .update(subscription)
+        .set({
+          subscriptionId: null,
+          clientId: null,
+          isPremium: false,
+          status: null,
+          type: null,
+          expiresAt: null,
+        })
+        .where(eq(subscription.userId, userId));
+      return;
+    }
+
     const [currentUser] = await db
       .select()
       .from(subscription)
@@ -129,17 +145,33 @@ export async function getSubscription(
   }
 }
 
-export async function getSubscriptionByClientId(
+export async function getSubscriptionBySubscriptionId(
+  subscriptionId: string,
+): Promise<Subscription | null> {
+  try {
+    const result = await db
+      .select()
+      .from(subscription)
+      .where(eq(subscription.subscriptionId, subscriptionId))
+      .limit(1);
+
+    return result[0] ?? null;
+  } catch (error) {
+    console.error("Error al obtener la suscripción por ID:", error);
+    throw error;
+  }
+}
+
+export async function getSubscriptionsByClientId(
   clientId: string,
-): Promise<Array<Subscription>> {
+): Promise<Subscription[]> {
   try {
     return await db
       .select()
       .from(subscription)
-      .where(eq(subscription.clientId, clientId))
-      .limit(1);
+      .where(eq(subscription.clientId, clientId));
   } catch (error) {
-    console.error("Error al obtener la suscripción del usuario:", error);
+    console.error("Error al obtener suscripciones por cliente:", error);
     throw error;
   }
 }
@@ -222,6 +254,7 @@ export async function getPaymentDetails(
       .select()
       .from(payment)
       .where(eq(payment.userId, userId))
+      .orderBy(desc(payment.processedAt))
       .limit(1);
   } catch (error) {
     console.error("Error al obtener la suscripción del usuario:", error);

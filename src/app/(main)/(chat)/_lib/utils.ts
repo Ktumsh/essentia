@@ -10,6 +10,12 @@ import { es } from "date-fns/locale";
 
 import { cn } from "@/lib/utils";
 
+import type {
+  HealthRisk,
+  MoodTrack,
+  NutritionalPlan,
+  Routine,
+} from "./tool-schemas";
 import type { Chat, ChatMessage } from "@/db/schema";
 import type {
   Attachment,
@@ -412,3 +418,27 @@ export const getEmojiForRemaining = (count: number): string => {
   if (count >= 1) return "😰";
   return "😔";
 };
+
+export type ResultType = {
+  routine?: Routine;
+  healthRisk?: HealthRisk;
+  nutritionalPlan?: NutritionalPlan;
+  moodTrack?: MoodTrack;
+};
+
+export function getResultTitle(toolName: string, result: ResultType): string {
+  switch (toolName) {
+    case "createRoutine":
+      return result.routine?.title ?? result.routine?.goal ?? "";
+    case "createHealthRisk":
+      return (
+        result.healthRisk?.generalRiskLevel ?? "Evaluación de Riesgos de Salud"
+      );
+    case "createNutritionalPlan":
+      return result.nutritionalPlan?.title ?? "Plan Alimenticio Personalizado";
+    case "createMoodTrack":
+      return result.moodTrack?.title ?? "Actividades de Bienestar";
+    default:
+      return "";
+  }
+}
