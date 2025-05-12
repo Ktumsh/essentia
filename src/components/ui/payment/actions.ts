@@ -8,8 +8,7 @@ import { siteConfig } from "@/config/site.config";
 import {
   deleteSubscription,
   getSubscription,
-  getSubscriptionBySubscriptionId,
-  getSubscriptionsByClientId,
+  getSubscriptionByClientId,
   setPaymentDetails,
   updateClientId,
   updatePaymentDetails,
@@ -31,12 +30,9 @@ export async function createSubscription({
     throw new Error("Usuario no encontrado.");
   }
 
-  const subscriptions = await getSubscription(user.id);
-  const subscription = subscriptions.length ? subscriptions[0] : null;
+  const [subscription] = await getSubscription(user.id);
 
-  let customerId = subscription?.clientId ?? null;
-
-  console.log("customerId", customerId);
+  let customerId = subscription?.clientId || null;
 
   try {
     if (!customerId) {
@@ -94,6 +90,7 @@ export async function checkPaymentStatus() {
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const clientId = subscription.customer as string;
   const status = "active";
   const paymentStatus = "paid";
   const currentPeriodEnd = subscription.current_period_end;
@@ -105,14 +102,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const currency = invoice.currency;
 
   try {
-    const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
-
-    if (!subscription) {
-      console.error(
-        `No se encontró la suscripción en la BD para ${subscriptionId}`,
-      );
-      return;
-    }
+    const [subscription] = await getSubscriptionByClientId(clientId);
 
     if (subscription.status === "canceled") {
       await updateSubscription(
@@ -182,15 +172,10 @@ export async function handleSubscriptionDeleted(
 ) {
   const subscriptionId = subscription.id;
 
-  try {
-    const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
+  const customerId = subscription.customer as string;
 
-    if (!subscription) {
-      console.error(
-        `No se encontró la suscripción en la BD para ${subscriptionId}`,
-      );
-      return;
-    }
+  try {
+    const [subscription] = await getSubscriptionByClientId(customerId);
 
     await updateSubscription(
       subscription.userId,
@@ -215,6 +200,7 @@ export async function handleSubscriptionCreated(
   const status = subscription.status;
   const type = subscription.items.data[0].plan.nickname;
   const currentPeriodEnd = subscription.current_period_end;
+  const clientId = subscription.customer as string;
 
   const planType =
     type === siteConfig.stripePlanName.premium
@@ -224,14 +210,7 @@ export async function handleSubscriptionCreated(
         : siteConfig.plan.free;
 
   try {
-    const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
-
-    if (!subscription) {
-      console.error(
-        `No se encontró la suscripción en la BD para ${subscriptionId}`,
-      );
-      return;
-    }
+    const [subscription] = await getSubscriptionByClientId(clientId);
 
     const userId = subscription.userId;
 
@@ -259,6 +238,7 @@ export async function handleSubscriptionUpdated(
     : subscription.status;
   const type = subscription.items.data[0].plan.nickname;
   const currentPeriodEnd = subscription.current_period_end;
+  const clientId = subscription.customer as string;
 
   const planType =
     type === siteConfig.stripePlanName.premium
@@ -268,14 +248,7 @@ export async function handleSubscriptionUpdated(
         : siteConfig.plan.free;
 
   try {
-    const subscription = await getSubscriptionBySubscriptionId(subscriptionId);
-
-    if (!subscription) {
-      console.error(
-        `No se encontró la suscripción en la BD para ${subscriptionId}`,
-      );
-      return;
-    }
+    const [subscription] = await getSubscriptionByClientId(clientId);
 
     await updateSubscription(
       subscription.userId,
@@ -299,10 +272,9 @@ export async function handleCustomerDeleted(customer: Stripe.Customer) {
   }
 
   try {
-    const subs = await getSubscriptionsByClientId(customer.id);
-    for (const sub of subs) {
-      await deleteSubscription(sub.userId);
-    }
+    const [subscription] = await getSubscriptionByClientId(customer.id);
+
+    await deleteSubscription(subscription.userId);
   } catch (error) {
     console.error(
       "Error al eliminar el cliente y actualizar los datos en la base de datos:",
