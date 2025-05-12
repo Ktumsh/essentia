@@ -8,7 +8,8 @@ import { siteConfig } from "@/config/site.config";
 import {
   deleteSubscription,
   getSubscription,
-  getSubscriptionByClientId,
+  getSubscriptionBySubscriptionId,
+  getSubscriptionsByClientId,
   setPaymentDetails,
   updateClientId,
   updatePaymentDetails,
@@ -89,81 +90,69 @@ export async function checkPaymentStatus() {
 
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const subscriptionId = invoice.subscription as string;
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-  const clientId = subscription.customer as string;
-  const status = "active";
-  const paymentStatus = "paid";
-  const currentPeriodEnd = subscription.current_period_end;
-  const processedAt = new Date();
-  const subscriptionType = subscription.items.data[0].price?.recurring
-    ?.interval as string;
-  const type = subscriptionType === "month" ? "premium" : "premium-plus";
-  const amount = invoice.amount_paid;
-  const currency = invoice.currency;
+  const stripeSub = await stripe.subscriptions.retrieve(subscriptionId);
+  const customerId = stripeSub.customer as string;
+  const currentPeriodEnd = stripeSub.current_period_end;
+
+  const priceId = stripeSub.items.data[0].price.id;
+  const planType =
+    priceId === siteConfig.priceId.premium
+      ? siteConfig.plan.premium
+      : siteConfig.plan.premiumPlus
+        ? siteConfig.plan.premiumPlus
+        : siteConfig.plan.free;
 
   try {
-    const [subscription] = await getSubscriptionByClientId(clientId);
-
-    if (subscription.status === "canceled") {
-      await updateSubscription(
-        subscription.userId,
-        subscriptionId,
-        currentPeriodEnd,
-        type,
+    const dbSub = await getSubscriptionBySubscriptionId(subscriptionId);
+    if (!dbSub) {
+      console.error(
+        `No se encontró la subscripción en la BD: ${subscriptionId}`,
       );
-    } else {
-      await updateSubscription(
-        subscription.userId,
-        subscriptionId,
-        currentPeriodEnd,
-        status,
-        type,
-      );
+      return;
     }
+    await updateSubscription(
+      dbSub.userId,
+      subscriptionId,
+      currentPeriodEnd,
+      "active",
+      planType as "free" | "premium" | "premium-plus",
+    );
 
-    const updated = await updatePaymentDetails(
-      subscription.userId,
+    const paymentStatus = "paid";
+    const processedAt = new Date();
+    const updatedRows = await updatePaymentDetails(
+      dbSub.userId,
       paymentStatus,
       processedAt,
     );
-
-    if (updated === 0) {
+    if (updatedRows === 0) {
       await setPaymentDetails(
-        subscription.userId,
+        dbSub.userId,
         paymentStatus,
-        amount,
-        currency,
+        invoice.amount_paid,
+        invoice.currency,
         processedAt,
       );
     }
 
     if (invoice.payment_intent) {
-      const paymentIntent = await stripe.paymentIntents.retrieve(
+      const pi = await stripe.paymentIntents.retrieve(
         invoice.payment_intent as string,
       );
-
-      const paymentMethodId = paymentIntent.payment_method as string;
-      if (paymentMethodId) {
-        const customer = await stripe.customers.retrieve(
-          subscription.subscriptionId as string,
-        );
-
-        if (!("deleted" in customer) || !customer.deleted) {
-          await stripe.customers.update(customer.id, {
-            invoice_settings: {
-              default_payment_method: paymentMethodId,
-            },
-          });
-          console.log(
-            "Método de pago predeterminado actualizado:",
-            paymentMethodId,
-          );
-        }
+      if (pi.payment_method) {
+        await stripe.customers.update(customerId, {
+          invoice_settings: {
+            default_payment_method: pi.payment_method as string,
+          },
+        });
+        console.log("Método de pago predeterminado actualizado");
       }
     }
   } catch (error) {
-    console.error("Error actualizando la suscripción:", error);
-    throw error;
+    console.error(
+      "Error actualizando la suscripción tras pago exitoso:",
+      error,
+    );
   }
 }
 
@@ -172,22 +161,26 @@ export async function handleSubscriptionDeleted(
 ) {
   const subscriptionId = subscription.id;
 
-  const customerId = subscription.customer as string;
-
   try {
-    const [subscription] = await getSubscriptionByClientId(customerId);
+    const dbSub = await getSubscriptionBySubscriptionId(subscriptionId);
+    if (!dbSub) {
+      console.error(
+        `No se encontró la suscripción en la BD: ${subscriptionId}`,
+      );
+      return;
+    }
 
     await updateSubscription(
-      subscription.userId,
+      dbSub.userId,
       null,
       null,
       "paused",
-      "free",
+      siteConfig.plan.free as "free",
       true,
     );
   } catch (error) {
     console.error(
-      `Error al manejar la eliminación de la suscripción: ${subscriptionId}`,
+      `Error al manejar eliminación de subscripción ${subscriptionId}`,
       error,
     );
   }
@@ -198,24 +191,26 @@ export async function handleSubscriptionCreated(
 ) {
   const subscriptionId = subscription.id;
   const status = subscription.status;
-  const type = subscription.items.data[0].plan.id;
+  const priceId = subscription.items.data[0].price.id;
   const currentPeriodEnd = subscription.current_period_end;
   const clientId = subscription.customer as string;
 
   const planType =
-    type === siteConfig.priceId.premium
+    priceId === siteConfig.priceId.premium
       ? siteConfig.plan.premium
-      : type === siteConfig.priceId.premiumPlus
+      : priceId === siteConfig.priceId.premiumPlus
         ? siteConfig.plan.premiumPlus
         : siteConfig.plan.free;
 
   try {
-    const [subscription] = await getSubscriptionByClientId(clientId);
-
-    const userId = subscription.userId;
+    const [dbSub] = await getSubscriptionsByClientId(clientId);
+    if (!dbSub) {
+      console.error(`No found DB subscription for client ${clientId}`);
+      return;
+    }
 
     await updateSubscription(
-      userId,
+      dbSub.userId,
       subscriptionId,
       currentPeriodEnd,
       status,
@@ -223,7 +218,7 @@ export async function handleSubscriptionCreated(
     );
   } catch (error) {
     console.error(
-      `Error al manejar la creación de la suscripción: ${subscriptionId}`,
+      `Error al manejar la creación de la suscripción ${subscriptionId}`,
       error,
     );
   }
@@ -236,27 +231,27 @@ export async function handleSubscriptionUpdated(
   const status = subscription.cancel_at_period_end
     ? "canceled"
     : subscription.status;
-  const type = subscription.items.data[0].plan.id;
+  const priceId = subscription.items.data[0].price.id;
   const currentPeriodEnd = subscription.current_period_end;
 
-  console.log("type", type);
-
   const planType =
-    type === siteConfig.priceId.premium
+    priceId === siteConfig.priceId.premium
       ? siteConfig.plan.premium
-      : type === siteConfig.priceId.premiumPlus
+      : priceId === siteConfig.priceId.premiumPlus
         ? siteConfig.plan.premiumPlus
         : siteConfig.plan.free;
 
-  console.log("planType", planType);
-
-  const clientId = subscription.customer as string;
-
   try {
-    const [subscription] = await getSubscriptionByClientId(clientId);
+    const dbSub = await getSubscriptionBySubscriptionId(subscriptionId);
+    if (!dbSub) {
+      console.error(
+        `No se encontró la subscripción en la BD: ${subscriptionId}`,
+      );
+      return;
+    }
 
     await updateSubscription(
-      subscription.userId,
+      dbSub.userId,
       subscriptionId,
       currentPeriodEnd,
       status,
@@ -264,27 +259,25 @@ export async function handleSubscriptionUpdated(
     );
   } catch (error) {
     console.error(
-      `Error al actualizar la suscripción: ${subscriptionId}`,
+      `Error al actualizar la suscripción ${subscriptionId}`,
       error,
     );
   }
 }
 
 export async function handleCustomerDeleted(customer: Stripe.Customer) {
-  if (!customer || !customer.id) {
+  if (!customer?.id) {
     console.error("No se pudo obtener el cliente eliminado.");
     return;
   }
 
   try {
-    const [subscription] = await getSubscriptionByClientId(customer.id);
-
-    await deleteSubscription(subscription.userId);
+    const subs = await getSubscriptionsByClientId(customer.id);
+    for (const sub of subs) {
+      await deleteSubscription(sub.userId);
+    }
   } catch (error) {
-    console.error(
-      "Error al eliminar el cliente y actualizar los datos en la base de datos:",
-      error,
-    );
+    console.error("Error al eliminar el cliente y sus suscripciones:", error);
   }
 }
 
