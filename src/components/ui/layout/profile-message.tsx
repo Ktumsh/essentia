@@ -47,7 +47,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
     "/soporte",
     "/blog",
     "/planes",
-    "payment/success",
+    "/payment/success",
     "/payment/cancel",
   ];
 
