@@ -2,7 +2,7 @@
 
 import equal from "fast-deep-equal";
 import { motion } from "motion/react";
-import { memo, useEffect, useState } from "react";
+import { lazy, memo, Suspense, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { mutate } from "swr";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -14,12 +14,10 @@ import { useTasks } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
-import EditModal from "./edit-modal";
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
 import { PreviewAttachment } from "./preview-attachment";
 import ReasoningMessage from "./reasoning-message";
-import { BotAvatar, UserAvatar } from "./role-avatar";
 import ToolMessage from "./tool-message";
 import {
   HealthRiskStock,
@@ -30,10 +28,20 @@ import {
 } from "./tools";
 import { deleteTrailingMessages } from "../actions";
 import { Weather } from "./tools/weather";
+import { useAttachments } from "../_hooks/use-attachments";
+import { useTrackTasks } from "../_hooks/use-track-task";
 
 import type { ChatVote } from "@/db/schema";
 import type { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
+
+const BotAvatar = lazy(() =>
+  import("./role-avatar").then((m) => ({ default: m.BotAvatar })),
+);
+const UserAvatar = lazy(() =>
+  import("./role-avatar").then((m) => ({ default: m.UserAvatar })),
+);
+const EditModal = lazy(() => import("./edit-modal"));
 
 interface MessageProps {
   chatId: string;
@@ -70,30 +78,45 @@ const PurePreviewMessage = ({
   const [mode, setMode] = useState<"view" | "edit">("view");
   const [, copyToClipboard] = useCopyToClipboard();
 
-  const { tasks, setTasks, isLoading: isTaskLoading } = useTasks();
+  const { addTask } = useTasks();
 
-  useEffect(() => {
-    const toolInvocations = parts
-      .filter((part) => part.type === "tool-invocation")
-      .map((part) => part.toolInvocation);
+  const { imageAttachments, fileAttachments } = useAttachments(
+    experimental_attachments,
+  );
 
-    toolInvocations.forEach((toolInvocation) => {
-      if (
-        toolInvocation.state === "result" &&
-        toolInvocation.toolName === "trackTask" &&
-        toolInvocation.result?.task
-      ) {
-        setTasks((currentTasks) => {
-          if (!currentTasks) return [];
-          return currentTasks.map((t) =>
-            t.id === toolInvocation.result.task.id
-              ? toolInvocation.result.task
-              : t,
-          );
-        });
+  useTrackTasks(parts, addTask);
+
+  const textFromParts = useMemo(
+    () =>
+      parts
+        .filter((p) => p.type === "text")
+        .map((p) => p.text)
+        .join("\n")
+        .trim(),
+    [parts],
+  );
+
+  const handleCopyMessage = useCallback(async () => {
+    if (!textFromParts) {
+      toast.error("¡No hay texto que copiar!");
+      return;
+    }
+    await copyToClipboard(textFromParts);
+    toast.success("¡Texto copiado!");
+  }, [textFromParts, copyToClipboard]);
+
+  const handleRetryResponse = useCallback(async () => {
+    try {
+      await deleteTrailingMessages({ id: message.id });
+      if (userId) {
+        await decrementUserChatUsage(userId);
+        mutate("/api/remaining-messages");
       }
-    });
-  }, [setTasks, parts]);
+      reload();
+    } catch {
+      toast.error("¡No se pudo reintentar la respuesta! 😓");
+    }
+  }, [message.id, userId, reload]);
 
   if (
     role === "assistant" &&
@@ -106,45 +129,6 @@ const PurePreviewMessage = ({
   ) {
     return null;
   }
-
-  const imageAttachments = experimental_attachments?.filter(
-    (attachment) => !attachment.contentType?.startsWith("application"),
-  );
-  const fileAttachments = experimental_attachments?.filter((attachment) =>
-    attachment.contentType?.startsWith("application"),
-  );
-
-  const handleCopyMessage = async () => {
-    const textFromParts = message.parts
-      ?.filter((part) => part.type === "text")
-      .map((part) => part.text)
-      .join("\n")
-      .trim();
-
-    if (!textFromParts) {
-      toast.error("¡No hay texto que copiar!");
-      return;
-    }
-
-    await copyToClipboard(textFromParts);
-    toast.success("¡Texto copiado!");
-  };
-
-  const handleRetryResponse = async () => {
-    try {
-      await deleteTrailingMessages({
-        id: message.id,
-      });
-      if (userId) {
-        await decrementUserChatUsage(userId);
-        mutate("/api/remaining-messages");
-      }
-      reload();
-    } catch (error) {
-      console.error("Error al intentar reintentar la respuesta:", error);
-      toast.error("¡No se pudo reintentar la respuesta! 😓");
-    }
-  };
 
   return (
     <motion.article
@@ -162,59 +146,60 @@ const PurePreviewMessage = ({
           },
         )}
       >
-        {role === "assistant" && <BotAvatar />}
-
+        <Suspense fallback={null}>
+          {role === "assistant" && <BotAvatar />}
+        </Suspense>
         {userRole && !isMobile && (
-          <UserAvatar profileImage={profileImage} username={username} />
+          <Suspense fallback={null}>
+            <UserAvatar profileImage={profileImage} username={username} />
+          </Suspense>
         )}
-
         <div
           className={cn("flex w-full flex-col gap-4", {
             "min-h-96": message.role === "assistant" && requiresScrollPadding,
           })}
         >
-          {experimental_attachments && experimental_attachments.length > 0 && (
+          {(imageAttachments.length > 0 || fileAttachments.length > 0) && (
             <>
-              {imageAttachments && imageAttachments.length > 0 && (
+              {imageAttachments.length > 0 && (
                 <div
                   data-testid="message-attachments-images"
                   className={cn("flex flex-row justify-end gap-2 self-end", {
                     "max-w-52 flex-wrap": imageAttachments.length > 3,
                   })}
                 >
-                  {imageAttachments.map((attachment, index) => (
+                  {imageAttachments.map((att, idx) => (
                     <PreviewAttachment
-                      key={attachment.url}
-                      attachment={attachment}
+                      key={att.url}
+                      attachment={att}
                       totalAttachments={imageAttachments.length}
                       isFile={false}
-                      index={index}
+                      index={idx}
                     />
                   ))}
                 </div>
               )}
-              {fileAttachments && fileAttachments.length > 0 && (
+              {fileAttachments.length > 0 && (
                 <div
                   data-testid="message-attachments-files"
                   className="flex w-full max-w-60 flex-row justify-end gap-2 self-end"
                 >
-                  {fileAttachments.map((attachment, index) => (
+                  {fileAttachments.map((att, idx) => (
                     <PreviewAttachment
-                      key={attachment.url}
-                      attachment={attachment}
+                      key={att.url}
+                      attachment={att}
                       totalAttachments={fileAttachments.length}
-                      isFile={true}
-                      index={index}
+                      isFile
+                      index={idx}
                     />
                   ))}
                 </div>
               )}
             </>
           )}
-
-          {parts?.map((part, index) => {
+          {parts.map((part, i) => {
             const { type } = part;
-            const key = `message-${id}-part-${index}`;
+            const key = `msg-${id}-part-${i}`;
 
             if (type === "reasoning") {
               return (
@@ -226,52 +211,49 @@ const PurePreviewMessage = ({
               );
             }
 
-            if (type === "text") {
-              if (mode === "view") {
-                return (
+            if (type === "text" && mode === "view") {
+              return (
+                <div
+                  key={key}
+                  className={cn("flex items-center gap-2", {
+                    "items-start justify-end": userRole,
+                  })}
+                >
                   <div
-                    key={key}
-                    className={cn("flex items-center gap-2", {
-                      "items-start justify-end": userRole,
+                    data-testid="message-content"
+                    role={isMobile && userRole ? "button" : undefined}
+                    aria-label={
+                      isMobile && userRole
+                        ? "Presionar y editar mensaje"
+                        : undefined
+                    }
+                    onClick={() => isMobile && userRole && setIsOpen(true)}
+                    className={cn("flex flex-col gap-4", {
+                      "transition-transform-opacity rounded-xl rounded-tr-xs bg-linear-to-r/shorter from-indigo-500 to-indigo-600 px-3 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
+                        userRole,
                     })}
                   >
-                    <div
-                      data-testid="message-content"
-                      role={isMobile && userRole ? "button" : undefined}
-                      aria-label={
-                        isMobile && userRole
-                          ? "Presionar y editar mensaje"
-                          : undefined
-                      }
-                      onClick={() => isMobile && userRole && setIsOpen(true)}
-                      className={cn("flex flex-col gap-4", {
-                        "transition-transform-opacity rounded-xl rounded-tr-xs bg-linear-to-r/shorter from-indigo-500 to-indigo-600 px-3 py-1.5 duration-75 active:scale-[0.97] active:opacity-80 active:duration-150 md:px-4 md:py-2.5 md:transition-none md:active:scale-100 md:active:opacity-100":
-                          userRole,
-                      })}
+                    <Markdown
+                      className={cn(
+                        "prose-sm md:prose text-foreground! max-w-full! md:text-[14px]!",
+                        userRole && "text-white!",
+                      )}
                     >
-                      <Markdown
-                        className={cn(
-                          "prose-sm md:prose text-foreground! max-w-full! md:text-[14px]!",
-                          userRole && "text-white!",
-                        )}
-                      >
-                        {part.text}
-                      </Markdown>
-                    </div>
+                      {part.text}
+                    </Markdown>
                   </div>
-                );
-              }
+                </div>
+              );
             }
 
             if (mode === "edit") {
               return (
                 <div
                   key={key}
-                  className="flex w-full flex-row items-start gap-2 self-end group-data-[role=user]/message:max-w-[75%]"
+                  className="flex w-full items-start gap-2 self-end group-data-[role=user]/message:max-w-[75%]"
                 >
                   <div className="hidden size-8 shrink-0 md:block" />
                   <MessageEditor
-                    key={id}
                     message={message}
                     setMode={setMode}
                     setMessages={setMessages}
@@ -281,7 +263,7 @@ const PurePreviewMessage = ({
               );
             }
 
-            if (type === "tool-invocation") {
+            if (part.type === "tool-invocation") {
               const { toolInvocation } = part;
               const { toolName, toolCallId, state } = toolInvocation;
 
@@ -298,7 +280,7 @@ const PurePreviewMessage = ({
                     ) : toolName === "trackTask" ? (
                       <TaskStock />
                     ) : (
-                      <ToolMessage />
+                      <ToolMessage toolName={toolName} />
                     )}
                   </div>
                 );
@@ -307,52 +289,56 @@ const PurePreviewMessage = ({
               if (state === "result") {
                 const { result } = toolInvocation;
 
-                const taskProps = tasks.find((t) => t.id === result.id);
-
                 return (
                   <div key={toolCallId}>
-                    {toolName === "getWeather" ? (
+                    {toolName === "getWeather" && (
                       <Weather weatherAtLocation={result} />
-                    ) : toolName === "createRoutine" ? (
+                    )}
+                    {toolName === "createRoutine" && (
                       <RoutineStock {...result.routine} />
-                    ) : toolName === "createHealthRisk" ? (
+                    )}
+                    {toolName === "createHealthRisk" && (
                       <HealthRiskStock {...result.healthRisk} />
-                    ) : toolName === "createNutritionalPlan" ? (
+                    )}
+                    {toolName === "createNutritionalPlan" && (
                       <NutritionPlanStock {...result.nutritionalPlan} />
-                    ) : toolName === "createMoodTrack" ? (
+                    )}
+                    {toolName === "createMoodTrack" && (
                       <MoodTrackStock {...result.moodTrack} />
-                    ) : toolName === "createTrackTask" ? (
-                      <TaskStock task={taskProps} isLoading={isTaskLoading} />
-                    ) : null}
+                    )}
+                    {toolName === "createTrackTask" && (
+                      <TaskStock task={result.task} isLoading={false} />
+                    )}
                   </div>
                 );
               }
             }
+
+            return null;
           })}
 
           {!isReadonly && (
             <MessageActions
-              key={`action-${id}`}
               chatId={chatId}
               message={message}
               vote={vote}
               isLoading={isLoading}
               isReadonly={isReadonly}
               isEditing={mode === "edit"}
-              onEdit={() => {
-                setMode("edit");
-              }}
+              onEdit={() => setMode("edit")}
               onCopy={handleCopyMessage}
               onRetry={handleRetryResponse}
             />
           )}
 
-          <EditModal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            onEdit={() => setMode("edit")}
-            onCopy={handleCopyMessage}
-          />
+          <Suspense fallback={null}>
+            <EditModal
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              onEdit={() => setMode("edit")}
+              onCopy={handleCopyMessage}
+            />
+          </Suspense>
         </div>
       </div>
     </motion.article>

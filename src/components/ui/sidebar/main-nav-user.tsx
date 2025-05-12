@@ -111,7 +111,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                className="w-64 min-w-56 rounded-lg"
                 side="right"
                 align="end"
                 sideOffset={4}

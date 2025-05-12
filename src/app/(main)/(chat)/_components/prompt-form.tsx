@@ -224,7 +224,7 @@ const PurePromptForm = ({
   };
 
   const hasRemainingMessages =
-    remainingMessages !== null && remainingMessages > 0;
+    remainingMessages === null ? true : remainingMessages > 0;
 
   return (
     <form ref={formRef} onSubmit={submitForm} className="relative z-1">
