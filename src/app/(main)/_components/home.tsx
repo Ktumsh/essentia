@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import { dailyFacts } from "@/app/actions";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { HealthFact } from "@/types/common";
 
 import AsideRight from "./aside-right";
 import MobileDailyTip from "./mobile-daily-tip";
@@ -14,7 +13,8 @@ import ResourceGrid from "./resource-grid";
 import StorageMobile from "./storage-mobile";
 import UpgradeCard from "./upgrade-card";
 
-import type { UserProfileData } from "@/types/auth";
+import type { FunFactType } from "@/db/data/fun-fact-data";
+import type { UserProfileData } from "@/lib/types";
 
 interface HomeProps {
   userData: UserProfileData | null;
@@ -23,7 +23,7 @@ interface HomeProps {
 const Home = ({ userData }: HomeProps) => {
   const { isPremium } = userData ?? {};
 
-  const [facts, setFacts] = useState<HealthFact[] | null>(null);
+  const [facts, setFacts] = useState<FunFactType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const isMobile = useIsMobile();

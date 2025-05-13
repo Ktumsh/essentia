@@ -13,7 +13,7 @@ import { getUserProfileData } from "@/utils/profile";
 
 import RouteWrapper from "../_components/route-wrapper";
 
-import type { RouteResource } from "@/types/resource";
+import type { RouteResource } from "@/lib/types";
 
 type Props = {
   params: Promise<{ route: string }>;

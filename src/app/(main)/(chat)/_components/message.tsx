@@ -12,7 +12,7 @@ import { decrementUserChatUsage } from "@/db/querys/chat-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
@@ -32,6 +32,7 @@ import { useAttachments } from "../_hooks/use-attachments";
 import { useTrackTasks } from "../_hooks/use-track-task";
 
 import type { ChatVote } from "@/db/schema";
+import type { UserProfileData } from "@/lib/types";
 import type { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
-import { useWindowSize } from "usehooks-ts";
 
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
@@ -24,15 +23,16 @@ import {
 } from "@/components/kit/drawer";
 import { ScrollArea } from "@/components/kit/scroll-area";
 import { Markdown } from "@/components/markdown";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useModalHash } from "../_hooks/use-modal-hash";
 
+import type { ExcerciseVideoType } from "@/db/data/exercise-video-data";
 import type { ArticleType } from "@/lib/types";
-import type { Video } from "@/types/resource";
 
 interface CardModalProps {
   type: "article" | "routine";
-  item: ArticleType & Video;
+  item: ArticleType & ExcerciseVideoType;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -50,11 +50,7 @@ const CardModal = (props: CardModalProps) => {
     channel: videoChannel,
   } = props.item;
 
-  const windowSize = useWindowSize();
-
-  const { width } = windowSize;
-
-  const isMobile = width < 768;
+  const isMobile = useIsMobile();
 
   const isRoutine = type === "routine";
 

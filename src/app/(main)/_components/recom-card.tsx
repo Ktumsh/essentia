@@ -8,7 +8,7 @@ import {
   MedicalHistoryFillIcon,
 } from "@/components/icons/interface";
 
-import type { UserProfileData } from "@/types/auth";
+import type { UserProfileData } from "@/lib/types";
 
 interface RecomCardProps {
   profileData: UserProfileData | null;

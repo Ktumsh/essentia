@@ -12,7 +12,8 @@ import {
   type Payment,
 } from "@/db/schema";
 import { calculatePremiumExpiresAt } from "@/lib/utils";
-import { PaymentHistory } from "@/types/common";
+
+import type { PaymentHistory } from "@/lib/types";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);

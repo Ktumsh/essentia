@@ -13,7 +13,7 @@ import { ReducedMotionProvider } from "@/hooks/use-reduce-motion";
 import { SubscriptionProvider } from "@/hooks/use-subscription";
 import { UserProfileProvider } from "@/hooks/use-user-profile";
 import { UserSubscriptionProvider } from "@/hooks/use-user-subscription";
-import { UserProfileData } from "@/types/auth";
+
 
 import { ChatProvider } from "../hooks/use-chat-context";
 import { PlanProvider } from "../hooks/use-current-plan";
@@ -23,6 +23,7 @@ import { ThemeProvider } from "../hooks/use-theme";
 import { SidebarProvider } from "./kit/sidebar";
 
 import type { Payment, Subscription, UserTask } from "@/db/schema";
+import type { UserProfileData } from "@/lib/types";
 
 export function Providers({
   userId,

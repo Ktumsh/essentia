@@ -1,10 +1,10 @@
-import { HealthFact } from "@/types/common";
-
 import DailyTipLoading from "./daily-tip-loading";
 import HealthFactsCard from "./health-facts-card";
 
+import type { FunFactType } from "@/db/data/fun-fact-data";
+
 interface MobileDailyTipProps {
-  facts: HealthFact[] | null;
+  facts: FunFactType[] | null;
   loading: boolean;
 }
 

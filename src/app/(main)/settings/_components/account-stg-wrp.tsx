@@ -1,9 +1,11 @@
 "use client";
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import { UserProfileData } from "@/types/auth";
 
 import AccountStg from "./account-stg";
+
+import type { UserProfileData } from "@/lib/types";
+
 
 interface AccountSetttgWrpps {
   user: UserProfileData | null;

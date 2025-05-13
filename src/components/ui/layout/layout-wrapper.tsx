@@ -14,7 +14,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { ScrollContext } from "@/hooks/use-scroll-ref";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import BottomNav from "./bottom-navbar";
 import ButtonUp from "./button-up";
@@ -22,6 +22,8 @@ import DesktopHeader from "./desktop-header";
 import MobileHeader from "./mobile-header";
 import WelcomeModal from "./welcome-modal";
 import { AppSidebar } from "../sidebar/app-sidebar";
+
+import type { UserProfileData } from "@/lib/types";
 
 const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];
 

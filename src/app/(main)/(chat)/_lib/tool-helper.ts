@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { FC } from "react";
 
-import type { IconSvgProps } from "@/types/common";
+import type { IconSvgProps } from "@/lib/types";
 
 export const TOOL_NAME_LABELS: Record<string, string> = {
   createHealthRisk: "Evaluaciones de salud",

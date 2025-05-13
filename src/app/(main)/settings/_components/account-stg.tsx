@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/kit/button";
-import { UserProfileData } from "@/types/auth";
 import {
   formatDate,
   formatDateWithAutoTimezone,
@@ -31,6 +30,8 @@ import ChangeEmailModal from "../../(account)/_components/account/change-email-m
 import ChangePasswordModal from "../../(account)/_components/account/change-password-modal";
 import DeleteAccountModal from "../../(account)/_components/account/delete-account-modal";
 import EditProfileForm from "../../(account)/_components/profile/edit-profile-form";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface AccountStgProps {
   user: UserProfileData | null;

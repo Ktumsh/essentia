@@ -5,7 +5,8 @@ import {
   getUserProfileByUsername,
 } from "@/db/querys/profile-querys";
 import { getUserTrialStatus } from "@/db/querys/user-querys";
-import { UserProfileData } from "@/types/auth";
+
+import type { UserProfileData } from "@/lib/types";
 
 export async function getUserProfileData({
   userId,

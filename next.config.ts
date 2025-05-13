@@ -1,6 +1,8 @@
 import withSerwistInit from "@serwist/next";
 import { NextConfig } from "next";
 
+import { isProductionEnvironment } from "@/lib/consts";
+
 const nextConfig: NextConfig = {
   turbopack: {
     resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
@@ -76,7 +78,7 @@ const nextConfig: NextConfig = {
 };
 
 const withPWA = withSerwistInit({
-  disable: process.env.NODE_ENV !== "production",
+  disable: !isProductionEnvironment,
   swSrc: "sw.ts",
   swDest: "public/sw.js",
 });

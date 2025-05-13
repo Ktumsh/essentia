@@ -17,8 +17,7 @@ import { twMerge } from "tailwind-merge";
 
 import { navConfig } from "@/config/nav.config";
 import { siteConfig } from "@/config/site.config";
-import { FUN_FACT_DATA } from "@/db/data/fun-fact-data";
-import { HealthFact } from "@/types/common";
+import { FUN_FACT_DATA, type FunFactType } from "@/db/data/fun-fact-data";
 import { capitalize } from "@/utils/format";
 
 export function cn(...inputs: ClassValue[]) {
@@ -109,8 +108,8 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 
 export const getRandomFacts = (
   num: number,
-  pool: HealthFact[] = FUN_FACT_DATA,
-): HealthFact[] => {
+  pool: FunFactType[] = FUN_FACT_DATA,
+) => {
   const shuffled = pool.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, num);
 };

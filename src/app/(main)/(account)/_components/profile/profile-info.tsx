@@ -23,7 +23,6 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
 import { formatDate } from "@/utils/format";
 
 import CompleteProfile from "./complete-profile";
@@ -40,6 +39,8 @@ import {
 import ProfileAvatar from "./profile-avatar";
 import InfoFieldItem from "../info-field-item";
 import BioModal from "./bio-modal";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface ProfileInfoProps {
   isOwnProfile: boolean;
