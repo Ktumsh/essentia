@@ -5,7 +5,7 @@ import "@/styles/map.css";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
 
-import { LocationSelfIcon } from "@/components/ui/icons/status";
+import { LocationSelfIcon } from "@/components/icons/status";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { cn } from "@/lib/utils";

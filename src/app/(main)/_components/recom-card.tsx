@@ -4,10 +4,11 @@ import Link from "next/link";
 import {
   AdditionalFillIcon,
   AIFillIcon,
+  HealthCentersFillIcon,
   MedicalHistoryFillIcon,
-} from "@/components/ui/icons/interface";
-import { HealthCentersFillIcon } from "@/components/ui/icons/miscellaneus";
-import { UserProfileData } from "@/types/auth";
+} from "@/components/icons/interface";
+
+import type { UserProfileData } from "@/types/auth";
 
 interface RecomCardProps {
   profileData: UserProfileData | null;

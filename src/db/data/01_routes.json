@@ -1,0 +1,736 @@
+{
+  "resources": [
+    {
+      "name": "Salud y Bienestar",
+      "slug": "salud-y-bienestar",
+      "modules": [
+        {
+          "title": "Introducción al Bienestar Integral",
+          "slug": "01-introduccion-bienestar-integral",
+          "lessons": [
+            {
+              "title": "Introducción a la ruta",
+              "slug": "00-introduccion"
+            },
+            {
+              "title": "¿Qué es el bienestar integral?",
+              "slug": "01-que-es-bienestar-integral"
+            },
+            {
+              "title": "Los pilares del bienestar físico",
+              "slug": "02-pilares-bienestar-fisico"
+            },
+            {
+              "title": "Bienestar emocional y mental",
+              "slug": "03-bienestar-emocional-mental"
+            }
+          ]
+        },
+        {
+          "title": "Hábitos Saludables para el Día a Día",
+          "slug": "02-habitos-saludables-dia",
+          "lessons": [
+            {
+              "title": "Alimentación equilibrada y consciente",
+              "slug": "01-alimentacion-equilibrada-consciente"
+            },
+            {
+              "title": "Rutinas de ejercicio físico",
+              "slug": "02-rutinas-ejercicio-fisico"
+            },
+            {
+              "title": "Sueño reparador y descanso",
+              "slug": "03-sueno-reparador-descanso"
+            },
+            {
+              "title": "Organización y manejo del tiempo",
+              "slug": "04-organizacion-manejo-tiempo"
+            }
+          ]
+        },
+        {
+          "title": "Manejo del Estrés y Salud Mental",
+          "slug": "03-manejo-estres-salud-mental",
+          "lessons": [
+            {
+              "title": "¿Qué es el estrés y cómo nos afecta?",
+              "slug": "01-que-es-el-estres"
+            },
+            {
+              "title": "Técnicas de relajación y mindfulness",
+              "slug": "02-tecnicas-relajacion-mindfulness"
+            },
+            {
+              "title": "Fortaleciendo la resiliencia emocional",
+              "slug": "03-resiliencia-emocional"
+            },
+            {
+              "title": "Autocuidado y gestión emocional",
+              "slug": "04-autocuidado-gestion-emocional"
+            }
+          ]
+        },
+        {
+          "title": "Prevención de Enfermedades y Promoción de la Salud",
+          "slug": "04-prevencion-enfermedades-salud",
+          "lessons": [
+            {
+              "title": "Factores de riesgo y prevención primaria",
+              "slug": "01-factores-riesgo-prevencion"
+            },
+            {
+              "title": "Vacunación y protección inmunológica",
+              "slug": "02-vacunacion-proteccion"
+            },
+            {
+              "title": "Salud cardiovascular y metabólica",
+              "slug": "03-salud-cardiovascular-metabolica"
+            },
+            {
+              "title": "Salud ósea y muscular",
+              "slug": "04-salud-osea-muscular"
+            }
+          ]
+        },
+        {
+          "title": "Calidad de Vida y Envejecimiento Saludable",
+          "slug": "05-calidad-vida-envejecimiento",
+          "lessons": [
+            {
+              "title": "Factores clave para un envejecimiento saludable",
+              "slug": "01-envejecimiento-saludable"
+            },
+            {
+              "title": "Ejercicio físico adaptado para adultos mayores",
+              "slug": "02-ejercicio-adaptado"
+            },
+            {
+              "title": "Salud mental y emocional en la vejez",
+              "slug": "03-salud-mental-emocional"
+            },
+            {
+              "title": "Prevención de enfermedades en la tercera edad",
+              "slug": "04-prevencion-enfermedades-vejez"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ejercicios y Fitness",
+      "slug": "ejercicios-y-fitness",
+      "modules": [
+        {
+          "title": "Fundamentos del Ejercicio y la Actividad Física",
+          "slug": "01-fundamentos-ejercicio",
+          "lessons": [
+            {
+              "title": "Introducción a la ruta",
+              "slug": "00-introduccion"
+            },
+            {
+              "title": "Conceptos básicos del ejercicio físico",
+              "slug": "01-conceptos-basicos-ejercicio"
+            },
+            {
+              "title": "Principios del entrenamiento físico",
+              "slug": "02-principios-entrenamiento"
+            },
+            {
+              "title": "Beneficios del ejercicio para la salud",
+              "slug": "03-beneficios-ejercicio-salud"
+            }
+          ]
+        },
+        {
+          "title": "Fisiología del Ejercicio y Adaptaciones Corporales",
+          "slug": "02-fisiologia-ejercicio",
+          "lessons": [
+            {
+              "title": "Sistema cardiovascular y respiratorio durante el ejercicio",
+              "slug": "01-sistema-cardiovascular-respiratorio"
+            },
+            {
+              "title": "Adaptaciones musculares al ejercicio",
+              "slug": "02-adaptaciones-musculares"
+            },
+            {
+              "title": "Sistema energético y metabolismo",
+              "slug": "03-sistema-energetico-metabolismo"
+            },
+            {
+              "title": "Adaptaciones hormonales y regulación",
+              "slug": "04-adaptaciones-hormonales"
+            }
+          ]
+        },
+        {
+          "title": "Diseño de Programas de Entrenamiento",
+          "slug": "03-diseno-programas-entrenamiento",
+          "lessons": [
+            {
+              "title": "Componentes de un programa de entrenamiento",
+              "slug": "01-componentes-programa-entrenamiento"
+            },
+            {
+              "title": "Entrenamiento de fuerza",
+              "slug": "02-entrenamiento-fuerza"
+            },
+            {
+              "title": "Entrenamiento cardiovascular",
+              "slug": "03-entrenamiento-cardiovascular"
+            },
+            {
+              "title": "Flexibilidad y movilidad",
+              "slug": "04-flexibilidad-movilidad"
+            }
+          ]
+        },
+        {
+          "title": "Prevención de Lesiones y Recuperación",
+          "slug": "04-prevencion-lesiones-recuperacion",
+          "lessons": [
+            {
+              "title": "Factores de riesgo y prevención de lesiones",
+              "slug": "01-riesgos-prevencion-lesiones"
+            },
+            {
+              "title": "Recuperación activa y pasiva",
+              "slug": "02-recuperacion-activa-pasiva"
+            },
+            {
+              "title": "Nutrición para la recuperación muscular",
+              "slug": "03-nutricion-recuperacion-muscular"
+            },
+            {
+              "title": "Importancia del sueño y descanso",
+              "slug": "04-sueno-descanso"
+            }
+          ]
+        },
+        {
+          "title": "Revisión práctica y Progreso en el Entrenamiento",
+          "slug": "05-evaluacion-progreso-entrenamiento",
+          "lessons": [
+            {
+              "title": "Revisión práctica inicial y pruebas físicas",
+              "slug": "01-evaluacion-inicial-pruebas"
+            },
+            {
+              "title": "Establecimiento de metas SMART",
+              "slug": "02-establecimiento-metas-smart"
+            },
+            {
+              "title": "Seguimiento y ajuste del progreso",
+              "slug": "03-seguimiento-ajuste-progreso"
+            },
+            {
+              "title": "Revisión práctica final y comparación de resultados",
+              "slug": "04-evaluacion-final-resultados"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Nutrición y Alimentación",
+      "slug": "nutricion-y-alimentacion",
+      "modules": [
+        {
+          "title": "Fundamentos de Nutrición",
+          "slug": "01-fundamentos-nutricion",
+          "lessons": [
+            {
+              "title": "Introducción a la ruta",
+              "slug": "00-introduccion"
+            },
+            {
+              "title": "Introducción a los nutrientes: Macronutrientes",
+              "slug": "01-introduccion-macronutrientes"
+            },
+            {
+              "title": "Micronutrientes: Vitaminas y Minerales",
+              "slug": "02-micronutrientes-vitaminas-minerales"
+            },
+            {
+              "title": "El agua: Nutriente esencial",
+              "slug": "03-agua-nutriente-esencial"
+            },
+            {
+              "title": "Digestión y absorción de nutrientes",
+              "slug": "04-digestion-absorcion-nutrientes"
+            }
+          ]
+        },
+        {
+          "title": "Planificación de Dietas Saludables",
+          "slug": "02-planificacion-dietas-saludables",
+          "lessons": [
+            {
+              "title": "Importancia de una alimentación balanceada",
+              "slug": "01-alimentacion-balanceada"
+            },
+            {
+              "title": "Cómo calcular las necesidades calóricas",
+              "slug": "02-necesidades-caloricas"
+            },
+            {
+              "title": "Grupos de alimentos y porciones recomendadas",
+              "slug": "03-grupos-alimentos-porciones"
+            },
+            {
+              "title": "Diseño de menús saludables",
+              "slug": "04-diseno-menus-saludables"
+            },
+            {
+              "title": "Etiquetas nutricionales: Cómo leerlas",
+              "slug": "05-etiquetas-nutricionales"
+            }
+          ]
+        },
+        {
+          "title": "Nutrición para Diferentes Etapas de la Vida",
+          "slug": "03-nutricion-etapas-de-vida",
+          "lessons": [
+            {
+              "title": "Nutrición en la infancia",
+              "slug": "01-nutricion-infancia"
+            },
+            {
+              "title": "Nutrición en la adolescencia",
+              "slug": "02-nutricion-adolescencia"
+            },
+            {
+              "title": "Nutrición en la adultez",
+              "slug": "03-nutricion-adultez"
+            },
+            {
+              "title": "Nutrición en la tercera edad",
+              "slug": "04-nutricion-tercera-edad"
+            }
+          ]
+        },
+        {
+          "title": "Alimentación y Prevención de Enfermedades",
+          "slug": "04-alimentacion-prevencion-enfermedades",
+          "lessons": [
+            {
+              "title": "Relación entre la alimentación y la salud",
+              "slug": "01-alimentacion-y-salud"
+            },
+            {
+              "title": "Prevención de enfermedades cardiovasculares",
+              "slug": "02-prevencion-cardiovascular"
+            },
+            {
+              "title": "Nutrición y prevención de la diabetes",
+              "slug": "03-prevencion-diabetes"
+            },
+            {
+              "title": "Dieta y prevención del cáncer",
+              "slug": "04-prevencion-cancer"
+            },
+            {
+              "title": "Salud digestiva y probióticos",
+              "slug": "05-salud-digestiva-probioticos"
+            }
+          ]
+        },
+        {
+          "title": "Planificación de Dietas y Hábitos Alimenticios Saludables",
+          "slug": "05-planificacion-dietas-habitos",
+          "lessons": [
+            {
+              "title": "Principios de una dieta equilibrada",
+              "slug": "01-dieta-equilibrada"
+            },
+            {
+              "title": "Planificación de menús saludables",
+              "slug": "02-menus-saludables"
+            },
+            {
+              "title": "Cómo leer etiquetas nutricionales",
+              "slug": "03-etiquetas-nutricionales"
+            },
+            {
+              "title": "Alimentación consciente (mindful eating)",
+              "slug": "04-alimentacion-consciente"
+            },
+            {
+              "title": "Cómo mantener hábitos alimenticios saludables a largo plazo",
+              "slug": "05-habitos-largo-plazo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bienestar Emocional",
+      "slug": "bienestar-emocional",
+      "modules": [
+        {
+          "title": "Comprender las Emociones",
+          "slug": "01-comprender-las-emociones",
+          "lessons": [
+            {
+              "title": "Introducción a la ruta",
+              "slug": "00-introduccion"
+            },
+            {
+              "title": "¿Qué son las emociones y por qué las sentimos?",
+              "slug": "01-que-son-las-emociones"
+            },
+            {
+              "title": "¿Cómo reconocer lo que sentimos?",
+              "slug": "02-como-reconocer-lo-que-sentimos"
+            },
+            {
+              "title": "El impacto físico de las emociones.",
+              "slug": "03-impacto-fisico-de-las-emociones"
+            }
+          ]
+        },
+        {
+          "title": "Regulación Emocional",
+          "slug": "02-regulacion-emocional",
+          "lessons": [
+            {
+              "title": "Técnicas de respiración y relajación",
+              "slug": "01-tecnicas-respiracion-relajacion"
+            },
+            {
+              "title": "Mindfulness para reducir la ansiedad",
+              "slug": "02-mindfulness-reducir-ansiedad"
+            },
+            {
+              "title": "Manejo del tiempo y establecimiento de prioridades",
+              "slug": "03-manejo-tiempo-prioridades"
+            }
+          ]
+        },
+        {
+          "title": "Relaciones Saludables",
+          "slug": "03-relaciones-saludables",
+          "lessons": [
+            {
+              "title": "Construcción de Relaciones Saludables",
+              "slug": "01-construccion-relaciones-saludables"
+            },
+            {
+              "title": "Comunicación asertiva",
+              "slug": "02-comunicacion-asertiva"
+            },
+            {
+              "title": "Empatía y escucha activa",
+              "slug": "03-empatia-escucha-activa"
+            },
+            {
+              "title": "Establecimiento de límites personales",
+              "slug": "04-establecimiento-limites"
+            }
+          ]
+        },
+        {
+          "title": "Crecimiento Personal",
+          "slug": "04-crecimiento-personal",
+          "lessons": [
+            {
+              "title": "Resiliencia emocional",
+              "slug": "01-resiliencia-emocional"
+            },
+            {
+              "title": "Cultivar hábitos positivos para el bienestar mental",
+              "slug": "02-habitos-positivos"
+            },
+            {
+              "title": "Gratitud y pensamientos positivos",
+              "slug": "03-gratitud-pensamientos-positivos"
+            },
+            {
+              "title": "Autoconocimiento y desarrollo personal",
+              "slug": "04-autoconocimiento-desarrollo-personal"
+            }
+          ]
+        },
+        {
+          "title": "Inteligencia Emocional Avanzada",
+          "slug": "05-inteligencia-emocional-avanzada",
+          "lessons": [
+            {
+              "title": "Autoconciencia y autoconocimiento profundo",
+              "slug": "01-autoconciencia-autoconocimiento"
+            },
+            {
+              "title": "Manejo de emociones en situaciones de alta presión",
+              "slug": "02-manejo-emociones-presion"
+            },
+            {
+              "title": "Empatía avanzada: Lectura emocional y comunicación efectiva",
+              "slug": "03-empatia-comunicacion-avanzada"
+            },
+            {
+              "title": "Resolución de conflictos con inteligencia emocional",
+              "slug": "04-resolucion-conflictos-emocional"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Salud y Educación Sexual",
+      "slug": "salud-y-educacion-sexual",
+      "modules": [
+        {
+          "title": "Fundamentos de la Salud Sexual",
+          "slug": "01-fundamentos-salud-sexual",
+          "lessons": [
+            {
+              "title": "Introducción a la ruta",
+              "slug": "00-introduccion"
+            },
+            {
+              "title": "Anatomía y fisiología del sistema reproductivo",
+              "slug": "01-anatomia-sistema-reproductivo"
+            },
+            {
+              "title": "Métodos anticonceptivos y planificación familiar",
+              "slug": "02-metodos-anticonceptivos"
+            },
+            {
+              "title": "Infecciones de transmisión sexual (ITS): Prevención y tratamiento",
+              "slug": "03-infecciones-transmision-sexual"
+            }
+          ]
+        },
+        {
+          "title": "Consentimiento y Relaciones Saludables",
+          "slug": "02-consentimiento-relaciones-saludables",
+          "lessons": [
+            {
+              "title": "¿Qué es el consentimiento?",
+              "slug": "01-que-es-el-consentimiento"
+            },
+            {
+              "title": "Comunicación y respeto en las relaciones",
+              "slug": "02-comunicacion-respeto-relaciones"
+            },
+            {
+              "title": "Establecimiento de límites personales",
+              "slug": "03-establecimiento-limites-personales"
+            },
+            {
+              "title": "Relaciones tóxicas y señales de advertencia",
+              "slug": "04-relaciones-toxicas"
+            }
+          ]
+        },
+        {
+          "title": "Diversidad Sexual e Identidad de Género",
+          "slug": "03-diversidad-identidad-genero",
+          "lessons": [
+            {
+              "title": "Identidad de género y orientación sexual",
+              "slug": "01-identidad-genero-orientacion-sexual"
+            },
+            {
+              "title": "Expresión de género y estereotipos",
+              "slug": "02-expresion-genero-estereotipos"
+            },
+            {
+              "title": "Respeto e inclusión en la diversidad sexual",
+              "slug": "03-respeto-inclusion-diversidad"
+            },
+            {
+              "title": "Desafíos y derechos de la comunidad LGBTQ+",
+              "slug": "04-desafios-derechos-lgbtq"
+            }
+          ]
+        },
+        {
+          "title": "Prevención y Salud Reproductiva",
+          "slug": "04-prevencion-salud-reproductiva",
+          "lessons": [
+            {
+              "title": "Métodos anticonceptivos y planificación familiar",
+              "slug": "01-metodos-anticonceptivos"
+            },
+            {
+              "title": "Prevención de enfermedades de transmisión sexual (ETS)",
+              "slug": "02-prevencion-ets"
+            },
+            {
+              "title": "Cuidado durante el embarazo y atención prenatal",
+              "slug": "03-cuidados-embarazo-prenatal"
+            },
+            {
+              "title": "Infertilidad y opciones reproductivas",
+              "slug": "04-infertilidad-opciones-reproductivas"
+            }
+          ]
+        },
+        {
+          "title": "Educación Sexual y Toma de Decisiones Responsables",
+          "slug": "05-educacion-sexual-decisiones-responsables",
+          "lessons": [
+            {
+              "title": "Autoconocimiento y autoestima sexual",
+              "slug": "01-autoconocimiento-autoestima-sexual"
+            },
+            {
+              "title": "Comunicación efectiva y consentimiento",
+              "slug": "02-comunicacion-consentimiento"
+            },
+            {
+              "title": "Valores personales y toma de decisiones",
+              "slug": "03-valores-toma-decisiones"
+            },
+            {
+              "title": "Presión social e influencia de los medios",
+              "slug": "04-presion-social-medios"
+            },
+            {
+              "title": "Prevención de riesgos y apoyo emocional",
+              "slug": "05-prevencion-riesgos-apoyo-emocional"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Salud en Todas las Edades",
+      "slug": "salud-en-todas-las-edades",
+      "modules": [
+        {
+          "title": "Salud en la Infancia y Niñez",
+          "slug": "01-salud-infancia-ninez",
+          "lessons": [
+            {
+              "title": "Introducción a la ruta",
+              "slug": "00-introduccion"
+            },
+            {
+              "title": "Desarrollo físico y emocional en la infancia",
+              "slug": "01-desarrollo-infancia"
+            },
+            {
+              "title": "Nutrición infantil: Hábitos saludables",
+              "slug": "02-nutricion-infantil"
+            },
+            {
+              "title": "Prevención de enfermedades comunes en la niñez",
+              "slug": "03-prevencion-enfermedades"
+            },
+            {
+              "title": "Importancia del juego y la actividad física",
+              "slug": "04-juego-actividad-fisica"
+            }
+          ]
+        },
+        {
+          "title": "Salud en la Adolescencia",
+          "slug": "02-salud-adolescencia",
+          "lessons": [
+            {
+              "title": "Cambios físicos y emocionales durante la pubertad",
+              "slug": "01-cambios-fisicos-emocionales"
+            },
+            {
+              "title": "Autoestima e imagen corporal",
+              "slug": "02-autoestima-imagen-corporal"
+            },
+            {
+              "title": "Relaciones interpersonales y presión social",
+              "slug": "03-relaciones-presion-social"
+            },
+            {
+              "title": "Educación sexual y prevención de riesgos",
+              "slug": "04-educacion-sexual-prevencion"
+            },
+            {
+              "title": "Gestión del estrés y la ansiedad en adolescentes",
+              "slug": "05-gestion-estres-ansiedad"
+            }
+          ]
+        },
+        {
+          "title": "Salud en la Adultez Joven",
+          "slug": "03-salud-adultez-joven",
+          "lessons": [
+            {
+              "title": "Hábitos saludables y prevención de enfermedades",
+              "slug": "01-habitos-saludables-prevencion"
+            },
+            {
+              "title": "Salud mental y manejo del estrés",
+              "slug": "02-salud-mental-estres"
+            },
+            {
+              "title": "Relaciones personales y sociales",
+              "slug": "03-relaciones-personales-sociales"
+            },
+            {
+              "title": "Salud sexual y reproductiva",
+              "slug": "04-salud-sexual-reproductiva"
+            },
+            {
+              "title": "Finanzas personales y planificación del futuro",
+              "slug": "05-finanzas-personales"
+            }
+          ]
+        },
+        {
+          "title": "Salud en la Edad Adulta",
+          "slug": "04-salud-edad-adulta",
+          "lessons": [
+            {
+              "title": "Prevención de enfermedades crónicas",
+              "slug": "01-prevencion-enfermedades-cronicas"
+            },
+            {
+              "title": "Equilibrio entre trabajo y vida personal",
+              "slug": "02-equilibrio-trabajo-vida"
+            },
+            {
+              "title": "Manejo del estrés en la edad adulta",
+              "slug": "03-manejo-estres-edad-adulta"
+            },
+            {
+              "title": "Salud ósea y muscular",
+              "slug": "04-salud-osea-muscular"
+            },
+            {
+              "title": "Envejecimiento saludable",
+              "slug": "05-envejecimiento-saludable"
+            }
+          ]
+        },
+        {
+          "title": "Salud en la Vejez",
+          "slug": "05-salud-en-la-vejez",
+          "lessons": [
+            {
+              "title": "Envejecimiento activo y saludable",
+              "slug": "01-envejecimiento-activo-saludable"
+            },
+            {
+              "title": "Cuidado de la salud física",
+              "slug": "02-cuidado-salud-fisica"
+            },
+            {
+              "title": "Salud mental y emocional en la vejez",
+              "slug": "03-salud-mental-emocional"
+            },
+            {
+              "title": "Nutrición y alimentación en la vejez",
+              "slug": "04-nutricion-alimentacion-vejez"
+            },
+            {
+              "title": "Preparación para el retiro y planificación del futuro",
+              "slug": "05-preparacion-retiro-futuro"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

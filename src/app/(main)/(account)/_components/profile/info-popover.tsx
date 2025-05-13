@@ -1,7 +1,8 @@
-import { Info } from "lucide-react";
+import { HelpCircleIcon, Info } from "lucide-react";
 import Link from "next/link";
 import { memo, useMemo } from "react";
 
+import { LinkIcon } from "@/components/icons/action";
 import { Button } from "@/components/kit/button";
 import {
   Popover,
@@ -9,8 +10,6 @@ import {
   PopoverTrigger,
 } from "@/components/kit/popover";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { LinkIcon } from "@/components/ui/icons/action";
-import { QuestionMarkIcon } from "@/components/ui/icons/common";
 
 import type { JSX } from "react";
 
@@ -177,9 +176,10 @@ function InfoPopover({ type }: { type: PopoverContentType }) {
             aria-label={moreInfoMessage}
             size="icon"
             radius="full"
+            variant="link"
             className="relative my-auto size-3.5 after:absolute after:-inset-2 after:content-['']"
           >
-            <QuestionMarkIcon className="size-2.5!" />
+            <HelpCircleIcon className="size-3.5!" />
             <span className="sr-only">{moreInfoMessage}</span>
           </Button>
         </PopoverTrigger>

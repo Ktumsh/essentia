@@ -27,11 +27,12 @@ import { Markdown } from "@/components/markdown";
 
 import { useModalHash } from "../_hooks/use-modal-hash";
 
-import type { ResourceCard, Video } from "@/types/resource";
+import type { ArticleType } from "@/lib/types";
+import type { Video } from "@/types/resource";
 
 interface CardModalProps {
   type: "article" | "routine";
-  item: ResourceCard & Video;
+  item: ArticleType & Video;
   open: boolean;
   setOpen: (open: boolean) => void;
 }

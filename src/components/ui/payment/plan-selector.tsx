@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { LinkIcon } from "@/components/icons/action";
 import { Badge } from "@/components/kit/badge";
 import {
   Tabs,
@@ -9,10 +10,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { SUBSCRIPTION_PLANS } from "@/consts/subscriptions-plans";
+import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
 import { cn } from "@/lib/utils";
-
-import { LinkIcon } from "../icons/action";
 
 interface PlanSelectorProps {
   selectedPlanId: string;
@@ -30,7 +29,7 @@ export const PlanSelector = ({
       <Tabs value={selectedPlanId} onValueChange={(value) => onSelect(value)}>
         <TabsList className="rounded-full border">
           {isUpgrade
-            ? SUBSCRIPTION_PLANS.slice(2).map((plan) => (
+            ? SUBSCRIPTION_PLAN_DATA.slice(2).map((plan) => (
                 <TabsTrigger
                   key={plan.id}
                   value={plan.id}
@@ -45,7 +44,7 @@ export const PlanSelector = ({
                   {plan.name}
                 </TabsTrigger>
               ))
-            : SUBSCRIPTION_PLANS.slice(1).map((plan) => (
+            : SUBSCRIPTION_PLAN_DATA.slice(1).map((plan) => (
                 <TabsTrigger
                   key={plan.id}
                   value={plan.id}
@@ -62,7 +61,7 @@ export const PlanSelector = ({
               ))}
         </TabsList>
 
-        {SUBSCRIPTION_PLANS.slice(1).map((plan) => (
+        {SUBSCRIPTION_PLAN_DATA.slice(1).map((plan) => (
           <TabsContent key={plan.id} value={plan.id}>
             <div
               className={cn(

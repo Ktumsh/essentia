@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import {
-  GithubIcon,
+  FacebookIcon,
   InstagramIcon,
   TwitterIcon,
-} from "@/components/ui/icons/media";
+} from "@/components/icons/media";
 import Logo from "@/components/ui/layout/logo";
 import ThemeToggle from "@/components/ui/layout/theme-toggle";
 import { navConfig } from "@/config/nav.config";
@@ -25,7 +25,7 @@ const AuthFooter = () => {
                 </div>
               </Link>
               <p className="text-center text-sm antialiased">
-                <span>© 2024 Essentia</span>
+                <span>© 2025 Essentia</span>
               </p>
             </div>
             <ThemeToggle />
@@ -41,17 +41,17 @@ const AuthFooter = () => {
               </Link>
               <Link
                 className="hover:text-primary transition-all hover:scale-110"
+                href={links.facebook}
+                target="_blank"
+              >
+                <FacebookIcon className="size-5" />
+              </Link>
+              <Link
+                className="hover:text-primary transition-all hover:scale-110"
                 href={links.twitter}
                 target="_blank"
               >
                 <TwitterIcon className="size-[17px]" />
-              </Link>
-              <Link
-                className="hover:text-primary transition-all hover:scale-110"
-                href={links.github}
-                target="_blank"
-              >
-                <GithubIcon className="size-5" />
               </Link>
             </div>
             <div className="flex items-center justify-between gap-4 text-sm">

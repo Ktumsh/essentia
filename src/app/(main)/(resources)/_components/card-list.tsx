@@ -1,8 +1,8 @@
 import { memo } from "react";
 
-import { ARTICLES_BY_RESOURCE } from "@/consts/articles-data";
-import RESOURCES_VIDEOS from "@/consts/resources-videos";
-import { ROUTINES } from "@/consts/routines-data";
+import { ARTICLES_BY_RESOURCE } from "@/db/data/article-data";
+import { EXERCISE_VIDEO_DATA } from "@/db/data/exercise-video-data";
+import { ROUTINE_DATA } from "@/db/data/routine-data";
 
 import CardItem from "./card-item";
 
@@ -21,10 +21,11 @@ const CardList = ({ resource, type }: CardList) => {
     items = ARTICLES_BY_RESOURCE[resource];
   } else if (isRoutine) {
     const videos =
-      RESOURCES_VIDEOS.find((section) => section.section === "ExerciseFitness")
-        ?.videos || [];
+      EXERCISE_VIDEO_DATA.find(
+        (section) => section.section === "ExerciseFitness",
+      )?.videos || [];
 
-    items = ROUTINES.map((routine, index) => ({
+    items = ROUTINE_DATA.map((routine, index) => ({
       ...routine,
       videoTitle: videos[index]?.title,
       videoLink: videos[index]?.link,

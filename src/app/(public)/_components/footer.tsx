@@ -4,7 +4,7 @@ import {
   FacebookIcon,
   InstagramIcon,
   TwitterIcon,
-} from "@/components/ui/icons/media";
+} from "@/components/icons/media";
 import Logo from "@/components/ui/layout/logo";
 import { navConfig } from "@/config/nav.config";
 

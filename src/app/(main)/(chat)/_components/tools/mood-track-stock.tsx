@@ -20,7 +20,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { CLOUDINARY_BASE_URL } from "@/consts/cloudinary";
+import { CLOUDINARY_BASE_URL } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 
 import StockFooter from "./stock-footer";

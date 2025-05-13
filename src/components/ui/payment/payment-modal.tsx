@@ -15,6 +15,14 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { UpgradeButton } from "@/components/button-kit/upgrade-button";
+import { LinkIcon } from "@/components/icons/action";
+import { AIFillIcon } from "@/components/icons/interface";
+import {
+  ExcerciseFillIcon,
+  FruitIcon,
+  SaveFillIcon,
+  UploadFillIcon,
+} from "@/components/icons/miscellaneus";
 import { Button } from "@/components/kit/button";
 import {
   Dialog,
@@ -33,14 +41,6 @@ import { cn, getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
 
 import { createSubscription } from "./actions";
 import { PlanSelector } from "./plan-selector";
-import { LinkIcon } from "../icons/action";
-import { AIFillIcon } from "../icons/interface";
-import {
-  ExcerciseFillIcon,
-  FruitFillIcon,
-  SaveFillIcon,
-  UploadFillIcon,
-} from "../icons/miscellaneus";
 
 export type FeatureType =
   | "ai-recommendations"
@@ -197,7 +197,7 @@ const PaymentModal = ({
           title: "Crea un plan nutricional personalizado",
           description:
             "Diseña un plan nutricional adaptado a tus necesidades y objetivos de salud.",
-          icon: <FruitFillIcon className="size-5" />,
+          icon: <FruitIcon className="size-5" />,
           color: "bg-red-500",
         };
       case "upgrade-plan":

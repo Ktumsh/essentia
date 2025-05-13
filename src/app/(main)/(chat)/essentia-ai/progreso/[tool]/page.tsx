@@ -2,10 +2,10 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { SLUG_TO_TOOL, TOOL_NAME_LABELS } from "@/consts/tools";
 import { getToolsByUserAndToolName } from "@/db/querys/chat-querys";
 import { getSubscriptionType } from "@/db/querys/payment-querys";
 
+import { SLUG_TO_TOOL, TOOL_NAME_LABELS } from "../../../_lib/tool-helper";
 import GroupedTool from "../_components/gruped-tool";
 
 interface ToolPageProps {

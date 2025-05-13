@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { ClockLoopIcon } from "@/components/icons/clock-loop-icon";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import {
@@ -18,7 +19,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { ClockLoopIcon } from "@/components/ui/icons/clock-loop-icon";
 import PaymentModal from "@/components/ui/payment/payment-modal";
 import { Payment, Subscription } from "@/db/schema";
 import { useTrial } from "@/hooks/use-trial";

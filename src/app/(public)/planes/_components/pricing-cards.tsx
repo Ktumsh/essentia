@@ -6,7 +6,7 @@ import { useCallback, useRef, useState } from "react";
 
 import { Button } from "@/components/kit/button";
 import { siteConfig } from "@/config/site.config";
-import { SUBSCRIPTION_PLANS } from "@/consts/subscriptions-plans";
+import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
 import { usePlan } from "@/hooks/use-current-plan";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
@@ -62,7 +62,7 @@ const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
             ref={containerRef}
             className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto py-4 xl:overflow-visible"
           >
-            {SUBSCRIPTION_PLANS.map((plan, index) => (
+            {SUBSCRIPTION_PLAN_DATA.map((plan, index) => (
               <PricingCard
                 key={index}
                 session={session}

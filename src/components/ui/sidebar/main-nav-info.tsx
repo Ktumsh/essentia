@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { InfoCircledIcon, LegalIcon } from "@/components/icons/common";
 import {
   Collapsible,
   CollapsibleContent,
@@ -28,7 +29,6 @@ import {
   useSidebar,
 } from "@/components/kit/sidebar";
 
-import { InfoCircledIcon, LegalIcon } from "../icons/common";
 
 import type { NavConfig } from "@/config/nav.config";
 

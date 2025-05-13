@@ -1,5 +1,6 @@
 "use client";
 
+import { QuoteLeftIcon } from "@/components/icons/common";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
@@ -21,7 +22,6 @@ import {
   DrawerTitle,
 } from "@/components/kit/drawer";
 import { Markdown } from "@/components/markdown";
-import { QuoteLeftIcon } from "@/components/ui/icons/common";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BioModalProps {

@@ -1,48 +1,57 @@
-import { motion } from "motion/react";
+"use client";
 
-import { SpinnerIcon } from "@/components/ui/icons/status";
+import { motion, type Variants } from "motion/react";
 
-const MapLoading = () => {
+const letterVariants: Variants = {
+  initial: { opacity: 0, y: 10 },
+  animate: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.05, ease: "easeOut" },
+  }),
+};
+
+const dotVariants: Variants = {
+  animate: {
+    y: ["0%", "-50%", "0%"],
+    transition: {
+      y: { repeat: Infinity, duration: 0.8, ease: "easeInOut" },
+    },
+  },
+};
+
+export default function MapLoading() {
+  const text = "Cargando tu entorno";
   return (
-    <div className="bg-background absolute inset-0 z-50 size-full before:duration-1000!">
-      <div className="absolute inset-0 -mt-16 flex flex-col items-center justify-center gap-2 md:-mt-14">
-        <SpinnerIcon
-          className="text-muted-foreground size-8"
-          aria-hidden="true"
-        />
-        <h3 className="text-foreground text-center text-2xl font-semibold">
-          {"Cargando mapa".split("").map((character, index) => (
+    <div className="bg-background absolute inset-0 z-50 flex size-full items-center justify-center backdrop-blur-sm">
+      <div className="relative flex flex-col items-center gap-6">
+        <h3 className="text-foreground flex overflow-hidden text-2xl font-semibold sm:text-3xl">
+          {text.split("").map((char, idx) => (
             <motion.span
-              key={index}
-              variants={{
-                initial: {
-                  opacity: 0,
-                  x: -100,
-                },
-                animate: {
-                  opacity: 1,
-                  x: 0,
-                },
-              }}
+              key={idx}
+              custom={idx}
               initial="initial"
               animate="animate"
-              transition={{
-                duration: 0.25,
-                ease: "easeIn",
-                delay: index * 0.05,
-                staggerChildren: 0.05,
-                repeat: Infinity,
-                repeatType: "mirror",
-                repeatDelay: 1,
-              }}
+              variants={letterVariants}
+              className="inline-block"
             >
-              {character === " " ? "\u00A0" : character}
+              {char === " " ? "\u00A0" : char}
             </motion.span>
           ))}
         </h3>
+
+        <div className="flex items-end gap-2">
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              className="bg-foreground/50 block h-2 w-2 rounded-full"
+              animate="animate"
+              variants={dotVariants}
+              transition={{ delay: i * 0.2 }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
-};
-
-export default MapLoading;
+}

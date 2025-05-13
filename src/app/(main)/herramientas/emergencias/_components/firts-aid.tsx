@@ -9,7 +9,10 @@ import {
 } from "@/components/kit/accordion";
 import { Badge } from "@/components/kit/badge";
 import { Card } from "@/components/kit/card";
-import { FIRST_AID, FIRST_AID_COLORS } from "@/consts/firts-aid";
+import {
+  FIRST_AID_DATA,
+  FIRST_AID_DATA_COLORS,
+} from "@/db/data/firts-aid-data";
 import { cn } from "@/lib/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
@@ -27,10 +30,11 @@ const FirstAid = () => {
       />
       <Card className="rounded-tl-none border-l-4 border-amber-200 border-l-amber-500! p-4 pt-0 md:p-6 dark:border-amber-900/50">
         <Accordion type="single" collapsible className="w-full">
-          {FIRST_AID.map((item, index) => {
+          {FIRST_AID_DATA.map((item, index) => {
             const theme =
-              FIRST_AID_COLORS[item.id as keyof typeof FIRST_AID_COLORS] ||
-              FIRST_AID_COLORS[1];
+              FIRST_AID_DATA_COLORS[
+                item.id as keyof typeof FIRST_AID_DATA_COLORS
+              ] || FIRST_AID_DATA_COLORS[1];
 
             return (
               <AccordionItem

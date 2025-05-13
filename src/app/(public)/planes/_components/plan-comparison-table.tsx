@@ -2,10 +2,8 @@
 
 import { Check, X } from "lucide-react";
 
-import {
-  PLAN_FEATURES_DETAILS,
-  SUBSCRIPTION_PLANS,
-} from "@/consts/subscriptions-plans";
+import { PLAN_FEATURE_DATA } from "@/db/data/plan-feature-data";
+import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
 import { cn } from "@/lib/utils";
 
 type PlanKey = "basico" | "premium" | "premiumPlus";
@@ -44,7 +42,7 @@ const PlanComparisonTable = () => {
                     {PLAN_LABELS[plan]}
                   </span>
                   {PLAN_LABELS[plan] === "Básico" &&
-                    SUBSCRIPTION_PLANS[0].monthlyAmount === 0 && (
+                    SUBSCRIPTION_PLAN_DATA[0].monthlyAmount === 0 && (
                       <span className="text-muted-foreground text-sm font-medium">
                         Gratis
                       </span>
@@ -52,7 +50,7 @@ const PlanComparisonTable = () => {
                   {PLAN_LABELS[plan] === "Premium" && (
                     <span className="text-muted-foreground text-sm font-medium">
                       $
-                      {SUBSCRIPTION_PLANS[1].monthlyAmount.toLocaleString(
+                      {SUBSCRIPTION_PLAN_DATA[1].monthlyAmount.toLocaleString(
                         "es-CL",
                       )}
                       /mes
@@ -60,7 +58,8 @@ const PlanComparisonTable = () => {
                   )}
                   {PLAN_LABELS[plan] === "Premium Plus" && (
                     <span className="text-muted-foreground text-sm font-medium">
-                      ${SUBSCRIPTION_PLANS[2].amount.toLocaleString("es-CL")}
+                      $
+                      {SUBSCRIPTION_PLAN_DATA[2].amount.toLocaleString("es-CL")}
                       /año
                     </span>
                   )}
@@ -69,7 +68,7 @@ const PlanComparisonTable = () => {
             </tr>
           </thead>
           <tbody className="divide-muted-foreground/10 divide-y">
-            {PLAN_FEATURES_DETAILS.map((feature) => (
+            {PLAN_FEATURE_DATA.map((feature) => (
               <tr
                 key={feature.key}
                 className="dark:hover:bg-accent/50 hover:bg-slate-50"
@@ -104,7 +103,7 @@ const PlanComparisonTable = () => {
 
       {/* 📱 Cards para mobile */}
       <div className="flex flex-col gap-6 md:hidden">
-        {PLAN_FEATURES_DETAILS.map((feature) => (
+        {PLAN_FEATURE_DATA.map((feature) => (
           <div
             key={feature.key}
             className="bg-background rounded-xl border p-4 shadow-sm"

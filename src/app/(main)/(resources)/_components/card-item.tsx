@@ -4,15 +4,16 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { memo, useState } from "react";
 
-import { EyeIcon } from "@/components/ui/icons/status";
+import { EyeIcon } from "@/components/icons/status";
 
-import type { ResourceCard, Video } from "@/types/resource";
+import type { ArticleType } from "@/lib/types";
+import type { Video } from "@/types/resource";
 
 const CardModal = dynamic(() => import("./card-modal"), { ssr: false });
 
 interface CardItemProps {
   type: "article" | "routine";
-  item: ResourceCard & Video;
+  item: ArticleType & Video;
 }
 
 const CardItem = ({ item, type }: CardItemProps) => {

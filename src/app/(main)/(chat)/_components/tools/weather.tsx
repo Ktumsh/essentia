@@ -20,7 +20,7 @@ import {
   Wind,
 } from "lucide-react";
 
-import { MoonLoopIcon, SunLoopIcon } from "@/components/ui/icons/interface";
+import { MoonLoopIcon, SunLoopIcon } from "@/components/icons/interface";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -276,10 +276,10 @@ export function Weather({
   weatherAtLocation?: WeatherAtLocation;
 }) {
   const currentHigh = Math.max(
-    ...weatherAtLocation.hourly.temperature_2m.slice(0, 24)
+    ...weatherAtLocation.hourly.temperature_2m.slice(0, 24),
   );
   const currentLow = Math.min(
-    ...weatherAtLocation.hourly.temperature_2m.slice(0, 24)
+    ...weatherAtLocation.hourly.temperature_2m.slice(0, 24),
   );
 
   const isDay = isWithinInterval(new Date(weatherAtLocation.current.time), {
@@ -293,17 +293,17 @@ export function Weather({
 
   // Find the index of the current time or the next closest time
   const currentTimeIndex = weatherAtLocation.hourly.time.findIndex(
-    (time) => new Date(time) >= new Date(weatherAtLocation.current.time)
+    (time) => new Date(time) >= new Date(weatherAtLocation.current.time),
   );
 
   // Slice the arrays to get the desired number of items
   const displayTimes = weatherAtLocation.hourly.time.slice(
     currentTimeIndex,
-    currentTimeIndex + hoursToShow
+    currentTimeIndex + hoursToShow,
   );
   const displayTemperatures = weatherAtLocation.hourly.temperature_2m.slice(
     currentTimeIndex,
-    currentTimeIndex + hoursToShow
+    currentTimeIndex + hoursToShow,
   );
 
   return (
@@ -315,7 +315,7 @@ export function Weather({
         },
         {
           "bg-linear-to-tr from-indigo-900 to-indigo-950 to-50%": !isDay,
-        }
+        },
       )}
     >
       <div className="flex flex-row items-center justify-between">
@@ -363,7 +363,7 @@ export function Weather({
                   },
                   {
                     "bg-indigo-200/80 text-indigo-950": !isDay,
-                  }
+                  },
                 )}
               >
                 {icon}

@@ -13,9 +13,9 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import {
-  EMERGENCY_STEPS,
-  EMERGENCY_STEPS_COLORS,
-} from "@/consts/emergency-steps";
+  EMERGENCY_STEPS_DATA,
+  EMERGENCY_STEPS_DATA_COLORS,
+} from "@/db/data/emergency-steps-data";
 import { cn } from "@/lib/utils";
 
 import DownloadGuideButton from "../../_components/download-guide-button";
@@ -37,11 +37,11 @@ const EmergencySteps = () => {
       ref={sectionRef}
       className="no-scrollbar flex w-full max-w-6xl snap-x snap-mandatory items-center justify-between overflow-x-scroll md:mx-0"
     >
-      {EMERGENCY_STEPS.map((step, index) => {
+      {EMERGENCY_STEPS_DATA.map((step, index) => {
         const theme =
-          EMERGENCY_STEPS_COLORS[
-            step.id as keyof typeof EMERGENCY_STEPS_COLORS
-          ] || EMERGENCY_STEPS_COLORS[1];
+          EMERGENCY_STEPS_DATA_COLORS[
+            step.id as keyof typeof EMERGENCY_STEPS_DATA_COLORS
+          ] || EMERGENCY_STEPS_DATA_COLORS[1];
 
         return (
           <Fragment key={index}>
@@ -97,7 +97,7 @@ const EmergencySteps = () => {
                 />
               </CardFooter>
             </Card>
-            {index < EMERGENCY_STEPS.length - 1 && (
+            {index < EMERGENCY_STEPS_DATA.length - 1 && (
               <button
                 onClick={scrollToEnd}
                 className="motion-safe:animate-[pulse_4s_cubic-bezier(0.4,_0,_0.6,_1)_infinite] md:pointer-events-none"

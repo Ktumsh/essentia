@@ -1,9 +1,9 @@
-import { FAQ_PRICING } from "@/consts/faq-pricing";
+import { FAQ_PRICING_DATA } from "@/db/data/faq-pricing-data";
 
 import FAQItems from "./faq-items";
 
 const FAQ = () => {
-  const faqs = FAQ_PRICING;
+  const faqs = FAQ_PRICING_DATA;
   return (
     <div className="border-border bg-background mt-16 flex flex-col border-t p-5 md:gap-4 md:px-6 md:py-14">
       <h2 className="font-merriweather mb-3 hidden text-center text-3xl font-bold md:block">

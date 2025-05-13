@@ -18,8 +18,8 @@ import {
 import { createSubscription } from "@/components/ui/payment/actions";
 import {
   SubscriptionPlanType,
-  SUBSCRIPTION_PLANS,
-} from "@/consts/subscriptions-plans";
+  SUBSCRIPTION_PLAN_DATA,
+} from "@/db/data/subscription-plan-data";
 import { startUserTrial } from "@/db/querys/user-querys";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { getClientIp, getPlanPrice } from "@/lib/utils";
@@ -103,7 +103,7 @@ const ConfirmPlanModal = ({
   }, [selectedPlan, router]);
 
   const premiumPlan = useMemo(
-    () => SUBSCRIPTION_PLANS.find((p) => p.name === "Premium"),
+    () => SUBSCRIPTION_PLAN_DATA.find((p) => p.name === "Premium"),
     [],
   );
 

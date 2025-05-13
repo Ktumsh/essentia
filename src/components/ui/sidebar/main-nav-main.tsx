@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
+import { SearchIcon } from "@/components/icons/action";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,7 +16,6 @@ import {
 import { useIsMac } from "@/hooks/use-is-mac";
 import { cn } from "@/lib/utils";
 
-import { SearchIcon } from "../icons/action";
 import MainSearch from "../layout/main-search";
 
 import type { NavConfig } from "@/config/nav.config";

@@ -11,7 +11,6 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const isLogin = pathname.startsWith("/login");
   const isSignup = pathname.startsWith("/signup");
-  const isLogout = pathname.startsWith("/logout");
 
   const variants = {
     initialLogin: { opacity: 0, x: -30 },
@@ -33,7 +32,7 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
       >
         <div className="dark:after:from-full-dark before:absolute before:top-0 before:left-1/2 before:h-[800px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-linear-to-tr before:from-slate-50 before:to-[#c0c6e6] before:blur-[80px] before:content-[''] after:absolute after:top-[10%] after:left-[20%] after:z-10 after:h-[580px] after:w-full after:rounded-full after:bg-linear-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-50 after:blur-[80px] after:content-[''] sm:before:w-[1080px] sm:after:w-[540px] dark:before:h-[600px] dark:before:w-[980px] dark:before:bg-linear-to-br dark:before:from-transparent dark:before:to-[#ff7373] dark:before:opacity-20 dark:after:top-1/4 dark:after:left-2/3 dark:after:h-[180px] dark:after:w-[260px] dark:after:rounded-none dark:after:bg-linear-to-br dark:after:via-[#ff7373] dark:after:opacity-50 dark:after:blur-3xl"></div>
       </motion.div>
-      {!isLogout && <AuthHeader />}
+      <AuthHeader />
       <div className="relative size-full">
         <div className="z-40 min-h-dvh w-full sm:min-h-dvh">
           <div className="flex min-h-dvh w-full items-center justify-center">
@@ -67,7 +66,7 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </div>
-      {!isLogout && <AuthFooter />}
+      <AuthFooter />
     </div>
   );
 };

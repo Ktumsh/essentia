@@ -16,6 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { CheckCircledIcon } from "@/components/icons/common";
 import { Button } from "@/components/kit/button";
 import { Label } from "@/components/kit/label";
 import { Switch } from "@/components/kit/switch";
@@ -28,9 +29,8 @@ import {
   TableRow,
 } from "@/components/kit/table";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { CheckCircledIcon } from "@/components/ui/icons/common";
 import PaymentModal from "@/components/ui/payment/payment-modal";
-import { FEATURE_PLAN_DATA } from "@/consts/feature-plan-data";
+import { FEATURE_PLAN_DATA } from "@/db/data/feature-plan-data";
 import { Payment, Subscription } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";

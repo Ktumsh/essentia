@@ -7,13 +7,13 @@ import { Session } from "next-auth";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { CheckCircledIcon } from "@/components/icons/common";
+import StripeIcon from "@/components/icons/stripe";
 import { Button } from "@/components/kit/button";
 import { Card, CardHeader } from "@/components/kit/card";
-import { CheckCircledIcon } from "@/components/ui/icons/common";
-import StripeIcon from "@/components/ui/icons/stripe";
 import { setUserPlan } from "@/components/ui/payment/actions";
 import { siteConfig } from "@/config/site.config";
-import { SubscriptionPlanType } from "@/consts/subscriptions-plans";
+import { SubscriptionPlanType } from "@/db/data/subscription-plan-data";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn, getPlanPrice } from "@/lib/utils";
 

@@ -16,7 +16,6 @@ import {
 
 import { auth } from "@/app/(auth)/auth";
 import { generateTitleFromUserMessage } from "@/app/(main)/(chat)/actions";
-import { isProductionEnvironment } from "@/consts/env";
 import {
   canSendMessage,
   createStreamId,
@@ -31,6 +30,7 @@ import {
 } from "@/db/querys/chat-querys";
 import { getSubscription } from "@/db/querys/payment-querys";
 import { getUserTrialStatus } from "@/db/querys/user-querys";
+import { isProductionEnvironment } from "@/lib/consts";
 import { calculateAge } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 import { getUserProfileData } from "@/utils/profile";

@@ -1,4 +1,4 @@
-import { RESOURCE_DATA } from "@/consts/resources-data";
+import { RESOURCE_DATA } from "@/db/data/resources-data";
 
 import ResourceItem from "./resource-item";
 

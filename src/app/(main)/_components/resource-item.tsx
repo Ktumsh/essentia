@@ -7,7 +7,7 @@ import { Card, CardHeader } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, getRouteColor, getRouteDetails } from "@/lib/utils";
 
-import type { ResourceDataType } from "@/consts/resources-data";
+import type { ResourceDataType } from "@/db/data/resources-data";
 
 interface ResourceItemProps extends ResourceDataType {
   index: number;

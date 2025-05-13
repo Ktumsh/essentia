@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 
+import { MailIcon } from "@/components/icons/miscellaneus";
 import { Button } from "@/components/kit/button";
 import {
   CardContent,
@@ -20,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
-import { MailIcon } from "@/components/ui/icons/miscellaneus";
 import { EmailFormData, emailSchema } from "@/lib/form-schemas";
 
 interface StepEmailProps {

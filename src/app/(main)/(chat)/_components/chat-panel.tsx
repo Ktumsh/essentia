@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 
-import { LinkIcon } from "@/components/ui/icons/action";
+import { LinkIcon } from "@/components/icons/action";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { cn, fetcher } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";

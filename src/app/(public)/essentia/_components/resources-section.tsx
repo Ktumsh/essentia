@@ -3,7 +3,6 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
-import { Badge } from "@/components/kit/badge";
 import {
   ExerciseFillIcon,
   ForAllAgesFillIcon,
@@ -11,7 +10,8 @@ import {
   NutritionFillIcon,
   SexualityFillIcon,
   WellbeingFillIcon,
-} from "@/components/ui/icons/interface";
+} from "@/components/icons/interface";
+import { Badge } from "@/components/kit/badge";
 
 const ResourcesSection = () => {
   const ref = useRef(null);
@@ -69,7 +69,7 @@ const ResourcesSection = () => {
           <motion.div variants={item}>
             <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100">
-                <HealthFillIcon className="text-green-600" size={28} />
+                <HealthFillIcon className="size-7 text-green-600" />
               </div>
               <h3 className="mb-3 text-xl font-bold text-gray-800">
                 Salud y Bienestar
@@ -84,7 +84,7 @@ const ResourcesSection = () => {
           <motion.div variants={item}>
             <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100">
-                <ExerciseFillIcon className="text-indigo-600" size={28} />
+                <ExerciseFillIcon className="size-7 text-indigo-600" />
               </div>
               <h3 className="mb-3 text-xl font-bold text-gray-800">
                 Ejercicios y Fitness
@@ -99,7 +99,7 @@ const ResourcesSection = () => {
           <motion.div variants={item}>
             <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-yellow-100">
-                <NutritionFillIcon className="text-yellow-600" size={28} />
+                <NutritionFillIcon className="size-7 text-yellow-600" />
               </div>
               <h3 className="mb-3 text-xl font-bold text-gray-800">
                 Nutrición y Alimentación
@@ -114,7 +114,7 @@ const ResourcesSection = () => {
           <motion.div variants={item}>
             <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100">
-                <WellbeingFillIcon className="text-blue-600" size={28} />
+                <WellbeingFillIcon className="size-7 text-blue-600" />
               </div>
               <h3 className="mb-3 text-xl font-bold text-gray-800">
                 Bienestar Emocional
@@ -129,7 +129,7 @@ const ResourcesSection = () => {
           <motion.div variants={item}>
             <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100">
-                <SexualityFillIcon className="text-red-600" size={28} />
+                <SexualityFillIcon className="size-7 text-red-600" />
               </div>
               <h3 className="mb-3 text-xl font-bold text-gray-800">
                 Salud y Educación Sexual
@@ -144,7 +144,7 @@ const ResourcesSection = () => {
           <motion.div variants={item}>
             <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 transition-all duration-300 hover:-translate-y-1">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-lime-100">
-                <ForAllAgesFillIcon className="text-lime-600" size={28} />
+                <ForAllAgesFillIcon className="size-7 text-lime-600" />
               </div>
               <h3 className="mb-3 text-xl font-bold text-gray-800">
                 Salud en Todas las Edades

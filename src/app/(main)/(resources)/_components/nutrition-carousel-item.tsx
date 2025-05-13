@@ -4,33 +4,15 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { Button } from "@/components/kit/button";
-import { StarIcon } from "@/components/ui/icons/common";
-import { HeartIcon } from "@/components/ui/icons/miscellaneus";
-import { cn } from "@/lib/utils";
 
 import NutritionModal from "./nutrition-modal";
 
-type Item = {
-  slug: string;
-  title: string;
-  image: string;
-  body: string;
-};
+import type { ArticleType } from "@/lib/types";
 
-interface Props {
-  item: Item;
-}
-
-const NutritionCarouselItem = ({ item }: Props) => {
+const NutritionCarouselItem = (props: ArticleType) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const [rating, setRating] = useState(0);
 
-  const { slug, title, image } = item;
-
-  const handleRating = (index: number) => {
-    setRating(index + 1);
-  };
+  const { slug, title, image } = props;
 
   return (
     <>
@@ -51,7 +33,7 @@ const NutritionCarouselItem = ({ item }: Props) => {
             />
             <div className="absolute top-0 left-0 z-10 flex w-full justify-center p-4 md:inset-0 md:block">
               <div className="bg-background/80 flex flex-col rounded-full px-2 transition-transform duration-300 will-change-transform group-hover:translate-y-0 md:h-full md:translate-y-full md:rounded-sm md:px-0">
-                <div className="mx-auto hidden h-full items-center justify-center md:flex">
+                {/* <div className="mx-auto hidden h-full items-center justify-center md:flex">
                   <Button
                     size="icon"
                     radius="full"
@@ -64,7 +46,7 @@ const NutritionCarouselItem = ({ item }: Props) => {
                   >
                     <HeartIcon className="size-6!" />
                   </Button>
-                </div>
+                </div> */}
                 <div className="mx-auto hidden h-full items-center justify-center md:flex">
                   <Button
                     variant="ghost"
@@ -79,7 +61,7 @@ const NutritionCarouselItem = ({ item }: Props) => {
                     Ver receta
                   </Button>
                 </div>
-                <div className="mx-auto flex h-full items-center justify-center">
+                {/* <div className="mx-auto flex h-full items-center justify-center">
                   {[...Array(5)].map((_, index) => (
                     <Button
                       key={index}
@@ -88,17 +70,18 @@ const NutritionCarouselItem = ({ item }: Props) => {
                       radius="full"
                       onClick={() => handleRating(index)}
                       className={cn(
-                        rating > index && "text-yellow-500!",
-                        "text-foreground/80 hover:text-foreground bg-transparent hover:bg-transparent! hover:opacity-100 active:scale-95",
+                        rating > index &&
+                          "text-yellow-500! [&>svg]:fill-yellow-500!",
+                        "text-foreground/80 hover:text-foreground [&>svg]:fill-foreground/80 bg-transparent hover:bg-transparent! hover:opacity-100 active:scale-95",
                       )}
                     >
                       <StarIcon className="size-5!" />
                     </Button>
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 z-10 p-4 md:hidden">
+            {/* <div className="absolute bottom-0 left-0 z-10 p-4 md:hidden">
               <div className="bg-background/80 rounded-full">
                 <div className="mx-auto flex h-full items-center justify-center">
                   <Button
@@ -115,7 +98,7 @@ const NutritionCarouselItem = ({ item }: Props) => {
                   </Button>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="absolute right-0 bottom-0 z-10 p-4 md:hidden">
               <div className="mx-auto flex h-full items-center justify-center">
                 <Button
@@ -137,7 +120,7 @@ const NutritionCarouselItem = ({ item }: Props) => {
           </footer>
         </div>
       </div>
-      <NutritionModal item={item} modal={{ isOpen, setIsOpen }} />
+      <NutritionModal item={props} modal={{ isOpen, setIsOpen }} />
     </>
   );
 };

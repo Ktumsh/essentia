@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
+import { WhatsappIcon } from "@/components/icons/media";
 import {
   Accordion,
   AccordionContent,
@@ -42,13 +43,12 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { WhatsappIcon } from "@/components/ui/icons/media";
-import { FAQ_SUPPORT } from "@/consts/faq-support";
+import { FAQ_SUPPORT_DATA } from "@/db/data/faq-support-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 const knowledgeBase = {
-  faqs: FAQ_SUPPORT,
+  faqs: FAQ_SUPPORT_DATA,
   featuredFunctions: [
     {
       title: "Gestión de historial médico",

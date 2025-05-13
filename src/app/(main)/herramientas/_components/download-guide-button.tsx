@@ -5,12 +5,12 @@ import { useCallback } from "react";
 
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { EmergencySteps } from "@/consts/emergency-steps";
+import { EmergencySteps } from "@/db/data/emergency-steps-data";
 import { cn } from "@/lib/utils";
 
 import GuidePdfDocument from "./guide-document";
 
-import type { Guide } from "@/consts/guide-data";
+import type { Guide } from "@/db/data/guide-data";
 
 interface DownloadGuideButtonProps {
   guide: Guide | EmergencySteps;
