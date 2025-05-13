@@ -1,24 +1,25 @@
 import { nanoid } from "nanoid";
-import { useMemo, type JSX } from "react";
+import { type JSX } from "react";
 
 import {
   AdditionalFillIcon,
+  HealthCentersFillIcon,
   MedicalHistoryFillIcon,
 } from "@/components/ui/icons/interface";
 import {
   EmergenciesFillIcon,
   GuidesFillIcon,
-  HealthCentersFillIcon,
   KitFillIcon,
 } from "@/components/ui/icons/miscellaneus";
 import { navConfig } from "@/config/nav.config";
-import resources from "@/db/data/resources_actualizado_rutas.json";
-import { IconSvgProps } from "@/types/common";
+import routes from "@/db/data/routes.optimized.json";
 
 import { GUIDES_DATA } from "./guide-data";
 import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
 import { RECIPES } from "./recipes-data";
 import { ROUTINES } from "./routines-data";
+
+import type { IconSvgProps } from "@/types/common";
 
 type Hierarchy = {
   lvl1: string | null;
@@ -26,7 +27,7 @@ type Hierarchy = {
   lvl3?: string | null;
 };
 
-const HEALTH_WELLNESS_ROUTE = resources.resources.find(
+const HEALTH_WELLNESS_ROUTE = routes.resources.find(
   (resource) => resource.slug === "salud-y-bienestar",
 );
 
@@ -35,7 +36,7 @@ const HEALTH_WELLNESS_LESSONS = HEALTH_WELLNESS_ROUTE?.modules.flatMap(
     module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const EXCERCISE_FITNESS_ROUTE = resources.resources.find(
+const EXCERCISE_FITNESS_ROUTE = routes.resources.find(
   (resource) => resource.slug === "ejercicios-y-fitness",
 );
 
@@ -44,7 +45,7 @@ const EXCERCISE_FITNESS_LESSONS = EXCERCISE_FITNESS_ROUTE?.modules.flatMap(
     module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const NUTRITION_ROUTE = resources.resources.find(
+const NUTRITION_ROUTE = routes.resources.find(
   (resource) => resource.slug === "nutricion-y-alimentacion",
 );
 
@@ -52,7 +53,7 @@ const NUTRITION_LESSONS = NUTRITION_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const WELLBEING_ROUTE = resources.resources.find(
+const WELLBEING_ROUTE = routes.resources.find(
   (resource) => resource.slug === "bienestar-emocional",
 );
 
@@ -60,7 +61,7 @@ const WELLBEING_LESSONS = WELLBEING_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const SEX_EDUCATION_ROUTE = resources.resources.find(
+const SEX_EDUCATION_ROUTE = routes.resources.find(
   (resource) => resource.slug === "salud-y-educacion-sexual",
 );
 
@@ -68,7 +69,7 @@ const SEX_EDUCATION_LESSONS = SEX_EDUCATION_ROUTE?.modules.flatMap((module) =>
   module.lessons.map((lesson) => ({ ...lesson, moduleSlug: module.slug })),
 );
 
-const FOR_ALL_AGES_ROUTE = resources.resources.find(
+const FOR_ALL_AGES_ROUTE = routes.resources.find(
   (resource) => resource.slug === "salud-en-todas-las-edades",
 );
 
@@ -565,29 +566,24 @@ const nutritionModalSearchData: SearchResult[] = RECIPES.map((data) => ({
   },
 }));
 
-export const useSearchData = () => {
-  return useMemo<SearchResult[]>(
-    () => [
-      ...medicalHistorySearchData,
-      ...healthCentersSearchData,
-      ...healthSearchData,
-      ...fitnessSearchData,
-      ...nutritionSearchData,
-      ...wellbeingSearchData,
-      ...sexEducationSearchData,
-      ...forAllAgesSearchData,
-      ...healthWellnessLessonsSearchData,
-      ...fitnessLessonsSearchData,
-      ...nutritionLessonsSearchData,
-      ...wellbeingLessonsSearchData,
-      ...sexEducationLessonsSearchData,
-      ...forAllAgesLessonsSearchData,
-      ...healthModalSearchData,
-      ...fitnessModalSearchData,
-      ...nutritionModalSearchData,
-      ...additionalsSearchData,
-      ...additionalsGuidesSearchData,
-    ],
-    [],
-  );
-};
+export const SEARCH_DATA: SearchResult[] = [
+  ...medicalHistorySearchData,
+  ...healthCentersSearchData,
+  ...healthSearchData,
+  ...fitnessSearchData,
+  ...nutritionSearchData,
+  ...wellbeingSearchData,
+  ...sexEducationSearchData,
+  ...forAllAgesSearchData,
+  ...healthWellnessLessonsSearchData,
+  ...fitnessLessonsSearchData,
+  ...nutritionLessonsSearchData,
+  ...wellbeingLessonsSearchData,
+  ...sexEducationLessonsSearchData,
+  ...forAllAgesLessonsSearchData,
+  ...healthModalSearchData,
+  ...fitnessModalSearchData,
+  ...nutritionModalSearchData,
+  ...additionalsSearchData,
+  ...additionalsGuidesSearchData,
+];

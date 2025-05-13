@@ -42,53 +42,6 @@ const EyeOffIcon = ({ id, ...props }: IconSvgProps) => {
   );
 };
 
-const ClockIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-      <path d="M12 7v5l3 3"></path>
-    </svg>
-  );
-};
-
-const CalendarFillIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        d="M7.75 2.5a.75.75 0 0 0-1.5 0v1.58c-1.44.115-2.384.397-3.078 1.092c-.695.694-.977 1.639-1.093 3.078h19.842c-.116-1.44-.398-2.384-1.093-3.078c-.694-.695-1.639-.977-3.078-1.093V2.5a.75.75 0 0 0-1.5 0v1.513C15.585 4 14.839 4 14 4h-4c-.839 0-1.585 0-2.25.013z"
-        fill="currentColor"
-      />
-      <path
-        clipRule="evenodd"
-        d="M2 12c0-.839 0-1.585.013-2.25h19.974C22 10.415 22 11.161 22 12v2c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14zm15 2a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2m-4-5a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-6-3a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
-        fill="currentColor"
-        fillRule="evenodd"
-      />
-    </svg>
-  );
-};
-
 const CenterLocationIcon = (props: IconSvgProps) => {
   return (
     <svg
@@ -121,67 +74,6 @@ const LocationSelfIcon = (props: IconSvgProps) => {
         d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10s10-4.486 10-10S17.514 2 12 2z"
         fill="currentColor"
       />
-    </svg>
-  );
-};
-
-const PhoneIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="currentColor"
-        d="M20 12q-.4 0-.712-.288T18.925 11q-.325-2.325-1.963-3.963T13 5.076q-.425-.05-.712-.35T12 4t.3-.712t.7-.238q3.15.35 5.375 2.575T20.95 11q.05.4-.238.7T20 12m-4.175 0q-.325 0-.575-.225t-.375-.6q-.2-.725-.763-1.287t-1.287-.763q-.375-.125-.6-.375T12 8.15q0-.5.35-.812t.775-.213q1.4.325 2.413 1.338t1.337 2.412q.1.425-.225.775t-.825.35m4.125 9q-3.125 0-6.175-1.362t-5.55-3.863t-3.862-5.55T3 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.238t.325.562l.65 3.5q.05.4-.025.675T9.4 8.45L6.975 10.9q.5.925 1.187 1.787t1.513 1.663q.775.775 1.625 1.438T13.1 17l2.35-2.35q.225-.225.588-.337t.712-.063l3.45.7q.35.1.575.363T21 15.9v4.05q0 .45-.3.75t-.75.3"
-      />
-    </svg>
-  );
-};
-
-const SpinnerIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <circle cx="4" cy="12" r="3" fill="currentColor">
-        <animate
-          id="svgSpinners3DotsFade0"
-          fill="freeze"
-          attributeName="opacity"
-          begin="0;svgSpinners3DotsFade1.end-0.25s"
-          dur="0.75s"
-          values="1;.2"
-        />
-      </circle>
-      <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".4">
-        <animate
-          fill="freeze"
-          attributeName="opacity"
-          begin="svgSpinners3DotsFade0.begin+0.15s"
-          dur="0.75s"
-          values="1;.2"
-        />
-      </circle>
-      <circle cx="20" cy="12" r="3" fill="currentColor" opacity=".3">
-        <animate
-          id="svgSpinners3DotsFade1"
-          fill="freeze"
-          attributeName="opacity"
-          begin="svgSpinners3DotsFade0.begin+0.3s"
-          dur="0.75s"
-          values="1;.2"
-        />
-      </circle>
     </svg>
   );
 };
@@ -344,11 +236,7 @@ const LoaderAIIcon = (props: IconSvgProps) => {
 export {
   EyeIcon,
   EyeOffIcon,
-  ClockIcon,
-  CalendarFillIcon,
   CenterLocationIcon,
   LocationSelfIcon,
-  PhoneIcon,
-  SpinnerIcon,
   LoaderAIIcon,
 };

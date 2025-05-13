@@ -25,6 +25,8 @@ import {
   ExerciseIcon,
   ForAllAgesFillIcon,
   ForAllAgesIcon,
+  HealthCentersFillIcon,
+  HealthCentersIcon,
   HealthFillIcon,
   HealthIcon,
   HomeFillIcon,
@@ -43,8 +45,6 @@ import {
   EmergenciesIcon,
   GuidesFillIcon,
   GuidesIcon,
-  HealthCentersFillIcon,
-  HealthCentersIcon,
   KitFillIcon,
   KitIcon,
 } from "@/components/ui/icons/miscellaneus";

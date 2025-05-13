@@ -1,4 +1,4 @@
-import { IconSvgProps } from "@/types/common";
+import type { IconSvgProps } from "@/types/common";
 
 const AdditionalIcon = (props: IconSvgProps) => {
   return (
@@ -133,6 +133,68 @@ const HomeFillIcon = (props: IconSvgProps) => {
         fillRule="evenodd"
         d="M2.52 7.823C2 8.77 2 9.915 2 12.203v1.522c0 3.9 0 5.851 1.172 7.063S6.229 22 10 22h4c3.771 0 5.657 0 6.828-1.212S22 17.626 22 13.725v-1.521c0-2.289 0-3.433-.52-4.381c-.518-.949-1.467-1.537-3.364-2.715l-2-1.241C14.111 2.622 13.108 2 12 2s-2.11.622-4.116 1.867l-2 1.241C3.987 6.286 3.038 6.874 2.519 7.823m6.927 7.575a.75.75 0 1 0-.894 1.204A5.77 5.77 0 0 0 12 17.75a5.77 5.77 0 0 0 3.447-1.148a.75.75 0 1 0-.894-1.204A4.27 4.27 0 0 1 12 16.25a4.27 4.27 0 0 1-2.553-.852"
         clipRule="evenodd"
+      />
+    </svg>
+  );
+};
+
+const HealthCentersIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <g fill="none">
+        <path
+          stroke="currentColor"
+          strokeWidth="1.5"
+          d="M12 22c-4.714 0-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22Z"
+        />
+        <path
+          stroke="currentColor"
+          strokeWidth="1.5"
+          d="M5.5 8.757C5.5 6.958 7.067 5.5 9 5.5s3.5 1.458 3.5 3.257c0 1.785-1.117 3.868-2.86 4.613a1.64 1.64 0 0 1-1.28 0c-1.743-.745-2.86-2.828-2.86-4.613Z"
+        />
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth="2"
+          d="m14 14l6.5 6.5M14 14l-7.605 7.605M14 14l7.607-7.606"
+        />
+        <path fill="currentColor" d="M10 9a1 1 0 1 1-2 0a1 1 0 0 1 2 0" />
+      </g>
+    </svg>
+  );
+};
+
+const HealthCentersFillIcon = (props: IconSvgProps) => {
+  return (
+    <svg
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M12 2c4.714 0 7.071 0 8.535 1.464c.504.504.835 1.114 1.052 1.889L5.353 21.587c-.775-.217-1.385-.548-1.889-1.052C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2M5.5 8.757c0 1.785 1.117 3.868 2.86 4.613c.406.173.874.173 1.28 0c1.743-.745 2.86-2.828 2.86-4.613C12.5 6.958 10.933 5.5 9 5.5S5.5 6.958 5.5 8.757"
+        clipRule="evenodd"
+      />
+      <path
+        fill="currentColor"
+        d="M10.5 9a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0"
+      />
+      <path
+        fill="currentColor"
+        d="M21.89 7.172C22 8.433 22 10.006 22 12c0 4.134 0 6.455-.987 7.951L15.06 14zm-1.938 13.84l-5.951-5.951l-6.83 6.828c1.262.111 2.835.111 4.83.111c4.134 0 6.455 0 7.951-.988"
+        opacity="0.5"
       />
     </svg>
   );
@@ -756,26 +818,6 @@ const MoonLoopIcon = (props: IconSvgProps) => {
   );
 };
 
-const BellIcon = (props: IconSvgProps) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <g fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M18.75 9.71v-.705C18.75 5.136 15.726 2 12 2S5.25 5.136 5.25 9.005v.705a4.4 4.4 0 0 1-.692 2.375L3.45 13.81c-1.011 1.575-.239 3.716 1.52 4.214a25.8 25.8 0 0 0 14.06 0c1.759-.498 2.531-2.639 1.52-4.213l-1.108-1.725a4.4 4.4 0 0 1-.693-2.375Z" />
-        <path
-          strokeLinecap="round"
-          d="M7.5 19c.655 1.748 2.422 3 4.5 3s3.845-1.252 4.5-3"
-        />
-      </g>
-    </svg>
-  );
-};
-
 const MedicalHistoryIcon = (props: IconSvgProps) => {
   return (
     <svg
@@ -842,6 +884,8 @@ export {
   AIFillIcon,
   HomeIcon,
   HomeFillIcon,
+  HealthCentersIcon,
+  HealthCentersFillIcon,
   HealthIcon,
   HealthFillIcon,
   ExerciseIcon,
@@ -856,7 +900,6 @@ export {
   ForAllAgesFillIcon,
   SunLoopIcon,
   MoonLoopIcon,
-  BellIcon,
   MedicalHistoryIcon,
   MedicalHistoryFillIcon,
 };

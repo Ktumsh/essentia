@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import {
-  GithubIcon,
+  FacebookIcon,
   InstagramIcon,
   TwitterIcon,
 } from "@/components/ui/icons/media";
@@ -41,17 +41,17 @@ const AuthFooter = () => {
               </Link>
               <Link
                 className="hover:text-primary transition-all hover:scale-110"
+                href={links.facebook}
+                target="_blank"
+              >
+                <FacebookIcon className="size-5" />
+              </Link>
+              <Link
+                className="hover:text-primary transition-all hover:scale-110"
                 href={links.twitter}
                 target="_blank"
               >
                 <TwitterIcon className="size-[17px]" />
-              </Link>
-              <Link
-                className="hover:text-primary transition-all hover:scale-110"
-                href={links.github}
-                target="_blank"
-              >
-                <GithubIcon className="size-5" />
               </Link>
             </div>
             <div className="flex items-center justify-between gap-4 text-sm">

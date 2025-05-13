@@ -1,12 +1,9 @@
 import {
   AdditionalFillIcon,
   AIFillIcon,
-} from "@/components/ui/icons/interface";
-import {
-  FruitFillIcon,
   HealthCentersFillIcon,
-  HeartbeatIcon,
-} from "@/components/ui/icons/miscellaneus";
+} from "@/components/ui/icons/interface";
+import { FruitIcon, HeartbeatIcon } from "@/components/ui/icons/miscellaneus";
 
 import { CLOUDINARY_BASE_URL } from "./cloudinary";
 import { INITIAL_CHAT_MESSAGES } from "./initial-chat-messages";
@@ -36,7 +33,7 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
       "Genera un plan adaptado a tus necesidades y objetivos gracias a nuestra tecnología avanzada. ¡Empieza hoy mismo!",
     link: `/essentia-ai?search=${encodeURIComponent(nutritionalPlan)}`,
     image: `${BASE_URL}/cap-02`,
-    icon: FruitFillIcon,
+    icon: FruitIcon,
     requiresPremium: true,
   },
   {

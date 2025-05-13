@@ -16,8 +16,8 @@ export const siteConfig = {
     "salud rapida",
   ],
   links: {
-    github: "https://github.com/Ktumsh/essentia",
-    instagram: "https://www.instagram.com/ktumsh/",
+    facebook: "https://www.facebook.com/",
+    instagram: "https://www.instagram.com/",
     twitter: "hhttps://twitter.com",
   },
   plan: {

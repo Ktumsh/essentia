@@ -25,7 +25,8 @@
   --animate-slide-left: slideleft 2s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-slide-right: slideright 2s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-slide-up: slideup 2s ease-in-out;
-  --animate-fade-in: fadein 1s ease-in-out;
+  --animate-fade-in: fade-in 0.6s ease-in both;
+  --animate-fade-out: fade-out 0.6s ease-out both;
 
   @keyframes collapsible-down {
     from {
@@ -119,12 +120,20 @@
       opacity: 1;
     }
   }
-  @keyframes fadein {
+  @keyframes fade-in {
     0% {
       opacity: 0;
     }
     100% {
       opacity: 1;
+    }
+  }
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 }

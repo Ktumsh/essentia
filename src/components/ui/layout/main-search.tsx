@@ -30,7 +30,7 @@ import {
   MAX_RECENT_SEARCHES,
   MAX_RESULTS,
 } from "@/consts/search-constants";
-import { SearchResult, useSearchData } from "@/consts/search-data";
+import { SEARCH_DATA, SearchResult } from "@/consts/search-data";
 import useDebounce from "@/hooks/use-debounce";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatText } from "@/utils/format";
@@ -56,18 +56,17 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
   const [results, setResults] = useState<SearchResult[]>([]);
 
   const debouncedTerm = useDebounce(searchTerm, 150);
-  const searchData = useSearchData();
 
   /* --------- recomendados --------- */
   const recommendedItems = useMemo(() => {
-    const lvl1Intro = searchData.filter(
+    const lvl1Intro = SEARCH_DATA.filter(
       (i) => i.type === "lvl1" && i.content.includes("Introducción"),
     );
-    const otherLvl1 = searchData.filter(
+    const otherLvl1 = SEARCH_DATA.filter(
       (i) => i.type === "lvl1" && !i.content.includes("Introducción"),
     );
     return [...lvl1Intro, ...otherLvl1];
-  }, [searchData]);
+  }, []);
 
   const filteredRecommended = useMemo(
     () =>
@@ -84,7 +83,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
       return;
     }
     const norm = formatText(debouncedTerm);
-    const found = matchSorter(searchData, norm, {
+    const found = matchSorter(SEARCH_DATA, norm, {
       keys: MATCH_KEYS,
       sorter: (m) =>
         m.sort((a, b) =>
@@ -92,7 +91,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
         ),
     }).slice(0, MAX_RESULTS);
     setResults(found);
-  }, [debouncedTerm, searchData]);
+  }, [debouncedTerm]);
 
   const saveRecent = useCallback(
     (item: SearchResult) => {

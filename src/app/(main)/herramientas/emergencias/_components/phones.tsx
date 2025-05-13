@@ -1,4 +1,4 @@
-import { Ambulance } from "lucide-react";
+import { Ambulance, PhoneIcon } from "lucide-react";
 
 import {
   Card,
@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { PhoneIcon } from "@/components/ui/icons/status";
 import { PHONE_COLORS, PHONES_DATA } from "@/consts/phones";
 import { cn } from "@/lib/utils";
 

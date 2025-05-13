@@ -37,7 +37,7 @@ import { LinkIcon } from "../icons/action";
 import { AIFillIcon } from "../icons/interface";
 import {
   ExcerciseFillIcon,
-  FruitFillIcon,
+  FruitIcon,
   SaveFillIcon,
   UploadFillIcon,
 } from "../icons/miscellaneus";
@@ -197,7 +197,7 @@ const PaymentModal = ({
           title: "Crea un plan nutricional personalizado",
           description:
             "Diseña un plan nutricional adaptado a tus necesidades y objetivos de salud.",
-          icon: <FruitFillIcon className="size-5" />,
+          icon: <FruitIcon className="size-5" />,
           color: "bg-red-500",
         };
       case "upgrade-plan":

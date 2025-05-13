@@ -402,7 +402,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                     <DrawerClose asChild>
                       <Button
                         variant="mobile"
-                        onClick={() => signOut({ callbackUrl: "/logout" })}
+                        onClick={() => signOut({ callbackUrl: "/login" })}
                       >
                         <item.icon />
                         {item.name}

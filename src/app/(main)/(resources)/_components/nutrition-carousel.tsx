@@ -39,7 +39,7 @@ const NutritionCarousel = ({
             key={index}
             className="pl-6 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
           >
-            <NutritionCarouselItem item={item} />
+            <NutritionCarouselItem {...item} />
           </CarouselItem>
         ))}
       </CarouselContent>

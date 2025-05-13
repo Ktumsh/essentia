@@ -4,6 +4,7 @@ import { CalendarCheck2, CalendarSync, Loader, Tag } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
@@ -18,7 +19,6 @@ import { Separator } from "@/components/kit/separator";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
-import { StarsIcon } from "../icons/common";
 import { HomeIcon } from "../icons/interface";
 
 import type { Payment } from "@/db/schema";
@@ -221,14 +221,12 @@ const PaymentCallbackContent = ({
           </Card>
         </div>
       )}
-      <Button
+      <SparklesButton
         variant="gradient"
-        radius="full"
         onClick={() => router.push("/essentia-ai")}
       >
         Comenzar ahora
-        <StarsIcon className="**:fill-white focus:outline-hidden" />
-      </Button>
+      </SparklesButton>
     </div>
   );
 };
