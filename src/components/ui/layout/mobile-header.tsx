@@ -9,13 +9,15 @@ import { Button } from "@/components/kit/button";
 import useIsScrolled from "@/hooks/use-is-scrolled";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import Logo from "./logo";
 import MainSearch from "./main-search";
 import MobileMenu from "./mobile-menu";
 import NotificationsList from "./notifications-list";
 import AppSidebarToggle from "../sidebar/app-sidebar-toggle";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface MobileHeaderProps {
   user: UserProfileData | null;

@@ -20,9 +20,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { useTrial } from "@/hooks/use-trial";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
 
 import PaymentModal from "../payment/payment-modal";
+
+import type { UserProfileData } from "@/lib/types";
+
 
 interface ProfileMessageProps {
   user: UserProfileData | null;

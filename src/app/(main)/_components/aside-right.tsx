@@ -1,13 +1,12 @@
-import { UserProfileData } from "@/types/auth";
-
 import DesktopDailyTip from "./desktop-daily-tip";
 import StorageDesktop from "./storage-desktop";
 import UpgradeCard from "./upgrade-card";
 
-import type { HealthFact } from "@/types/common";
+import type { FunFactType } from "@/db/data/fun-fact-data";
+import type { UserProfileData } from "@/lib/types";
 
 interface AsideRightProps {
-  facts: HealthFact[] | null;
+  facts: FunFactType[] | null;
   loading: boolean;
   userData: UserProfileData | null;
 }

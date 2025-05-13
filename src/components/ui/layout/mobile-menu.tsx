@@ -34,13 +34,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import FeedbackBox from "./feedback-box";
 import Greeting from "./greeting";
 import Logo from "./logo";
 import ThemeToggle from "./theme-toggle";
 import PaymentModal from "../payment/payment-modal";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface MobileMenuProps {
   user: UserProfileData | null;

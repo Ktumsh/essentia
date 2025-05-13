@@ -23,7 +23,7 @@ import {
 import { StageProgressType } from "@/db/querys/progress-querys";
 import { cn, getRouteColor } from "@/lib/utils";
 
-import type { Stages } from "@/types/resource";
+import type { Stages } from "@/lib/types";
 
 interface ChapterListProps {
   routeIndex: number;

@@ -13,7 +13,6 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { LearningRoutes } from "@/types/resource";
 import { formatDate } from "@/utils/format";
 
 import ChangeEmailModal from "./change-email-modal";
@@ -21,6 +20,8 @@ import ChangePasswordModal from "./change-password-modal";
 import DeleteAccountModal from "./delete-account-modal";
 import RouuteProgressTable from "./route-progress-table";
 import InfoFieldItem from "../info-field-item";
+
+import type { LearningRoutes } from "@/lib/types";
 
 interface AccountDetailsProps {
   routes: LearningRoutes;

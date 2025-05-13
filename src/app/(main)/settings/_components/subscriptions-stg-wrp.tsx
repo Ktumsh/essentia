@@ -2,9 +2,10 @@
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import useSubscription from "@/hooks/use-subscription";
-import { PaymentHistory } from "@/types/common";
 
 import SubscriptionsStg from "./subscriptions-stg";
+
+import type { PaymentHistory } from "@/lib/types";
 
 interface SubscriptionsStgWrpProps {
   paymentHistory: PaymentHistory[];

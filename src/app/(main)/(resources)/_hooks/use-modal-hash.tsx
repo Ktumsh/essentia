@@ -2,14 +2,14 @@
 
 import { useEffect } from "react";
 
-import { Video } from "@/types/resource";
+import type { ExcerciseVideoType } from "@/db/data/exercise-video-data";
 
 export const useModalHash = (
   formatedTitle: string,
   isOpen: boolean,
   setIsOpen: (isOpen: boolean) => void,
-  setActiveVideo?: (video: Video | null) => void,
-  video?: Video | null,
+  setActiveVideo?: (video: ExcerciseVideoType | null) => void,
+  video?: ExcerciseVideoType | null,
 ) => {
   const getDecodedHash = () =>
     decodeURIComponent(window.location.hash.slice(1));

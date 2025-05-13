@@ -1,10 +1,11 @@
 import { Session } from "next-auth";
 import React from "react";
 
-import { UserProfileData } from "@/types/auth";
 
 import ChatFooter from "./chat-footer";
 import MainNavUser from "./main-nav-user";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface AppFooterProps {
   session: Session | null;

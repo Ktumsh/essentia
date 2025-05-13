@@ -11,7 +11,7 @@ import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { fetcher } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
@@ -21,6 +21,7 @@ import { generateUUID, getChatHistoryPaginationKey } from "../_lib/utils";
 
 import type { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import type { ChatVote } from "@/db/schema";
+import type { UserProfileData } from "@/lib/types";
 import type { Attachment, UIMessage } from "ai";
 
 type StreamingDelta = {

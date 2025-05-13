@@ -49,7 +49,6 @@ import { getUserByUsername } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { ProfileFormData, profileSchema } from "@/lib/form-schemas";
-import { UserProfileData } from "@/types/auth";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
 
 import {
@@ -58,6 +57,8 @@ import {
   PopoverLocationFormat,
   PopoverWeightFormat,
 } from "./info-popover";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface EditProfileFormProps {
   profileData: UserProfileData | null;

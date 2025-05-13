@@ -32,7 +32,6 @@ import {
   getRouteColor,
   getRouteIndex,
 } from "@/lib/utils";
-import { LearningRoute } from "@/types/resource";
 
 import ChapterList from "./chapter-list";
 import InitializeRouteAlert from "./initialize-route-alert";
@@ -40,6 +39,8 @@ import RouteInfoPanel from "./route-info-panel";
 import SectionTitle from "./section-title";
 import { useRouteProgress } from "../_hooks/use-route-progress";
 import { getEstimatedReviewTime } from "../_lib/utils";
+
+import type { LearningRoute } from "@/lib/types";
 
 interface RouteListProps extends LearningRoute {
   description: string;

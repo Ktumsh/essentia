@@ -7,11 +7,13 @@ import { toast } from "sonner";
 import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { UserProfileData } from "@/types/auth";
+
 
 import EditAvatarModal from "./edit-avatar-modal";
 import { useProfileImagePreview } from "../../_hooks/use-profile-image-preview";
 import { uploadFile } from "../../_lib/utils";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface ProfileAvatarProps {
   user: UserProfileData | null;

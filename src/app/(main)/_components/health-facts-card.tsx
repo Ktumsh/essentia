@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { memo } from "react";
 
-import { HealthFact } from "@/types/common";
+import type { FunFactType } from "@/db/data/fun-fact-data";
 
 interface HealthFactsCardProps {
-  facts: HealthFact[] | null;
+  facts: FunFactType[] | null;
 }
 
 const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {

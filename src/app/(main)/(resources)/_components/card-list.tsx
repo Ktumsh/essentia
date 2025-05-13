@@ -27,9 +27,9 @@ const CardList = ({ resource, type }: CardList) => {
 
     items = ROUTINE_DATA.map((routine, index) => ({
       ...routine,
-      videoTitle: videos[index]?.title,
-      videoLink: videos[index]?.link,
-      videoChannel: videos[index]?.channel,
+      videoTitle: videos[index]?.videoTitle,
+      link: videos[index]?.link,
+      channel: videos[index]?.channel,
     }));
   }
 

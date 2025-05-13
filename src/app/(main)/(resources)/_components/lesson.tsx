@@ -25,12 +25,12 @@ import {
 } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, getRouteColor, getRouteDetails, getRouteIndex } from "@/lib/utils";
-import { Stages } from "@/types/resource";
 
 import ChapterList from "./chapter-list";
 import RouteBadge from "./route-badge";
 
 import type { Lesson } from "@/db/schema";
+import type { Stages } from "@/lib/types";
 
 type LessonNavigation = {
   stageSlug: string;

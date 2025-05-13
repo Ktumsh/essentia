@@ -12,7 +12,7 @@ import useSWR from "swr";
 import { LinkIcon } from "@/components/icons/action";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { cn, fetcher } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import AlertPanel from "./alert-panel";
 import ButtonToBottom from "./button-to-bottom";
@@ -22,6 +22,8 @@ import { PromptForm } from "./prompt-form";
 import SuggestedActions from "./suggested-actions";
 import { useScrollToBottom } from "../_hooks/use-scroll-to-bottom";
 import { extractFilePath } from "../_lib/utils";
+
+import type { UserProfileData } from "@/lib/types";
 
 export interface ChatPanelProps {
   chatId: string;

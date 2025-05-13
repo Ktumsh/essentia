@@ -81,4 +81,4 @@ export const FUN_FACT_DATA = [
   },
 ];
 
-export type HealthFact = (typeof FUN_FACT_DATA)[number];
+export type FunFactType = (typeof FUN_FACT_DATA)[number];

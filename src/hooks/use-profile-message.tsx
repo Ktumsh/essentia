@@ -9,7 +9,7 @@ import {
   ReactNode,
 } from "react";
 
-import { UserProfileData } from "@/types/auth";
+import type { UserProfileData } from "@/lib/types";
 
 interface ProfileMessageContextProps {
   isDismissed: boolean;

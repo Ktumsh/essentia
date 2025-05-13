@@ -2,9 +2,8 @@
 
 import { cookies } from "next/headers";
 
-import { FUN_FACT_DATA } from "@/db/data/fun-fact-data";
+import { FUN_FACT_DATA, type FunFactType } from "@/db/data/fun-fact-data";
 import { getRandomFacts } from "@/lib/utils";
-import { HealthFact } from "@/types/common";
 
 export const getReusableCookie = async (cookieName: string) => {
   const cookieStore = await cookies();
@@ -59,7 +58,7 @@ export const deleteReusableCookie = async (cookieName: string) => {
   });
 };
 
-export const dailyFacts = async (): Promise<HealthFact[]> => {
+export const dailyFacts = async (): Promise<FunFactType[]> => {
   const cookieStore = await cookies();
   const today = new Date().toISOString().split("T")[0];
 
@@ -67,12 +66,12 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
 
   const savedData = cookieStore.get(COOKIE_NAME);
 
-  let usedFacts: HealthFact[] = [];
+  let usedFacts: FunFactType[] = [];
   if (savedData) {
     const parsedData: {
       date: string;
-      facts: HealthFact[];
-      usedFacts: HealthFact[];
+      facts: FunFactType[];
+      usedFacts: FunFactType[];
     } = JSON.parse(savedData.value);
     if (parsedData.date === today) {
       return parsedData.facts;
@@ -80,11 +79,12 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
     usedFacts = parsedData.usedFacts || [];
   }
 
-  const remainingFacts: HealthFact[] = FUN_FACT_DATA.filter(
+  const remainingFacts = FUN_FACT_DATA.filter(
     (fact) => !usedFacts.some((usedFact) => usedFact.fact === fact.fact),
   );
 
-  let newFacts: HealthFact[];
+  let newFacts;
+
   if (remainingFacts.length === 0) {
     usedFacts = [];
     newFacts = getRandomFacts(1);

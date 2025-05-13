@@ -18,7 +18,7 @@ import { HEALTH_ARTICLE_DATA } from "./health-article-data";
 import { RECIPE_DATA } from "./recipe-data";
 import { ROUTINE_DATA } from "./routine-data";
 
-import type { IconSvgProps } from "@/types/common";
+import type { IconSvgProps } from "@/lib/types";
 import type { JSX } from "react";
 
 type Hierarchy = {

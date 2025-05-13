@@ -23,8 +23,9 @@ import {
 } from "@/components/kit/table";
 import { getLastCompletedLesson } from "@/db/querys/progress-querys";
 import { getProgressColor } from "@/lib/utils";
-import { LearningRoutes } from "@/types/resource";
 import { formatDate } from "@/utils/format";
+
+import type { LearningRoutes } from "@/lib/types";
 
 interface RouteProgressTableProps {
   userId: string;

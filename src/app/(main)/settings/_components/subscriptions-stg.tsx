@@ -34,7 +34,6 @@ import { FEATURE_PLAN_DATA } from "@/db/data/feature-plan-data";
 import { Payment, Subscription } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { PaymentHistory } from "@/types/common";
 import { formatDate } from "@/utils/format";
 
 import InfoField from "./info-field";
@@ -45,6 +44,8 @@ import {
   getPlanStatus,
   getPlanType,
 } from "../../(account)/_lib/utils";
+
+import type { PaymentHistory } from "@/lib/types";
 
 type Section =
   | "planState"

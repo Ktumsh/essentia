@@ -37,10 +37,12 @@ import {
 import { navConfig } from "@/config/nav.config";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { UserProfileData } from "@/types/auth";
+
 
 import ThemeToggle from "../layout/theme-toggle";
 import PaymentModal from "../payment/payment-modal";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface MainNavUserProps {
   session: Session | null;

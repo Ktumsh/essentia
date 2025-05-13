@@ -16,8 +16,9 @@ import {
 import { useChatContext } from "@/hooks/use-chat-context";
 import useChatName from "@/hooks/use-chat-name";
 import useLessonName from "@/hooks/use-lesson-name";
-import { UserProfileData } from "@/types/auth";
 import { formatDate, formatSegment } from "@/utils/format";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface NavbarLinksProps {
   user: UserProfileData | null;

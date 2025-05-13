@@ -22,7 +22,7 @@ import RouteList from "./route-list";
 import { useRouteProgress } from "../_hooks/use-route-progress";
 
 import type { StageProgressType } from "@/db/querys/progress-querys";
-import type { RouteResource, Stages } from "@/types/resource";
+import type { RouteResource, Stages } from "@/lib/types";
 
 const VideoModal = dynamic(() => import("./video-modal"), {
   ssr: false,

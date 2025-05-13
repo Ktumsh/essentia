@@ -9,13 +9,15 @@ import { Separator } from "@/components/kit/separator";
 import { useChatContext } from "@/hooks/use-chat-context";
 import useIsScrolled from "@/hooks/use-is-scrolled";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import FeedbackBox from "./feedback-box";
 import NavbarLinks from "./navbar-links";
 import NotificationList from "./notifications-list";
 import { VisibilitySelector } from "./visibility-selector";
 import AppSidebarToggle from "../sidebar/app-sidebar-toggle";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface DesktopHeaderProps {
   user: UserProfileData | null;

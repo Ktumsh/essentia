@@ -4,8 +4,6 @@ import { and, asc, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { Stages } from "@/types/resource";
-
 import {
   review,
   reviewQuestion,
@@ -14,6 +12,8 @@ import {
   route,
   ReviewQuestion,
 } from "../schema";
+
+import type { Stages } from "@/lib/types";
 
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);

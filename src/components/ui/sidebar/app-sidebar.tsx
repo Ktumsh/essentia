@@ -20,7 +20,7 @@ import { Sidebar, SidebarContent, useSidebar } from "@/components/kit/sidebar";
 import { useChatScrollEnd } from "@/hooks/use-chat-scroll-end";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, fetcher } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
+
 
 import AppFooter from "./app-footer";
 import AppHeader from "./app-header";
@@ -28,6 +28,8 @@ import ChatFooter from "./chat-footer";
 import ChatHeader from "./chat-header";
 import ChatSidebar from "./chat-sidebar";
 import MainSidebar from "./main-sidebar";
+
+import type { UserProfileData } from "@/lib/types";
 
 interface AppSidebarProps {
   session: Session | null;

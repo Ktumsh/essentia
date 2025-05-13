@@ -11,11 +11,12 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import useSubscription from "@/hooks/use-subscription";
-import { LearningRoutes } from "@/types/resource";
 
 import AccountDetails from "./account/account-details";
 import ProfileInfo from "./profile/profile-info";
 import SubscriptionDetails from "./subscription/subscription-details";
+
+import type { LearningRoutes } from "@/lib/types";
 
 interface AccountTabsProps {
   routes: LearningRoutes;

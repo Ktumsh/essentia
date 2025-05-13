@@ -6,14 +6,14 @@ import { memo, useState } from "react";
 
 import { EyeIcon } from "@/components/icons/status";
 
+import type { ExcerciseVideoType } from "@/db/data/exercise-video-data";
 import type { ArticleType } from "@/lib/types";
-import type { Video } from "@/types/resource";
 
 const CardModal = dynamic(() => import("./card-modal"), { ssr: false });
 
 interface CardItemProps {
   type: "article" | "routine";
-  item: ArticleType & Video;
+  item: ArticleType & ExcerciseVideoType;
 }
 
 const CardItem = ({ item, type }: CardItemProps) => {
@@ -31,7 +31,7 @@ const CardItem = ({ item, type }: CardItemProps) => {
             <div className="relative mx-auto size-full overflow-hidden rounded-2xl">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 z-10 bg-linear-to-b from-black/60 to-transparent md:to-70%"
+                className="absolute inset-0 z-10 bg-linear-to-b from-black/70 to-transparent md:to-80%"
               />
               <div
                 aria-hidden="true"

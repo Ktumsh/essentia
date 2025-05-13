@@ -16,14 +16,14 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import useSubscription from "@/hooks/use-subscription";
 import { cn } from "@/lib/utils";
-import { UserProfileData } from "@/types/auth";
-import { PaymentHistory } from "@/types/common";
 
 import AccesibilityStg from "./accesibility-stg";
 import AccountStg from "./account-stg";
 import NotificationsStg from "./notifications-stg";
 import SettingsOptsHeader from "./settings-opts-header";
 import SubscriptionsStg from "./subscriptions-stg";
+
+import type { PaymentHistory, UserProfileData } from "@/lib/types";
 
 interface SettingsTabsProps {
   user: UserProfileData | null;
