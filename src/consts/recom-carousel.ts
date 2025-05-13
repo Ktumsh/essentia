@@ -8,6 +8,7 @@ import {
   HeartbeatIcon,
 } from "@/components/ui/icons/miscellaneus";
 
+import { CLOUDINARY_BASE_URL } from "./cloudinary";
 import { INITIAL_CHAT_MESSAGES } from "./initial-chat-messages";
 
 import type { MaincapResources } from "@/types/resource";
@@ -15,8 +16,7 @@ import type { MaincapResources } from "@/types/resource";
 const nutritionalPlan = INITIAL_CHAT_MESSAGES[4].action;
 const healthRisk = INITIAL_CHAT_MESSAGES[5].action;
 
-const BASE_URL =
-  "https://res.cloudinary.com/dcub4itgg/image/upload/f_auto,q_auto/v1/essentia/maincap";
+const BASE_URL = `${CLOUDINARY_BASE_URL}/maincap`;
 
 export const MAINCAP_RESOURCES: MaincapResources[] = [
   {

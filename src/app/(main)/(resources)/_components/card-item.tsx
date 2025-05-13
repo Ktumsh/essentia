@@ -5,15 +5,10 @@ import Image from "next/image";
 import { memo, useState } from "react";
 
 import { EyeIcon } from "@/components/ui/icons/status";
-import { ResourceCard } from "@/types/resource";
+
+import type { ResourceCard, Video } from "@/types/resource";
 
 const CardModal = dynamic(() => import("./card-modal"), { ssr: false });
-
-type Video = {
-  videoTitle: string;
-  videoLink: string;
-  videoChannel?: string;
-};
 
 interface CardItemProps {
   type: "article" | "routine";
@@ -21,21 +16,8 @@ interface CardItemProps {
 }
 
 const CardItem = ({ item, type }: CardItemProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { slug, title, category, image, videoTitle, videoLink, videoChannel } =
-    item;
-
-  const video = {
-    videoTitle,
-    videoLink,
-    videoChannel,
-  };
-
-  const modal = {
-    isOpen,
-    setIsOpen,
-  };
-
+  const [open, setOpen] = useState(false);
+  const { slug, title, category, image } = item;
   return (
     <>
       <li
@@ -76,20 +58,13 @@ const CardItem = ({ item, type }: CardItemProps) => {
         </div>
         <button
           onClick={() => {
-            setIsOpen(true);
+            setOpen(true);
             history.replaceState(null, "", `#${slug}`);
           }}
           className="absolute inset-0"
         />
       </li>
-      <CardModal
-        {...{
-          type,
-          card: item,
-          video,
-          modal,
-        }}
-      />
+      <CardModal item={item} type={type} open={open} setOpen={setOpen} />
     </>
   );
 };

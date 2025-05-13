@@ -1,0 +1,1 @@
+ALTER TABLE "route" ALTER COLUMN "image" SET NOT NULL;

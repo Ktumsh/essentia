@@ -10,7 +10,7 @@ import AsideRight from "./aside-right";
 import MobileDailyTip from "./mobile-daily-tip";
 import RecomCard from "./recom-card";
 import Recomendations from "./recomendations";
-import Resources from "./resources";
+import ResourceGrid from "./resource-grid";
 import StorageMobile from "./storage-mobile";
 import UpgradeCard from "./upgrade-card";
 
@@ -70,7 +70,7 @@ const Home = ({ userData }: HomeProps) => {
                 </h2>
                 <div className="flex flex-col space-y-8 md:space-y-0">
                   <section className="px-6 md:px-0">
-                    <Resources />
+                    <ResourceGrid />
                   </section>
                   <MobileDailyTip facts={facts} loading={loading} />
                   {userData && <StorageMobile />}

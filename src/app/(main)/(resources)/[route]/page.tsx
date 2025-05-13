@@ -1,7 +1,8 @@
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { RESOURCES_DATA } from "@/consts/resources-data";
+import { RESOURCE_DATA } from "@/consts/resources-data";
 import {
   getCompletedLessons,
   getRouteProgress,
@@ -10,74 +11,71 @@ import {
 import { getStages, getRouteBySlug } from "@/db/querys/resource-querys";
 import { getUserProfileData } from "@/utils/profile";
 
-import ResourceWrapper from "../_components/resource-wrapper";
+import RouteWrapper from "../_components/route-wrapper";
+
+import type { RouteResource } from "@/types/resource";
 
 type Props = {
   params: Promise<{ route: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const routeSlug = (await params).route;
-  const routeData = RESOURCES_DATA.find((item) => item.route === routeSlug);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+  const routeSlug = params.route;
+  const routeData = RESOURCE_DATA.find((item) => item.slug === routeSlug);
 
   if (!routeData) {
     return { title: "Recurso no encontrado" };
   }
 
   return {
-    title: routeData.title,
+    title: routeData.name,
     alternates: {
       canonical: `/${routeSlug}`,
     },
   };
 }
 
-const ResourcePage = async (props: Props) => {
+const RoutePage = async (props: Props) => {
   const params = await props.params;
   const slug = params.route;
-  const staticResouce = RESOURCES_DATA.find((item) => item.route === slug);
+  const staticRes = RESOURCE_DATA.find((r) => r.slug === slug);
 
-  if (!staticResouce) return null;
+  if (!staticRes) redirect("/");
 
-  const dynamicResource = await getRouteBySlug(slug);
+  const [session, dynamicResource] = await Promise.all([
+    auth(),
+    getRouteBySlug(slug),
+  ]);
 
-  const resource = {
-    ...staticResouce,
-    ...dynamicResource,
-  };
+  if (!dynamicResource) redirect("/");
 
-  const stages = dynamicResource ? await getStages(resource.id) : [];
+  const resource = { ...staticRes, ...dynamicResource } as RouteResource;
 
-  const session = await auth();
+  const stages = await getStages(resource.id);
+
   const userId = session?.user?.id as string;
 
-  const profileData = userId ? await getUserProfileData({ userId }) : null;
+  const lessonIds = stages.flatMap((m) => m.lessons.map((lesson) => lesson.id));
 
-  const { isPremium } = profileData ?? {};
+  const [profileData, completedLessons, stageProgress, routeProgressData] =
+    await Promise.all([
+      userId ? getUserProfileData({ userId }) : Promise.resolve(null),
+      userId ? getCompletedLessons(userId, lessonIds) : Promise.resolve([]),
+      userId
+        ? Promise.all(stages.map((m) => getStageProgress(userId, m.stage.id)))
+        : Promise.resolve([]),
+      userId ? getRouteProgress(userId, resource.id) : Promise.resolve(null),
+    ]);
 
-  const lessonIds = stages.flatMap((mod) =>
-    mod.lessons.map((lesson) => lesson.id),
-  );
-
-  const completedLessons = userId
-    ? await getCompletedLessons(userId, lessonIds)
-    : [];
-
-  const stageProgress = userId
-    ? await Promise.all(
-        stages.map((mod) => getStageProgress(userId, mod.stage.id)),
-      )
-    : [];
-
-  const course = userId ? await getRouteProgress(userId, resource.id) : null;
-
+  const isPremium = profileData?.isPremium ?? false;
   const routeProgress = {
-    completed: course?.completed || false,
-    progress: course?.progress || 0,
+    completed: routeProgressData?.completed || false,
+    progress: routeProgressData?.progress || 0,
   };
 
   return (
-    <ResourceWrapper
+    <RouteWrapper
       userId={userId}
       isPremium={isPremium}
       resource={resource}
@@ -85,9 +83,11 @@ const ResourcePage = async (props: Props) => {
       completedLessons={completedLessons}
       stageProgress={stageProgress}
       routeProgress={routeProgress}
-      routeInitialized={!!course}
-    />
+      routeInitialized={!!routeProgressData}
+    >
+      <resource.component />
+    </RouteWrapper>
   );
 };
 
-export default ResourcePage;
+export default RoutePage;

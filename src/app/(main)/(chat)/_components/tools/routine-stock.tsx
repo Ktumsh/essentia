@@ -29,6 +29,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
+import { CLOUDINARY_BASE_URL } from "@/consts/cloudinary";
 import { cn } from "@/lib/utils";
 
 import StockFooter from "./stock-footer";
@@ -45,7 +46,7 @@ const RoutineStock = (routine: Routine) => {
   return (
     <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
       <StockHeader
-        imageSrc="/extras/exercise-routine.png"
+        imageSrc={`${CLOUDINARY_BASE_URL}/tool/routine`}
         title={routine.title ?? routine.goal}
         label="Rutina de ejercicios"
         infoItems={[

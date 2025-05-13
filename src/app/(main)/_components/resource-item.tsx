@@ -7,16 +7,14 @@ import { Card, CardHeader } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, getRouteColor, getRouteDetails } from "@/lib/utils";
 
-type ResoucesItemProps = {
-  index: number;
-  title: string;
-  subtitle: string;
-  href: string;
-  quote: string;
-};
+import type { ResourceDataType } from "@/consts/resources-data";
 
-const ResourcesItem = (props: ResoucesItemProps) => {
-  const { index, title, subtitle, href, quote } = props;
+interface ResourceItemProps extends ResourceDataType {
+  index: number;
+}
+
+const ResourceItem = (props: ResourceItemProps) => {
+  const { index, title, subtitle, slug, quote } = props;
   const isMobile = useIsMobile();
 
   const resourceDetails = getRouteDetails(title);
@@ -49,14 +47,14 @@ const ResourcesItem = (props: ResoucesItemProps) => {
             <p className="text-foreground/80 mt-1 text-sm leading-5">{quote}</p>
           </div>
           <Link
-            href={href}
+            href={slug}
             aria-label={"Ir al recurso " + title}
             className="absolute inset-0"
           />
         </Card>
       )}
       <Link
-        href={href}
+        href={slug}
         className={cn(
           getRouteColor(index, "gradient"),
           "relative flex aspect-auto min-h-36 min-w-36 flex-col items-center justify-center gap-2 rounded-2xl bg-linear-to-br/shorter transition first:rounded-tr-2xl! last:rounded-bl-2xl! odd:rounded-tr-sm odd:rounded-br-sm even:rounded-tl-sm even:rounded-bl-sm active:scale-[0.97] md:hidden [&:nth-child(2)]:rounded-tl-2xl [&:nth-child(5)]:rounded-br-2xl",
@@ -85,4 +83,4 @@ const ResourcesItem = (props: ResoucesItemProps) => {
   );
 };
 
-export default ResourcesItem;
+export default ResourceItem;

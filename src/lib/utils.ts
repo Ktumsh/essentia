@@ -274,8 +274,8 @@ export const getRouteIndex = (name: string): number => {
 export const getRouteDetails = (name: string) => {
   const routes = navConfig.asideMenuLinks;
   const resource = routes.find(
-    (resource) =>
-      resource.name.toLowerCase().normalize("NFD") ===
+    (r) =>
+      r.name.toLowerCase().normalize("NFD") ===
       name.toLowerCase().normalize("NFD"),
   );
   return resource;

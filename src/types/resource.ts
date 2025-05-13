@@ -4,7 +4,7 @@ import { StageProgressType } from "@/db/querys/progress-querys";
 
 import { IconSvgProps } from "./common";
 
-import type { Lesson, Review, Stage } from "@/db/schema";
+import type { Lesson, Review, Route, Stage } from "@/db/schema";
 
 export interface MaincapResources {
   id: number;
@@ -52,18 +52,11 @@ export type LearningRoutes = {
   completedAt: Date | null;
 }[];
 
-export interface Resources {
-  title: string;
-  subtitle: string;
-  intro: string;
+export interface RouteResource extends Route {
+  label: string;
   quote: string;
   videoTitle: string;
   videoLink: string;
-  videoImage: string;
-  description: string;
-  image: string;
-  imageFull: string;
-  route: string;
   component: FC;
   audience: string[];
   benefits: string[];

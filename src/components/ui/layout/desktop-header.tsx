@@ -57,7 +57,7 @@ const DesktopHeader = ({ user, scrollRef }: DesktopHeaderProps) => {
             </div>
           </div>
           <div className="absolute top-0 right-0 z-40 h-14 px-6">
-            <div className="text-foreground/80 bg-background flex size-full items-center justify-center gap-3 pl-4 text-sm font-normal">
+            <div className="text-foreground/80 flex size-full items-center justify-center gap-3 pl-4 text-sm font-normal">
               <FeedbackBox />
               {!isReadonly && chatId && (
                 <VisibilitySelector

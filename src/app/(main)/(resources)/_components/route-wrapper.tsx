@@ -1,9 +1,10 @@
 "use client";
 
 import { CheckCheck, Loader } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { memo, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
@@ -11,7 +12,6 @@ import { PlayButton } from "@/components/button-kit/play-button";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
-import { StageProgressType } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useParallax } from "@/hooks/use-parallax";
 import { useScrollRef } from "@/hooks/use-scroll-ref";
@@ -19,24 +19,28 @@ import { cn, getRouteColor, getRouteIndex } from "@/lib/utils";
 import { formatTitle } from "@/utils/format";
 
 import RouteList from "./route-list";
-import VideoModal from "./video-modal";
 import { useRouteProgress } from "../_hooks/use-route-progress";
 
-import type { Route } from "@/db/schema";
-import type { Resources, Stages } from "@/types/resource";
+import type { StageProgressType } from "@/db/querys/progress-querys";
+import type { RouteResource, Stages } from "@/types/resource";
 
-interface ResourceWrapperProps {
+const VideoModal = dynamic(() => import("./video-modal"), {
+  ssr: false,
+});
+
+interface RouteWrapperProps {
   userId: string;
-  resource: Route & Resources;
+  resource: RouteResource;
   stages: Stages[];
   isPremium?: boolean | null;
   completedLessons: string[];
   stageProgress: StageProgressType[];
   routeProgress: { completed: boolean; progress: number };
   routeInitialized: boolean;
+  children?: React.ReactNode;
 }
 
-const ResourceWrapper = ({
+const RouteWrapper = ({
   userId,
   resource,
   stages,
@@ -45,60 +49,68 @@ const ResourceWrapper = ({
   stageProgress,
   routeProgress,
   routeInitialized,
-}: ResourceWrapperProps) => {
+  children,
+}: RouteWrapperProps) => {
   const {
     id,
     slug,
-    title,
     name,
-    subtitle,
+    label,
     description,
     about,
     quote,
+    image,
     videoTitle,
     videoLink,
-    imageFull,
-    component: Component,
     audience,
     benefits,
     learningOutcomes,
   } = resource;
 
   const router = useRouter();
-
-  const route = { routeId: id, routeName: name };
-
-  const [isOpenVideo, setIsOpenVideo] = useState(false);
-
-  const isMobile = useIsMobile();
-
   const imageRef = useRef<HTMLImageElement>(null);
   const scrollRef = useScrollRef();
+  const isMobile = useIsMobile();
+
+  const [openVideo, setOpenVideo] = useState(false);
 
   useParallax(isMobile ? null : scrollRef, imageRef, { factor: 500 });
-
-  const firstStage = stages?.[0].stage.slug;
-  const firstLesson = stages?.[0].lessons[0].slug;
 
   const { processing, startRoute, continueRoute } = useRouteProgress({
     userId,
     routeId: id,
     slug,
-    firstStage,
-    firstLesson,
+    firstStage: stages[0]?.stage.slug,
+    firstLesson: stages[0]?.lessons[0].slug,
   });
 
-  const formatedTitle = formatTitle(name || title);
+  const lessons = useMemo(
+    () => stages.reduce((sum, s) => sum + s.lessons.length, 0),
+    [stages],
+  );
+  const reviews = useMemo(
+    () => stages.reduce((sum, s) => sum + (s.review ? 1 : 0), 0),
+    [stages],
+  );
+  const routeIndex = useMemo(() => getRouteIndex(name), [name]);
+  const formattedTitle = useMemo(() => formatTitle(name), [name]);
 
-  const routeIndex = getRouteIndex(name || title);
+  const handleStartOrContinue = useCallback(() => {
+    if (routeInitialized) {
+      continueRoute();
+    } else {
+      startRoute();
+    }
+  }, [routeInitialized, continueRoute, startRoute]);
 
-  const lessons = stages.reduce((acc, curr) => acc + curr.lessons.length, 0);
-  const reviews = stages.reduce((acc, curr) => acc + (curr.review ? 1 : 0), 0);
+  const handleAuthRedirect = useCallback(() => {
+    router.push(`/login?next=/${slug}`);
+  }, [router, slug]);
 
   return (
-    <>
+    <article id={slug}>
       <section
-        id={`introduccion-a-${formatedTitle}`}
+        id={`introduccion-a-${formattedTitle}`}
         className="relative overflow-hidden"
       >
         <div
@@ -111,8 +123,8 @@ const ResourceWrapper = ({
             ref={imageRef}
             priority
             quality={100}
-            src={imageFull}
-            alt={name || title}
+            src={image}
+            alt={name}
             width={1920}
             height={1280}
             className="animate-fade-in size-full object-cover object-center brightness-[0.85] transition-transform [transition-timing-function:cubic-bezier(0,0,0,1)] will-change-transform md:h-auto"
@@ -127,10 +139,10 @@ const ResourceWrapper = ({
                 (routeIndex === 2 || routeIndex === 5) && "text-black",
               )}
             >
-              {subtitle}
+              {label}
             </Badge>
             <h1 className="font-merriweather mb-4 text-3xl font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl md:text-5xl">
-              {title}
+              {name}
             </h1>
             <div className="mb-6 max-w-lg">
               <q className="text-sm text-white/90 drop-shadow-md md:text-lg">
@@ -141,7 +153,7 @@ const ResourceWrapper = ({
               {!routeProgress.completed && userId ? (
                 <ArrowLeftButton
                   size="lg"
-                  onClick={routeInitialized ? continueRoute : startRoute}
+                  onClick={handleStartOrContinue}
                   className={cn(
                     "flex-row-reverse rounded-lg bg-linear-to-r/shorter text-white duration-300 hover:scale-105 hover:saturate-150 [&_svg]:rotate-180",
                     getRouteColor(routeIndex, "gradient"),
@@ -163,7 +175,7 @@ const ResourceWrapper = ({
                 !routeProgress.completed && (
                   <ArrowLeftButton
                     size="lg"
-                    onClick={() => router.push(`/login?next=/${slug}`)}
+                    onClick={handleAuthRedirect}
                     className={cn(
                       "flex-row-reverse rounded-lg bg-linear-to-r/shorter text-white duration-300 hover:scale-105 hover:saturate-150 [&_svg]:rotate-180",
                       getRouteColor(routeIndex, "gradient"),
@@ -195,7 +207,7 @@ const ResourceWrapper = ({
               <PlayButton
                 size="lg"
                 variant="outline"
-                onClick={() => setIsOpenVideo(true)}
+                onClick={() => setOpenVideo(true)}
                 className="rounded-lg border-white/50 bg-white/20 text-white backdrop-blur-sm duration-300 hover:scale-105 hover:text-white hover:opacity-100 hover:saturate-150"
               >
                 Ver video introductorio
@@ -226,7 +238,7 @@ const ResourceWrapper = ({
         {stages && (
           <RouteList
             userId={userId}
-            route={route}
+            route={{ routeId: id, routeName: name }}
             stages={stages}
             about={about}
             slug={slug}
@@ -241,16 +253,16 @@ const ResourceWrapper = ({
             learningOutcomes={learningOutcomes}
           />
         )}
-        <Component />
+        {children}
       </PageWrapper>
       <VideoModal
         videoTitle={videoTitle}
         videoLink={videoLink}
-        isOpen={isOpenVideo}
-        setIsOpen={setIsOpenVideo}
+        isOpen={openVideo}
+        setIsOpen={setOpenVideo}
       />
-    </>
+    </article>
   );
 };
 
-export default memo(ResourceWrapper);
+export default memo(RouteWrapper);

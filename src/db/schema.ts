@@ -12,6 +12,7 @@ import {
   foreignKey,
   unique,
   date,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const user = table("user", {
@@ -245,9 +246,16 @@ export const route = table("route", {
   name: varchar("name", { length: 100 }).unique().notNull(),
   description: text("description").notNull(),
   about: text("about").notNull(),
+  image: text("image").notNull(),
+  audience: jsonb("audience").notNull(),
+  benefits: jsonb("benefits").notNull(),
+  learningOutcomes: jsonb("learning_outcomes").notNull(),
 });
 
-export type Route = InferSelectModel<typeof route>;
+export type Route = Omit<
+  InferSelectModel<typeof route>,
+  "audience" | "benefits" | "learningOutcomes"
+>;
 
 export const stage = table("stage", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
