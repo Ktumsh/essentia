@@ -47,3 +47,5 @@ next-env.d.ts
 
 /scripts
 certificates
+
+/db/seed

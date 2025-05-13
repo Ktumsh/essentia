@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { RESOURCE_DATA } from "@/consts/resources-data";
+import { RESOURCE_DATA } from "@/db/data/resources-data";
 import {
   getCompletedLessons,
   getRouteProgress,

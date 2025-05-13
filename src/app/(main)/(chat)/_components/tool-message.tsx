@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { TOOL_CREATING_MESSAGE_ALTERNATIVES } from "@/consts/tools";
+import { TOOL_CREATING_MESSAGE_ALTERNATIVES } from "../_lib/tool-helper";
 
 interface ToolMessageProps {
   toolName: string;

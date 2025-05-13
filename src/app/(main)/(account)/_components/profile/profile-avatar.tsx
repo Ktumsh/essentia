@@ -4,9 +4,9 @@ import Image from "next/image";
 import { memo, RefObject, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { AvatarIcon } from "@/components/ui/icons/miscellaneus";
 import { UserProfileData } from "@/types/auth";
 
 import EditAvatarModal from "./edit-avatar-modal";

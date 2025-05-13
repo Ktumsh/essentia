@@ -9,12 +9,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/kit/carousel";
-import { ResourceCard } from "@/types/resource";
 
 import NutritionCarouselItem from "./nutrition-carousel-item";
 
+import type { ArticleType } from "@/lib/types";
+
 interface NutritionCarouselProps {
-  data: Array<ResourceCard>;
+  data: Array<ArticleType>;
   startIndex: number;
   totalItems: number;
 }

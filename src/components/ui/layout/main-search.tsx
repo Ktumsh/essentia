@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
+import { SearchAIIcon } from "@/components/icons/action";
+import { HashFillIcon } from "@/components/icons/common";
 import { Button } from "@/components/kit/button";
 import {
   Command,
@@ -24,19 +26,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/kit/drawer";
-import {
-  MATCH_KEYS,
-  RECENT_SEARCHES_KEY,
-  MAX_RECENT_SEARCHES,
-  MAX_RESULTS,
-} from "@/consts/search-constants";
-import { SEARCH_DATA, SearchResult } from "@/consts/search-data";
+import { SEARCH_DATA, SearchResult } from "@/db/data/search-data";
 import useDebounce from "@/hooks/use-debounce";
 import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  MATCH_KEYS,
+  MAX_RECENT_SEARCHES,
+  MAX_RESULTS,
+  RECENT_SEARCHES_KEY,
+} from "@/lib/consts";
 import { formatText } from "@/utils/format";
-
-import { SearchAIIcon } from "../icons/action";
-import { HashFillIcon } from "../icons/common";
 
 interface MainSearchProps {
   isPremium: boolean;

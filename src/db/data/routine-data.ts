@@ -1,6 +1,6 @@
-import { ResourceCard } from "@/types/resource";
+import type { ArticleType } from "@/lib/types";
 
-export const ROUTINES: ResourceCard[] = [
+export const ROUTINE_DATA = [
   {
     id: 1,
     slug: "rutina-cardio",
@@ -183,4 +183,4 @@ Una rutina relajante para finalizar el día y aliviar el estrés.
 - **Postura de piernas sobre la pared:** 5 minutos de relajación.
     `,
   },
-];
+] as ArticleType[];

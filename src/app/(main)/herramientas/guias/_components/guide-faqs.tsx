@@ -7,7 +7,7 @@ import {
 import { Card } from "@/components/kit/card";
 import { cn } from "@/lib/utils";
 
-import type { Guide, GuideThemeColors } from "@/consts/guide-data";
+import type { Guide, GuideThemeColors } from "@/db/data/guide-data";
 
 interface GuideFaqsProps {
   guide: Guide;

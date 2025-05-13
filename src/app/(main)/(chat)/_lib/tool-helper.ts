@@ -4,6 +4,9 @@ import {
   HeartPulseIcon,
   SaladIcon,
 } from "lucide-react";
+import { FC } from "react";
+
+import type { IconSvgProps } from "@/types/common";
 
 export const TOOL_NAME_LABELS: Record<string, string> = {
   createHealthRisk: "Evaluaciones de salud",
@@ -76,7 +79,7 @@ export const TOOL_VISUALS: Record<
     borderMuted: string;
     gradient: string;
     text: string;
-    icon: React.ReactNode;
+    icon: FC<IconSvgProps>;
   }
 > = {
   createRoutine: {
@@ -85,7 +88,7 @@ export const TOOL_VISUALS: Record<
     borderMuted: "border-lime-300 dark:border-lime-700",
     gradient: "from-lime-600 to-lime-500",
     text: "text-lime-500",
-    icon: <DumbbellIcon className="size-4 text-white" />,
+    icon: DumbbellIcon,
   },
   createHealthRisk: {
     bg: "bg-blue-500",
@@ -93,7 +96,7 @@ export const TOOL_VISUALS: Record<
     borderMuted: "border-blue-300 dark:border-blue-700",
     gradient: "from-blue-600 to-blue-500",
     text: "text-blue-500",
-    icon: <HeartPulseIcon className="size-4 text-white" />,
+    icon: HeartPulseIcon,
   },
   createMoodTrack: {
     bg: "bg-fuchsia-500",
@@ -101,7 +104,7 @@ export const TOOL_VISUALS: Record<
     borderMuted: "border-fuchsia-300 dark:border-fuchsia-700",
     gradient: "from-fuchsia-500 to-fuchsia-500",
     text: "text-fuchsia-500",
-    icon: <BrainIcon className="size-4 text-white" />,
+    icon: BrainIcon,
   },
   createNutritionalPlan: {
     bg: "bg-red-500",
@@ -109,7 +112,7 @@ export const TOOL_VISUALS: Record<
     borderMuted: "border-red-300 dark:border-red-700",
     gradient: "from-red-500 to-red-500",
     text: "text-red-500",
-    icon: <SaladIcon className="size-4 text-white" />,
+    icon: SaladIcon,
   },
 };
 

@@ -39,7 +39,7 @@ import {
   SexualityIcon,
   WellbeingFillIcon,
   WellbeingIcon,
-} from "@/components/ui/icons/interface";
+} from "@/components/icons/interface";
 import {
   EmergenciesFillIcon,
   EmergenciesIcon,
@@ -47,7 +47,7 @@ import {
   GuidesIcon,
   KitFillIcon,
   KitIcon,
-} from "@/components/ui/icons/miscellaneus";
+} from "@/components/icons/miscellaneus";
 
 export const navConfig = {
   navLinks: [

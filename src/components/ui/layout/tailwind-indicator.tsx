@@ -1,4 +1,4 @@
-import { isProductionEnvironment } from "@/consts/env";
+import { isProductionEnvironment } from "@/lib/consts";
 
 const TailwindIndicator = () => {
   if (isProductionEnvironment) return null;

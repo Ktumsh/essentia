@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { MEDICINES_COLORS, MEDICINES_DATA } from "@/consts/medicines-data";
+import { MEDICINE_COLOR, MEDICINE_DATA } from "@/db/data/medicine-data";
 import { cn } from "@/lib/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
@@ -37,10 +37,10 @@ const Medicines = () => {
       />
       <Card className="rounded-tl-none border-l-4 border-blue-200 border-l-blue-500! p-4 pt-0 md:p-6 dark:border-blue-900/50">
         <Accordion type="multiple" className="w-full space-y-2">
-          {MEDICINES_DATA.map((category, index) => {
+          {MEDICINE_DATA.map((category, index) => {
             const theme =
-              MEDICINES_COLORS[category.id as keyof typeof MEDICINES_COLORS] ||
-              MEDICINES_COLORS[1];
+              MEDICINE_COLOR[category.id as keyof typeof MEDICINE_COLOR] ||
+              MEDICINE_COLOR[1];
             return (
               <AccordionItem key={category.id} value={`item-${index}`}>
                 <AccordionTrigger className="hover:no-underline">

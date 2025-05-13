@@ -1,6 +1,4 @@
-import type { ModalData } from "@/types/common";
-
-export const HEALTH_MODAL_DATA: ModalData[] = [
+export const HEALTH_MODAL_DATA = [
   {
     id: 1,
     modalTitle: "Más Allá de la Felicidad y la Satisfacción",
@@ -278,3 +276,5 @@ export const HEALTH_MODAL_DATA: ModalData[] = [
     `,
   },
 ];
+
+export type HealthModalDataType = (typeof HEALTH_MODAL_DATA)[number];

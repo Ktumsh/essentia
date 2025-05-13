@@ -6,10 +6,11 @@ import { useMemo } from "react";
 
 import { Card, CardHeader } from "@/components/kit/card";
 import { cn, getItemBackgroundColor } from "@/lib/utils";
-import { MaincapResources } from "@/types/resource";
+
+import type { MainHeroType } from "@/db/data/main-hero-data";
 
 interface RecomendationsItemProps {
-  item: MaincapResources;
+  item: MainHeroType;
   index: number;
 }
 

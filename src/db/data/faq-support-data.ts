@@ -1,4 +1,4 @@
-export const FAQ_SUPPORT = [
+export const FAQ_SUPPORT_DATA = [
   {
     id: "f1",
     question: "¿Qué es Essentia?",

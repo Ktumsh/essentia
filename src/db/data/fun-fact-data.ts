@@ -1,6 +1,4 @@
-import { HealthFact } from "@/types/common";
-
-export const HEALTH_FACTS: HealthFact[] = [
+export const FUN_FACT_DATA = [
   {
     fact: "Beber suficiente agua puede ayudar a mejorar tu concentración y reducir la fatiga.",
     image: "/facts/water.webp",
@@ -82,3 +80,5 @@ export const HEALTH_FACTS: HealthFact[] = [
     image: "/facts/coffee.webp",
   },
 ];
+
+export type HealthFact = (typeof FUN_FACT_DATA)[number];

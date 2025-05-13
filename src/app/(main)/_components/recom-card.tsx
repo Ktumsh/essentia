@@ -6,7 +6,7 @@ import {
   AIFillIcon,
   HealthCentersFillIcon,
   MedicalHistoryFillIcon,
-} from "@/components/ui/icons/interface";
+} from "@/components/icons/interface";
 
 import type { UserProfileData } from "@/types/auth";
 

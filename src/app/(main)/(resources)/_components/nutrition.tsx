@@ -8,8 +8,8 @@ import { useState } from "react";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Button } from "@/components/kit/button";
 import PaymentModal from "@/components/ui/payment/payment-modal";
-import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
-import { RECIPES } from "@/consts/recipes-data";
+import { RECIPE_DATA } from "@/db/data/recipe-data";
+import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
@@ -31,7 +31,7 @@ const Nutrition = () => {
 
   const { isTrialUsed } = useTrial();
 
-  const searchTerm = INITIAL_CHAT_MESSAGES[4].action;
+  const searchTerm = SUGGESTED_ACTION_DATA[4].action;
 
   const onCreatePlan = () => {
     if (isPremium) {
@@ -74,7 +74,11 @@ const Nutrition = () => {
               o Yogurt con berries.
             </p>
           </SectionTitle>
-          <NutritionCarousel data={RECIPES} startIndex={18} totalItems={15} />
+          <NutritionCarousel
+            data={RECIPE_DATA}
+            startIndex={18}
+            totalItems={15}
+          />
         </section>
         <section className="mb-16">
           <SectionTitle
@@ -88,7 +92,11 @@ const Nutrition = () => {
               plancha.
             </p>
           </SectionTitle>
-          <NutritionCarousel data={RECIPES} startIndex={0} totalItems={18} />
+          <NutritionCarousel
+            data={RECIPE_DATA}
+            startIndex={0}
+            totalItems={18}
+          />
         </section>
         <section className="mb-16">
           <SectionTitle
@@ -102,7 +110,11 @@ const Nutrition = () => {
               galletas de avena.
             </p>
           </SectionTitle>
-          <NutritionCarousel data={RECIPES} startIndex={33} totalItems={15} />
+          <NutritionCarousel
+            data={RECIPE_DATA}
+            startIndex={33}
+            totalItems={15}
+          />
         </section>
       </section>
       {session?.user && (

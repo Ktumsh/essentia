@@ -15,13 +15,13 @@ import {
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
-import { TOOL_NAME_LABELS, TOOL_VISUALS } from "@/consts/tools";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
 import ToolEmptyState from "./tool-empty-state";
 import ToolFilter from "./tool-filter";
 import { ToolPreview } from "./tool-preview";
+import { TOOL_NAME_LABELS, TOOL_VISUALS } from "../../../_lib/tool-helper";
 import { getResultTitle } from "../../../_lib/utils";
 
 import type { ChatTool } from "@/db/schema";

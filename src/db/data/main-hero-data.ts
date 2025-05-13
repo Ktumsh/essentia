@@ -2,20 +2,18 @@ import {
   AdditionalFillIcon,
   AIFillIcon,
   HealthCentersFillIcon,
-} from "@/components/ui/icons/interface";
-import { FruitIcon, HeartbeatIcon } from "@/components/ui/icons/miscellaneus";
+} from "@/components/icons/interface";
+import { FruitIcon, HeartbeatIcon } from "@/components/icons/miscellaneus";
+import { CLOUDINARY_BASE_URL } from "@/lib/consts";
 
-import { CLOUDINARY_BASE_URL } from "./cloudinary";
-import { INITIAL_CHAT_MESSAGES } from "./initial-chat-messages";
+import { SUGGESTED_ACTION_DATA } from "./suggested-action-data";
 
-import type { MaincapResources } from "@/types/resource";
-
-const nutritionalPlan = INITIAL_CHAT_MESSAGES[4].action;
-const healthRisk = INITIAL_CHAT_MESSAGES[5].action;
+const nutritionalPlan = SUGGESTED_ACTION_DATA[4].action;
+const healthRisk = SUGGESTED_ACTION_DATA[5].action;
 
 const BASE_URL = `${CLOUDINARY_BASE_URL}/maincap`;
 
-export const MAINCAP_RESOURCES: MaincapResources[] = [
+export const MAIN_HERO_DATA = [
   {
     id: 1,
     title: "Explora nuestras herramientas inteligentes",
@@ -77,3 +75,5 @@ export const MAINCAP_RESOURCES: MaincapResources[] = [
     requiresPremium: false,
   },
 ];
+
+export type MainHeroType = (typeof MAIN_HERO_DATA)[number];

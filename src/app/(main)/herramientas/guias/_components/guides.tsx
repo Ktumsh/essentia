@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { GUIDE_THEME_COLORS, GUIDES_DATA } from "@/consts/guide-data";
+import { GUIDE_THEME_COLORS, GUIDE_DATA } from "@/db/data/guide-data";
 import { cn } from "@/lib/utils";
 
 import DownloadGuideButton from "../../_components/download-guide-button";
@@ -23,7 +23,7 @@ const Guides = () => {
   return (
     <section className="@container/guides flex flex-col items-center">
       <div className="grid w-full gap-12 md:gap-6 @xl/guides:grid-cols-2 @5xl/guides:grid-cols-3">
-        {GUIDES_DATA.map((guide) => {
+        {GUIDE_DATA.map((guide) => {
           const theme =
             GUIDE_THEME_COLORS[guide.id as keyof typeof GUIDE_THEME_COLORS] ||
             GUIDE_THEME_COLORS[1];

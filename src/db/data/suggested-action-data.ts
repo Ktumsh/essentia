@@ -8,7 +8,7 @@ import {
   SaladIcon,
 } from "lucide-react";
 
-export const INITIAL_CHAT_MESSAGES = [
+export const SUGGESTED_ACTION_DATA = [
   {
     heading: "Mejorar mi bienestar emocional",
     action: `Recomiéndame actividades para mi bienestar emocional`,

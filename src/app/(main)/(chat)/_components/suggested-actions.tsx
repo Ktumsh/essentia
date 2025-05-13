@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/kit/button";
-import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
 import { cn, shuffleArray } from "@/lib/utils";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
@@ -18,7 +18,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
   const { isPremium } = props;
 
   const [suggestedActions, setSuggestedActions] = useState(
-    INITIAL_CHAT_MESSAGES,
+    SUGGESTED_ACTION_DATA,
   );
 
   useEffect(() => {

@@ -1,20 +1,8 @@
-import { FC, type JSX } from "react";
+import { FC } from "react";
 
 import { StageProgressType } from "@/db/querys/progress-querys";
 
-import { IconSvgProps } from "./common";
-
 import type { Lesson, Review, Route, Stage } from "@/db/schema";
-
-export interface MaincapResources {
-  id: number;
-  title: string;
-  description: string;
-  link: string;
-  image?: string;
-  icon: (props: IconSvgProps) => JSX.Element;
-  requiresPremium?: boolean;
-}
 
 export interface ReviewWithCount extends Review {
   questionCount?: number;
@@ -71,11 +59,6 @@ export interface Video {
   description?: string;
 }
 
-export interface ResourcesVideos {
-  section: string;
-  videos: Video[];
-}
-
 export type MedicineItem = {
   name: string;
   description: string;
@@ -103,12 +86,3 @@ export type SexualEmergency = {
   title: string;
   steps: SexualityStep[];
 };
-
-export interface ResourceCard {
-  id: number;
-  slug: string;
-  title: string;
-  image: string;
-  category?: string;
-  body: string;
-}

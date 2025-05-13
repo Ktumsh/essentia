@@ -9,7 +9,7 @@ import {
 import { es } from "date-fns/locale";
 import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 
-import { GUIDES_DATA } from "@/consts/guide-data";
+import { GUIDE_DATA } from "@/db/data/guide-data";
 
 export function formatDate(
   input: Date | string,
@@ -145,7 +145,7 @@ const CUSTOM_SEGMENTS: { [key: string]: string } = {
 export const formatSegment = (segment: string) => {
   if (CUSTOM_SEGMENTS[segment]) return CUSTOM_SEGMENTS[segment];
 
-  const guide = GUIDES_DATA.find((guide) => String(guide.id) === segment);
+  const guide = GUIDE_DATA.find((guide) => String(guide.id) === segment);
 
   if (guide) return guide.title;
 

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import { AddUserButton } from "@/components/button-kit/add-user-button";
 import { LoginButton } from "@/components/button-kit/login-button";
+import { LinkIcon } from "@/components/icons/action";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +17,6 @@ import {
   DialogTitle,
 } from "@/components/kit/dialog";
 
-import { LinkIcon } from "../icons/action";
 
 const WelcomeModal = () => {
   const router = useRouter();

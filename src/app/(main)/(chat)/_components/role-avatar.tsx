@@ -1,5 +1,5 @@
+import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/kit/avatar";
-import { AvatarIcon } from "@/components/ui/icons/miscellaneus";
 import Logo from "@/components/ui/layout/logo";
 
 export const BotAvatar = () => {

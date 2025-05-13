@@ -17,7 +17,7 @@ import { twMerge } from "tailwind-merge";
 
 import { navConfig } from "@/config/nav.config";
 import { siteConfig } from "@/config/site.config";
-import { HEALTH_FACTS } from "@/consts/health-facts";
+import { FUN_FACT_DATA } from "@/db/data/fun-fact-data";
 import { HealthFact } from "@/types/common";
 import { capitalize } from "@/utils/format";
 
@@ -109,7 +109,7 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 
 export const getRandomFacts = (
   num: number,
-  pool: HealthFact[] = HEALTH_FACTS,
+  pool: HealthFact[] = FUN_FACT_DATA,
 ): HealthFact[] => {
   const shuffled = pool.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, num);

@@ -1,25 +1,25 @@
 import { nanoid } from "nanoid";
-import { type JSX } from "react";
 
 import {
   AdditionalFillIcon,
   HealthCentersFillIcon,
   MedicalHistoryFillIcon,
-} from "@/components/ui/icons/interface";
+} from "@/components/icons/interface";
 import {
   EmergenciesFillIcon,
   GuidesFillIcon,
   KitFillIcon,
-} from "@/components/ui/icons/miscellaneus";
+} from "@/components/icons/miscellaneus";
 import { navConfig } from "@/config/nav.config";
-import routes from "@/db/data/routes.optimized.json";
+import routes from "@/db/data/01_routes.json";
 
-import { GUIDES_DATA } from "./guide-data";
-import { HEALTH_WELLNESS_ARTICLES } from "./health-wellness-articles";
-import { RECIPES } from "./recipes-data";
-import { ROUTINES } from "./routines-data";
+import { GUIDE_DATA } from "./guide-data";
+import { HEALTH_ARTICLE_DATA } from "./health-article-data";
+import { RECIPE_DATA } from "./recipe-data";
+import { ROUTINE_DATA } from "./routine-data";
 
 import type { IconSvgProps } from "@/types/common";
+import type { JSX } from "react";
 
 type Hierarchy = {
   lvl1: string | null;
@@ -514,21 +514,19 @@ const additionalsSearchData: SearchResult[] = [
   },
 ];
 
-const additionalsGuidesSearchData: SearchResult[] = GUIDES_DATA.map(
-  (guide) => ({
-    content: guide.title,
-    objectID: nanoid(),
-    type: "lvl2",
-    url: `/herramientas/guides/${guide.id}`,
-    hierarchy: {
-      lvl1: "Recursos Adicionales",
-      lvl2: "Guias",
-      lvl3: guide.title,
-    },
-  }),
-);
+const additionalsGuidesSearchData: SearchResult[] = GUIDE_DATA.map((guide) => ({
+  content: guide.title,
+  objectID: nanoid(),
+  type: "lvl2",
+  url: `/herramientas/guides/${guide.id}`,
+  hierarchy: {
+    lvl1: "Recursos Adicionales",
+    lvl2: "Guias",
+    lvl3: guide.title,
+  },
+}));
 
-const healthModalSearchData: SearchResult[] = HEALTH_WELLNESS_ARTICLES.map(
+const healthModalSearchData: SearchResult[] = HEALTH_ARTICLE_DATA.map(
   (data) => ({
     content: data.title,
     objectID: nanoid(),
@@ -542,7 +540,7 @@ const healthModalSearchData: SearchResult[] = HEALTH_WELLNESS_ARTICLES.map(
   }),
 );
 
-const fitnessModalSearchData: SearchResult[] = ROUTINES.map((data) => ({
+const fitnessModalSearchData: SearchResult[] = ROUTINE_DATA.map((data) => ({
   content: data.title,
   objectID: nanoid(),
   type: "lvl3",
@@ -554,7 +552,7 @@ const fitnessModalSearchData: SearchResult[] = ROUTINES.map((data) => ({
   },
 }));
 
-const nutritionModalSearchData: SearchResult[] = RECIPES.map((data) => ({
+const nutritionModalSearchData: SearchResult[] = RECIPE_DATA.map((data) => ({
   content: data.title,
   objectID: nanoid(),
   type: "lvl3",

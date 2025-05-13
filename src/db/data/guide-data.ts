@@ -1,7 +1,8 @@
-const BASE_URL =
-  "https://res.cloudinary.com/dcub4itgg/image/upload/f_auto,q_auto/v1/essentia/guide";
+import { CLOUDINARY_BASE_URL } from "@/lib/consts";
 
-export const GUIDES_DATA = [
+const BASE_URL = `${CLOUDINARY_BASE_URL}/guide`;
+
+export const GUIDE_DATA = [
   {
     id: 1,
     title: "Guía de primeros auxilios",
@@ -1116,7 +1117,7 @@ export const GUIDES_DATA = [
   },
 ];
 
-export type Guide = (typeof GUIDES_DATA)[number];
+export type Guide = (typeof GUIDE_DATA)[number];
 
 export const GUIDE_THEME_COLORS = {
   1: {

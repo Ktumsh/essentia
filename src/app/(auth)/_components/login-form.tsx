@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { authenticate } from "@/app/(auth)/login/actions";
+import { MailIcon } from "@/components/icons/miscellaneus";
 import { ButtonPassword } from "@/components/kit/button";
 import {
   Card,
@@ -26,7 +27,6 @@ import {
   FormMessage,
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
-import { MailIcon } from "@/components/ui/icons/miscellaneus";
 import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { LoginFormData, loginSchema } from "@/lib/form-schemas";
 import { getWelcomeLabel } from "@/lib/utils";

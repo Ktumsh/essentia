@@ -2,9 +2,14 @@ import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 
 import { CardHeader } from "@/components/kit/card";
-import { TOOL_IMAGE, TOOL_NAME_LABELS, TOOL_VISUALS } from "@/consts/tools";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
+
+import {
+  TOOL_IMAGE,
+  TOOL_NAME_LABELS,
+  TOOL_VISUALS,
+} from "../../../_lib/tool-helper";
 
 interface ToolFolderHeaderProps {
   toolName: string;
@@ -38,7 +43,7 @@ const ToolFolderHeader = ({
             visual.gradient,
           )}
         >
-          {visual.icon}
+          <visual.icon className="size-4 text-white" />
         </div>
         <h2 className="text-lg font-semibold tracking-tight text-balance text-white md:text-2xl">
           {label}

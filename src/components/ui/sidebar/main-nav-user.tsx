@@ -12,6 +12,7 @@ import { signOut } from "next-auth/react";
 import React, { useState } from "react";
 
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { Badge } from "@/components/kit/badge";
 import {
@@ -38,7 +39,6 @@ import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { UserProfileData } from "@/types/auth";
 
-import { AvatarIcon } from "../icons/miscellaneus";
 import ThemeToggle from "../layout/theme-toggle";
 import PaymentModal from "../payment/payment-modal";
 

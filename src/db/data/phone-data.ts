@@ -1,4 +1,4 @@
-export const PHONES_DATA = [
+export const PHONE_DATA = [
   {
     title: "Salud Responde",
     description:
@@ -19,7 +19,7 @@ export const PHONES_DATA = [
   },
 ];
 
-export type Phone = (typeof PHONES_DATA)[number];
+export type PhoneType = (typeof PHONE_DATA)[number];
 
 export const PHONE_COLORS = {
   bg: "bg-red-50 dark:bg-red-950",

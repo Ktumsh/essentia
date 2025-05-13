@@ -1,4 +1,4 @@
-export const SEXUALITY_EMERGENCY = [
+export const SEXUALITY_EMERGENCY_DATA = [
   {
     id: 1,
     title: "Emergencias de Salud Sexual",
@@ -139,9 +139,9 @@ export const SEXUALITY_EMERGENCY = [
   },
 ];
 
-export type SexualityEmergency = (typeof SEXUALITY_EMERGENCY)[number];
+export type SexualityEmergency = (typeof SEXUALITY_EMERGENCY_DATA)[number];
 
-export const SEXUALITY_EMERGENCY_COLORS = {
+export const SEXUALITY_EMERGENCY_DATA_COLORS = {
   1: {
     bg: "bg-rose-50 dark:bg-rose-950",
     bgMuted: "bg-rose-100 dark:bg-rose-900",
@@ -151,4 +151,5 @@ export const SEXUALITY_EMERGENCY_COLORS = {
   },
 };
 
-export type SexualityEmergencyColors = (typeof SEXUALITY_EMERGENCY_COLORS)[1];
+export type SexualityEmergencyColors =
+  (typeof SEXUALITY_EMERGENCY_DATA_COLORS)[1];

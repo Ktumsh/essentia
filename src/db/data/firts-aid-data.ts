@@ -1,4 +1,4 @@
-export const FIRST_AID = [
+export const FIRST_AID_DATA = [
   {
     id: 1,
     title: "Cómo actuar durante un paro cardíaco",
@@ -492,9 +492,9 @@ export const FIRST_AID = [
   },
 ];
 
-export type FirstAid = (typeof FIRST_AID)[number];
+export type FirstAid = (typeof FIRST_AID_DATA)[number];
 
-export const FIRST_AID_COLORS = {
+export const FIRST_AID_DATA_COLORS = {
   1: {
     bg: "bg-blue-50 dark:bg-blue-950",
     bgMuted: "bg-blue-100 dark:bg-blue-900",
@@ -545,4 +545,4 @@ export const FIRST_AID_COLORS = {
   },
 };
 
-export type FirstAidColors = (typeof FIRST_AID_COLORS)[1];
+export type FirstAidColors = (typeof FIRST_AID_DATA_COLORS)[1];

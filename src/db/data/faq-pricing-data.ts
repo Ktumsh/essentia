@@ -1,4 +1,4 @@
-export const FAQ_PRICING = [
+export const FAQ_PRICING_DATA = [
   {
     id: 1,
     question: "¿Qué incluye el plan gratuito de Essentia?",
@@ -102,4 +102,4 @@ export const FAQ_PRICING = [
   },
 ];
 
-export type FAQPricing = (typeof FAQ_PRICING)[number];
+export type FAQPricingType = (typeof FAQ_PRICING_DATA)[number];

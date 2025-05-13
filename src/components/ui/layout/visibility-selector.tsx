@@ -3,6 +3,7 @@
 import { ChevronDown, ChevronsUpDown, Globe, Lock } from "lucide-react";
 import { ReactNode, useMemo, useState } from "react";
 
+import { CheckCircledIcon } from "@/components/icons/common";
 import { Button } from "@/components/kit/button";
 import {
   Drawer,
@@ -22,7 +23,6 @@ import {
 import { useChatVisibility } from "@/hooks/use-chat-visibility";
 import { cn } from "@/lib/utils";
 
-import { CheckCircledIcon } from "../icons/common";
 
 export type VisibilityType = "private" | "public";
 

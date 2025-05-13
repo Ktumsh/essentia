@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-import { HEALTH_FACTS } from "@/consts/health-facts";
+import { FUN_FACT_DATA } from "@/db/data/fun-fact-data";
 import { getRandomFacts } from "@/lib/utils";
 import { HealthFact } from "@/types/common";
 
@@ -80,7 +80,7 @@ export const dailyFacts = async (): Promise<HealthFact[]> => {
     usedFacts = parsedData.usedFacts || [];
   }
 
-  const remainingFacts: HealthFact[] = HEALTH_FACTS.filter(
+  const remainingFacts: HealthFact[] = FUN_FACT_DATA.filter(
     (fact) => !usedFacts.some((usedFact) => usedFact.fact === fact.fact),
   );
 

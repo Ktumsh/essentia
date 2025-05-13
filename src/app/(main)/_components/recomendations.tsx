@@ -6,7 +6,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/kit/carousel";
-import { MAINCAP_RESOURCES } from "@/consts/recom-carousel";
+import { MAIN_HERO_DATA } from "@/db/data/main-hero-data";
 
 import RecomendationsItem from "./recomendations-item";
 
@@ -24,7 +24,7 @@ const Recomendations = ({ isPremium }: RecomendationsProps) => {
       plugins={[AutoPlay({ delay: 8000 })]}
     >
       <CarouselContent>
-        {MAINCAP_RESOURCES.filter(
+        {MAIN_HERO_DATA.filter(
           (item) => isPremium || !item.requiresPremium,
         ).map((item, index) => (
           <CarouselItem

@@ -1,4 +1,4 @@
-import { LEGAL_DATA } from "@/consts/legal-data";
+import { LEGAL_DATA } from "@/db/data/legal-data";
 
 import LegalWrapper from "../_components/legal-wrapper";
 

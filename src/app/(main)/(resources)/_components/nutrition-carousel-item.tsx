@@ -7,9 +7,9 @@ import { Button } from "@/components/kit/button";
 
 import NutritionModal from "./nutrition-modal";
 
-import type { ResourceCard } from "@/types/resource";
+import type { ArticleType } from "@/lib/types";
 
-const NutritionCarouselItem = (props: ResourceCard) => {
+const NutritionCarouselItem = (props: ArticleType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { slug, title, image } = props;

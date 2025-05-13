@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/kit/card";
-import { PHONE_COLORS, PHONES_DATA } from "@/consts/phones";
+import { PHONE_COLORS, PHONE_DATA } from "@/db/data/phone-data";
 import { cn } from "@/lib/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
@@ -24,7 +24,7 @@ const Phones = () => {
         icon={<Ambulance className={cn("size-5", theme.text)} />}
       />
       <div className="no-scrollbar inline-flex w-full max-w-full flex-1 snap-x snap-mandatory gap-4 overflow-x-auto md:grid md:gap-12 @xl/phones:grid-cols-2 @5xl/phones:grid-cols-3">
-        {PHONES_DATA.map((phone, index) => {
+        {PHONE_DATA.map((phone, index) => {
           return (
             <Card
               key={index}

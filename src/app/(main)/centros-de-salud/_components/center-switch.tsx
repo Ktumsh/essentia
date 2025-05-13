@@ -1,8 +1,8 @@
 "use client";
 
+import { HospitalIcon, PharmacyIcon } from "@/components/icons/miscellaneus";
 import { Switch } from "@/components/kit/switch";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { HospitalIcon, PharmacyIcon } from "@/components/ui/icons/miscellaneus";
 
 interface Props {
   onSwitchChange: (value: boolean) => void;

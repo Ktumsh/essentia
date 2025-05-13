@@ -2,6 +2,7 @@ import { HelpCircleIcon, Info } from "lucide-react";
 import Link from "next/link";
 import { memo, useMemo } from "react";
 
+import { LinkIcon } from "@/components/icons/action";
 import { Button } from "@/components/kit/button";
 import {
   Popover,
@@ -9,7 +10,6 @@ import {
   PopoverTrigger,
 } from "@/components/kit/popover";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { LinkIcon } from "@/components/ui/icons/action";
 
 import type { JSX } from "react";
 

@@ -1,4 +1,4 @@
-import { IconSvgProps } from "@/types/common";
+import type { IconSvgProps } from "@/types/common";
 
 const EyeIcon = ({ id, ...props }: IconSvgProps) => {
   return (

@@ -4,7 +4,7 @@ import {
   FacebookIcon,
   InstagramIcon,
   TwitterIcon,
-} from "@/components/ui/icons/media";
+} from "@/components/icons/media";
 import Logo from "@/components/ui/layout/logo";
 import ThemeToggle from "@/components/ui/layout/theme-toggle";
 import { navConfig } from "@/config/nav.config";
@@ -25,7 +25,7 @@ const AuthFooter = () => {
                 </div>
               </Link>
               <p className="text-center text-sm antialiased">
-                <span>© 2024 Essentia</span>
+                <span>© 2025 Essentia</span>
               </p>
             </div>
             <ThemeToggle />

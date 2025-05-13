@@ -1,6 +1,6 @@
-import { ResourceCard } from "@/types/resource";
+import type { ArticleType } from "@/lib/types";
 
-export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
+export const HEALTH_ARTICLE_DATA = [
   {
     id: 1,
     slug: "mas-alla-de-la-felicidad-y-la-satisfaccion",
@@ -275,4 +275,4 @@ export const HEALTH_WELLNESS_ARTICLES: ResourceCard[] = [
   *Fuente del artículo:* [Bion3 - El Sueño y el Equilibrio](https://www.bion3.cl/es-cl/articulos/salud-y-bienestar/el-sueno-la-clave-para-preservar-el-balance)
     `,
   },
-];
+] as ArticleType[];

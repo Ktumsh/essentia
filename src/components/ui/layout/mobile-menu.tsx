@@ -9,6 +9,7 @@ import React, { Fragment, useState } from "react";
 
 import { AddUserButton } from "@/components/button-kit/add-user-button";
 import { LoginButton } from "@/components/button-kit/login-button";
+import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
@@ -39,7 +40,6 @@ import FeedbackBox from "./feedback-box";
 import Greeting from "./greeting";
 import Logo from "./logo";
 import ThemeToggle from "./theme-toggle";
-import { AvatarIcon } from "../icons/miscellaneus";
 import PaymentModal from "../payment/payment-modal";
 
 interface MobileMenuProps {

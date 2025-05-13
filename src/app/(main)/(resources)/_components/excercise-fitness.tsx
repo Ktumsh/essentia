@@ -9,7 +9,7 @@ import { useState } from "react";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Button } from "@/components/kit/button";
 import PaymentModal from "@/components/ui/payment/payment-modal";
-import { INITIAL_CHAT_MESSAGES } from "@/consts/initial-chat-messages";
+import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
@@ -31,7 +31,7 @@ const ExcerciseFitness = () => {
 
   const { isTrialUsed } = useTrial();
 
-  const searchTerm = INITIAL_CHAT_MESSAGES[1].action;
+  const searchTerm = SUGGESTED_ACTION_DATA[1].action;
 
   const onCreateRoutine = () => {
     if (isPremium) {

@@ -5,10 +5,10 @@ import {
   AccordionTrigger,
 } from "@/components/kit/accordion";
 
-import type { FAQPricing } from "@/consts/faq-pricing";
+import type { FAQPricingType } from "@/db/data/faq-pricing-data";
 
 interface FAQItemProps {
-  faqs: FAQPricing[];
+  faqs: FAQPricingType[];
 }
 
 const FAQItems = ({ faqs }: FAQItemProps) => {

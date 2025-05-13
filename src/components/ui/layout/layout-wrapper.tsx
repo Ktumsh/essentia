@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useMemo, useRef } from "react";
 
+import { HomeFillIcon } from "@/components/icons/interface";
 import { Button } from "@/components/kit/button";
 import { ScrollArea } from "@/components/kit/scroll-area";
 import { SidebarInset } from "@/components/kit/sidebar";
@@ -20,7 +21,6 @@ import ButtonUp from "./button-up";
 import DesktopHeader from "./desktop-header";
 import MobileHeader from "./mobile-header";
 import WelcomeModal from "./welcome-modal";
-import { HomeFillIcon } from "../icons/interface";
 import { AppSidebar } from "../sidebar/app-sidebar";
 
 const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];

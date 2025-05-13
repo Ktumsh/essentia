@@ -1,4 +1,4 @@
-export const EMERGENCY_STEPS = [
+export const EMERGENCY_STEPS_DATA = [
   {
     id: 1,
     title: "Antes de una emergencia",
@@ -129,9 +129,9 @@ Una vez controlada la emergencia, este plan te guiará en la recuperación y mej
   },
 ];
 
-export type EmergencySteps = (typeof EMERGENCY_STEPS)[number];
+export type EmergencySteps = (typeof EMERGENCY_STEPS_DATA)[number];
 
-export const EMERGENCY_STEPS_COLORS = {
+export const EMERGENCY_STEPS_DATA_COLORS = {
   1: {
     bg: "bg-orange-50 dark:bg-orange-950",
     bgMuted: "bg-orange-100 dark:bg-orange-900",
@@ -148,4 +148,4 @@ export const EMERGENCY_STEPS_COLORS = {
   },
 };
 
-export type EmergencyStepsColors = (typeof EMERGENCY_STEPS_COLORS)[1];
+export type EmergencyStepsColors = (typeof EMERGENCY_STEPS_DATA_COLORS)[1];

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { HomeIcon } from "@/components/icons/interface";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
@@ -19,7 +20,6 @@ import { Separator } from "@/components/kit/separator";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
-import { HomeIcon } from "../icons/interface";
 
 import type { Payment } from "@/db/schema";
 

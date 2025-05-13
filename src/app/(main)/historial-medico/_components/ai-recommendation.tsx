@@ -12,6 +12,7 @@ import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { SaveButton } from "@/components/button-kit/save-button";
 import { ShareButton } from "@/components/button-kit/share-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { LoaderAIIcon } from "@/components/icons/status";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,7 +53,6 @@ import {
 } from "@/components/kit/tabs";
 import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { LoaderAIIcon } from "@/components/ui/icons/status";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";

@@ -16,6 +16,7 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState, useRef } from "react";
 
+import { HospitalIcon, PharmacyIcon } from "@/components/icons/miscellaneus";
 import { Button } from "@/components/kit/button";
 import {
   Tabs,
@@ -23,7 +24,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { HospitalIcon, PharmacyIcon } from "@/components/ui/icons/miscellaneus";
 import { cn } from "@/lib/utils";
 
 const HelpContent = () => {

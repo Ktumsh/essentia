@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useState } from "react";
 
+import { LinkIcon } from "@/components/icons/action";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
@@ -21,7 +22,6 @@ import { useTrial } from "@/hooks/use-trial";
 import { cn } from "@/lib/utils";
 import { UserProfileData } from "@/types/auth";
 
-import { LinkIcon } from "../icons/action";
 import PaymentModal from "../payment/payment-modal";
 
 interface ProfileMessageProps {

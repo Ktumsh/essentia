@@ -10,9 +10,9 @@ import {
 import { Badge } from "@/components/kit/badge";
 import { Card } from "@/components/kit/card";
 import {
-  SEXUALITY_EMERGENCY,
-  SEXUALITY_EMERGENCY_COLORS,
-} from "@/consts/sexuality-emergency";
+  SEXUALITY_EMERGENCY_DATA,
+  SEXUALITY_EMERGENCY_DATA_COLORS,
+} from "@/db/data/sexuality-emergency-data";
 import { cn } from "@/lib/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
@@ -30,16 +30,16 @@ const SexualityEmergencyCard = () => {
       />
       <Card className="rounded-tl-none border-l-4 border-rose-200 border-l-rose-500! p-4 pt-0 md:p-6 dark:border-rose-900/50">
         <Accordion
-          defaultValue={String(SEXUALITY_EMERGENCY[0].id)}
+          defaultValue={String(SEXUALITY_EMERGENCY_DATA[0].id)}
           type="single"
           collapsible
           className="w-full"
         >
-          {SEXUALITY_EMERGENCY.map((item, index) => {
+          {SEXUALITY_EMERGENCY_DATA.map((item, index) => {
             const theme =
-              SEXUALITY_EMERGENCY_COLORS[
-                item.id as keyof typeof SEXUALITY_EMERGENCY_COLORS
-              ] || SEXUALITY_EMERGENCY_COLORS[1];
+              SEXUALITY_EMERGENCY_DATA_COLORS[
+                item.id as keyof typeof SEXUALITY_EMERGENCY_DATA_COLORS
+              ] || SEXUALITY_EMERGENCY_DATA_COLORS[1];
 
             return (
               <AccordionItem key={index} value={String(item.id)}>

@@ -3,6 +3,7 @@
 import { Trash2, Upload } from "lucide-react";
 import { ChangeEvent, FC, RefObject, useState } from "react";
 
+import { AddPhotoIcon } from "@/components/icons/action";
 import { Button } from "@/components/kit/button";
 import {
   Drawer,
@@ -17,7 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
-import { AddPhotoIcon } from "@/components/ui/icons/action";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProfileImageDropdownProps {

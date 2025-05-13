@@ -1,4 +1,4 @@
-export const MEDICINES_DATA = [
+export const MEDICINE_DATA = [
   {
     id: 1,
     category: "Analgésicos y Antiinflamatorios",
@@ -218,10 +218,10 @@ export const MEDICINES_DATA = [
   },
 ];
 
-export type MedicineCategory = (typeof MEDICINES_DATA)[number];
-export type Medicine = (typeof MEDICINES_DATA)[number]["items"][number];
+export type MedicineCategory = (typeof MEDICINE_DATA)[number];
+export type Medicine = (typeof MEDICINE_DATA)[number]["items"][number];
 
-export const MEDICINES_COLORS = {
+export const MEDICINE_COLOR = {
   1: {
     text: "text-red-600 dark:text-red-400",
     bg: "bg-red-50 dark:bg-red-950",

@@ -5,6 +5,7 @@ import { startTransition, useMemo, useOptimistic, useState } from "react";
 
 import { CHAT_MODELS } from "@/app/(main)/(chat)/_lib/models";
 import { saveChatModelAsCookie } from "@/app/(main)/(chat)/actions";
+import { CheckCircledIcon } from "@/components/icons/common";
 import { Button } from "@/components/kit/button";
 import {
   Drawer,
@@ -23,7 +24,6 @@ import {
 } from "@/components/kit/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-import { CheckCircledIcon } from "../icons/common";
 
 export function ModelSelector({
   selectedModelId,

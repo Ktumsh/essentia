@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Card, CardFooter } from "@/components/kit/card";
-import { TOOL_SLUGS } from "@/consts/tools";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
 import ToolFolderHeader from "./tool-folder-header";
+import { TOOL_SLUGS } from "../../../_lib/tool-helper";
 
 interface ToolFolderProps {
   group: {

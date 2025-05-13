@@ -3,7 +3,6 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
-import { Badge } from "@/components/kit/badge";
 import {
   ExerciseFillIcon,
   ForAllAgesFillIcon,
@@ -11,7 +10,8 @@ import {
   NutritionFillIcon,
   SexualityFillIcon,
   WellbeingFillIcon,
-} from "@/components/ui/icons/interface";
+} from "@/components/icons/interface";
+import { Badge } from "@/components/kit/badge";
 
 const ResourcesSection = () => {
   const ref = useRef(null);

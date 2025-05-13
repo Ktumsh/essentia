@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { LinkIcon } from "@/components/ui/icons/action";
+import { LinkIcon } from "@/components/icons/action";
 import { cn } from "@/lib/utils";
 
 const FooterText = ({ className }: { className?: string }) => {

@@ -220,7 +220,7 @@ const LegalWrapper = ({
             <div className="mt-12 border-t border-gray-100 pt-6">
               <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                 <p className="text-sm text-gray-500">
-                  © 2024 Essentia. Todos los derechos reservados.
+                  © 2025 Essentia. Todos los derechos reservados.
                 </p>
                 <Link href="#legal-heading">
                   <Button variant="outline" size="sm" className="self-end">
