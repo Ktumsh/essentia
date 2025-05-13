@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+/* import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -24,3 +24,4 @@ async function seedExtraFields() {
 }
 
 await seedExtraFields();
+ */

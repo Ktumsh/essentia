@@ -14,10 +14,10 @@ interface ResourceItemProps extends ResourceDataType {
 }
 
 const ResourceItem = (props: ResourceItemProps) => {
-  const { index, title, subtitle, slug, quote } = props;
+  const { index, name, label, slug, quote } = props;
   const isMobile = useIsMobile();
 
-  const resourceDetails = getRouteDetails(title);
+  const resourceDetails = getRouteDetails(name);
 
   if (!resourceDetails) return null;
 
@@ -37,18 +37,18 @@ const ResourceItem = (props: ResourceItemProps) => {
               />
             </div>
             <span className="text-xxs text-muted-foreground absolute top-6 right-6 font-bold tracking-wide uppercase">
-              {subtitle}
+              {label}
             </span>
           </CardHeader>
           <div className="p-6 pt-3">
             <h3 className="text-foreground font-merriweather text-lg font-bold">
-              {title}
+              {name}
             </h3>
             <p className="text-foreground/80 mt-1 text-sm leading-5">{quote}</p>
           </div>
           <Link
             href={slug}
-            aria-label={"Ir al recurso " + title}
+            aria-label={"Ir al recurso " + name}
             className="absolute inset-0"
           />
         </Card>
@@ -62,10 +62,10 @@ const ResourceItem = (props: ResourceItemProps) => {
       >
         <div className="z-10 flex w-full flex-1 shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">
           <span className="text-xxs font-bold tracking-wide text-white/70 uppercase">
-            {subtitle}
+            {label}
           </span>
           <h3 className="text-[17px] font-semibold text-white sm:text-xl">
-            {title}
+            {name}
           </h3>
         </div>
         <div className="flex w-full items-end justify-between p-4 pt-0 text-white sm:p-5">
