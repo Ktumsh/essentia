@@ -16,7 +16,7 @@ export const FAQ_PRICING_DATA = [
     question:
       "¿Cuáles son las diferencias entre el plan Premium y Premium Plus?",
     answer:
-      "Premium Plus incluye todo lo del plan Premium, pero sin límites: recomendaciones con IA ilimitadas, mensajes ilimitados en el chat, documentos médicos ilimitados, organización inteligente del historial y seguimiento de progreso agrupado por herramientas de IA.",
+      "Premium Plus incluye todo lo del plan Premium, pero sin límites: recomendaciones con IA ilimitadas, mensajes ilimitados en el chat, documentos médicos ilimitados y seguimiento de progreso agrupado por herramientas de IA.",
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const FAQ_PRICING_DATA = [
     id: 6,
     question: "¿Qué incluye el plan Premium Plus?",
     answer:
-      "Incluye todas las funciones del plan Premium, pero sin límites: IA con mensajes y recomendaciones ilimitadas, documentos médicos sin tope, seguimiento agrupado por herramienta de IA y organización inteligente del historial.",
+      "Incluye todas las funciones del plan Premium, pero sin límites: IA con mensajes y recomendaciones ilimitadas, documentos médicos sin tope y seguimiento agrupado por herramienta de IA.",
   },
   {
     id: 7,

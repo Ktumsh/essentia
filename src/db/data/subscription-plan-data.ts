@@ -61,8 +61,6 @@ export const SUBSCRIPTION_PLAN_DATA = [
       "Documentos médicos ilimitados",
       "Recomendaciones con IA ilimitadas",
       "Mensajes ilimitados en el chat Essentia AI",
-      "Sugerencias automáticas según tu actividad y documentos",
-      "Organización inteligente con filtros automáticos por tipo y fecha",
       "Seguimiento de hábitos y progreso agrupado por herramienta de IA",
     ],
   },
