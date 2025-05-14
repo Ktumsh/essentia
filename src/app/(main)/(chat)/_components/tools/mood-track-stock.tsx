@@ -29,12 +29,22 @@ import { getActivityColor, getActivityTextColor } from "../../_lib/utils";
 
 import type { MoodTrack } from "../../_lib/tool-schemas";
 
-const MoodTrackStock = (moodTrack: MoodTrack) => {
+interface MoodTrackStockProps {
+  moodTrack: MoodTrack;
+  className?: string;
+}
+
+const MoodTrackStock = ({ moodTrack, className }: MoodTrackStockProps) => {
   const [activeTab, setActiveTab] = useState("activities");
   const [selectedActivity, setSelectedActivity] = useState<number | null>(null);
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
+    <Card
+      className={cn(
+        "dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300",
+        className,
+      )}
+    >
       <StockHeader
         imageSrc={`${CLOUDINARY_BASE_URL}/tool/mood-track`}
         title={moodTrack.title ?? "Actividades de Bienestar"}

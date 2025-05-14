@@ -47,7 +47,12 @@ import {
 
 import type { HealthRisk } from "../../_lib/tool-schemas";
 
-const HealthRiskStock = (healthRisk: HealthRisk) => {
+interface HealthRiskStockProps {
+  healthRisk: HealthRisk;
+  className?: string;
+}
+
+const HealthRiskStock = ({ healthRisk, className }: HealthRiskStockProps) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const riskItems = [
@@ -92,7 +97,12 @@ const HealthRiskStock = (healthRisk: HealthRisk) => {
   };
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
+    <Card
+      className={cn(
+        "dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300",
+        className,
+      )}
+    >
       <StockHeader
         imageSrc={`${CLOUDINARY_BASE_URL}/tool/health-risk`}
         title={healthRisk.title ?? "Evaluación de Riesgos de Salud"}

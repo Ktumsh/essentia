@@ -50,7 +50,6 @@ const ChatHeader = () => {
                   variant="gradient"
                   onClick={() => {
                     setOpen(true);
-                    setOpenMobile(false);
                   }}
                   className="bg-premium-plus! hover:text-white active:text-white"
                 >
@@ -64,9 +63,9 @@ const ChatHeader = () => {
               tooltip="Nuevo chat"
               isActive
               onClick={() => {
-                setOpenMobile(false);
                 router.push("/essentia-ai");
                 router.refresh();
+                setOpenMobile(false);
               }}
               className="dark:data-[active=true]:bg-accent/50 dark:border-alternative/50 dark:hover:data-[active=true]:bg-accent/50 mb-2 justify-center rounded-md border text-sm focus-visible:outline-hidden data-[active=true]:bg-slate-50 data-[active=true]:hover:bg-slate-50"
             >

@@ -14,7 +14,6 @@ import { SubscriptionProvider } from "@/hooks/use-subscription";
 import { UserProfileProvider } from "@/hooks/use-user-profile";
 import { UserSubscriptionProvider } from "@/hooks/use-user-subscription";
 
-
 import { ChatProvider } from "../hooks/use-chat-context";
 import { PlanProvider } from "../hooks/use-current-plan";
 import { NotificationProvider } from "../hooks/use-notification";

@@ -17,11 +17,18 @@ export function ToolPreview({
 }) {
   switch (toolName) {
     case "createRoutine":
-      return <RoutineStock {...result.routine} />;
+      return (
+        <RoutineStock routine={result.routine} className="mb-0! shadow-none!" />
+      );
     case "createHealthRisk":
       return <HealthRiskStock {...result.healthRisk} />;
     case "createNutritionalPlan":
-      return <NutritionPlanStock {...result.nutritionalPlan} />;
+      return (
+        <NutritionPlanStock
+          nutritionalPlan={result.nutritionalPlan}
+          className="mb-0! shadow-none!"
+        />
+      );
     case "createMoodTrack":
       return <MoodTrackStock {...result.moodTrack} />;
     case "createTrackTask":

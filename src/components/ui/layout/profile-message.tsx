@@ -25,7 +25,6 @@ import PaymentModal from "../payment/payment-modal";
 
 import type { UserProfileData } from "@/lib/types";
 
-
 interface ProfileMessageProps {
   user: UserProfileData | null;
   session: Session | null;
@@ -49,6 +48,9 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
     "/soporte",
     "/blog",
     "/planes",
+    "/terminos",
+    "/privacidad",
+    "/cookies",
     "/payment/success",
     "/payment/cancel",
   ];

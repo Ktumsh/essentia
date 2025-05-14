@@ -37,14 +37,24 @@ import StockHeader from "./stock-header";
 
 import type { Routine } from "../../_lib/tool-schemas";
 
-const RoutineStock = (routine: Routine) => {
+interface RoutineStockProps {
+  routine: Routine;
+  className?: string;
+}
+
+const RoutineStock = ({ routine, className }: RoutineStockProps) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   /* const fileName = `${routine.goal.replace(" ", "-")}.png`;
   const { ref, downloadImage } = useDownloadTool(fileName); */
 
   return (
-    <Card className="dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300">
+    <Card
+      className={cn(
+        "dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300",
+        className,
+      )}
+    >
       <StockHeader
         imageSrc={`${CLOUDINARY_BASE_URL}/tool/routine`}
         title={routine.title ?? routine.goal}

@@ -13,7 +13,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
 
-
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
 import { PreviewAttachment } from "./preview-attachment";
@@ -296,16 +295,18 @@ const PurePreviewMessage = ({
                       <Weather weatherAtLocation={result} />
                     )}
                     {toolName === "createRoutine" && (
-                      <RoutineStock {...result.routine} />
+                      <RoutineStock routine={result.routine} />
                     )}
                     {toolName === "createHealthRisk" && (
-                      <HealthRiskStock {...result.healthRisk} />
+                      <HealthRiskStock healthRisk={result.healthRisk} />
                     )}
                     {toolName === "createNutritionalPlan" && (
-                      <NutritionPlanStock {...result.nutritionalPlan} />
+                      <NutritionPlanStock
+                        nutritionalPlan={result.nutritionalPlan}
+                      />
                     )}
                     {toolName === "createMoodTrack" && (
-                      <MoodTrackStock {...result.moodTrack} />
+                      <MoodTrackStock moodTrack={result.moodTrack} />
                     )}
                     {toolName === "createTrackTask" && (
                       <TaskStock task={result.task} isLoading={false} />

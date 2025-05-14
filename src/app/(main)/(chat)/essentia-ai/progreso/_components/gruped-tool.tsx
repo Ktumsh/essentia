@@ -120,7 +120,7 @@ const GroupedTool = ({ invocations, toolName }: GroupedToolProps) => {
                 className="rounded-3xl border border-dashed p-2"
               >
                 <AccordionTrigger className="dark:bg-accent/50 rounded-xl border-0 bg-slate-50 px-6 hover:no-underline">
-                  <div className="flex flex-1 items-center justify-between gap-2">
+                  <div className="flex flex-1 flex-col justify-between gap-2 md:flex-row md:items-center">
                     {title && (
                       <h3 className="text-foreground text-base font-medium">
                         {title}
@@ -129,7 +129,7 @@ const GroupedTool = ({ invocations, toolName }: GroupedToolProps) => {
                     <Badge
                       variant="outline"
                       className={cn(
-                        "bg-background h-7 rounded-sm border-dashed px-2 text-xs font-normal",
+                        "bg-background h-7 border-dashed px-2 text-xs font-normal",
                         visual.borderMuted,
                       )}
                     >
@@ -138,7 +138,7 @@ const GroupedTool = ({ invocations, toolName }: GroupedToolProps) => {
                     </Badge>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="dark:bg-accent/50 mt-2 flex flex-col items-center justify-center rounded-xl border-0 bg-slate-50 p-6">
+                <AccordionContent className="dark:bg-accent/50 mt-2 flex flex-col items-center justify-center rounded-3xl border-0 bg-slate-50 p-0 md:rounded-xl md:p-6">
                   <div className="w-full max-w-lg">
                     <ToolPreview toolName={inv.toolName} result={inv.result} />
                   </div>

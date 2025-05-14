@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 import { FC } from "react";
 
+import { CLOUDINARY_BASE_URL } from "@/lib/consts";
+
 import type { IconSvgProps } from "@/lib/types";
 
 export const TOOL_NAME_LABELS: Record<string, string> = {
@@ -116,9 +118,11 @@ export const TOOL_VISUALS: Record<
   },
 };
 
+const BASE_URL = `${CLOUDINARY_BASE_URL}/tool`;
+
 export const TOOL_IMAGE: Record<string, string> = {
-  createRoutine: "/extras/exercise-routine.png",
-  createHealthRisk: "/extras/health-risk.png",
-  createMoodTrack: "/extras/mood-tracking.png",
-  createNutritionalPlan: "/extras/nutritional-plan.jpg",
+  createRoutine: `${BASE_URL}/routine`,
+  createHealthRisk: `${BASE_URL}/health-risk`,
+  createMoodTrack: `${BASE_URL}/mood-track`,
+  createNutritionalPlan: `${BASE_URL}/nutritional-plan`,
 };

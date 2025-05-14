@@ -15,7 +15,6 @@ import { useProfileMessage } from "@/hooks/use-profile-message";
 import { ScrollContext } from "@/hooks/use-scroll-ref";
 import { cn } from "@/lib/utils";
 
-
 import BottomNav from "./bottom-navbar";
 import ButtonUp from "./button-up";
 import DesktopHeader from "./desktop-header";
