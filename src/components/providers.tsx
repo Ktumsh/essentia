@@ -34,7 +34,7 @@ export function Providers({
   initialTasks,
   initialMobileState,
   initialUserSubscription,
-  initialModes,
+  initialMode,
   children,
 }: {
   userId: string;
@@ -46,7 +46,7 @@ export function Providers({
   initialTasks: UserTask[];
   initialMobileState?: boolean;
   initialUserSubscription: UserSubscriptionInfo;
-  initialModes: Record<string, "grid" | "list">;
+  initialMode: "grid" | "list";
 } & ThemeProviderProps) {
   return (
     <SessionProvider>
@@ -66,7 +66,7 @@ export function Providers({
                           <TasksProvider initialTasks={initialTasks}>
                             <ReducedMotionProvider>
                               <ThemeProvider disableTransitionOnChange>
-                                <ViewModeProvider initialModes={initialModes}>
+                                <ViewModeProvider initialMode={initialMode}>
                                   {children}
                                 </ViewModeProvider>
                               </ThemeProvider>

@@ -23,7 +23,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         <Link
           href="/centros-de-salud"
           scroll={false}
-          className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
+          className="bg-accent flex items-center justify-center rounded-2xl"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
             <HealthCentersFillIcon className="size-7" />
@@ -32,7 +32,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         </Link>
         <Link
           href="/herramientas"
-          className="dark:border-border dark:bg-accent/50 bg-accent flex items-center justify-center rounded-2xl border border-slate-300"
+          className="bg-accent flex items-center justify-center rounded-2xl"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
             <AdditionalFillIcon className="size-7" />
@@ -41,7 +41,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         </Link>
         <Link
           href="/historial-medico"
-          className="dark:border-border dark:bg-accent/50 bg-accent col-span-2 flex items-center justify-center rounded-2xl border border-slate-300"
+          className="bg-accent col-span-2 flex items-center justify-center rounded-2xl"
         >
           <div className="text-foreground/80 inline-flex h-20 flex-col items-center justify-between p-3">
             <MedicalHistoryFillIcon className="size-7" />
@@ -51,7 +51,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         {isPremium ? (
           <Link
             href="/essentia-ai"
-            className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
+            className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-3xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
           >
             <div className="inline-flex h-16 items-center justify-center gap-2">
               <AIFillIcon className="size-7" />
@@ -64,7 +64,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         ) : (
           <Link
             href="/planes"
-            className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-2xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
+            className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-3xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
           >
             <div className="inline-flex h-16 items-center justify-center gap-4">
               <Stars

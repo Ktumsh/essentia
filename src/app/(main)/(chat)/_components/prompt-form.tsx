@@ -228,7 +228,7 @@ const PurePromptForm = ({
 
   return (
     <form ref={formRef} onSubmit={submitForm} className="relative z-1">
-      <div className="bg-accent ai-prompt relative flex max-h-60 w-full grow flex-col rounded-[15px] after:rounded-xl">
+      <div className="bg-accent ai-prompt relative flex max-h-60 w-full grow flex-col rounded-xl after:rounded-[21px]">
         <Textarea
           ref={textareaRef}
           spellCheck={false}

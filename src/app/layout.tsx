@@ -61,9 +61,8 @@ export default async function RootLayout({
   const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
   const isMobile = cookieStore.get("isMobile")?.value === "true";
   const medicalMode =
-    (cookieStore.get("view_mode_medical")?.value as "grid" | "list") || "grid";
-  const savedMode =
-    (cookieStore.get("view_mode_saved")?.value as "grid" | "list") || "grid";
+    (cookieStore.get("view_mode")?.value as "grid" | "list") || "grid";
+
   const currentPlan = subscription?.type || "free";
 
   return (
@@ -88,7 +87,7 @@ export default async function RootLayout({
           initialTasks={initialTasks}
           initialMobileState={isMobile}
           initialUserSubscription={initialUserSubscription}
-          initialModes={{ medical: medicalMode, saved: savedMode }}
+          initialMode={medicalMode}
         >
           <Toaster />
           <ProfileMessage user={userData} session={session} />

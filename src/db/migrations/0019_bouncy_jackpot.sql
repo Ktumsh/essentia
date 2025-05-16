@@ -1,0 +1,1 @@
+ALTER TABLE "user_medical_folder" ADD COLUMN "icon" varchar DEFAULT 'folder';

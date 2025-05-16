@@ -14,6 +14,7 @@ interface FileSlotProps {
   className?: string;
   currentItem: MedicalHistoryWithTags | null;
   onViewFile?: (fileData: { url?: string | null; name: string }) => void;
+  onDownload?: (fileData: { url?: string | null; name: string }) => void;
 }
 
 const FileSlot = ({
@@ -21,6 +22,7 @@ const FileSlot = ({
   className,
   currentItem,
   onViewFile,
+  onDownload,
 }: FileSlotProps) => {
   if (!currentItem || !currentItem.file) return null;
 
@@ -60,15 +62,23 @@ const FileSlot = ({
               </EyeButton>
             </BetterTooltip>
           )}
-          <BetterTooltip content="Descargar documento" side="top">
-            <DownloadButton
-              variant="outline"
-              size="icon"
-              className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
-            >
-              <span className="sr-only">Descargar</span>
-            </DownloadButton>
-          </BetterTooltip>
+          {onDownload && (
+            <BetterTooltip content="Descargar documento" side="top">
+              <DownloadButton
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  onDownload({
+                    url: currentItem.file?.url,
+                    name: currentItem.file?.name || "documento",
+                  });
+                }}
+                className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
+              >
+                <span className="sr-only">Descargar</span>
+              </DownloadButton>
+            </BetterTooltip>
+          )}
         </div>
       </div>
     </div>

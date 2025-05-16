@@ -1,5 +1,5 @@
 import DailyTipLoading from "./daily-tip-loading";
-import HealthFactsCard from "./health-facts-card";
+import FunFactCard from "./fun-fact-card";
 
 import type { FunFactType } from "@/db/data/fun-fact-data";
 
@@ -15,7 +15,7 @@ const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
         Dato curioso del día
       </h3>
       <article className="flex h-full flex-col">
-        {loading ? <DailyTipLoading /> : <HealthFactsCard facts={facts} />}
+        {loading ? <DailyTipLoading /> : <FunFactCard facts={facts} />}
       </article>
     </div>
   );

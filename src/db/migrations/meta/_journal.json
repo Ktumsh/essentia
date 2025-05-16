@@ -120,6 +120,20 @@
       "when": 1747107055886,
       "tag": "0017_crazy_nomad",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1747262758558,
+      "tag": "0018_rare_metal_master",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1747319253166,
+      "tag": "0019_bouncy_jackpot",
+      "breakpoints": true
     }
   ]
 }

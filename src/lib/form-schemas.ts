@@ -392,3 +392,51 @@ export const chatTitleSchema = z.object({
 });
 
 export type ChatTitleFormData = z.infer<typeof chatTitleSchema>;
+
+export const folderFormSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(3, "El nombre debe tener al menos 3 caracteres")
+    .max(50, "El nombre no puede tener más de 50 caracteres")
+    .refine((val) => val.replace(/\s/g, "").length > 0, {
+      message: "El nombre no puede estar vacío o tener solo espacios",
+    }),
+  description: z
+    .string()
+    .max(200, "La descripción no puede exceder los 200 caracteres")
+    .optional()
+    .or(z.literal("")),
+  color: z.enum(["gray", "blue", "green", "pink", "red", "orange", "purple"]),
+  icon: z.enum([
+    "folder",
+    "health",
+    "document",
+    "heart",
+    "vaccine",
+    "prescription",
+    "exam",
+    "xray",
+    "lab",
+    "surgery",
+    "mental",
+    "pregnancy",
+    "dentist",
+    "file",
+  ]),
+});
+
+export type FolderFormData = z.infer<typeof folderFormSchema>;
+
+export const renameFolderSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(3, "Debe tener al menos 3 caracteres")
+    .max(50, "No puede tener más de 50 caracteres")
+    .refine((val) => val.replace(/\s/g, "").length > 0, {
+      message: "No puede estar vacío o tener solo espacios",
+    }),
+});
+
+export type RenameFolderFormData = z.infer<typeof renameFolderSchema>;

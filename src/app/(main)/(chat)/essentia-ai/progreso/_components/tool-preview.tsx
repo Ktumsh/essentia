@@ -30,7 +30,7 @@ export function ToolPreview({
         />
       );
     case "createMoodTrack":
-      return <MoodTrackStock {...result.moodTrack} />;
+      return <MoodTrackStock moodTrack={result.moodTrack} />;
     case "createTrackTask":
       return <TaskStock task={result.task} isLoading={false} />;
     default:

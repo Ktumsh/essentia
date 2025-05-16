@@ -147,10 +147,7 @@ export const AIRecommendationDetail = ({
               {recommendation.relatedTags.map((tag) => (
                 <Badge
                   key={tag}
-                  className={cn(
-                    "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
-                    getTagColor(tag),
-                  )}
+                  className={cn("font-normal text-white", getTagColor(tag))}
                 >
                   <Tag className="size-2.5!" />
                   {tag}

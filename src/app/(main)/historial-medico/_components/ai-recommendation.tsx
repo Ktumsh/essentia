@@ -448,14 +448,14 @@ const AIRecommendation = ({
                     </p>
                     {allTags.map((tag) => (
                       <div key={tag} className="space-y-2">
-                        <div className="grid grid-cols-2 justify-between">
+                        <div className="flex items-center justify-between">
                           <Badge
                             className={cn(
-                              "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                              "h-fit font-normal text-white",
                               getTagColor(tag),
                             )}
                           >
-                            <Tag className="size-3" />
+                            <Tag className="size-2.5!" />
                             {tag} ({documentsByTag[tag].length})
                           </Badge>
                           {!documentsByTag[tag].every((doc) =>
@@ -550,7 +550,7 @@ const AIRecommendation = ({
                           >
                             <Badge
                               className={cn(
-                                "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
+                                "font-normal text-white",
                                 getTagColor(tag),
                               )}
                             >
@@ -694,7 +694,7 @@ const AIRecommendation = ({
               </AnimatePresence>
             </div>
           ) : (
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="popLayout" initial={false}>
               {selectedRecommendation ? (
                 <motion.div
                   key="detail"

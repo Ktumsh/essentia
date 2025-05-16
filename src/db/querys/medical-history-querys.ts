@@ -65,6 +65,7 @@ export async function logMedicalHistoryActivity(
       .execute();
   } catch (error) {
     console.error("Error registrando actividad:", error);
+    throw error;
   }
 }
 
@@ -126,6 +127,8 @@ type MedicalHistoryData = Partial<{
   issuer?: string | null;
   documentDate?: Date | null;
   visibility?: "private" | "shared" | null;
+  folderId?: string | null;
+  orderIndex?: number;
 }>;
 
 export async function addMedicalHistoryWithTags({
@@ -137,44 +140,52 @@ export async function addMedicalHistoryWithTags({
   data: MedicalHistoryData;
   file?: MedicalFile;
 }) {
-  const [history] = await db
-    .insert(userMedicalHistory)
-    .values({
-      userId,
-      condition: data.condition!,
-      description: data.description || null,
-      type: data.type!,
-      notes: data.notes || null,
-      issuer: data.issuer || null,
-      documentDate: data.documentDate || null,
-      visibility: data.visibility || "private",
-    })
-    .returning();
+  try {
+    const [history] = await db
+      .insert(userMedicalHistory)
+      .values({
+        userId,
+        condition: data.condition!,
+        description: data.description || null,
+        type: data.type!,
+        notes: data.notes || null,
+        issuer: data.issuer || null,
+        documentDate: data.documentDate || null,
+        visibility: data.visibility || "private",
+        folderId: data.folderId || null,
+        orderIndex: data.orderIndex ?? 0,
+      })
+      .returning();
 
-  if (file) {
-    await db.insert(userMedicalFile).values({
-      medicalHistoryId: history.id,
-      url: file.url,
-      name: file.name,
-      size: file.size,
-      contentType: file.contentType,
-      uploadedAt: file.uploadedAt,
-    });
-  }
-
-  if (data.tags?.length) {
-    await db.insert(userMedicalHistoryTag).values(
-      data.tags.map((tagId) => ({
+    if (file) {
+      await db.insert(userMedicalFile).values({
         userId,
         medicalHistoryId: history.id,
-        tagId,
-      })),
-    );
+        url: file.url,
+        name: file.name,
+        size: file.size,
+        contentType: file.contentType,
+        uploadedAt: file.uploadedAt,
+      });
+    }
+
+    if (data.tags?.length) {
+      await db.insert(userMedicalHistoryTag).values(
+        data.tags.map((tagId) => ({
+          userId,
+          medicalHistoryId: history.id,
+          tagId,
+        })),
+      );
+    }
+
+    await logMedicalHistoryActivity(userId, history.id, "created");
+
+    return history;
+  } catch (error) {
+    console.error("Error al crear el historial médico:", error);
+    throw error;
   }
-
-  await logMedicalHistoryActivity(userId, history.id, "created");
-
-  return history;
 }
 
 export async function updateMedicalHistory({
@@ -188,63 +199,73 @@ export async function updateMedicalHistory({
   data: MedicalHistoryData;
   file?: MedicalFile;
 }) {
-  const [record] = await db
-    .select()
-    .from(userMedicalHistory)
-    .where(eq(userMedicalHistory.id, id))
-    .limit(1);
+  try {
+    const [record] = await db
+      .select()
+      .from(userMedicalHistory)
+      .where(eq(userMedicalHistory.id, id))
+      .limit(1);
 
-  if (!record) throw new Error("Registro no encontrado");
-  if (record.userId !== userId) throw new Error("Acceso denegado");
+    if (!record) throw new Error("Registro no encontrado");
+    if (record.userId !== userId) throw new Error("Acceso denegado");
 
-  await db
-    .update(userMedicalHistory)
-    .set({
-      ...(data.condition && { condition: data.condition }),
-      ...(data.description !== undefined && { description: data.description }),
-      ...(data.type && { type: data.type }),
-      ...(data.notes !== undefined && { notes: data.notes }),
-      ...(data.issuer !== undefined && { issuer: data.issuer }),
-      ...(data.documentDate !== undefined && {
-        documentDate: data.documentDate,
-      }),
-      ...(data.visibility && { visibility: data.visibility }),
-      updatedAt: new Date(),
-    })
-    .where(eq(userMedicalHistory.id, id));
-
-  if (data.tags?.length) {
     await db
-      .delete(userMedicalHistoryTag)
-      .where(eq(userMedicalHistoryTag.medicalHistoryId, id));
+      .update(userMedicalHistory)
+      .set({
+        ...(data.condition && { condition: data.condition }),
+        ...(data.description !== undefined && {
+          description: data.description,
+        }),
+        ...(data.type && { type: data.type }),
+        ...(data.notes !== undefined && { notes: data.notes }),
+        ...(data.issuer !== undefined && { issuer: data.issuer }),
+        ...(data.documentDate !== undefined && {
+          documentDate: data.documentDate,
+        }),
+        ...(data.visibility && { visibility: data.visibility }),
+        ...(data.folderId !== undefined && { folderId: data.folderId ?? null }),
+        ...(data.orderIndex !== undefined && { orderIndex: data.orderIndex }),
+        updatedAt: new Date(),
+      })
+      .where(eq(userMedicalHistory.id, id));
 
-    await db.insert(userMedicalHistoryTag).values(
-      data.tags.map((tagId) => ({
+    if (data.tags?.length) {
+      await db
+        .delete(userMedicalHistoryTag)
+        .where(eq(userMedicalHistoryTag.medicalHistoryId, id));
+
+      await db.insert(userMedicalHistoryTag).values(
+        data.tags.map((tagId) => ({
+          userId,
+          medicalHistoryId: id,
+          tagId,
+        })),
+      );
+    }
+
+    if (file) {
+      await db
+        .delete(userMedicalFile)
+        .where(eq(userMedicalFile.medicalHistoryId, id));
+
+      await db.insert(userMedicalFile).values({
         userId,
         medicalHistoryId: id,
-        tagId,
-      })),
-    );
+        url: file.url,
+        name: file.name,
+        size: file.size,
+        contentType: file.contentType,
+        uploadedAt: file.uploadedAt,
+      });
+    }
+
+    await logMedicalHistoryActivity(userId, id, "updated");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error al actualizar el historial médico:", error);
+    throw error;
   }
-
-  if (file) {
-    await db
-      .delete(userMedicalFile)
-      .where(eq(userMedicalFile.medicalHistoryId, id));
-
-    await db.insert(userMedicalFile).values({
-      medicalHistoryId: id,
-      url: file.url,
-      name: file.name,
-      size: file.size,
-      contentType: file.contentType,
-      uploadedAt: file.uploadedAt,
-    });
-  }
-
-  await logMedicalHistoryActivity(userId, id, "updated");
-
-  return { success: true };
 }
 
 export async function deleteMedicalHistory({
@@ -254,35 +275,40 @@ export async function deleteMedicalHistory({
   userId: string;
   id: string;
 }) {
-  const [record] = await db
-    .select()
-    .from(userMedicalHistory)
-    .where(eq(userMedicalHistory.id, id))
-    .limit(1);
+  try {
+    const [record] = await db
+      .select()
+      .from(userMedicalHistory)
+      .where(eq(userMedicalHistory.id, id))
+      .limit(1);
 
-  if (!record) throw new Error("Registro no encontrado");
-  if (record.userId !== userId) throw new Error("Acceso denegado");
+    if (!record) throw new Error("Registro no encontrado");
+    if (record.userId !== userId) throw new Error("Acceso denegado");
 
-  const [file] = await db
-    .select()
-    .from(userMedicalFile)
-    .where(eq(userMedicalFile.medicalHistoryId, id));
-
-  if (file) {
-    await deleteMedicalFile(file.url);
-    await db
-      .delete(userMedicalFile)
+    const [file] = await db
+      .select()
+      .from(userMedicalFile)
       .where(eq(userMedicalFile.medicalHistoryId, id));
+
+    if (file) {
+      await deleteMedicalFile(file.url);
+      await db
+        .delete(userMedicalFile)
+        .where(eq(userMedicalFile.medicalHistoryId, id));
+    }
+
+    await db
+      .update(userMedicalHistory)
+      .set({ isDeleted: true, updatedAt: new Date() })
+      .where(eq(userMedicalHistory.id, id));
+
+    await logMedicalHistoryActivity(userId, id, "deleted");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error al eliminar el historial médico:", error);
+    throw error;
   }
-
-  await db
-    .update(userMedicalHistory)
-    .set({ isDeleted: true, updatedAt: new Date() })
-    .where(eq(userMedicalHistory.id, id));
-
-  await logMedicalHistoryActivity(userId, id, "deleted");
-
-  return { success: true };
 }
 
 export async function restoreMedicalHistory({
@@ -292,24 +318,29 @@ export async function restoreMedicalHistory({
   userId: string;
   id: string;
 }) {
-  const [record] = await db
-    .select()
-    .from(userMedicalHistory)
-    .where(eq(userMedicalHistory.id, id))
-    .limit(1);
+  try {
+    const [record] = await db
+      .select()
+      .from(userMedicalHistory)
+      .where(eq(userMedicalHistory.id, id))
+      .limit(1);
 
-  if (!record) throw new Error("Registro no encontrado");
-  if (record.userId !== userId) throw new Error("Acceso denegado");
-  if (!record.isDeleted) throw new Error("El registro no está eliminado");
+    if (!record) throw new Error("Registro no encontrado");
+    if (record.userId !== userId) throw new Error("Acceso denegado");
+    if (!record.isDeleted) throw new Error("El registro no está eliminado");
 
-  await db
-    .update(userMedicalHistory)
-    .set({ isDeleted: false, updatedAt: new Date() })
-    .where(eq(userMedicalHistory.id, id));
+    await db
+      .update(userMedicalHistory)
+      .set({ isDeleted: false, updatedAt: new Date() })
+      .where(eq(userMedicalHistory.id, id));
 
-  await logMedicalHistoryActivity(userId, id, "restored");
+    await logMedicalHistoryActivity(userId, id, "restored");
 
-  return { success: true };
+    return { success: true };
+  } catch (error) {
+    console.error("Error al restaurar el historial médico:", error);
+    throw error;
+  }
 }
 
 //////////////////////////////
@@ -320,41 +351,46 @@ export async function getMedicalHistoryWithTags({
 }: {
   userId: string;
 }) {
-  const records = await db
-    .select()
-    .from(userMedicalHistory)
-    .where(
-      and(
-        eq(userMedicalHistory.userId, userId),
-        eq(userMedicalHistory.isDeleted, false),
-      ),
-    );
+  try {
+    const records = await db
+      .select()
+      .from(userMedicalHistory)
+      .where(
+        and(
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.isDeleted, false),
+        ),
+      );
 
-  const historyIds = records.map((r) => r.id);
+    const historyIds = records.map((r) => r.id);
 
-  const tags = await db
-    .select({
-      medicalHistoryId: userMedicalHistoryTag.medicalHistoryId,
-      tagName: medicalTag.name,
-    })
-    .from(userMedicalHistoryTag)
-    .innerJoin(medicalTag, eq(userMedicalHistoryTag.tagId, medicalTag.id))
-    .where(eq(userMedicalHistoryTag.userId, userId));
+    const tags = await db
+      .select({
+        medicalHistoryId: userMedicalHistoryTag.medicalHistoryId,
+        tagName: medicalTag.name,
+      })
+      .from(userMedicalHistoryTag)
+      .innerJoin(medicalTag, eq(userMedicalHistoryTag.tagId, medicalTag.id))
+      .where(eq(userMedicalHistoryTag.userId, userId));
 
-  const files = historyIds.length
-    ? await db
-        .select()
-        .from(userMedicalFile)
-        .where(inArray(userMedicalFile.medicalHistoryId, historyIds))
-    : [];
+    const files = historyIds.length
+      ? await db
+          .select()
+          .from(userMedicalFile)
+          .where(inArray(userMedicalFile.medicalHistoryId, historyIds))
+      : [];
 
-  return records.map((record) => ({
-    ...record,
-    tags: tags
-      .filter((tag) => tag.medicalHistoryId === record.id)
-      .map((t) => t.tagName),
-    file: files.find((f) => f.medicalHistoryId === record.id) || null,
-  }));
+    return records.map((record) => ({
+      ...record,
+      tags: tags
+        .filter((tag) => tag.medicalHistoryId === record.id)
+        .map((t) => t.tagName),
+      file: files.find((f) => f.medicalHistoryId === record.id) || null,
+    }));
+  } catch (error) {
+    console.error("Error al obtener el historial médico:", error);
+    throw error;
+  }
 }
 
 export type MedicalHistoryWithTags = Awaited<
@@ -397,7 +433,7 @@ export async function getMedicalHistoryActivityWithDetails({
     return result;
   } catch (error) {
     console.error("Error obteniendo actividad:", error);
-    throw new Error("No se pudo obtener la actividad");
+    throw error;
   }
 }
 

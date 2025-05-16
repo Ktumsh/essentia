@@ -1,0 +1,140 @@
+"use client";
+
+import {
+  EditIcon,
+  EllipsisVerticalIcon,
+  PencilLineIcon,
+  TrashIcon,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/kit/button";
+import { Card, CardContent } from "@/components/kit/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/kit/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { capitalize } from "@/utils/format";
+
+import { folderColorClassMap, folderIconMap } from "../../_lib/utils";
+
+import type { Folder } from "@/lib/types";
+
+interface FolderItemProps {
+  folder: Folder;
+  onRename: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  isSelected: boolean;
+  onToggleSelect: (e: React.MouseEvent) => void;
+}
+
+const FolderItem = ({
+  folder,
+  onRename,
+  onEdit,
+  onDelete,
+  isSelected,
+  onToggleSelect,
+}: FolderItemProps) => {
+  const router = useRouter();
+
+  const color = folder.color ?? "gray";
+  const icon = folder.icon ?? "folder";
+  const { bg, text } = folderColorClassMap[color];
+  const Icon = folderIconMap[icon];
+
+  const formattedFolderName = folder.name
+    .replace(/[^a-zA-Z0-9]/g, "-")
+    .toLowerCase();
+
+  return (
+    <Card
+      key={folder.id}
+      onDoubleClick={() =>
+        router.push(
+          `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
+        )
+      }
+      onClick={(e) => onToggleSelect(e)}
+      className={cn(
+        "bg-muted hover:bg-accent select-none",
+        isSelected && "bg-primary/20 hover:bg-primary/20",
+      )}
+    >
+      <CardContent className="flex flex-col p-3">
+        <div className="flex items-center gap-2">
+          <div
+            className={cn(
+              "flex items-center justify-center rounded-full p-1.5",
+              bg,
+              text,
+            )}
+          >
+            <Icon className="size-5" />
+          </div>
+          <span className="truncate text-sm font-medium">
+            {capitalize(folder.name)}
+          </span>
+          <div className="ms-auto">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="hover:bg-background size-8"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <EllipsisVerticalIcon />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRename();
+                    }}
+                  >
+                    <PencilLineIcon />
+                    Renombrar
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit();
+                    }}
+                  >
+                    <EditIcon />
+                    Editar
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete();
+                  }}
+                >
+                  <TrashIcon />
+                  Eliminar
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+        <div className="text-muted-foreground mt-2 flex items-center text-xs">
+          {folder.documentCount} documentos
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default FolderItem;

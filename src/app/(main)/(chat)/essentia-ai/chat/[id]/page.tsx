@@ -8,7 +8,7 @@ import { getUserProfileData } from "@/utils/profile";
 import { Chat } from "../../../_components/chat";
 import { convertToUIMessages } from "../../../_lib/utils";
 
-export interface ChatPageProps {
+interface ChatPageProps {
   params: Promise<{
     id: string;
   }>;

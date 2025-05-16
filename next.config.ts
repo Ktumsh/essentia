@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
         destination: "/herramientas/guias",
         permanent: true,
       },
+      {
+        source: "/historial-medico/carpetas",
+        destination: "/historial-medico",
+        permanent: true,
+      },
     ];
   },
   async headers() {

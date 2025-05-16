@@ -1,7 +1,5 @@
 "use client";
 
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import {
   Eye,
   EyeOff,
@@ -53,6 +51,7 @@ interface DocumentViewDialogProps {
   onDelete: (item: MedicalHistoryWithTags) => void;
   onAIClick: (item: MedicalHistoryWithTags) => void;
   onViewFile: (fileData: { url?: string | null; name: string }) => void;
+  onDownload: (fileData: { url?: string | null; name: string }) => void;
   onOpenPremiumModal: () => void;
 }
 
@@ -64,6 +63,7 @@ const DocumentViewDialog = ({
   onDelete,
   onAIClick,
   onViewFile,
+  onDownload,
   onOpenPremiumModal,
 }: DocumentViewDialogProps) => {
   const { user } = useUserProfile();
@@ -119,8 +119,11 @@ const DocumentViewDialog = ({
           <h4 className="mb-1 text-sm font-medium">Etiquetas</h4>
           <div className="flex flex-wrap gap-1">
             {currentItem.tags.map((tag) => (
-              <Badge key={tag} className={getTagColor(tag)}>
-                <Tag className="mr-1 h-3 w-3" /> {tag}
+              <Badge
+                key={tag}
+                className={cn("font-normal text-white", getTagColor(tag))}
+              >
+                <Tag className="size-2.5!" /> {tag}
               </Badge>
             ))}
           </div>
@@ -130,6 +133,7 @@ const DocumentViewDialog = ({
         label="Archivo"
         currentItem={currentItem}
         onViewFile={onViewFile}
+        onDownload={onDownload}
       />
       <div className="text-muted-foreground flex items-center justify-between text-sm">
         <div className="inline-flex items-center gap-4">
@@ -145,10 +149,7 @@ const DocumentViewDialog = ({
           )}
         </div>
         <div>
-          Añadido el{" "}
-          {format(new Date(currentItem.createdAt), "dd MMM yyyy", {
-            locale: es,
-          })}
+          Añadido el {formatDate(currentItem.createdAt, "dd 'de' MMMM, yyyy")}
         </div>
       </div>
     </div>

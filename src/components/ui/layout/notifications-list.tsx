@@ -88,7 +88,7 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             {hasUnreadNotifications && (
               <span
                 aria-hidden="true"
-                className="bg-primary text-xxs text-primary-foreground absolute -top-0.5 right-0 z-10 inline-flex items-center justify-center rounded-full px-1.5 py-0.5 text-center"
+                className="bg-secondary text-xxs text-primary-foreground absolute -top-0.5 right-0 z-10 inline-flex items-center justify-center rounded-full px-1.5 py-0.5 text-center"
               >
                 {unreadNotifications.length > 9
                   ? "9+"
@@ -139,12 +139,12 @@ const NotificationList = ({ userId }: NotificationListProps) => {
             }
             variant="ghost"
             size="icon"
-            className="relative size-8 rounded-md"
+            className="relative size-8"
           >
             {hasUnreadNotifications && (
               <span
                 aria-hidden="true"
-                className="bg-primary text-xxs text-primary-foreground absolute -top-0.5 right-0 z-10 inline-flex items-center justify-center rounded-full px-1.5 py-0.5 text-center"
+                className="bg-secondary text-xxs text-primary-foreground absolute -top-0.5 right-0 z-10 inline-flex items-center justify-center rounded-full px-1.5 py-0.5 text-center"
               >
                 {unreadNotifications.length > 9
                   ? "9+"
@@ -333,7 +333,7 @@ const NotificationItem = ({
         isRead ? "grid-cols-1" : "grid-cols-[25px_1fr_40px]",
       )}
     >
-      {!isRead && <span className="bg-primary flex size-2 rounded-full" />}
+      {!isRead && <span className="bg-secondary flex size-2 rounded-full" />}
       <button
         className="space-y-1 pr-2 text-start"
         onClick={() => {

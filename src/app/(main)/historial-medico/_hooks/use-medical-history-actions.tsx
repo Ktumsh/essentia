@@ -46,6 +46,7 @@ export function useMedicalHistoryActions({
           documentDate: data.documentDate || null,
           visibility: data.visibility || "private",
           tags: data.tags,
+          folderId: data.folderId || null,
         },
         file: {
           url: uploadedFile.url,
@@ -99,6 +100,7 @@ export function useMedicalHistoryActions({
           documentDate: data.documentDate ? new Date(data.documentDate) : null,
           notes: data.notes || null,
           visibility: data.visibility,
+          folderId: data.folderId || null,
         },
         file: updatedFile || undefined,
       });

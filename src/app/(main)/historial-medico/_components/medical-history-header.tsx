@@ -1,7 +1,12 @@
 "use client";
 
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+
 import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 import type { FeatureType } from "@/components/ui/payment/payment-modal";
 import type { CanUploadMedicalFile } from "@/db/querys/medical-history-querys";
@@ -33,22 +38,45 @@ const MedicalHistoryHeader = ({
   setDialogs,
   loading,
 }: MedicalHistoryHeaderProps) => {
+  const { user } = useUserProfile();
+  const { username, profileImage } = user || {};
+  const pathname = usePathname();
+
+  const isFolderPage = pathname.startsWith("/historial-medico/carpetas");
+
   return (
-    <div className="flex flex-col items-end justify-between gap-4 @3xl/header:flex-row">
-      <p className="text-foreground/80 text-sm">
-        Gestiona tus documentos médicos y mantén un registro de tu historial.
-      </p>
-      <div className="grid w-full gap-2 md:w-fit">
-        <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row">
+    <div className="flex flex-col justify-between gap-4 @2xl/medical:flex-row">
+      <div className="flex items-center gap-1.5 sm:gap-2.5">
+        <h1 className="font-merriweather text-lg font-semibold">
+          Historial Médico
+        </h1>
+        <ChevronRight className="text-muted-foreground size-3.5" />
+        <div className="flex min-w-0 items-center gap-1 text-sm">
+          <span className="bg-accent size-4 overflow-hidden rounded">
+            <Image
+              src={profileImage ?? ""}
+              width={16}
+              height={16}
+              alt={`Avatar de ${username}`}
+              className="h-auto w-full object-cover"
+            />
+          </span>
+          <span className="text-foreground truncate font-medium">
+            {username}
+          </span>
+        </div>
+      </div>
+      {!isFolderPage && (
+        <div className="inline-flex flex-wrap items-center gap-3">
           <SparklesButton
-            size="default"
+            size="sm"
             disabled={loading}
             onClick={openAIRecommendationsForAll}
-            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-md"
           >
-            Recomendaciones IA
+            Recomendaciones AI
           </SparklesButton>
           <SmilePlusButton
+            size="sm"
             disabled={loading}
             onClick={() => {
               if (!uploadStatus?.allowed) {
@@ -58,12 +86,11 @@ const MedicalHistoryHeader = ({
               }
               setDialogs((prev) => ({ ...prev, isAddDialogOpen: true }));
             }}
-            className="h-12 w-full rounded-xl md:h-9 md:w-fit md:rounded-md"
           >
             Añadir documento
           </SmilePlusButton>
         </div>
-      </div>
+      )}
     </div>
   );
 };

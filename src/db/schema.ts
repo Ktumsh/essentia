@@ -81,19 +81,6 @@ export const userChatUsage = table(
 
 export type UserChatUsage = InferSelectModel<typeof userChatUsage>;
 
-export const userAiRecommendationUsage = table("user_ai_recommendation_usage", {
-  id: uuid("id").primaryKey().notNull().defaultRandom(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-  activeCount: integer("active_count").notNull().default(0),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export type UserAiRecommendationUsage = InferSelectModel<
-  typeof userAiRecommendationUsage
->;
-
 export const subscription = table(
   "subscription",
   {
@@ -493,6 +480,10 @@ export const userMedicalHistory = table("user_medical_history", {
   userId: uuid("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
+  folderId: uuid("folder_id").references(() => userMedicalFolder.id, {
+    onDelete: "set null",
+  }),
+  orderIndex: integer("order_index").default(0),
   condition: varchar("condition", { length: 100 }).notNull(),
   description: text("description"),
   type: varchar("type", {
@@ -501,7 +492,7 @@ export const userMedicalHistory = table("user_medical_history", {
       "Receta", // Recetas médicas
       "Informe", // Informes clínicos
       "Diagnóstico", // Diagnóstico médico formal
-      "Imagenología", // Imágenes médicas (radiografías, ecografías)
+      "Imagenología", // Imágenes médicas, radiografías, ecografías
       "Certificado", // Certificados médicos para licencia o trabajo
       "Epicrisis", // Resumen clínico al alta
       "Consentimiento", // Consentimientos informados
@@ -523,6 +514,9 @@ export type UserMedicalHistory = InferSelectModel<typeof userMedicalHistory>;
 
 export const userMedicalFile = table("user_medical_file", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
   medicalHistoryId: uuid("medical_history_id")
     .notNull()
     .references(() => userMedicalHistory.id, { onDelete: "cascade" }),
@@ -534,6 +528,43 @@ export const userMedicalFile = table("user_medical_file", {
 });
 
 export type UserMedicalFile = InferSelectModel<typeof userMedicalFile>;
+
+export const userMedicalFolder = table("user_medical_folder", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 100 }).notNull(),
+  description: text("description"),
+  color: varchar("color", {
+    enum: ["gray", "blue", "green", "pink", "red", "orange", "purple"],
+  }).default("gray"),
+  icon: varchar("icon", {
+    enum: [
+      "folder",
+      "health",
+      "document",
+      "heart",
+      "vaccine",
+      "prescription",
+      "exam",
+      "xray",
+      "lab",
+      "surgery",
+      "mental",
+      "pregnancy",
+      "dentist",
+      "file",
+    ],
+  }).default("folder"),
+
+  isShared: boolean("is_shared").default(false),
+  isDeleted: boolean("is_deleted").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type UserMedicalFolder = InferSelectModel<typeof userMedicalFolder>;
 
 export const medicalTag = table("medical_tag", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
@@ -579,6 +610,50 @@ export const userMedicalHistoryActivity = table(
 
 export type UserMedicalHistoryActivity = InferSelectModel<
   typeof userMedicalHistoryActivity
+>;
+
+export const userMedicalFolderActivity = table("user_medical_folder_activity", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  folderId: uuid("folder_id")
+    .notNull()
+    .references(() => userMedicalFolder.id, { onDelete: "cascade" }),
+  action: varchar("action", {
+    enum: [
+      "created",
+      "renamed",
+      "updated",
+      "deleted",
+      "restored",
+      "document_added",
+      "document_removed",
+      "reordered",
+    ],
+  }).notNull(),
+  targetDocumentId: uuid("target_document_id").references(
+    () => userMedicalHistory.id,
+    { onDelete: "set null" },
+  ),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type UserMedicalFolderActivity = InferSelectModel<
+  typeof userMedicalFolderActivity
+>;
+
+export const userAiRecommendationUsage = table("user_ai_recommendation_usage", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  activeCount: integer("active_count").notNull().default(0),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type UserAiRecommendationUsage = InferSelectModel<
+  typeof userAiRecommendationUsage
 >;
 
 export const aiMedicalRecommendation = table("ai_medical_recommendation", {

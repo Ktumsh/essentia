@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 
-import { MedicalHistoryActivityWithDetails } from "@/db/querys/medical-history-querys";
+import type { MedicalHistoryActivity } from "@/lib/types";
 
 type DateRangeOption = "all" | "today" | "week" | "month" | "custom";
 type SortOrder = "newest" | "oldest";
@@ -16,7 +16,7 @@ interface UseActivityFilterOptions {
 }
 
 export function useActivityFilter(
-  activities: MedicalHistoryActivityWithDetails[],
+  activities: Array<MedicalHistoryActivity>,
   options?: UseActivityFilterOptions,
 ) {
   const [searchTerm, setSearchTerm] = useState(
@@ -41,14 +41,13 @@ export function useActivityFilter(
   const filteredActivities = useMemo(() => {
     return activities.filter((item) => {
       // Filtro de búsqueda: por condición o tipo
+      const term = searchTerm.toLowerCase();
       const matchesSearch =
-        searchTerm === "" ||
-        item.medicalHistory.condition
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        item.medicalHistory.type
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        term === "" ||
+        (item.source === "document"
+          ? item.medicalHistory.condition.toLowerCase().includes(term) ||
+            item.medicalHistory.type.toLowerCase().includes(term)
+          : item.folder.name.toLowerCase().includes(term));
 
       // Filtro por pestaña activa (para la vista completa) y acciones seleccionadas (checkboxes)
       const matchesTab = activeTab === "all" || item.action === activeTab;
@@ -101,7 +100,7 @@ export function useActivityFilter(
   // Agrupar actividades por fecha (usando toDateString() como clave)
   const groupedActivities = useMemo(() => {
     return sortedActivities.reduce<
-      Record<string, MedicalHistoryActivityWithDetails[]>
+      Record<string, Array<MedicalHistoryActivity>>
     >((groups, item) => {
       const dateKey = new Date(item.createdAt).toDateString();
       if (!groups[dateKey]) {

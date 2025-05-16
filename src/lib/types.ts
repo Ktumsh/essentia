@@ -1,6 +1,15 @@
+import type { MedicalFolderActivity } from "@/db/querys/medical-folder-querys";
+import type { MedicalHistoryActivityWithDetails } from "@/db/querys/medical-history-querys";
 import type { StageProgressType } from "@/db/querys/progress-querys";
 import type { UserTrialStatusType } from "@/db/querys/user-querys";
-import type { Payment, Lesson, Review, Route, Stage } from "@/db/schema";
+import type {
+  Payment,
+  Lesson,
+  Review,
+  Route,
+  Stage,
+  UserMedicalFolder,
+} from "@/db/schema";
 import type { FC, SVGProps } from "react";
 
 declare global {
@@ -89,3 +98,27 @@ export type RouteResource = Route & {
   benefits: string[];
   learningOutcomes: string[];
 };
+
+export type MedicalHistoryActivity =
+  | (MedicalHistoryActivityWithDetails & { source: "document" })
+  | (MedicalFolderActivity & { source: "folder" });
+
+export type Folder = UserMedicalFolder & {
+  documentCount: number;
+};
+
+export type FolderIconType =
+  | "folder"
+  | "health"
+  | "document"
+  | "heart"
+  | "vaccine"
+  | "prescription"
+  | "exam"
+  | "xray"
+  | "lab"
+  | "surgery"
+  | "mental"
+  | "pregnancy"
+  | "dentist"
+  | "file";

@@ -88,7 +88,6 @@ const SparklesButton = ({
     <Button
       size={size}
       variant={variant}
-      radius="full"
       disabled={disabled}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}

@@ -43,7 +43,6 @@ import {
   TabsTrigger,
   TabsContent,
 } from "@/components/kit/tabs";
-import { MedicalHistoryActivityWithDetails } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import ActivityDate from "./activity-date";
@@ -55,10 +54,12 @@ import {
   getActionText,
 } from "../_lib/utils";
 
+import type { MedicalHistoryActivity } from "@/lib/types";
+
 interface ActivityFullViewProps {
   isOpen: boolean;
   onClose: () => void;
-  activities: MedicalHistoryActivityWithDetails[];
+  activities: Array<MedicalHistoryActivity>;
   onViewDocument: (documentId: string) => void;
   onRestoreDocument?: (documentId: string) => void;
 }

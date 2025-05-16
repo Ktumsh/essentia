@@ -1,10 +1,10 @@
 "use client";
 
 import { getYear } from "date-fns";
-import { Tag, EyeOff, X, Check, Save, Loader } from "lucide-react";
+import { Tag, X, Check, Save, Loader } from "lucide-react";
+import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-// Importamos tanto los componentes de Dialog como de Drawer
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import {
@@ -60,6 +60,7 @@ import {
 } from "@/db/querys/medical-history-querys";
 import { MedicalTag } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Folder } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import FileSlot from "./file-slot";
@@ -75,10 +76,12 @@ export type MedicalHistoryFormData = {
   visibility: "private" | "shared";
   tags: string[];
   file: File;
+  folderId?: string | null;
 };
 
 type MedicalHistoryFormProps = {
   tags: MedicalTag[];
+  folders: Folder[];
   initialValues?: MedicalHistoryWithTags | null;
   onSubmit: SubmitHandler<MedicalHistoryFormData>;
   onCancel: () => void;
@@ -90,6 +93,7 @@ type MedicalHistoryFormProps = {
 
 export default function MedicalHistoryForm({
   tags,
+  folders,
   initialValues,
   onSubmit,
   onCancel,
@@ -118,14 +122,22 @@ export default function MedicalHistoryForm({
             return found ? found.id : "";
           })
           .filter(Boolean) || [],
+      folderId: initialValues?.folderId || null,
     },
   });
 
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = form;
+
+  useEffect(() => {
+    if (!isOpen) {
+      reset();
+    }
+  }, [isOpen, reset]);
 
   const formContent = (
     <div className="overflow-y-auto p-4 md:p-6">
@@ -219,6 +231,36 @@ export default function MedicalHistoryForm({
               </FormItem>
             )}
           />
+          <FormField
+            control={control}
+            name="folderId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Carpeta</FormLabel>
+                <FormControl>
+                  <Select
+                    value={field.value || "none"}
+                    onValueChange={(val) =>
+                      field.onChange(val === "none" ? null : val)
+                    }
+                  >
+                    <SelectTrigger className="dark:border-alternative md:dark:border-border md:border-border">
+                      <SelectValue placeholder="Sin carpeta asignada" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">Sin carpeta</SelectItem>
+                      {folders.map((f) => (
+                        <SelectItem key={f.id} value={f.id}>
+                          {f.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={control}
             name="documentDate"
@@ -382,9 +424,8 @@ export default function MedicalHistoryForm({
                       return (
                         <Badge
                           key={tagId}
-                          variant="outline"
                           className={cn(
-                            "flex h-6 items-center gap-1 rounded-[6px] border-0 px-2 py-0",
+                            "font-normal text-white",
                             getTagColor(tag!.name),
                           )}
                         >
@@ -407,7 +448,7 @@ export default function MedicalHistoryForm({
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={control}
             name="visibility"
             render={({ field }) => (
@@ -440,7 +481,7 @@ export default function MedicalHistoryForm({
                 </FormControl>
               </FormItem>
             )}
-          />
+          /> */}
         </form>
       </Form>
     </div>

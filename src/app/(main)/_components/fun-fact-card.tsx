@@ -3,17 +3,17 @@ import { memo } from "react";
 
 import type { FunFactType } from "@/db/data/fun-fact-data";
 
-interface HealthFactsCardProps {
+interface FunFactCardProps {
   facts: FunFactType[] | null;
 }
 
-const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
+const FunFactCard = ({ facts }: FunFactCardProps) => {
   return (
     <>
       {facts?.map((fact, index) => (
         <section
           key={index}
-          className="bg-background border-border relative overflow-hidden rounded-2xl md:rounded-xl md:border @7xl:min-h-52"
+          className="bg-background md:bg-muted relative overflow-hidden rounded-xl @7xl:min-h-52"
         >
           <div className="flex items-center justify-between @7xl:flex-col">
             <div className="h-20 w-full py-1 md:py-0 @3xl:h-[188px] @7xl:h-24">
@@ -36,4 +36,4 @@ const HealthFactsCard = ({ facts }: HealthFactsCardProps) => {
   );
 };
 
-export default memo(HealthFactsCard);
+export default memo(FunFactCard);

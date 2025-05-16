@@ -24,7 +24,7 @@ const ResourceItem = (props: ResourceItemProps) => {
   return (
     <>
       {!isMobile && (
-        <Card className="hover:shadow-pretty dark:bg-accent/50 hidden min-h-52 min-w-64 rounded-xl bg-slate-50 transition will-change-transform hover:-translate-y-1 md:block">
+        <Card className="hover:shadow-pretty bg-muted hidden min-h-52 min-w-64 transition will-change-transform hover:-translate-y-1 md:block">
           <CardHeader className="space-y-0 pb-0">
             <div
               className={cn(
@@ -57,7 +57,7 @@ const ResourceItem = (props: ResourceItemProps) => {
         href={slug}
         className={cn(
           getRouteColor(index, "gradient"),
-          "relative flex aspect-auto min-h-36 min-w-36 flex-col items-center justify-center gap-2 rounded-2xl bg-linear-to-br/shorter transition first:rounded-tr-2xl! last:rounded-bl-2xl! odd:rounded-tr-sm odd:rounded-br-sm even:rounded-tl-sm even:rounded-bl-sm active:scale-[0.97] md:hidden [&:nth-child(2)]:rounded-tl-2xl [&:nth-child(5)]:rounded-br-2xl",
+          "relative flex aspect-auto min-h-36 min-w-36 flex-col items-center justify-center gap-2 rounded-xl bg-linear-to-br/shorter transition first:rounded-tr-2xl! last:rounded-bl-2xl! odd:rounded-tr-sm odd:rounded-br-sm even:rounded-tl-sm even:rounded-bl-sm active:scale-[0.97] md:hidden [&:nth-child(2)]:rounded-tl-2xl [&:nth-child(5)]:rounded-br-2xl",
         )}
       >
         <div className="z-10 flex w-full flex-1 shrink-0 flex-col items-start justify-start px-4 pt-3 sm:px-5">

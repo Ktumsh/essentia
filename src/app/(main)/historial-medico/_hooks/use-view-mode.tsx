@@ -1,12 +1,18 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
 
 type ViewMode = "grid" | "list";
 
 interface ViewModeContextProps {
-  getViewMode: (key: "medical" | "saved") => ViewMode;
-  setViewMode: (key: "medical" | "saved", mode: ViewMode) => void;
+  viewMode: ViewMode;
+  setViewMode: (mode: ViewMode) => void;
 }
 
 const ViewModeContext = createContext<ViewModeContextProps | undefined>(
@@ -14,28 +20,32 @@ const ViewModeContext = createContext<ViewModeContextProps | undefined>(
 );
 
 interface ViewModeProviderProps {
-  children: React.ReactNode;
-  initialModes: Record<string, ViewMode>;
+  children: ReactNode;
+  initialMode: ViewMode;
 }
 
 export const ViewModeProvider = ({
   children,
-  initialModes,
+  initialMode = "grid",
 }: ViewModeProviderProps) => {
-  const [viewModes, setViewModes] =
-    useState<Record<string, ViewMode>>(initialModes);
+  const [viewMode, setViewModeState] = useState<ViewMode>(initialMode);
 
-  const getViewMode = (key: string): ViewMode => {
-    return viewModes[key] || "grid";
-  };
+  useEffect(() => {
+    const cookieMatch = document.cookie.match(/view_mode=(grid|list)/);
+    if (cookieMatch) {
+      setViewModeState(cookieMatch[1] as ViewMode);
+    } else {
+      document.cookie = `view_mode=${initialMode}; path=/; max-age=31536000`;
+    }
+  }, [initialMode]);
 
-  const setViewMode = (key: "medical" | "saved", mode: ViewMode) => {
-    setViewModes((prev) => ({ ...prev, [key]: mode }));
-    document.cookie = `view_mode_${key}=${mode}; path=/; max-age=31536000`;
+  const setViewMode = (mode: ViewMode) => {
+    setViewModeState(mode);
+    document.cookie = `view_mode=${mode}; path=/; max-age=31536000`;
   };
 
   return (
-    <ViewModeContext.Provider value={{ getViewMode, setViewMode }}>
+    <ViewModeContext.Provider value={{ viewMode, setViewMode }}>
       {children}
     </ViewModeContext.Provider>
   );
@@ -44,6 +54,6 @@ export const ViewModeProvider = ({
 export const useViewMode = () => {
   const context = useContext(ViewModeContext);
   if (!context)
-    throw new Error("useViewMode must be used within ViewModeProvider");
+    throw new Error("useViewMode must be used within a ViewModeProvider");
   return context;
 };

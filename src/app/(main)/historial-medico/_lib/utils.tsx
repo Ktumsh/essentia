@@ -1,72 +1,67 @@
 import ExcelJS from "exceljs";
-import { Activity, Edit, Plus, RefreshCw, Trash } from "lucide-react";
+import {
+  Activity,
+  Edit,
+  Plus,
+  RefreshCw,
+  Trash,
+  Folder,
+  Stethoscope,
+  FileText,
+  HeartPulse,
+  Syringe,
+  ClipboardPlus,
+  ScanEye,
+  X,
+  TestTube,
+  Hospital,
+  BrainCircuit,
+  Baby,
+  SmilePlus,
+  File,
+  PencilLine,
+  FilePlus,
+  FileMinus,
+  ListOrdered,
+} from "lucide-react";
 import { toast } from "sonner";
 
-import {
-  MedicalFileType,
-  MedicalHistoryActivityWithDetails,
-} from "@/db/querys/medical-history-querys";
 import { formatDate } from "@/utils/format";
 
 import type { AIRecommendationType } from "../_components/ai-recommendation";
+import type { MedicalFileType } from "@/db/querys/medical-history-querys";
+import type { FolderIconType, MedicalHistoryActivity } from "@/lib/types";
 
 export const getTagColor = (tag: string): string => {
   const medicalCategories: Record<string, string> = {
-    Alergia:
-      "bg-red-50 text-red-600 border-red-100 dark:bg-red-950 dark:text-red-400 dark:border-red-900/50",
-    Cirugía:
-      "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-900/50",
-    "Consulta General":
-      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/50",
-    Diagnóstico:
-      "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900/50",
-    "Enfermedad Crónica":
-      "bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-950 dark:text-rose-400 dark:border-rose-900/50",
-    "Examen de Laboratorio":
-      "bg-cyan-50 text-cyan-600 border-cyan-100 dark:bg-cyan-950 dark:text-cyan-400 dark:border-cyan-900/50",
-    "Examen de Imagenología":
-      "bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-950 dark:text-indigo-400 dark:border-indigo-900/50",
-    Medicación:
-      "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900/50",
-    Vacunación:
-      "bg-green-50 text-green-600 border-green-100 dark:bg-green-950 dark:text-green-400 dark:border-green-900/50",
-    "Salud Mental":
-      "bg-violet-50 text-violet-600 border-violet-100 dark:bg-violet-950 dark:text-violet-400 dark:border-violet-900/50",
-    Nutrición:
-      "bg-lime-50 text-lime-600 border-lime-200 dark:bg-lime-950 dark:text-lime-400 dark:border-lime-900/50",
-    Odontología:
-      "bg-sky-50 text-sky-600 border-sky-100 dark:bg-sky-950 dark:text-sky-400 dark:border-sky-900/50",
-    Oftalmología:
-      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/50",
-    Pediatría:
-      "bg-orange-50 text-orange-600 border-orange-100 dark:bg-orange-950 dark:text-orange-400 dark:border-orange-900/50",
-    Cardiología:
-      "bg-red-50 text-red-600 border-red-100 dark:bg-red-950 dark:text-red-400 dark:border-red-900/50",
-    Dermatología:
-      "bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-950 dark:text-pink-400 dark:border-pink-900/50",
-    Neurología:
-      "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-900/50",
-    "Certificado Médico":
-      "bg-lime-50 text-lime-600 border-lime-200 dark:bg-lime-950 dark:text-lime-400 dark:border-lime-900/50",
-    "Informe Médico":
-      "bg-fuchsia-50 text-fuchsia-600 border-fuchsia-100 dark:bg-fuchsia-950 dark:text-fuchsia-400 dark:border-fuchsia-900/50",
-    Epicrisis:
-      "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900/50",
-    "Consentimiento Informado":
-      "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900/50",
-    "Receta Médica":
-      "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900/50",
-    Rehabilitación:
-      "bg-teal-50 text-teal-600 border-teal-100 dark:bg-teal-950 dark:text-teal-400 dark:border-teal-900/50",
-    Ginecología:
-      "bg-pink-50 text-pink-600 border-pink-100 dark:bg-pink-950 dark:text-pink-400 dark:border-pink-900/50",
-    Otro: "bg-stone-50 text-stone-600 border-stone-200 dark:bg-stone-950 dark:text-stone-400 dark:border-stone-900",
+    Alergia: "bg-red-600",
+    Cirugía: "bg-purple-600",
+    "Consulta General": "bg-blue-600",
+    Diagnóstico: "bg-amber-600",
+    "Enfermedad Crónica": "bg-rose-600",
+    "Examen de Laboratorio": "bg-cyan-600",
+    "Examen de Imagenología": "bg-indigo-600",
+    Medicación: "bg-emerald-600",
+    Vacunación: "bg-green-600",
+    "Salud Mental": "bg-violet-600",
+    Nutrición: "bg-lime-600",
+    Odontología: "bg-sky-600",
+    Oftalmología: "bg-blue-600",
+    Pediatría: "bg-orange-600",
+    Cardiología: "bg-red-600",
+    Dermatología: "bg-pink-600",
+    Neurología: "bg-purple-600",
+    "Certificado Médico": "bg-lime-600",
+    "Informe Médico": "bg-fuchsia-600",
+    Epicrisis: "bg-amber-600",
+    "Consentimiento Informado": "bg-blue-600",
+    "Receta Médica": "bg-emerald-600",
+    Rehabilitación: "bg-teal-600",
+    Ginecología: "bg-pink-600",
+    Otro: "bg-stone-600",
   };
 
-  return (
-    medicalCategories[tag] ||
-    "bg-stone-50 text-stone-600 border-stone-200 dark:bg-stone-950 dark:text-stone-400 dark:border-stone-900/20"
-  );
+  return medicalCategories[tag] || "bg-zinc-500";
 };
 
 export function getFileTypeColor(type: MedicalFileType): string {
@@ -125,18 +120,49 @@ export function getFileTypeBorderColor(
   }
 }
 
+export const getActionBgColor = (action: string) => {
+  switch (action) {
+    case "created":
+      return "bg-green-200/50 dark:bg-green-900/50";
+    case "renamed":
+      return "bg-yellow-200/50 dark:bg-yellow-900/50";
+    case "updated":
+      return "bg-blue-200/50 dark:bg-blue-900/50";
+    case "deleted":
+      return "bg-red-200/50 dark:bg-red-900/50";
+    case "restored":
+      return "bg-amber-200/50 dark:bg-amber-900/50";
+    case "document_added":
+      return "bg-emerald-200/50 dark:bg-emerald-900/50";
+    case "document_removed":
+      return "bg-rose-200/50 dark:bg-rose-900/50";
+    case "reordered":
+      return "bg-purple-200/50 dark:bg-purple-900/50";
+    default:
+      return "bg-gray-200/50 dark:bg-gray-900/50";
+  }
+};
+
 export const getActionIcon = (action: string) => {
   switch (action) {
     case "created":
       return <Plus className="size-4 text-green-500" />;
+    case "renamed":
+      return <PencilLine className="size-4 text-yellow-500" />;
     case "updated":
       return <Edit className="size-4 text-blue-500" />;
     case "deleted":
       return <Trash className="size-4 text-red-500" />;
     case "restored":
       return <RefreshCw className="size-4 text-amber-500" />;
+    case "document_added":
+      return <FilePlus className="size-4 text-green-600" />;
+    case "document_removed":
+      return <FileMinus className="size-4 text-red-600" />;
+    case "reordered":
+      return <ListOrdered className="size-4 text-purple-500" />;
     default:
-      return <Activity className="size-4" />;
+      return <Activity className="text-muted-foreground size-4" />;
   }
 };
 
@@ -144,12 +170,20 @@ export const getActionSelfText = (action: string) => {
   switch (action) {
     case "created":
       return "añadió";
+    case "renamed":
+      return "renombró";
     case "updated":
       return "actualizó";
     case "deleted":
       return "eliminó";
     case "restored":
       return "restauró";
+    case "document_added":
+      return "vinculó";
+    case "document_removed":
+      return "desvinculó";
+    case "reordered":
+      return "reordenó";
     default:
       return "modificó";
   }
@@ -159,12 +193,20 @@ export const getActionText = (action: string) => {
   switch (action) {
     case "created":
       return "añadido";
+    case "renamed":
+      return "renombrado";
     case "updated":
       return "actualizado";
     case "deleted":
       return "eliminado";
     case "restored":
       return "restaurado";
+    case "document_added":
+      return "vinculado";
+    case "document_removed":
+      return "desvinculado";
+    case "reordered":
+      return "reordenado";
     default:
       return "modificado";
   }
@@ -226,25 +268,13 @@ export const getPriorityText = (priority: "high" | "medium" | "low") => {
 
 export function getPriorityBorderColor(
   priority: "high" | "medium" | "low",
-  direction: "top" | "left" = "top",
 ): string {
-  const mappingTop: Record<string, string> = {
-    high: "border-t-red-500!",
-    medium: "border-t-amber-500!",
-    low: "border-t-green-500!",
+  const mapping: Record<string, string> = {
+    high: "border-red-500/20",
+    medium: "border-amber-500/20",
+    low: "border-green-500/20",
   };
-
-  const mappingLeft: Record<string, string> = {
-    high: "border-l-red-500!",
-    medium: "border-l-amber-500!",
-    low: "border-l-green-500!",
-  };
-
-  if (direction === "top") {
-    return mappingTop[priority] || "border-t-gray-500";
-  } else {
-    return mappingLeft[priority] || "border-l-gray-500";
-  }
+  return mapping[priority] || "";
 }
 
 export const getRelativeTime = (date: Date) => {
@@ -263,7 +293,7 @@ export const getRelativeTime = (date: Date) => {
     const days = Math.floor(diffInSeconds / 86400);
     return `hace ${days} ${days === 1 ? "día" : "días"}`;
   } else {
-    return formatDate(date, "dd MMMM yyyy, HH:mm");
+    return formatDate(date, "dd MMMM yyyy");
   }
 };
 
@@ -315,7 +345,7 @@ export async function uploadMedicalFile(file: File) {
 }
 
 export const exportActivityAsExcel = async (
-  filteredActivities: MedicalHistoryActivityWithDetails[],
+  filteredActivities: Array<MedicalHistoryActivity>,
 ) => {
   const workbook = new ExcelJS.Workbook();
 
@@ -393,19 +423,28 @@ export const exportActivityAsExcel = async (
     const row = worksheet.addRow({
       fecha: formatDate(date, "dd/MM/yyyy"),
       hora: formatDate(date, "HH:mm:ss"),
-      tipo: item.medicalHistory.type,
+      tipo: "",
       accion: getActionText(item.action),
-      documento: item.medicalHistory.condition,
-      dummy: "", // Columna vacía
+      documento: "",
+      dummy: "",
     });
 
-    const docCell = row.getCell(5);
-    if (item.file?.url) {
-      docCell.value = {
-        text: item.medicalHistory.condition,
-        hyperlink: item.file.url,
-      };
-      docCell.font = { color: { argb: "FF4F46E5" }, underline: true };
+    if (item.source === "document") {
+      row.getCell("tipo").value = item.medicalHistory.type;
+      const docCell = row.getCell("documento");
+      const text = item.medicalHistory.condition;
+      if (item.file?.url) {
+        docCell.value = { text, hyperlink: item.file.url };
+        docCell.font = { color: { argb: "FF4F46E5" }, underline: true };
+      } else {
+        docCell.value = text;
+      }
+    } else {
+      // source === "folder"
+      row.getCell("tipo").value = "Carpeta";
+      const docCell = row.getCell("documento");
+      docCell.value = item.folder.name;
+      // docCell.value = { text: item.folder.name, hyperlink: `/folders/${item.folder.id}` };
     }
 
     row.eachCell((cell, colNumber) => {
@@ -420,7 +459,7 @@ export const exportActivityAsExcel = async (
     });
   });
 
-  worksheet.addRow([]); // Fila vacía al final
+  worksheet.addRow([]);
 
   // Footer
   const footerRow = worksheet.addRow([]);
@@ -463,3 +502,107 @@ export function isRecommendationSaved(
       r.priority === recommendation.priority,
   );
 }
+
+export const iconOptions = [
+  "folder",
+  "health",
+  "document",
+  "heart",
+  "vaccine",
+  "prescription",
+  "exam",
+  "xray",
+  "lab",
+  "surgery",
+  "mental",
+  "pregnancy",
+  "dentist",
+  "file",
+] as const;
+
+export const folderIconMap: Record<
+  FolderIconType,
+  React.FC<{ className?: string }>
+> = {
+  folder: Folder,
+  health: Stethoscope,
+  document: FileText,
+  heart: HeartPulse,
+  vaccine: Syringe,
+  prescription: ClipboardPlus,
+  exam: ScanEye,
+  xray: X,
+  lab: TestTube,
+  surgery: Hospital,
+  mental: BrainCircuit,
+  pregnancy: Baby,
+  dentist: SmilePlus,
+  file: File,
+};
+
+export const folderIconLabelMap: Record<FolderIconType, string> = {
+  folder: "Carpeta",
+  health: "Salud",
+  document: "Documento",
+  heart: "Cardiología",
+  vaccine: "Vacunas",
+  prescription: "Recetas",
+  exam: "Exámenes",
+  xray: "Rayos X",
+  lab: "Laboratorio",
+  surgery: "Cirugías",
+  mental: "Salud mental",
+  pregnancy: "Embarazo",
+  dentist: "Odontología",
+  file: "Archivo",
+};
+
+export const folderColorLabelMap: Record<
+  "gray" | "blue" | "green" | "pink" | "red" | "orange" | "purple",
+  string
+> = {
+  gray: "Gris",
+  blue: "Azul",
+  green: "Verde",
+  pink: "Rosado",
+  red: "Rojo",
+  orange: "Naranjo",
+  purple: "Morado",
+};
+
+export const folderColorClassMap: Record<
+  "gray" | "blue" | "green" | "pink" | "red" | "orange" | "purple",
+  {
+    bg: string;
+    text: string;
+  }
+> = {
+  gray: {
+    bg: "bg-gray-200/50 dark:bg-gray-900/50",
+    text: "text-gray-500",
+  },
+  blue: {
+    bg: "bg-blue-200/50 dark:bg-blue-900/50",
+    text: "text-blue-500",
+  },
+  green: {
+    bg: "bg-green-200/50 dark:bg-green-900/50",
+    text: "text-green-500",
+  },
+  pink: {
+    bg: "bg-pink-200/50 dark:bg-pink-900/50",
+    text: "text-pink-500",
+  },
+  red: {
+    bg: "bg-red-200/50 dark:bg-red-900/50",
+    text: "text-red-500",
+  },
+  orange: {
+    bg: "bg-orange-200/50 dark:bg-orange-900/50",
+    text: "text-orange-500",
+  },
+  purple: {
+    bg: "bg-purple-200/50 dark:bg-purple-900/50",
+    text: "text-purple-500",
+  },
+};

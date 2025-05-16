@@ -51,7 +51,7 @@ const AppSidebarToggle = () => {
         size="icon"
         variant="ghost"
         onClick={() => toggleSidebar()}
-        className="size-8 rounded-md"
+        className="size-8"
       >
         <MenuIcon className="size-5!" />
         <span className="sr-only">

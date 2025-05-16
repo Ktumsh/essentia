@@ -10,7 +10,6 @@ import { useChatContext } from "@/hooks/use-chat-context";
 import useIsScrolled from "@/hooks/use-is-scrolled";
 import { cn } from "@/lib/utils";
 
-
 import FeedbackBox from "./feedback-box";
 import NavbarLinks from "./navbar-links";
 import NotificationList from "./notifications-list";
@@ -72,7 +71,7 @@ const DesktopHeader = ({ user, scrollRef }: DesktopHeaderProps) => {
                 <>
                   <Separator orientation="vertical" className="h-4!" />
                   <LoginButton
-                    variant="secondary"
+                    variant="accent"
                     size="sm"
                     onClick={() => {
                       if (pathname === "/") {

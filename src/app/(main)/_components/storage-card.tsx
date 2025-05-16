@@ -53,13 +53,6 @@ const StorageCard = () => {
     ? "Prueba Gratis"
     : subscription?.plan?.name || "Básico";
 
-  const getProgressColor = () => {
-    if (usagePercentage === 100) return "from-red-600 via-red-500 to-red-600";
-    if (usagePercentage > 50)
-      return "from-amber-600 via-amber-500 to-amber-600";
-    return "from-green-600 via-green-500 to-green-600";
-  };
-
   const message = useMemo(() => {
     if (isUnlimited) {
       return "Tu plan permite subir documentos ilimitados 🚀";
@@ -79,7 +72,7 @@ const StorageCard = () => {
   return (
     <>
       {isLoading ? (
-        <Card className="border-0 md:border">
+        <Card className="bg-background md:bg-muted border-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
             <CardTitle className="flex items-center gap-2">
               <Skeleton className="size-6" />
@@ -99,14 +92,18 @@ const StorageCard = () => {
           </CardContent>
         </Card>
       ) : (
-        <Card className="border-0 md:border">
+        <Card className="bg-background md:bg-muted border-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
             <CardTitle className="flex items-center gap-2">
-              <FileHeart className="size-5 text-indigo-500" />
+              <FileHeart className="text-primary size-5" />
             </CardTitle>
             <BetterTooltip
               className="max-w-44 text-center"
-              content={`Tu plan actual permite hasta ${currentLimit} documentos`}
+              content={
+                isUnlimited
+                  ? "Tu plan actual permite documentos ilimitados"
+                  : `Tu plan actual permite hasta ${currentLimit} documentos`
+              }
             >
               <Badge
                 variant={
@@ -141,8 +138,8 @@ const StorageCard = () => {
               {!isUnlimited && (
                 <Progress
                   value={usagePercentage}
-                  indicatorColor={cn("bg-gradient-to-r", getProgressColor())}
-                  className="dark:bg-alternative/50 h-1.5 bg-slate-200"
+                  indicatorColor="rounded-full"
+                  className="h-1.5"
                 />
               )}
               <div

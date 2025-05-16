@@ -99,7 +99,7 @@ const HealthRiskStock = ({ healthRisk, className }: HealthRiskStockProps) => {
   return (
     <Card
       className={cn(
-        "dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border-slate-100 transition-all duration-300",
+        "dark:shadow-alternative/15 dark:border-accent shadow-stock mb-8 w-full max-w-lg overflow-hidden rounded-3xl border border-slate-100 transition-all duration-300",
         className,
       )}
     >

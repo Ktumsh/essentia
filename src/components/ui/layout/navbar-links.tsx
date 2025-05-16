@@ -15,6 +15,7 @@ import {
 } from "@/components/kit/breadcrumb";
 import { useChatContext } from "@/hooks/use-chat-context";
 import useChatName from "@/hooks/use-chat-name";
+import useFolderName from "@/hooks/use-folder-name";
 import useLessonName from "@/hooks/use-lesson-name";
 import { formatDate, formatSegment } from "@/utils/format";
 
@@ -35,6 +36,7 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
   const routeSlug = params.route as string;
   const stageSlug = params.stage as string;
   const lessonSlug = params.lesson as string;
+  const folderId = params.id as string;
 
   const pathSegments = pathname.split("/").filter(Boolean);
 
@@ -46,6 +48,8 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
 
   const { chatName } = useChatName(chatId || activeChatId) || null;
   const lessonName = useLessonName(routeSlug, stageSlug, lessonSlug) || null;
+
+  const { folderName } = useFolderName(folderId);
 
   return (
     <Breadcrumb>
@@ -64,7 +68,7 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
         </BreadcrumbItem>
         {pathSegments.length > 0 && <BreadcrumbSeparator />}
         {pathSegments.map((segment, index) => {
-          if (segment === "chat" || segment === stageSlug) {
+          if (["chat", "carpetas"].includes(segment) || segment === stageSlug) {
             return null;
           }
 
@@ -82,11 +86,16 @@ const NavbarLinks = ({ user }: NavbarLinksProps) => {
             linkName = lessonName;
           }
 
+          if (segment === folderId && folderName) {
+            linkName = folderName;
+          }
+
           return (
             <Fragment key={index}>
               <BreadcrumbItem>
                 {(isChat && !chatName && isLast) ||
                 (isLesson && !lessonName && isLast) ||
+                (segment === folderId && !folderName && isLast) ||
                 linkName === "Profiles" ? (
                   <BreadcrumbEllipsis />
                 ) : isLast ? (

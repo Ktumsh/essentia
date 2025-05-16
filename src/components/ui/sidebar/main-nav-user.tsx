@@ -37,7 +37,7 @@ import {
 import { navConfig } from "@/config/nav.config";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-
+import { cn } from "@/lib/utils";
 
 import ThemeToggle from "../layout/theme-toggle";
 import PaymentModal from "../payment/payment-modal";
@@ -76,11 +76,14 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                   size="lg"
                   tooltip="Perfil"
                   isActive
-                  className={isCollapsed ? "size-8! p-0" : ""}
+                  className={cn(
+                    "h-auto gap-2.5 px-3",
+                    isCollapsed && "size-8! p-0",
+                  )}
                 >
                   <>
                     {profileImage ? (
-                      <Avatar className="size-8 rounded-md">
+                      <Avatar>
                         <Image
                           priority
                           src={profileImage}
@@ -90,22 +93,22 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         />
                       </Avatar>
                     ) : (
-                      <Avatar className="size-8 rounded-md">
-                        <AvatarFallback className="rounded-md">
-                          <AvatarIcon className="text-foreground/80 size-4" />
+                      <Avatar>
+                        <AvatarFallback>
+                          <AvatarIcon />
                         </AvatarFallback>
                       </Avatar>
                     )}
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
+                    <div className="grow">
+                      <p className="truncate text-sm font-semibold">
                         {fullName !== "undefined undefined"
                           ? fullName
                           : "Invitado"}
-                      </span>
+                      </p>
                       {username && (
-                        <span className="text-muted-foreground truncate text-xs">
+                        <p className="text-muted-foreground truncate text-xs">
                           @{username}
-                        </span>
+                        </p>
                       )}
                     </div>
                   </>
@@ -177,7 +180,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                         <SparklesButton
                           variant="gradient"
                           onClick={() => setIsPaymentModalOpen(true)}
-                          className="w-full"
+                          className="w-full rounded-md"
                         >
                           {!isTrialUsed
                             ? "Activa tu prueba gratuita"

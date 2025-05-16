@@ -1,23 +1,22 @@
-"use client";
+import { FileText } from "lucide-react";
 
-import { FileText, PlusCircle } from "lucide-react";
-
+import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
 import { Button } from "@/components/kit/button";
 import { Card, CardContent } from "@/components/kit/card";
 
-type EmptyStateProps = {
+type DocumentEmptyStateProps = {
   hasFilters: boolean;
   onClearFilters: () => void;
   onAddDocument: () => void;
 };
 
-export default function EmptyState({
+const DocumentEmptyState = ({
   hasFilters,
   onClearFilters,
   onAddDocument,
-}: EmptyStateProps) {
+}: DocumentEmptyStateProps) => {
   return (
-    <Card>
+    <Card className="border border-dashed">
       <CardContent className="flex flex-col items-center justify-center py-10">
         <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
           <FileText className="text-muted-foreground size-12 opacity-50" />
@@ -32,17 +31,18 @@ export default function EmptyState({
             </p>
           </div>
           {hasFilters ? (
-            <Button radius="full" variant="ghost" onClick={onClearFilters}>
+            <Button variant="ghost" size="sm" onClick={onClearFilters}>
               Limpiar filtros
             </Button>
           ) : (
-            <Button radius="full" onClick={onAddDocument}>
-              <PlusCircle />
+            <SmilePlusButton size="sm" onClick={onAddDocument}>
               Añadir documento
-            </Button>
+            </SmilePlusButton>
           )}
         </div>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default DocumentEmptyState;

@@ -82,18 +82,13 @@ const UnauthenticatedState = () => {
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 md:flex-row">
-          <AddUserButton
-            size="lg"
-            onClick={() => router.push("/signup")}
-            className="rounded-full"
-          >
+          <AddUserButton size="lg" onClick={() => router.push("/signup")}>
             Crear cuenta
           </AddUserButton>
           <LoginButton
             variant="secondary"
             size="lg"
             onClick={() => router.push("/login?next=historial-medico")}
-            className="rounded-full"
           >
             Iniciar sesión
           </LoginButton>

@@ -50,7 +50,7 @@ export const AIRecommendationsCard = ({
   const isSaved = isRecommendationSaved(recommendation, savedRecommendations);
 
   return (
-    <Card className="group/item flex flex-col overflow-hidden shadow-xs transition-all duration-200 hover:shadow-md">
+    <Card className="group/item bg-muted flex flex-col overflow-hidden">
       <CardHeader className="px-4 pt-4 pb-2">
         <div className="flex items-start justify-between">
           <CardTitle className="text-base">{recommendation.title}</CardTitle>
@@ -78,24 +78,21 @@ export const AIRecommendationsCard = ({
               Categorías relacionadas:
             </p>
             <div className="flex flex-wrap gap-2">
-              {recommendation.relatedTags.slice(0, 2).map((tag) => (
+              {recommendation.relatedTags.slice(0, 1).map((tag) => (
                 <Badge
                   key={tag}
-                  className={cn(
-                    "h-6 rounded-[6px] px-2 py-0 text-xs font-normal",
-                    getTagColor(tag),
-                  )}
+                  className={cn("font-normal text-white", getTagColor(tag))}
                 >
                   <Tag className="size-2.5!" />
                   {tag}
                 </Badge>
               ))}
-              {recommendation.relatedTags.length > 2 && (
+              {recommendation.relatedTags.length > 1 && (
                 <Badge
                   variant="outline"
-                  className="bg-accent text-foreground/80 h-5 rounded-full px-1.5 py-0 text-xs"
+                  className="bg-background border-alternative text-foreground/80"
                 >
-                  +{recommendation.relatedTags.length - 2}
+                  +{recommendation.relatedTags.length - 1}
                 </Badge>
               )}
             </div>
