@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, Menu } from "lucide-react";
+import { ChevronRight, Menu, SunMoon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +17,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/kit/drawer";
+import { Separator } from "@/components/kit/separator";
 import FullLogo from "@/components/ui/layout/full-logo";
+import ThemeToggle from "@/components/ui/layout/theme-toggle";
 import { navConfig } from "@/config/nav.config";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
@@ -45,7 +47,11 @@ const MobileNavbar = ({ session }: MobileNavbarProps) => {
         Panel Essentia
       </Button>
       {!isPremium && (
-        <Button variant="gradient" onClick={() => router.push("/planes")}>
+        <Button
+          variant="gradient"
+          onClick={() => router.push("/planes")}
+          className="w-full"
+        >
           Hazte premium
         </Button>
       )}
@@ -56,7 +62,13 @@ const MobileNavbar = ({ session }: MobileNavbarProps) => {
         Iniciar sesión
       </LoginButton>
       <Link href="/planes">
-        <Button variant="gradient">Hazte premium</Button>
+        <Button
+          variant="gradient"
+          onClick={() => router.push("/planes")}
+          className="w-full"
+        >
+          Hazte premium
+        </Button>
       </Link>
     </>
   );
@@ -66,7 +78,7 @@ const MobileNavbar = ({ session }: MobileNavbarProps) => {
       <DrawerTrigger className="text-foreground/80 flex size-8 items-center justify-center md:hidden">
         <Menu className="size-6" />
       </DrawerTrigger>
-      <DrawerContent className="p-0!">
+      <DrawerContent className="space-y-4 p-0!">
         <DrawerHeader className="sr-only">
           <DrawerTitle>Navegación</DrawerTitle>
           <DrawerDescription>Navega por las secciones.</DrawerDescription>
@@ -75,12 +87,13 @@ const MobileNavbar = ({ session }: MobileNavbarProps) => {
           <FullLogo withLabel />
           <ArrowLeftButton
             variant="accent"
+            onClick={() => router.push("/")}
             className="flex-row-reverse rounded-sm text-xs [&_svg]:rotate-180"
           >
             Panel Essentia
           </ArrowLeftButton>
         </div>
-        <nav className="divide-border flex flex-col divide-y overflow-y-auto px-6 text-base">
+        <nav className="divide-border flex flex-1 flex-col divide-y overflow-y-auto px-6 text-base">
           {mainNavItems.map((item) =>
             item.hasDropdown ? (
               <div key={item.title} className="border-t py-4">
@@ -121,7 +134,22 @@ const MobileNavbar = ({ session }: MobileNavbarProps) => {
             ),
           )}
         </nav>
-        <DrawerFooter className="flex flex-col gap-2">{actions}</DrawerFooter>
+        <div className="px-6">
+          <Separator />
+        </div>
+        <DrawerFooter className="gap-0 space-y-4 p-6 pt-0 text-sm">
+          <div className="mb-0! inline-flex items-center justify-between">
+            <div className="flex flex-row items-center gap-3">
+              <SunMoon className="size-3.5" />
+              <span>Tema</span>
+            </div>
+            <ThemeToggle className="size-8!" />
+          </div>
+          <div className="my-4">
+            <Separator />
+          </div>
+          {actions}
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
