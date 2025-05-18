@@ -45,6 +45,7 @@
     "@radix-ui/react-tooltip": "^1.2.6",
     "@react-pdf/renderer": "^4.3.0",
     "@serwist/next": "^9.0.14",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/blob": "^1.0.1",
     "@vercel/functions": "^2.0.3",
     "@vercel/otel": "^1.12.0",

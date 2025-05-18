@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
@@ -95,6 +96,7 @@ export default async function RootLayout({
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
