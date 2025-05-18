@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import VerifyEmail from "../_components/verify-email";
+import VerifyEmail from "./verify-email";
 
 export const metadata: Metadata = {
   title: "Verificar correo electrónico",

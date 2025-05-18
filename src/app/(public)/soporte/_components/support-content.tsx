@@ -62,7 +62,7 @@ const knowledgeBase = {
       title: "Asistente de IA para recomendaciones",
       description:
         "Recibe recomendaciones personalizadas de salud basadas en tus documentos médicos y perfil",
-      icon: <Sparkles className="size-4 text-indigo-600" aria-hidden="true" />,
+      icon: <Sparkles className="text-primary size-4" aria-hidden="true" />,
     },
     {
       title: "Evaluación de riesgos de salud",
@@ -139,7 +139,7 @@ const SupportContent = () => {
   }, [searchFocusFaqId]);
 
   return (
-    <div className="mt-14 bg-slate-50 text-base">
+    <div className="bg-muted mt-14 text-base">
       <header
         className="bg-linear-to-tr/shorter from-indigo-500 to-purple-500 text-white"
         aria-labelledby="search-heading"
@@ -157,7 +157,7 @@ const SupportContent = () => {
             </p>
             <div className="relative">
               <Search
-                className="absolute top-1/2 left-3 size-4 -translate-y-1/2 transform text-gray-400"
+                className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform"
                 aria-hidden="true"
               />
               <Input
@@ -171,7 +171,7 @@ const SupportContent = () => {
               />
               {searchQuery && (
                 <button
-                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-600"
+                  className="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 transform"
                   onClick={() => setSearchQuery("")}
                   aria-label="Limpiar búsqueda"
                 >
@@ -190,11 +190,11 @@ const SupportContent = () => {
           aria-live="polite"
           aria-labelledby="search-results-heading"
         >
-          <div className="mx-auto max-w-3xl rounded-lg border bg-white p-4 shadow-sm">
+          <div className="bg-background mx-auto max-w-3xl rounded-lg border p-4 shadow-sm">
             <div className="mb-3 flex items-center justify-between">
               <h2 id="search-results-heading" className="text-lg font-medium">
                 Resultados:{" "}
-                <span className="text-indigo-600">{searchResults.length}</span>
+                <span className="text-primary">{searchResults.length}</span>
               </h2>
               <Button
                 variant="ghost"
@@ -216,12 +216,12 @@ const SupportContent = () => {
                 {searchResults.map((result) => (
                   <li
                     key={`${result.type}-${result.id}`}
-                    className="rounded-md border-b p-2 pb-3 last:border-0 hover:bg-gray-50"
+                    className="even:bg-muted hover:bg-accent rounded-md p-2 pb-3 last:border-0"
                   >
                     <div className="flex items-start">
-                      <div className="mr-2 rounded-full bg-indigo-50 p-1.5">
+                      <div className="mr-2 rounded-full bg-indigo-50 p-1.5 dark:bg-indigo-950">
                         <HelpCircle
-                          className="size-4 text-indigo-600"
+                          className="text-primary size-4"
                           aria-label="Pregunta frecuente"
                         />
                       </div>
@@ -229,13 +229,13 @@ const SupportContent = () => {
                         <h3 className="text-sm font-medium">
                           {result.question}
                         </h3>
-                        <p className="mt-1 line-clamp-2 text-sm text-gray-600">
+                        <p className="text-muted-foreground mt-1 line-clamp-2 text-sm">
                           {result.answer}
                         </p>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="mt-1 h-auto p-0 text-indigo-600 hover:text-indigo-800"
+                          className="text-primary hover:text-primary mt-1"
                           onClick={() => {
                             setSearchQuery("");
                             setIsSearching(false);
@@ -258,13 +258,13 @@ const SupportContent = () => {
             ) : (
               <div className="py-6 text-center">
                 <HelpCircle
-                  className="mx-auto mb-3 h-10 w-10 text-gray-300"
+                  className="text-muted-foreground mx-auto mb-3 h-10 w-10"
                   aria-hidden="true"
                 />
                 <h3 className="mb-2 text-base font-medium">
                   No se encontraron resultados
                 </h3>
-                <p className="mb-3 text-sm text-gray-500">
+                <p className="text-muted-foreground mb-3 text-sm">
                   No hemos encontrado resultados para &quot;{searchQuery}&quot;.
                   Intenta con otros términos o consulta nuestras preguntas
                   frecuentes.
@@ -285,7 +285,7 @@ const SupportContent = () => {
             {/* Preguntas frecuentes */}
             <section id="faq" className="mb-6" aria-labelledby="faq-heading">
               <div className="mb-3 flex items-center">
-                <HelpCircle className="mr-2 size-4 text-indigo-600" />
+                <HelpCircle className="text-primary mr-2 size-4" />
                 <h2 id="faq-heading" className="text-lg font-medium">
                   Preguntas frecuentes
                 </h2>
@@ -398,7 +398,7 @@ const SupportContent = () => {
             <section className="mb-6" aria-labelledby="features-heading">
               <div className="mb-3 flex items-center">
                 <Sparkles
-                  className="mr-2 size-4 text-indigo-600"
+                  className="text-primary mr-2 size-4"
                   aria-hidden="true"
                 />
                 <h2 id="features-heading" className="text-lg font-medium">
@@ -426,7 +426,7 @@ const SupportContent = () => {
             <section id="contact" aria-labelledby="contact-heading">
               <div className="mb-3 flex items-center">
                 <MessageSquare
-                  className="mr-2 size-4 text-indigo-600"
+                  className="text-primary mr-2 size-4"
                   aria-hidden="true"
                 />
                 <h2 id="contact-heading" className="text-lg font-medium">
@@ -477,7 +477,7 @@ const SupportContent = () => {
                       </div>
                     </div>
                     <CardContent className="p-3">
-                      <p className="mb-1 text-sm text-gray-600">
+                      <p className="text-foreground/80 mb-1 text-sm">
                         {option.description}
                       </p>
                       <p className="mb-2 text-sm font-medium">

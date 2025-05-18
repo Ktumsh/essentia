@@ -50,7 +50,11 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
   };
 
   return (
-    <div className={cn("border-border z-10 flex gap-1.5 rounded-full border")}>
+    <div
+      className={cn(
+        "bg-background z-10 flex gap-1.5 rounded-full border p-0.5",
+      )}
+    >
       <BetterTooltip content="Sistema">
         <MonitorButton
           aria-label="Modo sistema"

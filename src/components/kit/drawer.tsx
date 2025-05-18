@@ -57,7 +57,7 @@ function DrawerContent({
         data-slot="drawer-content"
         className={cn(
           "group/drawer-content bg-popover fixed z-50 flex h-auto flex-col",
-          "data-[vaul-drawer-direction=right]:overflow- data-[vaul-drawer-direction=left]:overflow-hidden data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg",
+          "data-[vaul-drawer-direction=left]:overflow-hidden data-[vaul-drawer-direction=right]:overflow-hidden data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg",
           "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:max-h-[95%] data-[vaul-drawer-direction=bottom]:rounded-t-3xl",
           "data-[vaul-drawer-direction=right]:inset-y-2 data-[vaul-drawer-direction=right]:right-2 data-[vaul-drawer-direction=right]:w-screen data-[vaul-drawer-direction=right]:max-w-72 data-[vaul-drawer-direction=right]:rounded-2xl data-[vaul-drawer-direction=right]:p-6",
           "data-[vaul-drawer-direction=left]:inset-y-2 data-[vaul-drawer-direction=left]:left-2 data-[vaul-drawer-direction=left]:w-screen data-[vaul-drawer-direction=left]:max-w-72 data-[vaul-drawer-direction=left]:rounded-2xl",

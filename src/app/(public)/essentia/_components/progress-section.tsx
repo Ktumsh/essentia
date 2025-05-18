@@ -19,7 +19,7 @@ const ProgressSection = () => {
     <section
       id="progreso"
       ref={ref}
-      className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 py-20"
+      className="relative overflow-hidden bg-gradient-to-br from-indigo-50 to-fuchsia-50 py-20 dark:from-indigo-950 dark:to-fuchsia-950"
     >
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto mb-16 max-w-3xl text-center">
@@ -28,13 +28,13 @@ const ProgressSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <Badge className="mb-4 bg-pink-100 px-3 py-1 text-sm text-pink-600 hover:bg-pink-200">
+            <Badge className="mb-4 bg-pink-100 px-3 py-1 text-sm text-pink-600 dark:bg-pink-900/50 dark:text-pink-400">
               PROGRESO
             </Badge>
-            <h2 className="mb-6 text-3xl font-bold text-gray-800 md:text-4xl lg:text-5xl">
+            <h2 className="mb-6 text-3xl font-bold md:text-4xl lg:text-5xl">
               Tu evolución, paso a paso
             </h2>
-            <p className="mb-8 text-base leading-relaxed text-gray-600 md:text-lg">
+            <p className="text-foreground/80 mb-8 text-base leading-relaxed md:text-lg">
               Monitorea tu evolución médica, accede a recomendaciones
               inteligentes y avanza en rutas de aprendizaje temáticas para
               fortalecer tu bienestar. Con Essentia, cada paso que das está
@@ -42,56 +42,56 @@ const ProgressSection = () => {
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <motion.div variants={item}>
-                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                    <FileStack className="text-blue-600" size={24} />
+                <div className="shadow-pretty bg-background h-full transform rounded-2xl p-6 text-start transition duration-300 hover:-translate-y-1">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
+                    <FileStack className="text-blue-600 dark:text-blue-400" />
                   </div>
                   <h3 className="mb-2 text-lg font-semibold">
                     Seguimiento de tu historial
                   </h3>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Visualiza tus documentos organizados por fecha, tipo y área
                     de salud
                   </p>
                 </div>
               </motion.div>
               <motion.div variants={item}>
-                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-                    <Brain className="text-purple-600" size={24} />
+                <div className="shadow-pretty bg-background h-full transform rounded-2xl p-6 text-start transition duration-300 hover:-translate-y-1">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fuchsia-100 dark:bg-fuchsia-900">
+                    <Brain className="text-fuchsia-600 dark:text-fuchsia-400" />
                   </div>
                   <h3 className="mb-2 text-lg font-semibold">
                     Recomendaciones con IA
                   </h3>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Recibe orientación basada en tus archivos médicos,
                     disponible en el plan Premium
                   </p>
                 </div>
               </motion.div>
               <motion.div variants={item}>
-                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                    <BookOpenCheck className="text-green-600" size={24} />
+                <div className="shadow-pretty bg-background h-full transform rounded-2xl p-6 text-start transition duration-300 hover:-translate-y-1">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
+                    <BookOpenCheck className="text-green-600 dark:text-green-400" />
                   </div>
                   <h3 className="mb-2 text-lg font-semibold">
                     Avance en rutas de aprendizaje
                   </h3>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Explora contenidos sobre salud física, emocional y
                     nutricional, y ve tu avance en cada ruta
                   </p>
                 </div>
               </motion.div>
               <motion.div variants={item}>
-                <div className="shadow-pretty h-full transform rounded-2xl bg-white p-6 text-start transition duration-300 hover:-translate-y-1">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
-                    <Database className="text-rose-600" size={24} />
+                <div className="shadow-pretty bg-background h-full transform rounded-2xl p-6 text-start transition duration-300 hover:-translate-y-1">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 dark:bg-rose-900">
+                    <Database className="text-rose-600 dark:text-rose-400" />
                   </div>
                   <h3 className="mb-2 text-lg font-semibold">
                     Monitoreo de carga
                   </h3>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Revisa cuántos archivos médicos has subido y cuánto espacio
                     tienes disponible según tu plan actual
                   </p>

@@ -5,7 +5,7 @@ import {
   InstagramIcon,
   TwitterIcon,
 } from "@/components/icons/media";
-import Logo from "@/components/ui/layout/logo";
+import FullLogo from "@/components/ui/layout/full-logo";
 import ThemeToggle from "@/components/ui/layout/theme-toggle";
 import { navConfig } from "@/config/nav.config";
 import { siteConfig } from "@/config/site.config";
@@ -14,16 +14,12 @@ const AuthFooter = () => {
   const links = siteConfig.links;
   const linksMore = navConfig.footerLinks.more;
   return (
-    <div className="border-border bg-background border-t px-5">
+    <div className="bg-background border-t px-5">
       <div className="mx-auto max-w-7xl">
         <footer className="font-norma text-foreground relative flex flex-col space-y-8 py-6">
           <div className="inline-flex w-full items-center justify-between">
-            <div className="flex items-center justify-center gap-3">
-              <Link href="/">
-                <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
-                  <Logo className="h-4" />
-                </div>
-              </Link>
+            <div className="flex items-center justify-center gap-2">
+              <FullLogo />
               <p className="text-center text-sm antialiased">
                 <span>© 2025 Essentia</span>
               </p>
@@ -58,8 +54,10 @@ const AuthFooter = () => {
               {linksMore.map((link, index) => (
                 <div key={index}>
                   <Link
+                    href={link.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-block border-b border-transparent hover:border-current"
-                    href=""
                   >
                     {link.text}
                   </Link>

@@ -89,7 +89,7 @@ const LegalWrapper = ({
   );
 
   return (
-    <div className="mt-14 bg-slate-50 text-base">
+    <div className="bg-muted dark:bg-background mt-14 text-base">
       <header
         className="bg-linear-to-tr/shorter from-indigo-500 to-purple-500 text-white"
         aria-labelledby="legal-heading"
@@ -118,11 +118,9 @@ const LegalWrapper = ({
           <aside className="shrink-0 lg:w-64 xl:w-72">
             <div className="sticky top-6 space-y-6">
               {/* Navegación entre documentos legales */}
-              <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
-                <div className="border-b border-gray-100 bg-gray-50 px-4 py-3">
-                  <h3 className="font-medium text-gray-900">
-                    Documentos legales
-                  </h3>
+              <div className="bg-background overflow-hidden rounded-xl border shadow-sm">
+                <div className="bg-muted border-b px-4 py-3">
+                  <h3 className="font-medium">Documentos legales</h3>
                 </div>
                 <nav>
                   {legalPages.map((page) => {
@@ -134,8 +132,8 @@ const LegalWrapper = ({
                         className={cn(
                           "flex items-center gap-2 border-l-4 border-transparent p-3 transition-colors",
                           isCurrentPage
-                            ? "border-indigo-600 bg-indigo-50 font-medium text-indigo-600"
-                            : "text-gray-600 hover:bg-gray-50",
+                            ? "border-primary text-primary bg-indigo-50 font-medium dark:bg-indigo-950"
+                            : "hover:bg-muted text-muted-foreground hover:text-foreground",
                         )}
                       >
                         <page.icon className="h-4 w-4" />
@@ -150,19 +148,17 @@ const LegalWrapper = ({
               </div>
 
               {/* Búsqueda en índice */}
-              <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
-                <div className="border-b border-gray-100 bg-gray-50 px-4 py-3">
-                  <h3 className="font-medium text-gray-900">
-                    Índice de contenidos
-                  </h3>
+              <div className="bg-background rounded-xl border shadow-sm">
+                <div className="bg-muted border-b px-4 py-3">
+                  <h3 className="font-medium">Índice de contenidos</h3>
                 </div>
                 <div className="p-3">
                   <div className="relative mb-3">
-                    <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                    <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                     <Input
                       type="text"
                       placeholder="Buscar sección..."
-                      className="w-full border-gray-200 bg-gray-50 pl-9"
+                      className="bg-muted border-alternative w-full pl-9"
                       value={searchQuery}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setSearchQuery(e.target.value)
@@ -178,8 +174,8 @@ const LegalWrapper = ({
                           className={cn(
                             "block w-full rounded-sm px-2 py-1 text-left text-sm transition-colors",
                             activeSection === item.id
-                              ? "bg-indigo-50 font-medium text-indigo-600"
-                              : "text-gray-700 hover:bg-gray-50",
+                              ? "text-primary bg-indigo-50 font-medium dark:bg-indigo-950"
+                              : "hover:bg-muted text-foreground/80 hover:text-foreground",
                             item.level === 3 && "pl-4",
                           )}
                         >
@@ -188,7 +184,7 @@ const LegalWrapper = ({
                       ))}
                     </nav>
                   ) : (
-                    <p className="p-2 text-sm text-gray-500">
+                    <p className="text-muted0 p-2 text-sm">
                       No se encontraron resultados
                     </p>
                   )}
@@ -196,15 +192,15 @@ const LegalWrapper = ({
               </div>
 
               {/* Contacto */}
-              <div className="rounded-xl border border-indigo-100 bg-indigo-50 p-4">
-                <h3 className="mb-2 font-medium text-indigo-900">
+              <div className="rounded-xl border border-indigo-100 bg-indigo-50 p-4 dark:border-indigo-900 dark:bg-indigo-950">
+                <h3 className="mb-2 font-medium text-indigo-900 dark:text-indigo-100">
                   ¿Necesitas ayuda?
                 </h3>
-                <p className="mb-3 text-sm text-indigo-700">
+                <p className="mb-3 text-sm text-indigo-700 dark:text-indigo-300">
                   Si tienes dudas sobre nuestros términos legales, contáctanos.
                 </p>
                 <Link href="/contacto">
-                  <Button className="w-full justify-between border border-indigo-200 bg-white text-indigo-600 hover:bg-indigo-100">
+                  <Button className="w-full">
                     Contactar soporte <ArrowRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>
@@ -213,13 +209,13 @@ const LegalWrapper = ({
           </aside>
 
           <article ref={contentRef} className="min-w-0 flex-1">
-            <Markdown className="prose-sm md:prose! prose-indigo prose-headings:scroll-mt-24 prose-headings:font-medium prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:text-indigo-700 prose-img:rounded-xl max-w-none! md:max-w-none! md:text-base!">
+            <Markdown className="prose-sm md:prose! prose-headings:scroll-mt-24 prose-headings:font-medium prose-headings prose-a:text-primary prose-a:no-underline hover:prose-a:text-indigo-700 max-w-none! md:max-w-none! md:text-base!">
               {content}
             </Markdown>
 
-            <div className="mt-12 border-t border-gray-100 pt-6">
+            <div className="mt-12 border-t pt-6">
               <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-muted0 text-sm">
                   © 2025 Essentia. Todos los derechos reservados.
                 </p>
                 <Link href="#legal-heading">

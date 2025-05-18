@@ -1,7 +1,6 @@
 "use client";
 
 import { Search } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 
@@ -10,8 +9,7 @@ import useIsScrolled from "@/hooks/use-is-scrolled";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-
-import Logo from "./logo";
+import FullLogo from "./full-logo";
 import MainSearch from "./main-search";
 import MobileMenu from "./mobile-menu";
 import NotificationsList from "./notifications-list";
@@ -47,19 +45,7 @@ const MobileHeader = ({ user, session }: MobileHeaderProps) => {
       >
         <div className="inline-flex items-center gap-4">
           {isAIPage && session && <AppSidebarToggle />}
-          <Link
-            href="/"
-            className="flex h-14 items-center justify-center gap-2"
-          >
-            <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
-              <Logo className="h-4" />
-            </div>
-            {!isAIPage && (
-              <div className="grid flex-1 text-left text-sm md:text-base">
-                <span className="truncate font-semibold">Essentia</span>
-              </div>
-            )}
-          </Link>
+          <FullLogo withLabel />
         </div>
         <div className="inline-flex items-center gap-4">
           <MainSearch isPremium={user?.isPremium || false}>

@@ -23,14 +23,14 @@ const VisionSection = () => {
     <section
       id="vision-proposito"
       ref={sectionRef}
-      className="relative overflow-hidden bg-white py-20"
+      className="bg-background relative py-20"
     >
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 h-1/3 w-1/3 rounded-full bg-rose-100 opacity-30 mix-blend-multiply blur-3xl filter"></div>
-        <div className="absolute bottom-0 left-0 h-1/3 w-1/3 rounded-full bg-indigo-100 opacity-30 mix-blend-multiply blur-3xl filter"></div>
+      <div className="absolute inset-0 z-1">
+        <div className="absolute top-0 right-0 h-1/3 w-1/3 rounded-full bg-rose-100 opacity-30 mix-blend-multiply blur-3xl filter dark:bg-rose-900" />
+        <div className="absolute bottom-0 left-0 h-1/3 w-1/3 rounded-full bg-indigo-100 opacity-30 mix-blend-multiply blur-3xl filter dark:bg-indigo-900" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="relative z-2 mx-auto max-w-7xl px-6">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-20">
           <motion.div
             className="lg:w-1/2"
@@ -38,13 +38,13 @@ const VisionSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <Badge className="mb-4 bg-indigo-100 px-3 py-1 text-sm text-indigo-600 hover:bg-indigo-200">
+            <Badge className="text-primary mb-4 bg-indigo-100 px-3 py-1 text-sm dark:bg-indigo-900/50">
               VISIÓN Y PROPÓSITO
             </Badge>
-            <h2 className="mb-6 text-3xl font-bold text-gray-800 md:text-4xl lg:text-5xl">
+            <h2 className="mb-6 text-3xl font-bold md:text-4xl lg:text-5xl">
               Imagina cómo Essentia transformará tu bienestar
             </h2>
-            <p className="mb-8 text-base leading-relaxed text-gray-600 md:text-lg">
+            <p className="text-foreground/80 mb-8 text-base leading-relaxed md:text-lg">
               Essentia te acompaña en el camino hacia una salud plena,
               ayudándote a definir metas reales, seguir tu progreso y tomar
               decisiones respaldadas por evidencia. Todo lo que necesitas para
@@ -52,14 +52,14 @@ const VisionSection = () => {
             </p>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100">
-                  <Target className="h-6 w-6 text-indigo-600" />
+                <div className="flex size-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900">
+                  <Target className="text-primary" />
                 </div>
                 <div>
                   <h4 className="mb-2 text-xl font-semibold">
                     Objetivos que realmente importan
                   </h4>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Essentia te impulsa a avanzar hacia un bienestar real,
                     ayudándote a definir metas de salud que se adapten a ti y
                     que puedas alcanzar paso a paso.
@@ -68,14 +68,14 @@ const VisionSection = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-rose-100">
-                  <BarChart3 className="h-6 w-6 text-rose-600" />
+                <div className="flex size-12 flex-shrink-0 items-center justify-center rounded-full bg-rose-100 dark:bg-rose-900">
+                  <BarChart3 className="text-rose-600 dark:text-rose-400" />
                 </div>
                 <div>
                   <h4 className="mb-2 text-xl font-semibold">
                     Progreso que puedes entender y sostener
                   </h4>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Visualizar tu evolución te permite tomar decisiones con
                     claridad. Con Essentia, cada pequeño avance cobra sentido en
                     el camino hacia una vida más equilibrada.
@@ -84,14 +84,14 @@ const VisionSection = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100">
-                  <Lightbulb className="h-6 w-6 text-amber-600" />
+                <div className="flex size-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900">
+                  <Lightbulb className="text-amber-600 dark:text-amber-400" />
                 </div>
                 <div>
                   <h4 className="mb-2 text-xl font-semibold">
                     Recomendaciones que hacen sentido
                   </h4>
-                  <p className="text-base text-gray-600">
+                  <p className="text-foreground/80 text-base">
                     Toda recomendación nace de evidencia confiable y de tus
                     propias necesidades. Así, puedes avanzar con seguridad hacia
                     lo que verdaderamente necesitas para estar mejor.
@@ -108,8 +108,8 @@ const VisionSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <div className="relative mx-auto aspect-square w-full max-w-md">
-              <div className="absolute inset-0 rotate-3 transform rounded-3xl bg-linear-to-br/shorter from-indigo-200 to-rose-200"></div>
-              <div className="absolute inset-0 -rotate-3 transform overflow-hidden rounded-3xl bg-white shadow-lg">
+              <div className="absolute inset-0 rotate-3 transform rounded-3xl bg-linear-to-br/shorter from-indigo-200 to-rose-200 dark:from-indigo-800 dark:to-rose-800" />
+              <div className="bg-background absolute inset-0 -rotate-3 transform overflow-hidden rounded-3xl shadow-lg">
                 <div className="relative h-full">
                   {!videoError ? (
                     <video

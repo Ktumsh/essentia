@@ -2,13 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getYear } from "date-fns";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useState, useTransition } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/components/kit/button";
+import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import DatePicker from "@/components/kit/date-picker";
 import {
   Form,
@@ -23,7 +21,8 @@ import { getUserByUsername } from "@/db/querys/user-querys";
 import { InfoFormData, infoSchema } from "@/lib/form-schemas";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
 
-import { SubmitButton } from "./submit-button";
+import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
+import { SubmitButton } from "../../_components/submit-button";
 
 interface SignupInfoStepProps {
   email: string;
@@ -60,7 +59,6 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
       setHasMissingFields(true);
     } else {
       setHasMissingFields(false);
-      toast.error("Por favor corrige los errores en el formulario.");
     }
   };
 
@@ -74,7 +72,6 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
             type: "manual",
             message: getMessageFromCode(ResultCode.USERNAME_EXISTS),
           });
-          toast.error("Por favor corrige los errores en el formulario.");
           return;
         }
 
@@ -95,21 +92,19 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
 
   return (
     <Form {...form}>
-      <div className="mb-5 flex gap-5">
-        <Button
+      <div className="mb-5 flex gap-2">
+        <ArrowLeftButton
           size="icon"
           variant="ghost"
           onClick={onBack}
-          className="sm:bg-accent bg-transparent px-2"
+          className="-ms-2"
         >
-          <ArrowLeft className="text-foreground/80 size-5!" />
-        </Button>
+          <span className="sr-only">Volver atrás</span>
+        </ArrowLeftButton>
         <div className="text-foreground/80 w-full text-sm">
           <p>
             Parece que no tienes una cuenta. Vamos a crear una cuenta para{" "}
-            <span className="font-bold text-blue-500 sm:font-medium">
-              {email}
-            </span>
+            <span className="text-secondary font-medium">{email}</span>
           </p>
         </div>
       </div>
@@ -217,21 +212,8 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
             </FormItem>
           )}
         />
-
         <SubmitButton isPending={isPending}>Continuar</SubmitButton>
-
-        <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-inherit">
-          <p>
-            ¿Ya tienes una cuenta?{" "}
-            <Link
-              href="/login"
-              className="font-bold text-blue-500 underline-offset-2 hover:underline sm:font-medium"
-              aria-label="Inicia sesión"
-            >
-              Inicia sesión
-            </Link>
-          </p>
-        </div>
+        <AuthRedirectMessage />
       </form>
     </Form>
   );

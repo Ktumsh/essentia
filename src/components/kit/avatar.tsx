@@ -12,10 +12,10 @@ function Avatar({
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
-      className={cn("relative inline-flex align-middle", className)}
+      className="relative inline-flex align-middle"
       {...props}
     >
-      <div className="mask mask-squircle aspect-square size-8">
+      <div className={cn("mask mask-squircle aspect-square size-8", className)}>
         {props.children}
       </div>
     </AvatarPrimitive.Root>

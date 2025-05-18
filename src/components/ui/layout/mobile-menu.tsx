@@ -35,10 +35,9 @@ import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
 
-
 import FeedbackBox from "./feedback-box";
+import FullLogo from "./full-logo";
 import Greeting from "./greeting";
-import Logo from "./logo";
 import ThemeToggle from "./theme-toggle";
 import PaymentModal from "../payment/payment-modal";
 
@@ -86,9 +85,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
               href="/"
               className="relative mt-0! inline-flex items-center gap-2"
             >
-              <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
-                <Logo width={16} height={16} className="h-4" />
-              </div>
+              <FullLogo />
               <div className="grid flex-1 text-left text-sm">
                 <span className="truncate font-semibold">Essentia</span>
                 <span className="text-muted-foreground truncate text-xs">
@@ -302,7 +299,7 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                   onClick={() => setIsDrawerOpen(true)}
                 >
                   {profileImage ? (
-                    <Avatar className="size-8 rounded-lg">
+                    <Avatar>
                       <Image
                         priority
                         src={profileImage}
@@ -312,8 +309,8 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                       />
                     </Avatar>
                   ) : (
-                    <Avatar className="size-8 rounded-lg">
-                      <AvatarFallback className="rounded-lg">
+                    <Avatar>
+                      <AvatarFallback>
                         <AvatarIcon className="text-foreground size-4" />
                       </AvatarFallback>
                     </Avatar>
@@ -338,8 +335,8 @@ const MobileMenu = ({ user }: MobileMenuProps) => {
                 className="relative inline-flex w-full items-center gap-2"
                 onClick={() => setIsDrawerOpen(true)}
               >
-                <Avatar className="size-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg">
+                <Avatar>
+                  <AvatarFallback>
                     <AvatarIcon className="text-foreground size-4" />
                   </AvatarFallback>
                 </Avatar>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { SubmitHandler } from "react-hook-form";
@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 import { onSendEmail, verifyCode } from "@/app/(auth)/actions";
 import { Button } from "@/components/kit/button";
-import { Card } from "@/components/kit/card";
+import { Card, CardContent } from "@/components/kit/card";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import {
   getUserByEmail,
@@ -16,11 +16,12 @@ import {
   verifySamePassword,
 } from "@/db/querys/user-querys";
 import { EmailFormData, NewPasswordFormData } from "@/lib/form-schemas";
-import { cn } from "@/lib/utils";
 
 import StepEmail from "./step-email";
 import StepResetPassword from "./step-reset-password";
 import StepVerifyCode from "./step-verify-code";
+import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
+import StepContainer from "../../signup/_components/step-container";
 
 const RecoverPass = () => {
   const router = useRouter();
@@ -137,43 +138,30 @@ const RecoverPass = () => {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-6">
-      <Card
-        className={cn(
-          "md:bg-background w-full min-w-full rounded-xl border-none bg-transparent",
-          step === 1 ? "max-w-[500px]" : "max-w-md",
-        )}
-      >
-        {step === 1 && (
-          <StepEmail onSubmit={handleSendEmail} isPending={isPending} />
-        )}
-        {step === 2 && (
-          <StepVerifyCode
-            email={email}
-            isVerifying={isVerifying}
-            code={code}
-            onCodeChange={onCodeChange}
-          />
-        )}
-        {step === 3 && (
-          <StepResetPassword
-            onSubmit={handleResetPassword}
-            isPending={isPending}
-          />
-        )}
+    <div className="flex flex-col items-center gap-6 px-4">
+      <Card className="shadow-pretty bg-background/80 w-full border backdrop-blur-md md:w-[500px]">
+        <CardContent className="p-6 md:p-8">
+          <StepContainer step={step} current={1}>
+            <StepEmail onSubmit={handleSendEmail} isPending={isPending} />
+          </StepContainer>
+          <StepContainer step={step} current={2}>
+            <StepVerifyCode
+              email={email}
+              isVerifying={isVerifying}
+              code={code}
+              onCodeChange={onCodeChange}
+            />
+          </StepContainer>
+          <StepContainer step={step} current={3}>
+            <StepResetPassword
+              onSubmit={handleResetPassword}
+              isPending={isPending}
+            />
+          </StepContainer>
+          {step === 1 && <AuthRedirectMessage />}
+        </CardContent>
       </Card>
-
       <div className="inline-flex items-center gap-2">
-        {step === 1 && (
-          <Button
-            variant="ghost"
-            className="pl-2 hover:bg-transparent!"
-            onClick={() => router.back()}
-          >
-            <ArrowLeft className="size-3.5" />
-            Volver
-          </Button>
-        )}
         {step === 2 && (
           <Button
             disabled={isSending}

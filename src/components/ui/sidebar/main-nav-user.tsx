@@ -125,7 +125,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                   <DropdownMenuItem asChild>
                     <Link href={user ? "/profile" : "/login"}>
                       {profileImage ? (
-                        <Avatar className="size-8 rounded-md">
+                        <Avatar>
                           <Image
                             priority
                             src={profileImage}
@@ -135,8 +135,8 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                           />
                         </Avatar>
                       ) : (
-                        <Avatar className="size-8 rounded-md">
-                          <AvatarFallback className="rounded-md">
+                        <Avatar>
+                          <AvatarFallback>
                             <AvatarIcon className="text-foreground/80 size-4" />
                           </AvatarFallback>
                         </Avatar>

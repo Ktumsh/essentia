@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/kit/button";
-import Logo from "@/components/ui/layout/logo";
+import FullLogo from "@/components/ui/layout/full-logo";
 
 const AuthHeader = () => {
   const router = useRouter();
@@ -16,22 +15,16 @@ const AuthHeader = () => {
   if (isVerifyEmail) return null;
 
   return (
-    <div role="banner" className="animate-enchance fixed top-0 z-100 w-full">
+    <div role="banner" className="fixed top-0 z-50 w-full backdrop-blur-md">
       <div className="flex h-14 w-full items-center justify-between gap-5 px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="bg-logo flex size-8 shrink-0 items-center justify-center rounded-sm">
-            <Logo />
-          </div>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">Essentia</span>
-          </div>
-        </Link>
+        <FullLogo withLabel />
         <Button
-          variant="outline"
+          variant="accent"
+          size="sm"
           onClick={() =>
             router.push(isRegister ? "/login" : isLogin ? "/signup" : "/login")
           }
-          className="border-0 shadow-none md:h-10 md:border"
+          className="md:bg-accent bg-background"
         >
           {isRegister
             ? "Inicia sesión"

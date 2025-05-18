@@ -1,7 +1,7 @@
 "use client";
 
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { ArrowLeft, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,13 +9,7 @@ import { toast } from "sonner";
 
 import { verifyCode } from "@/app/(auth)/actions";
 import { Button } from "@/components/kit/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/kit/card";
+import { Card, CardContent, CardTitle } from "@/components/kit/card";
 import {
   InputOTP,
   InputOTPGroup,
@@ -81,30 +75,26 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
   };
 
   return (
-    <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-      <div className="w-full max-w-md">
-        <Card className="md:bg-background border-none bg-transparent">
-          <CardHeader className="prose prose-sm w-full items-center space-y-0">
+    <div className="flex flex-col items-center gap-6 px-4">
+      <Card className="shadow-pretty bg-background/80 w-full border backdrop-blur-md md:w-[500px]">
+        <CardContent className="p-6 md:p-8">
+          <div className="flex size-full flex-col items-center justify-center text-center select-none">
             <Image
-              src="/extras/verify-email.webp"
-              width={100}
-              height={100}
-              alt="Verificación de correo"
               aria-hidden="true"
-              className="-mt-2 mb-0!"
+              src="/auth/email-badge.webp"
+              width={56}
+              height={60}
+              alt="Verificación de correo"
+              className="mb-6 w-14 object-cover"
             />
-            <CardTitle className="text-foreground mt-0! text-lg">
+            <CardTitle className="font-merriweather mb-1.5 text-xl">
               ¡Confirma tu correo!
             </CardTitle>
-            <CardDescription className="text-foreground text-center">
-              <p>
-                Hemos enviado un código de verificación a{" "}
-                <span className="font-semibold text-blue-500!">{email}</span>{" "}
-                para que puedas activar tu cuenta. Introdúcelo a continuación.
-              </p>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pb-10">
+            <p className="text-foreground/80 mb-5 w-full text-sm">
+              Hemos enviado un código de verificación a{" "}
+              <span className="text-secondary font-semibold">{email}</span> para
+              que puedas activar tu cuenta. Introdúcelo a continuación.
+            </p>
             {isVerifying ? (
               <div className="inline-flex h-12 w-full items-center justify-center gap-2">
                 <span>Verificando</span>
@@ -129,19 +119,10 @@ const VerifyEmail = ({ email }: VerifyEmailProps) => {
                 </InputOTPGroup>
               </InputOTP>
             )}
-          </CardContent>
-        </Card>
-      </div>
-
+          </div>
+        </CardContent>
+      </Card>
       <div className="inline-flex items-center gap-2">
-        <Button
-          variant="ghost"
-          onClick={() => router.push("/login")}
-          className="pl-2 hover:bg-transparent!"
-        >
-          <ArrowLeft className="size-3.5" />
-          Volver
-        </Button>
         <Button
           disabled={isSending}
           variant="outline"

@@ -5,9 +5,9 @@ import { useRef } from "react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import Footer from "./footer";
 import Navbar from "./navbar";
-import ScrollToTopButton from "../essentia/_components/scroll-to-top-button";
+import PublicFooter from "./public-footer";
+import ScrollToTopButton from "./scroll-to-top-button";
 
 interface PublicWrapperProps {
   children: React.ReactNode;
@@ -21,11 +21,11 @@ const PublicWrapper = ({ children, session }: PublicWrapperProps) => {
     <div className="relative flex size-full flex-col md:max-h-dvh md:min-h-dvh md:flex-row">
       <div
         ref={scrollRef}
-        className="min-h-screen min-w-screen overflow-y-auto bg-gradient-to-br from-rose-50 via-purple-50 to-sky-50"
+        className="min-h-screen min-w-screen overflow-y-auto bg-linear-to-br/shorter from-rose-50 via-purple-50 to-sky-50 dark:from-rose-950/50 dark:via-purple-950/50 dark:to-sky-950/50"
       >
         <Navbar scrollRef={scrollRef} session={session} />
         <main>{children}</main>
-        <Footer />
+        <PublicFooter />
         {isMobile ? (
           <ScrollToTopButton />
         ) : (

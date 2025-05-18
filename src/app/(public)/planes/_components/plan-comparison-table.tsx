@@ -24,7 +24,7 @@ const PlanComparisonTable = () => {
       </h2>
 
       {/* 🖥 Tabla para desktop */}
-      <div className="hidden overflow-x-auto rounded-xl border bg-white md:block">
+      <div className="bg-background hidden overflow-x-auto rounded-xl border md:block">
         <table className="min-w-full border-collapse text-left text-sm">
           <thead className="bg-accent text-foreground text-base font-semibold">
             <tr>

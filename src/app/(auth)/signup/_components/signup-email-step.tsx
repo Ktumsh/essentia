@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -20,7 +19,8 @@ import { getUserByEmail } from "@/db/querys/user-querys";
 import { emailSchema } from "@/lib/form-schemas";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
 
-import { SubmitButton } from "./submit-button";
+import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
+import { SubmitButton } from "../../_components/submit-button";
 
 interface SignupEmailStepProps {
   onSuccess: (email: string) => void;
@@ -81,18 +81,7 @@ const SignupEmailStep = ({ onSuccess }: SignupEmailStepProps) => {
           )}
         />
         <SubmitButton isPending={isPending}>Continuar</SubmitButton>
-        <div className="mt-2 flex items-center justify-center self-center text-center text-[13px] text-inherit">
-          <p>
-            ¿Ya tienes una cuenta?{" "}
-            <Link
-              className="font-bold text-blue-500 sm:font-medium"
-              href="/login"
-              aria-label="Inicia sesión"
-            >
-              Inicia sesión
-            </Link>
-          </p>
-        </div>
+        <AuthRedirectMessage />
       </form>
     </Form>
   );

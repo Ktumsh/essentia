@@ -54,13 +54,13 @@ const PricingSelector = ({
       }}
       className="w-full"
     >
-      <TabsList className="mb-4 w-full rounded-full">
+      <TabsList className="bg-background mb-4 w-full rounded-full">
         {SUBSCRIPTION_PLAN_DATA.map((plan) => (
           <TabsTrigger
             key={plan.id}
             value={plan.id}
             className={cn(
-              "flex-1 rounded-full",
+              "data-[state=active]:bg-accent flex-1 rounded-full",
               selectedPlan.id === plan.id &&
                 plan.id === premium &&
                 "bg-premium data-[state=active]:text-white",

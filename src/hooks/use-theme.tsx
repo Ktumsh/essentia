@@ -8,15 +8,7 @@ import {
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const pathname = usePathname();
-  const pathsToExclude = [
-    "/essentia",
-    "/soporte",
-    "/planes",
-    "/blog",
-    "/terminos",
-    "/privacidad",
-    "/cookies",
-  ];
+  const pathsToExclude = ["/blog"];
   const isExcluded = pathsToExclude.includes(pathname);
 
   return (

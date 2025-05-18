@@ -32,7 +32,8 @@ import { LoginFormData, loginSchema } from "@/lib/form-schemas";
 import { getWelcomeLabel } from "@/lib/utils";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
 
-import { SubmitButton } from "./submit-button";
+import { AuthRedirectMessage } from "../_components/auth-redirect-message";
+import { SubmitButton } from "../_components/submit-button";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -119,22 +120,19 @@ const LoginForm = () => {
   };
 
   return (
-    <Card className="md:bg-background w-full rounded-xl border-none bg-transparent md:min-w-[500px]">
-      <CardHeader className="p-8">
-        <CardTitle className="font-merriweather text-xl dark:text-white">
-          Bienvenid@,
-        </CardTitle>
+    <Card className="shadow-pretty bg-background/80 w-full border backdrop-blur-md md:min-w-[500px]">
+      <CardHeader className="p-6 md:p-8">
+        <CardTitle className="font-merriweather text-xl">Bienvenid@,</CardTitle>
         <CardDescription className="text-muted-foreground">
           <p>Ingresa tus credenciales para acceder a tu cuenta de Essentia.</p>
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-8 pt-0">
+      <CardContent className="p-6 pt-0! md:p-8">
         <Form {...form}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex size-full flex-col items-start justify-center space-y-5 select-none"
           >
-            {/* Email */}
             <FormField
               control={form.control}
               name="email"
@@ -161,8 +159,6 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-
-            {/* Password */}
             <FormField
               control={form.control}
               name="password"
@@ -189,9 +185,7 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-
-            {/* Remember Me y Forgot Password */}
-            <div className="text-foreground/80 mx-0 flex w-full justify-between text-xs">
+            <div className="text-foreground/80 mx-0 flex w-full justify-between text-sm">
               <FormField
                 control={form.control}
                 name="remember"
@@ -207,7 +201,7 @@ const LoginForm = () => {
                         className="shadow-none"
                       />
                     </FormControl>
-                    <FormLabel htmlFor="remember" className="mt-0!">
+                    <FormLabel htmlFor="remember" className="mt-0! text-sm">
                       Recordarme
                     </FormLabel>
                   </FormItem>
@@ -221,26 +215,10 @@ const LoginForm = () => {
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
-
-            {/* Submit Button */}
             <SubmitButton isPending={isPending}>Iniciar sesión</SubmitButton>
           </form>
         </Form>
-
-        {/* Link a Registro */}
-        <div className="text-foreground/80 mt-5 flex items-center justify-center self-center text-center text-[13px]">
-          <p>
-            ¿No tienes una cuenta?{" "}
-            <Link
-              id="register-base-color"
-              className="register-base-color font-bold text-blue-500 sm:font-medium"
-              href="/signup"
-              aria-label="Regístrate"
-            >
-              Regístrate
-            </Link>
-          </p>
-        </div>
+        <AuthRedirectMessage />
       </CardContent>
     </Card>
   );

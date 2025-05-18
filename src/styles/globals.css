@@ -145,9 +145,9 @@
   --card-foreground: hsl(222.2, 84%, 4.9%);
   --popover: hsl(261, 100%, 100%);
   --popover-foreground: hsl(222.2, 84%, 4.9%);
-  --primary: var(--color-indigo-500);
+  --primary: var(--color-indigo-600);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: var(--color-fuchsia-500);
+  --secondary: var(--color-fuchsia-600);
   --secondary-foreground: hsl(0, 0%, 100%);
   --muted: var(--color-slate-50);
   --muted-foreground: hsla(215.4, 16.3%, 46.9%);
@@ -174,23 +174,6 @@
   --text-base: 15px;
 
   --bento-gradient: linear-gradient(135deg, #fff3, #ffffff12);
-
-  --alternative-gradient: linear-gradient(
-    to right,
-    rgb(242, 112, 156),
-    rgb(255, 148, 114)
-  );
-
-  --light-pink: hsl(340, 83%, 84%);
-  --light-blue: hsl(231, 43%, 83%);
-  --light-green: hsl(161, 43%, 83%);
-
-  --gradient-from: hsl(330, 86%, 80%);
-  --gradient-via: hsl(231, 43%, 83%);
-  --gradient-to: hsl(163, 73%, 85%);
-
-  --gradient-from-alternative: hsl(340, 83%, 69%);
-  --gradient-to-alternative: hsl(14, 100%, 72%);
 
   --bento-shadow:
     0px 25px 50px -12px rgba(0, 0, 0, 0.2),
@@ -221,10 +204,10 @@
   --card-foreground: hsl(210, 40%, 98%);
   --popover: hsl(216, 80%, 8%);
   --popover-foreground: hsl(210, 40%, 98%);
-  --primary: var(--color-indigo-500);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: var(--color-fuchsia-500);
-  --secondary-foreground: hsl(0, 0%, 100%);
+  --primary: var(--color-indigo-400);
+  --primary-foreground: hsl(222.2, 84%, 4.9%);
+  --secondary: var(--color-fuchsia-400);
+  --secondary-foreground: hsl(222.2, 84%, 4.9%);
   --muted: color-mix(in oklab, var(--accent) 50%, transparent);
   --muted-foreground: hsla(215, 20.2%, 65.1%);
   --accent: hsl(214, 80%, 12%);
@@ -241,19 +224,6 @@
   --chart-5: hsl(340, 75%, 55%);
 
   --alternative: hsl(214, 72%, 25%);
-
-  --alternative-gradient: linear-gradient(
-    to right,
-    hsl(335, 78%, 42%),
-    hsl(6, 93%, 71%)
-  );
-
-  --gradient-from: hsl(214, 80%, 12%);
-  --gradient-via: hsl(0, 100%, 73%);
-  --gradient-to: hsl(24, 100%, 74%);
-
-  --gradient-from-alternative: hsl(0, 100%, 73%);
-  --gradient-to-alternative: hsl(24, 100%, 74%);
 
   --pretty-shadow: 10px 10px 16px rgba(0, 0, 0, 0.15);
 
@@ -520,18 +490,6 @@
   * {
     animation: none !important;
     transition: none !important;
-  }
-}
-
-.animate-enchance {
-  animation: enchance-header linear both;
-  animation-timeline: scroll(root);
-  animation-range: 0 100px;
-}
-
-@keyframes enchance-header {
-  to {
-    backdrop-filter: blur(16px);
   }
 }
 

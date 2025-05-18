@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 
 import { HomeFillIcon } from "@/components/icons/interface";
 import { Button } from "@/components/kit/button";
@@ -19,7 +19,6 @@ import BottomNav from "./bottom-navbar";
 import ButtonUp from "./button-up";
 import DesktopHeader from "./desktop-header";
 import MobileHeader from "./mobile-header";
-import WelcomeModal from "./welcome-modal";
 import { AppSidebar } from "../sidebar/app-sidebar";
 
 import type { UserProfileData } from "@/lib/types";
@@ -55,17 +54,6 @@ const LayoutWrapper = ({
   const isEssentiaAI =
     pathname === "/essentia-ai" || pathname.startsWith("/essentia-ai/chat/");
 
-  const backgroundClasses = useMemo(() => {
-    return cn(
-      "dark:after:from-full-dark before:absolute before:top-0 before:left-1/6 before:h-[900px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-linear-to-tr before:from-slate-50 before:to-[#c0c6e6] before:opacity-0 before:blur-3xl before:content-[''] after:absolute after:top-1/2 after:-left-[2%] after:z-10 after:h-[280px] after:w-full after:rounded-full after:bg-linear-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-0 after:blur-lg after:content-[''] sm:before:w-[1080px] sm:after:w-[240px] md:before:opacity-30 md:after:opacity-50 dark:before:bg-linear-to-br dark:before:from-transparent dark:before:to-[#ff7373] dark:before:opacity-0 dark:after:top-1/2 dark:after:h-[120px] dark:after:w-[160px] dark:after:bg-linear-to-br dark:after:via-[#ff7373] dark:after:opacity-0 dark:after:blur-2xl sm:dark:after:h-[180px] md:dark:before:opacity-15 md:dark:after:opacity-15",
-    );
-  }, []);
-
-  const motionContainerClasses = cn(
-    "fixed inset-0 z-0 overflow-hidden pointer-events-none",
-    isPremium && "absolute inset-0",
-  );
-
   return (
     <div
       className={cn(
@@ -76,26 +64,11 @@ const LayoutWrapper = ({
       )}
     >
       <ScrollContext.Provider value={scrollRef}>
-        {/* Background */}
+        <Background isPremium={isPremium} />
 
-        <motion.div
-          data-id="background"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-          aria-hidden="true"
-          className={motionContainerClasses}
-        >
-          <div className={backgroundClasses}></div>
-        </motion.div>
-
-        {/* Mobile Header */}
         <MobileHeader user={user} session={session} />
 
-        {/* Sidebar */}
         <AppSidebar session={session} user={user} isPremium={isPremium} />
-
-        {/* Main content */}
         {isMobile ? (
           <SidebarInset>
             {isEssentiaAI ? (
@@ -142,7 +115,6 @@ const LayoutWrapper = ({
                   "h-[calc(100dvh-48px)]": !isDismissed,
                 })}
               >
-                {/* Desktop Header */}
                 <DesktopHeader
                   user={user}
                   session={session}
@@ -155,17 +127,30 @@ const LayoutWrapper = ({
           </SidebarInset>
         )}
 
-        {/* Button Up */}
         {!hideButtonUp && !isMobile && <ButtonUp scrollRef={scrollRef} />}
 
-        {/* Bottom Mobile Navbar */}
         <BottomNav />
-
-        {/* Welcome Modal */}
-        {!session && <WelcomeModal />}
       </ScrollContext.Provider>
     </div>
   );
 };
 
 export default LayoutWrapper;
+
+function Background({ isPremium }: { isPremium: boolean }) {
+  return (
+    <motion.div
+      data-id="background"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: "easeInOut", duration: 0.5 }}
+      aria-hidden="true"
+      className={cn(
+        "pointer-events-none fixed inset-0 z-0 overflow-hidden",
+        isPremium && "absolute inset-0",
+      )}
+    >
+      <div className="before:absolute before:top-0 before:left-1/6 before:block before:size-96 before:-translate-x-1/2 before:rounded-full before:bg-linear-to-tr/shorter before:from-transparent before:to-indigo-300 before:opacity-30 before:blur-2xl after:absolute after:top-1/2 after:-left-[2%] after:z-10 after:block after:size-72 after:rounded-full after:bg-linear-to-tr/shorter after:from-fuchsia-300 after:to-transparent after:opacity-50 after:blur-2xl dark:before:bg-linear-to-br/shorter dark:before:from-transparent dark:before:to-indigo-900 dark:before:opacity-80 dark:after:top-1/2 dark:after:bg-linear-to-br/shorter dark:after:from-fuchsia-950 dark:after:opacity-80" />
+    </motion.div>
+  );
+}

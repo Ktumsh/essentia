@@ -211,16 +211,16 @@ export const navConfig = {
     ],
     more: [
       { path: "/essentia", text: "Descubre Essentia" },
-      { path: "", text: "Privacidad" },
-      { path: "", text: "Términos" },
-      { path: "", text: "Cookies" },
+      { path: "/terminos", text: "Términos" },
+      { path: "/privacidad", text: "Privacidad" },
+      { path: "/cookies", text: "Cookies" },
     ],
   },
   desktopFooterLinks: {
     more: [
-      { path: "", text: "Políticas de privacidad" },
-      { path: "", text: "Términos y condiciones" },
-      { path: "", text: "Cookies" },
+      { path: "/terminos", text: "Términos de servicio" },
+      { path: "/privacidad", text: "Política de privacidad" },
+      { path: "/cookies", text: "Cookies" },
       { path: "/essentia", text: "Descubre Essentia" },
     ],
   },

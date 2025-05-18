@@ -22,7 +22,7 @@ function Input({
         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         isAuth &&
-          "dark:bg-background! dark:md:bg-accent/50! bg-background! md:bg-accent! dark:border-alternative/50 h-11! rounded-lg! border-0 md:border",
+          "dark:bg-accent/50! bg-accent! dark:border-alternative/50 h-11! rounded-lg!",
         isPassword && "pr-10",
         className,
       )}

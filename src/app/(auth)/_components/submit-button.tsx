@@ -14,16 +14,12 @@ export function SubmitButton({
   return (
     <Button
       type={isPending ? "button" : "submit"}
-      radius="full"
-      variant="alternative"
+      size="lg"
       aria-disabled={isPending}
       disabled={isPending}
-      className="dark:border-background relative h-10 w-full border border-white shadow-sm md:border-0 md:shadow-none"
+      className="mb-0! w-full"
     >
-      {isPending && <Loader className="size-4 animate-spin" />}
-
-      {!isPending && children}
-
+      {isPending ? <Loader className="size-4 animate-spin" /> : children}
       <output aria-live="polite" className="sr-only">
         {isPending ? "Cargando" : "Enviar formulario"}
       </output>

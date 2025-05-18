@@ -24,7 +24,7 @@ const PricingPage = async () => {
   const isPremium = subscription ? subscription[0].isPremium : false;
 
   return (
-    <div className="mt-14 bg-slate-50 text-base">
+    <div className="bg-muted mt-14 text-base">
       <PricingHeader />
       <PricingCards session={session} isPremium={isPremium} />
       <PlanComparisonTable />

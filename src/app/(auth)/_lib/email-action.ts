@@ -1,3 +1,5 @@
+import { isDevelopmentEnvironment } from "@/lib/consts";
+
 type EmailBasePayload = {
   email: string;
   token: string;
@@ -28,7 +30,7 @@ export async function sendEmailAction(
   actionType: ActionType,
   payload: Payload,
 ) {
-  const BASE_URL = process.env.DEVELOPMENT
+  const BASE_URL = isDevelopmentEnvironment
     ? "http://localhost:3000"
     : "https://www.essentia.plus";
 

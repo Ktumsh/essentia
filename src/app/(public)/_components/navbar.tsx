@@ -16,7 +16,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/kit/navigation-menu";
-import Logo from "@/components/ui/layout/logo";
+import FullLogo from "@/components/ui/layout/full-logo";
 import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
@@ -86,7 +86,7 @@ const Navbar = ({
         size="sm"
         variant="outline"
         onClick={() => router.push("/")}
-        className="bg-white"
+        className="bg-background"
       >
         Panel Essentia
       </Button>
@@ -106,7 +106,7 @@ const Navbar = ({
         variant="outline"
         size="sm"
         onClick={() => router.push("/login")}
-        className="bg-white"
+        className="bg-background"
       >
         Iniciar sesión
       </LoginButton>
@@ -123,7 +123,7 @@ const Navbar = ({
       className={cn(
         "fixed top-0 right-0 left-0 z-50 flex h-14 items-center transition-all",
         {
-          "pointer-events-none bg-white/80 backdrop-blur-md backdrop-saturate-150 md:bg-transparent md:backdrop-blur-none md:backdrop-saturate-100":
+          "bg-background/80 pointer-events-none backdrop-blur-md backdrop-saturate-150 md:bg-transparent md:backdrop-blur-none md:backdrop-saturate-100":
             isScrolled,
         },
       )}
@@ -141,14 +141,7 @@ const Navbar = ({
                 variants={logoVariants}
                 transition={{ duration: 0.25 }}
               >
-                <Link href="/essentia" className="flex items-center gap-2">
-                  <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
-                    <Logo />
-                  </div>
-                  <span className="truncate text-sm font-semibold">
-                    Essentia
-                  </span>
-                </Link>
+                <FullLogo withLabel href="/essentia" />
               </motion.div>
             ) : (
               <motion.div
@@ -160,29 +153,13 @@ const Navbar = ({
                 variants={logoVariants}
                 transition={{ duration: 0.25 }}
               >
-                <Link href="/essentia" className="flex items-center gap-2">
-                  <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
-                    <Logo />
-                  </div>
-                  <span className="truncate text-sm font-semibold">
-                    Essentia
-                  </span>
-                </Link>
+                <FullLogo withLabel href="/essentia" />
               </motion.div>
             )}
           </AnimatePresence>
         )}
 
-        {isMobile && (
-          <div className="flex items-center gap-2">
-            <Link href="/essentia" className="flex items-center gap-2">
-              <div className="bg-logo flex h-8 w-8 shrink-0 items-center justify-center rounded-sm">
-                <Logo />
-              </div>
-              <span className="truncate text-sm font-semibold">Essentia</span>
-            </Link>
-          </div>
-        )}
+        {isMobile && <FullLogo withLabel href="/essentia" />}
 
         <motion.div
           initial="visible"
@@ -200,11 +177,11 @@ const Navbar = ({
                       className={cn(
                         "bg-transparent",
                         {
-                          "hover:bg-white hover:data-[state=open]:bg-white":
+                          "hover:bg-background hover:data-[state=open]:bg-background":
                             !isScrolled,
                         },
                         pathname.startsWith("/recursos") &&
-                          "font-medium text-indigo-600",
+                          "text-primary font-medium",
                       )}
                     >
                       {item.title}
@@ -216,11 +193,10 @@ const Navbar = ({
                             key={resource.title}
                             title={resource.title}
                             href={resource.href}
-                            className={
-                              pathname === resource.href
-                                ? "font-medium text-indigo-600"
-                                : ""
-                            }
+                            className={cn(
+                              pathname === resource.href &&
+                                "text-primary font-medium",
+                            )}
                           >
                             {resource.description}
                           </ListItem>
@@ -236,9 +212,8 @@ const Navbar = ({
                         className={cn(
                           navigationMenuTriggerStyle(),
                           "bg-transparent",
-                          { "hover:bg-white": !isScrolled },
-                          pathname === item.href &&
-                            "font-medium text-indigo-600",
+                          { "hover:bg-background": !isScrolled },
+                          pathname === item.href && "text-primary font-medium",
                         )}
                       >
                         {item.title}
@@ -278,7 +253,7 @@ const Navbar = ({
             </motion.div>
           )}
         </AnimatePresence>
-        <MobileNavbar />
+        <MobileNavbar session={session} />
       </div>
     </header>
   );

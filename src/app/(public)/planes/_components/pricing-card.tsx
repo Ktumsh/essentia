@@ -105,7 +105,7 @@ const PricingCard = ({
     <>
       <Card
         className={cn(
-          "border-alternative relative flex shrink-0 snap-start flex-col rounded-2xl shadow-sm md:max-w-[362px] md:rounded-3xl",
+          "border-alternative relative flex shrink-0 snap-start flex-col rounded-2xl border-2 shadow-sm md:max-w-[362px] md:rounded-3xl",
           isPremiumStyle &&
             "bg-premium z-10 border-none text-white after:absolute after:inset-px after:rounded-2xl after:content-[''] md:after:rounded-3xl",
           isPremiumPlus && "bg-premium-plus",
@@ -116,7 +116,7 @@ const PricingCard = ({
             "text-foreground relative z-10 flex-col gap-3 space-y-0 p-3 after:-z-10 after:border-b-0 md:p-6",
             !isPremiumStyle && "after:inset-0!",
             isPremiumStyle
-              ? "after:bg-background dark:after:border-background after:absolute after:inset-0.5 after:bottom-0 after:rounded-[15px] after:content-[''] md:after:rounded-[22px]"
+              ? "after:bg-background dark:after:border-background after:absolute after:inset-0.5 after:bottom-0 after:rounded-[22px] after:content-[''] md:after:rounded-[22px]"
               : "after:bg-accent after:absolute after:inset-px after:bottom-0 after:rounded-2xl after:rounded-b-none after:content-[''] md:after:rounded-3xl",
           )}
         >
@@ -193,8 +193,8 @@ const PricingCard = ({
             ))}
           </ul>
           {plan.name !== "Básico" && (
-            <div className="mt-4 flex flex-1 items-end justify-center">
-              <div className="bg-background inline-flex w-full items-center justify-center gap-1 rounded-sm">
+            <div className="mt-6 flex flex-1 items-end justify-center">
+              <div className="bg-background inline-flex w-full items-center justify-center gap-1 rounded-full">
                 <p className="text-foreground text-center text-xs">
                   Pagos seguros con
                 </p>

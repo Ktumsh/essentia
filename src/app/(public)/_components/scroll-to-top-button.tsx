@@ -31,10 +31,10 @@ const ScrollToTopButton = ({
           <Button
             onClick={scrollToTop}
             size="icon"
-            className="size-10 rounded-full bg-linear-to-r/shorter from-indigo-500 to-pink-500 text-white shadow-lg transition-transform hover:scale-110 hover:from-indigo-600 hover:to-pink-600 md:size-12"
+            className="bg-premium size-10 rounded-full text-white shadow-lg transition hover:scale-110 hover:saturate-150 md:size-12"
             aria-label="Volver arriba"
           >
-            <ChevronUp className="h-6 w-6" />
+            <ChevronUp className="size-6!" />
           </Button>
         </motion.div>
       )}

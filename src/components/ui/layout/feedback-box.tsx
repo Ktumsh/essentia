@@ -190,7 +190,7 @@ const FeedbackBox = () => {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <MessageButton
-            variant="secondary"
+            variant="accent"
             size="sm"
             className="[&_svg]:size-3.5!"
           >

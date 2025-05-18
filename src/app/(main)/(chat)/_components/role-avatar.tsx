@@ -1,13 +1,9 @@
 import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/kit/avatar";
-import Logo from "@/components/ui/layout/logo";
+import FullLogo from "@/components/ui/layout/full-logo";
 
 export const BotAvatar = () => {
-  return (
-    <div className="bg-logo flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-sm select-none">
-      <Logo />
-    </div>
-  );
+  return <FullLogo className="size-6" />;
 };
 
 export const UserAvatar = ({
@@ -18,10 +14,10 @@ export const UserAvatar = ({
   username?: string;
 }) => {
   return (
-    <div className="order-1 flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-sm select-none">
-      <Avatar className="size-6 rounded-sm">
+    <div className="order-1 flex size-6 shrink-0 items-center justify-center select-none">
+      <Avatar className="size-6">
         <AvatarImage src={profileImage || ""} alt={username} />
-        <AvatarFallback className="rounded-sm">
+        <AvatarFallback>
           <AvatarIcon className="text-muted-foreground size-4" />
         </AvatarFallback>
       </Avatar>

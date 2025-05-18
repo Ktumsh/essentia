@@ -22,48 +22,46 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="relative w-full overflow-y-auto">
+    <div className="relative flex h-dvh flex-col overflow-y-auto">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ ease: "easeInOut", duration: 0.5 }}
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
       >
-        <div className="dark:after:from-full-dark before:absolute before:top-0 before:left-1/2 before:h-[800px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-linear-to-tr before:from-slate-50 before:to-[#c0c6e6] before:blur-[80px] before:content-[''] after:absolute after:top-[10%] after:left-[20%] after:z-10 after:h-[580px] after:w-full after:rounded-full after:bg-linear-to-tr after:from-[#f8b6cc] after:to-transparent after:opacity-50 after:blur-[80px] after:content-[''] sm:before:w-[1080px] sm:after:w-[540px] dark:before:h-[600px] dark:before:w-[980px] dark:before:bg-linear-to-br dark:before:from-transparent dark:before:to-[#ff7373] dark:before:opacity-20 dark:after:top-1/4 dark:after:left-2/3 dark:after:h-[180px] dark:after:w-[260px] dark:after:rounded-none dark:after:bg-linear-to-br dark:after:via-[#ff7373] dark:after:opacity-50 dark:after:blur-3xl"></div>
+        <div className="before:absolute before:top-1/6 before:left-2/3 before:block before:size-96 before:-translate-x-1/2 before:scale-150 before:rounded-full before:bg-linear-to-tr/shorter before:from-transparent before:to-indigo-300 before:blur-2xl after:absolute after:top-1/3 after:left-1/4 after:z-10 after:block after:size-96 after:rounded-full after:bg-linear-to-tr/shorter after:from-fuchsia-300 after:to-transparent after:blur-2xl dark:before:to-indigo-900 dark:after:from-fuchsia-950 dark:after:to-transparent" />
       </motion.div>
       <AuthHeader />
-      <div className="relative size-full">
-        <div className="z-40 min-h-dvh w-full sm:min-h-dvh">
-          <div className="flex min-h-dvh w-full items-center justify-center">
-            {isLogin ? (
-              <motion.div
-                key="login"
-                initial="initialLogin"
-                animate="animateLogin"
-                exit="exitLogin"
-                variants={variants}
-                transition={{ ease: "easeInOut", duration: 0.5 }}
-                className="z-20 flex size-full flex-col sm:w-auto"
-              >
-                {children}
-              </motion.div>
-            ) : isSignup ? (
-              <motion.div
-                key="signup"
-                initial="initialSignup"
-                animate="animateSignup"
-                exit="exitSignup"
-                variants={variants}
-                transition={{ ease: "easeInOut", duration: 0.5 }}
-                className="z-20 flex size-full flex-col sm:w-auto"
-              >
-                {children}
-              </motion.div>
-            ) : (
-              children
-            )}
-          </div>
+      <div className="z-40 min-h-dvh w-full sm:min-h-dvh">
+        <div className="flex min-h-dvh w-full items-center justify-center">
+          {isLogin ? (
+            <motion.div
+              key="login"
+              initial="initialLogin"
+              animate="animateLogin"
+              exit="exitLogin"
+              variants={variants}
+              transition={{ ease: "easeInOut", duration: 0.5 }}
+              className="flex size-full flex-col px-4 sm:w-auto"
+            >
+              {children}
+            </motion.div>
+          ) : isSignup ? (
+            <motion.div
+              key="signup"
+              initial="initialSignup"
+              animate="animateSignup"
+              exit="exitSignup"
+              variants={variants}
+              transition={{ ease: "easeInOut", duration: 0.5 }}
+              className="flex size-full flex-col px-4 sm:w-auto"
+            >
+              {children}
+            </motion.div>
+          ) : (
+            children
+          )}
         </div>
       </div>
       <AuthFooter />

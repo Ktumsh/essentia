@@ -1,5 +1,7 @@
+import { isDevelopmentEnvironment } from "@/lib/consts";
+
 export async function sendEmailAccountDeleted(email: string, token: string) {
-  const baseUrl = process.env.DEVELOPMENT
+  const baseUrl = isDevelopmentEnvironment
     ? "http://localhost:3000"
     : "https://www.essentia.plus";
 

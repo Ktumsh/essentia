@@ -8,8 +8,8 @@ import {
 } from "@/components/kit/sidebar";
 import { cn } from "@/lib/utils";
 
+import FullLogo from "../layout/full-logo";
 import Greeting from "../layout/greeting";
-import Logo from "../layout/logo";
 
 interface AppHeaderProps {
   isCollapsed?: boolean;
@@ -31,25 +31,20 @@ const AppHeader = ({ isCollapsed }: AppHeaderProps) => {
           >
             <Link href="/">
               {isCollapsed ? (
-                <div
+                <FullLogo
+                  collapsed
                   className={cn(
-                    "bg-logo mask mask-squircle grid aspect-square place-content-center group-data-[state=collapsed]:size-[30px]",
-                    isCollapsed ? "size-full" : "size-8",
+                    "group-data-[state=collapsed]:size-[30px]",
+                    isCollapsed && "size-full",
                   )}
-                >
-                  <Logo width={16} height={16} className="h-4" />
-                </div>
+                />
               ) : (
-                <div className="relative inline-flex align-middle">
-                  <div
-                    className={cn(
-                      "bg-logo mask mask-squircle grid aspect-square place-content-center group-data-[state=collapsed]:size-[30px]",
-                      isCollapsed ? "size-full" : "size-8",
-                    )}
-                  >
-                    <Logo width={16} height={16} className="h-4" />
-                  </div>
-                </div>
+                <FullLogo
+                  className={cn(
+                    "group-data-[state=collapsed]:size-[30px]",
+                    isCollapsed && "size-full",
+                  )}
+                />
               )}
               <div className="grow">
                 <p className="truncate text-sm font-semibold">Essentia</p>

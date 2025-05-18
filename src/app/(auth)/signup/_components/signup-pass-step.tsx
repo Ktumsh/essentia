@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -9,7 +8,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { signup } from "@/app/(auth)/signup/actions";
-import { Button, ButtonPassword } from "@/components/kit/button";
+import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
+import { ButtonPassword } from "@/components/kit/button";
 import {
   Form,
   FormControl,
@@ -22,7 +22,8 @@ import { Input } from "@/components/kit/input";
 import { PasswordFormData, passwordSchema } from "@/lib/form-schemas";
 import { getMessageFromCode, ResultCode } from "@/utils/errors";
 
-import { SubmitButton } from "./submit-button";
+import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
+import { SubmitButton } from "../../_components/submit-button";
 
 interface SignupPassStepProps {
   email: string;
@@ -91,21 +92,19 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
 
   return (
     <Form {...form}>
-      <div className="mb-5 flex gap-5">
-        <Button
+      <div className="mb-5 flex gap-2">
+        <ArrowLeftButton
           size="icon"
           variant="ghost"
           onClick={onBack}
-          className="sm:bg-accent bg-transparent px-2"
+          className="-ms-2"
         >
-          <ArrowLeft className="text-foreground/80 size-5!" />
-        </Button>
+          <span className="sr-only">Volver atrás</span>
+        </ArrowLeftButton>
         <div className="text-foreground/80 w-full text-sm">
           <p>
             Elige una contraseña segura para tu cuenta{" "}
-            <span className="font-bold text-blue-500 sm:font-medium">
-              {email}
-            </span>
+            <span className="text-secondary font-medium">{email}</span>
           </p>
         </div>
       </div>
@@ -122,8 +121,6 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
           autoComplete="username"
           hidden
         />
-
-        {/* Contraseña */}
         <FormField
           control={form.control}
           name="password"
@@ -152,8 +149,6 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
             </FormItem>
           )}
         />
-
-        {/* Confirmar Contraseña */}
         <FormField
           control={form.control}
           name="confirmPassword"
@@ -184,43 +179,30 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
             </FormItem>
           )}
         />
-
-        {/* Términos y Condiciones */}
         <div className="text-foreground/80-h relative mb-6 flex w-full text-[13px] leading-snug select-text">
           <p className="text-center md:text-start">
             Al continuar, estás aceptando los{" "}
             <Link
-              href="#"
-              className="font-bold text-blue-500 underline-offset-2 hover:underline sm:font-medium"
-              aria-label="Términos y condiciones de uso"
+              href="/terminos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary font-medium underline-offset-2 hover:underline"
             >
-              Términos y condiciones de uso{" "}
+              Términos de servicio{" "}
             </Link>
             y la{" "}
             <Link
-              href="#"
-              className="font-bold text-blue-500 underline-offset-2 hover:underline sm:font-medium"
-              aria-label="Política de privacidad"
+              href="/privacidad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary font-medium underline-offset-2 hover:underline"
             >
               Política de privacidad
             </Link>
           </p>
         </div>
-
         <SubmitButton isPending={isPending}>Crear cuenta</SubmitButton>
-
-        <div className="text-foreground/80-h mt-2 flex items-center justify-center self-center text-center text-[13px]">
-          <p>
-            ¿Ya tienes una cuenta?{" "}
-            <Link
-              href="/login"
-              className="font-bold text-blue-500 underline-offset-2 hover:underline sm:font-medium"
-              aria-label="Inicia sesión"
-            >
-              Inicia sesión
-            </Link>
-          </p>
-        </div>
+        <AuthRedirectMessage />
       </form>
     </Form>
   );
