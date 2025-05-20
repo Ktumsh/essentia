@@ -44,7 +44,7 @@ const SubscriptionDetails = () => {
 
   const trialExpiresAt = trial.expiresAt;
 
-  const trialMessage = getTrialMessage(trialExpiresAt!);
+  const trialMessage = isTrialActive ? getTrialMessage(trialExpiresAt!) : null;
 
   const { amount } = payment || {};
   const { type, expiresAt, isPremium, status } =
