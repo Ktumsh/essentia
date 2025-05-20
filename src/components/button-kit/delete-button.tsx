@@ -14,6 +14,7 @@ interface DeleteButtonProps extends HTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   variant?: ButtonVariant;
   iconSize?: number;
+  disabled?: boolean;
 }
 
 const lidVariants: Variants = {
@@ -34,6 +35,7 @@ const DeleteButton = ({
   size,
   variant,
   iconSize = 28,
+  disabled,
   ...props
 }: DeleteButtonProps) => {
   const controls = useAnimation();
@@ -56,6 +58,7 @@ const DeleteButton = ({
 
   return (
     <Button
+      disabled={disabled}
       size={size}
       variant={variant}
       className={cn(className)}

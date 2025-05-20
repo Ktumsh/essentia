@@ -3,21 +3,21 @@ import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
+import {
+  type MedicalFileType,
+  type MedicalHistoryWithTags,
+} from "@/db/querys/medical-history-querys";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { fetcher } from "@/lib/utils";
 
 import { useCanUploadFile } from "./use-can-upload-files";
-import { useMedicalFolders } from "./use-medical-folders";
+import { useMedicalDialogs } from "./use-medical-dialogs";
 import { useMedicalHistoryActions } from "./use-medical-history-actions";
 import { useRecommendationsActions } from "./use-recommendations-actions";
 
-import type { AIRecommendationType } from "../_components/ai-recommendation";
-import type { FeatureType } from "@/components/ui/payment/payment-modal";
-import type {
-  MedicalFileType,
-  MedicalHistoryWithTags,
-} from "@/db/querys/medical-history-querys";
+import type { MedicalHistoryFormSchema } from "../_components/medical-history-form";
+import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import type { MedicalTag } from "@/db/schema";
 import type { MedicalHistoryActivity } from "@/lib/types";
 
@@ -29,7 +29,6 @@ export function useMedicalHistoryLogic() {
   const { isTrialUsed } = useTrial();
 
   const { uploadStatus, refreshUploadStatus } = useCanUploadFile(userId);
-  const { folders = [] } = useMedicalFolders();
 
   const { data: medicalTags = [] } = useSWR<MedicalTag[]>(
     "/api/medical-tags",
@@ -39,7 +38,7 @@ export function useMedicalHistoryLogic() {
   const {
     data: medicalHistory = [],
     isLoading: isHistoryLoading,
-    mutate,
+    mutate: mutateHistory,
   } = useSWR<MedicalHistoryWithTags[]>("/api/medical-history", fetcher);
   const { data: activities = [], mutate: mutateActivities } = useSWR<
     MedicalHistoryActivity[]
@@ -48,106 +47,87 @@ export function useMedicalHistoryLogic() {
     data: savedRecommendations = [],
     isLoading: isRecommendationsLoading,
     mutate: mutateSavedRecommendations,
-  } = useSWR(isPremium ? "/api/ai-recommendations" : null, fetcher, {
-    fallbackData: [],
-  });
-  const [currentItem, setCurrentItem] = useState<MedicalHistoryWithTags | null>(
-    null,
+  } = useSWR<SavedAIRecommendation[]>(
+    isPremium ? "/api/ai-recommendations" : null,
+    fetcher,
+    {
+      fallbackData: [],
+    },
   );
-  const [editingItem, setEditingItem] = useState<MedicalHistoryWithTags | null>(
-    null,
-  );
-  const [itemToDelete, setItemToDelete] =
-    useState<MedicalHistoryWithTags | null>(null);
-  const [fileToView, setFileToView] = useState<{
-    url?: string | null;
-    name: string;
-  } | null>(null);
-  const [recommendationsToShare, setRecommendationsToShare] = useState<
-    AIRecommendationType[]
-  >([]);
-  const [selectedItemsForAI, setSelectedItemsForAI] = useState<string[]>([]);
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [documentCategoryFilter, setDocumentCategoryFilter] = useState<
     MedicalFileType | "all"
   >("all");
-  const [visibilityFilter, setVisibilityFilter] = useState<
-    "all" | "shared" | "private"
-  >("all");
   const [documentTypeFilter, setDocumentTypeFilter] = useState<
     "all" | "recent" | "shared" | "private"
   >("all");
+  const [visibilityFilter, setVisibilityFilter] = useState<
+    "all" | "shared" | "private"
+  >("all");
   const [activeFolderId, setActiveFolderId] = useState<string | null>(null);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [dialogs, setDialogs] = useState({
-    isPremiumModal: false,
-    isAddDialogOpen: false,
-    isEditDialogOpen: false,
-    isViewDialogOpen: false,
-    isDeleteDialogOpen: false,
-    isAIDialogOpen: false,
-    isFileViewerOpen: false,
-    isActivityFullViewOpen: false,
-    isShareDialogOpen: false,
-  });
-
-  const [premiumFeatureType, setPremiumFeatureType] =
-    useState<FeatureType>("general");
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const [hasNewActivity, setHasNewActivity] = useState(false);
 
-  const { createRecord, updateRecord, deleteRecord, restoreDocument } =
-    useMedicalHistoryActions({
-      userId,
-      refreshUploadStatus,
-      mutate,
-      activitiesMutate: mutateActivities,
-      setHasNewActivity,
-    });
+  const {
+    createRecord,
+    updateRecord,
+    deleteRecord,
+    restoreDocument,
+    deleteDocuments,
+  } = useMedicalHistoryActions({
+    userId,
+    refreshUploadStatus,
+    mutate: mutateHistory,
+    activitiesMutate: mutateActivities,
+    setHasNewActivity,
+  });
 
   const {
     saveRecommendation,
     deleteRecommendation,
     updateRecommendationNotes,
-  } = useRecommendationsActions({ userId, mutateSavedRecommendations });
+    deleteRecommendations,
+    isSaved: isRecommendationSaved,
+    toggleRecommendation,
+  } = useRecommendationsActions({
+    userId,
+    mutateSavedRecommendations: async () => {
+      await mutateSavedRecommendations();
+    },
+  });
+
+  const { closeDialog, editingItem, itemToDelete } = useMedicalDialogs();
 
   const filteredHistory = useMemo(() => {
-    let filtered = medicalHistory;
-
+    let items = medicalHistory;
     if (selectedTags.length) {
-      filtered = filtered.filter((item) =>
-        selectedTags.some((tag) => item.tags.includes(tag)),
+      items = items.filter((it) =>
+        selectedTags.some((t) => it.tags.includes(t)),
       );
     }
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        (item) =>
-          [item.condition, item.description, item.issuer, item.notes]
+      items = items.filter(
+        (it) =>
+          [it.condition, it.description, it.issuer, it.notes]
             .filter(Boolean)
-            .some((text) => text!.toLowerCase().includes(term)) ||
-          item.tags.some((tag) => tag.toLowerCase().includes(term)),
+            .some((txt) => txt!.toLowerCase().includes(term)) ||
+          it.tags.some((t) => t.toLowerCase().includes(term)),
       );
     }
     if (documentCategoryFilter !== "all") {
-      filtered = filtered.filter(
-        (item) => item.type === documentCategoryFilter,
-      );
+      items = items.filter((it) => it.type === documentCategoryFilter);
     }
     if (visibilityFilter !== "all") {
-      filtered = filtered.filter(
-        (item) => item.visibility === visibilityFilter,
-      );
+      items = items.filter((it) => it.visibility === visibilityFilter);
     }
     if (activeFolderId) {
-      filtered = filtered.filter((item) => item.folderId === activeFolderId);
+      items = items.filter((it) => it.folderId === activeFolderId);
     }
-
-    return filtered;
+    return items;
   }, [
     medicalHistory,
     selectedTags,
@@ -159,78 +139,9 @@ export function useMedicalHistoryLogic() {
 
   const getTagCount = useCallback(
     (tag: string) =>
-      medicalHistory.filter((item) => item.tags.includes(tag)).length,
+      medicalHistory.filter((it) => it.tags.includes(tag)).length,
     [medicalHistory],
   );
-
-  const handleCreate = useCallback(
-    async (data: any) => {
-      try {
-        setIsSubmitting(true);
-        if (!uploadStatus?.allowed) {
-          const isUnlimited = uploadStatus?.max === null;
-          toast.error("Límite alcanzado", {
-            description: isUnlimited
-              ? "No se ha podido verificar tu límite de documentos"
-              : `Tu plan permite hasta ${uploadStatus?.max} documentos médicos`,
-          });
-          setIsSubmitting(false);
-          return;
-        }
-        await createRecord(data);
-        setDialogs((prev) => ({ ...prev, isAddDialogOpen: false }));
-      } catch {
-        toast.error("No se ha podido crear el documento", {
-          description: "Por favor, intenta nuevamente",
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [createRecord, uploadStatus],
-  );
-
-  const handleUpdate = useCallback(
-    async (data: any) => {
-      if (!editingItem) return;
-      try {
-        setIsSubmitting(true);
-        await updateRecord(editingItem, data);
-        setDialogs((prev) => ({ ...prev, isEditDialogOpen: false }));
-        setEditingItem(null);
-      } catch {
-        toast.error("No se ha podido actualizar el documento", {
-          description: "Por favor, intenta nuevamente",
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [editingItem, updateRecord],
-  );
-
-  const handleDelete = useCallback(async () => {
-    if (!itemToDelete) return;
-    try {
-      setIsSubmitting(true);
-      await deleteRecord(itemToDelete);
-      setItemToDelete(null);
-    } catch {
-      toast.error("No se ha podido eliminar el documento", {
-        description: "Por favor, intenta nuevamente",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [itemToDelete, deleteRecord]);
-
-  const handleRestore = useCallback(
-    async (id: string) => {
-      await restoreDocument(id, medicalHistory);
-    },
-    [restoreDocument, medicalHistory],
-  );
-
   const clearFilters = useCallback(() => {
     setSelectedTags([]);
     setSearchTerm("");
@@ -239,43 +150,64 @@ export function useMedicalHistoryLogic() {
     setActiveFolderId(null);
   }, []);
 
-  const handleShareRecommendation = useCallback(
-    (rec: AIRecommendationType | AIRecommendationType[]) => {
-      const list = Array.isArray(rec) ? rec : [rec];
-      setRecommendationsToShare(list);
-      setDialogs((prev) => ({ ...prev, isShareDialogOpen: true }));
+  const handleCreate = useCallback(
+    async (data: MedicalHistoryFormSchema) => {
+      setIsSubmitting(true);
+      try {
+        if (!uploadStatus?.allowed) {
+          const isUnlimited = uploadStatus?.max === null;
+          toast.error("Límite alcanzado", {
+            description: isUnlimited
+              ? "No se ha podido verificar tu límite de documentos"
+              : `Tu plan permite hasta ${uploadStatus?.max} documentos médicos`,
+          });
+          return;
+        }
+        await createRecord(data);
+        closeDialog("isAddDialogOpen");
+      } catch {
+        toast.error("No se pudo crear el documento. Intenta nuevamente");
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [],
+    [createRecord, uploadStatus, closeDialog],
   );
 
-  const openAIRecommendationsForAll = () => {
-    if (!isPremium) {
-      setPremiumFeatureType("ai-recommendations");
-      setDialogs((prev) => ({ ...prev, isPremiumModal: true }));
-      return;
-    }
-    setSelectedItemsForAI([]);
-    setDialogs((prev) => ({ ...prev, isAIDialogOpen: true }));
-  };
-
-  const openAIRecommendationsForSelected = (ids: string[]) => {
-    if (!isPremium) {
-      setPremiumFeatureType("ai-recommendations");
-      setDialogs((prev) => ({ ...prev, isPremiumModal: true }));
-      return;
-    }
-    setSelectedItemsForAI(ids);
-    setDialogs((prev) => ({ ...prev, isAIDialogOpen: true }));
-  };
-
-  const handleViewDocumentFromActivity = useCallback(
-    (id: string) => {
-      const doc = medicalHistory.find((d) => d.id === id);
-      if (!doc) return;
-      setCurrentItem(doc);
-      setDialogs((prev) => ({ ...prev, isViewDialogOpen: true }));
+  const handleUpdate = useCallback(
+    async (data: MedicalHistoryFormSchema) => {
+      if (!editingItem) return;
+      setIsSubmitting(true);
+      try {
+        await updateRecord(editingItem, data);
+        closeDialog("isEditDialogOpen");
+      } catch {
+        toast.error("No se pudo actualizar el documento. Intenta nuevamente");
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [medicalHistory],
+    [editingItem, updateRecord, closeDialog],
+  );
+
+  const handleDelete = useCallback(async () => {
+    if (!itemToDelete) return;
+    setIsSubmitting(true);
+    try {
+      await deleteRecord(itemToDelete);
+      closeDialog("isDeleteDialogOpen");
+    } catch {
+      toast.error("No se pudo eliminar el documento. Intenta nuevamente");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [itemToDelete, deleteRecord, closeDialog]);
+
+  const handleRestore = useCallback(
+    async (id: string) => {
+      await restoreDocument(id, medicalHistory);
+    },
+    [restoreDocument, medicalHistory],
   );
 
   const handleDownload = async (fileData: {
@@ -299,132 +231,53 @@ export function useMedicalHistoryLogic() {
     }
   };
 
-  const documentViewHandlers = {
-    onEdit: (item: MedicalHistoryWithTags) => {
-      setEditingItem(item);
-      setDialogs((prev) => ({ ...prev, isEditDialogOpen: true }));
-    },
-    onDelete: (item: MedicalHistoryWithTags) => {
-      setItemToDelete(item);
-      setDialogs((prev) => ({ ...prev, isDeleteDialogOpen: true }));
-    },
-    onAIClick: (item: MedicalHistoryWithTags) => {
-      setSelectedItemsForAI([item.id]);
-      setDialogs((prev) => ({ ...prev, isAIDialogOpen: true }));
-    },
-    onViewFile: (fileData: { url?: string | null; name: string }) => {
-      setFileToView(fileData);
-      setDialogs((prev) => ({ ...prev, isFileViewerOpen: true }));
-    },
-    onOpenPremiumModal: () => {
-      setPremiumFeatureType("ai-recommendations");
-      setDialogs((prev) => ({
-        ...prev,
-        isPremiumModal: true,
-        isViewDialogOpen: false,
-      }));
-      setCurrentItem(null);
-    },
-  };
-
-  const listHandlers = {
-    onView: (item: MedicalHistoryWithTags) => {
-      setCurrentItem(item);
-      setDialogs((prev) => ({ ...prev, isViewDialogOpen: true }));
-    },
-    onEdit: (item: MedicalHistoryWithTags) => {
-      setEditingItem(item);
-      setDialogs((prev) => ({ ...prev, isEditDialogOpen: true }));
-      setIsOpenOptions(false);
-    },
-    onDelete: (item: MedicalHistoryWithTags) => {
-      setItemToDelete(item);
-      setDialogs((prev) => ({ ...prev, isDeleteDialogOpen: true }));
-      setIsOpenOptions(false);
-    },
-    onAIClick: (item: MedicalHistoryWithTags) => {
-      setSelectedItemsForAI([item.id]);
-      setDialogs((prev) => ({ ...prev, isAIDialogOpen: true }));
-    },
-    onViewFile: (fileData: { url?: string | null; name: string }) => {
-      setFileToView(fileData);
-      setDialogs((prev) => ({ ...prev, isFileViewerOpen: true }));
-    },
-    onDownload: (fileData: { url?: string | null; name: string }) => {
-      handleDownload(fileData);
-    },
-    onAddDocument: () => {
-      setDialogs((prev) => ({ ...prev, isAddDialogOpen: true }));
-    },
-    onOpenOptions: (item: MedicalHistoryWithTags | null) => {
-      setCurrentItem(item);
-      setIsOpenOptions(!!item);
-    },
-  };
-
   const loading = isHistoryLoading || isRecommendationsLoading;
 
   return {
     userId,
     isTrialUsed,
-    uploadStatus,
 
-    // Datos
+    uploadStatus,
     medicalTags,
-    folders,
     medicalHistory,
     filteredHistory,
     activities,
     savedRecommendations,
 
-    // Estados
-    currentItem,
-    editingItem,
-    itemToDelete,
-    fileToView,
-    selectedItemsForAI,
-    recommendationsToShare,
-    searchTerm,
     selectedTags,
+    setSelectedTags,
+    searchTerm,
+    setSearchTerm,
     documentCategoryFilter,
+    setDocumentCategoryFilter,
     documentTypeFilter,
-    dialogs,
-    premiumFeatureType,
-    hasNewActivity,
-
-    // Flags
-    isSubmitting,
+    setDocumentTypeFilter,
+    visibilityFilter,
+    setVisibilityFilter,
+    activeFolderId,
+    setActiveFolderId,
     isOpenOptions,
+    setIsOpenOptions,
+    hasNewActivity,
+    clearFilters,
+
+    isSubmitting,
     loading,
 
-    // Handlers compuestos
-    documentViewHandlers,
-    listHandlers,
-
-    // Funciones de acción directa
     handleCreate,
     handleUpdate,
     handleDelete,
     handleRestore,
-    handleShareRecommendation,
-    handleViewDocumentFromActivity,
+    handleDownload,
+    deleteDocuments,
+
     saveRecommendation,
     deleteRecommendation,
+    deleteRecommendations,
     updateRecommendationNotes,
-    openAIRecommendationsForAll,
-    openAIRecommendationsForSelected,
-    clearFilters,
-    getTagCount,
+    isRecommendationSaved,
+    toggleRecommendation,
 
-    // Setters usados directamente
-    setDialogs,
-    setPremiumFeatureType,
-    setDocumentTypeFilter,
-    setDocumentCategoryFilter,
-    setSearchTerm,
-    setSelectedTags,
-    setIsOpenOptions,
-    setEditingItem,
-    setFileToView,
+    getTagCount,
   };
 }

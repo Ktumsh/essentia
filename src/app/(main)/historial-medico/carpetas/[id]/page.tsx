@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/app/(auth)/auth";
 import { getDocumentsByFolderId } from "@/db/querys/medical-folder-querys";
 
-import MedicalFolderCardList from "../_components/medical-folder-card-list";
+import DocumentsView from "../_components/documents-view";
 
 interface FolderPageProps {
   params: Promise<{
@@ -33,5 +33,5 @@ export default async function FolderPage(props: FolderPageProps) {
     redirect("/historial-medico");
   }
 
-  return <MedicalFolderCardList documents={documents} />;
+  return <DocumentsView docs={documents} folderId={id} />;
 }

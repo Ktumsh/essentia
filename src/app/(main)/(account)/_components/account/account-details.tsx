@@ -18,7 +18,7 @@ import { formatDate } from "@/utils/format";
 import ChangeEmailModal from "./change-email-modal";
 import ChangePasswordModal from "./change-password-modal";
 import DeleteAccountModal from "./delete-account-modal";
-import RouuteProgressTable from "./route-progress-table";
+import RouteProgressTable from "./route-progress-table";
 import InfoFieldItem from "../info-field-item";
 
 import type { LearningRoutes } from "@/lib/types";
@@ -43,7 +43,7 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
   return (
     <>
       <div className="flex w-full flex-col gap-8">
-        <Card>
+        <Card className="bg-muted">
           <CardHeader>
             <CardTitle className="text-base">
               Información de tu cuenta
@@ -57,7 +57,7 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="border-border rounded-lg border px-4 py-3">
+            <div className="bg-background rounded-xl border px-4 py-3">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2">
                 <InfoFieldItem
                   field="Correo electrónico"
@@ -72,7 +72,7 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
               </div>
             </div>
           </CardContent>
-          <CardFooter isSecondary>
+          <CardFooter>
             <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
               <Button
                 variant="outline"
@@ -91,7 +91,7 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
             </div>
           </CardFooter>
         </Card>
-        <Card>
+        <Card className="bg-muted">
           <CardHeader>
             <CardTitle className="text-base">Progreso de tus rutas</CardTitle>
             <CardDescription className="space-y-1">
@@ -107,11 +107,11 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
           </CardHeader>
 
           <CardContent>
-            <RouuteProgressTable userId={id} routes={routes} />
+            <RouteProgressTable userId={id} routes={routes} />
           </CardContent>
         </Card>
-        <Card className="border-red-200 dark:border-red-900">
-          <CardHeader>
+        <Card className="flex items-center justify-between gap-4 border border-dashed border-red-200 bg-red-50 p-6 dark:border-red-900 dark:bg-red-950">
+          <CardHeader className="p-0">
             <CardTitle className="mb-2 text-base">Elimina tu cuenta</CardTitle>
             <CardDescription className="space-y-1">
               <p>
@@ -124,20 +124,9 @@ const AccountDetails = ({ routes }: AccountDetailsProps) => {
               </p>
             </CardDescription>
           </CardHeader>
-          <CardFooter
-            isSecondary
-            className="!border-t-red-200 !bg-red-50 dark:!border-t-red-900 dark:!bg-red-950"
-          >
-            <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
-              <Button
-                variant="outline"
-                onClick={() => setIsOpenDelete(true)}
-                className="border-none bg-red-500! text-white"
-              >
-                Eliminar cuenta
-              </Button>
-            </div>
-          </CardFooter>
+          <Button variant="destructive" onClick={() => setIsOpenDelete(true)}>
+            Eliminar cuenta
+          </Button>
         </Card>
       </div>
       <ChangeEmailModal

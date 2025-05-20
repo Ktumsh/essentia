@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader } from "lucide-react";
+
 import { DeleteButton } from "@/components/button-kit/delete-button";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
@@ -28,6 +30,7 @@ interface DeleteConfirmationDialogProps {
   setIsOpen: (open: boolean) => void;
   item: MedicalHistoryWithTags | null;
   onDelete: () => void;
+  isSubmitting: boolean;
 }
 
 const DeleteConfirmationDialog = ({
@@ -35,6 +38,7 @@ const DeleteConfirmationDialog = ({
   setIsOpen,
   item,
   onDelete,
+  isSubmitting,
 }: DeleteConfirmationDialogProps) => {
   const isMobile = useIsMobile();
 
@@ -71,8 +75,19 @@ const DeleteConfirmationDialog = ({
                 Cancelar
               </Button>
             </div>
-            <Button variant="mobile-primary" onClick={onDelete}>
-              Eliminar
+            <Button
+              disabled={isSubmitting}
+              variant="mobile-primary"
+              onClick={onDelete}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader className="animate-spin" />
+                  Eliminando...
+                </>
+              ) : (
+                "Eliminar"
+              )}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -112,11 +127,12 @@ const DeleteConfirmationDialog = ({
             </Button>
           </DialogClose>
           <DeleteButton
+            disabled={isSubmitting}
             variant="destructive"
             onClick={onDelete}
             className="rounded-full"
           >
-            Eliminar
+            {isSubmitting ? "Eliminando..." : "Eliminar"}
           </DeleteButton>
         </DialogFooter>
       </DialogContent>

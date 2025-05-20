@@ -142,7 +142,7 @@ const RouteProgressTable = ({ userId, routes }: RouteProgressTableProps) => {
       </TableBody>
     </Table>
   ) : (
-    <div className="py-10 text-center">
+    <div className="border-alternative bg-background rounded-xl border border-dashed py-10 text-center">
       <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
         <BookOpenText className="size-8" />
         <p className="text-xs md:text-sm">

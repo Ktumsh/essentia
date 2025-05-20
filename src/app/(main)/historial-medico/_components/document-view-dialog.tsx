@@ -260,6 +260,7 @@ const DocumentViewDialog = ({
                   onClose();
                   onAIClick(currentItem);
                 }}
+                className="rounded-full"
               >
                 Analizar con IA
               </SparklesButton>

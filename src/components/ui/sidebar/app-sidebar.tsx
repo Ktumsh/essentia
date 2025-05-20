@@ -21,7 +21,6 @@ import { useChatScrollEnd } from "@/hooks/use-chat-scroll-end";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, fetcher } from "@/lib/utils";
 
-
 import AppFooter from "./app-footer";
 import AppHeader from "./app-header";
 import ChatFooter from "./chat-footer";
@@ -46,7 +45,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
 
   const isAIPage = pathname.startsWith("/essentia-ai");
 
-  const isCollapsed = isAIPage && session;
+  const isCollapsed = isAIPage && session?.user;
 
   const {
     data: paginatedChatHistories,
@@ -54,9 +53,16 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
     isValidating,
     isLoading,
     mutate,
-  } = useSWRInfinite<ChatHistory>(getChatHistoryPaginationKey, fetcher, {
-    fallbackData: [],
-  });
+  } = useSWRInfinite<ChatHistory>(
+    (pageIndex, previousPageData) =>
+      session?.user
+        ? getChatHistoryPaginationKey(pageIndex, previousPageData)
+        : null,
+    fetcher,
+    {
+      fallbackData: [],
+    },
+  );
 
   const { containerRef, onScroll, isAtBottom } = useChatScrollEnd();
 

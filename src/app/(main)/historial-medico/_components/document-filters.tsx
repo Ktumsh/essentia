@@ -59,7 +59,7 @@ const DocumentFilters = ({
 }: DocumentFiltersProps) => {
   return (
     <>
-      <div className="relative">
+      <div className="relative w-48">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 size-4" />
         <Input
           placeholder="Buscar documentos..."
@@ -136,7 +136,7 @@ const DocumentFilters = ({
         value={documentTypeFilter}
         onValueChange={(value) => setDocumentTypeFilter(value as any)}
       >
-        <SelectTrigger className="bg-background rounded-full md:w-56">
+        <SelectTrigger className="bg-background w-56 rounded-full">
           <SelectValue placeholder="Filtrar por tipo" />
         </SelectTrigger>
         <SelectContent>
@@ -150,7 +150,7 @@ const DocumentFilters = ({
         value={documentCategoryFilter}
         onValueChange={(value) => setDocumentCategoryFilter(value as any)}
       >
-        <SelectTrigger className="bg-background rounded-full md:w-40">
+        <SelectTrigger className="bg-background w-40 rounded-full">
           <SelectValue placeholder="Filtrar por tipo de documento" />
         </SelectTrigger>
         <SelectContent>

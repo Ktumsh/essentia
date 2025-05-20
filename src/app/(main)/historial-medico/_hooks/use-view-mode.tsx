@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 
-type ViewMode = "grid" | "list";
+export type ViewMode = "grid" | "list";
 
 interface ViewModeContextProps {
   viewMode: ViewMode;

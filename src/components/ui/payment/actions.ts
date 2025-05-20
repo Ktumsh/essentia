@@ -15,7 +15,11 @@ import {
   updatePaymentDetails,
   updateSubscription,
 } from "@/db/querys/payment-querys";
-import { getUserById } from "@/db/querys/user-querys";
+import {
+  cancelUserTrial,
+  getUserById,
+  getUserTrialStatus,
+} from "@/db/querys/user-querys";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
@@ -110,6 +114,13 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
       );
       return;
     }
+
+    const trial = await getUserTrialStatus(dbSub.userId);
+
+    if (trial?.isActive) {
+      await cancelUserTrial(dbSub.userId);
+    }
+
     await updateSubscription(
       dbSub.userId,
       subscriptionId,

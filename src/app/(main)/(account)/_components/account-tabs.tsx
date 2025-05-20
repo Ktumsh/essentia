@@ -10,7 +10,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import useSubscription from "@/hooks/use-subscription";
 
 import AccountDetails from "./account/account-details";
 import ProfileInfo from "./profile/profile-info";
@@ -24,8 +23,6 @@ interface AccountTabsProps {
 
 const AccountTabs = ({ routes }: AccountTabsProps) => {
   const pathname = usePathname();
-
-  const { subscription, payment } = useSubscription();
 
   const tabs = useMemo(() => {
     return [
@@ -42,12 +39,10 @@ const AccountTabs = ({ routes }: AccountTabsProps) => {
       {
         value: "/subscription",
         label: "Mi suscripción",
-        component: (
-          <SubscriptionDetails subscription={subscription} payment={payment} />
-        ),
+        component: <SubscriptionDetails />,
       },
     ];
-  }, [routes, subscription, payment]);
+  }, [routes]);
 
   return (
     <div className="flex flex-col">

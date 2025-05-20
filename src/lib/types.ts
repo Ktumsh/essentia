@@ -122,3 +122,9 @@ export type FolderIconType =
   | "pregnancy"
   | "dentist"
   | "file";
+
+export type DeleteManyResult = {
+  success: boolean;
+  deleted: string[];
+  failed: { id: string; error: string }[];
+};

@@ -643,14 +643,18 @@ export type UserMedicalFolderActivity = InferSelectModel<
   typeof userMedicalFolderActivity
 >;
 
-export const userAiRecommendationUsage = table("user_ai_recommendation_usage", {
-  id: uuid("id").primaryKey().notNull().defaultRandom(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-  activeCount: integer("active_count").notNull().default(0),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+export const userAiRecommendationUsage = table(
+  "user_ai_recommendation_usage",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    activeCount: integer("active_count").notNull().default(0),
+    updatedAt: timestamp("updated_at").defaultNow(),
+  },
+  (t) => [unique("unique_user_ai_usage").on(t.userId)],
+);
 
 export type UserAiRecommendationUsage = InferSelectModel<
   typeof userAiRecommendationUsage

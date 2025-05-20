@@ -243,7 +243,7 @@ const PaymentModal = ({
               transition={{ duration: 0.25 }}
             >
               <DialogHeader isSecondary className="p-1! text-start text-white">
-                <div className="bg-premium rounded-[20px] p-5">
+                <div className="bg-premium rounded-xl p-5">
                   <div className="mb-2 flex items-center gap-2">
                     <Sparkles className="size-5 text-yellow-300 md:size-6" />
                     <DialogTitle className="text-base font-bold md:text-lg">
@@ -321,7 +321,7 @@ const PaymentModal = ({
             >
               <DialogHeader isSecondary className="p-1! text-start text-white">
                 <div
-                  className={cn("bg-premium rounded-[20px] p-5", {
+                  className={cn("bg-premium rounded-xl p-5", {
                     "bg-premium-plus":
                       featureType === "upgrade-plan" ||
                       selectedPlan === siteConfig.plan.premiumPlus,
@@ -330,7 +330,7 @@ const PaymentModal = ({
                   <div className="mb-2 flex items-center gap-2">
                     <div
                       className={cn(
-                        "flex size-8 shrink-0 items-center justify-center rounded-md text-white",
+                        "flex size-8 shrink-0 items-center justify-center rounded-full text-white",
                         featureContent.color,
                       )}
                     >
@@ -354,51 +354,38 @@ const PaymentModal = ({
               </div>
               <DialogFooter isSecondary>
                 <div className="w-full space-y-3">
-                  {isTrialActive ? (
-                    <>
-                      <Button
-                        size="lg"
-                        disabled
-                        className="bg-premium w-full rounded-full text-white"
-                      >
-                        Usando prueba gratuita de Premium
-                      </Button>
-                      <p className="text-muted-foreground text-center text-xs">
-                        Puedes mejorar a Premium una vez finalice tu prueba
-                        gratuita. Durante este periodo, el límite de archivos es
-                        de <strong>6 activos</strong>.
-                      </p>
-                    </>
-                  ) : (
-                    <UpgradeButton
-                      size="lg"
-                      variant="gradient"
-                      disabled={
-                        !selectedPlan ||
-                        isLoading ||
-                        selectedPlan === currentPlan
-                      }
-                      onClick={handleProceedToPayment}
-                      className={cn(
-                        "after:bg-premium relative w-full rounded-full duration-500 after:absolute after:inset-0 after:-z-1 after:size-full after:opacity-0 after:blur-lg after:saturate-150 after:transition-all after:duration-500 after:content-[''] hover:after:opacity-80",
-                        {
-                          "after:bg-premium-plus bg-premium-plus!":
-                            featureType === "upgrade-plan" ||
-                            selectedPlan === siteConfig.plan.premiumPlus,
-                        },
-                      )}
-                    >
-                      {isLoading ? (
-                        <Loader className="size-4 animate-spin" />
-                      ) : selectedPlan === currentPlan ? (
-                        "Plan Actual"
-                      ) : (
-                        <>
-                          {isFree ? "Degradar a" : "Mejorar a"}{" "}
-                          {getPlanName(selectedPlan)}
-                        </>
-                      )}
-                    </UpgradeButton>
+                  <UpgradeButton
+                    size="lg"
+                    variant="gradient"
+                    disabled={
+                      !selectedPlan || isLoading || selectedPlan === currentPlan
+                    }
+                    onClick={handleProceedToPayment}
+                    className={cn(
+                      "after:bg-premium relative w-full rounded-full duration-500 after:absolute after:inset-0 after:-z-1 after:size-full after:opacity-0 after:blur-lg after:saturate-150 after:transition-all after:duration-500 after:content-[''] hover:after:opacity-80",
+                      {
+                        "after:bg-premium-plus bg-premium-plus!":
+                          featureType === "upgrade-plan" ||
+                          selectedPlan === siteConfig.plan.premiumPlus,
+                      },
+                    )}
+                  >
+                    {isLoading ? (
+                      <Loader className="size-4 animate-spin" />
+                    ) : selectedPlan === currentPlan ? (
+                      "Plan Actual"
+                    ) : (
+                      <>
+                        {isFree ? "Degradar a" : "Mejorar a"}{" "}
+                        {getPlanName(selectedPlan)}
+                      </>
+                    )}
+                  </UpgradeButton>
+                  {isTrialActive && (
+                    <p className="text-muted-foreground text-center text-xs">
+                      Actualmente tienes una prueba gratuita activa. Si mejoras
+                      tu plan, perderás el acceso a esta prueba.
+                    </p>
                   )}
                   {!isTrialActive && (
                     <p className="text-muted-foreground text-xxs text-center">

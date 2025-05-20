@@ -91,8 +91,8 @@ export async function createUser(
       userId,
       title: "¡Bienvenid@!",
       message:
-        "Gracias por registrarte en Essentia. ¡Comienza a explorar nuestros cursos educativos!",
-      url: "/salud-y-bienestar",
+        "Gracias por registrarte en Essentia. ¡Comienza a explorar nuestro contenido!",
+      url: "/",
     });
 
     return {
@@ -282,6 +282,21 @@ export async function startUserTrial(
     success: true,
     message: "Prueba gratuita activada por 7 días.",
   };
+}
+
+export async function cancelUserTrial(userId: string): Promise<void> {
+  try {
+    await db
+      .update(userTrial)
+      .set({
+        isActive: false,
+        hasUsed: true,
+      })
+      .where(eq(userTrial.userId, userId));
+  } catch (error) {
+    console.error("Error al cancelar la prueba gratuita del usuario:", error);
+    throw error;
+  }
 }
 
 export async function getUserTrialStatus(userId: string): Promise<{

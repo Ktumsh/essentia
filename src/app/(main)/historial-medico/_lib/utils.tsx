@@ -23,8 +23,10 @@ import {
   FilePlus,
   FileMinus,
   ListOrdered,
+  AlertTriangle,
+  Info,
+  CheckCircle,
 } from "lucide-react";
-import { toast } from "sonner";
 
 import { formatDate } from "@/utils/format";
 
@@ -181,7 +183,7 @@ export const getActionSelfText = (action: string) => {
     case "document_added":
       return "vinculó";
     case "document_removed":
-      return "desvinculó";
+      return "desvinculó un documento de";
     case "reordered":
       return "reordenó";
     default:
@@ -222,8 +224,45 @@ export const getActionColor = (action: string) => {
       return "bg-red-50 text-red-600 border-red-100 dark:bg-red-950 dark:text-red-400 dark:border-red-900/20";
     case "restored":
       return "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900/20";
+    case "document_added":
+      return "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900/20";
+    case "document_removed":
+      return "bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-950 dark:text-rose-400 dark:border-rose-900/20";
+    case "reordered":
+      return "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-900/20";
+    case "renamed":
+      return "bg-yellow-50 text-yellow-600 border-yellow-100 dark:bg-yellow-950 dark:text-yellow-400 dark:border-yellow-900/20";
     default:
       return "bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-950 dark:text-gray-400 dark:border-gray-900/20";
+  }
+};
+
+export const getPriorityBadge = (priority: string) => {
+  switch (priority) {
+    case "high":
+      return {
+        label: "Alta",
+        color: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+        icon: <AlertTriangle className="size-3 text-rose-500" />,
+      };
+    case "medium":
+      return {
+        label: "Media",
+        color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+        icon: <Info className="size-3 text-yellow-500" />,
+      };
+    case "low":
+      return {
+        label: "Baja",
+        color: "bg-green-500/10 text-green-500 border-green-500/20",
+        icon: <CheckCircle className="size-3 text-green-500" />,
+      };
+    default:
+      return {
+        label: "Normal",
+        color: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+        icon: <Info className="size-3 text-blue-500" />,
+      };
   }
 };
 
@@ -323,8 +362,7 @@ export async function uploadMedicalFile(file: File) {
 
     if (!res.ok) {
       const { error } = await res.json();
-      toast.error(error);
-      return;
+      throw new Error(error);
     }
 
     const data = await res.json();
@@ -336,11 +374,8 @@ export async function uploadMedicalFile(file: File) {
       contentType: data.contentType,
       uploadedAt: new Date(data.uploadedAt),
     };
-  } catch (err) {
-    console.error(err);
-    toast.error("¡Ups! 😔", {
-      description: "No se pudo cargar el archivo. Intenta de nuevo.",
-    });
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -494,13 +529,7 @@ export function isRecommendationSaved(
   recommendation: AIRecommendationType,
   savedRecommendations: AIRecommendationType[],
 ): boolean {
-  return savedRecommendations.some(
-    (r) =>
-      r.title === recommendation.title &&
-      r.description === recommendation.description &&
-      r.type === recommendation.type &&
-      r.priority === recommendation.priority,
-  );
+  return savedRecommendations.some((r) => r.id === recommendation.id);
 }
 
 export const iconOptions = [
@@ -606,3 +635,34 @@ export const folderColorClassMap: Record<
     text: "text-purple-500",
   },
 };
+
+export function getPlanLimitMessage(
+  remaining: number,
+  unlimited: boolean,
+  type: "doc" | "ai",
+  isTrialActive: boolean,
+): string {
+  if (unlimited) {
+    return type === "doc"
+      ? "Puedes subir documentos ilimitados 🎉"
+      : "Puedes guardar recomendaciones IA ilimitadas 🎉";
+  }
+
+  if (remaining === 0) {
+    return type === "doc"
+      ? "Alcanzaste el límite de documentos 😱"
+      : isTrialActive
+        ? "Alcanzaste el límite de tu prueba gratuita 😵"
+        : "Alcanzaste el límite de recomendaciones IA 😱";
+  }
+
+  if (remaining <= 3) {
+    return type === "doc"
+      ? `Puedes subir ${remaining} documento${remaining > 1 ? "s" : ""} más 🙂`
+      : `Puedes guardar ${remaining} ${remaining === 1 ? "recomendación" : "recomendaciones"} más 😐`;
+  }
+
+  return type === "doc"
+    ? `Puedes subir ${remaining} documento${remaining > 1 ? "s" : ""} más 😊`
+    : `Puedes guardar ${remaining} ${remaining === 1 ? "recomendación" : "recomendaciones"} más 😊`;
+}

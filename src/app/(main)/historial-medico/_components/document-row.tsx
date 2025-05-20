@@ -56,35 +56,49 @@ const DocumentRow = ({
       return `${(size / (1024 * 1024)).toFixed(2)} MB`;
     return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
   };
+
   return (
-    <div className="group/row border-border/40 hover:bg-muted/20 grid grid-cols-20 items-center gap-4 border-t px-4 py-3">
-      <div className="col-span-1 flex items-center">
-        <Checkbox
-          checked={selected}
-          onCheckedChange={onToggleSelect}
-          className="rounded-md"
-        />
-      </div>
-      <div className="col-span-8 flex items-center gap-3">
-        <div className="bg-background rounded-xl p-2">
-          <FileText className={cn("size-4", getFileTypeColor(doc.type))} />
+    <tr
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        onView(doc);
+      }}
+      className="group/row hover:bg-accent border-t text-sm"
+    >
+      <td className="px-4 py-3">
+        <div className="flex items-center">
+          <Checkbox
+            checked={selected}
+            onCheckedChange={onToggleSelect}
+            className="border-alternative shadow-none"
+          />
         </div>
-        <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-base font-medium">
-            {doc.condition}
-          </span>
+      </td>
+      <td className="max-w-72 px-4 py-3 md:max-w-sm">
+        <div className="flex items-center gap-3">
+          <div className="bg-background rounded-xl p-2">
+            <FileText className={cn("size-4", getFileTypeColor(doc.type))} />
+          </div>
+          <div className="flex flex-col overflow-hidden">
+            <span className="text-foreground truncate font-medium">
+              {doc.condition}
+            </span>
+            <span className="text-muted-foreground truncate text-xs">
+              {doc.description}
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="text-muted-foreground col-span-2 text-sm">
+      </td>
+      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3">
         {doc.file ? formatFileSize(doc.file.size) : "Sin archivo"}
-      </div>
-      <div className="text-muted-foreground col-span-3 text-sm">
+      </td>
+      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3 text-nowrap">
         {formatDate(doc.createdAt, "dd MMM yyyy")}
-      </div>
-      <div className="text-muted-foreground col-span-4 truncate text-sm">
+      </td>
+      <td className="text-muted-foreground group-hover/row:text-foreground truncate px-4 py-3">
         {doc.issuer}
-      </div>
-      <div className="col-span-2 flex justify-end gap-2">
+      </td>
+      <td className="flex justify-end gap-2 px-4 py-3 text-right">
         <BetterTooltip content="Ver detalles">
           <ChevronButton
             variant="ghost"
@@ -100,7 +114,11 @@ const DocumentRow = ({
         </BetterTooltip>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-background size-8"
+            >
               <MoreVerticalIcon />
               <span className="sr-only">Más opciones</span>
             </Button>
@@ -110,7 +128,7 @@ const DocumentRow = ({
               <DropdownMenuItem asChild>
                 <SparklesButton
                   onClick={() => onAIClick(doc)}
-                  className="h-auto w-full justify-start border-0 bg-transparent hover:bg-indigo-50 dark:bg-transparent dark:hover:bg-indigo-950"
+                  className="h-auto w-full justify-start border-0 bg-transparent font-normal hover:bg-fuchsia-100! dark:bg-transparent dark:hover:bg-fuchsia-950!"
                 >
                   Analizar con IA
                 </SparklesButton>
@@ -125,7 +143,7 @@ const DocumentRow = ({
                         name: doc.file?.name || "archivo",
                       })
                     }
-                    className="h-auto w-full justify-start"
+                    className="h-auto w-full justify-start font-normal"
                   >
                     Ver documento
                   </EyeButton>
@@ -140,7 +158,7 @@ const DocumentRow = ({
                       name: doc.file?.name || "archivo",
                     });
                   }}
-                  className="h-auto w-full justify-start"
+                  className="h-auto w-full justify-start font-normal"
                 >
                   Descargar
                 </DownloadButton>
@@ -149,7 +167,7 @@ const DocumentRow = ({
                 <EditButton
                   variant="ghost"
                   onClick={() => onEdit(doc)}
-                  className="h-auto w-full justify-start"
+                  className="h-auto w-full justify-start font-normal"
                 >
                   Editar
                 </EditButton>
@@ -160,15 +178,15 @@ const DocumentRow = ({
               <DeleteButton
                 variant="ghost"
                 onClick={() => onDelete(doc)}
-                className="h-auto w-full justify-start"
+                className="h-auto w-full justify-start font-normal"
               >
                 Eliminar
               </DeleteButton>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 

@@ -30,8 +30,8 @@ interface FolderItemProps {
   onRename: () => void;
   onEdit: () => void;
   onDelete: () => void;
-  isSelected: boolean;
-  onToggleSelect: (e: React.MouseEvent) => void;
+  selected: boolean;
+  onSelect: (e: React.MouseEvent) => void;
 }
 
 const FolderItem = ({
@@ -39,8 +39,8 @@ const FolderItem = ({
   onRename,
   onEdit,
   onDelete,
-  isSelected,
-  onToggleSelect,
+  selected,
+  onSelect,
 }: FolderItemProps) => {
   const router = useRouter();
 
@@ -61,10 +61,10 @@ const FolderItem = ({
           `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
         )
       }
-      onClick={(e) => onToggleSelect(e)}
+      onClick={(e) => onSelect(e)}
       className={cn(
         "bg-muted hover:bg-accent select-none",
-        isSelected && "bg-primary/20 hover:bg-primary/20",
+        selected && "bg-primary/20 hover:bg-primary/20",
       )}
     >
       <CardContent className="flex flex-col p-3">

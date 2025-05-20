@@ -395,41 +395,46 @@ export async function getDocumentsByFolderId({
   userId: string;
   folderId: string;
 }): Promise<MedicalHistoryWithTags[]> {
-  const rawDocs = await db
-    .select()
-    .from(userMedicalHistory)
-    .where(
-      and(
-        eq(userMedicalHistory.userId, userId),
-        eq(userMedicalHistory.folderId, folderId),
-        eq(userMedicalHistory.isDeleted, false),
-      ),
-    )
-    .orderBy(userMedicalHistory.orderIndex);
+  try {
+    const rawDocs = await db
+      .select()
+      .from(userMedicalHistory)
+      .where(
+        and(
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.folderId, folderId),
+          eq(userMedicalHistory.isDeleted, false),
+        ),
+      )
+      .orderBy(userMedicalHistory.orderIndex);
 
-  const docIds = rawDocs.map((d) => d.id);
+    const docIds = rawDocs.map((d) => d.id);
 
-  const tags = await db
-    .select({
-      medicalHistoryId: userMedicalHistoryTag.medicalHistoryId,
-      tagName: medicalTag.name,
-    })
-    .from(userMedicalHistoryTag)
-    .innerJoin(medicalTag, eq(userMedicalHistoryTag.tagId, medicalTag.id))
-    .where(inArray(userMedicalHistoryTag.medicalHistoryId, docIds));
+    const tags = await db
+      .select({
+        medicalHistoryId: userMedicalHistoryTag.medicalHistoryId,
+        tagName: medicalTag.name,
+      })
+      .from(userMedicalHistoryTag)
+      .innerJoin(medicalTag, eq(userMedicalHistoryTag.tagId, medicalTag.id))
+      .where(inArray(userMedicalHistoryTag.medicalHistoryId, docIds));
 
-  const files = await db
-    .select()
-    .from(userMedicalFile)
-    .where(inArray(userMedicalFile.medicalHistoryId, docIds));
+    const files = await db
+      .select()
+      .from(userMedicalFile)
+      .where(inArray(userMedicalFile.medicalHistoryId, docIds));
 
-  return rawDocs.map((doc) => ({
-    ...doc,
-    tags: tags
-      .filter((t) => t.medicalHistoryId === doc.id)
-      .map((t) => t.tagName),
-    file: files.find((f) => f.medicalHistoryId === doc.id) || null,
-  }));
+    return rawDocs.map((doc) => ({
+      ...doc,
+      tags: tags
+        .filter((t) => t.medicalHistoryId === doc.id)
+        .map((t) => t.tagName),
+      file: files.find((f) => f.medicalHistoryId === doc.id) || null,
+    }));
+  } catch (error) {
+    console.error("Error al obtener documentos de la carpeta:", error);
+    throw error;
+  }
 }
 
 export async function getFolderNameById(
@@ -441,4 +446,117 @@ export async function getFolderNameById(
     .where(eq(userMedicalFolder.id, folderId));
 
   return folder?.name ?? null;
+}
+
+export async function deleteManyMedicalFolders({
+  userId,
+  folderIds,
+}: {
+  userId: string;
+  folderIds: string[];
+}) {
+  try {
+    const results = await Promise.allSettled(
+      folderIds.map((folderId) => deleteMedicalFolder({ userId, folderId })),
+    );
+
+    const deleted = results
+      .map((res, index) =>
+        res.status === "fulfilled" ? folderIds[index] : null,
+      )
+      .filter(Boolean) as string[];
+
+    const failed = results
+      .map((res, index) =>
+        res.status === "rejected"
+          ? {
+              id: folderIds[index],
+              error: res.reason?.message || "Error desconocido",
+            }
+          : null,
+      )
+      .filter(Boolean);
+
+    return {
+      success: failed.length === 0,
+      deleted,
+      failed,
+    };
+  } catch (error) {
+    console.error("Error al eliminar múltiples carpetas médicas:", error);
+    throw error;
+  }
+}
+
+export async function deleteDocumentsFromFolder({
+  userId,
+  folderId,
+  documentIds,
+}: {
+  userId: string;
+  folderId: string;
+  documentIds: string[];
+}) {
+  try {
+    const validDocs = await db
+      .select()
+      .from(userMedicalHistory)
+      .where(
+        and(
+          inArray(userMedicalHistory.id, documentIds),
+          eq(userMedicalHistory.folderId, folderId),
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.isDeleted, false),
+        ),
+      );
+
+    const results = await Promise.allSettled(
+      validDocs.map((doc) =>
+        db
+          .update(userMedicalHistory)
+          .set({
+            folderId: null,
+            updatedAt: new Date(),
+          })
+          .where(eq(userMedicalHistory.id, doc.id)),
+      ),
+    );
+
+    const removed = results
+      .map((res, index) =>
+        res.status === "fulfilled" ? validDocs[index].id : null,
+      )
+      .filter(Boolean) as string[];
+
+    const failed = results
+      .map((res, index) =>
+        res.status === "rejected"
+          ? {
+              id: validDocs[index].id,
+              error: res.reason?.message || "Error desconocido",
+            }
+          : null,
+      )
+      .filter(Boolean);
+
+    if (removed.length > 0) {
+      await db.insert(userMedicalFolderActivity).values(
+        removed.map((id) => ({
+          userId,
+          folderId,
+          targetDocumentId: id,
+          action: "document_removed" as const,
+        })),
+      );
+    }
+
+    return {
+      success: failed.length === 0,
+      removed,
+      failed,
+    };
+  } catch (error) {
+    console.error("Error al remover documentos de carpeta:", error);
+    throw error;
+  }
 }

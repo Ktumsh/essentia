@@ -71,7 +71,7 @@ const DesktopHeader = ({ user, scrollRef }: DesktopHeaderProps) => {
                 <>
                   <Separator orientation="vertical" className="h-4!" />
                   <LoginButton
-                    variant="accent"
+                    variant="secondary"
                     size="sm"
                     onClick={() => {
                       if (pathname === "/") {

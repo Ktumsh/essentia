@@ -39,7 +39,7 @@ const UpgradeCard = () => {
             size="sm"
             variant="gradient"
             onClick={() => setOpen(true)}
-            className="w-full rounded-md text-xs [&_svg]:size-3.5!"
+            className="w-full [&_svg]:size-3.5!"
           >
             Actualizar a Premium
           </SparklesButton>

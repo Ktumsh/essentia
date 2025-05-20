@@ -23,6 +23,11 @@ interface RecommendationSectionProps {
   onUpdateRecommendation: (recommendation: SavedAIRecommendation) => void;
   onShareRecommendation: (recommendation: SavedAIRecommendation) => void;
   onViewFile: (fileData: { url?: string | null; name: string }) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  selectedRecom: string[];
+  onSelect: (e: React.MouseEvent, id: string, index: number) => void;
+  onToggleSelectAll: () => void;
 }
 
 const RecommendationSection = ({
@@ -33,9 +38,13 @@ const RecommendationSection = ({
   onUpdateRecommendation,
   onShareRecommendation,
   onViewFile,
+  open,
+  setOpen,
+  selectedRecom,
+  onSelect,
+  onToggleSelectAll,
 }: RecommendationSectionProps) => {
   const isMobile = useIsMobile();
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<SavedAIRecommendation | null>(null);
@@ -44,29 +53,12 @@ const RecommendationSection = ({
     useState<SavedAIRecommendation | null>(null);
   const [editNotes, setEditNotes] = useState("");
 
-  const toggleSelectItem = (id: string) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((item) => item !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
-    }
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedItems.length === recommendations.length) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(recommendations.map((file) => file.id));
-    }
-  };
-
   const openDetailDialog = (recommendation: SavedAIRecommendation) => {
     setSelectedRecommendation(recommendation);
     setEditNotes(recommendation.notes || "");
     setIsDetailDialogOpen(true);
   };
 
-  // Función para confirmar la eliminación
   const confirmDelete = (recommendation: SavedAIRecommendation) => {
     setRecommendationToDelete(recommendation);
     setIsDeleteDialogOpen(true);
@@ -111,6 +103,8 @@ const RecommendationSection = ({
                 onSaveNotes={saveNotes}
                 isFromSavedRecommendations
                 onViewFile={onViewFile}
+                editNotes={editNotes}
+                setEditNotes={setEditNotes}
               />
             )}
           </DrawerContent>
@@ -126,6 +120,8 @@ const RecommendationSection = ({
                 onSaveNotes={saveNotes}
                 isFromSavedRecommendations
                 onViewFile={onViewFile}
+                editNotes={editNotes}
+                setEditNotes={setEditNotes}
               />
             )}
           </DialogContent>
@@ -149,9 +145,12 @@ const RecommendationSection = ({
             <RecommendationCard
               key={rec.id}
               recommendation={rec}
+              currentRec={selectedRecommendation}
               onShareRecommendation={onShareRecommendation}
               onDeleteRecommendation={confirmDelete}
               openDetailDialog={openDetailDialog}
+              open={open}
+              setOpen={setOpen}
             />
           ))}
         </div>
@@ -161,26 +160,30 @@ const RecommendationSection = ({
   }
 
   return (
-    <>
-      <div className="bg-muted overflow-hidden rounded-2xl">
-        <div className="text-muted-foreground grid grid-cols-20 gap-4 px-4 py-3 text-xs font-medium">
-          <div className="col-span-1 flex items-center">
-            <Checkbox
-              checked={
-                selectedItems.length === recommendations.length &&
-                recommendations.length > 0
-              }
-              onCheckedChange={toggleSelectAll}
-              className="rounded-md"
-            />
-          </div>
-          <div className="col-span-8">Nombre</div>
-          <div className="col-span-2">Prioridad</div>
-          <div className="col-span-3">Fecha</div>
-          <div className="col-span-4">Etiquetas</div>
-          <div className="col-span-2 text-right">Acciones</div>
-        </div>
-        <div>
+    <div className="bg-muted relative w-full overflow-auto rounded-xl">
+      <table className="text-muted-foreground w-full min-w-3xl text-xs">
+        <thead>
+          <tr className="text-muted-foreground">
+            <th className="px-4 py-3 text-left font-medium">
+              <div className="flex items-center">
+                <Checkbox
+                  checked={
+                    selectedRecom.length === recommendations.length &&
+                    recommendations.length > 0
+                  }
+                  onCheckedChange={onToggleSelectAll}
+                  className="border-alternative shadow-none"
+                />
+              </div>
+            </th>
+            <th className="px-4 py-3 text-left font-medium">Nombre</th>
+            <th className="px-4 py-3 text-left font-medium">Prioridad</th>
+            <th className="px-4 py-3 text-left font-medium">Fecha</th>
+            <th className="px-4 py-3 text-left font-medium">Etiquetas</th>
+            <th className="px-4 py-3 text-right font-medium">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
           {recommendations.map((doc) => (
             <RecommendationRow
               key={doc.id}
@@ -188,14 +191,20 @@ const RecommendationSection = ({
               onDeleteRecommendation={confirmDelete}
               onShareRecommendation={onShareRecommendation}
               openDetailDialog={openDetailDialog}
-              selected={selectedItems.includes(doc.id)}
-              onToggleSelect={() => toggleSelectItem(doc.id)}
+              selected={selectedRecom.includes(doc.id)}
+              onToggleSelect={() =>
+                onSelect(
+                  {} as React.MouseEvent,
+                  doc.id,
+                  recommendations.indexOf(doc),
+                )
+              }
             />
           ))}
-        </div>
-      </div>
+        </tbody>
+      </table>
       {dialogs}
-    </>
+    </div>
   );
 };
 

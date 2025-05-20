@@ -13,7 +13,6 @@ import { LinkIcon } from "@/components/icons/action";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { cn, fetcher } from "@/lib/utils";
 
-
 import AlertPanel from "./alert-panel";
 import ButtonToBottom from "./button-to-bottom";
 import MessagesUsageBanner from "./messages-usage-banner";
@@ -61,7 +60,7 @@ const ChatPanel = (props: ChatPanelProps) => {
   } = props;
 
   const { data: remainingMessages } = useSWR<number | null>(
-    "/api/remaining-messages",
+    user?.id ? "/api/remaining-messages" : null,
     fetcher,
   );
 

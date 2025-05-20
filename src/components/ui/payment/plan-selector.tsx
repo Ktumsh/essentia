@@ -65,7 +65,7 @@ export const PlanSelector = ({
           <TabsContent key={plan.id} value={plan.id}>
             <div
               className={cn(
-                "bg-accent after:bg-premium relative flex h-44 flex-col gap-4 rounded-[15px] p-4 text-sm after:absolute after:-inset-0.5 after:-z-1 after:rounded-xl after:content-['']",
+                "bg-accent after:bg-premium relative flex h-44 flex-col gap-4 rounded-[19px] p-4 text-sm after:absolute after:-inset-0.5 after:-z-1 after:rounded-xl after:content-['']",
                 {
                   "after:bg-premium-plus": plan.name === "Premium Plus",
                 },

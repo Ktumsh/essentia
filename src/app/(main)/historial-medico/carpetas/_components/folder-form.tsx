@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -82,6 +82,7 @@ interface FolderFormProps {
   initial?: Partial<Folder>;
   onClose: () => void;
   onSubmit: (data: FolderFormData) => Promise<void>;
+  isSubmitting: boolean;
 }
 
 const FolderForm = ({
@@ -89,6 +90,7 @@ const FolderForm = ({
   initial,
   onClose,
   onSubmit,
+  isSubmitting,
 }: FolderFormProps) => {
   const isMobile = useIsMobile();
   const form = useForm<FolderFormData>({
@@ -183,7 +185,7 @@ const FolderForm = ({
                         "mx-auto flex size-7 items-center justify-center rounded-full transition-all",
                         getColorClass(c),
                         field.value === c
-                          ? "ring-primary ring-2 ring-offset-2"
+                          ? "ring-ring/50 ring-2 ring-offset-2"
                           : "opacity-70 hover:opacity-100",
                       )}
                       aria-label={folderColorLabelMap[c]}
@@ -217,9 +219,9 @@ const FolderForm = ({
                         key={opt}
                         onClick={() => field.onChange(opt)}
                         className={cn(
-                          "flex flex-col items-center justify-center rounded-lg border px-3 py-2 text-xs transition-all",
+                          "bg-muted text-foreground/80 hover:text-foreground flex flex-col items-center justify-center rounded-lg px-3 py-2 text-xs transition-all",
                           isSelected
-                            ? "border-primary/50 bg-primary/10 text-primary"
+                            ? "bg-accent text-foreground ring-primary/50 ring-2"
                             : "hover:bg-accent",
                         )}
                         aria-label={folderIconLabelMap[opt]}
@@ -256,10 +258,19 @@ const FolderForm = ({
           {FormContent}
 
           <DrawerFooter>
-            <Button type="button" variant="ghost" onClick={onClose}>
+            <Button
+              disabled={isSubmitting}
+              type="button"
+              variant="ghost"
+              onClick={onClose}
+            >
               Cancelar
             </Button>
-            <Button type="button" onClick={handleSubmit(onSubmit)}>
+            <Button
+              disabled={isSubmitting}
+              type="button"
+              onClick={handleSubmit(onSubmit)}
+            >
               {initial ? "Guardar" : "Crear"}
             </Button>
           </DrawerFooter>
@@ -286,7 +297,7 @@ const FolderForm = ({
 
         <DialogFooter isSecondary>
           <Button
-            type="button"
+            disabled={isSubmitting}
             variant="outline"
             onClick={onClose}
             className="rounded-full"
@@ -294,11 +305,20 @@ const FolderForm = ({
             Cancelar
           </Button>
           <Button
-            type="button"
+            disabled={isSubmitting}
             onClick={handleSubmit(onSubmit)}
             className="rounded-full"
           >
-            {initial ? "Guardar" : "Crear"}
+            {isSubmitting ? (
+              <>
+                <Loader className="animate-spin" />
+                {initial ? "Guardando..." : "Creando..."}
+              </>
+            ) : initial ? (
+              "Guardar"
+            ) : (
+              "Crear"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

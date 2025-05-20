@@ -440,3 +440,63 @@ export const renameFolderSchema = z.object({
 });
 
 export type RenameFolderFormData = z.infer<typeof renameFolderSchema>;
+
+const ACCEPTED_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];
+
+export const medicalHistoryAddSchema = z.object({
+  condition: z
+    .string()
+    .min(3, "Debe tener al menos 3 caracteres")
+    .max(100, "Máximo 100 caracteres"),
+  type: z.enum([
+    "Examen",
+    "Receta",
+    "Informe",
+    "Diagnóstico",
+    "Imagenología",
+    "Certificado",
+    "Epicrisis",
+    "Consentimiento",
+    "Otro",
+  ]),
+  description: z.string().max(500, "Máximo 500 caracteres").optional(),
+  issuer: z.string().max(100, "Máximo 100 caracteres").optional(),
+  documentDate: z
+    .date({ required_error: "Debes seleccionar una fecha válida" })
+    .refine((date) => date <= new Date(), {
+      message: "La fecha no puede ser futura",
+    }),
+  notes: z.string().max(500, "Máximo 500 caracteres").optional(),
+  visibility: z.enum(["private", "shared"]),
+  tags: z.array(z.string()).optional(),
+  folderId: z.string().nullable().optional(),
+  file: z
+    .instanceof(File)
+    .refine((file) => ACCEPTED_TYPES.includes(file.type), {
+      message: "Formato no permitido. Usa PDF, JPEG, PNG o WEBP",
+    })
+    .refine((file) => file.size <= 10 * 1024 * 1024, {
+      message: "El archivo supera los 10MB permitidos",
+    }),
+});
+
+export type MedicalHistoryAddSchema = z.infer<typeof medicalHistoryAddSchema>;
+
+export const medicalHistoryEditSchema = medicalHistoryAddSchema.extend({
+  file: z
+    .instanceof(File)
+    .refine((file) => ACCEPTED_TYPES.includes(file.type), {
+      message: "Formato no permitido. Usa PDF, JPEG, PNG o WEBP",
+    })
+    .refine((file) => file.size <= 10 * 1024 * 1024, {
+      message: "El archivo supera los 10MB permitidos",
+    })
+    .optional(),
+});
+
+export type MedicalHistoryEditSchema = z.infer<typeof medicalHistoryEditSchema>;

@@ -454,3 +454,44 @@ export async function getMedicalTags() {
     throw new Error("No se pudieron obtener los tags.");
   }
 }
+
+export async function deleteManyMedicalHistory({
+  userId,
+  ids,
+}: {
+  userId: string;
+  ids: string[];
+}) {
+  try {
+    const results = await Promise.allSettled(
+      ids.map((id) => deleteMedicalHistory({ userId, id })),
+    );
+
+    const successes = results
+      .map((res, index) => (res.status === "fulfilled" ? ids[index] : null))
+      .filter(Boolean) as string[];
+
+    const failures = results
+      .map((res, index) =>
+        res.status === "rejected"
+          ? {
+              id: ids[index],
+              error: res.reason?.message || "Error desconocido",
+            }
+          : null,
+      )
+      .filter(Boolean);
+
+    return {
+      success: failures.length === 0,
+      deleted: successes,
+      failed: failures,
+    };
+  } catch (error) {
+    console.error(
+      "Error general al eliminar múltiples historiales médicos:",
+      error,
+    );
+    throw error;
+  }
+}

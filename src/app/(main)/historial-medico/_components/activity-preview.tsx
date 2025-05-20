@@ -137,6 +137,8 @@ function ActivityItem({
   if (activity.source === "folder") {
     const { folder, action, createdAt } = activity;
 
+    const selftext = capitalize(getActionSelfText(action));
+
     return (
       <li>
         {index !== 0 && <hr />}
@@ -158,7 +160,7 @@ function ActivityItem({
             </span>
           </div>
           <p className="text-foreground/80 truncate text-xs">
-            {capitalize(getActionSelfText(action))} la carpeta “{folder.name}”
+            {selftext} la carpeta “{folder.name}”
           </p>
         </div>
         <hr />

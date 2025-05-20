@@ -35,22 +35,28 @@ const ActivityItem = ({
 
   if (item.source === "folder") {
     return (
-      <div key={item.id} className="group/item ...">
+      <div
+        key={item.id}
+        className="group/item dark:hover:bg-accent/50 flex items-start gap-2 rounded-md p-2 transition-colors hover:bg-slate-50"
+      >
         <div className="mt-0.5">{getActionIcon(item.action)}</div>
         <div className="flex-1">
-          <p className="text-xs md:text-sm">
-            <span className="font-medium">Tú</span>{" "}
-            {getActionSelfText(item.action)} carpeta{" "}
-            <span className="font-medium">{item.folder.name}</span>
-          </p>
-          <span
-            className={cn(
-              "text-xxs! h-5 px-1.5 py-0 capitalize md:text-xs!",
-              getActionColor(item.action),
-            )}
-          >
-            {getActionText(item.action)}
-          </span>
+          <div className="flex flex-col-reverse gap-2 md:flex-row md:items-center">
+            <p className="text-xs md:text-sm">
+              <span className="font-medium">Tú</span>{" "}
+              {getActionSelfText(item.action)} carpeta{" "}
+              <span className="font-medium">{item.folder.name}</span>
+            </p>
+            <Badge
+              variant="outline"
+              className={cn(
+                "text-xxs! h-5 px-1.5 py-0 capitalize md:text-xs!",
+                getActionColor(item.action),
+              )}
+            >
+              {getActionText(item.action)}
+            </Badge>
+          </div>
           <p className="text-muted-foreground text-xxs md:text-xs">
             {formatDate(new Date(item.createdAt), "HH:mm")} (
             {getRelativeTime(new Date(item.createdAt))})

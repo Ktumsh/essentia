@@ -15,7 +15,7 @@ const RecommendationEmptyState = ({
   onClearFilters,
 }: RecommendationEmptyStateProps) => {
   return (
-    <Card className="border">
+    <Card className="border border-dashed">
       <CardContent className="flex flex-col items-center justify-center py-10">
         <Lightbulb className="mb-4 size-16 text-amber-400 opacity-50 dark:text-amber-300" />
         <p className="text-foreground text-sm font-medium">

@@ -1,7 +1,6 @@
 "use client";
 
-import { MoreVerticalIcon, SparkleIcon, Tag } from "lucide-react";
-import { useMemo } from "react";
+import { MoreVerticalIcon, SparklesIcon, Tag } from "lucide-react";
 
 import { ChevronButton } from "@/components/button-kit/chevron-button";
 import { DeleteButton } from "@/components/button-kit/delete-button";
@@ -12,7 +11,6 @@ import { Checkbox } from "@/components/kit/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -21,13 +19,7 @@ import { BetterTooltip } from "@/components/kit/tooltip";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
-import {
-  getPriorityBgColor,
-  getPriorityBorderColor,
-  getPriorityColor,
-  getPriorityText,
-  getTagColor,
-} from "../_lib/utils";
+import { getPriorityBadge, getPriorityText, getTagColor } from "../_lib/utils";
 
 import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 
@@ -48,64 +40,57 @@ const RecommendationRow = ({
   selected,
   onToggleSelect,
 }: RecommendationRowProps) => {
-  const priorityText = useMemo(
-    () => getPriorityText(recom.priority),
-    [recom.priority],
-  );
-  const priorityColor = useMemo(
-    () => getPriorityColor(recom.priority),
-    [recom.priority],
-  );
-  const priorityBgColor = useMemo(
-    () => getPriorityBgColor(recom.priority),
-    [recom.priority],
-  );
+  const priorityText = getPriorityText(recom.priority);
+  const priorityBadge = getPriorityBadge(recom.priority);
 
-  const priorityBorderColor = useMemo(
-    () => getPriorityBorderColor(recom.priority),
-    [recom.priority],
-  );
   return (
-    <div className="group/row border-border/40 hover:bg-muted/20 grid grid-cols-20 items-center gap-4 border-t px-4 py-3">
-      <div className="col-span-1 flex items-center">
-        <Checkbox
-          checked={selected}
-          onCheckedChange={onToggleSelect}
-          className="rounded-md"
-        />
-      </div>
-      <div className="col-span-8 flex items-center gap-3">
-        <div className="bg-background rounded-xl p-2">
-          <SparkleIcon className="text-primary size-4" />
+    <tr
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        openDetailDialog(recom);
+      }}
+      className="group/row hover:bg-accent border-t text-sm"
+    >
+      <td className="px-4 py-3">
+        <div className="flex items-center">
+          <Checkbox
+            checked={selected}
+            onCheckedChange={onToggleSelect}
+            className="border-alternative shadow-none"
+          />
         </div>
-        <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-base font-medium">{recom.title}</span>
+      </td>
+      <td className="max-w-72 px-4 py-3 md:max-w-sm">
+        <div className="flex items-center gap-3">
+          <div className="bg-background rounded-xl p-2">
+            <SparklesIcon className="text-primary size-4" />
+          </div>
+          <div className="flex flex-col overflow-hidden">
+            <span className="text-foreground truncate font-medium">
+              {recom.title}
+            </span>
+            <span className="text-muted-foreground truncate text-xs">
+              {recom.description}
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="text-muted-foreground col-span-2 text-sm">
+      </td>
+      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3">
         <BetterTooltip content={`Prioridad ${priorityText.toLowerCase()}`}>
-          <Badge
-            variant="outline"
-            className={cn(
-              priorityColor,
-              "bg-opacity-10",
-              priorityBgColor,
-              priorityBorderColor,
-            )}
-          >
-            {priorityText}
+          <Badge variant="outline" className={priorityBadge.color}>
+            {priorityBadge.icon}
+            {priorityBadge.label}
           </Badge>
         </BetterTooltip>
-      </div>
-      <div className="text-muted-foreground col-span-3 text-sm">
+      </td>
+      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3">
         {formatDate(recom.createdAt, "dd MMM yyyy")}
-      </div>
-      {recom.relatedTags.length > 0 && (
-        <div className="col-span-4 mt-2 flex flex-wrap gap-1">
+      </td>
+      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3">
+        <div className="flex flex-wrap gap-1">
           {recom.relatedTags.slice(0, 1).map((tag) => (
             <Badge
               key={tag}
-              variant="outline"
               className={cn("font-normal text-white", getTagColor(tag))}
             >
               <Tag className="size-2.5!" />
@@ -121,52 +106,54 @@ const RecommendationRow = ({
             </Badge>
           )}
         </div>
-      )}
-      <div className="col-span-2 flex justify-end gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-8">
-              <MoreVerticalIcon />
-              <span className="sr-only">Más opciones</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuGroup>
-              <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <ChevronButton
-                    variant="ghost"
-                    onClick={() => openDetailDialog(recom)}
-                    className="h-auto w-full justify-start"
-                  >
-                    Ver detalles
-                  </ChevronButton>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <ShareButton
-                    variant="ghost"
-                    onClick={() => onShareRecommendation(recom)}
-                    className="h-auto w-full justify-start"
-                  >
-                    Compartir
-                  </ShareButton>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
+      </td>
+      <td className="px-4 py-3 text-right">
+        <div className="flex justify-end gap-2">
+          <BetterTooltip content="Ver detalles">
+            <ChevronButton
+              variant="ghost"
+              size="icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                openDetailDialog(recom);
+              }}
+              className="hover:bg-background size-8 group-hover/row:opacity-100 md:opacity-0"
+            >
+              <span className="sr-only">Ver detalles</span>
+            </ChevronButton>
+          </BetterTooltip>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="size-8">
+                <MoreVerticalIcon />
+                <span className="sr-only">Más opciones</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <ShareButton
+                  variant="ghost"
+                  onClick={() => onShareRecommendation(recom)}
+                  className="h-auto w-full justify-start font-normal"
+                >
+                  Compartir
+                </ShareButton>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem variant="destructive" asChild>
                 <DeleteButton
                   variant="ghost"
                   onClick={() => onDeleteRecommendation(recom)}
-                  className="h-auto w-full justify-start"
+                  className="h-auto w-full justify-start font-normal"
                 >
                   Eliminar
                 </DeleteButton>
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </td>
+    </tr>
   );
 };
 

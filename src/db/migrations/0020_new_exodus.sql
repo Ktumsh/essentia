@@ -1,0 +1,1 @@
+ALTER TABLE "user_ai_recommendation_usage" ADD CONSTRAINT "unique_user_ai_usage" UNIQUE("user_id");

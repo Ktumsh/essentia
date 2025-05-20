@@ -1,9 +1,11 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
+import PageWrapper from "@/components/ui/layout/page-wrapper";
 
-import MedicalHistory from "./_components/medical-history";
+import MedicalHistoryTabs from "./_components/medical-history-tabs";
 import UnauthenticatedState from "./_components/unauthenticated-state";
+import MedicalFoldersPanel from "./carpetas/_components/medical-folders";
 
 export const metadata: Metadata = {
   title: "Historial médico",
@@ -12,14 +14,21 @@ export const metadata: Metadata = {
   },
 };
 
-const MedicalHistoryPage = async () => {
+export default async function MedicalHistoryPage() {
   const session = await auth();
 
   if (!session?.user) {
-    return <UnauthenticatedState />;
+    return (
+      <PageWrapper>
+        <UnauthenticatedState />
+      </PageWrapper>
+    );
   }
 
-  return <MedicalHistory />;
-};
-
-export default MedicalHistoryPage;
+  return (
+    <>
+      <MedicalFoldersPanel />
+      <MedicalHistoryTabs />
+    </>
+  );
+}

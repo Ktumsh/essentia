@@ -1,8 +1,8 @@
 "use client";
 
-import { Tag, FileText, Check } from "lucide-react";
+import { Tag, FileText } from "lucide-react";
 
-import { SaveButton } from "@/components/button-kit/save-button";
+import { BookmarkButton } from "@/components/button-kit/bookmark-button";
 import { ShareButton } from "@/components/button-kit/share-button";
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
@@ -20,12 +20,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 import { AIRecommendationType } from "./ai-recommendation";
-import {
-  getPriorityColor,
-  getPriorityText,
-  getTagColor,
-  isRecommendationSaved,
-} from "../_lib/utils";
+import { getPriorityBadge, getTagColor } from "../_lib/utils";
 
 interface AIRecommendationsCardProps {
   recommendation: AIRecommendationType;
@@ -33,34 +28,40 @@ interface AIRecommendationsCardProps {
   currentItem: AIRecommendationType | null;
   savedRecommendations: AIRecommendationType[];
   onViewDetails: (rec: AIRecommendationType) => void;
-  onSave: (rec: AIRecommendationType) => void;
   onShare: (rec: AIRecommendationType) => void;
+  isSaved: (
+    rec: AIRecommendationType,
+    savedList: AIRecommendationType[],
+  ) => boolean;
+  toggleRecommendation: (
+    recommendation: AIRecommendationType,
+    savedList: AIRecommendationType[],
+  ) => Promise<void>;
 }
 
-export const AIRecommendationsCard = ({
+const AIRecommendationsCard = ({
   recommendation,
   medicalHistory,
   savedRecommendations,
   onViewDetails,
-  onSave,
   onShare,
+  isSaved,
+  toggleRecommendation,
 }: AIRecommendationsCardProps) => {
   const isMobile = useIsMobile();
 
-  const isSaved = isRecommendationSaved(recommendation, savedRecommendations);
+  const saved = isSaved(recommendation, savedRecommendations);
+
+  const priorityBadge = getPriorityBadge(recommendation.priority);
 
   return (
-    <Card className="group/item bg-muted flex flex-col overflow-hidden">
+    <Card className="group/item bg-background flex flex-col overflow-hidden">
       <CardHeader className="px-4 pt-4 pb-2">
         <div className="flex items-start justify-between">
           <CardTitle className="text-base">{recommendation.title}</CardTitle>
-          <Badge
-            className={cn(
-              getPriorityColor(recommendation.priority),
-              "bg-opacity-10",
-            )}
-          >
-            Prioridad: {getPriorityText(recommendation.priority)}
+          <Badge variant="outline" className={priorityBadge.color}>
+            {priorityBadge.icon}
+            Prioridad {priorityBadge.label}
           </Badge>
         </div>
         <CardDescription className="text-muted-foreground text-xs">
@@ -113,7 +114,7 @@ export const AIRecommendationsCard = ({
                       key={docId}
                       className="flex items-center gap-1 text-xs"
                     >
-                      <FileText className="h-3 w-3 text-blue-500" />
+                      <FileText className="h-3 w-3 text-blue-600" />
                       <span>{doc.condition}</span>
                       {doc.issuer && (
                         <span className="text-muted-foreground">
@@ -138,32 +139,25 @@ export const AIRecommendationsCard = ({
             isMobile ? "opacity-100" : "opacity-0 group-hover/item:opacity-100",
           )}
         >
-          {isSaved ? (
-            <BetterTooltip content="Recomendación guardada">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-7 cursor-default rounded-sm text-emerald-500 hover:bg-transparent hover:text-emerald-500 dark:text-emerald-300 dark:hover:bg-transparent dark:hover:text-emerald-300 [&_svg]:size-3.5!"
-              >
-                <Check />
-              </Button>
-            </BetterTooltip>
-          ) : (
-            <BetterTooltip content="Guardar">
-              <SaveButton
-                variant="ghost"
-                size="icon"
-                onClick={() => onSave(recommendation)}
-                className="size-7 rounded-sm text-emerald-500 hover:bg-emerald-50 hover:text-emerald-500 dark:text-emerald-300 dark:hover:bg-emerald-950 dark:hover:text-emerald-300 [&_svg]:size-3.5!"
-              />
-            </BetterTooltip>
-          )}
+          <BetterTooltip content={saved ? "✓ Guardada" : "Guardar"}>
+            <BookmarkButton
+              variant="ghost"
+              size="icon"
+              onClick={() =>
+                toggleRecommendation(recommendation, savedRecommendations)
+              }
+              className={cn(
+                "text-emerald-600 hover:bg-emerald-50 hover:text-emerald-600 dark:text-emerald-400 dark:hover:bg-emerald-950 dark:hover:text-emerald-400",
+                saved && "**:fill-emerald-600 dark:**:fill-emerald-400",
+              )}
+            />
+          </BetterTooltip>
           <BetterTooltip content="Compartir">
             <ShareButton
               variant="ghost"
               size="icon"
               onClick={() => onShare(recommendation)}
-              className="size-7 rounded-sm text-blue-500 hover:bg-blue-50 hover:text-blue-500 dark:text-blue-300 dark:hover:bg-blue-950 dark:hover:text-blue-300 [&_svg]:size-3.5!"
+              className="text-blue-600 hover:bg-blue-50 hover:text-blue-600 dark:text-blue-400 dark:hover:bg-blue-950 dark:hover:text-blue-400"
             />
           </BetterTooltip>
           <Button
@@ -171,7 +165,6 @@ export const AIRecommendationsCard = ({
             variant="ghost"
             size="sm"
             onClick={() => onViewDetails(recommendation)}
-            className="h-7 text-xs [&_svg]:size-3.5!"
           >
             Ver más detalles
           </Button>
@@ -180,3 +173,5 @@ export const AIRecommendationsCard = ({
     </Card>
   );
 };
+
+export default AIRecommendationsCard;

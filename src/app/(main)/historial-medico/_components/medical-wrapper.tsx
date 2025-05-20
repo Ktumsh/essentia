@@ -1,99 +1,128 @@
 "use client";
 
 import PageWrapper from "@/components/ui/layout/page-wrapper";
-import PaymentModal from "@/components/ui/payment/payment-modal";
 
-import AIRecommendation from "./ai-recommendation";
-import DocumentViewDialog from "./document-view-dialog";
+import MedicalDialogsContainer from "./medical-dialogs-container";
 import MedicalHistoryAside from "./medical-history-aside";
-import MedicalHistoryForm from "./medical-history-form";
 import MedicalHistoryHeader from "./medical-history-header";
+import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
+import { useMedicalFoldersDialog } from "../_hooks/use-medical-folder-dialogs";
+import { useMedicalFolders } from "../_hooks/use-medical-folders";
 import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
+import FolderForm from "../carpetas/_components/folder-form";
 
 const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { isFolderFormOpen, closeFolderForm, openFolderForm } =
+    useMedicalFoldersDialog();
   const {
-    openAIRecommendationsForAll,
-    uploadStatus,
-    setPremiumFeatureType,
-    setDialogs,
-    loading,
-    dialogs,
-    currentItem,
-    documentViewHandlers,
-    isTrialUsed,
-    medicalTags,
     folders,
+    editingFolder,
+    handleCreateFolder,
+    handleUpdateFolder,
+    isSubmitting: isFolderSubmitting,
+  } = useMedicalFolders();
+
+  const {
+    isTrialUsed,
     isSubmitting,
-    handleCreate,
-    handleShareRecommendation,
-    saveRecommendation,
-    selectedItemsForAI,
+    uploadStatus,
+    loading,
+    medicalTags,
     medicalHistory,
-    selectedTags,
     savedRecommendations,
-    listHandlers,
+    selectedTags,
+    activities,
+    handleCreate,
+    handleUpdate,
+    handleDelete,
+    handleRestore,
+    saveRecommendation,
+    isRecommendationSaved,
+    toggleRecommendation,
+    handleDownload,
   } = useMedicalHistoryLogic();
+
+  const {
+    openDialog,
+    setEditingItem,
+    setItemToDelete,
+    setSelectedItemsForAI,
+    setFileToView,
+    setPremiumFeatureType,
+    setCurrentItem,
+  } = useMedicalDialogs();
+
+  const handleViewDocumentFromActivity = (id: string) => {
+    const doc = medicalHistory.find((d) => d.id === id);
+    if (!doc) return;
+    setCurrentItem(doc);
+    openDialog("isViewDialogOpen");
+  };
 
   return (
     <PageWrapper classNameContainer="max-w-full" className="pt-6">
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 2xl:grid-cols-4">
         <section className="@container/medical col-span-1 w-full xl:col-span-2 2xl:col-span-3">
           <MedicalHistoryHeader
-            openAIRecommendationsForAll={openAIRecommendationsForAll}
-            uploadStatus={uploadStatus}
-            setPremiumFeatureType={setPremiumFeatureType}
-            setDialogs={setDialogs}
             loading={loading}
+            uploadStatus={uploadStatus}
+            onNewAIRecommendation={() => openDialog("isAIDialogOpen")}
+            onNewFolder={() => openFolderForm()}
+            onNewDocument={() => openDialog("isAddDialogOpen")}
           />
           {children}
         </section>
         <MedicalHistoryAside />
       </div>
 
-      <MedicalHistoryForm
-        isOpen={dialogs.isAddDialogOpen}
-        setIsOpen={(isOpen) =>
-          setDialogs((prev) => ({ ...prev, isAddDialogOpen: isOpen }))
-        }
-        tags={medicalTags || []}
+      <MedicalDialogsContainer
+        tags={medicalTags}
         folders={folders}
-        onSubmit={handleCreate}
-        onCancel={() =>
-          setDialogs((prev) => ({ ...prev, isAddDialogOpen: false }))
-        }
+        activities={activities}
+        isTrialUsed={isTrialUsed}
         isSubmitting={isSubmitting}
-      />
-
-      <AIRecommendation
-        isOpen={dialogs.isAIDialogOpen}
-        onClose={() =>
-          setDialogs((prev) => ({ ...prev, isAIDialogOpen: false }))
-        }
-        medicalHistory={medicalHistory || []}
-        selectedItems={selectedItemsForAI}
+        medicalHistory={medicalHistory}
+        savedRecommendations={savedRecommendations}
         selectedTags={selectedTags}
-        savedRecommendations={savedRecommendations || []}
-        onSaveRecommendation={saveRecommendation}
-        onShareRecommendation={handleShareRecommendation}
+        handleCreate={handleCreate}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+        handleRestore={handleRestore}
+        handleViewDocumentFromActivity={handleViewDocumentFromActivity}
+        saveRecommendation={saveRecommendation}
+        isRecommendationSaved={isRecommendationSaved}
+        toggleRecommendation={toggleRecommendation}
+        onDownload={handleDownload}
+        documentViewHandlers={{
+          onEdit: (item) => {
+            setEditingItem(item);
+            openDialog("isEditDialogOpen");
+          },
+          onDelete: (item) => {
+            setItemToDelete(item);
+            openDialog("isDeleteDialogOpen");
+          },
+          onAIClick: (item) => {
+            setSelectedItemsForAI([item.id]);
+            openDialog("isAIDialogOpen");
+          },
+          onViewFile: (file) => {
+            setFileToView(file);
+            openDialog("isFileViewerOpen");
+          },
+          onOpenPremiumModal: () => {
+            setPremiumFeatureType("saved-recommendations");
+            openDialog("isPremiumModal");
+          },
+        }}
       />
 
-      <DocumentViewDialog
-        isOpen={dialogs.isViewDialogOpen}
-        onClose={() =>
-          setDialogs((prev) => ({ ...prev, isViewDialogOpen: false }))
-        }
-        onDownload={listHandlers.onDownload}
-        currentItem={currentItem}
-        {...documentViewHandlers}
-      />
-
-      <PaymentModal
-        featureType="upload-limit"
-        isOpen={dialogs.isPremiumModal}
-        setIsOpen={(isOpen) =>
-          setDialogs((prev) => ({ ...prev, isPremiumModal: isOpen }))
-        }
-        mode={!isTrialUsed ? "trial" : "upgrade"}
+      <FolderForm
+        isOpen={isFolderFormOpen}
+        initial={editingFolder || undefined}
+        onClose={closeFolderForm}
+        onSubmit={editingFolder ? handleUpdateFolder : handleCreateFolder}
+        isSubmitting={isFolderSubmitting}
       />
     </PageWrapper>
   );

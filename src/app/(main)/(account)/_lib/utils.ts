@@ -101,3 +101,13 @@ export async function getCroppedImg(
     }, "image/jpeg");
   });
 }
+
+export function getTrialMessage(expiresAt: Date): string {
+  const now = new Date();
+  const daysLeft = Math.ceil(
+    (expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  if (daysLeft <= 0) return "Tu prueba gratuita ha finalizado";
+  if (daysLeft === 1) return "Te queda 1 día de tu prueba gratuita";
+  return `Te quedan ${daysLeft} días de tu prueba gratuita`;
+}

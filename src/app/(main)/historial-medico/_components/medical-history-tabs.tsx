@@ -1,14 +1,10 @@
 "use client";
 
-import { LayoutGrid, List, LockKeyhole } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { LockKeyhole, SparklesIcon } from "lucide-react";
 import { useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
 import { LockButton } from "@/components/button-kit/lock-button";
-import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
-import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Button } from "@/components/kit/button";
 import { Card, CardContent } from "@/components/kit/card";
 import {
   Tabs,
@@ -16,7 +12,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
@@ -25,141 +20,89 @@ import DocumentEmptyState from "./document-empty-state";
 import DocumentFilters from "./document-filters";
 import DocumentSection from "./document-section";
 import MedicalHistoryLoading from "./medical-history-loading";
+import NewOptions from "./new-options";
 import RecommendationEmptyState from "./recommendation-empty-state";
 import RecommendationFilters from "./recommendation-filters";
 import RecommendationSection from "./recommendation-section";
 import SavedRecommendationsLoading from "./saved-recommendations-loading";
+import SelectionHeader from "./section-header";
+import ViewModeToggle from "./view-mode-toggle";
+import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
+import { useMedicalFoldersDialog } from "../_hooks/use-medical-folder-dialogs";
+import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
+import { useMultiSelect } from "../_hooks/use-multi-select";
 import { useViewMode } from "../_hooks/use-view-mode";
 
-import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
-import type {
-  MedicalFileType,
-  MedicalHistoryWithTags,
-} from "@/db/querys/medical-history-querys";
+const MedicalHistoryTabs = () => {
+  const {
+    userId,
+    filteredHistory,
+    documentTypeFilter,
+    setDocumentTypeFilter,
+    documentCategoryFilter,
+    setDocumentCategoryFilter,
+    isOpenOptions,
+    setIsOpenOptions,
+    loading,
+    searchTerm,
+    setSearchTerm,
+    selectedTags,
+    clearFilters,
+    medicalTags,
+    setSelectedTags,
+    getTagCount,
+    medicalHistory,
+    savedRecommendations,
+    deleteRecommendation,
+    updateRecommendationNotes,
+    handleDownload,
+    deleteDocuments,
+    deleteRecommendations,
+  } = useMedicalHistoryLogic();
 
-interface MedicalHistoryTabsProps {
-  filteredHistory: MedicalHistoryWithTags[];
-  documentTypeFilter: "all" | "recent" | "shared" | "private";
-  setDocumentTypeFilter: (
-    value: "all" | "recent" | "shared" | "private",
-  ) => void;
-  documentCategoryFilter: MedicalFileType | "all";
-  setDocumentCategoryFilter: (value: MedicalFileType | "all") => void;
-  onView: (item: MedicalHistoryWithTags) => void;
-  onAIClick: (item: MedicalHistoryWithTags) => void;
-  onViewFile: (fileData: { url?: string | null; name: string }) => void;
-  onDownload: (fileData: { url?: string | null; name: string }) => void;
-  onEdit: (item: MedicalHistoryWithTags) => void;
-  onDelete: (item: MedicalHistoryWithTags) => void;
-  onAddDocument: () => void;
-  onOpenOptions: (item: MedicalHistoryWithTags | null) => void;
-  currentItem: MedicalHistoryWithTags | null;
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-  clearFilters: () => void;
-  isHistoryLoading: boolean;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  medicalTags: { id: string; name: string }[];
-  selectedTags: string[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
-  getTagCount: (tag: string) => number;
-  recommendations: SavedAIRecommendation[];
-  medicalHistory: MedicalHistoryWithTags[];
-  onDeleteRecommendation: (id: string) => void;
-  onUpdateRecommendation: (recommendation: SavedAIRecommendation) => void;
-  onShareRecommendation: (recommendation: SavedAIRecommendation) => void;
-  onOpenPremiumModal: () => void;
-  onOpenAIRecommendations: () => void;
-}
+  const {
+    openDialog,
+    setCurrentItem,
+    editingItem,
+    setEditingItem,
+    setItemToDelete,
+    setFileToView,
+    setSelectedItemsForAI,
+    setPremiumFeatureType,
+    setRecommendationsToShare,
+  } = useMedicalDialogs();
 
-const MedicalHistoryTabs = ({
-  filteredHistory,
-  documentTypeFilter,
-  setDocumentTypeFilter,
-  documentCategoryFilter,
-  setDocumentCategoryFilter,
-  onView,
-  onAIClick,
-  onViewFile,
-  onDownload,
-  onEdit,
-  onDelete,
-  onAddDocument,
-  onOpenOptions,
-  currentItem,
-  isOpen,
-  setIsOpen,
-  clearFilters,
-  isHistoryLoading,
-  searchTerm,
-  setSearchTerm,
-  medicalTags,
-  selectedTags,
-  setSelectedTags,
-  getTagCount,
-  recommendations,
-  medicalHistory,
-  onDeleteRecommendation,
-  onUpdateRecommendation,
-  onShareRecommendation,
-  onOpenPremiumModal,
-  onOpenAIRecommendations,
-}: MedicalHistoryTabsProps) => {
   const [activeTab, setActiveTab] = useState<"documents" | "recommendations">(
     "documents",
   );
   const { viewMode, setViewMode } = useViewMode();
   const [inputValue, setInputValue] = useState(searchTerm);
-
-  const debouncedSetSearchTerm = useDebounceCallback(setSearchTerm, 150);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    debouncedSetSearchTerm(value);
-  };
-
   const [recomSearchTerm, setRecomSearchTerm] = useState("");
-  const [recomInputValue, setRecomInputValue] = useState(recomSearchTerm);
-
-  const debouncedSetRecomSearchTerm = useDebounceCallback(
-    setRecomSearchTerm,
-    150,
-  );
-
-  const handleChangeRecommendation = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const value = e.target.value;
-    setRecomInputValue(value);
-    debouncedSetRecomSearchTerm(value);
-  };
-
-  const [priorityFilter, setPriorityFilter] = useState<
-    "all" | "high" | "medium" | "low"
-  >("all");
+  const [recomInputValue, setRecomInputValue] = useState("");
 
   const isMobile = useIsMobile();
   const { user } = useUserProfile();
   const isPremium = user?.isPremium;
 
-  const getFilteredByVisibility = () => {
-    if (documentTypeFilter === "recent") {
-      return filteredHistory
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        )
-        .slice(0, 5);
-    }
-    if (documentTypeFilter === "shared" || documentTypeFilter === "private") {
-      return filteredHistory.filter((i) => i.visibility === documentTypeFilter);
-    }
-    return filteredHistory;
+  const { openFolderForm } = useMedicalFoldersDialog();
+
+  const debouncedSetSearchTerm = useDebounceCallback(setSearchTerm, 150);
+  const debouncedSetRecomSearchTerm = useDebounceCallback(
+    setRecomSearchTerm,
+    150,
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    debouncedSetSearchTerm(e.target.value);
   };
 
-  const docs = getFilteredByVisibility();
+  const handleChangeRecommendation = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setRecomInputValue(e.target.value);
+    debouncedSetRecomSearchTerm(e.target.value);
+  };
 
   const toggleTagFilter = (tag: string) => {
     setSelectedTags((prev) =>
@@ -167,62 +110,92 @@ const MedicalHistoryTabs = ({
     );
   };
 
-  const filteredRecommendations = recommendations.filter((rec) => {
-    const matchesSearch =
-      recomSearchTerm === "" ||
-      rec.title.toLowerCase().includes(recomSearchTerm.toLowerCase()) ||
-      rec.description.toLowerCase().includes(recomSearchTerm.toLowerCase()) ||
-      rec.relatedTags.some((tag) =>
-        tag.toLowerCase().includes(recomSearchTerm.toLowerCase()),
-      ) ||
-      rec.notes?.toLowerCase().includes(recomSearchTerm.toLowerCase());
+  const getFilteredDocs = () => {
+    if (documentTypeFilter === "recent") {
+      return [...filteredHistory]
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        )
+        .slice(0, 5);
+    }
+    if (documentTypeFilter === "shared" || documentTypeFilter === "private") {
+      return filteredHistory.filter((d) => d.visibility === documentTypeFilter);
+    }
+    return filteredHistory;
+  };
 
-    const matchesPriority =
-      priorityFilter === "all" || rec.priority === priorityFilter;
+  const docs = getFilteredDocs();
 
-    return matchesSearch && matchesPriority;
+  const {
+    selectedIds: selectedDocuments,
+    handleSelect,
+    handleToggle,
+    clearSelection,
+    setSelectedIds,
+  } = useMultiSelect(docs);
+
+  const [priorityFilter, setPriorityFilter] = useState<
+    "all" | "high" | "medium" | "low"
+  >("all");
+
+  const filteredRecommendations = savedRecommendations.filter((rec) => {
+    const term = recomSearchTerm.toLowerCase();
+    return (
+      (priorityFilter === "all" || rec.priority === priorityFilter) &&
+      (rec.title.toLowerCase().includes(term) ||
+        rec.description.toLowerCase().includes(term) ||
+        rec.relatedTags.some((tag) => tag.toLowerCase().includes(term)) ||
+        rec.notes?.toLowerCase().includes(term))
+    );
   });
+
+  const {
+    selectedIds: selectedRecommendations,
+    handleSelect: handleSelectRecommendation,
+    handleToggle: handleToggleRecommendation,
+    clearSelection: clearRecommendationSelection,
+    setSelectedIds: setSelectedRecommendations,
+  } = useMultiSelect(filteredRecommendations);
 
   const clearRecomFilters = () => {
     setRecomSearchTerm("");
     setPriorityFilter("all");
   };
 
+  const selectedDocCount = selectedDocuments.length;
+  const isDocSelected = selectedDocCount > 0;
+
+  const selectedRecomCount = selectedRecommendations.length;
+  const isRecomSelected = selectedRecomCount > 0;
+
   return (
     <>
-      <AnimatePresence mode="wait">
-        {activeTab === "documents" ? (
-          <motion.div
-            key="documents"
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.2 }}
-            className="mt-6"
-          >
-            <h3 className="text-base font-medium">Mis documentos</h3>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="recommendations"
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            transition={{ duration: 0.2 }}
-            className="mt-6"
-          >
-            <h3 className="text-base font-medium">Mis Recomendaciones</h3>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <SelectionHeader
+        activeTab={activeTab}
+        isDocumentSelected={isDocSelected}
+        isRecommendationSelected={isRecomSelected}
+        documentCount={selectedDocCount}
+        recommendationCount={selectedRecomCount}
+        onClearDocuments={clearSelection}
+        onClearRecommendations={clearRecommendationSelection}
+        onDeleteDocuments={() => {
+          deleteDocuments(userId, selectedDocuments);
+          clearSelection();
+        }}
+        onDeleteRecommendations={() => {
+          deleteRecommendations(userId, selectedRecommendations);
+          clearRecommendationSelection();
+        }}
+      />
 
       <Tabs
         value={activeTab}
         onValueChange={setActiveTab as any}
         className="mt-3 w-full"
       >
-        <div className="mb-3 flex flex-col gap-2">
-          <TabsList className="bg-background border-border/40 rounded-xl border">
+        <div className="mb-3 flex flex-col">
+          <TabsList className="bg-background mb-2 rounded-xl border">
             <TabsTrigger
               value="documents"
               className={cn("data-[state=active]:bg-accent")}
@@ -231,101 +204,71 @@ const MedicalHistoryTabs = ({
             </TabsTrigger>
             <TabsTrigger
               value="recommendations"
-              className={cn("data-[state=active]:bg-accent")}
+              className={cn(
+                "group/tab data-[state=active]:bg-secondary/10 text-secondary/70 data-[state=active]:text-secondary",
+              )}
             >
               Recomendaciones
-              {!isPremium && (
-                <LockKeyhole className="size-3.5 text-fuchsia-500" />
+              {isPremium ? (
+                <SparklesIcon className="group-data-[state=active]/tab:fill-secondary size-3.5" />
+              ) : (
+                <LockKeyhole className="text-secondary size-3.5" />
               )}
             </TabsTrigger>
           </TabsList>
 
-          <div className="bg-muted flex items-center justify-between rounded-xl p-3">
-            {activeTab === "documents" ? (
-              <BetterTooltip content="Añadir documento">
-                <SmilePlusButton
-                  size="icon"
-                  variant="outline"
-                  onClick={onAddDocument}
-                  className="bg-background"
-                >
-                  <span className="sr-only">Añadir documento</span>
-                </SmilePlusButton>
-              </BetterTooltip>
-            ) : (
-              isPremium && (
-                <BetterTooltip content="Recomendaciones IA">
-                  <SparklesButton
-                    size="icon"
-                    onClick={onOpenAIRecommendations}
+          <div className="relative mb-3 flex w-full overflow-x-auto rounded-xl">
+            <div className="bg-muted flex flex-1 items-center justify-between gap-2 p-3">
+              <NewOptions
+                isPremium={isPremium}
+                disabled={loading}
+                onNewAIRecommendation={() => openDialog("isAIDialogOpen")}
+                onNewDocument={() => openDialog("isAddDialogOpen")}
+                onNewFolder={() => openFolderForm()}
+              />
+              {isMobile && (
+                <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
+              )}
+              <div
+                className={cn(
+                  "flex items-center gap-2",
+                  !isPremium && "ms-auto",
+                )}
+              >
+                {activeTab === "documents" ? (
+                  <DocumentFilters
+                    inputValue={inputValue}
+                    onChange={handleChange}
+                    documentTypeFilter={documentTypeFilter}
+                    setDocumentTypeFilter={setDocumentTypeFilter}
+                    documentCategoryFilter={documentCategoryFilter}
+                    setDocumentCategoryFilter={setDocumentCategoryFilter}
+                    medicalTags={medicalTags}
+                    selectedTags={selectedTags}
+                    onToggleTagFilter={toggleTagFilter}
+                    getTagCount={getTagCount}
+                    clearFilters={clearFilters}
                   />
-                </BetterTooltip>
-              )
-            )}
-            <div
-              className={cn(
-                "flex flex-col items-center gap-2 md:flex-row",
-                !isPremium && "ms-auto",
-              )}
-            >
-              {activeTab === "documents" ? (
-                <DocumentFilters
-                  inputValue={inputValue}
-                  onChange={handleChange}
-                  documentTypeFilter={documentTypeFilter}
-                  setDocumentTypeFilter={setDocumentTypeFilter}
-                  documentCategoryFilter={documentCategoryFilter}
-                  setDocumentCategoryFilter={setDocumentCategoryFilter}
-                  medicalTags={medicalTags}
-                  selectedTags={selectedTags}
-                  onToggleTagFilter={toggleTagFilter}
-                  getTagCount={getTagCount}
-                  clearFilters={clearFilters}
-                />
-              ) : (
-                <RecommendationFilters
-                  inputValue={recomInputValue}
-                  onChange={handleChangeRecommendation}
-                  priorityFilter={priorityFilter}
-                  setPriorityFilter={setPriorityFilter}
-                />
-              )}
-              {!isMobile && (
-                <div className="bg-background flex items-center space-x-1 rounded-full border p-1">
-                  <BetterTooltip content="Vista en grilla">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => setViewMode("grid")}
-                      className={cn(
-                        "size-7",
-                        viewMode === "grid" && "bg-accent",
-                      )}
-                      aria-label="Vista en grilla"
-                    >
-                      <LayoutGrid className="size-3.5!" />
-                    </Button>
-                  </BetterTooltip>
-                  <BetterTooltip content="Vista en lista">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => setViewMode("list")}
-                      className={cn(
-                        "size-7",
-                        viewMode === "list" && "bg-accent",
-                      )}
-                      aria-label="Vista en lista"
-                    >
-                      <List className="size-3.5!" />
-                    </Button>
-                  </BetterTooltip>
-                </div>
-              )}
+                ) : (
+                  <RecommendationFilters
+                    inputValue={recomInputValue}
+                    onChange={handleChangeRecommendation}
+                    priorityFilter={priorityFilter}
+                    setPriorityFilter={setPriorityFilter}
+                  />
+                )}
+                {!isMobile && (
+                  <ViewModeToggle
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                  />
+                )}
+              </div>
             </div>
           </div>
+
           <TabsContent value="documents" className="@container/list">
-            {isHistoryLoading ? (
+            {loading ? (
               <MedicalHistoryLoading viewMode={isMobile ? "grid" : viewMode} />
             ) : docs.length === 0 ? (
               <DocumentEmptyState
@@ -336,32 +279,66 @@ const MedicalHistoryTabs = ({
                   selectedTags.length > 0
                 }
                 onClearFilters={clearFilters}
-                onAddDocument={onAddDocument}
+                onAddDocument={() => openDialog("isAddDialogOpen")}
               />
             ) : (
               <DocumentSection
                 docs={docs}
                 viewMode={viewMode}
-                onView={onView}
-                onAIClick={onAIClick}
-                onViewFile={onViewFile}
-                onDownload={onDownload}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                currentDoc={currentItem}
-                open={isOpen}
-                setOpen={setIsOpen}
-                onOpenOptions={onOpenOptions}
+                onView={(item) => {
+                  setCurrentItem(item);
+                  openDialog("isViewDialogOpen");
+                }}
+                onAIClick={(item) => {
+                  setSelectedItemsForAI([item.id]);
+                  openDialog("isAIDialogOpen");
+                }}
+                onViewFile={(file) => {
+                  setFileToView(file);
+                  openDialog("isFileViewerOpen");
+                }}
+                onDownload={handleDownload}
+                onEdit={(item) => {
+                  setEditingItem(item);
+                  openDialog("isEditDialogOpen");
+                }}
+                onDelete={(item) => {
+                  setItemToDelete(item);
+                  openDialog("isDeleteDialogOpen");
+                }}
+                currentDoc={editingItem}
+                open={isOpenOptions}
+                setOpen={setIsOpenOptions}
+                onOpenOptions={(item) => {
+                  setCurrentItem(item);
+                  setIsOpenOptions(true);
+                }}
+                selectedDocs={selectedDocuments}
+                onSelect={(e, id, index) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey) {
+                    handleSelect(e, id, index);
+                  } else {
+                    handleToggle(id, index);
+                  }
+                }}
+                onToggleSelectAll={() => {
+                  if (selectedDocuments.length === docs.length) {
+                    clearSelection();
+                  } else {
+                    setSelectedIds(docs.map((doc) => doc.id));
+                  }
+                }}
               />
             )}
           </TabsContent>
+
           <TabsContent value="recommendations" className="@container/list">
             {!isPremium ? (
               <Card className="border border-dashed border-indigo-200 dark:border-indigo-900">
                 <CardContent className="flex flex-col items-center justify-center py-10">
                   <LockKeyhole className="mb-4 size-16 text-amber-400 opacity-50 dark:text-amber-300" />
                   <p className="text-foreground text-sm font-medium">
-                    Contenido Premium Bloqueado
+                    Recomendaciones con IA bloqueadas
                   </p>
                   <p className="text-muted-foreground mt-2 max-w-md text-center text-sm">
                     Suscríbete a Premium para acceder a todas tus
@@ -370,14 +347,17 @@ const MedicalHistoryTabs = ({
                   <LockButton
                     size="sm"
                     variant="gradient"
-                    onClick={onOpenPremiumModal}
+                    onClick={() => {
+                      setPremiumFeatureType("saved-recommendations");
+                      openDialog("isPremiumModal");
+                    }}
                     className="mt-4"
                   >
                     Desbloquear Premium
                   </LockButton>
                 </CardContent>
               </Card>
-            ) : isHistoryLoading ? (
+            ) : loading ? (
               <SavedRecommendationsLoading
                 viewMode={isMobile ? "grid" : viewMode}
               />
@@ -391,11 +371,40 @@ const MedicalHistoryTabs = ({
               <RecommendationSection
                 recommendations={filteredRecommendations}
                 medicalHistory={medicalHistory}
-                onDeleteRecommendation={onDeleteRecommendation}
-                onUpdateRecommendation={onUpdateRecommendation}
-                onShareRecommendation={onShareRecommendation}
-                onViewFile={onViewFile}
+                onDeleteRecommendation={deleteRecommendation}
+                onUpdateRecommendation={updateRecommendationNotes}
+                onShareRecommendation={(r) => {
+                  const list = Array.isArray(r) ? r : [r];
+                  setRecommendationsToShare(list);
+                  openDialog("isShareDialogOpen");
+                }}
+                onViewFile={(file) => {
+                  setFileToView(file);
+                  openDialog("isFileViewerOpen");
+                }}
                 viewMode={viewMode}
+                open={isOpenOptions}
+                setOpen={setIsOpenOptions}
+                selectedRecom={selectedRecommendations}
+                onSelect={(e, id, index) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey) {
+                    handleSelectRecommendation(e, id, index);
+                  } else {
+                    handleToggleRecommendation(id, index);
+                  }
+                }}
+                onToggleSelectAll={() => {
+                  if (
+                    selectedRecommendations.length ===
+                    filteredRecommendations.length
+                  ) {
+                    clearRecommendationSelection();
+                  } else {
+                    setSelectedRecommendations(
+                      filteredRecommendations.map((r) => r.id),
+                    );
+                  }
+                }}
               />
             )}
           </TabsContent>

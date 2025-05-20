@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
+import { BookmarkButton } from "@/components/button-kit/bookmark-button";
 import { CopyButton } from "@/components/button-kit/copy-button";
 import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { SaveButton } from "@/components/button-kit/save-button";
@@ -58,15 +59,10 @@ import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-import { getTagColor, isRecommendationSaved } from "../_lib/utils";
+import { getTagColor } from "../_lib/utils";
 import { generateAiMedicalRecommendations } from "../actions";
 import { AIRecommendationDetail } from "./ai-recommendation-detail";
-import { AIRecommendationsCard } from "./ai-recommendations-card";
-
-const shimmerVariants = {
-  initial: { opacity: 0.5 },
-  animate: { opacity: 1 },
-};
+import AIRecommendationsCard from "./ai-recommendations-card";
 
 const secondaryMessages = [
   "El cerebro digital está en acción...",
@@ -90,7 +86,7 @@ const secondaryMessages = [
 
 export type AIRecommendationType = Omit<
   AiMedicalRecommendation,
-  "id" | "createdAt" | "isDeleted" | "userId" | "notes"
+  "createdAt" | "isDeleted" | "userId" | "notes"
 > & {
   relatedTags: string[];
   relatedDocuments?: string[];
@@ -106,6 +102,14 @@ interface AIRecommendationProps {
   onSaveRecommendation: (
     recommendation: AIRecommendationType | AIRecommendationType[],
   ) => void;
+  isRecommendationSaved: (
+    rec: AIRecommendationType,
+    savedList: AIRecommendationType[],
+  ) => boolean;
+  toggleRecommendation: (
+    recommendation: AIRecommendationType,
+    savedList: AIRecommendationType[],
+  ) => Promise<void>;
   onShareRecommendation: (
     recommendation: AIRecommendationType | AIRecommendationType[],
   ) => void;
@@ -119,6 +123,8 @@ const AIRecommendation = ({
   selectedTags = [],
   savedRecommendations,
   onSaveRecommendation,
+  isRecommendationSaved,
+  toggleRecommendation,
   onShareRecommendation,
 }: AIRecommendationProps) => {
   const isMobile = useIsMobile();
@@ -145,11 +151,26 @@ const AIRecommendation = ({
     Math.floor(Math.random() * secondaryMessages.length),
   );
 
+  const [savedRecommendation, setSavedRecommendation] =
+    useState<boolean>(false);
+
   const [, copyToClipboard] = useCopyToClipboard();
 
   // Actualiza la selección al recibir nuevas props
   useEffect(() => setSelectedDocuments(selectedItems), [selectedItems]);
   useEffect(() => setSelectedTagsForAnalysis(selectedTags), [selectedTags]);
+
+  useEffect(() => {
+    if (selectedRecommendation) {
+      if (isRecommendationSaved(selectedRecommendation, savedRecommendations)) {
+        setSavedRecommendation(true);
+      } else {
+        setSavedRecommendation(false);
+      }
+    } else {
+      setSavedRecommendation(false);
+    }
+  }, [selectedRecommendation, savedRecommendations, isRecommendationSaved]);
 
   // Actualiza el tipo de análisis según las props de selección
   useEffect(() => {
@@ -259,8 +280,9 @@ const AIRecommendation = ({
 
       const response = await generateAiMedicalRecommendations(payload);
 
-      if (!response || !Array.isArray(response)) {
-        toast.error("Error al generar recomendaciones");
+      if ("error" in response) {
+        toast.error(response.error);
+        setActiveTab("select");
         return;
       }
 
@@ -349,7 +371,7 @@ const AIRecommendation = ({
     return recommendations.every((rec) =>
       isRecommendationSaved(rec, savedRecommendations),
     );
-  }, [recommendations, savedRecommendations]);
+  }, [recommendations, savedRecommendations, isRecommendationSaved]);
 
   const content = (
     <>
@@ -359,17 +381,17 @@ const AIRecommendation = ({
         className="flex h-full flex-1 flex-col overflow-hidden"
       >
         <div className="px-4 pt-0 md:px-6 md:pt-6">
-          <TabsList className="bg-accent grid h-auto w-full grid-cols-2 md:h-9">
+          <TabsList className="bg-background grid h-auto w-full grid-cols-2 md:h-9">
             <TabsTrigger
               value="select"
-              className="rounded-sm text-xs! md:text-sm!"
+              className="data-[state=active]:bg-accent rounded-sm text-xs! md:text-sm!"
             >
               Seleccionar datos
             </TabsTrigger>
             <TabsTrigger
               value="results"
               disabled={recommendations.length === 0 && !isLoading}
-              className="rounded-sm text-xs! md:text-sm!"
+              className="data-[state=active]:bg-accent rounded-sm text-xs! md:text-sm!"
             >
               Resultados
             </TabsTrigger>
@@ -388,7 +410,10 @@ const AIRecommendation = ({
                 radius="full"
                 variant={analysisType === "all" ? "secondary" : "outline"}
                 onClick={() => setAnalysisType("all")}
-                className="flex-1 border text-xs md:text-sm"
+                className={cn(
+                  "bg-background flex-1 border-0 text-xs md:text-sm",
+                  analysisType === "all" && "bg-secondary",
+                )}
               >
                 Todo el historial
               </Button>
@@ -397,7 +422,10 @@ const AIRecommendation = ({
                 radius="full"
                 variant={analysisType === "selected" ? "secondary" : "outline"}
                 onClick={() => setAnalysisType("selected")}
-                className="flex-1 border text-xs md:text-sm"
+                className={cn(
+                  "bg-background flex-1 border-0 text-xs md:text-sm",
+                  analysisType === "selected" && "bg-secondary",
+                )}
               >
                 Documentos específicos
               </Button>
@@ -406,21 +434,24 @@ const AIRecommendation = ({
                 radius="full"
                 variant={analysisType === "tags" ? "secondary" : "outline"}
                 onClick={() => setAnalysisType("tags")}
-                className="flex-1 border text-xs md:text-sm"
+                className={cn(
+                  "bg-background flex-1 border-0 text-xs md:text-sm",
+                  analysisType === "tags" && "bg-secondary",
+                )}
               >
                 Por categorías
               </Button>
             </div>
 
             <div className="px-4 md:px-6">
-              <ScrollArea className="h-72 flex-1 rounded-xl border">
+              <ScrollArea className="bg-background h-72 flex-1 rounded-xl">
                 {analysisType === "all" && (
                   <div className="space-y-4 p-4">
                     <p className="text-muted-foreground text-sm">
                       Se analizará todo tu historial médico para generar
                       recomendaciones personalizadas.
                     </p>
-                    <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                    <div className="flex items-center gap-2 rounded-xl bg-amber-50 p-3 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                       <BadgeAlert
                         variant="warning"
                         className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
@@ -516,7 +547,7 @@ const AIRecommendation = ({
                       </div>
                     ))}
                     {selectedDocuments.length === 0 && (
-                      <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                      <div className="flex items-center gap-2 rounded-xl bg-amber-50 p-3 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                         <BadgeAlert
                           variant="warning"
                           className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
@@ -561,7 +592,7 @@ const AIRecommendation = ({
                       ))}
                     </div>
                     {selectedTagsForAnalysis.length === 0 && (
-                      <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                      <div className="flex items-center gap-2 rounded-xl bg-amber-50 p-3 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                         <BadgeAlert
                           variant="warning"
                           className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
@@ -586,22 +617,23 @@ const AIRecommendation = ({
                   placeholder="Ej: ¿Qué puedo hacer para mejorar mi salud cardiovascular?"
                   value={customQuestion}
                   onChange={(e) => setCustomQuestion(e.target.value)}
-                  className="dark:border-alternative md:dark:border-border md:border-border resize-none"
+                  className="bg-background resize-none border-0"
                 />
                 <p className="text-muted-foreground text-xs">
                   Puedes hacer una pregunta específica relacionada con tu
                   historial médico.
                 </p>
               </div>
-              <ScrollArea className="h-20 overflow-hidden rounded-lg border border-blue-100 bg-blue-50 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300">
+              <ScrollArea className="bg-secondary/30 h-20 overflow-hidden rounded-lg text-sm">
                 <div className="p-3">
-                  <p className="mb-1 font-medium text-blue-900 dark:text-blue-200">
-                    Resumen del análisis:
+                  <p className="text-secondary mb-1 font-medium">
+                    Resumen del análisis
                   </p>
                   {analysisType === "all" && (
                     <p>
-                      Se incluirán <strong>todos</strong> tus documentos médicos
-                      ({medicalHistory.length} documentos).
+                      Se incluirán{" "}
+                      <strong className="font-semibold">todos</strong> tus
+                      documentos médicos ({medicalHistory.length} documentos).
                     </p>
                   )}
                   {analysisType === "selected" && (
@@ -631,7 +663,7 @@ const AIRecommendation = ({
                         seleccionada
                         {selectedTagsForAnalysis.length > 0 && ":"}
                       </div>
-                      <ul className="ml-4 list-disc">
+                      <ul className="mt-1 ml-4 list-disc">
                         {selectedTagsForAnalysis.map((tag) => (
                           <li key={tag}>{tag}</li>
                         ))}
@@ -650,8 +682,8 @@ const AIRecommendation = ({
           className="flex flex-1 flex-col overflow-hidden"
         >
           {isLoading ? (
-            <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-linear-to-r/shorter from-indigo-50 to-pink-50 px-4 md:m-6 dark:from-indigo-950 dark:to-pink-950">
-              <LoaderAIIcon className="mb-4 size-10 text-indigo-500/80" />
+            <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-linear-to-r/shorter from-indigo-200 to-fuchsia-200 px-4 md:m-6 dark:from-indigo-900 dark:to-fuchsia-900">
+              <LoaderAIIcon className="text-secondary mb-4 size-10" />
 
               <motion.p
                 initial={{ opacity: 0, y: 5 }}
@@ -661,37 +693,9 @@ const AIRecommendation = ({
               >
                 ✨ Preparando sugerencias para ti...
               </motion.p>
-
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={secondaryMessages[secondaryIndex]}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-muted-foreground text-sm"
-                >
-                  {secondaryMessages[secondaryIndex]
-                    .split("")
-                    .map((character, index) => (
-                      <motion.span
-                        key={index}
-                        variants={shimmerVariants}
-                        initial="initial"
-                        animate="animate"
-                        transition={{
-                          duration: 1,
-                          ease: "easeInOut",
-                          delay: index * 0.15,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                        }}
-                      >
-                        {character === " " ? "\u00A0" : character}
-                      </motion.span>
-                    ))}
-                </motion.p>
-              </AnimatePresence>
+              <span className="loading-shimmer text-sm">
+                {secondaryMessages[secondaryIndex]}
+              </span>
             </div>
           ) : (
             <AnimatePresence mode="popLayout" initial={false}>
@@ -730,7 +734,7 @@ const AIRecommendation = ({
                           variant="ghost"
                           size="icon"
                           onClick={requestRecommendations}
-                          className="size-8 rounded-sm border-0"
+                          className="hover:bg-background"
                         />
                       </BetterTooltip>
                       <BetterTooltip content="Copiar">
@@ -738,7 +742,7 @@ const AIRecommendation = ({
                           variant="ghost"
                           size="icon"
                           onClick={onCopy}
-                          className="size-8 rounded-sm"
+                          className="hover:bg-background"
                         />
                       </BetterTooltip>
                       <BetterTooltip content="Compartir">
@@ -749,7 +753,7 @@ const AIRecommendation = ({
                             recommendations.length > 0 &&
                             onShareRecommendation(recommendations)
                           }
-                          className="size-8 rounded-sm"
+                          className="hover:bg-background"
                         />
                       </BetterTooltip>
                       {allRecommendationsSaved ? (
@@ -757,20 +761,23 @@ const AIRecommendation = ({
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="size-8 cursor-default rounded-sm text-emerald-500 hover:bg-transparent dark:text-emerald-400"
+                            className="cursor-default text-emerald-500 hover:bg-transparent dark:text-emerald-400"
                           >
                             <CheckCheck className="size-4" />
                           </Button>
                         </BetterTooltip>
                       ) : (
                         <BetterTooltip content="Guardar recomendaciones">
-                          <SaveButton
+                          <BookmarkButton
                             variant="ghost"
                             size="icon"
                             onClick={() =>
                               onSaveRecommendation(recommendations)
                             }
-                            className="size-8 rounded-sm"
+                            className={cn(
+                              "hover:bg-background",
+                              allRecommendationsSaved && "fill-foreground",
+                            )}
                           />
                         </BetterTooltip>
                       )}
@@ -786,8 +793,9 @@ const AIRecommendation = ({
                           currentItem={selectedRecommendation}
                           savedRecommendations={savedRecommendations}
                           onViewDetails={() => setSelectedRecommendation(rec)}
-                          onSave={onSaveRecommendation}
                           onShare={onShareRecommendation}
+                          isSaved={isRecommendationSaved}
+                          toggleRecommendation={toggleRecommendation}
                         />
                       ))}
                     </div>
@@ -845,7 +853,6 @@ const AIRecommendation = ({
     </>
   );
 
-  // Renderizado condicional según dispositivo: Drawer en móvil y Dialog en desktop, conservando el AlertDialog
   return isMobile ? (
     <Drawer
       open={isOpen}
@@ -877,13 +884,16 @@ const AIRecommendation = ({
                 </ArrowLeftButton>
               </div>
               <SaveButton
+                disabled={savedRecommendation}
                 onClick={() => {
                   onSaveRecommendation(selectedRecommendation);
                   setSelectedRecommendation(null);
                 }}
                 className="h-12! gap-5 rounded-xl"
               >
-                Guardar recomendación
+                {savedRecommendation
+                  ? "Recomendación guardada"
+                  : "Guardar recomendación"}
               </SaveButton>
             </>
           ) : activeTab === "select" ? (
@@ -950,10 +960,14 @@ const AIRecommendation = ({
         if (!open) handleClose();
       }}
     >
-      <DialogContent isSecondary className="h-full sm:max-w-2xl">
+      <DialogContent
+        isBlurred
+        isSecondary
+        className="border-secondary/50 h-full border-dashed bg-linear-to-br/shorter from-indigo-100 to-fuchsia-100 sm:max-w-2xl dark:from-indigo-950/50 dark:to-fuchsia-950/50"
+      >
         <DialogHeader isSecondary>
           <DialogTitle className="flex items-center gap-2">
-            <Brain className="size-5 text-indigo-500" />
+            <Brain className="text-primary size-5" />
             Recomendaciones con IA
           </DialogTitle>
           <DialogDescription>
@@ -961,34 +975,40 @@ const AIRecommendation = ({
           </DialogDescription>
         </DialogHeader>
         {content}
-        <DialogFooter isSecondary>
+        <DialogFooter isSecondary className="border-background bg-secondary/10">
           {selectedRecommendation ? (
             <>
               <ArrowLeftButton
                 variant="outline"
                 onClick={() => setSelectedRecommendation(null)}
-                className="rounded-full"
+                className="bg-background rounded-full"
               >
                 Atrás
               </ArrowLeftButton>
               <SaveButton
+                disabled={savedRecommendation}
                 onClick={() => {
                   onSaveRecommendation(selectedRecommendation);
                   setSelectedRecommendation(null);
                 }}
                 className="rounded-full"
               >
-                Guardar recomendación
+                {savedRecommendation
+                  ? "Recomendación guardada"
+                  : "Guardar recomendación"}
               </SaveButton>
             </>
           ) : activeTab === "select" ? (
             <>
-              <Button radius="full" variant="outline" onClick={handleClose}>
+              <Button
+                radius="full"
+                variant="outline"
+                onClick={handleClose}
+                className="bg-background"
+              >
                 Cancelar
               </Button>
               <SparklesButton
-                size="default"
-                onClick={requestRecommendations}
                 disabled={
                   isLoading ||
                   (analysisType === "selected" &&
@@ -998,6 +1018,8 @@ const AIRecommendation = ({
                   (analysisType === "all" && medicalHistory.length === 0) ||
                   recommendations.length > 0
                 }
+                onClick={requestRecommendations}
+                className="rounded-full"
               >
                 {recommendations.length > 0
                   ? "Recomendaciones generadas"
@@ -1012,10 +1034,16 @@ const AIRecommendation = ({
                 radius="full"
                 variant="outline"
                 onClick={() => setActiveTab("select")}
+                className="bg-background"
               >
                 Volver a selección
               </Button>
-              <Button radius="full" variant="outline" onClick={handleClose}>
+              <Button
+                radius="full"
+                variant="outline"
+                onClick={handleClose}
+                className="bg-background"
+              >
                 Cerrar
               </Button>
             </>

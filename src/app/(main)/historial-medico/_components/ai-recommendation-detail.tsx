@@ -1,7 +1,6 @@
 "use client";
 
 import { FileText, Lightbulb, Tag } from "lucide-react";
-import { useState } from "react";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { DownloadButton } from "@/components/button-kit/download-button";
@@ -31,12 +30,7 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
 import { AIRecommendationType } from "./ai-recommendation";
-import {
-  getFileTypeColor,
-  getPriorityColor,
-  getPriorityText,
-  getTagColor,
-} from "../_lib/utils";
+import { getFileTypeColor, getPriorityBadge, getTagColor } from "../_lib/utils";
 
 interface AIRecommendationDetailProps {
   recommendation: AIRecommendationType;
@@ -45,6 +39,8 @@ interface AIRecommendationDetailProps {
   onSaveNotes?: () => void;
   onViewFile?: (fileData: { url?: string | null; name: string }) => void;
   isFromSavedRecommendations?: boolean;
+  editNotes?: string;
+  setEditNotes?: (notes: string) => void;
 }
 
 export const AIRecommendationDetail = ({
@@ -54,9 +50,12 @@ export const AIRecommendationDetail = ({
   onSaveNotes,
   onViewFile,
   isFromSavedRecommendations = false,
+  editNotes = "",
+  setEditNotes = () => {},
 }: AIRecommendationDetailProps) => {
   const isMobile = useIsMobile();
-  const [editNotes, setEditNotes] = useState("");
+
+  const priorityBadge = getPriorityBadge(recommendation.priority);
 
   return (
     <>
@@ -66,28 +65,19 @@ export const AIRecommendationDetail = ({
             variant="ghost"
             size="sm"
             onClick={onBack}
-            className="text-muted-foreground h-auto self-start rounded-full px-0! py-1.5 hover:bg-transparent [&_svg]:size-3.5!"
+            className="hover:bg-background self-start font-normal [&_svg]:size-3.5!"
           >
             Volver a resultados
           </ArrowLeftButton>
 
           <div className="flex items-center justify-between">
-            <h3 className="font-merriweather flex items-center gap-2 text-base font-semibold">
+            <h3 className="flex items-center gap-2 text-base font-semibold">
               <Lightbulb className="size-5 shrink-0 text-amber-500" />
               {recommendation.title}
             </h3>
-            <Badge
-              className={cn(
-                "h-6 rounded-[6px] px-2 py-0",
-                getPriorityColor(recommendation.priority),
-                recommendation.priority === "high"
-                  ? "bg-red-50 dark:bg-red-950"
-                  : recommendation.priority === "medium"
-                    ? "bg-yellow-50 dark:bg-yellow-950"
-                    : "bg-green-50 dark:bg-green-950",
-              )}
-            >
-              Prioridad: {getPriorityText(recommendation.priority)}
+            <Badge variant="outline" className={priorityBadge.color}>
+              {priorityBadge.icon}
+              Prioridad {priorityBadge.label}
             </Badge>
           </div>
         </div>
@@ -114,26 +104,22 @@ export const AIRecommendationDetail = ({
             Basado en {recommendation.relatedTags.length} categorías y{" "}
             {recommendation.relatedDocuments?.length || 0} documentos
           </DialogDescription>
-          <Badge
-            className={cn(
-              "h-6 rounded-[6px] px-2 py-0",
-              getPriorityColor(recommendation.priority),
-              recommendation.priority === "high"
-                ? "bg-red-50 dark:bg-red-950"
-                : recommendation.priority === "medium"
-                  ? "bg-yellow-50 dark:bg-yellow-950"
-                  : "bg-green-50 dark:bg-green-950",
-            )}
-          >
-            Prioridad: {getPriorityText(recommendation.priority)}
+          <Badge variant="outline" className={priorityBadge.color}>
+            {priorityBadge.icon}
+            Prioridad {priorityBadge.label}
           </Badge>
         </DialogHeader>
       )}
 
-      <div className="space-y-4 p-4 md:p-6 md:pt-0">
+      <div className="space-y-4 overflow-y-auto p-4 md:p-6 md:pt-0">
         <div className="space-y-1 text-sm">
           <h4 className="mb-1 font-medium">Recomendación generada</h4>
-          <div className="space-y-1 rounded-lg border p-4">
+          <div
+            className={cn(
+              "space-y-1 rounded-xl border p-4",
+              !isFromSavedRecommendations && "bg-background border-0",
+            )}
+          >
             <p>{recommendation.description}</p>
           </div>
         </div>
@@ -170,7 +156,10 @@ export const AIRecommendationDetail = ({
                     doc && (
                       <div
                         key={docId}
-                        className="bg-accent relative rounded-lg p-3"
+                        className={cn(
+                          "bg-accent relative rounded-xl p-3",
+                          !isFromSavedRecommendations && "bg-background",
+                        )}
                       >
                         <div className="grid grid-cols-[auto_1fr] gap-2 pr-24">
                           <FileText
@@ -254,7 +243,7 @@ export const AIRecommendationDetail = ({
           </div>
         )}
 
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
           <h4 className="mb-1 text-sm font-medium">Acciones recomendadas</h4>
           <ul className="list-inside list-disc space-y-1 text-sm">
             {recommendation.priority === "high" ? (
@@ -286,7 +275,7 @@ export const AIRecommendationDetail = ({
           </ul>
         </div>
 
-        <div className="flex items-start gap-2 rounded-lg border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
+        <div className="flex items-start gap-2 rounded-xl border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
           <BadgeAlert
             variant="success"
             className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"

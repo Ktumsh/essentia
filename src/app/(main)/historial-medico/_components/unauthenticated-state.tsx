@@ -35,7 +35,7 @@ const UnauthenticatedState = () => {
 
       <div className="mt-10 w-full max-w-4xl">
         <div className="grid gap-6 md:grid-cols-3">
-          <Card>
+          <Card className="bg-muted">
             <CardHeader className="pb-2">
               <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-950">
                 <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -50,7 +50,7 @@ const UnauthenticatedState = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-muted">
             <CardHeader className="pb-2">
               <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-950">
                 <Brain className="h-5 w-5 text-purple-600 dark:text-purple-400" />
@@ -65,7 +65,7 @@ const UnauthenticatedState = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-muted">
             <CardHeader className="pb-2">
               <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-950">
                 <Lock className="h-5 w-5 text-green-600 dark:text-green-400" />

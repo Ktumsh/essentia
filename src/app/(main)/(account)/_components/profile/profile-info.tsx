@@ -90,7 +90,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
       })}
     >
       <div className="mb-5 flex w-full flex-col gap-8 md:mb-0">
-        <Card className="flex flex-col justify-between md:flex-row">
+        <Card className="bg-muted flex flex-col justify-between md:flex-row">
           <CardHeader>
             <CardTitle className="mb-2 text-base">Avatar</CardTitle>
             <CardDescription className="space-y-1">
@@ -126,10 +126,10 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
           </motion.div>
         )}
 
-        <Card>
+        <Card className="bg-muted">
           <CardHeader>
             <CardTitle className="mb-2 inline-flex flex-col justify-between gap-2 text-base md:flex-row md:items-center">
-              <span className="font-merriweather inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-2">
                 {isOwnProfile
                   ? "Información de tu perfil"
                   : "Información de su perfil"}
@@ -151,7 +151,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="@container space-y-4">
-            <div className="border-border rounded-lg border px-4 py-3">
+            <div className="bg-background rounded-xl border px-4 py-3">
               <div className="grid-cols grid flex-1 gap-4 md:grid-cols-2 @3xl:grid-cols-4">
                 <InfoFieldItem field="Nombre" value={firstName!} />
                 <InfoFieldItem field="Apellido" value={lastName!} />
@@ -169,7 +169,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
               <>
                 <div className="grid grid-cols-1 gap-4 @2xl:grid-cols-2">
                   <div
-                    className="border-border cursor-pointer rounded-lg border px-4 py-3"
+                    className="bg-background cursor-pointer rounded-xl border px-4 py-3"
                     onClick={() => setIsOpenBio(true)}
                   >
                     <div className="grid-cols grid flex-1 gap-4">
@@ -182,7 +182,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
                       </InfoFieldItem>
                     </div>
                   </div>
-                  <div className="border-border rounded-lg border px-4 py-3">
+                  <div className="bg-background rounded-xl border px-4 py-3">
                     <div className="grid-cols grid flex-1 gap-4">
                       <InfoFieldItem
                         field="Ubicación"
@@ -195,7 +195,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
                   </div>
                 </div>
                 <div className="grid-cols !mb-0 grid flex-1 gap-4 md:grid-cols-3">
-                  <div className="border-border rounded-lg border px-4 py-3">
+                  <div className="bg-background rounded-xl border px-4 py-3">
                     <InfoFieldItem
                       field="Peso"
                       value={(weight && weight + " kg") || "---"}
@@ -204,7 +204,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
                       <PopoverWeightReason />
                     </InfoFieldItem>
                   </div>
-                  <div className="border-border rounded-lg border px-4 py-3">
+                  <div className="bg-background rounded-xl border px-4 py-3">
                     <InfoFieldItem
                       field="Estatura"
                       value={(height && height + " cm") || "---"}
@@ -213,7 +213,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
                       <PopoverHeightReason />
                     </InfoFieldItem>
                   </div>
-                  <div className="border-border rounded-lg border px-4 py-3">
+                  <div className="bg-background rounded-xl border px-4 py-3">
                     <InfoFieldItem
                       field="Género"
                       value={genre || "---"}
@@ -227,7 +227,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
             )}
           </CardContent>
           {isOwnProfile && (
-            <CardFooter isSecondary>
+            <CardFooter>
               <div className="flex w-full flex-col gap-2 sm:ml-auto sm:flex-row md:w-fit">
                 <Button
                   variant="outline"

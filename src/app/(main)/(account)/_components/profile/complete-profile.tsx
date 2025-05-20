@@ -53,22 +53,8 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
     },
   ];
 
-  const getIndicatorColor = (value: number) => {
-    if (value < 20) {
-      return "bg-red-500";
-    } else if (value < 40) {
-      return "bg-orange-500";
-    } else if (value < 60) {
-      return "bg-yellow-500";
-    } else if (value < 80) {
-      return "bg-lime-500";
-    } else {
-      return "bg-green-500";
-    }
-  };
-
   return (
-    <Card>
+    <Card className="bg-muted">
       <CardHeader>
         <CardTitle className="mb-2 text-base">Completa tu perfil</CardTitle>
         <CardDescription className="space-y-1">
@@ -82,18 +68,14 @@ const CompleteProfile = ({ completeProfileData }: CompleteProfileProps) => {
       <CardContent>
         <Progress
           value={(data.filter((item) => item.value).length * 100) / data.length}
-          indicatorColor={getIndicatorColor(
-            (data.filter((item) => item.value).length * 100) / data.length,
-          )}
-          className="bg-accent mb-4 md:max-w-[73%]"
         />
-        <div className="flex flex-col gap-2 md:flex-row">
+        <div className="mt-4 grid grid-cols-6">
           {data.map((item, index) => (
             <Badge
               key={index}
               className={cn(
-                item.value ? "text-green-500!" : "text-muted-foreground",
-                "gap-1 bg-transparent! pl-0 hover:bg-inherit!",
+                "text-muted-foreground mx-auto bg-transparent!",
+                item.value && "text-green-500!",
               )}
             >
               {item.value ? (

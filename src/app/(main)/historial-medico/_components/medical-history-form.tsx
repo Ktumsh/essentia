@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { getYear } from "date-fns";
 import { Tag, X, Check, Save, Loader } from "lucide-react";
 import { useEffect } from "react";
@@ -54,36 +55,30 @@ import {
   SelectItem,
 } from "@/components/kit/select";
 import { Textarea } from "@/components/kit/textarea";
-import {
-  MedicalFileType,
-  MedicalHistoryWithTags,
-} from "@/db/querys/medical-history-querys";
+import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { MedicalTag } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  medicalHistoryAddSchema,
+  medicalHistoryEditSchema,
+  type MedicalHistoryAddSchema,
+  type MedicalHistoryEditSchema,
+} from "@/lib/form-schemas";
 import { Folder } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import FileSlot from "./file-slot";
 import { getTagColor } from "../_lib/utils";
 
-export type MedicalHistoryFormData = {
-  condition: string;
-  type: MedicalFileType;
-  description: string;
-  issuer: string;
-  documentDate: Date;
-  notes: string;
-  visibility: "private" | "shared";
-  tags: string[];
-  file: File;
-  folderId?: string | null;
-};
+export type MedicalHistoryFormSchema =
+  | MedicalHistoryAddSchema
+  | MedicalHistoryEditSchema;
 
 type MedicalHistoryFormProps = {
   tags: MedicalTag[];
   folders: Folder[];
   initialValues?: MedicalHistoryWithTags | null;
-  onSubmit: SubmitHandler<MedicalHistoryFormData>;
+  onSubmit: SubmitHandler<MedicalHistoryFormSchema>;
   onCancel: () => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -104,16 +99,19 @@ export default function MedicalHistoryForm({
 }: MedicalHistoryFormProps) {
   const isMobile = useIsMobile();
 
-  const form = useForm<MedicalHistoryFormData>({
+  const form = useForm<MedicalHistoryFormSchema>({
+    resolver: zodResolver(
+      isEditMode ? medicalHistoryEditSchema : medicalHistoryAddSchema,
+    ),
     defaultValues: {
       condition: initialValues?.condition || "",
       type: initialValues?.type || "Examen",
-      description: initialValues?.description || "",
-      issuer: initialValues?.issuer || "",
+      description: initialValues?.description ?? "",
+      issuer: initialValues?.issuer ?? "",
       documentDate: initialValues?.documentDate
-        ? new Date(initialValues?.documentDate)
+        ? new Date(initialValues.documentDate)
         : new Date(),
-      notes: initialValues?.notes || "",
+      notes: initialValues?.notes ?? "",
       visibility: initialValues?.visibility || "private",
       tags:
         initialValues?.tags
@@ -123,6 +121,7 @@ export default function MedicalHistoryForm({
           })
           .filter(Boolean) || [],
       folderId: initialValues?.folderId || null,
+      file: undefined,
     },
   });
 
@@ -304,6 +303,7 @@ export default function MedicalHistoryForm({
                   <Input
                     id="file"
                     type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
                     onChange={(e) => {
                       if (e.target.files?.[0]) {
                         field.onChange(e.target.files[0]);
@@ -379,7 +379,10 @@ export default function MedicalHistoryForm({
                                         field.value.filter((t) => t !== tag.id),
                                       );
                                     } else {
-                                      field.onChange([...field.value, tag.id]);
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        tag.id,
+                                      ]);
                                     }
                                   }}
                                   className="cursor-pointer"
@@ -433,7 +436,7 @@ export default function MedicalHistoryForm({
                           <button
                             onClick={() =>
                               field.onChange(
-                                field.value.filter((t) => t !== tagId),
+                                field.value?.filter((t) => t !== tagId),
                               )
                             }
                             className="rounded-full p-0.5 hover:bg-black/10 dark:hover:bg-white/10"
@@ -448,40 +451,6 @@ export default function MedicalHistoryForm({
               </FormItem>
             )}
           />
-          {/* <FormField
-            control={control}
-            name="visibility"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="visibility">Visibilidad</FormLabel>
-                <FormControl>
-                  <Select
-                    {...field}
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger className="dark:border-alternative md:dark:border-border md:border-border">
-                      <SelectValue placeholder="Selecciona la visibilidad" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="private">
-                        <div className="flex items-center">
-                          <EyeOff className="mr-2 h-4 w-4" />
-                          Privado (solo tú)
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="shared">
-                        <div className="flex items-center">
-                          <EyeOff className="mr-2 h-4 w-4" />
-                          Compartido (con profesionales autorizados)
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
-          /> */}
         </form>
       </Form>
     </div>

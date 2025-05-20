@@ -163,24 +163,24 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           {...props}
         />
 
-        <div className="border-accent flex h-12 flex-col rounded-r-xl border border-l-0 shadow-xs md:h-9 md:rounded-r-md">
+        <div className="flex h-12 flex-col rounded-r-xl border border-l-0 md:h-9 md:rounded-r-md">
           <Button
             variant="ghost"
             aria-label="Incrementar valor"
-            className="border-accent h-full rounded-l-none rounded-br-none border-b p-0 px-2 focus-visible:relative"
+            className="h-auto! flex-1 rounded-l-none rounded-br-none border-b p-0 px-2 focus-visible:relative"
             onClick={handleIncrement}
             disabled={value === max}
           >
-            <ChevronUp size={15} />
+            <ChevronUp className="size-3.5!" />
           </Button>
           <Button
             variant="ghost"
             aria-label="Disminuir valor"
-            className="h-full rounded-l-none rounded-tr-none p-0 px-2 focus-visible:relative"
+            className="h-auto! flex-1 rounded-l-none rounded-tr-none p-0 px-2 focus-visible:relative"
             onClick={handleDecrement}
             disabled={value === min}
           >
-            <ChevronDown size={15} />
+            <ChevronDown className="size-3.5!" />
           </Button>
         </div>
       </div>

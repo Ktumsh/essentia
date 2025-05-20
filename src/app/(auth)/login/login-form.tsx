@@ -198,7 +198,7 @@ const LoginForm = () => {
                         onCheckedChange={(checked: boolean) =>
                           field.onChange(checked)
                         }
-                        className="shadow-none"
+                        className="border-alternative shadow-none"
                       />
                     </FormControl>
                     <FormLabel htmlFor="remember" className="mt-0! text-sm">

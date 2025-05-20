@@ -1,6 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
+import { useSWRConfig } from "swr";
 
 import {
   addMedicalHistoryWithTags,
@@ -8,11 +9,12 @@ import {
   deleteMedicalHistory,
   restoreMedicalHistory,
   type MedicalHistoryWithTags,
+  deleteManyMedicalHistory,
 } from "@/db/querys/medical-history-querys";
 
 import { uploadMedicalFile } from "../_lib/utils";
 
-import type { MedicalHistoryFormData } from "../_components/medical-history-form";
+import type { MedicalHistoryFormSchema } from "../_components/medical-history-form";
 
 export interface MedicalHistoryOpsOptions {
   userId: string;
@@ -29,11 +31,17 @@ export function useMedicalHistoryActions({
   activitiesMutate,
   setHasNewActivity,
 }: MedicalHistoryOpsOptions) {
-  async function createRecord(data: MedicalHistoryFormData) {
-    if (!data.file) return;
+  const { mutate: folderMutate } = useSWRConfig();
+  async function createRecord(data: MedicalHistoryFormSchema) {
     try {
+      if (!data.file) {
+        throw new Error("No se ha seleccionado ningún archivo");
+      }
+
       const uploadedFile = await uploadMedicalFile(data.file);
-      if (!uploadedFile) return;
+      if (!uploadedFile) {
+        throw new Error("No se pudo subir el archivo");
+      }
 
       await addMedicalHistoryWithTags({
         userId,
@@ -62,33 +70,34 @@ export function useMedicalHistoryActions({
       activitiesMutate();
       setHasNewActivity(true);
       refreshUploadStatus();
-    } catch {
-      toast.error("¡Ups! 😔", {
-        description: "No se pudo agregar el documento. Intenta de nuevo.",
-      });
+      folderMutate("/api/medical-folders");
+    } catch (error) {
+      throw error;
     }
   }
 
   async function updateRecord(
     editingItem: MedicalHistoryWithTags,
-    data: MedicalHistoryFormData,
-  ) {
+    data: MedicalHistoryFormSchema,
+  ): Promise<void> {
     let updatedFile = null;
     try {
       if (data.file) {
         const uploadedFile = await uploadMedicalFile(data.file);
-        if (uploadedFile) {
-          updatedFile = {
-            url: uploadedFile.url,
-            name: uploadedFile.name,
-            size: uploadedFile.size,
-            contentType: data.file.type,
-            uploadedAt: uploadedFile.uploadedAt,
-          };
+        if (!uploadedFile) {
+          throw new Error("No se pudo subir el archivo");
         }
+
+        updatedFile = {
+          url: uploadedFile.url,
+          name: uploadedFile.name,
+          size: uploadedFile.size,
+          contentType: data.file.type,
+          uploadedAt: uploadedFile.uploadedAt,
+        };
       }
 
-      const res = await updateMedicalHistory({
+      await updateMedicalHistory({
         userId,
         id: editingItem.id,
         data: {
@@ -105,16 +114,13 @@ export function useMedicalHistoryActions({
         file: updatedFile || undefined,
       });
 
-      console.log("res", res);
-
       toast.success("Documento actualizado correctamente 😊");
       mutate();
       activitiesMutate();
       setHasNewActivity(true);
-    } catch {
-      toast.error("¡Ups! 😔", {
-        description: "No se pudo actualizar el documento. Intenta de nuevo.",
-      });
+      folderMutate("/api/medical-folders");
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -129,10 +135,8 @@ export function useMedicalHistoryActions({
       activitiesMutate();
       setHasNewActivity(true);
       refreshUploadStatus();
-    } catch {
-      toast.error("¡Ups! 😔", {
-        description: "No se pudo eliminar el documento. Intenta de nuevo.",
-      });
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -166,10 +170,45 @@ export function useMedicalHistoryActions({
     }
   }
 
+  async function deleteDocuments(userId: string, ids: string[]) {
+    if (ids.length === 0) return;
+
+    const promise = deleteManyMedicalHistory({ userId, ids });
+
+    try {
+      toast.promise(promise, {
+        loading:
+          ids.length === 1
+            ? "Eliminando documento..."
+            : "Eliminando documentos...",
+        success:
+          ids.length === 1
+            ? "Documento eliminado correctamente."
+            : "Documentos eliminados correctamente.",
+        error: "Error al eliminar documentos.",
+      });
+
+      const res = await promise;
+
+      if (!res.success) {
+        toast.error(`${res.failed.length} documentos no se pudieron eliminar.`);
+        console.warn("Fallos:", res.failed);
+      }
+      mutate();
+      activitiesMutate();
+      setHasNewActivity(true);
+      refreshUploadStatus();
+    } catch (err) {
+      console.error("Error en eliminación:", err);
+      toast.error("Error inesperado al eliminar documentos.");
+    }
+  }
+
   return {
     createRecord,
     updateRecord,
     deleteRecord,
     restoreDocument,
+    deleteDocuments,
   };
 }

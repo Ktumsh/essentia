@@ -45,11 +45,11 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
       <>
         ¿Qué debería saber{" "}
         <Link
-          href="/soporte?q=Nyra"
+          href="/soporte?q=Aeris"
           target="_blank"
           className="text-blue-500 underline hover:text-blue-600"
         >
-          Nyra
+          Aeris
           <LinkIcon className="mb-1 ml-0.5 inline size-2" />
         </Link>{" "}
         para ayudarte mejor?
@@ -64,11 +64,11 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
       <>
         Tus instrucciones ayudan a que{" "}
         <Link
-          href="/soporte?q=Nyra"
+          href="/soporte?q=Aeris"
           target="_blank"
           className="text-blue-500 underline hover:text-blue-600"
         >
-          Nyra
+          Aeris
           <LinkIcon className="mb-1 ml-0.5 inline size-2" />
         </Link>{" "}
         adapte sus respuestas a lo que tú realmente necesitas.

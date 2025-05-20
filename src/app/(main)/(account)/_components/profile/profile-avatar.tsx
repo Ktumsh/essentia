@@ -8,7 +8,6 @@ import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
 import { BetterTooltip } from "@/components/kit/tooltip";
 
-
 import EditAvatarModal from "./edit-avatar-modal";
 import { useProfileImagePreview } from "../../_hooks/use-profile-image-preview";
 import { uploadFile } from "../../_lib/utils";
@@ -49,10 +48,32 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
     setTempImage(null);
   };
 
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imageElement = new window.Image();
+      const imageUrl = reader.result?.toString() || "";
+      imageElement.src = imageUrl;
+      imageElement.onload = (e) => {
+        const { naturalWidth, naturalHeight } = e.target as HTMLImageElement;
+        if (naturalWidth < 150 || naturalHeight < 150) {
+          toast.error("La imagen debe ser de al menos 150 x 150 píxeles");
+          return resetTempImage();
+        }
+        setTempImage(imageUrl);
+        setShowCropModal(true);
+      };
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  };
+
   return (
-    <div className="group/avatar relative z-0 aspect-square size-20 rounded-full">
+    <div className="group/avatar relative z-0 aspect-square size-20">
       {previewProfileImage ? (
-        <Avatar className="border-border size-full border">
+        <Avatar className="size-full border">
           <Image
             priority
             src={previewProfileImage}
@@ -64,7 +85,7 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
           />
         </Avatar>
       ) : (
-        <Avatar className="border-border size-full border">
+        <Avatar className="size-full border">
           <AvatarFallback>
             <AvatarIcon className="size-3/5" />
           </AvatarFallback>
@@ -75,7 +96,7 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
           <BetterTooltip content={labelProfileImage}>
             <button
               aria-label={labelProfileImage}
-              className="absolute inset-0 rounded-full transition md:group-hover/avatar:bg-black/10"
+              className="mask mask-squircle absolute inset-0 transition md:group-hover/avatar:bg-black/10"
               onClick={() => handleMenuAction(fileProfilePhotoRef)}
             >
               <span className="sr-only">{previewProfileImage}</span>
@@ -85,31 +106,7 @@ const ProfileAvatar = ({ user, isOwnProfile }: ProfileAvatarProps) => {
             ref={fileProfilePhotoRef}
             accept="image/jpeg,image/png,image/webp"
             type="file"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (!file) return;
-
-              const reader = new FileReader();
-              reader.onload = () => {
-                const imageElement = new window.Image();
-                const imageUrl = reader.result?.toString() || "";
-                imageElement.src = imageUrl;
-                imageElement.onload = (e) => {
-                  const { naturalWidth, naturalHeight } =
-                    e.target as HTMLImageElement;
-                  if (naturalWidth < 150 || naturalHeight < 150) {
-                    toast.error(
-                      "La imagen debe ser de al menos 150 x 150 píxeles",
-                    );
-                    return resetTempImage();
-                  }
-                  setTempImage(imageUrl);
-                  setShowCropModal(true);
-                };
-              };
-              reader.readAsDataURL(file);
-              e.target.value = "";
-            }}
+            onChange={handleChangeFile}
             className="sr-only"
           />
         </>

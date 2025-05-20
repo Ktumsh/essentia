@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -7,125 +8,243 @@ import {
   deleteAiRecommendation,
   updateAiRecommendationNotes,
   SavedAIRecommendation,
+  deleteManyAiRecommendations,
 } from "@/db/querys/ai-recommendations-querys";
+
+import useAIUsage from "./use-ai-usage";
+import { isRecommendationSaved } from "../_lib/utils";
 
 import type { AIRecommendationType } from "../_components/ai-recommendation";
 
 interface RecommendationOpsOptions {
   userId: string;
-  mutateSavedRecommendations: () => void;
+  mutateSavedRecommendations: () => Promise<void>;
 }
 
 export function useRecommendationsActions({
   userId,
   mutateSavedRecommendations,
 }: RecommendationOpsOptions) {
-  async function saveRecommendation(
-    recOrList: AIRecommendationType | AIRecommendationType[],
-  ) {
-    const list = Array.isArray(recOrList) ? recOrList : [recOrList];
+  const { mutateAIUsage } = useAIUsage();
 
-    if (list.length === 1) {
+  const [overrideState, setOverrideState] = useState<Record<string, boolean>>(
+    {},
+  );
+
+  const debounceTimers = useRef<Record<string, NodeJS.Timeout>>({});
+
+  const latestIntent = useRef<Record<string, boolean>>({});
+
+  const getOptimistic = useCallback(
+    (id: string): boolean | undefined => overrideState[id],
+    [overrideState],
+  );
+
+  const setOverride = (id: string, val: boolean) =>
+    setOverrideState((o) => ({ ...o, [id]: val }));
+
+  const clearOverride = (id: string) =>
+    setOverrideState((o) => {
+      const c = { ...o };
+      delete c[id];
+      return c;
+    });
+
+  const saveRecommendation = useCallback(
+    async (recOrList: AIRecommendationType | AIRecommendationType[]) => {
+      const list = Array.isArray(recOrList) ? recOrList : [recOrList];
+      list.forEach((rec) => setOverride(rec.id, true));
+
+      let results: PromiseSettledResult<any>[] = [];
+
       try {
-        const rec = list[0];
-        const result = await saveAiMedicalRecommendation({
-          userId,
-          type: rec.type,
-          title: rec.title,
-          description: rec.description,
-          priority: rec.priority,
-          relatedDocuments: rec.relatedDocuments || [],
-          relatedTags: rec.relatedTags || [],
+        results = await Promise.allSettled(
+          list.map((rec) =>
+            saveAiMedicalRecommendation({
+              userId,
+              id: rec.id,
+              type: rec.type,
+              title: rec.title,
+              description: rec.description,
+              priority: rec.priority,
+              relatedDocuments: rec.relatedDocuments ?? [],
+              relatedTags: rec.relatedTags ?? [],
+            }),
+          ),
+        );
+
+        const errCount = results.filter((r) => r.status === "rejected").length;
+
+        if (errCount === list.length) {
+          toast.error("No se pudo guardar ninguna recomendación");
+        } else if (errCount > 0) {
+          toast.error(
+            `No se pudieron guardar ${errCount} ${errCount === 1 ? "recomendación" : "recomendaciones"}`,
+          );
+        }
+      } catch {
+        toast.error("Ocurrió un problema al guardar recomendaciones");
+      } finally {
+        results.forEach((r, i) => {
+          const rec = list[i];
+          const ok =
+            r.status === "fulfilled" &&
+            (r as PromiseFulfilledResult<any>).value.isNew;
+          if (!ok) {
+            setOverride(rec.id, false);
+          }
         });
 
-        if (result.isNew) {
-          toast.success("Recomendación guardada 😊");
-        } else {
-          toast.info("¡Ups! 😶", {
-            description: "Esta recomendación ya ha sido guardada.",
-          });
-        }
-        mutateSavedRecommendations();
-      } catch {
-        toast.error("Error al guardar la recomendación");
+        await mutateSavedRecommendations();
+        await mutateAIUsage();
+
+        list.forEach((rec) => {
+          if (latestIntent.current[rec.id] === true) {
+            clearOverride(rec.id);
+          }
+        });
       }
-      return;
-    }
+    },
+    [userId, mutateSavedRecommendations, mutateAIUsage],
+  );
 
-    const results = await Promise.allSettled(
-      list.map((rec) =>
-        saveAiMedicalRecommendation({
+  const deleteRecommendation = useCallback(
+    async (recommendationId: string, isToggle: boolean = false) => {
+      try {
+        await deleteAiRecommendation({ userId, recommendationId });
+
+        if (!isToggle) {
+          toast.success("Recomendación eliminada");
+        }
+      } catch {
+        toast.error("No se pudo eliminar la recomendación");
+      } finally {
+        await mutateSavedRecommendations();
+        await mutateAIUsage();
+
+        if (latestIntent.current[recommendationId] === false) {
+          clearOverride(recommendationId);
+        }
+      }
+    },
+    [userId, mutateSavedRecommendations, mutateAIUsage],
+  );
+
+  const updateRecommendationNotes = useCallback(
+    async (rec: SavedAIRecommendation) => {
+      try {
+        await updateAiRecommendationNotes({
           userId,
-          type: rec.type,
-          title: rec.title,
-          description: rec.description,
-          priority: rec.priority,
-          relatedDocuments: rec.relatedDocuments || [],
-          relatedTags: rec.relatedTags || [],
-        }),
-      ),
-    );
+          recommendationId: rec.id,
+          notes: rec.notes ?? "",
+        });
+        toast.success("Notas actualizadas");
+        await mutateSavedRecommendations();
+        await mutateAIUsage();
+      } catch {
+        toast.error("No se pudieron actualizar las notas");
+      }
+    },
+    [userId, mutateSavedRecommendations, mutateAIUsage],
+  );
 
-    const savedCount = results.filter(
-      (r) =>
-        r.status === "fulfilled" &&
-        (r as PromiseFulfilledResult<any>).value?.isNew,
-    ).length;
-    const duplicatedCount = results.filter(
-      (r) =>
-        r.status === "fulfilled" &&
-        !(r as PromiseFulfilledResult<any>).value?.isNew,
-    ).length;
-    const errorCount = results.filter((r) => r.status === "rejected").length;
+  const deleteRecommendations = useCallback(
+    async (userId: string, ids: string[]) => {
+      if (ids.length === 0) return;
 
-    if (savedCount > 0) {
-      toast.success(
-        `Guardadas ${savedCount} recomendación${savedCount > 1 ? "es" : ""} 😊`,
-      );
-      return;
-    }
+      const promise = deleteManyAiRecommendations({ userId, ids });
 
-    if (duplicatedCount > 0) {
-      toast.info("Algunas recomendaciones ya estaban guardadas 😶");
-    }
+      try {
+        toast.promise(promise, {
+          loading:
+            ids.length === 1
+              ? "Eliminando recomendación..."
+              : "Eliminando recomendaciones...",
+          success:
+            ids.length === 1
+              ? "Recomendación eliminada correctamente."
+              : "Recomendaciones eliminadas correctamente.",
+          error: "Error al eliminar recomendaciones.",
+        });
 
-    if (errorCount > 0) {
-      toast.error("Error al guardar una o más recomendaciones");
-    }
+        const res = await promise;
 
-    mutateSavedRecommendations();
-  }
+        if (!res.success) {
+          toast.error(
+            `${res.failed.length} recomendaciones no se pudieron eliminar.`,
+          );
+          console.warn("Fallos:", res.failed);
+        }
 
-  async function deleteRecommendation(recommendationId: string) {
-    try {
-      await deleteAiRecommendation({
-        userId,
-        recommendationId,
-      });
-      toast.success("Recomendación eliminada");
-      mutateSavedRecommendations();
-    } catch {
-      toast.error("Error al eliminar la recomendación");
-    }
-  }
+        await mutateSavedRecommendations();
+        await mutateAIUsage();
+      } catch (err) {
+        console.error("Error en eliminación:", err);
+        toast.error("Error inesperado al eliminar recomendaciones.");
+      }
+    },
+    [mutateSavedRecommendations, mutateAIUsage],
+  );
 
-  async function updateRecommendationNotes(rec: SavedAIRecommendation) {
-    try {
-      await updateAiRecommendationNotes({
-        userId,
-        recommendationId: rec.id,
-        notes: rec.notes || "",
-      });
-      toast.success("Notas actualizadas");
-      mutateSavedRecommendations();
-    } catch {
-      toast.error("Error al actualizar las notas");
-    }
-  }
+  const toggleRecommendation = useCallback(
+    async (rec: AIRecommendationType, savedList: AIRecommendationType[]) => {
+      const id = rec.id;
+      const reallySaved = isRecommendationSaved(rec, savedList);
+      const optim = getOptimistic(id);
+      const current = optim !== undefined ? optim : reallySaved;
+      const target = !current;
+
+      latestIntent.current[id] = target;
+      setOverride(id, target);
+
+      if (debounceTimers.current[id]) {
+        clearTimeout(debounceTimers.current[id]);
+      }
+
+      debounceTimers.current[id] = setTimeout(async () => {
+        if (latestIntent.current[id] !== target) return;
+
+        try {
+          if (target) {
+            await saveRecommendation(rec);
+          } else {
+            await deleteRecommendation(id, true);
+          }
+        } catch {
+          setOverride(id, current);
+        } finally {
+          await mutateSavedRecommendations();
+          await mutateAIUsage();
+          clearOverride(id);
+          delete debounceTimers.current[id];
+        }
+      }, 350);
+    },
+    [
+      saveRecommendation,
+      deleteRecommendation,
+      mutateSavedRecommendations,
+      mutateAIUsage,
+      getOptimistic,
+    ],
+  );
+
+  const isSaved = useCallback(
+    (rec: AIRecommendationType, savedList: AIRecommendationType[]): boolean => {
+      const optim = getOptimistic(rec.id);
+      return optim !== undefined
+        ? optim
+        : isRecommendationSaved(rec, savedList);
+    },
+    [getOptimistic],
+  );
 
   return {
     saveRecommendation,
     deleteRecommendation,
     updateRecommendationNotes,
+    deleteRecommendations,
+    toggleRecommendation,
+    isSaved,
   };
 }
