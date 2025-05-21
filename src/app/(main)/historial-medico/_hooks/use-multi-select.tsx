@@ -166,7 +166,7 @@ export function useMultiSelect<T extends { id: string }>(
         clearSelection();
         setMultiMode(false);
       }
-    }, 500);
+    }, 1000);
   };
 
   const handlePointerUp = (id: string, index: number) => {
