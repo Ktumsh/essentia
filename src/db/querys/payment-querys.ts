@@ -132,6 +132,24 @@ export async function deleteSubscription(userId: string): Promise<void> {
   }
 }
 
+export async function updateSubscriptionFutureType(
+  userId: string,
+  futureType: "free" | "premium" | "premium-plus" | null,
+): Promise<void> {
+  try {
+    await db
+      .update(subscription)
+      .set({ futureType })
+      .where(eq(subscription.userId, userId));
+  } catch (error) {
+    console.error(
+      "Error al actualizar el futureType de la suscripción:",
+      error,
+    );
+    throw error;
+  }
+}
+
 export async function getSubscription(
   userId: string,
 ): Promise<Array<Subscription>> {

@@ -14,6 +14,7 @@ import {
   updateClientId,
   updatePaymentDetails,
   updateSubscription,
+  updateSubscriptionFutureType,
 } from "@/db/querys/payment-querys";
 import {
   cancelUserTrial,
@@ -37,64 +38,77 @@ export async function createSubscription({
   priceId: string;
 }): Promise<{ checkoutUrl: string }> {
   const session = await auth();
-
   const [user] = await getUserById(session?.user?.id as string);
-  if (!user) {
-    throw new Error("Usuario no encontrado.");
-  }
+  if (!user) throw new Error("Usuario no encontrado.");
 
-  const [subscription] = await getSubscription(user.id);
+  const [existingSubscription] = await getSubscription(user.id);
+  let customerId = existingSubscription?.clientId || null;
 
-  let customerId = subscription?.clientId || null;
+  const newPlanType =
+    priceId === siteConfig.priceId.premium
+      ? "premium"
+      : priceId === siteConfig.priceId.premiumPlus
+        ? "premium-plus"
+        : "free";
+
+  const currentPlanType = (existingSubscription?.type ?? "free") as PlanType;
+
+  const isDowngrade = planRank[newPlanType] < planRank[currentPlanType];
 
   try {
     if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: user.email,
-      });
+      const customer = await stripe.customers.create({ email: user.email });
       customerId = customer.id;
       await updateClientId(user.id, customerId);
+    }
+
+    if (isDowngrade && existingSubscription?.subscriptionId) {
+      await stripe.subscriptions.update(existingSubscription.subscriptionId, {
+        cancel_at_period_end: true,
+        metadata: {
+          future_plan: newPlanType,
+        },
+      });
+
+      await updateSubscriptionFutureType(user.id, newPlanType);
+
+      console.log(
+        `Downgrade programado. Plan actual (${currentPlanType}) se cancelará al final del período.`,
+      );
+      throw new Error(
+        "El cambio de plan se aplicará al final del período actual.",
+      );
+    }
+
+    if (existingSubscription?.subscriptionId) {
+      await stripe.subscriptions.cancel(existingSubscription.subscriptionId);
     }
 
     const sessionCheckout = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: priceId, quantity: 1 }],
       customer: customerId,
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
     });
 
     const price = await stripe.prices.retrieve(priceId);
-
     if (price.unit_amount && price.currency) {
-      const status = "pending";
-      const planType =
-        priceId === siteConfig.priceId.premium
-          ? "premium"
-          : priceId === siteConfig.priceId.premiumPlus
-            ? "premium-plus"
-            : "free";
-
       await setPaymentDetails(
         user.id,
-        status,
+        "pending",
         price.unit_amount,
         price.currency,
         new Date(),
-        planType,
+        newPlanType,
       );
     }
 
     return { checkoutUrl: sessionCheckout.url as string };
   } catch (error) {
     console.error("Error creando suscripción:", error);
-    throw new Error("Error creando suscripción.");
+    throw error;
   }
 }
 
@@ -234,6 +248,8 @@ export async function handleSubscriptionDeleted(
       finalPlan as PlanType,
       true,
     );
+
+    await updateSubscriptionFutureType(dbSub.userId, null);
   } catch (error) {
     console.error(
       `Error al manejar eliminación de subscripción ${subscriptionId}`,

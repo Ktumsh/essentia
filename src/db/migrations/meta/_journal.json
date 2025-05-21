@@ -148,6 +148,13 @@
       "when": 1747866376372,
       "tag": "0021_curved_quicksilver",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1747869305648,
+      "tag": "0022_high_albert_cleary",
+      "breakpoints": true
     }
   ]
 }

@@ -98,6 +98,10 @@ export const subscription = table(
     })
       .references(() => plan.id)
       .default("free"),
+    futureType: varchar("future_type", {
+      enum: ["free", "premium", "premium-plus"],
+      length: 50,
+    }),
     expiresAt: timestamp("expires_at"),
   },
   (t) => [unique("one_active_subscription_per_user").on(t.userId)],
@@ -134,7 +138,7 @@ export const payment = table("payment", {
   plan: varchar("plan", {
     enum: ["free", "premium", "premium-plus"],
     length: 50,
-  }),
+  }).notNull(),
   processedAt: timestamp("processed_at"),
 });
 
