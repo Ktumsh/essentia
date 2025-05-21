@@ -54,6 +54,10 @@ interface RecommendationCardProps {
   openDetailDialog: (rec: SavedAIRecommendation) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
+  selected: boolean;
+  onToggleSelect: (e: React.MouseEvent) => void;
+  onPointerDown: () => void;
+  onPointerUp: () => void;
 }
 
 const RecommendationCard = ({
@@ -64,6 +68,10 @@ const RecommendationCard = ({
   openDetailDialog,
   open,
   setOpen,
+  selected,
+  onToggleSelect,
+  onPointerDown,
+  onPointerUp,
 }: RecommendationCardProps) => {
   const isMobile = useIsMobile();
 
@@ -166,7 +174,17 @@ const RecommendationCard = ({
   return (
     <Card
       onDoubleClick={() => openDetailDialog(recommendation)}
-      className="group/item bg-muted hover:bg-accent flex flex-col overflow-hidden select-none"
+      onClick={(e) => {
+        if (onToggleSelect) {
+          onToggleSelect(e);
+        }
+      }}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      className={cn(
+        "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none",
+        selected && "bg-primary/20 hover:bg-primary/20",
+      )}
     >
       <CardHeader className="px-4 pt-4 pb-2">
         <div className="mb-2 flex items-start justify-between">
@@ -236,7 +254,7 @@ const RecommendationCard = ({
             variant="ghost"
             size="icon"
             onClick={() => openDetailDialog(recommendation)}
-            className="hover:bg-background opacity-0 group-hover/item:opacity-100"
+            className="hover:bg-background group-hover/item:opacity-100 md:opacity-0"
           />
         </BetterTooltip>
       </CardFooter>

@@ -27,7 +27,7 @@ const RecommendationFilters = ({
 }: RecommendationFiltersProps) => {
   return (
     <>
-      <div className="relative w-56">
+      <div className="relative mr-auto w-56">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
         <Input
           placeholder="Buscar recomendaciones..."
@@ -36,6 +36,7 @@ const RecommendationFilters = ({
           onChange={onChange}
         />
       </div>
+      <span className="text-muted-foreground text-sm">Ordenar</span>
       <Select
         value={priorityFilter}
         onValueChange={(value) => setPriorityFilter(value as any)}

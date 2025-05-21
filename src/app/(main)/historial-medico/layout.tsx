@@ -4,6 +4,7 @@ import MedicalWrapper from "./_components/medical-wrapper";
 import { MedicalDialogsProvider } from "./_hooks/use-medical-dialogs";
 import { MedicalFolderDialogProvider } from "./_hooks/use-medical-folder-dialogs";
 import { MedicalFoldersProvider } from "./_hooks/use-medical-folders";
+import { MultiSelectProvider } from "./_hooks/use-multi-select";
 
 export default async function MedicalHistoryLayout({
   children,
@@ -18,7 +19,9 @@ export default async function MedicalHistoryLayout({
     <MedicalDialogsProvider>
       <MedicalFolderDialogProvider>
         <MedicalFoldersProvider userId={session.user.id as string}>
-          <MedicalWrapper>{children}</MedicalWrapper>
+          <MultiSelectProvider>
+            <MedicalWrapper>{children}</MedicalWrapper>
+          </MultiSelectProvider>
         </MedicalFoldersProvider>
       </MedicalFolderDialogProvider>
     </MedicalDialogsProvider>

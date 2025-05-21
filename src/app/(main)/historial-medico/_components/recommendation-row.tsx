@@ -83,11 +83,11 @@ const RecommendationRow = ({
           </Badge>
         </BetterTooltip>
       </td>
-      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3">
+      <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3 text-nowrap">
         {formatDate(recom.createdAt, "dd MMM yyyy")}
       </td>
       <td className="text-muted-foreground group-hover/row:text-foreground px-4 py-3">
-        <div className="flex flex-wrap gap-1">
+        <div className="flex gap-1">
           {recom.relatedTags.slice(0, 1).map((tag) => (
             <Badge
               key={tag}

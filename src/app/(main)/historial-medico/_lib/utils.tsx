@@ -181,7 +181,7 @@ export const getActionSelfText = (action: string) => {
     case "restored":
       return "restauró";
     case "document_added":
-      return "vinculó";
+      return "vinculó un documento a";
     case "document_removed":
       return "desvinculó un documento de";
     case "reordered":

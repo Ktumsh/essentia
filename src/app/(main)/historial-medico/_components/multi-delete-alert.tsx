@@ -2,7 +2,6 @@
 
 import { Loader } from "lucide-react";
 
-import { DeleteButton } from "@/components/button-kit/delete-button";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
 import {
@@ -17,53 +16,66 @@ import {
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
 } from "@/components/kit/drawer";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-interface DeleteConfirmationDialogProps {
+interface MultiDeleteAlertProps {
+  ref: React.RefObject<HTMLDivElement | null>;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  item: MedicalHistoryWithTags | null;
   onDelete: () => void;
   isSubmitting: boolean;
+  type: "document" | "folder" | "recommendation";
 }
 
-const DeleteConfirmationDialog = ({
+const typeLabels = {
+  document: "los documentos médicos seleccionados",
+  folder: "las carpetas médicas seleccionadas",
+  recommendation: "las recomendaciones seleccionadas",
+};
+
+const typeTitles = {
+  document: "Eliminar documentos",
+  folder: "Eliminar carpetas",
+  recommendation: "Eliminar recomendaciones",
+};
+
+const typeMessages = {
+  document: "Se enviarán a la papelera y podrás restaurarlos.",
+  folder: "Las carpetas se eliminarán permanentemente.",
+  recommendation: "Las recomendaciones eliminadas no se pueden restaurar.",
+};
+
+const MultiDeleteAlert = ({
+  ref,
   isOpen,
   setIsOpen,
-  item,
   onDelete,
   isSubmitting,
-}: DeleteConfirmationDialogProps) => {
+  type,
+}: MultiDeleteAlertProps) => {
   const isMobile = useIsMobile();
+
+  const message = (
+    <div className="text-foreground/80 text-sm">
+      ¿Estás seguro de que deseas eliminar {typeLabels[type]}?
+      <p className="mt-2 text-sm text-amber-500">{typeMessages[type]}</p>
+    </div>
+  );
 
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerContent>
+        <DrawerContent ref={ref}>
           <DrawerHeader>
-            <DrawerTitle>Confirmar eliminación</DrawerTitle>
+            <DrawerTitle>{typeTitles[type]}</DrawerTitle>
           </DrawerHeader>
           <DrawerDescription asChild>
-            <div className="text-foreground/80 p-4 pb-0 text-sm">
-              ¿Estás seguro de que deseas eliminar este documento médico?
-              {item && (
-                <div className="dark:bg-accent/50 mt-2 rounded-md border bg-slate-50 p-3">
-                  <p className="font-medium">{item.condition}</p>
-                  <p className="text-muted-foreground text-sm">
-                    {item.type} {item.issuer && `- ${item.issuer}`}
-                  </p>
-                </div>
-              )}
-              <p className="mt-2 text-sm text-amber-500">
-                Esta acción no se puede deshacer.
-              </p>
-            </div>
+            <div className="p-4">{message}</div>
           </DrawerDescription>
           <DrawerFooter>
             <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
@@ -97,28 +109,11 @@ const DeleteConfirmationDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent isSecondary>
+      <DialogContent ref={ref} isSecondary>
         <DialogHeader isSecondary className="pb-6!">
           <BadgeAlert variant="warning" />
-          <DialogTitle className="flex items-center gap-2">
-            Confirmar eliminación
-          </DialogTitle>
-          <DialogDescription asChild>
-            <div>
-              ¿Estás seguro de que deseas eliminar este documento médico?
-              {item && (
-                <div className="dark:bg-accent/50 mt-2 rounded-md border bg-slate-50 p-3">
-                  <p className="font-medium">{item.condition}</p>
-                  <p className="text-muted-foreground text-sm">
-                    {item.type} {item.issuer && `- ${item.issuer}`}
-                  </p>
-                </div>
-              )}
-              <p className="mt-2 text-sm text-amber-500">
-                Esta acción no se puede deshacer.
-              </p>
-            </div>
-          </DialogDescription>
+          <DialogTitle>{typeTitles[type]}</DialogTitle>
+          <DialogDescription asChild>{message}</DialogDescription>
         </DialogHeader>
         <DialogFooter isSecondary>
           <DialogClose asChild>
@@ -126,18 +121,25 @@ const DeleteConfirmationDialog = ({
               Cancelar
             </Button>
           </DialogClose>
-          <DeleteButton
+          <Button
             disabled={isSubmitting}
             variant="destructive"
+            radius="full"
             onClick={onDelete}
-            className="rounded-full"
           >
-            {isSubmitting ? "Eliminando..." : "Eliminar"}
-          </DeleteButton>
+            {isSubmitting ? (
+              <>
+                <Loader className="animate-spin" />
+                Eliminando...
+              </>
+            ) : (
+              "Eliminar"
+            )}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default DeleteConfirmationDialog;
+export default MultiDeleteAlert;

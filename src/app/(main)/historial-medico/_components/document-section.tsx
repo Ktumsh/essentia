@@ -21,8 +21,11 @@ interface DocumentSectionProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedDocs: string[];
-  onSelect: (e: React.MouseEvent, id: string, index: number) => void;
+  onClickSelect: (e: React.MouseEvent, id: string, index: number) => void;
+  onCheckboxToggle: (id: string, index: number) => void;
   onToggleSelectAll: () => void;
+  onPointerDown: (id: string, index: number) => void;
+  onPointerUp: (id: string, index: number) => void;
 }
 
 const DocumentSection = ({
@@ -39,13 +42,16 @@ const DocumentSection = ({
   open,
   setOpen,
   selectedDocs,
-  onSelect,
+  onClickSelect,
+  onCheckboxToggle,
   onToggleSelectAll,
+  onPointerDown,
+  onPointerUp,
 }: DocumentSectionProps) => {
   if (viewMode === "grid") {
     return (
       <div className="grid gap-3 @xl/list:grid-cols-2 @5xl/list:grid-cols-3">
-        {docs.map((doc) => (
+        {docs.map((doc, index) => (
           <DocumentCard
             key={doc.id}
             doc={doc}
@@ -60,7 +66,9 @@ const DocumentSection = ({
             open={open}
             setOpen={setOpen}
             selected={selectedDocs.includes(doc.id)}
-            onSelect={(e) => onSelect(e, doc.id, docs.indexOf(doc))}
+            onToggleSelect={(e) => onClickSelect(e, doc.id, index)}
+            onPointerDown={() => onPointerDown(doc.id, index)}
+            onPointerUp={() => onPointerUp(doc.id, index)}
           />
         ))}
       </div>
@@ -85,13 +93,13 @@ const DocumentSection = ({
             </th>
             <th className="px-4 py-3 text-left font-medium">Nombre</th>
             <th className="px-4 py-3 text-left font-medium">Tamaño</th>
-            <th className="px-4 py-3 text-left font-medium">Fecha</th>
+            <th className="px-4 py-3 text-left font-medium">Añadido el</th>
             <th className="px-4 py-3 text-left font-medium">Doctor</th>
             <th className="px-4 py-3 text-right font-medium">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {docs.map((doc) => (
+          {docs.map((doc, index) => (
             <DocumentRow
               key={doc.id}
               doc={doc}
@@ -102,9 +110,7 @@ const DocumentSection = ({
               onEdit={onEdit}
               onDelete={onDelete}
               selected={selectedDocs.includes(doc.id)}
-              onToggleSelect={() =>
-                onSelect({} as React.MouseEvent, doc.id, docs.indexOf(doc))
-              }
+              onToggleSelect={() => onCheckboxToggle(doc.id, index)}
             />
           ))}
         </tbody>

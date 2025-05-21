@@ -61,8 +61,8 @@ export function useMedicalHistoryLogic() {
     MedicalFileType | "all"
   >("all");
   const [documentTypeFilter, setDocumentTypeFilter] = useState<
-    "all" | "recent" | "shared" | "private"
-  >("all");
+    "updated" | "recent" | "old"
+  >("updated");
   const [visibilityFilter, setVisibilityFilter] = useState<
     "all" | "shared" | "private"
   >("all");
@@ -231,6 +231,36 @@ export function useMedicalHistoryLogic() {
     }
   };
 
+  const handleDeleteDocuments = useCallback(
+    async (documentIds: string[]) => {
+      setIsSubmitting(true);
+      try {
+        await deleteDocuments(userId, documentIds);
+        closeDialog("isMultiDeleteDocsDialogOpen");
+      } catch (error) {
+        console.error("Error eliminando documentos:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [deleteDocuments, closeDialog, userId],
+  );
+
+  const handleDeleteRecommendations = useCallback(
+    async (recommendationIds: string[]) => {
+      setIsSubmitting(true);
+      try {
+        await deleteRecommendations(userId, recommendationIds);
+        closeDialog("isMultiDeleteRecomsDialogOpen");
+      } catch (error) {
+        console.error("Error eliminando recomendaciones:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [deleteRecommendations, closeDialog, userId],
+  );
+
   const loading = isHistoryLoading || isRecommendationsLoading;
 
   return {
@@ -269,11 +299,11 @@ export function useMedicalHistoryLogic() {
     handleDelete,
     handleRestore,
     handleDownload,
-    deleteDocuments,
+    handleDeleteDocuments,
 
     saveRecommendation,
     deleteRecommendation,
-    deleteRecommendations,
+    handleDeleteRecommendations,
     updateRecommendationNotes,
     isRecommendationSaved,
     toggleRecommendation,

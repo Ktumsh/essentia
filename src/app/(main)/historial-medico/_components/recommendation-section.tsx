@@ -26,8 +26,11 @@ interface RecommendationSectionProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedRecom: string[];
-  onSelect: (e: React.MouseEvent, id: string, index: number) => void;
+  onClickSelect: (e: React.MouseEvent, id: string, index: number) => void;
+  onCheckboxToggle: (id: string, index: number) => void;
   onToggleSelectAll: () => void;
+  onPointerDown: (id: string, index: number) => void;
+  onPointerUp: (id: string, index: number) => void;
 }
 
 const RecommendationSection = ({
@@ -41,8 +44,11 @@ const RecommendationSection = ({
   open,
   setOpen,
   selectedRecom,
-  onSelect,
+  onClickSelect,
+  onCheckboxToggle,
   onToggleSelectAll,
+  onPointerDown,
+  onPointerUp,
 }: RecommendationSectionProps) => {
   const isMobile = useIsMobile();
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
@@ -141,7 +147,7 @@ const RecommendationSection = ({
     return (
       <>
         <div className="grid gap-3 @xl/list:grid-cols-2 @5xl/list:grid-cols-3">
-          {recommendations.map((rec) => (
+          {recommendations.map((rec, index) => (
             <RecommendationCard
               key={rec.id}
               recommendation={rec}
@@ -151,6 +157,10 @@ const RecommendationSection = ({
               openDetailDialog={openDetailDialog}
               open={open}
               setOpen={setOpen}
+              selected={selectedRecom.includes(rec.id)}
+              onToggleSelect={(e) => onClickSelect(e, rec.id, index)}
+              onPointerDown={() => onPointerDown(rec.id, index)}
+              onPointerUp={() => onPointerUp(rec.id, index)}
             />
           ))}
         </div>
@@ -178,27 +188,21 @@ const RecommendationSection = ({
             </th>
             <th className="px-4 py-3 text-left font-medium">Nombre</th>
             <th className="px-4 py-3 text-left font-medium">Prioridad</th>
-            <th className="px-4 py-3 text-left font-medium">Fecha</th>
+            <th className="px-4 py-3 text-left font-medium">Añadido el</th>
             <th className="px-4 py-3 text-left font-medium">Etiquetas</th>
             <th className="px-4 py-3 text-right font-medium">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {recommendations.map((doc) => (
+          {recommendations.map((rec, index) => (
             <RecommendationRow
-              key={doc.id}
-              recom={doc}
+              key={rec.id}
+              recom={rec}
               onDeleteRecommendation={confirmDelete}
               onShareRecommendation={onShareRecommendation}
               openDetailDialog={openDetailDialog}
-              selected={selectedRecom.includes(doc.id)}
-              onToggleSelect={() =>
-                onSelect(
-                  {} as React.MouseEvent,
-                  doc.id,
-                  recommendations.indexOf(doc),
-                )
-              }
+              selected={selectedRecom.includes(rec.id)}
+              onToggleSelect={() => onCheckboxToggle(rec.id, index)}
             />
           ))}
         </tbody>

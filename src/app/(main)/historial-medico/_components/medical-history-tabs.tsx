@@ -20,6 +20,8 @@ import DocumentEmptyState from "./document-empty-state";
 import DocumentFilters from "./document-filters";
 import DocumentSection from "./document-section";
 import MedicalHistoryLoading from "./medical-history-loading";
+import MoveDocumentsDialog from "./move-documents-dialog";
+import MultiDeleteAlert from "./multi-delete-alert";
 import NewOptions from "./new-options";
 import RecommendationEmptyState from "./recommendation-empty-state";
 import RecommendationFilters from "./recommendation-filters";
@@ -29,13 +31,16 @@ import SelectionHeader from "./section-header";
 import ViewModeToggle from "./view-mode-toggle";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 import { useMedicalFoldersDialog } from "../_hooks/use-medical-folder-dialogs";
+import { useMedicalFolders } from "../_hooks/use-medical-folders";
 import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
 import { useMultiSelect } from "../_hooks/use-multi-select";
 import { useViewMode } from "../_hooks/use-view-mode";
 
+import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
+import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+
 const MedicalHistoryTabs = () => {
   const {
-    userId,
     filteredHistory,
     documentTypeFilter,
     setDocumentTypeFilter,
@@ -56,12 +61,15 @@ const MedicalHistoryTabs = () => {
     deleteRecommendation,
     updateRecommendationNotes,
     handleDownload,
-    deleteDocuments,
-    deleteRecommendations,
+    handleDeleteDocuments,
+    handleDeleteRecommendations,
+    isSubmitting,
   } = useMedicalHistoryLogic();
 
   const {
+    dialogs,
     openDialog,
+    closeDialog,
     setCurrentItem,
     editingItem,
     setEditingItem,
@@ -71,6 +79,8 @@ const MedicalHistoryTabs = () => {
     setPremiumFeatureType,
     setRecommendationsToShare,
   } = useMedicalDialogs();
+
+  const { folders, handleMoveDocuments } = useMedicalFolders();
 
   const [activeTab, setActiveTab] = useState<"documents" | "recommendations">(
     "documents",
@@ -112,28 +122,37 @@ const MedicalHistoryTabs = () => {
 
   const getFilteredDocs = () => {
     if (documentTypeFilter === "recent") {
-      return [...filteredHistory]
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        )
-        .slice(0, 5);
+      return [...filteredHistory].sort(
+        (a, b) =>
+          new Date(b.createdAt ?? 0).getTime() -
+          new Date(a.createdAt ?? 0).getTime(),
+      );
     }
-    if (documentTypeFilter === "shared" || documentTypeFilter === "private") {
-      return filteredHistory.filter((d) => d.visibility === documentTypeFilter);
+
+    if (documentTypeFilter === "old") {
+      return [...filteredHistory].sort(
+        (a, b) =>
+          new Date(a.createdAt ?? 0).getTime() -
+          new Date(b.createdAt ?? 0).getTime(),
+      );
     }
+
     return filteredHistory;
   };
 
   const docs = getFilteredDocs();
 
   const {
+    containerRef: documentContainerRef,
+    modalRef: documentModalRef,
     selectedIds: selectedDocuments,
     handleSelect,
     handleToggle,
     clearSelection,
     setSelectedIds,
-  } = useMultiSelect(docs);
+    handlePointerDown,
+    handlePointerUp,
+  } = useMultiSelect<MedicalHistoryWithTags>("documents", docs);
 
   const [priorityFilter, setPriorityFilter] = useState<
     "all" | "high" | "medium" | "low"
@@ -151,12 +170,19 @@ const MedicalHistoryTabs = () => {
   });
 
   const {
+    containerRef: recommendationContainerRef,
+    modalRef: recommendationModalRef,
     selectedIds: selectedRecommendations,
     handleSelect: handleSelectRecommendation,
     handleToggle: handleToggleRecommendation,
     clearSelection: clearRecommendationSelection,
     setSelectedIds: setSelectedRecommendations,
-  } = useMultiSelect(filteredRecommendations);
+    handlePointerDown: handleRecommendationPointerDown,
+    handlePointerUp: handleRecommendationPointerUp,
+  } = useMultiSelect<SavedAIRecommendation>(
+    "recommendations",
+    filteredRecommendations,
+  );
 
   const clearRecomFilters = () => {
     setRecomSearchTerm("");
@@ -169,8 +195,38 @@ const MedicalHistoryTabs = () => {
   const selectedRecomCount = selectedRecommendations.length;
   const isRecomSelected = selectedRecomCount > 0;
 
+  const handleClickSelect = (
+    e: React.MouseEvent,
+    id: string,
+    index: number,
+  ) => {
+    handleSelect(e, id, index);
+  };
+
+  const handleCheckboxToggle = (id: string, index: number) => {
+    handleToggle(id, index);
+  };
+
+  const handleClickSelectRecommendation = (
+    e: React.MouseEvent,
+    id: string,
+    index: number,
+  ) => {
+    handleSelectRecommendation(e, id, index);
+  };
+
+  const handleCheckboxToggleRecommendation = (id: string, index: number) => {
+    handleToggleRecommendation(id, index);
+  };
+
   return (
-    <>
+    <div
+      ref={
+        activeTab === "documents"
+          ? documentContainerRef
+          : recommendationContainerRef
+      }
+    >
       <SelectionHeader
         activeTab={activeTab}
         isDocumentSelected={isDocSelected}
@@ -179,14 +235,11 @@ const MedicalHistoryTabs = () => {
         recommendationCount={selectedRecomCount}
         onClearDocuments={clearSelection}
         onClearRecommendations={clearRecommendationSelection}
-        onDeleteDocuments={() => {
-          deleteDocuments(userId, selectedDocuments);
-          clearSelection();
-        }}
-        onDeleteRecommendations={() => {
-          deleteRecommendations(userId, selectedRecommendations);
-          clearRecommendationSelection();
-        }}
+        onDeleteDocuments={() => openDialog("isMultiDeleteDocsDialogOpen")}
+        onDeleteRecommendations={() =>
+          openDialog("isMultiDeleteRecomsDialogOpen")
+        }
+        onMoveDocuments={() => openDialog("isMoveDocumentsDialogOpen")}
       />
 
       <Tabs
@@ -226,12 +279,9 @@ const MedicalHistoryTabs = () => {
                 onNewDocument={() => openDialog("isAddDialogOpen")}
                 onNewFolder={() => openFolderForm()}
               />
-              {isMobile && (
-                <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
-              )}
               <div
                 className={cn(
-                  "flex items-center gap-2",
+                  "flex w-full items-center gap-2",
                   !isPremium && "ms-auto",
                 )}
               >
@@ -257,12 +307,7 @@ const MedicalHistoryTabs = () => {
                     setPriorityFilter={setPriorityFilter}
                   />
                 )}
-                {!isMobile && (
-                  <ViewModeToggle
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
-                  />
-                )}
+                <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
               </div>
             </div>
           </div>
@@ -273,7 +318,7 @@ const MedicalHistoryTabs = () => {
             ) : docs.length === 0 ? (
               <DocumentEmptyState
                 hasFilters={
-                  documentTypeFilter !== "all" ||
+                  documentTypeFilter !== "updated" ||
                   documentCategoryFilter !== "all" ||
                   searchTerm.trim() !== "" ||
                   selectedTags.length > 0
@@ -314,13 +359,8 @@ const MedicalHistoryTabs = () => {
                   setIsOpenOptions(true);
                 }}
                 selectedDocs={selectedDocuments}
-                onSelect={(e, id, index) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey) {
-                    handleSelect(e, id, index);
-                  } else {
-                    handleToggle(id, index);
-                  }
-                }}
+                onClickSelect={handleClickSelect}
+                onCheckboxToggle={handleCheckboxToggle}
                 onToggleSelectAll={() => {
                   if (selectedDocuments.length === docs.length) {
                     clearSelection();
@@ -328,6 +368,8 @@ const MedicalHistoryTabs = () => {
                     setSelectedIds(docs.map((doc) => doc.id));
                   }
                 }}
+                onPointerDown={handlePointerDown}
+                onPointerUp={handlePointerUp}
               />
             )}
           </TabsContent>
@@ -386,13 +428,8 @@ const MedicalHistoryTabs = () => {
                 open={isOpenOptions}
                 setOpen={setIsOpenOptions}
                 selectedRecom={selectedRecommendations}
-                onSelect={(e, id, index) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey) {
-                    handleSelectRecommendation(e, id, index);
-                  } else {
-                    handleToggleRecommendation(id, index);
-                  }
-                }}
+                onClickSelect={handleClickSelectRecommendation}
+                onCheckboxToggle={handleCheckboxToggleRecommendation}
                 onToggleSelectAll={() => {
                   if (
                     selectedRecommendations.length ===
@@ -405,12 +442,58 @@ const MedicalHistoryTabs = () => {
                     );
                   }
                 }}
+                onPointerDown={handleRecommendationPointerDown}
+                onPointerUp={handleRecommendationPointerUp}
               />
             )}
           </TabsContent>
         </div>
       </Tabs>
-    </>
+
+      <MultiDeleteAlert
+        ref={documentModalRef}
+        isOpen={dialogs.isMultiDeleteDocsDialogOpen}
+        setIsOpen={(open) =>
+          open
+            ? openDialog("isMultiDeleteDocsDialogOpen")
+            : closeDialog("isMultiDeleteDocsDialogOpen")
+        }
+        onDelete={() => {
+          handleDeleteDocuments(selectedDocuments);
+          clearSelection();
+        }}
+        isSubmitting={isSubmitting}
+        type="document"
+      />
+
+      <MultiDeleteAlert
+        ref={recommendationModalRef}
+        isOpen={dialogs.isMultiDeleteRecomsDialogOpen}
+        setIsOpen={(open) =>
+          open
+            ? openDialog("isMultiDeleteRecomsDialogOpen")
+            : closeDialog("isMultiDeleteRecomsDialogOpen")
+        }
+        onDelete={() => {
+          handleDeleteRecommendations(selectedRecommendations);
+          clearRecommendationSelection();
+        }}
+        isSubmitting={isSubmitting}
+        type="recommendation"
+      />
+      <MoveDocumentsDialog
+        ref={documentModalRef}
+        folders={folders}
+        isOpen={dialogs.isMoveDocumentsDialogOpen}
+        onClose={() => closeDialog("isMoveDocumentsDialogOpen")}
+        onMove={(folderId) => {
+          handleMoveDocuments(folderId, selectedDocuments);
+          closeDialog("isMoveDocumentsDialogOpen");
+        }}
+        isSubmitting={isSubmitting}
+        selectedCount={selectedDocuments.length}
+      />
+    </div>
   );
 };
 

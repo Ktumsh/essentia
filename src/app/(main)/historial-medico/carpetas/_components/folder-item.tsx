@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { capitalize } from "@/utils/format";
 
@@ -32,6 +33,9 @@ interface FolderItemProps {
   onDelete: () => void;
   selected: boolean;
   onSelect: (e: React.MouseEvent) => void;
+  onDoubleClick: () => void;
+  onPointerDown: () => void;
+  onPointerUp: () => void;
 }
 
 const FolderItem = ({
@@ -41,8 +45,13 @@ const FolderItem = ({
   onDelete,
   selected,
   onSelect,
+  onDoubleClick,
+  onPointerDown,
+  onPointerUp,
 }: FolderItemProps) => {
   const router = useRouter();
+
+  const isMobile = useIsMobile();
 
   const color = folder.color ?? "gray";
   const icon = folder.icon ?? "folder";
@@ -56,14 +65,26 @@ const FolderItem = ({
   return (
     <Card
       key={folder.id}
-      onDoubleClick={() =>
+      onDoubleClick={() => {
         router.push(
           `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
-        )
-      }
-      onClick={(e) => onSelect(e)}
+        );
+        onDoubleClick();
+      }}
+      onClick={(e) => {
+        if (isMobile) {
+          router.push(
+            `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
+          );
+          onDoubleClick();
+        } else {
+          onSelect(e);
+        }
+      }}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       className={cn(
-        "bg-muted hover:bg-accent select-none",
+        "bg-muted hover:bg-accent active:bg-accent select-none",
         selected && "bg-primary/20 hover:bg-primary/20",
       )}
     >

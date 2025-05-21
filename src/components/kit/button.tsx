@@ -22,7 +22,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         mobile:
-          "justify-start gap-5 h-12! active:bg-slate-200 dark:active:bg-alternative rounded-none! [&_svg]:size-5 text-foreground w-full! px-6!",
+          "justify-start gap-5 h-12! active:bg-alternative rounded-none! [&_svg]:size-5 text-foreground w-full! px-6!",
         "mobile-primary":
           "justify-center gap-5 h-12! bg-primary! [&_svg]:size-4 text-primary-foreground w-full! rounded-xl!",
         "mobile-destructive":

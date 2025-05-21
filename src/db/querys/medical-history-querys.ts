@@ -1,7 +1,7 @@
 "use server";
 
 import { del } from "@vercel/blob";
-import { and, asc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -285,18 +285,6 @@ export async function deleteMedicalHistory({
     if (!record) throw new Error("Registro no encontrado");
     if (record.userId !== userId) throw new Error("Acceso denegado");
 
-    const [file] = await db
-      .select()
-      .from(userMedicalFile)
-      .where(eq(userMedicalFile.medicalHistoryId, id));
-
-    if (file) {
-      await deleteMedicalFile(file.url);
-      await db
-        .delete(userMedicalFile)
-        .where(eq(userMedicalFile.medicalHistoryId, id));
-    }
-
     await db
       .update(userMedicalHistory)
       .set({ isDeleted: true, updatedAt: new Date() })
@@ -360,7 +348,8 @@ export async function getMedicalHistoryWithTags({
           eq(userMedicalHistory.userId, userId),
           eq(userMedicalHistory.isDeleted, false),
         ),
-      );
+      )
+      .orderBy(desc(userMedicalHistory.updatedAt));
 
     const historyIds = records.map((r) => r.id);
 

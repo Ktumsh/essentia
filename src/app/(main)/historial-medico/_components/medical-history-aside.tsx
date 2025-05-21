@@ -24,7 +24,7 @@ const MedicalHistoryAside = () => {
 
   const { openDialog, setPremiumFeatureType } = useMedicalDialogs();
   return (
-    <section className="col-span-1 hidden xl:block">
+    <section className="col-span-1">
       <Card className="bg-muted sticky top-20 flex flex-col rounded-xl border-0">
         <CardContent className="flex flex-col p-5 text-base">
           <header className="flex items-center justify-between">

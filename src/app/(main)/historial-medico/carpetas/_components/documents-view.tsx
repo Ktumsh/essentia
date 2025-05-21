@@ -11,6 +11,7 @@ import FolderDocumentFilters from "./folder-documents-filter";
 import FolderSectionHeader from "./folder-section-header";
 import DocumentEmptyState from "../../_components/document-empty-state";
 import DocumentSection from "../../_components/document-section";
+import MultiDeleteAlert from "../../_components/multi-delete-alert";
 import ViewModeToggle from "../../_components/view-mode-toggle";
 import { useMedicalDialogs } from "../../_hooks/use-medical-dialogs";
 import { useMedicalFoldersDialog } from "../../_hooks/use-medical-folder-dialogs";
@@ -40,7 +41,9 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
   const isMobile = useIsMobile();
 
   const {
+    dialogs,
     openDialog,
+    closeDialog,
     setCurrentItem,
     editingItem,
     setEditingItem,
@@ -61,10 +64,13 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
     handleToggle,
     clearSelection,
     containerRef,
+    modalRef,
     setSelectedIds,
-  } = useMultiSelect(docs);
+    handlePointerDown,
+    handlePointerUp,
+  } = useMultiSelect<MedicalHistoryWithTags>("folderDocs", docs);
 
-  const { handleDeleteDocumentsFromFolder } = useMedicalFolders();
+  const { handleDeleteDocumentsFromFolder, isSubmitting } = useMedicalFolders();
 
   const filteredFolderDocs = docs.filter((doc) => {
     const matchesSearch = doc.condition
@@ -77,19 +83,24 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
     return matchesSearch && matchesCategory;
   });
 
+  const handleClickSelect = (
+    e: React.MouseEvent,
+    id: string,
+    index: number,
+  ) => {
+    handleSelect(e, id, index);
+  };
+
+  const handleCheckboxToggle = (id: string, index: number) => {
+    handleToggle(id, index);
+  };
+
   return (
     <>
       <FolderSectionHeader
         count={selectedDocuments.length}
         onClear={clearSelection}
-        onDelete={() => {
-          handleDeleteDocumentsFromFolder({
-            userId,
-            folderId,
-            documentIds: selectedDocuments,
-          });
-          clearSelection();
-        }}
+        onDelete={() => openDialog("isMultiDeleteDocsDialogOpen")}
         onNewFolder={openFolderForm}
         folderName={folderName}
         variant="documents"
@@ -174,23 +185,39 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
               setIsOpenOptions(true);
             }}
             selectedDocs={selectedDocuments}
-            onSelect={(e, id, index) => {
-              if (e.metaKey || e.ctrlKey || e.shiftKey) {
-                handleSelect(e, id, index);
-              } else {
-                handleToggle(id, index);
-              }
-            }}
+            onClickSelect={handleClickSelect}
+            onCheckboxToggle={handleCheckboxToggle}
             onToggleSelectAll={() => {
-              if (selectedDocuments.length === filteredFolderDocs.length) {
+              if (selectedDocuments.length === docs.length) {
                 clearSelection();
               } else {
-                setSelectedIds(filteredFolderDocs.map((doc) => doc.id));
+                setSelectedIds(docs.map((doc) => doc.id));
               }
             }}
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
           />
         )}
       </div>
+      <MultiDeleteAlert
+        ref={modalRef}
+        isOpen={dialogs.isMultiDeleteDocsDialogOpen}
+        setIsOpen={(open) =>
+          open
+            ? openDialog("isMultiDeleteDocsDialogOpen")
+            : closeDialog("isMultiDeleteDocsDialogOpen")
+        }
+        onDelete={() => {
+          handleDeleteDocumentsFromFolder({
+            userId,
+            folderId,
+            documentIds: selectedDocuments,
+          });
+          clearSelection();
+        }}
+        isSubmitting={isSubmitting}
+        type="document"
+      />
     </>
   );
 };

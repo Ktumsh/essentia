@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 
 import { db } from "../db";
 import {
@@ -339,7 +339,8 @@ export async function getUserMedicalFolders(userId: string) {
         userMedicalFolder.description,
         userMedicalFolder.color,
         userMedicalFolder.createdAt,
-      );
+      )
+      .orderBy(desc(userMedicalFolder.updatedAt));
 
     return folders;
   } catch (error) {
@@ -557,6 +558,65 @@ export async function deleteDocumentsFromFolder({
     };
   } catch (error) {
     console.error("Error al remover documentos de carpeta:", error);
+    throw error;
+  }
+}
+
+export async function moveManyDocumentsToFolder({
+  userId,
+  documentIds,
+  folderId,
+}: {
+  userId: string;
+  documentIds: string[];
+  folderId: string | null;
+}) {
+  try {
+    const docs = await db
+      .select({
+        id: userMedicalHistory.id,
+        folderId: userMedicalHistory.folderId,
+      })
+      .from(userMedicalHistory)
+      .where(
+        and(
+          inArray(userMedicalHistory.id, documentIds),
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.isDeleted, false),
+        ),
+      );
+
+    const toMove = docs.filter((doc) => doc.folderId !== folderId);
+
+    const results = await Promise.allSettled(
+      toMove.map((doc) =>
+        moveDocumentToFolder({ userId, documentId: doc.id, folderId }),
+      ),
+    );
+
+    const moved = results
+      .map((res, idx) => (res.status === "fulfilled" ? toMove[idx].id : null))
+      .filter(Boolean) as string[];
+
+    const failed = results
+      .map((res, idx) =>
+        res.status === "rejected"
+          ? {
+              id: toMove[idx].id,
+              error: res.reason?.message || "Error desconocido",
+            }
+          : null,
+      )
+      .filter(Boolean);
+
+    return {
+      success: failed.length === 0,
+      moved,
+      skipped: docs.filter((d) => d.folderId === folderId).map((d) => d.id),
+      failed,
+    };
+  } catch (error) {
+    console.error("Error al mover múltiples documentos:", error);
     throw error;
   }
 }

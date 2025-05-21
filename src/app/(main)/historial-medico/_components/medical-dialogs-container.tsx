@@ -7,7 +7,7 @@ import ActivityFullView from "./activity-full-view";
 import AIRecommendation, {
   type AIRecommendationType,
 } from "./ai-recommendation";
-import DeleteConfirmationDialog from "./delete-confirmation-dialog";
+import DeleteAlert from "./delete-alert";
 import DocumentViewDialog from "./document-view-dialog";
 import FileViewer from "./file-viewer";
 import MedicalHistoryForm, {
@@ -157,7 +157,7 @@ const MedicalDialogsContainer = ({
         }}
       />
 
-      <DeleteConfirmationDialog
+      <DeleteAlert
         isOpen={dialogs.isDeleteDialogOpen}
         setIsOpen={(open) =>
           open

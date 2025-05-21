@@ -16,10 +16,12 @@ import {
   deleteDocumentsFromFolder,
   deleteManyMedicalFolders,
   deleteMedicalFolder,
+  moveManyDocumentsToFolder,
   updateMedicalFolder,
 } from "@/db/querys/medical-folder-querys";
 import { fetcher } from "@/lib/utils";
 
+import { useMedicalDialogs } from "./use-medical-dialogs";
 import { useMedicalFoldersDialog } from "./use-medical-folder-dialogs";
 
 import type { Folder, FolderIconType } from "@/lib/types";
@@ -51,6 +53,7 @@ interface MedicalFoldersContextType {
     folderId: string;
     documentIds: string[];
   }) => Promise<void>;
+  handleMoveDocuments: (folderId: string, selectedDocuments: string[]) => void;
   isSubmitting: boolean;
 }
 
@@ -88,6 +91,8 @@ export const MedicalFoldersProvider = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { closeFolderForm } = useMedicalFoldersDialog();
+
+  const { closeDialog } = useMedicalDialogs();
 
   const handleCreateFolder = useCallback(
     async (data: FolderFormData) => {
@@ -164,6 +169,8 @@ export const MedicalFoldersProvider = ({
 
   const handleDeleteFolders = useCallback(
     async (userId: string, ids: string[]) => {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
       if (ids.length === 0) return;
 
       const promise = deleteManyMedicalFolders({ userId, folderIds: ids });
@@ -176,9 +183,9 @@ export const MedicalFoldersProvider = ({
               : "Eliminando carpetas...",
           success:
             ids.length === 1
-              ? "Carpeta eliminada correctamente."
-              : "Carpetas eliminadas correctamente.",
-          error: "Error al eliminar carpetas.",
+              ? "Carpeta eliminada correctamente"
+              : "Carpetas eliminadas correctamente",
+          error: "No se pudieron eliminar las carpetas",
         });
 
         const res = await promise;
@@ -190,12 +197,15 @@ export const MedicalFoldersProvider = ({
 
         mutate();
         mutateActivity("/api/medical-activity");
+        closeDialog("isMultiDeleteFoldersDialogOpen");
       } catch (err) {
         console.error("Error en eliminación:", err);
         toast.error("Error inesperado al eliminar carpetas.");
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [mutate, mutateActivity],
+    [mutate, mutateActivity, closeDialog, isSubmitting],
   );
 
   const handleDeleteDocumentsFromFolder = useCallback(
@@ -208,6 +218,8 @@ export const MedicalFoldersProvider = ({
       folderId: string;
       documentIds: string[];
     }) => {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
       if (documentIds.length === 0) return;
 
       const promise = deleteDocumentsFromFolder({
@@ -224,9 +236,9 @@ export const MedicalFoldersProvider = ({
               : "Eliminando documentos...",
           success:
             documentIds.length === 1
-              ? "Documento eliminado correctamente."
-              : "Documentos eliminados correctamente.",
-          error: "Error al eliminar documentos.",
+              ? "Documento eliminado correctamente"
+              : "Documentos eliminados correctamente",
+          error: "No se pudieron eliminar los documentos",
         });
 
         const res = await promise;
@@ -240,13 +252,63 @@ export const MedicalFoldersProvider = ({
 
         mutate();
         mutateActivity("/api/medical-activity");
+        closeDialog("isMultiDeleteDocsDialogOpen");
         router.refresh();
       } catch (err) {
         console.error("Error en eliminación:", err);
         toast.error("Error inesperado al eliminar documentos.");
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [mutate, mutateActivity, router],
+    [mutate, mutateActivity, router, isSubmitting, closeDialog],
+  );
+
+  const handleMoveDocuments = useCallback(
+    async (folderId: string, documentIds: string[]) => {
+      if (isSubmitting || documentIds.length === 0) return;
+      setIsSubmitting(true);
+
+      const promise = moveManyDocumentsToFolder({
+        userId,
+        documentIds,
+        folderId,
+      });
+
+      toast.promise(promise, {
+        loading:
+          documentIds.length === 1
+            ? "Moviendo documento..."
+            : "Moviendo documentos...",
+        success:
+          documentIds.length === 1
+            ? "Documento movido correctamente."
+            : "Documentos movidos correctamente.",
+        error: "No se pudieron mover los documentos.",
+      });
+
+      try {
+        const res = await promise;
+
+        if (!res.success) {
+          toast.error(
+            `${res.failed.length} documento${res.failed.length > 1 ? "s" : ""} no se movieron.`,
+          );
+          console.warn("Fallos al mover:", res.failed);
+        }
+
+        mutate();
+        mutateActivity("/api/medical-activity");
+        router.refresh();
+
+        closeDialog("isMoveDocumentsDialogOpen");
+      } catch (err) {
+        console.error("Error inesperado al mover:", err);
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [isSubmitting, userId, mutate, mutateActivity, router, closeDialog],
   );
 
   const value = useMemo(
@@ -262,6 +324,7 @@ export const MedicalFoldersProvider = ({
       handleDeleteFolder,
       handleDeleteFolders,
       handleDeleteDocumentsFromFolder,
+      handleMoveDocuments,
       isSubmitting,
     }),
     [
@@ -276,6 +339,7 @@ export const MedicalFoldersProvider = ({
       handleDeleteFolder,
       handleDeleteFolders,
       handleDeleteDocumentsFromFolder,
+      handleMoveDocuments,
       isSubmitting,
     ],
   );

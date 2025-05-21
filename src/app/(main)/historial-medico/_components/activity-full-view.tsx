@@ -4,6 +4,7 @@ import { Activity, Filter, Search, Download } from "lucide-react";
 
 import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
+import { Card, CardContent } from "@/components/kit/card";
 import { Checkbox } from "@/components/kit/checkbox";
 import {
   Dialog,
@@ -119,8 +120,7 @@ export default function ActivityFullView({
     );
   };
 
-  // Renderizar el contenido del modal/drawer
-  const renderContent = () => (
+  const content = (
     <div className="flex h-full flex-col">
       <div className="border-b p-4 md:p-6 md:pt-0">
         <div className="flex flex-col gap-2 md:flex-row md:gap-3">
@@ -210,6 +210,7 @@ export default function ActivityFullView({
                                 onCheckedChange={() =>
                                   toggleActionSelection(action)
                                 }
+                                className="border-alternative"
                               />
                               <label
                                 htmlFor={`action-filter-${action}`}
@@ -259,10 +260,10 @@ export default function ActivityFullView({
                       </div>
                     )}
                     <Button
-                      variant="outline"
+                      variant="accent"
                       size="sm"
                       onClick={clearFilters}
-                      className="w-full rounded-full"
+                      className="w-full"
                     >
                       Limpiar filtros
                     </Button>
@@ -309,28 +310,28 @@ export default function ActivityFullView({
         className="flex flex-1 flex-col"
       >
         <div className="px-4 pt-4 md:px-6 md:pt-6">
-          <TabsList className="bg-accent grid h-auto w-full grid-cols-2 md:h-9 md:grid-cols-4">
+          <TabsList className="bg-muted grid h-auto w-full grid-cols-2 md:h-9 md:w-fit md:grid-cols-4 md:rounded-full">
             <TabsTrigger
               value="all"
-              className="rounded-sm text-xs! md:text-sm!"
+              className="h-6 text-xs! md:h-full md:text-sm!"
             >
               Todas
             </TabsTrigger>
             <TabsTrigger
               value="created"
-              className="rounded-sm text-xs! text-green-600 data-[state=active]:text-green-600 md:text-sm! dark:text-green-400"
+              className="h-6 text-xs! text-green-600 data-[state=active]:text-green-600 md:h-full md:text-sm! dark:text-green-400"
             >
               Añadidas
             </TabsTrigger>
             <TabsTrigger
               value="updated"
-              className="rounded-sm text-xs! text-blue-600 data-[state=active]:text-blue-600 md:text-sm! dark:text-blue-400"
+              className="h-6 text-xs! text-blue-600 data-[state=active]:text-blue-600 md:h-full md:text-sm! dark:text-blue-400"
             >
               Actualizadas
             </TabsTrigger>
             <TabsTrigger
               value="deleted"
-              className="rounded-sm text-xs! text-red-600 data-[state=active]:text-red-600 md:text-sm! dark:text-red-400"
+              className="h-6 text-xs! text-red-600 data-[state=active]:text-red-600 md:h-full md:text-sm! dark:text-red-400"
             >
               Eliminadas
             </TabsTrigger>
@@ -339,31 +340,34 @@ export default function ActivityFullView({
 
         <TabsContent value={activeTab} className="flex-1 overflow-hidden p-4">
           {filteredActivities.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-center">
-              <Activity className="text-muted-foreground/30 mb-4 h-16 w-16" />
-              <p className="text-lg font-medium">No hay actividad</p>
-              <p className="text-muted-foreground mt-1 max-w-md text-sm">
-                {searchTerm ||
-                selectedActions.length > 0 ||
-                dateRange !== "all" ||
-                activeTab !== "all"
-                  ? "No se encontró actividad con los filtros aplicados"
-                  : "No hay registros de actividad en tu historial médico"}
-              </p>
-              {(searchTerm ||
-                selectedActions.length > 0 ||
-                dateRange !== "all" ||
-                activeTab !== "all") && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-4 rounded-full"
-                  onClick={clearFilters}
-                >
-                  Limpiar filtros
-                </Button>
-              )}
-            </div>
+            <Card className="border border-dashed">
+              <CardContent className="flex flex-col items-center justify-center py-10">
+                <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
+                  <Activity className="size-12 opacity-50" />
+                  <div className="space-y-1.5 text-center">
+                    <p className="text-foreground text-sm font-medium">
+                      No hay actividad
+                    </p>
+                    <p className="text-xs md:text-sm">
+                      {searchTerm ||
+                      selectedActions.length > 0 ||
+                      dateRange !== "all" ||
+                      activeTab !== "all"
+                        ? "No se encontró actividad con los filtros aplicados"
+                        : "No hay registros de actividad en tu historial médico"}
+                    </p>
+                  </div>
+                  {(searchTerm ||
+                    selectedActions.length > 0 ||
+                    dateRange !== "all" ||
+                    activeTab !== "all") && (
+                    <Button variant="ghost" size="sm" onClick={clearFilters}>
+                      Limpiar filtros
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           ) : (
             <ScrollArea className="h-[338px] rounded-lg md:h-[444px] md:pr-4">
               <div className="dark:bg-background md:bg-background space-y-4 bg-slate-50 p-2">
@@ -406,7 +410,6 @@ export default function ActivityFullView({
     </div>
   );
 
-  // Renderizar el modal o drawer según el tamaño de pantalla
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
@@ -417,7 +420,7 @@ export default function ActivityFullView({
               Aquí puedes ver el historial de actividad de tu historial médico.
             </DrawerDescription>
           </DrawerHeader>
-          {renderContent()}
+          {content}
           <DrawerFooter>
             <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
               <DrawerClose asChild>
@@ -440,24 +443,21 @@ export default function ActivityFullView({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent isSecondary className="sm:max-w-5xl">
         <DialogHeader isSecondary className="pb-6!">
-          <Activity className="text-muted-foreground size-6" />
-          <div className="flex items-center justify-between gap-2">
-            <DialogTitle>Historial de actividad</DialogTitle>
-            <DialogDescription className="sr-only">
-              Aquí puedes ver el historial de actividad de tu historial médico.
-            </DialogDescription>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => exportActivityAsExcel(activities)}
-              className="h-9 rounded-full"
-            >
-              <Download className="size-3.5!" />
-              Exportar como Excel
-            </Button>
-          </div>
+          <DialogTitle>Historial de actividad</DialogTitle>
+          <DialogDescription className="sr-only">
+            Aquí puedes ver el historial de actividad de tu historial médico.
+          </DialogDescription>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => exportActivityAsExcel(activities)}
+            className="ms-auto w-fit rounded-full"
+          >
+            <Download className="size-3.5!" />
+            Exportar como Excel
+          </Button>
         </DialogHeader>
-        {renderContent()}
+        {content}
         <DialogFooter isSecondary className="items-center justify-between!">
           <p className="text-muted-foreground text-sm">
             Mostrando {filteredActivities.length} de {activities.length}{" "}

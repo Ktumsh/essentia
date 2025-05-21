@@ -18,7 +18,11 @@ export type DialogKeys =
   | "isAIDialogOpen"
   | "isFileViewerOpen"
   | "isActivityFullViewOpen"
-  | "isShareDialogOpen";
+  | "isShareDialogOpen"
+  | "isMultiDeleteDocsDialogOpen"
+  | "isMultiDeleteRecomsDialogOpen"
+  | "isMultiDeleteFoldersDialogOpen"
+  | "isMoveDocumentsDialogOpen";
 
 type DialogsState = Record<DialogKeys, boolean>;
 
@@ -64,6 +68,10 @@ export function MedicalDialogsProvider({ children }: { children: ReactNode }) {
     isFileViewerOpen: false,
     isActivityFullViewOpen: false,
     isShareDialogOpen: false,
+    isMultiDeleteDocsDialogOpen: false,
+    isMultiDeleteRecomsDialogOpen: false,
+    isMultiDeleteFoldersDialogOpen: false,
+    isMoveDocumentsDialogOpen: false,
   });
   const [currentItem, setCurrentItem] = useState<MedicalHistoryWithTags | null>(
     null,

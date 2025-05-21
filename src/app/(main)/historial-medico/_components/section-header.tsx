@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { DeleteButton } from "@/components/button-kit/delete-button";
+import { FolderInputButton } from "@/components/button-kit/folder-input-button";
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ interface SelectionHeaderProps {
   onClearRecommendations: () => void;
   onDeleteDocuments: () => void;
   onDeleteRecommendations: () => void;
+  onMoveDocuments: () => void;
 }
 
 const SelectionHeader = ({
@@ -30,6 +32,7 @@ const SelectionHeader = ({
   onClearRecommendations,
   onDeleteDocuments,
   onDeleteRecommendations,
+  onMoveDocuments,
 }: SelectionHeaderProps) => {
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -62,10 +65,20 @@ const SelectionHeader = ({
               variant="ghost"
               size="icon"
               onClick={onDeleteDocuments}
-              className="size-7 text-red-500! hover:bg-red-50 dark:hover:bg-red-950 [&_svg]:size-3.5!"
+              className="size-7 text-red-500! hover:bg-red-50 dark:hover:bg-red-950"
             >
               <span className="sr-only">Eliminar selección</span>
             </DeleteButton>
+          </BetterTooltip>
+          <BetterTooltip content="Mover">
+            <FolderInputButton
+              variant="ghost"
+              size="icon"
+              className="size-7"
+              onClick={onMoveDocuments}
+            >
+              <span className="sr-only">Mover</span>
+            </FolderInputButton>
           </BetterTooltip>
         </motion.div>
       ) : activeTab === "recommendations" && isRecommendationSelected ? (

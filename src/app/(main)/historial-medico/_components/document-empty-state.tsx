@@ -19,7 +19,7 @@ const DocumentEmptyState = ({
     <Card className="border border-dashed">
       <CardContent className="flex flex-col items-center justify-center py-10">
         <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
-          <FileText className="text-muted-foreground size-12 opacity-50" />
+          <FileText className="size-12 opacity-50" />
           <div className="space-y-1.5 text-center">
             <p className="text-foreground text-sm font-medium">
               No hay documentos médicos

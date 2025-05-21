@@ -381,17 +381,17 @@ const AIRecommendation = ({
         className="flex h-full flex-1 flex-col overflow-hidden"
       >
         <div className="px-4 pt-0 md:px-6 md:pt-6">
-          <TabsList className="bg-background grid h-auto w-full grid-cols-2 md:h-9">
+          <TabsList className="bg-background grid h-auto w-full grid-cols-2 rounded-full md:h-9">
             <TabsTrigger
               value="select"
-              className="data-[state=active]:bg-accent rounded-sm text-xs! md:text-sm!"
+              className="data-[state=active]:bg-accent text-xs! md:text-sm!"
             >
               Seleccionar datos
             </TabsTrigger>
             <TabsTrigger
               value="results"
               disabled={recommendations.length === 0 && !isLoading}
-              className="data-[state=active]:bg-accent rounded-sm text-xs! md:text-sm!"
+              className="data-[state=active]:bg-accent text-xs! md:text-sm!"
             >
               Resultados
             </TabsTrigger>

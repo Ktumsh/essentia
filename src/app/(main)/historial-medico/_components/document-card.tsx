@@ -68,8 +68,10 @@ interface DocumentCardProps {
   currentDoc: MedicalHistoryWithTags | null;
   open: boolean;
   setOpen: (open: boolean) => void;
-  selected?: boolean;
-  onSelect?: (e: React.MouseEvent) => void;
+  selected: boolean;
+  onToggleSelect: (e: React.MouseEvent) => void;
+  onPointerDown: () => void;
+  onPointerUp: () => void;
 }
 
 const DocumentCard = ({
@@ -85,7 +87,9 @@ const DocumentCard = ({
   open,
   setOpen,
   selected,
-  onSelect,
+  onToggleSelect,
+  onPointerDown,
+  onPointerUp,
 }: DocumentCardProps) => {
   const isMobile = useIsMobile();
 
@@ -269,10 +273,12 @@ const DocumentCard = ({
     <Card
       onDoubleClick={() => onView(doc)}
       onClick={(e) => {
-        if (onSelect) {
-          onSelect(e);
+        if (onToggleSelect) {
+          onToggleSelect(e);
         }
       }}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       className={cn(
         "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none",
         selected && "bg-primary/20 hover:bg-primary/20",
@@ -350,7 +356,7 @@ const DocumentCard = ({
               e.stopPropagation();
               onView(doc);
             }}
-            className="hover:bg-background size-8 opacity-0 group-hover/item:opacity-100"
+            className="hover:bg-background size-8 group-hover/item:opacity-100 md:opacity-0"
           >
             <span className="sr-only">Ver detalles</span>
           </ChevronButton>

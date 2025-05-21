@@ -37,7 +37,7 @@ const FolderDocumentFilters = ({
 
   return (
     <div className="flex items-center gap-2">
-      <div className="relative w-48">
+      <div className="relative w-52">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 size-4" />
         <Input
           value={localInput}
@@ -47,7 +47,7 @@ const FolderDocumentFilters = ({
         />
       </div>
       <Select value={category} onValueChange={(v) => setCategory(v as any)}>
-        <SelectTrigger className="bg-background w-56 rounded-full">
+        <SelectTrigger className="bg-background w-40 rounded-full">
           <SelectValue placeholder="Tipo de documento" />
         </SelectTrigger>
         <SelectContent>

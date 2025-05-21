@@ -34,10 +34,8 @@ interface DocumentFiltersProps {
   selectedTags: string[];
   onToggleTagFilter: (tag: string) => void;
   clearFilters: () => void;
-  documentTypeFilter: "all" | "recent" | "shared" | "private";
-  setDocumentTypeFilter: (
-    value: "all" | "recent" | "shared" | "private",
-  ) => void;
+  documentTypeFilter: "updated" | "recent" | "old";
+  setDocumentTypeFilter: (value: "updated" | "recent" | "old") => void;
   documentCategoryFilter: MedicalFileType | "all";
   setDocumentCategoryFilter: (value: MedicalFileType | "all") => void;
   medicalTags: { id: string; name: string }[];
@@ -59,7 +57,7 @@ const DocumentFilters = ({
 }: DocumentFiltersProps) => {
   return (
     <>
-      <div className="relative w-48">
+      <div className="relative mr-auto w-56">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 size-4" />
         <Input
           placeholder="Buscar documentos..."
@@ -68,6 +66,7 @@ const DocumentFilters = ({
           onChange={onChange}
         />
       </div>
+      <span className="text-muted-foreground text-sm">Ordenar</span>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -136,14 +135,13 @@ const DocumentFilters = ({
         value={documentTypeFilter}
         onValueChange={(value) => setDocumentTypeFilter(value as any)}
       >
-        <SelectTrigger className="bg-background w-56 rounded-full">
-          <SelectValue placeholder="Filtrar por tipo" />
+        <SelectTrigger className="bg-background w-40 rounded-full">
+          <SelectValue placeholder="Ordenar por" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Todos los documentos</SelectItem>
-          <SelectItem value="recent">Documentos recientes</SelectItem>
-          <SelectItem value="shared">Documentos compartidos</SelectItem>
-          <SelectItem value="private">Documentos privados</SelectItem>
+          <SelectItem value="updated">Más actualizados</SelectItem>
+          <SelectItem value="recent">Más nuevos</SelectItem>
+          <SelectItem value="old">Más antiguos</SelectItem>
         </SelectContent>
       </Select>
       <Select
