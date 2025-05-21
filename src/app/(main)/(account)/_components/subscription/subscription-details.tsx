@@ -46,7 +46,6 @@ const SubscriptionDetails = () => {
 
   const trialMessage = isTrialActive ? getTrialMessage(trialExpiresAt!) : null;
 
-  const { amount } = payment || {};
   const { type, expiresAt, isPremium, status } =
     subscription?.subscription || {};
 
@@ -54,7 +53,7 @@ const SubscriptionDetails = () => {
 
   const isCanceled = status === "canceled";
 
-  const price = isPremium ? amount?.toLocaleString("es-CL") : "0";
+  const price = subscriptionPlan?.price?.toLocaleString("es-CL") || "0";
 
   const renewalDate =
     isCanceled || !isPremium
@@ -110,7 +109,7 @@ const SubscriptionDetails = () => {
             <div className="bg-background rounded-xl border px-4 py-3">
               <div className="grid flex-1 gap-4 md:grid-cols-4">
                 <InfoFieldItem
-                  field={`Precio/${planType === "Premium Plus" ? "Año" : "Mes"}`}
+                  field="Precio/Mes"
                   value={`$ ${price}`}
                   icon={CircleDollarSign}
                 />
@@ -170,7 +169,7 @@ const SubscriptionDetails = () => {
         </Card>
       </div>
 
-      {payment && (
+      {payment && !isCanceled && (
         <>
           <CancelSubscriptionModal
             isOpen={isOpenCancel}

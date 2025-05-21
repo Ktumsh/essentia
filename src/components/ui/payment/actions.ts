@@ -74,12 +74,20 @@ export async function createSubscription({
 
     if (price.unit_amount && price.currency) {
       const status = "pending";
+      const planType =
+        priceId === siteConfig.priceId.premium
+          ? "premium"
+          : priceId === siteConfig.priceId.premiumPlus
+            ? "premium-plus"
+            : "free";
+
       await setPaymentDetails(
         user.id,
         status,
         price.unit_amount,
         price.currency,
         new Date(),
+        planType,
       );
     }
 
@@ -174,6 +182,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
         invoice.amount_paid,
         invoice.currency,
         processedAt,
+        planType as PlanType,
       );
     }
 

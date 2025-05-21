@@ -172,7 +172,7 @@ const CancelSubscriptionModal = ({
               disabled={isPending}
               onClick={handleSetFreePlan}
             >
-              {isPending && <Loader className="size-4 animate-spin" />}
+              {isPending && <Loader className="animate-spin" />}
               {isPending ? null : "Confirmar"}
             </Button>
           </DrawerFooter>

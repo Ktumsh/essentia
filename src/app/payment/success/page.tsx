@@ -26,7 +26,7 @@ const SuccessPage = async () => {
       title="¡Gracias por tu compra!"
       message="Ahora puedes comenzar a disfrutar de las funcionalidades premium."
       paymentDetails={paymentDetail}
-      planType={getPlanType(subscription.type!)}
+      planType={getPlanType(paymentDetail.plan!)}
       renewalDate={subscription.expiresAt}
     />
   );

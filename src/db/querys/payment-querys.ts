@@ -233,6 +233,7 @@ export async function setPaymentDetails(
   amount: number | null,
   currency: string,
   processedAt: Date,
+  plan: "free" | "premium" | "premium-plus",
 ) {
   try {
     await db.insert(payment).values({
@@ -241,6 +242,7 @@ export async function setPaymentDetails(
       amount,
       currency,
       processedAt,
+      plan,
     });
   } catch (error) {
     console.error("Error al insertar los detalles de pago:", error);

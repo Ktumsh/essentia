@@ -131,6 +131,10 @@ export const payment = table("payment", {
   ),
   amount: integer("amount"),
   currency: varchar("currency", { length: 10 }),
+  plan: varchar("plan", {
+    enum: ["free", "premium", "premium-plus"],
+    length: 50,
+  }),
   processedAt: timestamp("processed_at"),
 });
 

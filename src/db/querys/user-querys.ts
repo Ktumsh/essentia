@@ -341,8 +341,7 @@ export async function getUserSubscriptionInfo(userId: string): Promise<{
       .select()
       .from(subscription)
       .leftJoin(plan, eq(subscription.type, plan.id))
-      .where(eq(subscription.userId, userId))
-      .then((res) => res.filter((r) => r.subscription.status === "active")),
+      .where(eq(subscription.userId, userId)),
   ]);
 
   return {
