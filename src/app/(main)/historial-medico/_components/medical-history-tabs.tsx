@@ -355,6 +355,7 @@ const MedicalHistoryTabs = () => {
                 open={isOpenOptions}
                 setOpen={setIsOpenOptions}
                 onOpenOptions={(item) => {
+                  setEditingItem(item);
                   setCurrentItem(item);
                   setIsOpenOptions(true);
                 }}

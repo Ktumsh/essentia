@@ -103,7 +103,6 @@ const DocumentCard = ({
             size="icon"
             variant="ghost"
             className="hover:bg-background size-8"
-            onClick={(e) => e.stopPropagation()}
           >
             <EllipsisVerticalIcon />
           </Button>
@@ -188,7 +187,10 @@ const DocumentCard = ({
           size="sm"
           variant="ghost"
           className="size-8"
-          onClick={() => onOpenOptions(doc)}
+          onClick={() => {
+            console.log({ doc });
+            onOpenOptions(doc);
+          }}
         >
           <MoreVertical className="size-3.5!" />
         </Button>
