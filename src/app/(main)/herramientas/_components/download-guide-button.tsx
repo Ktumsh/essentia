@@ -71,8 +71,8 @@ export default function DownloadGuideButton({
         size="icon"
         variant="ghost"
         onClick={handleDownload}
-        className={cn("relative rounded-md", {
-          "hover:bg-background size-7 rounded-sm group-hover/item:opacity-100 after:absolute after:-inset-2 after:content-[''] md:opacity-0 md:after:content-none md:[&_svg]:size-3.5!":
+        className={cn("relative", {
+          "hover:bg-background group-hover/item:opacity-100 after:absolute after:-inset-2 after:block md:opacity-0 md:after:content-none":
             !isHeader,
         })}
       >

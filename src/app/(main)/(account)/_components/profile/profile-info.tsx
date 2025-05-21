@@ -144,8 +144,8 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
               </p>
               {isOwnProfile && (
                 <p>
-                  Puedes editar tu información para que nuestra IA pueda
-                  brindarte una mejor experiencia para ti.
+                  Completa o edita esta información para que nuestra IA te
+                  conozca mejor y pueda adaptarse a tus necesidades personales.
                 </p>
               )}
             </CardDescription>
@@ -174,7 +174,7 @@ const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
                   >
                     <div className="grid-cols grid flex-1 gap-4">
                       <InfoFieldItem
-                        field="Instrucciones personalizadas"
+                        field="Instrucciones para Aeris"
                         value={bio || "---"}
                         icon={ScrollText}
                       >

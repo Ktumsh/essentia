@@ -30,11 +30,14 @@ const Guides = () => {
           return (
             <Card
               key={guide.id}
-              className="group/item text-foreground dark:hover:bg-accent/50 flex flex-col rounded-none border-0 transition-colors duration-300 hover:bg-slate-50 md:rounded-xl md:p-4"
+              onDoubleClick={() =>
+                route.push(`/herramientas/guias/${guide.id}`)
+              }
+              className="group/item text-foreground bg-muted hover:bg-accent flex flex-col rounded-none border-0 transition-colors duration-300 select-none md:rounded-xl md:p-4"
             >
               <Badge
                 className={cn(
-                  "mb-4 h-6 rounded-[6px] px-2 py-0 font-normal",
+                  "mb-4 h-6 px-2 py-0 font-normal",
                   theme.bg,
                   theme.text,
                 )}
@@ -48,7 +51,7 @@ const Guides = () => {
                   quality={100}
                   width={384}
                   height={192}
-                  className="h-96 w-full object-cover transition-transform duration-500 group-hover/item:scale-105 md:h-48"
+                  className="animate-fade-in h-96 w-full object-cover transition-transform duration-500 group-hover/item:scale-105 md:h-48"
                 />
               </div>
               <CardHeader className="gap-2 p-0 pt-4">
@@ -61,7 +64,7 @@ const Guides = () => {
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="text-xxs! group-hover/item:bg-background text-muted-foreground rounded-full font-normal transition-colors duration-300"
+                      className="text-xxs! bg-background text-muted-foreground rounded-full font-normal"
                     >
                       {tag}
                     </Badge>
@@ -71,9 +74,7 @@ const Guides = () => {
               <CardFooter className="mt-auto justify-between p-0 pt-2">
                 <ArrowLeftButton
                   variant="link"
-                  onClick={() => {
-                    route.push(`/herramientas/guias/${guide.id}`);
-                  }}
+                  onClick={() => route.push(`/herramientas/guias/${guide.id}`)}
                   className="text-foreground after:bg-primary hover:text-primary relative ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] md:text-xs [&_svg]:rotate-180 md:[&_svg]:size-3.5!"
                 >
                   Ver detalles

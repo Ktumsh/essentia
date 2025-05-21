@@ -20,7 +20,6 @@ import { Separator } from "@/components/kit/separator";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
-
 import type { Payment } from "@/db/schema";
 
 interface PaymentCallbackContentProps {
@@ -100,7 +99,7 @@ const PaymentCallbackContent = ({
   if (isVerified === null) {
     return (
       <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
+        <Card className="bg-muted flex flex-col items-center text-center md:flex-row">
           <CardHeader>
             <CardDescription className="text-foreground inline-flex items-center gap-2">
               <p>Verificando el estado del pago</p>
@@ -115,7 +114,7 @@ const PaymentCallbackContent = ({
   if (!isVerified) {
     return (
       <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center md:flex-row">
+        <Card className="bg-muted flex flex-col items-center md:flex-row">
           <CardHeader>
             <CardDescription className="text-foreground inline-flex flex-col items-center gap-4 md:flex-row">
               <BadgeAlert variant="error" className="mb-0" />
@@ -143,7 +142,7 @@ const PaymentCallbackContent = ({
   if (titleStatus === "canceled") {
     return (
       <div className="text-foreground mx-auto flex min-h-screen flex-col items-center justify-center space-y-6 p-6">
-        <Card className="bg-accent dark:bg-accent/50 flex flex-col items-center text-center md:flex-row">
+        <Card className="bg-muted flex flex-col items-center text-center md:flex-row">
           <CardHeader>
             <CardDescription className="inline-flex flex-col items-center gap-4 md:flex-row">
               <BadgeAlert variant="error" className="mb-0" />
@@ -156,7 +155,7 @@ const PaymentCallbackContent = ({
               className="bg-background"
               onClick={() => router.push("/")}
             >
-              Volver a Essentia
+              Volver al Panel Essentia
               <HomeIcon />
             </Button>
           </CardContent>
@@ -176,7 +175,7 @@ const PaymentCallbackContent = ({
       {message && <p className="mt-2! text-center text-sm">{message}</p>}
       {titleStatus === "success" && paymentDetails && (
         <div className="w-full max-w-lg">
-          <Card className="bg-accent dark:bg-accent/50">
+          <Card className="bg-muted">
             <CardHeader className="space-y-4">
               <CardTitle className="text-lg">Detalles del pago</CardTitle>
               <CardDescription className="flex flex-col space-y-6">
@@ -221,11 +220,8 @@ const PaymentCallbackContent = ({
           </Card>
         </div>
       )}
-      <SparklesButton
-        variant="gradient"
-        onClick={() => router.push("/essentia-ai")}
-      >
-        Comenzar ahora
+      <SparklesButton variant="gradient" onClick={() => router.push("/")}>
+        Comenzar
       </SparklesButton>
     </div>
   );

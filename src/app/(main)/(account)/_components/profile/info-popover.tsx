@@ -62,7 +62,6 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     title: "¿Por qué entregar instrucciones personalizadas?",
     content: [
       <>
-        Tus instrucciones ayudan a que{" "}
         <Link
           href="/soporte?q=Aeris"
           target="_blank"
@@ -71,9 +70,10 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
           Aeris
           <LinkIcon className="mb-1 ml-0.5 inline size-2" />
         </Link>{" "}
-        adapte sus respuestas a lo que tú realmente necesitas.
+        es tu asistente de salud. Estas instrucciones le permiten entender mejor
+        tu contexto, estilo de vida y preferencias, para entregarte orientación
+        más útil, cercana y personalizada.
       </>,
-      "Así podemos ofrecerte orientación más útil, cercana y alineada con tu estilo de vida.",
     ],
   },
   genre: {

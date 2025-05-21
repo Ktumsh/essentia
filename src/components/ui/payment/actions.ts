@@ -23,6 +23,14 @@ import {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
+type PlanType = "free" | "premium" | "premium-plus";
+
+const planRank: Record<PlanType, number> = {
+  free: 0,
+  premium: 1,
+  "premium-plus": 2,
+};
+
 export async function createSubscription({
   priceId,
 }: {
@@ -99,10 +107,11 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const currentPeriodEnd = stripeSub.current_period_end;
 
   const priceId = stripeSub.items.data[0].price.id;
+
   const planType =
     priceId === siteConfig.priceId.premium
       ? siteConfig.plan.premium
-      : siteConfig.plan.premiumPlus
+      : priceId === siteConfig.priceId.premiumPlus
         ? siteConfig.plan.premiumPlus
         : siteConfig.plan.free;
 
@@ -116,9 +125,29 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
     }
 
     const trial = await getUserTrialStatus(dbSub.userId);
-
     if (trial?.isActive) {
       await cancelUserTrial(dbSub.userId);
+    }
+
+    const currentPlan = (dbSub.type ?? "free") as PlanType;
+    const newPlan = planType as PlanType;
+
+    const currentPlanRank = planRank[currentPlan];
+    const newPlanRank = planRank[newPlan];
+
+    if (newPlanRank < currentPlanRank) {
+      console.log(
+        `Downgrade detectado (${dbSub.type} → ${planType}). No se actualiza la BD hasta el final del período.`,
+      );
+
+      await stripe.subscriptions.update(subscriptionId, {
+        cancel_at_period_end: true,
+        metadata: {
+          future_plan: planType,
+        },
+      });
+
+      return;
     }
 
     await updateSubscription(
@@ -126,16 +155,18 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
       subscriptionId,
       currentPeriodEnd,
       "active",
-      planType as "free" | "premium" | "premium-plus",
+      planType as PlanType,
     );
 
     const paymentStatus = "paid";
     const processedAt = new Date();
+
     const updatedRows = await updatePaymentDetails(
       dbSub.userId,
       paymentStatus,
       processedAt,
     );
+
     if (updatedRows === 0) {
       await setPaymentDetails(
         dbSub.userId,
@@ -181,12 +212,17 @@ export async function handleSubscriptionDeleted(
       return;
     }
 
+    const futurePlan = subscription.metadata?.future_plan as
+      | PlanType
+      | undefined;
+    const finalPlan = futurePlan ?? siteConfig.plan.free;
+
     await updateSubscription(
       dbSub.userId,
       null,
       null,
       "paused",
-      siteConfig.plan.free as "free",
+      finalPlan as PlanType,
       true,
     );
   } catch (error) {
@@ -220,12 +256,25 @@ export async function handleSubscriptionCreated(
       return;
     }
 
+    const currentPlan = (dbSub.type ?? "free") as PlanType;
+    const newPlan = planType as PlanType;
+
+    const currentPlanRank = planRank[currentPlan];
+    const newPlanRank = planRank[newPlan];
+
+    if (newPlanRank < currentPlanRank) {
+      console.log(
+        `Downgrade detectado (${currentPlan} → ${newPlan}) en creación. No se actualiza en la BD hasta el final del período.`,
+      );
+      return;
+    }
+
     await updateSubscription(
       dbSub.userId,
       subscriptionId,
       currentPeriodEnd,
       status,
-      planType as "free" | "premium" | "premium-plus",
+      newPlan,
     );
   } catch (error) {
     console.error(
@@ -261,12 +310,25 @@ export async function handleSubscriptionUpdated(
       return;
     }
 
+    const currentPlan = (dbSub.type ?? "free") as PlanType;
+    const newPlan = planType as PlanType;
+
+    const currentPlanRank = planRank[currentPlan];
+    const newPlanRank = planRank[newPlan];
+
+    if (newPlanRank < currentPlanRank) {
+      console.log(
+        `Downgrade detectado (${currentPlan} → ${newPlan}) en actualización. No se actualiza en la BD hasta la expiración.`,
+      );
+      return;
+    }
+
     await updateSubscription(
       dbSub.userId,
       subscriptionId,
       currentPeriodEnd,
       status,
-      planType as "free" | "premium" | "premium-plus",
+      newPlan,
     );
   } catch (error) {
     console.error(

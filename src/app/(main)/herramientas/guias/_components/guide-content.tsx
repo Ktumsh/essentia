@@ -1,13 +1,7 @@
-"use client";
-
 import { AlertTriangle, CheckCircle2, Lightbulb } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
 
 import { Markdown } from "@/components/markdown";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useParallax } from "@/hooks/use-parallax";
-import { useScrollRef } from "@/hooks/use-scroll-ref";
 import { cn } from "@/lib/utils";
 
 import type { Guide, GuideThemeColors } from "@/db/data/guide-data";
@@ -18,14 +12,6 @@ interface GuideContentProps {
 }
 
 const GuideContent = ({ guide, theme }: GuideContentProps) => {
-  const isMobile = useIsMobile();
-  const imageRef = useRef<HTMLImageElement>(null);
-  const scrollRef = useScrollRef();
-
-  useParallax(isMobile ? null : scrollRef, imageRef, {
-    factor: isMobile ? 100 : 300,
-  });
-
   return (
     <article className="@container/guide-content">
       <h2
@@ -59,20 +45,19 @@ const GuideContent = ({ guide, theme }: GuideContentProps) => {
           ))}
         </div>
       </div>
-      <div className="grid gap-4 @5xl/guide-content:grid-cols-2">
+      <div className="grid gap-4">
         <Markdown className="prose-sm md:prose! md:text-base!">
           {guide.content}
         </Markdown>
-        <section className="relative -order-1 h-72 overflow-hidden rounded-xl @5xl/guide-content:order-0 @5xl/guide-content:h-80">
-          <div className="absolute inset-0 z-0 flex items-center mask-b-from-70% mask-radial-from-60% @5xl/guide-content:mask-l-from-70%">
+        <section className="relative -order-1 h-72 overflow-hidden rounded-t-xl">
+          <div className="absolute inset-0 z-0 flex items-center mask-b-from-70%">
             <Image
-              ref={imageRef}
               priority
               src={guide.thumbnail}
               alt={`Imagen de la ${guide.title.toLowerCase()}`}
               width={1536}
               height={1024}
-              className="animate-fade-in w-full scale-150 object-cover object-center brightness-[0.85] transition-transform duration-500 [transition-timing-function:cubic-bezier(0,0,0,1)] will-change-transform"
+              className="animate-fade-in w-full object-cover object-center brightness-[0.85]"
             />
           </div>
         </section>

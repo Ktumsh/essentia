@@ -261,15 +261,16 @@ const EditProfileForm = ({
               render={({ field, fieldState }) => (
                 <FormItem>
                   <div className="inline-flex items-center gap-1.5">
-                    <FormLabel>Instrucciones personalizadas</FormLabel>
+                    <FormLabel>Instrucciones para Aeris</FormLabel>
+
                     <PopoverBioFormat />
                   </div>
                   <FormControl>
                     <Textarea
                       {...field}
-                      placeholder="Cuéntanos algo sobre ti"
+                      placeholder="¿Qué debería saber Aeris para ayudarte mejor?"
                       maxLength={2000}
-                      className="h-20 max-h-20 w-full resize-none text-sm"
+                      className="h-32 max-h-32 w-full resize-none text-sm"
                     />
                   </FormControl>
                   <p>

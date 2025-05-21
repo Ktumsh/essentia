@@ -73,7 +73,7 @@ export default function Guide({ guide }: GuideProps) {
   const readingTime = Math.ceil(guide.content.split(/\s+/).length / 180);
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-2xl">
       <ArrowLeftButton
         variant="ghost"
         size="sm"
@@ -110,12 +110,7 @@ export default function Guide({ guide }: GuideProps) {
         {!isMobile && (
           <div className="flex gap-4">
             <BetterTooltip content="Compartir">
-              <ShareButton
-                variant="ghost"
-                size="icon"
-                onClick={handleShare}
-                className="rounded-md"
-              >
+              <ShareButton variant="ghost" size="icon" onClick={handleShare}>
                 <span className="sr-only">
                   Compartir {guide.title} en redes sociales
                 </span>
@@ -159,6 +154,6 @@ export default function Guide({ guide }: GuideProps) {
         </ShareButton>
         <DownloadGuideButton guide={guide} full isHeader={isMobile} />
       </div>
-    </>
+    </div>
   );
 }

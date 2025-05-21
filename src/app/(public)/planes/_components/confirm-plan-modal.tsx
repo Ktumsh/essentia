@@ -22,7 +22,9 @@ import {
 } from "@/db/data/subscription-plan-data";
 import { startUserTrial } from "@/db/querys/user-querys";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { getClientIp, getPlanPrice } from "@/lib/utils";
+import { formatDate } from "@/utils/format";
 
 interface ConfirmPlanModalProps {
   plan: SubscriptionPlanType;
@@ -43,12 +45,15 @@ const ConfirmPlanModal = ({
   const [step, setStep] = useState<"trial" | "main">("main");
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUserProfile();
+  const { subscription, trial } = useUserSubscription();
 
-  const isTrialUsed = user?.trial?.hasUsed;
-  const isPremium = user?.isPremium;
+  const isTrialUsed = trial?.hasUsed;
+  const isPremium = subscription?.subscription.isPremium;
+  const isCurrentPremiumPlus = subscription?.plan?.id === "premium-plus";
+  const isChangingPlan =
+    isPremium && selectedPlan && subscription?.plan?.id !== selectedPlan;
 
-  const isPremiumOrPlus =
-    plan.name === "Premium" || plan.name === "Premium Plus";
+  const isPremiumOrPlus = plan.id === "premium" || plan.name === "premium-plus";
 
   const canOfferTrial = isPremiumOrPlus && !isTrialUsed && !isPremium;
 
@@ -110,7 +115,7 @@ const ConfirmPlanModal = ({
   const featuresToShow = useMemo(() => {
     if (step === "trial") {
       const base =
-        plan.name === "Premium Plus" && premiumPlan
+        plan.id === "premium-plus" && premiumPlan
           ? premiumPlan.features
           : plan.features;
 
@@ -121,7 +126,7 @@ const ConfirmPlanModal = ({
       );
     }
     return plan.features;
-  }, [step, plan.name, plan.features, premiumPlan]);
+  }, [step, plan.id, plan.features, premiumPlan]);
 
   const modalContent = {
     trial: {
@@ -134,9 +139,14 @@ const ConfirmPlanModal = ({
       buttonAction: handleStartTrial,
     },
     main: {
-      title: `Mejorar a ${planName}`,
+      title: isCurrentPremiumPlus
+        ? "Ya tienes el plan más completo 🎉"
+        : `Mejorar a ${planName}`,
       price: plan.amount,
-      description: plan.description,
+      description: isChangingPlan
+        ? "Este plan se activará automáticamente cuando finalice tu suscripción actual."
+        : plan.description,
+
       icon: <BadgeCheck className="size-5 text-yellow-400 md:size-6" />,
       buttonText: "Continuar con el pago",
       buttonAction: handleProceedToPayment,
@@ -198,6 +208,22 @@ const ConfirmPlanModal = ({
                   con respuesta rápida y el aumento en el límite de archivos
                   médicos, que se mantiene en 6 archivos activos como en el plan
                   básico.
+                </p>
+              )}
+              {isChangingPlan && step === "main" && (
+                <p className="text-muted-foreground px-5 text-xs">
+                  <strong className="text-secondary font-medium">
+                    Importante:
+                  </strong>{" "}
+                  El nuevo plan seleccionado se activará automáticamente una vez
+                  que termine tu plan actual (
+                  <span className="font-medium">
+                    {formatDate(
+                      subscription?.subscription.expiresAt as Date,
+                      "dd MMM yyyy",
+                    )}
+                  </span>
+                  ).
                 </p>
               )}
             </div>

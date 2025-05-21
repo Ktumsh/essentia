@@ -37,7 +37,17 @@ const BioModal = ({ isOpen, setIsOpen, bio }: BioModalProps) => {
     <div className="overflow-y-auto px-4 pt-4 md:my-4 md:px-6 md:pt-0">
       <div className="border-border border-l-3 py-4 pl-4">
         <QuoteLeftIcon className="text-border mb-4 size-8" />
-        <Markdown className="prose-sm md:prose md:text-base!">{bio}</Markdown>
+        {bio ? (
+          <Markdown className="prose-sm md:prose md:text-base!">{bio}</Markdown>
+        ) : (
+          <p className="text-foreground/80">
+            Aún no has entregado instrucciones personalizadas para{" "}
+            <strong className="text-foreground font-medium">Aeris</strong>, tu
+            asistente de salud. <br />
+            Completar esta información nos ayudará a brindarte una experiencia
+            más útil y adaptada a tus necesidades.
+          </p>
+        )}
       </div>
     </div>
   );
@@ -47,7 +57,7 @@ const BioModal = ({ isOpen, setIsOpen, bio }: BioModalProps) => {
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Información personalizada</DrawerTitle>
+            <DrawerTitle>Instrucciones para Aeris</DrawerTitle>
             <DrawerDescription className="sr-only">
               Información personalizada del usuario
             </DrawerDescription>
@@ -72,7 +82,7 @@ const BioModal = ({ isOpen, setIsOpen, bio }: BioModalProps) => {
       <DialogContent isSecondary>
         <DialogHeader isSecondary>
           <BadgeAlert variant="info" />
-          <DialogTitle>Información personalizada</DialogTitle>
+          <DialogTitle>Instrucciones para Aeris</DialogTitle>
           <DialogDescription className="sr-only">
             Información personalizada del usuario
           </DialogDescription>
