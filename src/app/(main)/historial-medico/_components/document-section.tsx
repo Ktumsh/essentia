@@ -24,7 +24,7 @@ interface DocumentSectionProps {
   onClickSelect: (e: React.MouseEvent, id: string, index: number) => void;
   onCheckboxToggle: (id: string, index: number) => void;
   onToggleSelectAll: () => void;
-  onPointerDown: (id: string, index: number) => void;
+  onPointerDown: (id: string, index: number, e: React.PointerEvent) => void;
   onPointerUp: (id: string, index: number) => void;
 }
 
@@ -67,7 +67,7 @@ const DocumentSection = ({
             setOpen={setOpen}
             selected={selectedDocs.includes(doc.id)}
             onToggleSelect={(e) => onClickSelect(e, doc.id, index)}
-            onPointerDown={() => onPointerDown(doc.id, index)}
+            onPointerDown={(e) => onPointerDown(doc.id, index, e)}
             onPointerUp={() => onPointerUp(doc.id, index)}
           />
         ))}

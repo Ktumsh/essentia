@@ -34,7 +34,7 @@ interface FolderItemProps {
   selected: boolean;
   onSelect: (e: React.MouseEvent) => void;
   onDoubleClick: () => void;
-  onPointerDown: () => void;
+  onPointerDown: (e: React.PointerEvent) => void;
   onPointerUp: () => void;
 }
 

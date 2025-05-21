@@ -79,7 +79,7 @@ const MedicalFolders = () => {
                 selected={selectedFolders.includes(folder.id)}
                 onSelect={(e) => handleSelect(e, folder.id, index)}
                 onDoubleClick={() => clearSelection()}
-                onPointerDown={() => handlePointerDown(folder.id, index)}
+                onPointerDown={(e) => handlePointerDown(folder.id, index, e)}
                 onPointerUp={() => handlePointerUp(folder.id, index)}
               />
             ))}

@@ -70,7 +70,7 @@ interface DocumentCardProps {
   setOpen: (open: boolean) => void;
   selected: boolean;
   onToggleSelect: (e: React.MouseEvent) => void;
-  onPointerDown: () => void;
+  onPointerDown: (e: React.PointerEvent) => void;
   onPointerUp: () => void;
 }
 

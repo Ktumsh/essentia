@@ -29,7 +29,7 @@ interface RecommendationSectionProps {
   onClickSelect: (e: React.MouseEvent, id: string, index: number) => void;
   onCheckboxToggle: (id: string, index: number) => void;
   onToggleSelectAll: () => void;
-  onPointerDown: (id: string, index: number) => void;
+  onPointerDown: (id: string, index: number, e: React.PointerEvent) => void;
   onPointerUp: (id: string, index: number) => void;
 }
 
@@ -159,7 +159,7 @@ const RecommendationSection = ({
               setOpen={setOpen}
               selected={selectedRecom.includes(rec.id)}
               onToggleSelect={(e) => onClickSelect(e, rec.id, index)}
-              onPointerDown={() => onPointerDown(rec.id, index)}
+              onPointerDown={(e) => onPointerDown(rec.id, index, e)}
               onPointerUp={() => onPointerUp(rec.id, index)}
             />
           ))}
