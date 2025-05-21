@@ -97,15 +97,29 @@ const ConfirmPlanModal = ({
 
     setIsLoading(true);
     try {
-      const subscriptionResponse = await createSubscription({
+      const { checkoutUrl, downgraded } = await createSubscription({
         priceId: getPlanPrice(selectedPlan),
       });
-      router.push(subscriptionResponse.checkoutUrl);
+
+      if (downgraded) {
+        toast.success(
+          "El cambio de plan se aplicará al finalizar el período actual",
+        );
+        setIsOpen(false);
+        return;
+      }
+
+      if (checkoutUrl) {
+        router.push(checkoutUrl);
+      } else {
+        toast.error("No se pudo generar el enlace de pago");
+      }
     } catch {
       toast.error("Hubo un error creando tu suscripción");
+    } finally {
       setIsLoading(false);
     }
-  }, [selectedPlan, router]);
+  }, [selectedPlan, router, setIsOpen]);
 
   const premiumPlan = useMemo(
     () => SUBSCRIPTION_PLAN_DATA.find((p) => p.name === "Premium"),

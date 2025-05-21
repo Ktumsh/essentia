@@ -36,7 +36,7 @@ export async function createSubscription({
   priceId,
 }: {
   priceId: string;
-}): Promise<{ checkoutUrl: string }> {
+}): Promise<{ checkoutUrl: string | null; downgraded?: boolean }> {
   const session = await auth();
   const [user] = await getUserById(session?.user?.id as string);
   if (!user) throw new Error("Usuario no encontrado.");
@@ -75,9 +75,10 @@ export async function createSubscription({
       console.log(
         `Downgrade programado. Plan actual (${currentPlanType}) se cancelará al final del período.`,
       );
-      throw new Error(
-        "El cambio de plan se aplicará al final del período actual.",
-      );
+      return {
+        checkoutUrl: null,
+        downgraded: true,
+      };
     }
 
     if (existingSubscription?.subscriptionId) {
