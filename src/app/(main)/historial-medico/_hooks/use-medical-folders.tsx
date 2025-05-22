@@ -54,6 +54,7 @@ interface MedicalFoldersContextType {
     documentIds: string[];
   }) => Promise<void>;
   handleMoveDocuments: (folderId: string, selectedDocuments: string[]) => void;
+  isLoading: boolean;
   isSubmitting: boolean;
 }
 
@@ -79,10 +80,11 @@ export const MedicalFoldersProvider = ({
   userId: string;
 }) => {
   const router = useRouter();
-  const { data: folders = [], mutate } = useSWR<Folder[]>(
-    "/api/medical-folders",
-    fetcher,
-  );
+  const {
+    data: folders = [],
+    mutate,
+    isLoading,
+  } = useSWR<Folder[]>("/api/medical-folders", fetcher);
 
   const { mutate: mutateActivity } = useSWRConfig();
 
@@ -325,6 +327,7 @@ export const MedicalFoldersProvider = ({
       handleDeleteFolders,
       handleDeleteDocumentsFromFolder,
       handleMoveDocuments,
+      isLoading,
       isSubmitting,
     }),
     [
@@ -340,6 +343,7 @@ export const MedicalFoldersProvider = ({
       handleDeleteFolders,
       handleDeleteDocumentsFromFolder,
       handleMoveDocuments,
+      isLoading,
       isSubmitting,
     ],
   );

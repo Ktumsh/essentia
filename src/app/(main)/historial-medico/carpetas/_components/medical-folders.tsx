@@ -3,6 +3,7 @@
 import { useUserProfile } from "@/hooks/use-user-profile";
 
 import FolderItem from "./folder-item";
+import FolderLoading from "./folder-loading";
 import FolderSectionHeader from "./folder-section-header";
 import RenameFolderForm from "./rename-folder-form";
 import MultiDeleteAlert from "../../_components/multi-delete-alert";
@@ -25,6 +26,7 @@ const MedicalFolders = () => {
     setEditingFolder,
     renamingFolder,
     setRenamingFolder,
+    isLoading,
     isSubmitting,
   } = useMedicalFolders();
 
@@ -56,7 +58,9 @@ const MedicalFolders = () => {
       />
 
       <div className="mt-3">
-        {folders?.length === 0 ? (
+        {isLoading ? (
+          <FolderLoading />
+        ) : folders?.length === 0 ? (
           <div className="mt-3 flex h-20 items-center justify-center rounded-xl border border-dashed">
             <p className="text-muted-foreground text-sm">
               Aún no tienes carpetas creadas

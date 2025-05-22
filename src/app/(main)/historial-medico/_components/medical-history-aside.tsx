@@ -6,7 +6,8 @@ import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/lib/utils";
 
 import ActivityPreview from "./activity-preview";
-import StorageAndAIIndicator from "./storage-limit-indicator";
+import ActivityPreviewLoading from "./activity-preview-loading";
+import StorageLimitIndicator from "./storage-limit-indicator";
 import StorageLimitLoading from "./storage-limit-loading";
 import useAIUsage from "../_hooks/use-ai-usage";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
@@ -17,8 +18,13 @@ const MedicalHistoryAside = () => {
   const isPremium = subscription?.plan?.id === "premium";
   const isPremiumPlus = subscription?.plan?.id === "premium-plus";
 
-  const { medicalHistory, activities, hasNewActivity, loading } =
-    useMedicalHistoryLogic();
+  const {
+    medicalHistory,
+    activities,
+    hasNewActivity,
+    loading,
+    activitiesLoading,
+  } = useMedicalHistoryLogic();
 
   const { aiUsage } = useAIUsage();
 
@@ -50,17 +56,21 @@ const MedicalHistoryAside = () => {
           {loading ? (
             <StorageLimitLoading />
           ) : (
-            <StorageAndAIIndicator
+            <StorageLimitIndicator
               totalDocuments={medicalHistory.length}
               totalRecommendations={aiUsage}
             />
           )}
 
-          <ActivityPreview
-            activities={activities}
-            hasNewActivity={hasNewActivity}
-            onViewAll={() => openDialog("isActivityFullViewOpen")}
-          />
+          {activitiesLoading ? (
+            <ActivityPreviewLoading />
+          ) : (
+            <ActivityPreview
+              activities={activities}
+              hasNewActivity={hasNewActivity}
+              onViewAll={() => openDialog("isActivityFullViewOpen")}
+            />
+          )}
         </CardContent>
       </Card>
     </section>

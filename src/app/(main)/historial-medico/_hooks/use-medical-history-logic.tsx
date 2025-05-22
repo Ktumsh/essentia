@@ -40,9 +40,11 @@ export function useMedicalHistoryLogic() {
     isLoading: isHistoryLoading,
     mutate: mutateHistory,
   } = useSWR<MedicalHistoryWithTags[]>("/api/medical-history", fetcher);
-  const { data: activities = [], mutate: mutateActivities } = useSWR<
-    MedicalHistoryActivity[]
-  >("/api/medical-activity", fetcher);
+  const {
+    data: activities = [],
+    mutate: mutateActivities,
+    isLoading: activitiesLoading,
+  } = useSWR<MedicalHistoryActivity[]>("/api/medical-activity", fetcher);
   const {
     data: savedRecommendations = [],
     isLoading: isRecommendationsLoading,
@@ -293,6 +295,7 @@ export function useMedicalHistoryLogic() {
 
     isSubmitting,
     loading,
+    activitiesLoading,
 
     handleCreate,
     handleUpdate,

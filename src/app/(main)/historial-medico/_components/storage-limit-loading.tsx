@@ -2,34 +2,40 @@
 
 import { Card, CardContent } from "@/components/kit/card";
 import { Skeleton } from "@/components/kit/skeleton";
-import { cn } from "@/lib/utils";
 
-const StorageLimitLoading = ({ className }: { className?: string }) => {
+const StorageLimitLoading = () => {
   return (
-    <Card className={cn("bg-primary/5 mt-3", className)}>
-      <CardContent className="space-y-4 p-4">
+    <Card className="bg-primary/5 mt-3">
+      <CardContent className="space-y-3 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Skeleton className="h-5 w-5 rounded-full" />
-            <Skeleton className="h-4 w-40" />
+            <Skeleton className="bg-alternative/50 size-5 rounded-full" />
+            <Skeleton className="bg-alternative/50 h-5 w-32 rounded" />
           </div>
-          <Skeleton className="h-5 w-24 rounded-full" />
+          <Skeleton className="bg-alternative/50 h-5 w-10 rounded-full" />
         </div>
 
         <div className="flex justify-between text-sm">
-          <Skeleton className="h-3 w-24" />
-          <Skeleton className="h-3 w-16" />
+          <Skeleton className="bg-alternative/50 h-3 w-32 rounded" />
+          <Skeleton className="bg-alternative/50 h-3 w-20 rounded" />
         </div>
 
-        <Skeleton className="dark:from-accent dark:to-alternative h-1.5 w-full rounded-full" />
+        <Skeleton className="bg-alternative/50 h-2 w-full rounded-full" />
 
-        <Skeleton className="mt-3 flex items-start gap-2 rounded-md p-2">
-          <div className="h-4 w-4 rounded-full" />
-          <div className="flex flex-col gap-1">
-            <div className="h-4 w-64" />
-            <div className="h-3 w-48" />
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center gap-2">
+            <Skeleton className="bg-alternative/50 size-5 rounded-full" />
+            <Skeleton className="bg-alternative/50 h-5 w-36 rounded" />
           </div>
-        </Skeleton>
+          <Skeleton className="bg-alternative/50 h-5 w-10 rounded-full" />
+        </div>
+
+        <div className="flex justify-between text-sm">
+          <Skeleton className="bg-alternative/50 h-3 w-32 rounded" />
+          <Skeleton className="bg-alternative/50 h-3 w-20 rounded" />
+        </div>
+
+        <Skeleton className="bg-alternative/50 h-2 w-full rounded-full" />
       </CardContent>
     </Card>
   );

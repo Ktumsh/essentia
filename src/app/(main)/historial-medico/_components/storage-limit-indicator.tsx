@@ -10,15 +10,15 @@ import { cn } from "@/lib/utils";
 
 import { getPlanLimitMessage } from "../_lib/utils";
 
-interface Props {
+interface StorageLimitIndicatorProps {
   totalDocuments: number;
   totalRecommendations: number;
 }
 
-const StorageAndAIIndicator = ({
+const StorageLimitIndicator = ({
   totalDocuments,
   totalRecommendations,
-}: Props) => {
+}: StorageLimitIndicatorProps) => {
   const { subscription, trial } = useUserSubscription();
 
   const isPremium = subscription?.subscription.isPremium;
@@ -161,4 +161,4 @@ const StorageAndAIIndicator = ({
   );
 };
 
-export default StorageAndAIIndicator;
+export default StorageLimitIndicator;

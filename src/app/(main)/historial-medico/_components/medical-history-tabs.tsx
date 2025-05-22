@@ -18,15 +18,15 @@ import { cn } from "@/lib/utils";
 
 import DocumentEmptyState from "./document-empty-state";
 import DocumentFilters from "./document-filters";
+import DocumentLoading from "./document-loading";
 import DocumentSection from "./document-section";
-import MedicalHistoryLoading from "./medical-history-loading";
 import MoveDocumentsDialog from "./move-documents-dialog";
 import MultiDeleteAlert from "./multi-delete-alert";
 import NewOptions from "./new-options";
 import RecommendationEmptyState from "./recommendation-empty-state";
 import RecommendationFilters from "./recommendation-filters";
+import RecommendationLoading from "./recommendation-loading";
 import RecommendationSection from "./recommendation-section";
-import SavedRecommendationsLoading from "./saved-recommendations-loading";
 import SelectionHeader from "./section-header";
 import ViewModeToggle from "./view-mode-toggle";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
@@ -314,7 +314,7 @@ const MedicalHistoryTabs = () => {
 
           <TabsContent value="documents" className="@container/list">
             {loading ? (
-              <MedicalHistoryLoading viewMode={isMobile ? "grid" : viewMode} />
+              <DocumentLoading viewMode={isMobile ? "grid" : viewMode} />
             ) : docs.length === 0 ? (
               <DocumentEmptyState
                 hasFilters={
@@ -401,9 +401,7 @@ const MedicalHistoryTabs = () => {
                 </CardContent>
               </Card>
             ) : loading ? (
-              <SavedRecommendationsLoading
-                viewMode={isMobile ? "grid" : viewMode}
-              />
+              <RecommendationLoading viewMode={isMobile ? "grid" : viewMode} />
             ) : filteredRecommendations.length === 0 ? (
               <RecommendationEmptyState
                 searchTerm={recomSearchTerm}
