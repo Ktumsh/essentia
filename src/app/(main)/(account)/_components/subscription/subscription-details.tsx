@@ -156,13 +156,18 @@ const SubscriptionDetails = () => {
               </div>
             )}
 
-            {futureType && (
+            {futureType && !isCanceled && (
               <div className="mt-4 space-y-1 text-sm text-yellow-600 dark:text-yellow-400">
                 <p>
                   Tienes un cambio de plan programado a{" "}
-                  <strong>{getPlanType(futureType)}</strong>. Este se aplicará
-                  automáticamente al finalizar tu periodo actual, el{" "}
-                  <strong>{formatDate(expiresAt!, "d 'de' MMMM, yyyy")}</strong>
+                  <strong className="font-semibold">
+                    {getPlanType(futureType)}
+                  </strong>
+                  . Este se aplicará automáticamente al finalizar tu periodo
+                  actual, el{" "}
+                  <strong className="font-semibold">
+                    {formatDate(expiresAt!, "d 'de' MMMM, yyyy")}
+                  </strong>
                   .
                 </p>
               </div>

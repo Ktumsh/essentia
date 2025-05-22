@@ -75,7 +75,7 @@ const SubscriptionsStg = ({
   const isMobile = useIsMobile();
 
   const { amount, currency } = payment || {};
-  const { type, expiresAt, status, isPremium } = subscription || {};
+  const { type, expiresAt, status, isPremium, futureType } = subscription || {};
 
   const planType = getPlanType(type!);
 
@@ -228,6 +228,22 @@ const SubscriptionsStg = ({
                 <p>
                   Si deseas reactivar tu plan, puedes hacerlo una vez haya
                   finalizado.
+                </p>
+              </div>
+            )}
+            {futureType && !isCanceled && (
+              <div className="mt-4 space-y-1 px-6 text-sm text-yellow-600 md:px-0 dark:text-yellow-400">
+                <p>
+                  Tienes un cambio de plan programado a{" "}
+                  <strong className="font-semibold">
+                    {getPlanType(futureType)}
+                  </strong>
+                  . Este se aplicará automáticamente al finalizar tu periodo
+                  actual, el{" "}
+                  <strong className="font-semibold">
+                    {formatDate(expiresAt!, "d 'de' MMMM, yyyy")}
+                  </strong>
+                  .
                 </p>
               </div>
             )}

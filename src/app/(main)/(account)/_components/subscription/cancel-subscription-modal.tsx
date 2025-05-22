@@ -1,7 +1,6 @@
 "use client";
 
 import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -50,7 +49,6 @@ const CancelSubscriptionModal = ({
   payment,
   subscription,
 }: CancelSubscriptionModalProps) => {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const { data: session } = useSession();
   const [cancelReason, setCancelReason] = useState<string>("");
@@ -91,7 +89,7 @@ const CancelSubscriptionModal = ({
         }
 
         toast.success(result.message);
-        router.refresh();
+        window.location.reload();
         setIsOpen(false);
       });
     } catch (error) {
