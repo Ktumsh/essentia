@@ -1,7 +1,10 @@
 import {
   AdditionalFillIcon,
   AIFillIcon,
+  DumbbellFillIcon,
+  HandHeartFillIcon,
   HealthCentersFillIcon,
+  WellbeingFillIcon,
 } from "@/components/icons/interface";
 import { FruitIcon, HeartbeatIcon } from "@/components/icons/miscellaneus";
 import { CLOUDINARY_BASE_URL } from "@/lib/consts";
@@ -20,7 +23,7 @@ export const MAIN_HERO_DATA = [
     description:
       "Crea planes nutricionales personalizados, diseña rutinas diarias, recibe recomendaciones de actividades de bienestar y utiliza nuestro seguidor de ánimo. ¡Descubre lo que podemos hacer por ti!",
     link: "/essentia-ai",
-    image: `${BASE_URL}/cap-01`,
+    image: `${BASE_URL}/m-01`,
     icon: AIFillIcon,
     requiresPremium: false,
   },
@@ -30,7 +33,7 @@ export const MAIN_HERO_DATA = [
     description:
       "Genera un plan adaptado a tus necesidades y objetivos gracias a nuestra tecnología avanzada. ¡Empieza hoy mismo!",
     link: `/essentia-ai?search=${encodeURIComponent(nutritionalPlan)}`,
-    image: `${BASE_URL}/cap-02`,
+    image: `${BASE_URL}/m-02`,
     icon: FruitIcon,
     requiresPremium: true,
   },
@@ -40,7 +43,7 @@ export const MAIN_HERO_DATA = [
     description:
       "Obtén un análisis detallado de tus riesgos de salud con recomendaciones específicas para mejorar tu bienestar.",
     link: `/essentia-ai?search=${encodeURIComponent(healthRisk)}`,
-    image: `${BASE_URL}/cap-03`,
+    image: `${BASE_URL}/m-03`,
     icon: HeartbeatIcon,
     requiresPremium: true,
   },
@@ -50,7 +53,7 @@ export const MAIN_HERO_DATA = [
     description:
       "Ubica fácilmente centros de salud cercanos con nuestra herramienta práctica y rápida.",
     link: "/centros-de-salud",
-    image: `${BASE_URL}/cap-04`,
+    image: `${BASE_URL}/m-04`,
     icon: HealthCentersFillIcon,
     requiresPremium: false,
   },
@@ -60,8 +63,8 @@ export const MAIN_HERO_DATA = [
     description:
       "Encuentra recursos y herramientas para cuidar tu salud mental, mejorar tu estado de ánimo y enfrentar los desafíos diarios.",
     link: "/bienestar-emocional",
-    image: `${BASE_URL}/cap-05`,
-    icon: HeartbeatIcon,
+    image: `${BASE_URL}/m-05`,
+    icon: WellbeingFillIcon,
     requiresPremium: false,
   },
   {
@@ -70,9 +73,29 @@ export const MAIN_HERO_DATA = [
     description:
       "Explora guías, recomendaciones y herramientas gratuitas diseñadas para mejorar tu bienestar.",
     link: "/herramientas",
-    image: `${BASE_URL}/cap-06`,
+    image: `${BASE_URL}/m-06`,
     icon: AdditionalFillIcon,
     requiresPremium: false,
+  },
+  {
+    id: 7,
+    title: "Crea una rutina diaria a tu medida",
+    description:
+      "Organiza tu día con una rutina personalizada que combine hábitos saludables, ejercicios y momentos de descanso.",
+    link: `/essentia-ai?search=${encodeURIComponent("Crear rutina diaria personalizada")}`,
+    image: `${BASE_URL}/m-07`,
+    icon: DumbbellFillIcon,
+    requiresPremium: true,
+  },
+  {
+    id: 8,
+    title: "Mejora tu estado de ánimo con IA",
+    description:
+      "Recibe sugerencias personalizadas según tu historial emocional para sentirte mejor día a día.",
+    link: `/essentia-ai?search=${encodeURIComponent("Actividades para mejorar mi ánimo")}`,
+    image: `${BASE_URL}/m-08`,
+    icon: HandHeartFillIcon,
+    requiresPremium: true,
   },
 ];
 

@@ -183,6 +183,20 @@ export async function getSubscriptionType(userId: string): Promise<{
   }
 }
 
+export async function deletePendingPayment(userId: string): Promise<number> {
+  try {
+    const result = await db
+      .delete(payment)
+      .where(and(eq(payment.userId, userId), eq(payment.status, "pending")))
+      .returning();
+
+    return result.length;
+  } catch (error) {
+    console.error("Error al eliminar pagos pendientes:", error);
+    throw error;
+  }
+}
+
 export async function getSubscriptionsByClientId(
   clientId: string,
 ): Promise<Array<Subscription>> {
@@ -286,6 +300,7 @@ export async function updatePaymentDetails(
     throw error;
   }
 }
+
 export async function getPaymentDetails(
   userId: string,
 ): Promise<Array<Payment>> {

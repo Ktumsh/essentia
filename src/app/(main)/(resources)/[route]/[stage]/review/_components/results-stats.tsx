@@ -22,7 +22,7 @@ const StatCard = ({
 }: StatCardProps) => (
   <Card
     className={cn(
-      "hover:shadow-pretty transition-all duration-300 hover:translate-y-[-2px]",
+      "hover:shadow-pretty border transition-all duration-300 hover:-translate-y-0.5",
       `border-${color}-200`,
       `dark:border-${color}-900/50`,
     )}

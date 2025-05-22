@@ -37,7 +37,9 @@ import { startUserTrial } from "@/db/querys/user-querys";
 import { usePlan } from "@/hooks/use-current-plan";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn, getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
+import { formatDate } from "@/utils/format";
 
 import { createSubscription } from "./actions";
 import { PlanSelector } from "./plan-selector";
@@ -73,6 +75,8 @@ const PaymentModal = ({
 
   const { user } = useUserProfile();
 
+  const { subscription } = useUserSubscription();
+
   const [selectedPlan, setSelectedPlan] = useState<string>(
     featureType === "upgrade-plan"
       ? siteConfig.plan.premiumPlus
@@ -80,6 +84,10 @@ const PaymentModal = ({
         ? siteConfig.plan.premium
         : currentPlan || siteConfig.plan.free,
   );
+
+  const isPremium = subscription?.subscription.isPremium;
+  const isChangingPlan =
+    isPremium && selectedPlan && subscription?.plan?.id !== selectedPlan;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFree = selectedPlan === siteConfig.plan.free;
@@ -368,6 +376,22 @@ const PaymentModal = ({
               </div>
               <DialogFooter isSecondary>
                 <div className="w-full space-y-3">
+                  {isChangingPlan && step === "main" && (
+                    <p className="text-muted-foreground text-xs">
+                      <strong className="text-secondary font-medium">
+                        Importante:
+                      </strong>{" "}
+                      El nuevo plan seleccionado se activará automáticamente una
+                      vez que termine tu plan actual (
+                      <span className="font-medium">
+                        {formatDate(
+                          subscription?.subscription.expiresAt as Date,
+                          "dd MMM yyyy",
+                        )}
+                      </span>
+                      ).
+                    </p>
+                  )}
                   <UpgradeButton
                     size="lg"
                     variant="gradient"
@@ -382,6 +406,7 @@ const PaymentModal = ({
                           featureType === "upgrade-plan" ||
                           selectedPlan === siteConfig.plan.premiumPlus,
                       },
+                      isChangingPlan && "[&>svg]:rotate-180",
                     )}
                   >
                     {isLoading ? (
@@ -390,7 +415,7 @@ const PaymentModal = ({
                       "Plan Actual"
                     ) : (
                       <>
-                        {isFree ? "Degradar a" : "Mejorar a"}{" "}
+                        {isChangingPlan ? "Cambiar a" : "Mejorar a"}{" "}
                         {getPlanName(selectedPlan)}
                       </>
                     )}

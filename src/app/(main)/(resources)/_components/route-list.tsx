@@ -33,10 +33,10 @@ import {
   getRouteIndex,
 } from "@/lib/utils";
 
-import ChapterList from "./chapter-list";
 import InitializeRouteAlert from "./initialize-route-alert";
 import RouteInfoPanel from "./route-info-panel";
 import SectionTitle from "./section-title";
+import StageList from "./stage-list";
 import { useRouteProgress } from "../_hooks/use-route-progress";
 import { getEstimatedReviewTime } from "../_lib/utils";
 
@@ -179,7 +179,7 @@ const RouteList = ({
               <span>{lessons} lecciones</span>
             </div>
           </div>
-          <ChapterList
+          <StageList
             routeIndex={routeIndex}
             stages={stages}
             routeSlug={slug}
@@ -284,7 +284,7 @@ const RouteList = ({
           </Card>
           {routeInitialized && (
             <div className="px-6 lg:px-0">
-              <Card className="mt-5">
+              <Card className="bg-muted mt-5">
                 <CardHeader isSecondary className="space-y-4">
                   <CardTitle className="text-lg">
                     Tu progreso de la ruta
@@ -342,10 +342,12 @@ const RouteList = ({
                 if (availableReviews.length === 0) return null;
 
                 return (
-                  <Card className="border-indigo-200 dark:border-indigo-900">
+                  <Card className="border border-dashed border-indigo-200 dark:border-indigo-900">
                     <CardHeader className="pb-2">
                       <CardTitle className="flex items-center gap-2 text-base font-semibold md:text-lg">
-                        <Award className="size-5 shrink-0 text-yellow-500" />
+                        <div className="grid place-content-center rounded-full bg-amber-100 p-2 dark:bg-amber-900/50">
+                          <Award className="size-4 shrink-0 text-amber-500" />
+                        </div>
                         Revisiones prácticas disponibles
                       </CardTitle>
                       <CardDescription className="text-xs md:text-sm">

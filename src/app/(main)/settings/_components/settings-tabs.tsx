@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 import AccesibilityStg from "./accesibility-stg";
 import AccountStg from "./account-stg";
 import NotificationsStg from "./notifications-stg";
-import SettingsOptsHeader from "./settings-opts-header";
 import SubscriptionsStg from "./subscriptions-stg";
 
 import type { PaymentHistory, UserProfileData } from "@/lib/types";
@@ -61,15 +60,15 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
       orientation="vertical"
       value={tabValue}
       className={cn(
-        "inset-y-0 flex h-full gap-0 md:min-h-[calc(100dvh-88px)]",
+        "inset-y-0 flex h-full gap-0 md:min-h-[calc(100dvh-72px)]",
         {
           "md:min-h-[calc(100dvh-124px)]": !isDismissed,
         },
       )}
     >
-      <TabsList className="border-border dark:bg-accent/50 max-w-xs flex-1 shrink-0 rounded-none bg-slate-50 p-0 px-6 md:pb-6">
+      <TabsList className="bg-muted max-w-xs flex-1 shrink-0 rounded-none p-0 px-6 md:pb-6">
         <div className="w-full pt-8 pb-4">
-          <h1 className="text-foreground text-xl leading-none font-semibold tracking-tight">
+          <h1 className="font-merriweather text-foreground text-xl font-semibold">
             Configuración
           </h1>
         </div>
@@ -78,7 +77,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
             <TabsTrigger
               asChild
               value="/settings/account-profile"
-              className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
+              className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:border"
             >
               <Link href="/settings/account-profile">
                 <span>Cuenta y perfil</span>
@@ -88,7 +87,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
             <TabsTrigger
               asChild
               value="/settings/subscriptions"
-              className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
+              className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:border"
             >
               <Link href="/settings/subscriptions">
                 <span>Suscripciones</span>
@@ -100,7 +99,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
         <TabsTrigger
           asChild
           value="/settings/accesibility"
-          className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
+          className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:border"
         >
           <Link href="/settings/accesibility">
             <span>Accesibilidad y pantalla</span>
@@ -111,7 +110,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
           <TabsTrigger
             asChild
             value="/settings/notifications"
-            className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:shadow-xs"
+            className="text-foreground/80 data-[state=active]:bg-background h-10 w-full justify-between rounded-lg px-4 data-[state=active]:border"
           >
             <Link href="/settings/notifications">
               <span>Notificaciones y recordatorios</span>
@@ -119,16 +118,6 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
             </Link>
           </TabsTrigger>
         )}
-        {/* <TabsTrigger
-            asChild
-            value="/settings/support"
-            className="h-10 justify-between! px-4 data-[state=active]:bg-slate-100 data-[state=active]:shadow-none rounded-lg dark:data-[statexsive]:bg-dark"
-          >
-            <Link href="/settings/support">
-              <span>Soporte</span>
-              <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
-            </Link>
-          </TabsTrigger> */}
       </TabsList>
       <TabsContent
         value="/settings/account-profile"
@@ -157,12 +146,6 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
         className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
         <NotificationsStg />
-      </TabsContent>
-      <TabsContent
-        value="/settings/support"
-        className="bg-background flex-1 px-6 pb-16 md:pb-6"
-      >
-        <SettingsOptsHeader title="Soporte" />
       </TabsContent>
     </Tabs>
   );

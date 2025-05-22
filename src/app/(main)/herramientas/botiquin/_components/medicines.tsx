@@ -35,7 +35,7 @@ const Medicines = () => {
           <BriefcaseMedical className="size-5 text-blue-600 dark:text-blue-400" />
         }
       />
-      <Card className="rounded-tl-none border-l-4 border-blue-200 border-l-blue-500! p-4 pt-0 md:p-6 dark:border-blue-900/50">
+      <Card className="rounded-tl-none border border-l-4 border-blue-200 border-l-blue-500! p-4 pt-0 md:p-6 dark:border-blue-900/50">
         <Accordion type="multiple" className="w-full space-y-2">
           {MEDICINE_DATA.map((category, index) => {
             const theme =

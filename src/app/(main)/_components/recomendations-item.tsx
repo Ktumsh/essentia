@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
 
 import { Card, CardHeader } from "@/components/kit/card";
 import { cn, getItemBackgroundColor } from "@/lib/utils";
@@ -18,44 +17,18 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
   const { id, link, title, description, image, icon: Icon } = props.item;
   const { index } = props;
 
-  const imageWidth = useMemo(() => {
-    if (index % 2 === 0 && index !== 3) {
-      return 661;
-    } else if (index === 3) {
-      return 640;
-    } else {
-      return 435;
-    }
-  }, [index]);
-
-  const imageHeight = useMemo(() => {
-    if (index === 0) {
-      return 372;
-    } else if (index === 1) {
-      return 290;
-    } else if (index === 2) {
-      return 317;
-    } else if (index === 3) {
-      return 360;
-    } else if (index === 5) {
-      return 249;
-    } else {
-      return 330;
-    }
-  }, [index]);
-
   return (
     <Card className="group max-h-52 min-h-52 overflow-hidden rounded-2xl border-0 bg-transparent! select-none">
-      {image && (
+      <div className="absolute inset-0 flex items-center justify-center">
         <Image
           priority={index < 2}
           src={image}
           alt={title}
-          width={imageWidth}
-          height={imageHeight}
-          className="absolute inset-0 aspect-auto h-full w-full object-cover object-center brightness-75 xl:h-auto"
+          width={index % 2 ? 435 : 661}
+          height={372}
+          className="aspect-auto h-auto w-full object-cover object-center brightness-75"
         />
-      )}
+      </div>
       <div
         aria-hidden
         className="absolute inset-0 rounded-2xl bg-blue-950/30 transition duration-500 group-hover:backdrop-blur-xs"
@@ -63,7 +36,7 @@ const RecomendationsItem = (props: RecomendationsItemProps) => {
       <CardHeader className="relative pb-0">
         <div
           className={cn(
-            "flex size-10 items-center justify-center rounded-lg",
+            "mask mask-squircle flex size-10 items-center justify-center",
             getItemBackgroundColor(id),
           )}
         >

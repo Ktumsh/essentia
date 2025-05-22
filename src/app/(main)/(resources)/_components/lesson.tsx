@@ -26,8 +26,8 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, getRouteColor, getRouteDetails, getRouteIndex } from "@/lib/utils";
 
-import ChapterList from "./chapter-list";
 import RouteBadge from "./route-badge";
+import ChapterList from "./stage-list";
 
 import type { Lesson } from "@/db/schema";
 import type { Stages } from "@/lib/types";
@@ -293,15 +293,17 @@ const Lesson = ({
       <section className="relative space-y-5 pt-5 lg:lg:col-[1/2] lg:row-[1/2]">
         <div className="relative flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-4">
           <div className="inline-flex items-center gap-2">
-            <Button
-              size="icon"
-              radius="full"
-              variant="ghost"
-              className="text-muted-foreground -ml-2 shrink-0 self-start"
-              onClick={() => router.push(`/${routeSlug}`)}
-            >
-              <ArrowLeft className="size-5!" />
-            </Button>
+            <BetterTooltip content="Volver a la ruta">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="text-muted-foreground -ml-2 shrink-0 self-start"
+                onClick={() => router.push(`/${routeSlug}`)}
+              >
+                <span className="sr-only">Volver a la ruta</span>
+                <ArrowLeft />
+              </Button>
+            </BetterTooltip>
             <h1 className="font-merriweather text-xl font-bold md:text-2xl">
               {lesson.title}{" "}
               {lesson.title.includes("Introducción a la ruta") &&

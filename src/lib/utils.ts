@@ -139,9 +139,11 @@ export const getItemBackgroundColor = (id: number): string => {
     1: "bg-amber-400",
     2: "bg-red-500",
     3: "bg-indigo-500",
-    4: "bg-lime-500",
+    4: "bg-emerald-500",
     5: "bg-blue-500",
     6: "bg-pink-500",
+    7: "bg-lime-500",
+    8: "bg-fuchsia-500",
   };
 
   return colorMap[id];
@@ -187,12 +189,12 @@ export const getRouteColor = (
       5: "from-lime-600 to-lime-500",
     },
     background: {
-      0: "bg-emerald-100 dark:bg-emerald-950",
-      1: "bg-fuchsia-100 dark:bg-fuchsia-950",
-      2: "bg-yellow-100 dark:bg-yellow-950",
-      3: "bg-blue-100 dark:bg-blue-950",
-      4: "bg-rose-100 dark:bg-rose-950",
-      5: "bg-lime-100 dark:bg-lime-950",
+      0: "bg-emerald-200 dark:bg-emerald-900/50",
+      1: "bg-fuchsia-200 dark:bg-fuchsia-900/50",
+      2: "bg-yellow-200 dark:bg-yellow-900/50",
+      3: "bg-blue-200 dark:bg-blue-900/50",
+      4: "bg-rose-200 dark:bg-rose-900/50",
+      5: "bg-lime-200 dark:bg-lime-900/50",
     },
     text: {
       0: "text-emerald-500",

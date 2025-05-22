@@ -102,7 +102,7 @@ const ResultVisualizations = ({
 
   return (
     <div className="grid w-full gap-8 md:grid-cols-2">
-      <Card className="flex w-full flex-col items-center justify-center p-6">
+      <Card className="bg-muted flex w-full flex-col items-center justify-center p-6">
         <CardHeader className="p-0 text-center">
           <CardTitle className="inline-flex items-center gap-2 text-xl">
             Tu puntuación

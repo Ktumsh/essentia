@@ -6,6 +6,7 @@ import Stripe from "stripe";
 import { auth } from "@/app/(auth)/auth";
 import { siteConfig } from "@/config/site.config";
 import {
+  deletePendingPayment,
   deleteSubscription,
   getSubscription,
   getSubscriptionBySubscriptionId,
@@ -95,6 +96,9 @@ export async function createSubscription({
     });
 
     const price = await stripe.prices.retrieve(priceId);
+
+    await deletePendingPayment(user.id);
+
     if (price.unit_amount && price.currency) {
       await setPaymentDetails(
         user.id,

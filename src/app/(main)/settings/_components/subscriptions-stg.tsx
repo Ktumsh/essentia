@@ -30,7 +30,7 @@ import {
 } from "@/components/kit/table";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import PaymentModal from "@/components/ui/payment/payment-modal";
-import { FEATURE_PLAN_DATA } from "@/db/data/feature-plan-data";
+import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
 import { Payment, Subscription } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -94,12 +94,11 @@ const SubscriptionsStg = ({
     ? formatDate(expiresAt!, "d 'de' MMMM, yyyy")
     : "No aplica";
 
-  const basicFeatures = FEATURE_PLAN_DATA["free"].feature;
+  const basicFeatures = SUBSCRIPTION_PLAN_DATA[0].features;
 
-  const premiumFeatures = FEATURE_PLAN_DATA["premium"].feature.slice(1);
+  const premiumFeatures = SUBSCRIPTION_PLAN_DATA[1].features.slice(1);
 
-  const premiumPlusFeatures =
-    FEATURE_PLAN_DATA["premium-plus"].feature.slice(1);
+  const premiumPlusFeatures = SUBSCRIPTION_PLAN_DATA[2].features.slice(1);
 
   const planFeatures =
     type === "premium-plus"
@@ -118,20 +117,19 @@ const SubscriptionsStg = ({
     <div className="-mx-6 md:mx-0">
       {section === "options" ? (
         isMobile ? (
-          <div className="relative px-6">
+          <SettingsOptsHeader
+            title="Suscripciones"
+            description="Configura y gestiona tus suscripciones."
+            className="px-4"
+          >
             <Button
               variant="ghost"
               size="icon"
-              radius="full"
-              className="absolute top-7 left-4 md:left-0"
               onClick={() => router.push("/settings")}
             >
-              <ArrowLeft className="text-foreground/80 size-5!" />
+              <ArrowLeft className="text-foreground/80" />
             </Button>
-            <div className="ml-12">
-              <SettingsOptsHeader title="Suscripciones" />
-            </div>
-          </div>
+          </SettingsOptsHeader>
         ) : (
           <SettingsOptsHeader
             title="Suscripciones"
@@ -139,20 +137,16 @@ const SubscriptionsStg = ({
           />
         )
       ) : (
-        <div className="relative px-6 md:px-0">
+        <SettingsOptsHeader title="Suscripciones" className="px-4 md:px-0">
           <Button
             variant="ghost"
             size="icon"
-            radius="full"
-            className="absolute top-7 left-4 md:left-0"
             onClick={() => handleSection("options")}
+            className="md:-ml-2"
           >
-            <ArrowLeft className="text-foreground/80 size-5!" />
+            <ArrowLeft className="text-foreground/80" />
           </Button>
-          <div className="ml-12">
-            <SettingsOptsHeader title="Suscripciones" />
-          </div>
-        </div>
+        </SettingsOptsHeader>
       )}
       <div className="mt-1 flex flex-1 flex-col">
         {section === "options" && (
@@ -369,10 +363,10 @@ const SubscriptionsStg = ({
         )}
         {section === "benefits" && isPremium && (
           <div className="relative flex flex-col">
-            <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
-              Beneficios premium
-            </h4>
-            <div className="absolute top-0 right-6 md:right-0">
+            <div className="mb-2 flex items-end justify-between gap-2 px-6 md:px-4">
+              <h4 className="text-foreground/80-h text-xs font-medium">
+                Beneficios premium
+              </h4>
               <BetterTooltip content={basicLabel}>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -380,8 +374,6 @@ const SubscriptionsStg = ({
                     aria-label={basicLabel}
                     checked={showBasicPlan}
                     onCheckedChange={setShowBasicPlan}
-                    thumbClass="size-4"
-                    className="h-5 w-10"
                   >
                     <span className="sr-only">{basicLabel}</span>
                   </Switch>

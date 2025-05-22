@@ -3,10 +3,11 @@
 import {
   ArrowLeft,
   BadgeCheck,
+  Cake,
+  CalendarFold,
   LockKeyhole,
   Mail,
   MapPin,
-  Pencil,
   PersonStanding,
   Ruler,
   ScrollText,
@@ -16,6 +17,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { PencilButton } from "@/components/button-kit/pencil-button";
 import { Button } from "@/components/kit/button";
 import {
   formatDate,
@@ -78,20 +80,15 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
     <div className="-mx-6 md:mx-0">
       {section === "options" ? (
         isMobile ? (
-          <div className="relative px-6">
+          <SettingsOptsHeader title="Cuenta y perfil" className="px-4">
             <Button
               variant="ghost"
               size="icon"
-              radius="full"
-              className="absolute top-7 left-4 md:left-0"
               onClick={() => router.push("/settings")}
             >
-              <ArrowLeft className="text-foreground/80 size-5!" />
+              <ArrowLeft className="text-foreground/80" />
             </Button>
-            <div className="ml-12">
-              <SettingsOptsHeader title="Cuenta y perfil" />
-            </div>
-          </div>
+          </SettingsOptsHeader>
         ) : (
           <SettingsOptsHeader
             title="Cuenta y perfil"
@@ -99,20 +96,16 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
           />
         )
       ) : (
-        <div className="relative px-6 md:px-0">
+        <SettingsOptsHeader title="Cuenta y perfil" className="px-4 md:px-0">
           <Button
             variant="ghost"
             size="icon"
-            radius="full"
-            className="absolute top-7 left-4 md:left-0"
+            className="md:-ml-2"
             onClick={() => handleSection("options")}
           >
-            <ArrowLeft className="text-foreground/80 size-5!" />
+            <ArrowLeft className="text-foreground/80" />
           </Button>
-          <div className="ml-12">
-            <SettingsOptsHeader title="Cuenta y perfil" />
-          </div>
-        </div>
+        </SettingsOptsHeader>
       )}
       <div className="mt-1 flex flex-1 flex-col">
         {section === "options" && (
@@ -206,14 +199,12 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
               </h4>
               <div className="static -top-7 right-0 m-4 mt-2 flex justify-start md:absolute md:mx-0 md:justify-end">
                 <div className="w-full">
-                  <Button
-                    fullWidth
-                    radius="full"
+                  <PencilButton
+                    size="sm"
                     onClick={() => setIsOpenEditProfile(true)}
                   >
-                    <Pencil />
                     Editar información
-                  </Button>
+                  </PencilButton>
                 </div>
               </div>
               <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
@@ -223,11 +214,16 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
                 <InfoField
                   title="Fecha de nacimiento"
                   value={formatDate(birthdate!, "d 'de' MMMM, yyyy")}
+                  icon={CalendarFold}
                   hasBorder
                 />
-                <InfoField title="Edad" value={getPreciseAge(birthdate!)} />
                 <InfoField
-                  title="Biografía"
+                  title="Edad"
+                  value={getPreciseAge(birthdate!)}
+                  icon={Cake}
+                />
+                <InfoField
+                  title="Instrucciones para Aeris"
                   value={bio}
                   icon={ScrollText}
                   hasBorder

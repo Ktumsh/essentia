@@ -62,7 +62,7 @@ const ResultsInfo = ({
         </TabsTrigger>
       </TabsList>
       <TabsContent value="summary" className="mt-4">
-        <Card>
+        <Card className="bg-muted">
           <CardContent className="p-3 md:p-6">
             <div className="space-y-4">
               {[
@@ -107,7 +107,7 @@ const ResultsInfo = ({
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="dark:bg-accent/50 flex items-center justify-between rounded-lg bg-slate-50 p-3"
+                  className="bg-background flex items-center justify-between rounded-lg p-3"
                 >
                   <div className="flex items-center gap-2 md:gap-4">
                     {item.icon}
@@ -129,15 +129,16 @@ const ResultsInfo = ({
         </Card>
       </TabsContent>
       <TabsContent value="detail" className="mt-4">
-        <Card>
+        <Card className="bg-muted">
           <CardContent className="p-3 md:p-6">
             <Accordion type="single" collapsible className="w-full">
               {questions.map((question) => (
                 <AccordionItem
                   key={question.id}
                   value={`question-${question.id}`}
+                  className="border-0"
                 >
-                  <AccordionTrigger className="dark:hover:bg-accent/50 rounded-lg px-4 py-2 hover:bg-slate-50">
+                  <AccordionTrigger className="hover:bg-background rounded-xl px-4 py-3 hover:no-underline">
                     <div className="flex items-center gap-3 text-left">
                       <div
                         className={cn(
@@ -164,7 +165,7 @@ const ResultsInfo = ({
                       </div>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="dark:bg-accent/50 mt-1 rounded-lg bg-slate-50 px-4 py-3 md:pr-4 md:pl-14">
+                  <AccordionContent className="bg-background mt-2 rounded-xl px-4 py-3 md:pr-4 md:pl-14">
                     <p>Tu respuesta:</p>
                     <p className="text-muted-foreground mt-1">
                       {question.selected !== null

@@ -43,7 +43,7 @@ const DesktopHeader = ({ user, scrollRef }: DesktopHeaderProps) => {
       >
         <div
           className={cn(
-            "bg-background/80 flex h-14 w-full items-center justify-center rounded-tl-2xl transition-all duration-300",
+            "bg-background/80 flex h-14 w-full items-center justify-center transition-all duration-300",
             {
               "shadow-little-pretty backdrop-blur-lg backdrop-saturate-150":
                 isScrolled,

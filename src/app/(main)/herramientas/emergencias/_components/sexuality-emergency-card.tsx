@@ -28,7 +28,7 @@ const SexualityEmergencyCard = () => {
           <VenusAndMars className="size-5 text-rose-600 dark:text-rose-400" />
         }
       />
-      <Card className="rounded-tl-none border-l-4 border-rose-200 border-l-rose-500! p-4 pt-0 md:p-6 dark:border-rose-900/50">
+      <Card className="rounded-tl-none border border-l-4 border-rose-200 border-l-rose-500! p-4 pt-0 md:p-6 dark:border-rose-900/50">
         <Accordion
           defaultValue={String(SEXUALITY_EMERGENCY_DATA[0].id)}
           type="single"
@@ -64,7 +64,7 @@ const SexualityEmergencyCard = () => {
                             {step.step}
                           </Badge>
                           {Array.isArray(step.title) ? (
-                            <div className="text-foreground mr-2 text-sm font-medium">
+                            <div className="text-foreground mr-2 text-sm font-medium md:text-base">
                               {step.title.map((part, i) =>
                                 part.type === "text" ? (
                                   <Fragment key={i}>{part.content}</Fragment>
@@ -81,7 +81,7 @@ const SexualityEmergencyCard = () => {
                               )}
                             </div>
                           ) : (
-                            <div className="text-foreground mr-2 text-sm font-medium">
+                            <div className="text-foreground mr-2 mb-2 text-sm font-semibold md:text-base">
                               {step.title}
                             </div>
                           )}
@@ -89,10 +89,10 @@ const SexualityEmergencyCard = () => {
                         {step.description.map((desc, i) => (
                           <div
                             key={i}
-                            className="text-foreground/80 mb-1.5 ml-8 text-xs"
+                            className="text-foreground/80 mb-1.5 ml-8 text-xs md:text-sm"
                           >
                             {desc.type === "bold" ? (
-                              <p className="text-foreground my-0! mr-2">
+                              <p className="text-foreground my-0! mr-2 font-medium">
                                 {desc.content}
                               </p>
                             ) : (

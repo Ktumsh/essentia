@@ -19,7 +19,7 @@ const RouteBadge = ({
     <div className={cn("z-20", className)}>
       <div
         className={cn(
-          "flex size-10 items-center justify-center rounded-lg bg-linear-to-br shadow-sm",
+          "mask mask-squircle flex size-10 items-center justify-center bg-linear-to-br shadow-sm",
           getRouteColor(routeIndex, "gradient"),
         )}
       >

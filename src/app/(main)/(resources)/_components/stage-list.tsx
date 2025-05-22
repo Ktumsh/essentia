@@ -15,11 +15,6 @@ import {
 } from "@/components/kit/accordion";
 import { Badge } from "@/components/kit/badge";
 import { CircularProgress } from "@/components/kit/circular-progress";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/kit/hover-card";
 import { StageProgressType } from "@/db/querys/progress-querys";
 import { cn, getRouteColor } from "@/lib/utils";
 
@@ -108,7 +103,7 @@ const ChapterList = ({
             disabled={isDisaled}
             key={item.stage.title}
             value={`module-${index}`}
-            className="rounded-2xl border!"
+            className="rounded-xl border!"
           >
             <AccordionTrigger className="text-foreground/80 gap-2 px-3 py-2 underline-offset-2 md:gap-4 md:px-6 md:py-4 md:hover:no-underline">
               <CircularProgress
@@ -188,55 +183,44 @@ const ChapterList = ({
                         }
                       }}
                       className={cn(
-                        "hover:bg-accent relative flex w-full items-center gap-4 overflow-hidden px-4 py-2 text-sm transition-colors duration-150",
+                        "hover:bg-accent relative flex w-full items-center gap-2 overflow-hidden px-4 py-2 text-sm transition-colors duration-150",
                         !isDone && "pointer-events-none opacity-60",
                         pathname.includes(item.review.slug) && "bg-accent",
                       )}
                     >
-                      <HoverCard>
-                        <HoverCardTrigger asChild>
-                          <Award className="size-3.5 text-amber-500" />
-                        </HoverCardTrigger>
-                        <HoverCardContent>
-                          {isDone ? (
-                            <p className="text-foreground text-sm font-normal">
-                              ¡Revisión disponible!
-                            </p>
-                          ) : (
-                            <p className="text-foreground text-sm font-normal">
-                              ¡Revisión bloqueada!
-                            </p>
-                          )}
-                        </HoverCardContent>
-                      </HoverCard>
-                      <p
-                        className={cn("text-start", {
-                          "opacity-50": !isDone,
-                        })}
-                      >
-                        ¡Reflexiona sobre lo aprendido!
-                      </p>
-                      {isReviewDone ? (
-                        <Badge
-                          variant="premium"
-                          className="pl-1.5! font-normal shadow-sm"
-                        >
-                          🏅 ¡Realizada!
-                        </Badge>
-                      ) : (
-                        !isLessonPage && (
-                          <Badge
-                            className={cn(
-                              "rounded-[6px] font-normal",
-                              isDone
-                                ? [bgColor, textMutedColor]
-                                : "bg-primary/10! text-primary!",
-                            )}
+                      <div className="flex items-center gap-4">
+                        <Award className="size-3.5 shrink-0 text-amber-500" />
+                        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+                          <p
+                            className={cn("text-start", {
+                              "opacity-50": !isDone,
+                            })}
                           >
-                            {isDone ? "Disponible" : "Bloqueada"}
-                          </Badge>
-                        )
-                      )}
+                            ¡Reflexiona sobre lo aprendido!
+                          </p>
+                          {isReviewDone ? (
+                            <Badge
+                              variant="premium"
+                              className="pl-1.5! font-normal shadow-sm"
+                            >
+                              🏅 ¡Realizada!
+                            </Badge>
+                          ) : (
+                            !isLessonPage && (
+                              <Badge
+                                className={cn(
+                                  "font-normal",
+                                  isDone
+                                    ? [bgColor, textMutedColor]
+                                    : "bg-primary/10! text-primary!",
+                                )}
+                              >
+                                {isDone ? "Disponible" : "Bloqueada"}
+                              </Badge>
+                            )
+                          )}
+                        </div>
+                      </div>
                       {!isDone && !isLessonPage && (
                         <p className="text-xxs text-muted-foreground ml-auto font-normal">
                           ¡Completa la etapa para desbloquear!

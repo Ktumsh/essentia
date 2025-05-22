@@ -130,7 +130,7 @@ const ReviewResults = ({
             variant="ghost"
             size="sm"
             onClick={() => router.push(`/${route.slug}`)}
-            className="-translate-x-3 hover:bg-transparent"
+            className="-translate-x-3"
           >
             Regresar
           </ArrowLeftButton>
@@ -151,7 +151,6 @@ const ReviewResults = ({
                     variant="ghost"
                     size="icon"
                     onClick={() => setShowCertificate(true)}
-                    className="rounded-md"
                   >
                     <span className="sr-only">Ver certificado</span>
                   </ScrollButton>

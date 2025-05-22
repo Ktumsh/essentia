@@ -27,7 +27,7 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
   return (
     <div className="-mx-6 flex h-full flex-1 flex-col md:mx-0">
       <div className="w-full px-6 pt-8 pb-4">
-        <h1 className="text-xl leading-none font-semibold tracking-tight">
+        <h1 className="font-merriweather text-xl font-semibold">
           Configuración
         </h1>
       </div>
@@ -99,21 +99,6 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
               </Button>
             </li>
           )}
-          {/* <li>
-            <Button
-              variant="ghost"
-              fullWidth
-              radius="none"
-              className="h-12 justify-between px-6 py-3  md:h-11 md:px-4 md:py-2"
-              onClick={() => router.push("/settings/support")}
-            >
-              <div className="flex items-center gap-4">
-                <HelpCircle className="size-4 shrink-0" />
-                <span>Ayuda y soporte</span>
-              </div>
-              <ChevronRight className="size-4 shrink-0 " />
-            </Button>
-          </li> */}
         </ul>
       </div>
     </div>

@@ -50,7 +50,7 @@ const InfoField = ({
           fullWidth
           radius="none"
           className={cn(
-            "text-foreground h-auto min-h-11 justify-between px-6 py-3 md:px-4 md:py-2",
+            "text-foreground h-auto min-h-11 justify-between px-6! py-3 md:px-4! md:py-2",
             {
               "bg-red-50 text-red-500! hover:bg-red-50 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-950":
                 isDanger,

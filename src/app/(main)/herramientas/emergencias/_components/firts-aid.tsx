@@ -28,7 +28,7 @@ const FirstAid = () => {
           <HeartPlus className="size-5 text-amber-600 dark:text-amber-400" />
         }
       />
-      <Card className="rounded-tl-none border-l-4 border-amber-200 border-l-amber-500! p-4 pt-0 md:p-6 dark:border-amber-900/50">
+      <Card className="rounded-tl-none border border-l-4 border-amber-200 border-l-amber-500! p-4 pt-0 md:p-6 dark:border-amber-900/50">
         <Accordion type="single" collapsible className="w-full">
           {FIRST_AID_DATA.map((item, index) => {
             const theme =

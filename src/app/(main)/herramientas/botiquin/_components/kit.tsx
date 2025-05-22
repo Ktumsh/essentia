@@ -31,7 +31,7 @@ const Kit = () => {
       </div>
 
       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card className="border-l-4 border-emerald-200 border-l-emerald-500! dark:border-emerald-900/50">
+        <Card className="bg-muted">
           <CardHeader className="pb-4">
             <CardTitle className="text-emerald-600 dark:text-emerald-400">
               Elementos esenciales
@@ -65,7 +65,7 @@ const Kit = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-emerald-200 border-l-emerald-500! dark:border-emerald-900/50">
+        <Card className="bg-muted">
           <CardHeader className="pb-4">
             <CardTitle className="text-emerald-600 dark:text-emerald-400">
               Recomendaciones

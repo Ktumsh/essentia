@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronRight, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import { memo, useCallback, useMemo, useState } from "react";
 
 import { Button } from "@/components/kit/button";
@@ -67,10 +66,7 @@ const RouteInfoPanel = ({
 
   return (
     <>
-      <motion.div
-        layout
-        className="my-6 flex flex-wrap justify-center gap-3 md:justify-start"
-      >
+      <div className="my-6 flex flex-wrap justify-center gap-3 md:justify-start">
         {panels.map(({ key, label }) => (
           <Button
             key={key}
@@ -92,7 +88,7 @@ const RouteInfoPanel = ({
             )}
           </Button>
         ))}
-      </motion.div>
+      </div>
       {activePanel && (
         <Card className={cn("mb-8", backgroundColor, borderColor)}>
           <CardHeader
@@ -115,71 +111,53 @@ const RouteInfoPanel = ({
             </Button>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <AnimatePresence mode="popLayout">
-              {activePanel === "what-is" && (
-                <motion.div
-                  key="what"
-                  initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0)" }}
-                  exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Markdown
-                    className={cn(
-                      "prose-sm md:prose prose-strong:font-semibold max-w-full! md:text-base!",
-                      textMutedColor,
-                      textStrongColor,
-                    )}
-                  >
-                    {description}
-                  </Markdown>
-                </motion.div>
-              )}
-
-              {activePanel === "benefits" && (
-                <motion.div
-                  key="benefits"
-                  initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0)" }}
-                  exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
-                  transition={{ duration: 0.3 }}
+            {activePanel === "what-is" && (
+              <div>
+                <Markdown
                   className={cn(
-                    "prose-sm md:prose prose-li:marker:text-muted-foreground! prose dark:prose-invert! prose-p:leading-relaxed prose-headings:font-semibold! prose-hr:border-muted-foreground max-w-full! space-y-4 break-words md:text-base!",
+                    "prose-sm md:prose prose-strong:font-semibold max-w-full! md:text-base!",
                     textMutedColor,
+                    textStrongColor,
                   )}
                 >
-                  <p>
-                    Al completar esta ruta, obtendrás los siguientes beneficios:
-                  </p>
-                  <ul className="list-disc space-y-2 pl-5">
-                    {benefits.map((benefit) => (
-                      <li key={benefit}>{benefit}</li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )}
+                  {description}
+                </Markdown>
+              </div>
+            )}
 
-              {activePanel === "audience" && (
-                <motion.div
-                  key="audience"
-                  initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0)" }}
-                  exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
-                  transition={{ duration: 0.3 }}
-                  className={cn(
-                    "prose-sm md:prose prose-li:marker:text-muted-foreground! prose dark:prose-invert! prose-p:leading-relaxed prose-headings:font-semibold! prose-hr:border-muted-foreground max-w-full! space-y-4 break-words md:text-base!",
-                    textMutedColor,
-                  )}
-                >
-                  <p>Esta ruta está diseñada para:</p>
-                  <ul className="list-disc space-y-2 pl-5">
-                    {audience.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {activePanel === "benefits" && (
+              <div
+                className={cn(
+                  "prose-sm md:prose prose-li:marker:text-muted-foreground! prose dark:prose-invert! prose-p:leading-relaxed prose-headings:font-semibold! prose-hr:border-muted-foreground max-w-full! space-y-4 break-words md:text-base!",
+                  textMutedColor,
+                )}
+              >
+                <p>
+                  Al completar esta ruta, obtendrás los siguientes beneficios:
+                </p>
+                <ul className="list-disc space-y-2 pl-5">
+                  {benefits.map((benefit) => (
+                    <li key={benefit}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {activePanel === "audience" && (
+              <div
+                className={cn(
+                  "prose-sm md:prose prose-li:marker:text-muted-foreground! prose dark:prose-invert! prose-p:leading-relaxed prose-headings:font-semibold! prose-hr:border-muted-foreground max-w-full! space-y-4 break-words md:text-base!",
+                  textMutedColor,
+                )}
+              >
+                <p>Esta ruta está diseñada para:</p>
+                <ul className="list-disc space-y-2 pl-5">
+                  {audience.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

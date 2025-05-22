@@ -56,7 +56,7 @@ import { ParsedReviewQuestion } from "@/db/querys/resource-querys";
 import { Route, Stage } from "@/db/schema";
 import { cn, getRouteColor } from "@/lib/utils";
 
-import Countdown from "./coundown";
+import Countdown from "./countdown";
 
 interface PracticalReviewProps {
   userId: string;
@@ -222,7 +222,7 @@ export function PracticalReview({
           variant="ghost"
           size="sm"
           onClick={() => router.push(`/${route.slug}`)}
-          className="-translate-x-3 hover:bg-transparent"
+          className="-translate-x-3"
         >
           Regresar
         </ArrowLeftButton>
@@ -245,7 +245,6 @@ export function PracticalReview({
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowCountdown(false)}
-                  className="size-7 rounded-sm [&_svg]:size-3.5!"
                 >
                   <span className="sr-only">Ocultar temporizador</span>
                 </EyeOffButton>
@@ -256,7 +255,6 @@ export function PracticalReview({
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowCountdown(true)}
-                  className="size-7 rounded-sm [&_svg]:size-3.5!"
                 >
                   <span className="sr-only">Mostrar temporizador</span>
                 </EyeButton>
@@ -349,15 +347,11 @@ export function PracticalReview({
       </Card>
 
       <CardFooter className="flex justify-between p-4 pt-0">
-        <Button
-          onClick={prev}
-          disabled={current === 0}
-          className="rounded-full"
-        >
+        <Button onClick={prev} disabled={current === 0}>
           <ChevronLeft /> Anterior
         </Button>
         {current < totalQ - 1 ? (
-          <Button onClick={next} className="rounded-full">
+          <Button onClick={next}>
             Siguiente <ChevronRight />
           </Button>
         ) : (
@@ -441,15 +435,15 @@ export function PracticalReview({
           {/* Botón final */}
           <AlertDialogFooter isSecondary className="flex-wrap border-0 pt-0">
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={() => router.refresh()}
-              className="bg-background hover:bg-background flex-1 rounded-full"
+              className="bg-background hover:bg-background flex-1 rounded-full border-0"
             >
               Ver resultados
             </Button>
             <RepeatButton
               variant="secondary"
-              className="bg-background hover:bg-background flex-1 rounded-full"
+              className="flex-1 rounded-full"
               onClick={onResetProgress}
             >
               Volver a intentar

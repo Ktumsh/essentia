@@ -24,34 +24,33 @@ const ResourceItem = (props: ResourceItemProps) => {
   return (
     <>
       {!isMobile && (
-        <Card className="hover:shadow-pretty bg-muted hidden min-h-52 min-w-64 transition will-change-transform hover:-translate-y-1 md:block">
-          <CardHeader className="space-y-0 pb-0">
-            <div
-              className={cn(
-                "shadow-background flex size-10 items-center justify-center rounded-lg shadow-[0_0_0_1px]",
-                getRouteColor(index, "background"),
-              )}
-            >
-              <resourceDetails.activeIcon
-                className={cn("size-5", getRouteColor(index, "text"))}
-              />
+        <Link href={slug}>
+          <Card className="hover:shadow-pretty bg-muted hidden min-h-52 min-w-64 transition will-change-transform hover:-translate-y-1 md:block">
+            <CardHeader className="space-y-0 pb-0">
+              <div
+                className={cn(
+                  "mask mask-squircle flex size-10 items-center justify-center",
+                  getRouteColor(index, "background"),
+                )}
+              >
+                <resourceDetails.activeIcon
+                  className={cn("size-5", getRouteColor(index, "text"))}
+                />
+              </div>
+              <span className="text-xxs text-muted-foreground absolute top-6 right-6 font-bold tracking-wide uppercase">
+                {label}
+              </span>
+            </CardHeader>
+            <div className="p-6 pt-3">
+              <h3 className="text-foreground font-merriweather text-lg font-bold">
+                {name}
+              </h3>
+              <p className="text-foreground/80 mt-1 text-sm leading-5">
+                {quote}
+              </p>
             </div>
-            <span className="text-xxs text-muted-foreground absolute top-6 right-6 font-bold tracking-wide uppercase">
-              {label}
-            </span>
-          </CardHeader>
-          <div className="p-6 pt-3">
-            <h3 className="text-foreground font-merriweather text-lg font-bold">
-              {name}
-            </h3>
-            <p className="text-foreground/80 mt-1 text-sm leading-5">{quote}</p>
-          </div>
-          <Link
-            href={slug}
-            aria-label={"Ir al recurso " + name}
-            className="absolute inset-0"
-          />
-        </Card>
+          </Card>
+        </Link>
       )}
       <Link
         href={slug}

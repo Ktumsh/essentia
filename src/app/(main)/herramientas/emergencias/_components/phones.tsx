@@ -29,7 +29,7 @@ const Phones = () => {
             <Card
               key={index}
               className={cn(
-                "flex max-w-[91%] shrink-0 snap-start flex-col shadow-none md:max-w-full",
+                "flex max-w-[91%] shrink-0 snap-start flex-col border shadow-none md:max-w-full",
                 theme.border,
               )}
             >

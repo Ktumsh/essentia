@@ -21,20 +21,15 @@ const AccesibilityStg = ({ isMobile = false }: AccesibilityStgProps) => {
   return (
     <div className="-mx-6 md:mx-0">
       {isMobile ? (
-        <div className="relative px-6">
+        <SettingsOptsHeader title="Accesibilidad y pantalla" className="px-4">
           <Button
             variant="ghost"
             size="icon"
-            radius="full"
-            className="absolute top-7 left-4 md:left-0"
             onClick={() => router.push("/settings")}
           >
-            <ArrowLeft className="text-foreground size-5!" />
+            <ArrowLeft className="text-foreground" />
           </Button>
-          <div className="ml-12">
-            <SettingsOptsHeader title="Accesibilidad y pantalla" />
-          </div>
-        </div>
+        </SettingsOptsHeader>
       ) : (
         <SettingsOptsHeader
           title="Accesibilidad y pantalla"

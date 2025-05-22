@@ -47,7 +47,7 @@ const EmergencySteps = () => {
           <Fragment key={index}>
             <Card
               className={cn(
-                "h-full max-w-lg min-w-[87%] snap-center border-l-4 md:min-w-0",
+                "h-full max-w-lg min-w-[87%] snap-center border border-l-4 md:min-w-0",
                 theme.border,
                 theme.borderAccent,
               )}
