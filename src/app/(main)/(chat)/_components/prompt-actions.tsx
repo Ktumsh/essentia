@@ -46,7 +46,7 @@ function PureAttachmentsButton({
         size="icon"
         variant="ghost"
         disabled={disabled}
-        className="hover:bg-background bg-background pointer-events-auto size-8 rounded-full md:size-7 md:rounded-sm md:bg-transparent"
+        className="hover:bg-background bg-background pointer-events-auto md:bg-transparent"
         onClick={(e) => {
           e.preventDefault();
           fileInputRef.current?.click();
@@ -100,7 +100,7 @@ function PureThinkingButton({
           handleSetModel();
         }}
         className={cn(
-          "bg-background hover:bg-background pointer-events-auto h-8 gap-1 rounded-full px-2! text-xs md:size-7 md:rounded-sm md:p-0!",
+          "bg-background hover:bg-background pointer-events-auto h-8 gap-1 px-2! text-xs md:size-8 md:p-0!",
           {
             "bg-linear-to-r/shorter from-indigo-500 to-indigo-600 text-white hover:text-white":
               isActive,
