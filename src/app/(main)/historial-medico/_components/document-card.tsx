@@ -282,8 +282,8 @@ const DocumentCard = ({
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       className={cn(
-        "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none",
-        selected && "bg-primary/20 hover:bg-primary/20",
+        "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
+        selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
       )}
     >
       <CardHeader className="px-4 pt-4 pb-2">

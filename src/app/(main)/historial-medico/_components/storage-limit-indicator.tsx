@@ -72,7 +72,7 @@ const StorageLimitIndicator = ({
         {/* DOCUMENTOS */}
         <div className="text-primary mb-3 flex flex-wrap items-center justify-between gap-2 font-medium">
           <BetterTooltip content={documentLimitMessage}>
-            <h3 className="flex cursor-help items-center gap-2 text-base">
+            <h3 className="flex cursor-help items-center gap-2 text-sm md:text-base">
               <HardDriveIcon className="size-4" />
               Almacenamiento
             </h3>
@@ -83,7 +83,7 @@ const StorageLimitIndicator = ({
             </span>
           )}
         </div>
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center justify-between text-xs md:text-sm">
           <span className="font-medium">
             {docsUnlimited
               ? `${totalDocuments} ${
@@ -115,7 +115,7 @@ const StorageLimitIndicator = ({
           <>
             <div className="text-secondary mb-3 flex flex-wrap items-center justify-between gap-2 font-medium">
               <BetterTooltip content={aiLimitMessage}>
-                <h3 className="flex cursor-help items-center gap-2 text-base">
+                <h3 className="flex cursor-help items-center gap-2 text-sm md:text-base">
                   <BrainCircuit className="size-4" />
                   Recomendaciones IA
                 </h3>
@@ -126,7 +126,7 @@ const StorageLimitIndicator = ({
                 </span>
               )}
             </div>
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-xs md:text-sm">
               <span className="font-medium">
                 {aiUnlimited
                   ? `${totalRecommendations} ${

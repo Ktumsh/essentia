@@ -226,6 +226,7 @@ const MedicalHistoryTabs = () => {
           ? documentContainerRef
           : recommendationContainerRef
       }
+      className="touch-pan-y"
     >
       <SelectionHeader
         activeTab={activeTab}

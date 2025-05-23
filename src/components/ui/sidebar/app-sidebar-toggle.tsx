@@ -1,6 +1,6 @@
 "use client";
 
-import { Command, MenuIcon } from "lucide-react";
+import { Command, MenuIcon, MessagesSquare } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/kit/button";
@@ -53,7 +53,11 @@ const AppSidebarToggle = () => {
         onClick={() => toggleSidebar()}
         className="size-8"
       >
-        <MenuIcon className="size-5!" />
+        {isAiPage ? (
+          <MessagesSquare className="size-5!" />
+        ) : (
+          <MenuIcon className="size-5!" />
+        )}
         <span className="sr-only">
           {isOpen ? "Ocultar historial de chat" : "Mostrar historial de chat"}
         </span>

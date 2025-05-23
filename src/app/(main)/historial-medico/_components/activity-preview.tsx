@@ -4,6 +4,8 @@ import { Circle, EllipsisIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/kit/button";
+import { DrawerClose } from "@/components/kit/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/lib/utils";
 import { capitalize } from "@/utils/format";
@@ -109,6 +111,8 @@ function ActivityItem({
   index?: number;
   onViewAll?: () => void;
 }) {
+  const isMobile = useIsMobile();
+
   if (hasMore) {
     return (
       <li>
@@ -119,14 +123,27 @@ function ActivityItem({
           </div>
         </div>
         <div className="timeline-end mx-5 my-2 w-full">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onViewAll}
-            className="bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground text-xs"
-          >
-            Ver actividad completa
-          </Button>
+          {isMobile ? (
+            <DrawerClose asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onViewAll}
+                className="bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground text-xs"
+              >
+                Ver actividad completa
+              </Button>
+            </DrawerClose>
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onViewAll}
+              className="bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground text-xs"
+            >
+              Ver actividad completa
+            </Button>
+          )}
         </div>
       </li>
     );

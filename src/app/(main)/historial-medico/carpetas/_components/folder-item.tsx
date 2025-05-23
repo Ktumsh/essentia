@@ -84,8 +84,8 @@ const FolderItem = ({
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       className={cn(
-        "bg-muted hover:bg-accent active:bg-accent select-none",
-        selected && "bg-primary/20 hover:bg-primary/20",
+        "bg-muted hover:bg-accent active:bg-accent select-none active:transition-colors",
+        selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
       )}
     >
       <CardContent className="flex flex-col p-3">

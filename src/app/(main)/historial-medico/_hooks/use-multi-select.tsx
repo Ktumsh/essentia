@@ -72,7 +72,7 @@ export function useMultiSelect<T extends { id: string }>(
 
   const [multiMode, setMultiMode] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const longPressTimer = useRef<number | null>(null);
   const longPressTriggered = useRef(false);
   const pointerDownPos = useRef<{ x: number; y: number } | null>(null);
 
@@ -89,29 +89,46 @@ export function useMultiSelect<T extends { id: string }>(
     [dispatch, key],
   );
 
-  // ─── Detect drag for mobile scroll ──────────────────────────────────────
+  // ─── Detect drag vs tap on mobile ────────────────────────────────
   useEffect(() => {
-    const handleMove = (e: PointerEvent) => {
-      if (pointerDownPos.current) {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const onMove = (e: PointerEvent) => {
+      if (pointerDownPos.current && !longPressTriggered.current) {
         const dx = Math.abs(e.clientX - pointerDownPos.current.x);
         const dy = Math.abs(e.clientY - pointerDownPos.current.y);
-        if (dx > 10 || dy > 10) {
+        if (dx + dy > 15) {
           setIsDragging(true);
           if (longPressTimer.current) {
-            clearTimeout(longPressTimer.current);
+            window.clearTimeout(longPressTimer.current);
             longPressTimer.current = null;
           }
         }
       }
     };
-    const el = containerRef.current;
-    if (el) el.addEventListener("pointermove", handleMove);
+
+    const clearTimer = () => {
+      if (longPressTimer.current) {
+        window.clearTimeout(longPressTimer.current);
+        longPressTimer.current = null;
+      }
+      longPressTriggered.current = false;
+      setIsDragging(false);
+    };
+
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointercancel", clearTimer);
+    el.addEventListener("pointerleave", clearTimer);
+
     return () => {
-      if (el) el.removeEventListener("pointermove", handleMove);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointercancel", clearTimer);
+      el.removeEventListener("pointerleave", clearTimer);
     };
   }, []);
 
-  // ─── Desktop: click + Ctrl/Shift logic ───────────────────────────────────
+  // ─── Desktop select (Ctrl/Shift) ────────────────────────────────
   const handleSelect = (e: React.MouseEvent, id: string, index: number) => {
     if (isMobile) return;
     const isCtrl = isMac ? e.metaKey : e.ctrlKey;
@@ -138,7 +155,7 @@ export function useMultiSelect<T extends { id: string }>(
     }
   };
 
-  // ─── Pure toggle (e.g. checkbox) ────────────────────────────────────────
+  // ─── Pure toggle (checkbox) ────────────────────────────────────
   const handleToggle = (id: string, index: number) => {
     const newIds = selectedIds.includes(id)
       ? selectedIds.filter((i) => i !== id)
@@ -147,7 +164,7 @@ export function useMultiSelect<T extends { id: string }>(
     if (newIds.length === 0 && multiMode) setMultiMode(false);
   };
 
-  // ─── Mobile: long-press to enter/exit multiMode ─────────────────────────
+  // ─── Mobile long-press to toggle multiMode ─────────────────────
   const handlePointerDown = (
     id: string,
     index: number,
@@ -156,35 +173,41 @@ export function useMultiSelect<T extends { id: string }>(
     if (!isMobile) return;
     pointerDownPos.current = { x: e.clientX, y: e.clientY };
     longPressTriggered.current = false;
-    longPressTimer.current = setTimeout(() => {
+    setIsDragging(false);
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+
+    longPressTimer.current = window.setTimeout(() => {
       longPressTriggered.current = true;
-      setIsDragging(false);
+      setMultiMode((prev) => !prev);
       if (!multiMode) {
-        setMultiMode(true);
         handleToggle(id, index);
       } else {
         clearSelection();
-        setMultiMode(false);
       }
-    }, 1000);
+      longPressTimer.current = null;
+    }, 700);
   };
 
-  const handlePointerUp = (id: string, index: number) => {
+  const handlePointerUp = (
+    id: string,
+    index: number,
+    e?: React.PointerEvent,
+  ) => {
     if (!isMobile) return;
     if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
+      window.clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
     }
-    // Sólo toggle si no fue un long-press, estamos en multiMode y no hubo drag
     if (!longPressTriggered.current && multiMode && !isDragging) {
       handleToggle(id, index);
     }
-    // reset
-    setIsDragging(false);
+    if (e) e.currentTarget.releasePointerCapture(e.pointerId);
     pointerDownPos.current = null;
+    setIsDragging(false);
   };
 
-  // ─── Click outside: clear selección sólo fuera de multiMode ──────────────
+  // ─── Click outside ─────────────────────────────────────────────
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
       if (

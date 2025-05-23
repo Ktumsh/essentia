@@ -5,8 +5,10 @@ import Image from "next/image";
 
 import { AvatarIcon } from "@/components/icons/miscellaneus";
 import { Avatar, AvatarFallback } from "@/components/kit/avatar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 
+import MedicalOverviewMobile from "./medical-overview-mobile";
 import NewOptions from "./new-options";
 
 import type { CanUploadMedicalFile } from "@/db/querys/medical-history-querys";
@@ -27,6 +29,8 @@ const MedicalHistoryHeader = ({
 }: MedicalHistoryHeaderProps) => {
   const { user } = useUserProfile();
   const { username, profileImage, isPremium } = user || {};
+
+  const isMobile = useIsMobile();
 
   return (
     <div className="flex flex-col justify-between gap-4 @2xl/medical:flex-row">
@@ -59,7 +63,8 @@ const MedicalHistoryHeader = ({
           </span>
         </div>
       </div>
-      <div className="inline-flex flex-wrap items-center gap-3">
+      <div className="inline-flex flex-wrap items-center justify-end gap-3">
+        {isMobile && <MedicalOverviewMobile />}
         <NewOptions
           expanded
           isPremium={isPremium}

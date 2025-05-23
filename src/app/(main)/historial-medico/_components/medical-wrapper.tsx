@@ -3,8 +3,8 @@
 import PageWrapper from "@/components/ui/layout/page-wrapper";
 
 import MedicalDialogsContainer from "./medical-dialogs-container";
-import MedicalHistoryAside from "./medical-history-aside";
 import MedicalHistoryHeader from "./medical-history-header";
+import MedicalOverview from "./medical-overview";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 import { useMedicalFoldersDialog } from "../_hooks/use-medical-folder-dialogs";
 import { useMedicalFolders } from "../_hooks/use-medical-folders";
@@ -72,7 +72,7 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
           />
           {children}
         </section>
-        <MedicalHistoryAside />
+        <MedicalOverview />
       </div>
 
       <MedicalDialogsContainer
