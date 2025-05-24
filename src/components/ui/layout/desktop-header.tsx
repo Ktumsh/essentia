@@ -85,7 +85,7 @@ const DesktopHeader = ({ user, scrollRef }: DesktopHeaderProps) => {
                   </LoginButton>
                   <AddUserButton
                     size="sm"
-                    onClick={() => router.push("/register")}
+                    onClick={() => router.push("/signup")}
                   >
                     Crear cuenta
                   </AddUserButton>
