@@ -258,17 +258,21 @@ const FolderForm = ({
           {FormContent}
 
           <DrawerFooter>
+            <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+              <Button
+                disabled={isSubmitting}
+                type="button"
+                variant="mobile"
+                onClick={onClose}
+                className="justify-center"
+              >
+                Cancelar
+              </Button>
+            </div>
             <Button
               disabled={isSubmitting}
               type="button"
-              variant="ghost"
-              onClick={onClose}
-            >
-              Cancelar
-            </Button>
-            <Button
-              disabled={isSubmitting}
-              type="button"
+              variant="mobile-primary"
               onClick={handleSubmit(onSubmit)}
             >
               {initial ? "Guardar" : "Crear"}

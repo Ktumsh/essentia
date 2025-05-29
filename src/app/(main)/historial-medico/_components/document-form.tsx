@@ -70,15 +70,15 @@ import { cn } from "@/lib/utils";
 import FileSlot from "./file-slot";
 import { getTagColor } from "../_lib/utils";
 
-export type MedicalHistoryFormSchema =
+export type DocumentFormSchema =
   | MedicalHistoryAddSchema
   | MedicalHistoryEditSchema;
 
-type MedicalHistoryFormProps = {
+type DocumentFormProps = {
   tags: MedicalTag[];
   folders: Folder[];
   initialValues?: MedicalHistoryWithTags | null;
-  onSubmit: SubmitHandler<MedicalHistoryFormSchema>;
+  onSubmit: SubmitHandler<DocumentFormSchema>;
   onCancel: () => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -86,7 +86,7 @@ type MedicalHistoryFormProps = {
   isSubmitting?: boolean;
 };
 
-export default function MedicalHistoryForm({
+const DocumentForm = ({
   tags,
   folders,
   initialValues,
@@ -96,33 +96,13 @@ export default function MedicalHistoryForm({
   setIsOpen,
   isEditMode = false,
   isSubmitting = false,
-}: MedicalHistoryFormProps) {
+}: DocumentFormProps) => {
   const isMobile = useIsMobile();
 
-  const form = useForm<MedicalHistoryFormSchema>({
+  const form = useForm<DocumentFormSchema>({
     resolver: zodResolver(
       isEditMode ? medicalHistoryEditSchema : medicalHistoryAddSchema,
     ),
-    defaultValues: {
-      condition: initialValues?.condition || "",
-      type: initialValues?.type || "Examen",
-      description: initialValues?.description ?? "",
-      issuer: initialValues?.issuer ?? "",
-      documentDate: initialValues?.documentDate
-        ? new Date(initialValues.documentDate)
-        : new Date(),
-      notes: initialValues?.notes ?? "",
-      visibility: initialValues?.visibility || "private",
-      tags:
-        initialValues?.tags
-          ?.map((tagName) => {
-            const found = tags?.find((tag) => tag.name === tagName);
-            return found ? found.id : "";
-          })
-          .filter(Boolean) || [],
-      folderId: initialValues?.folderId || null,
-      file: undefined,
-    },
   });
 
   const {
@@ -133,10 +113,33 @@ export default function MedicalHistoryForm({
   } = form;
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen) return;
+
+    if (isEditMode && initialValues) {
+      reset({
+        condition: initialValues?.condition ?? "",
+        type: initialValues?.type ?? "Examen",
+        description: initialValues?.description ?? "",
+        issuer: initialValues?.issuer ?? "",
+        documentDate: initialValues?.documentDate
+          ? new Date(initialValues.documentDate)
+          : new Date(),
+        notes: initialValues?.notes ?? "",
+        visibility: initialValues?.visibility ?? "private",
+        tags:
+          initialValues?.tags
+            .map((tagName) => {
+              const found = tags.find((t) => t.name === tagName);
+              return found ? found.id : "";
+            })
+            .filter(Boolean) || [],
+        folderId: initialValues?.folderId ?? null,
+        file: undefined,
+      });
+    } else {
       reset();
     }
-  }, [isOpen, reset]);
+  }, [isOpen, isEditMode, initialValues, reset, tags]);
 
   const formContent = (
     <div className="overflow-y-auto p-4 md:p-6">
@@ -540,4 +543,6 @@ export default function MedicalHistoryForm({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default DocumentForm;

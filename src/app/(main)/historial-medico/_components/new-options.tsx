@@ -1,9 +1,22 @@
 "use client";
 
+import { FileText, Folder, Stars } from "lucide-react";
+
 import { FileTextButton } from "@/components/button-kit/file-button";
 import { FolderButton } from "@/components/button-kit/folder-button";
 import { PlusButton } from "@/components/button-kit/plus-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { Button } from "@/components/kit/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/kit/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +24,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
+import { Separator } from "@/components/kit/separator";
 import { BetterTooltip } from "@/components/kit/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 
@@ -33,6 +48,61 @@ const NewOptions = ({
   onNewAIRecommendation,
 }: NewOptionsProps) => {
   const { openDialog } = useMedicalDialogs();
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger asChild>
+          <PlusButton size="sm" disabled={disabled}>
+            Nuevo
+          </PlusButton>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Nuevo</DrawerTitle>
+          </DrawerHeader>
+          <DrawerDescription className="sr-only">
+            Selecciona una opción para crear un nuevo elemento.
+          </DrawerDescription>
+          <DrawerFooter>
+            <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+              <DrawerClose asChild>
+                <Button variant="mobile" onClick={onNewFolder}>
+                  <Folder />
+                  Nueva carpeta
+                </Button>
+              </DrawerClose>
+              <Separator className="dark:bg-alternative/50 z-10 ml-6" />
+              <DrawerClose asChild>
+                <Button variant="mobile" onClick={onNewDocument}>
+                  <FileText />
+                  Crear documento
+                </Button>
+              </DrawerClose>
+              <Separator className="dark:bg-alternative/50 z-10 ml-6" />
+              <DrawerClose asChild>
+                <Button
+                  variant="mobile"
+                  onClick={() => {
+                    if (isPremium) {
+                      onNewAIRecommendation();
+                    } else {
+                      openDialog("isPremiumModal");
+                    }
+                  }}
+                  className="text-secondary"
+                >
+                  <Stars />
+                  Recomendaciones IA
+                </Button>
+              </DrawerClose>
+            </div>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
 
   return (
     <DropdownMenu>

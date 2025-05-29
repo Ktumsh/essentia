@@ -28,19 +28,19 @@ import {
   getPriorityText,
 } from "../_lib/utils";
 
-interface SavedDeleteConfirmationDialogProps {
+interface RecommendationDeleteAlertProps {
   isDeleteDialogOpen: boolean;
   setIsDeleteDialogOpen: (open: boolean) => void;
   recommendationToDelete: SavedAIRecommendation | null;
   onDelete: () => void;
 }
 
-const SavedDeleteConfirmationDialog = ({
+const RecommendationDeleteAlert = ({
   isDeleteDialogOpen,
   setIsDeleteDialogOpen,
   recommendationToDelete,
   onDelete,
-}: SavedDeleteConfirmationDialogProps) => {
+}: RecommendationDeleteAlertProps) => {
   const isMobile = useIsMobile();
 
   const priorityText = getPriorityText(
@@ -90,7 +90,7 @@ const SavedDeleteConfirmationDialog = ({
                 Cancelar
               </Button>
             </div>
-            <Button variant="mobile-primary" onClick={onDelete}>
+            <Button variant="mobile-destructive" onClick={onDelete}>
               Eliminar
             </Button>
           </DrawerFooter>
@@ -145,4 +145,4 @@ const SavedDeleteConfirmationDialog = ({
   );
 };
 
-export default SavedDeleteConfirmationDialog;
+export default RecommendationDeleteAlert;

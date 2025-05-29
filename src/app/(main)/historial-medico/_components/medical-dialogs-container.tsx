@@ -8,11 +8,9 @@ import AIRecommendation, {
   type AIRecommendationType,
 } from "./ai-recommendation";
 import DeleteAlert from "./delete-alert";
+import DocumentForm, { type DocumentFormSchema } from "./document-form";
 import DocumentViewDialog from "./document-view-dialog";
 import FileViewer from "./file-viewer";
-import MedicalHistoryForm, {
-  type MedicalHistoryFormSchema,
-} from "./medical-history-form";
 import ShareDialog from "./share-dialog";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 
@@ -29,8 +27,8 @@ interface MedicalDialogsContainerProps {
   medicalHistory: MedicalHistoryWithTags[];
   savedRecommendations: AIRecommendationType[];
   selectedTags: string[];
-  handleCreate: (d: MedicalHistoryFormSchema) => Promise<void>;
-  handleUpdate: (d: MedicalHistoryFormSchema) => Promise<void>;
+  handleCreate: (d: DocumentFormSchema) => Promise<void>;
+  handleUpdate: (d: DocumentFormSchema) => Promise<void>;
   handleDelete: () => Promise<void>;
   handleRestore: (id: string) => Promise<void>;
   handleViewDocumentFromActivity: (id: string) => void;
@@ -106,7 +104,7 @@ const MedicalDialogsContainer = ({
         onRestoreDocument={_handleRestoreActivity}
       />
 
-      <MedicalHistoryForm
+      <DocumentForm
         isOpen={dialogs.isAddDialogOpen}
         setIsOpen={(open) =>
           open ? openDialog("isAddDialogOpen") : closeDialog("isAddDialogOpen")
@@ -118,7 +116,7 @@ const MedicalDialogsContainer = ({
         isSubmitting={isSubmitting}
       />
 
-      <MedicalHistoryForm
+      <DocumentForm
         key={editingItem?.id}
         isEditMode
         isOpen={dialogs.isEditDialogOpen}

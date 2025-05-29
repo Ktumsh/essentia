@@ -10,8 +10,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 import { AIRecommendationDetail } from "./ai-recommendation-detail";
 import RecommendationCard from "./recommendation-card";
+import RecommendationDeleteAlert from "./recommendation-delete-alert";
 import RecommendationRow from "./recommendation-row";
-import SavedDeleteConfirmationDialog from "./saved-delete-confirmation-dialog";
 
 import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 
@@ -134,7 +134,7 @@ const RecommendationSection = ({
         </Dialog>
       )}
 
-      <SavedDeleteConfirmationDialog
+      <RecommendationDeleteAlert
         isDeleteDialogOpen={isDeleteDialogOpen}
         setIsDeleteDialogOpen={setIsDeleteDialogOpen}
         recommendationToDelete={recommendationToDelete}

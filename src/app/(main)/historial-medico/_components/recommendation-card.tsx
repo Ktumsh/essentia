@@ -133,10 +133,8 @@ const RecommendationCard = ({
         <DrawerFooter>
           <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
             <Button
-              variant="ghost"
-              size="icon"
+              variant="mobile"
               onClick={() => onShareRecommendation(recommendation)}
-              className="h-auto w-full justify-start"
             >
               <Share />
               Compartir

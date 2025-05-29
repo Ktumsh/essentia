@@ -16,7 +16,7 @@ import { useMedicalDialogs } from "./use-medical-dialogs";
 import { useMedicalHistoryActions } from "./use-medical-history-actions";
 import { useRecommendationsActions } from "./use-recommendations-actions";
 
-import type { MedicalHistoryFormSchema } from "../_components/medical-history-form";
+import type { DocumentFormSchema } from "../_components/document-form";
 import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import type { MedicalTag } from "@/db/schema";
 import type { MedicalHistoryActivity } from "@/lib/types";
@@ -153,7 +153,7 @@ export function useMedicalHistoryLogic() {
   }, []);
 
   const handleCreate = useCallback(
-    async (data: MedicalHistoryFormSchema) => {
+    async (data: DocumentFormSchema) => {
       setIsSubmitting(true);
       try {
         if (!uploadStatus?.allowed) {
@@ -177,7 +177,7 @@ export function useMedicalHistoryLogic() {
   );
 
   const handleUpdate = useCallback(
-    async (data: MedicalHistoryFormSchema) => {
+    async (data: DocumentFormSchema) => {
       if (!editingItem) return;
       setIsSubmitting(true);
       try {

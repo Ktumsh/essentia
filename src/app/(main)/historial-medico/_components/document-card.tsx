@@ -223,7 +223,7 @@ const DocumentCard = ({
             <Button
               variant="mobile"
               onClick={() => onAIClick(doc)}
-              className="text-indigo-700 dark:text-indigo-300"
+              className="text-secondary"
             >
               <Stars />
               Analizar con IA

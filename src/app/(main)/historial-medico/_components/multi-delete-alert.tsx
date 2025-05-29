@@ -89,7 +89,7 @@ const MultiDeleteAlert = ({
             </div>
             <Button
               disabled={isSubmitting}
-              variant="mobile-primary"
+              variant="mobile-destructive"
               onClick={onDelete}
             >
               {isSubmitting ? (

@@ -14,7 +14,7 @@ import {
 
 import { uploadMedicalFile } from "../_lib/utils";
 
-import type { MedicalHistoryFormSchema } from "../_components/medical-history-form";
+import type { DocumentFormSchema } from "../_components/document-form";
 
 export interface MedicalHistoryOpsOptions {
   userId: string;
@@ -32,7 +32,7 @@ export function useMedicalHistoryActions({
   setHasNewActivity,
 }: MedicalHistoryOpsOptions) {
   const { mutate: folderMutate } = useSWRConfig();
-  async function createRecord(data: MedicalHistoryFormSchema) {
+  async function createRecord(data: DocumentFormSchema) {
     try {
       if (!data.file) {
         throw new Error("No se ha seleccionado ningún archivo");
@@ -78,7 +78,7 @@ export function useMedicalHistoryActions({
 
   async function updateRecord(
     editingItem: MedicalHistoryWithTags,
-    data: MedicalHistoryFormSchema,
+    data: DocumentFormSchema,
   ): Promise<void> {
     let updatedFile = null;
     try {
