@@ -1,29 +1,12 @@
 "use client";
 
-import { Brain, Lightbulb, Tag, CheckCheck } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { Brain, Tag } from "lucide-react";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { toast } from "sonner";
-import { useCopyToClipboard } from "usehooks-ts";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import { BookmarkButton } from "@/components/button-kit/bookmark-button";
-import { CopyButton } from "@/components/button-kit/copy-button";
-import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { SaveButton } from "@/components/button-kit/save-button";
-import { ShareButton } from "@/components/button-kit/share-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { LoaderAIIcon } from "@/components/icons/status";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/kit/alert-dialog";
 import { Badge } from "@/components/kit/badge";
 import { BadgeAlert } from "@/components/kit/badge-alert";
 import { Button } from "@/components/kit/button";
@@ -53,7 +36,6 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import { Textarea } from "@/components/kit/textarea";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -61,28 +43,9 @@ import { cn } from "@/lib/utils";
 
 import { getTagColor } from "../_lib/utils";
 import { generateAiMedicalRecommendations } from "../actions";
-import { AIRecommendationDetail } from "./ai-recommendation-detail";
-import AIRecommendationsCard from "./ai-recommendations-card";
-
-const secondaryMessages = [
-  "El cerebro digital está en acción...",
-  "Analizando patrones de salud...",
-  "Sintetizando recomendaciones...",
-  "Procesando datos médicos, ¡un instante por favor!",
-  "Pensando en tu bienestar...",
-  "Armando sugerencias personalizadas...",
-  "Revisando tu historial con lupa...",
-  "La IA está haciendo magia médica...",
-  "Detectando oportunidades para mejorar tu salud...",
-  "Ordenando tus datos geniales...",
-  "Esto tomará solo unos segundos...",
-  "Buscando ideas brillantes para ti...",
-  "Traduciendo tus exámenes en soluciones...",
-  "Afinando cada detalle de tus recomendaciones...",
-  "Cargando ideas saludables...",
-  "Inspirando bienestar y equilibrio...",
-  "Leyendo tus antecedentes médicos con atención...",
-];
+import AICloseAlert from "./ai-close-alert";
+import AIDisclaimer from "./ai-disclaimer";
+import AIResults from "./ai-results";
 
 export type AIRecommendationType = Omit<
   AiMedicalRecommendation,
@@ -147,14 +110,8 @@ const AIRecommendation = ({
     useState<AIRecommendationType | null>(null);
   const [alertOpen, setAlertOpen] = useState(false);
 
-  const [secondaryIndex, setSecondaryIndex] = useState(
-    Math.floor(Math.random() * secondaryMessages.length),
-  );
-
   const [savedRecommendation, setSavedRecommendation] =
     useState<boolean>(false);
-
-  const [, copyToClipboard] = useCopyToClipboard();
 
   // Actualiza la selección al recibir nuevas props
   useEffect(() => setSelectedDocuments(selectedItems), [selectedItems]);
@@ -191,21 +148,6 @@ const AIRecommendation = ({
       setCustomQuestion("");
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    if (isLoading) {
-      const interval = setInterval(() => {
-        setSecondaryIndex((prevIndex) => {
-          let newIndex = prevIndex;
-          while (newIndex === prevIndex) {
-            newIndex = Math.floor(Math.random() * secondaryMessages.length);
-          }
-          return newIndex;
-        });
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [isLoading]);
 
   // Calcular documentos agrupados por tag
   const documentsByTag = useMemo(
@@ -296,29 +238,6 @@ const AIRecommendation = ({
     }
   };
 
-  const onCopy = async () => {
-    const textFromParts = recommendations
-      .map(
-        (rec) =>
-          `${rec.title}\nRecomendación: ${rec.description}\nPrioridad: ${
-            rec.priority === "high"
-              ? "Alta"
-              : rec.priority === "medium"
-                ? "Media"
-                : "Baja"
-          }\n\n`,
-      )
-      .join("");
-
-    if (!textFromParts) {
-      toast.error("¡No hay texto que copiar!");
-      return;
-    }
-
-    await copyToClipboard(textFromParts);
-    toast.success("¡Texto copiado!");
-  };
-
   const toggleDocumentSelection = useCallback(
     (docId: string) =>
       setSelectedDocuments((prev) =>
@@ -366,13 +285,6 @@ const AIRecommendation = ({
     setSelectedRecommendation(null);
   };
 
-  const allRecommendationsSaved = useMemo(() => {
-    if (recommendations.length === 0) return false;
-    return recommendations.every((rec) =>
-      isRecommendationSaved(rec, savedRecommendations),
-    );
-  }, [recommendations, savedRecommendations, isRecommendationSaved]);
-
   const content = (
     <>
       <Tabs
@@ -403,46 +315,45 @@ const AIRecommendation = ({
           value="select"
           className="flex flex-1 flex-col overflow-hidden"
         >
-          <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
-            <div className="no-scrollbar flex gap-2 overflow-y-auto px-4 md:px-6">
-              <Button
-                size="sm"
-                radius="full"
-                variant={analysisType === "all" ? "secondary" : "outline"}
-                onClick={() => setAnalysisType("all")}
-                className={cn(
-                  "bg-background flex-1 border-0 text-xs md:text-sm",
-                  analysisType === "all" && "bg-secondary",
-                )}
-              >
-                Todo el historial
-              </Button>
-              <Button
-                size="sm"
-                radius="full"
-                variant={analysisType === "selected" ? "secondary" : "outline"}
-                onClick={() => setAnalysisType("selected")}
-                className={cn(
-                  "bg-background flex-1 border-0 text-xs md:text-sm",
-                  analysisType === "selected" && "bg-secondary",
-                )}
-              >
-                Documentos específicos
-              </Button>
-              <Button
-                size="sm"
-                radius="full"
-                variant={analysisType === "tags" ? "secondary" : "outline"}
-                onClick={() => setAnalysisType("tags")}
-                className={cn(
-                  "bg-background flex-1 border-0 text-xs md:text-sm",
-                  analysisType === "tags" && "bg-secondary",
-                )}
-              >
-                Por categorías
-              </Button>
-            </div>
-
+          <div className="no-scrollbar mb-4 flex gap-2 overflow-x-auto px-4 md:px-6">
+            <Button
+              size="sm"
+              radius="full"
+              variant={analysisType === "all" ? "secondary" : "outline"}
+              onClick={() => setAnalysisType("all")}
+              className={cn(
+                "bg-background flex-1 border-0 text-xs md:text-sm",
+                analysisType === "all" && "bg-secondary",
+              )}
+            >
+              Todo el historial
+            </Button>
+            <Button
+              size="sm"
+              radius="full"
+              variant={analysisType === "selected" ? "secondary" : "outline"}
+              onClick={() => setAnalysisType("selected")}
+              className={cn(
+                "bg-background flex-1 border-0 text-xs md:text-sm",
+                analysisType === "selected" && "bg-secondary",
+              )}
+            >
+              Documentos específicos
+            </Button>
+            <Button
+              size="sm"
+              radius="full"
+              variant={analysisType === "tags" ? "secondary" : "outline"}
+              onClick={() => setAnalysisType("tags")}
+              className={cn(
+                "bg-background flex-1 border-0 text-xs md:text-sm",
+                analysisType === "tags" && "bg-secondary",
+              )}
+            >
+              Por categorías
+            </Button>
+          </div>
+          <div className="flex flex-1 flex-col space-y-4 overflow-y-auto">
             <div className="px-4 md:px-6">
               <ScrollArea className="bg-background h-72 flex-1 rounded-xl">
                 {analysisType === "all" && (
@@ -681,175 +592,34 @@ const AIRecommendation = ({
           value="results"
           className="flex flex-1 flex-col overflow-hidden"
         >
-          {isLoading ? (
-            <div className="m-4 flex flex-1 flex-col items-center justify-center rounded-lg bg-linear-to-r/shorter from-indigo-200 to-fuchsia-200 px-4 md:m-6 dark:from-indigo-900 dark:to-fuchsia-900">
-              <LoaderAIIcon className="text-secondary mb-4 size-10" />
-
-              <motion.p
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-base font-medium"
-              >
-                ✨ Preparando sugerencias para ti...
-              </motion.p>
-              <span className="loading-shimmer text-sm">
-                {secondaryMessages[secondaryIndex]}
-              </span>
-            </div>
-          ) : (
-            <AnimatePresence mode="popLayout" initial={false}>
-              {selectedRecommendation ? (
-                <motion.div
-                  key="detail"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="flex flex-1 flex-col overflow-y-auto"
-                >
-                  <AIRecommendationDetail
-                    recommendation={selectedRecommendation}
-                    medicalHistory={medicalHistory}
-                    onBack={() => setSelectedRecommendation(null)}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="list"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="flex flex-1 flex-col overflow-hidden"
-                >
-                  <div className="flex items-center justify-between px-4 pb-4 md:px-6 md:pb-6">
-                    <h3 className="flex items-center gap-2 text-base font-medium">
-                      <Lightbulb className="size-5 shrink-0 text-amber-500" />{" "}
-                      Recomendaciones personalizadas
-                    </h3>
-                    <div className="flex items-center gap-2">
-                      <BetterTooltip content="Generar nuevas recomendaciones">
-                        <RefreshButton
-                          variant="ghost"
-                          size="icon"
-                          onClick={requestRecommendations}
-                          className="hover:bg-background"
-                        />
-                      </BetterTooltip>
-                      <BetterTooltip content="Copiar">
-                        <CopyButton
-                          variant="ghost"
-                          size="icon"
-                          onClick={onCopy}
-                          className="hover:bg-background"
-                        />
-                      </BetterTooltip>
-                      <BetterTooltip content="Compartir">
-                        <ShareButton
-                          variant="ghost"
-                          size="icon"
-                          onClick={() =>
-                            recommendations.length > 0 &&
-                            onShareRecommendation(recommendations)
-                          }
-                          className="hover:bg-background"
-                        />
-                      </BetterTooltip>
-                      {allRecommendationsSaved ? (
-                        <BetterTooltip content="Recomendaciones guardadas">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="cursor-default text-emerald-500 hover:bg-transparent dark:text-emerald-400"
-                          >
-                            <CheckCheck className="size-4" />
-                          </Button>
-                        </BetterTooltip>
-                      ) : (
-                        <BetterTooltip content="Guardar recomendaciones">
-                          <BookmarkButton
-                            variant="ghost"
-                            size="icon"
-                            onClick={() =>
-                              onSaveRecommendation(recommendations)
-                            }
-                            className={cn(
-                              "hover:bg-background",
-                              allRecommendationsSaved && "fill-foreground",
-                            )}
-                          />
-                        </BetterTooltip>
-                      )}
-                    </div>
-                  </div>
-                  <div className="overflow-y-auto">
-                    <div className="space-y-4 px-4 md:px-6 md:pb-6">
-                      {recommendations.map((rec, index) => (
-                        <AIRecommendationsCard
-                          key={index}
-                          recommendation={rec}
-                          medicalHistory={medicalHistory}
-                          currentItem={selectedRecommendation}
-                          savedRecommendations={savedRecommendations}
-                          onViewDetails={() => setSelectedRecommendation(rec)}
-                          onShare={onShareRecommendation}
-                          isSaved={isRecommendationSaved}
-                          toggleRecommendation={toggleRecommendation}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
+          <AIResults
+            isLoading={isLoading}
+            recommendations={recommendations}
+            medicalHistory={medicalHistory}
+            savedRecommendations={savedRecommendations}
+            selectedRecommendation={selectedRecommendation}
+            onBack={() => setSelectedRecommendation(null)}
+            toggleRecommendation={toggleRecommendation}
+            onShareRecommendation={onShareRecommendation}
+            onSaveRecommendation={onSaveRecommendation}
+            onSelectedRecommendation={setSelectedRecommendation}
+            onGenerateRecommendations={requestRecommendations}
+            isRecommendationSaved={isRecommendationSaved}
+          />
         </TabsContent>
       </Tabs>
-      <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
-        <AlertDialogContent isSecondary>
-          <AlertDialogHeader isSecondary className="p-4 md:p-6">
-            <BadgeAlert variant="warning" />
-            <AlertDialogTitle>Confirmar cierre</AlertDialogTitle>
-            <AlertDialogDescription asChild>
-              <div className="space-y-1.5">
-                <p>
-                  Aún no has guardado ninguna recomendación. Si cierras,
-                  perderás la actual y deberás generar una nueva 😅
-                </p>
-                <p className="font-semibold text-amber-500">
-                  ¿Estás seguro de que deseas cerrar?
-                </p>
-              </div>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter isSecondary className="justify-end!">
-            <AlertDialogCancel asChild>
-              <Button
-                variant="outline"
-                onClick={() => setAlertOpen(false)}
-                className="rounded-full"
-              >
-                Cancelar
-              </Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button
-                onClick={() => {
-                  setAlertOpen(false);
-                  setTimeout(() => {
-                    setSelectedRecommendation(null);
-                    onClose();
-                  }, 100);
-                }}
-                className="rounded-full"
-              >
-                Confirmar
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AICloseAlert
+        open={alertOpen}
+        onOpenChange={setAlertOpen}
+        onClose={() => {
+          setAlertOpen(false);
+          setTimeout(() => {
+            setSelectedRecommendation(null);
+            onClose();
+          }, 100);
+        }}
+      />
+      <AIDisclaimer isOpen={isOpen} />
     </>
   );
 
@@ -860,8 +630,8 @@ const AIRecommendation = ({
         if (!open) handleClose();
       }}
     >
-      <DrawerContent className="h-full">
-        <DrawerHeader>
+      <DrawerContent className="h-full bg-linear-to-br/shorter from-indigo-100 to-fuchsia-100 sm:max-w-2xl dark:from-indigo-950/50 dark:to-fuchsia-950/50">
+        <DrawerHeader className="border-background">
           <DrawerTitle className="flex items-center justify-center gap-2">
             <Brain className="size-5 text-indigo-500" />
             Recomendaciones con IA
@@ -902,7 +672,7 @@ const AIRecommendation = ({
                 <Button
                   variant="mobile"
                   onClick={handleClose}
-                  className="justify-center"
+                  className="bg-background justify-center"
                 >
                   Cancelar
                 </Button>
@@ -930,16 +700,16 @@ const AIRecommendation = ({
             </>
           ) : (
             <>
-              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+              <div className="bg-background flex flex-col overflow-hidden rounded-xl">
                 <ArrowLeftButton
                   variant="mobile"
                   onClick={() => setActiveTab("select")}
-                  className="justify-center rounded-xl"
+                  className="justify-center"
                 >
                   Volver a selección
                 </ArrowLeftButton>
               </div>
-              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+              <div className="bg-background flex flex-col overflow-hidden rounded-xl">
                 <Button
                   variant="mobile"
                   onClick={handleClose}

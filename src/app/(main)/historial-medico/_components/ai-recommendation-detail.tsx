@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Lightbulb, Tag } from "lucide-react";
+import { FileText, FileX, Lightbulb, Tag } from "lucide-react";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { DownloadButton } from "@/components/button-kit/download-button";
@@ -30,6 +30,7 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
 
 import { AIRecommendationType } from "./ai-recommendation";
+import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
 import { getFileTypeColor, getPriorityBadge, getTagColor } from "../_lib/utils";
 
 interface AIRecommendationDetailProps {
@@ -56,6 +57,8 @@ export const AIRecommendationDetail = ({
   const isMobile = useIsMobile();
 
   const priorityBadge = getPriorityBadge(recommendation.priority);
+
+  const { handleDownload } = useMedicalHistoryLogic();
 
   return (
     <>
@@ -152,79 +155,136 @@ export const AIRecommendationDetail = ({
               <div className="space-y-2">
                 {recommendation.relatedDocuments.map((docId) => {
                   const doc = medicalHistory.find((d) => d.id === docId);
-                  return (
-                    doc && (
-                      <div
-                        key={docId}
-                        className={cn(
-                          "bg-accent relative rounded-xl p-3",
-                          !isFromSavedRecommendations && "bg-background",
-                        )}
-                      >
-                        <div className="grid grid-cols-[auto_1fr] gap-2 pr-24">
-                          <FileText
-                            className={cn("size-5", getFileTypeColor(doc.type))}
-                          />
-                          <div className="grid space-y-1 truncate">
-                            <p className="truncate text-sm font-medium">
-                              {doc.condition}
-                            </p>
-                            <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                              {doc.issuer && <span>{doc.issuer}</span>}
-                              {doc.documentDate && (
-                                <span>
-                                  {formatDate(
-                                    new Date(doc.documentDate),
-                                    "dd MMM yyyy",
-                                  )}
-                                </span>
-                              )}
-                            </div>
-                            {doc.description && (
-                              <p className="truncate text-xs">
-                                {doc.description}
-                              </p>
+                  return doc ? (
+                    <div
+                      key={docId}
+                      className={cn(
+                        "bg-accent relative rounded-xl p-3",
+                        !isFromSavedRecommendations && "bg-background",
+                      )}
+                    >
+                      <div className="grid grid-cols-[auto_1fr] gap-2 pr-24">
+                        <FileText
+                          className={cn("size-5", getFileTypeColor(doc.type))}
+                        />
+                        <div className="grid space-y-1 truncate">
+                          <p className="truncate text-sm font-medium">
+                            {doc.condition}
+                          </p>
+                          <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                            {doc.issuer && <span>{doc.issuer}</span>}
+                            {doc.documentDate && (
+                              <span>
+                                {formatDate(
+                                  new Date(doc.documentDate),
+                                  "dd MMM yyyy",
+                                )}
+                              </span>
                             )}
                           </div>
-                        </div>
-                        <div className="absolute inset-y-0 right-0 m-4 flex items-center gap-2">
-                          {onViewFile && doc.file?.url && (
-                            <BetterTooltip content="Ver documento" side="top">
-                              <EyeButton
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  onViewFile({
-                                    url: doc.file?.url,
-                                    name: doc.file?.name || "documento",
-                                  });
-                                }}
-                                className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
-                              >
-                                <span className="sr-only">Ver</span>
-                              </EyeButton>
-                            </BetterTooltip>
+                          {doc.description && (
+                            <p className="truncate text-xs">
+                              {doc.description}
+                            </p>
                           )}
-                          <BetterTooltip
-                            content="Descargar documento"
-                            side="top"
-                          >
-                            <DownloadButton
-                              variant="outline"
-                              size="icon"
-                              className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
-                            >
-                              <span className="sr-only">Descargar</span>
-                            </DownloadButton>
-                          </BetterTooltip>
                         </div>
                       </div>
-                    )
+                      <div className="absolute inset-y-0 right-0 m-4 flex items-center gap-2">
+                        {onViewFile && doc.file?.url && (
+                          <BetterTooltip content="Ver documento" side="top">
+                            <EyeButton
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                onViewFile({
+                                  url: doc.file?.url,
+                                  name: doc.file?.name || "documento",
+                                });
+                              }}
+                              className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
+                            >
+                              <span className="sr-only">Ver</span>
+                            </EyeButton>
+                          </BetterTooltip>
+                        )}
+                        <BetterTooltip content="Descargar documento" side="top">
+                          <DownloadButton
+                            variant="outline"
+                            size="icon"
+                            onClick={() =>
+                              handleDownload({
+                                url: doc.file?.url,
+                                name: doc.file?.name || "documento",
+                              })
+                            }
+                            className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
+                          >
+                            <span className="sr-only">Descargar</span>
+                          </DownloadButton>
+                        </BetterTooltip>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="bg-background flex flex-col items-center gap-2 rounded-md border border-dashed p-3"
+                      key={docId}
+                    >
+                      <FileX className="text-muted-foreground size-4" />
+                      <p className="text-muted-foreground text-sm">
+                        Sin documentos relacionados
+                      </p>
+                    </div>
                   );
                 })}
               </div>
             </div>
           )}
+
+        <div>
+          <h4 className="mb-1 text-sm font-medium">Acciones recomendadas</h4>
+          <div className="mb-2 rounded-xl bg-amber-50 p-3 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+            <ul className="list-inside list-disc space-y-1 text-sm">
+              {recommendation.priority === "high" ? (
+                <>
+                  <li>
+                    Consulta con tu médico lo antes posible sobre esta
+                    recomendación
+                  </li>
+                  <li>
+                    Considera programar una cita de seguimiento en las próximas
+                    semanas
+                  </li>
+                </>
+              ) : recommendation.priority === "medium" ? (
+                <>
+                  <li>
+                    Discute esta recomendación en tu próxima visita médica
+                  </li>
+                  <li>Mantén un registro de cualquier síntoma relacionado</li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    Ten en cuenta esta información para tu bienestar general
+                  </li>
+                  <li>
+                    Considera incluirla en tu próxima revisión médica rutinaria
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+          <div className="flex items-start gap-2 rounded-xl bg-green-50 p-3 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
+            <BadgeAlert
+              variant="success"
+              className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
+            />
+            <p className="text-xs md:text-sm">
+              Siempre consulta con profesionales de la salud antes de tomar
+              decisiones médicas.
+            </p>
+          </div>
+        </div>
 
         {onSaveNotes && (
           <div className="flex flex-col space-y-2">
@@ -234,7 +294,7 @@ export const AIRecommendationDetail = ({
                 placeholder="Añade tus notas personales sobre esta recomendación..."
                 value={editNotes}
                 onChange={(e) => setEditNotes(e.target.value)}
-                className="dark:border-alternative md:dark:border-border md:border-border min-h-24 resize-none"
+                className="dark:border-alternative md:dark:border-border md:border-border min-h-20 resize-none"
               />
               <Button radius="full" size="sm" onClick={onSaveNotes}>
                 Guardar notas
@@ -242,50 +302,6 @@ export const AIRecommendationDetail = ({
             </div>
           </div>
         )}
-
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
-          <h4 className="mb-1 text-sm font-medium">Acciones recomendadas</h4>
-          <ul className="list-inside list-disc space-y-1 text-sm">
-            {recommendation.priority === "high" ? (
-              <>
-                <li>
-                  Consulta con tu médico lo antes posible sobre esta
-                  recomendación
-                </li>
-                <li>
-                  Considera programar una cita de seguimiento en las próximas
-                  semanas
-                </li>
-              </>
-            ) : recommendation.priority === "medium" ? (
-              <>
-                <li>Discute esta recomendación en tu próxima visita médica</li>
-                <li>Mantén un registro de cualquier síntoma relacionado</li>
-              </>
-            ) : (
-              <>
-                <li>
-                  Ten en cuenta esta información para tu bienestar general
-                </li>
-                <li>
-                  Considera incluirla en tu próxima revisión médica rutinaria
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-
-        <div className="flex items-start gap-2 rounded-xl border border-green-200 bg-green-50 p-3 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
-          <BadgeAlert
-            variant="success"
-            className="mb-0 size-6 md:size-7 [&_svg]:size-3.5! md:[&_svg]:size-4!"
-          />
-          <p className="text-xs md:text-sm">
-            Esta recomendación fue generada por IA basada en tu historial
-            médico. Siempre consulta con profesionales de la salud antes de
-            tomar decisiones médicas.
-          </p>
-        </div>
       </div>
 
       {isFromSavedRecommendations && (
