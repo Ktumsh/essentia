@@ -59,7 +59,7 @@ export const FAQ_SUPPORT_DATA = [
     id: "f8",
     question: "¿Qué ventajas tiene el plan Premium?",
     answer:
-      "Incluye todo lo del plan gratuito, además de acceso a Essentia AI con hasta 15 mensajes diarios, generación de recomendaciones con IA basadas en tus documentos médicos (hasta 15 activas), rutinas personalizadas, evaluación de riesgo de salud y actividades de bienestar.",
+      "Incluye todo lo del plan gratuito, además de acceso a Chat con Aeris con hasta 15 mensajes diarios, generación de recomendaciones con IA basadas en tus documentos médicos (hasta 15 activas), rutinas personalizadas, evaluación de riesgo de salud y actividades de bienestar.",
     category: "planes",
     tags: ["plan premium", "funcionalidades", "IA", "rutinas", "bienestar"],
   },
@@ -129,17 +129,17 @@ export const FAQ_SUPPORT_DATA = [
   },
   {
     id: "f17",
-    question: "¿Essentia AI está disponible en todos los planes?",
+    question: "¿Chat con Aeris está disponible en todos los planes?",
     answer:
-      "No. Essentia AI solo está disponible para usuarios con los planes Premium o Premium Plus.",
+      "No. Chat con Aeris solo está disponible para usuarios con los planes Premium o Premium Plus.",
     category: "planes",
-    tags: ["IA", "Essentia AI", "planes"],
+    tags: ["IA", "Chat con Aeris", "planes"],
   },
   {
     id: "f17b",
-    question: "¿Qué herramientas incluye Essentia AI según mi plan?",
+    question: "¿Qué herramientas incluye Chat con Aeris según mi plan?",
     answer:
-      "Essentia AI ofrece funciones como chat de salud personalizado, generación de rutinas y planes nutricionales, evaluación de riesgo de salud, recomendaciones según el clima y recordatorios relacionados con tu bienestar. En el plan Premium puedes enviar hasta 15 mensajes diarios. En el plan Premium Plus puedes usar todas estas herramientas sin límites.",
+      "Chat con Aeris ofrece funciones como chat de salud personalizado, generación de rutinas y planes nutricionales, evaluación de riesgo de salud, recomendaciones según el clima y recordatorios relacionados con tu bienestar. En el plan Premium puedes enviar hasta 15 mensajes diarios. En el plan Premium Plus puedes usar todas estas herramientas sin límites.",
     category: "planes",
     tags: ["essentia ai", "funcionalidades", "chat", "planes", "herramientas"],
   },
@@ -170,7 +170,7 @@ export const FAQ_SUPPORT_DATA = [
     id: "f21",
     question: "¿Puedo probar el plan Premium antes de comprarlo?",
     answer:
-      "Sí, puedes acceder a una prueba gratuita de 7 días del plan Premium. Durante ese periodo, podrás explorar funcionalidades como Essentia AI, recomendaciones personalizadas, carga extendida de archivos y más. Al finalizar la prueba, puedes elegir si deseas continuar con el plan de pago.",
+      "Sí, puedes acceder a una prueba gratuita de 7 días del plan Premium. Durante ese periodo, podrás explorar funcionalidades como Chat con Aeris, recomendaciones personalizadas, carga extendida de archivos y más. Al finalizar la prueba, puedes elegir si deseas continuar con el plan de pago.",
     category: "planes",
     tags: ["prueba", "premium", "gratis"],
   },
@@ -307,7 +307,7 @@ export const FAQ_SUPPORT_DATA = [
     id: "f38",
     question: "¿Quién es Aeris?",
     answer:
-      "Aeris es la identidad conversacional de Essentia AI, tu asistente personalizada de salud y bienestar. Está diseñada para responder con calidez, empatía y claridad, entregando recomendaciones, rutinas, recordatorios y orientación en temas relacionados con tu bienestar físico, emocional y nutricional. Aunque no reemplaza a profesionales de la salud, te acompaña día a día con consejos útiles y adaptados a tu perfil.",
+      "Aeris es la identidad conversacional de Chat con Aeris, tu asistente personalizada de salud y bienestar. Está diseñada para responder con calidez, empatía y claridad, entregando recomendaciones, rutinas, recordatorios y orientación en temas relacionados con tu bienestar físico, emocional y nutricional. Aunque no reemplaza a profesionales de la salud, te acompaña día a día con consejos útiles y adaptados a tu perfil.",
     category: "general",
     tags: ["aeris", "essentia ai", "asistente", "ia", "bienestar"],
   },

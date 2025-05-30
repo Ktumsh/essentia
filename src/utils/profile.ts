@@ -8,7 +8,7 @@ import { getUserTrialStatus } from "@/db/querys/user-querys";
 
 import type { UserProfileData } from "@/lib/types";
 
-export async function getUserProfileData({
+export async function getUserData({
   userId,
   username,
 }: {

@@ -182,7 +182,7 @@ const PaymentModal = ({
         };
       case "chat":
         return {
-          title: "Desbloquea a Essentia AI",
+          title: "Desbloquea a Chat con Aeris",
           description:
             "Interactúa con nuestra inteligencia artificial para obtener respuestas rápidas, precisas y herramientas personalizadas para tu salud.",
           icon: <AIFillIcon className="size-5" />,
@@ -226,7 +226,7 @@ const PaymentModal = ({
         return {
           title: "Desbloquea el máximo acceso a Essentia",
           description:
-            "Accede a Essentia AI sin límites, documentos médicos ilimitados, sugerencias automáticas, organización inteligente y seguimiento completo de tu bienestar.",
+            "Accede a Chat con Aeris sin límites, documentos médicos ilimitados, sugerencias automáticas, organización inteligente y seguimiento completo de tu bienestar.",
           icon: <Crown className="size-5" />,
           color: "bg-yellow-500",
         };
@@ -283,7 +283,7 @@ const PaymentModal = ({
                 <ul className="text-foreground space-y-3 text-sm">
                   <li className="inline-flex gap-2">
                     <Brain className="size-4 shrink-0 text-indigo-500" />
-                    Accede a Essentia AI con recomendaciones personalizadas
+                    Accede a Chat con Aeris con recomendaciones personalizadas
                   </li>
                   <li className="flex items-center gap-2">
                     <BookmarkCheck className="size-4 shrink-0 text-indigo-500" />

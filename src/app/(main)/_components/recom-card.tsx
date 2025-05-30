@@ -50,13 +50,13 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
         </Link>
         {isPremium ? (
           <Link
-            href="/essentia-ai"
+            href="/aeris"
             className="bg-premium border-background relative z-1 col-span-2 flex items-center justify-center rounded-3xl border-2 text-white transition active:scale-[.97] active:shadow-lg active:saturate-200"
           >
             <div className="inline-flex h-16 items-center justify-center gap-2">
               <AIFillIcon className="size-7" />
               <h2 className="text-2xl leading-none font-semibold">
-                Essentia AI
+                Chat con Aeris
               </h2>
             </div>
             <div className="bg-premium absolute inset-0 -z-1 scale-95 rounded-2xl blur-md"></div>

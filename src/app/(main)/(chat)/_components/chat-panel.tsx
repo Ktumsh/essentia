@@ -86,7 +86,7 @@ const ChatPanel = (props: ChatPanelProps) => {
       });
       handleSubmit();
 
-      window.history.replaceState({}, "", `/essentia-ai/chat/${chatId}`);
+      window.history.replaceState({}, "", `/aeris/chat/${chatId}`);
       setActiveChatId(chatId);
     }
   }, [
@@ -107,10 +107,10 @@ const ChatPanel = (props: ChatPanelProps) => {
     }
   }, [status, scrollToBottom]);
 
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [openPayment, setOpenPayment] = useState(false);
   const [upgradeToMoreMessages, setUpgradeToMoreMessages] = useState(false);
 
-  const isChat = pathname.startsWith("/essentia-ai/chat");
+  const isChat = pathname.startsWith("/aeris/chat");
 
   return (
     <>
@@ -187,7 +187,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                   <MessagesUsageBanner
                     remainingMessages={remainingMessages}
                     onOpenPayment={() => {
-                      setIsPaymentModalOpen(true);
+                      setOpenPayment(true);
                       setUpgradeToMoreMessages(true);
                     }}
                   />
@@ -196,7 +196,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                     <MessagesUsageBanner
                       remainingMessages={remainingMessages}
                       onOpenPayment={() => {
-                        setIsPaymentModalOpen(true);
+                        setOpenPayment(true);
                         setUpgradeToMoreMessages(true);
                       }}
                     />
@@ -222,8 +222,8 @@ const ChatPanel = (props: ChatPanelProps) => {
               <AlertPanel
                 session={session}
                 isPremium={isPremium || false}
-                isPaymentModalOpen={isPaymentModalOpen}
-                setIsPaymentModalOpen={setIsPaymentModalOpen}
+                openPayment={openPayment}
+                setOpenPayment={setOpenPayment}
                 isUpgradeToMoreMessages={upgradeToMoreMessages}
               />
             </div>

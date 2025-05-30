@@ -29,7 +29,6 @@ import {
   useSidebar,
 } from "@/components/kit/sidebar";
 
-
 import type { NavConfig } from "@/config/nav.config";
 
 interface MainNavInfoProps {
@@ -40,7 +39,7 @@ interface MainNavInfoProps {
 const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
   const pathname = usePathname();
 
-  const isAIPage = pathname.startsWith("/essentia-ai");
+  const isAIPage = pathname.startsWith("/aeris");
 
   const { state } = useSidebar();
   return (

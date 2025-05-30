@@ -11,7 +11,7 @@ import { useIsMac } from "@/hooks/use-is-mac";
 const AppSidebarToggle = () => {
   const pathname = usePathname();
   const { open: isOpen, toggleSidebar } = useSidebar();
-  const isAiPage = pathname.startsWith("/essentia-ai");
+  const isAiPage = pathname.startsWith("/aeris");
 
   const isMac = useIsMac();
 

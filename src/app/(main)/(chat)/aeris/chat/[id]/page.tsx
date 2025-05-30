@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { getChatById, getMessagesByChatId } from "@/db/querys/chat-querys";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import { Chat } from "../../../_components/chat";
 import { convertToUIMessages } from "../../../_lib/utils";
@@ -39,17 +39,17 @@ export default async function ChatPage(props: ChatPageProps) {
   const chat = await getChatById({ id });
 
   if (!chat) {
-    redirect("/essentia-ai");
+    redirect("/aeris");
   }
 
   const session = await auth();
 
   const isOwnChat = chat?.userId === session?.user?.id;
 
-  const profileData = !isOwnChat
-    ? await getUserProfileData({ userId: chat.userId })
+  const userData = !isOwnChat
+    ? await getUserData({ userId: chat.userId })
     : session?.user?.id
-      ? await getUserProfileData({ userId: session.user.id })
+      ? await getUserData({ userId: session.user.id })
       : null;
 
   if (chat.visibility === "private") {
@@ -72,7 +72,7 @@ export default async function ChatPage(props: ChatPageProps) {
       initialMessages={convertToUIMessages(messagesFromDb)}
       initialVisibilityType={chat.visibility}
       session={session}
-      user={profileData}
+      user={userData}
       isReadonly={session?.user?.id !== chat.userId}
       autoResume={true}
     />

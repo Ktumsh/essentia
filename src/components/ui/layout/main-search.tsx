@@ -185,9 +185,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
           <Button
             variant="gradient"
             onClick={() => {
-              router.push(
-                `/essentia-ai?search=${encodeURIComponent(searchTerm)}`,
-              );
+              router.push(`/aeris?search=${encodeURIComponent(searchTerm)}`);
               setOpen(false);
             }}
             className="rounded-full"

@@ -22,8 +22,7 @@ import {
   getUserById,
   getUserTrialStatus,
 } from "@/db/querys/user-querys";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+import stripe from "@/utils/stripe";
 
 type PlanType = "free" | "premium" | "premium-plus";
 

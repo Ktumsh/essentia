@@ -40,7 +40,7 @@ const AiSection = () => {
                       <Logo className="h-6" height={24} width={24} />
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
-                          Essentia AI
+                          Chat con Aeris
                         </span>
                       </div>
                     </div>
@@ -53,7 +53,7 @@ const AiSection = () => {
                     <div className="bg-primary/10 mb-4 rounded-lg p-3">
                       <p className="text-sm">
                         <span className="text-primary font-medium">
-                          Essentia AI:
+                          Chat con Aeris:
                         </span>{" "}
                         Por supuesto, puedo ayudarte a crear un plan
                         personalizado...
@@ -89,7 +89,7 @@ const AiSection = () => {
             </h2>
             <p className="text-foreground/80 mb-8 text-base leading-relaxed md:text-lg">
               Accede a orientación inteligente basada en IA para cuidar tu
-              salud. Con Essentia AI puedes explorar hábitos saludables,
+              salud. Con Chat con Aeris puedes explorar hábitos saludables,
               resolver dudas y tomar decisiones informadas en segundos.
               Disponible en planes{" "}
               <span className="text-primary font-medium">Premium</span>.

@@ -17,7 +17,7 @@ const MessagesUsageBanner = ({
   onOpenPayment,
 }: MessagesUsageBannerProps) => {
   const pathname = usePathname();
-  const isChatPage = pathname.startsWith("/essentia-ai/chat");
+  const isChatPage = pathname.startsWith("/aeris/chat");
   const [isVisible, setIsVisible] = useState(true);
 
   if (typeof remainingMessages !== "number" || remainingMessages > 10) {

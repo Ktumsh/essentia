@@ -527,7 +527,7 @@ function SidebarMenuButton({
   const { isMobile, state } = useSidebar();
 
   const pathname = usePathname();
-  const isAiPage = pathname.startsWith("/essentia-ai");
+  const isAiPage = pathname.startsWith("/aeris");
 
   const button = (
     <Comp

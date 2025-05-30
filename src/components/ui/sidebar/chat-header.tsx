@@ -63,7 +63,7 @@ const ChatHeader = () => {
               tooltip="Nuevo chat"
               isActive
               onClick={() => {
-                router.push("/essentia-ai");
+                router.push("/aeris");
                 router.refresh();
                 setOpenMobile(false);
               }}
@@ -78,11 +78,11 @@ const ChatHeader = () => {
             <SidebarMenuButton
               asChild
               disabled={!isPremiumPlus}
-              isActive={pathname === "/essentia-ai/progreso"}
+              isActive={pathname === "/aeris/progreso"}
             >
               <GripButton
                 variant="ghost"
-                onClick={() => router.push("/essentia-ai/progreso")}
+                onClick={() => router.push("/aeris/progreso")}
                 className="hover:bg-accent hover:text-foreground data-[active=true]:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:dark:border-alternative/50 relative justify-start font-normal data-[active=true]:border-0 data-[active=true]:shadow-none"
               >
                 Hábitos y progreso

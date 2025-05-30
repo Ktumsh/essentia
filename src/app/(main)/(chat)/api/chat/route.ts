@@ -33,7 +33,7 @@ import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { isProductionEnvironment } from "@/lib/consts";
 import { calculateAge } from "@/lib/utils";
 import { formatDate } from "@/utils/format";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import { postRequestBodySchema, type PostRequestBody } from "./schema";
 import { modelProvider } from "../../_lib/models";
@@ -107,12 +107,12 @@ export async function POST(request: Request) {
       return new Response("No autorizado", { status: 401 });
     }
 
-    const user = userId ? await getUserProfileData({ userId }) : null;
+    const user = userId ? await getUserData({ userId }) : null;
 
     const canSend = await canSendMessage(userId);
     if (!canSend) {
       return new Response(
-        "Has alcanzado el límite diario de mensajes con Essentia AI.",
+        "Has alcanzado el límite diario de mensajes con Chat con Aeris.",
         { status: 429 },
       );
     }

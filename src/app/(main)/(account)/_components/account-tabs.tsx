@@ -47,7 +47,7 @@ const AccountTabs = ({ routes }: AccountTabsProps) => {
   return (
     <div className="flex flex-col">
       <Tabs value={pathname} aria-label="Options" className="flex flex-col">
-        <TabsList className="border-border h-12 w-full justify-start rounded-none border-b bg-transparent! p-0">
+        <TabsList className="h-12 w-full justify-start rounded-none border-b bg-transparent! p-0">
           {tabs.map((tab) => (
             <TabsTrigger
               key={tab.value}

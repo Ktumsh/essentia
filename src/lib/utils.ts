@@ -529,7 +529,7 @@ export const getReadableContext = (path: string): string => {
     "/account": "Cuenta",
     "/account/profile": "Perfil",
     "/account/subscription": "Suscripción",
-    "/essentia-ai": "Essentia AI",
+    "/aeris": "Chat con Aeris",
     "/salud-y-bienestar": "Recurso Salud y Bienestar",
     "/ejercicios-y-fitness": "Recurso Ejercicios y Fitness",
     "/nutricion-y-alimentacion": "Recurso Nutrición y Alimentación",
@@ -550,7 +550,7 @@ export const getReadableContext = (path: string): string => {
     "/planes": "Planes y precios",
   };
 
-  if (/^\/essentia-ai\/chat\/[^/]+$/.test(path)) {
+  if (/^\/aeris\/chat\/[^/]+$/.test(path)) {
     return "Chat con IA";
   }
 

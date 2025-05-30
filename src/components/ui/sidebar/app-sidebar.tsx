@@ -43,7 +43,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
 
   const { openMobile, setOpenMobile } = useSidebar();
 
-  const isAIPage = pathname.startsWith("/essentia-ai");
+  const isAIPage = pathname.startsWith("/aeris");
 
   const isCollapsed = isAIPage && session?.user;
 

@@ -12,7 +12,7 @@ import ToolList from "./_components/tool-list";
 export const metadata: Metadata = {
   title: "Hábitos y progreso",
   description:
-    "Consulta tu progreso y hábitos por uso de herramientas de Essentia AI.",
+    "Consulta tu progreso y hábitos por uso de herramientas de Chat con Aeris.",
 };
 
 export default async function ProgressPage() {
@@ -25,7 +25,7 @@ export default async function ProgressPage() {
   const subscriptionType = session ? await getSubscriptionType(userId) : null;
 
   if (subscriptionType?.type !== "premium-plus") {
-    redirect("/essentia-ai");
+    redirect("/aeris");
   }
 
   const toolsGroup = await getGroupedChatToolsByUser(userId);

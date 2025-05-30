@@ -51,7 +51,7 @@ const ChatShareModal = ({
   const copyShareLink = useCallback(
     async (chat: Chat) => {
       const url = new URL(window.location.href);
-      url.pathname = `/essentia-ai/chat/${chat.id}`;
+      url.pathname = `/aeris/chat/${chat.id}`;
       copyToClipboard(url.toString());
       onCopy();
       toast.success("Enlace copiado");
@@ -71,9 +71,7 @@ const ChatShareModal = ({
         <div className="flex w-full items-center space-x-2">
           <Input
             className="text-sm"
-            defaultValue={
-              window.location.origin + `/essentia-ai/chat/${chat.id}`
-            }
+            defaultValue={window.location.origin + `/aeris/chat/${chat.id}`}
             readOnly
           />
           <Button

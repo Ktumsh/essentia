@@ -75,7 +75,7 @@ const GroupedTool = ({ invocations, toolName }: GroupedToolProps) => {
           variant="ghost"
           size="sm"
           className="mb-4 -translate-x-3 rounded-full"
-          onClick={() => router.push("/essentia-ai/progreso")}
+          onClick={() => router.push("/aeris/progreso")}
         >
           Volver a hábitos y progreso
         </ArrowLeftButton>

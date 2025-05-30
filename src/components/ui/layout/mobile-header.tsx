@@ -28,7 +28,7 @@ const MobileHeader = ({ user, session }: MobileHeaderProps) => {
 
   const isScrolled = useIsScrolled();
 
-  const isAIPage = pathname.startsWith("/essentia-ai");
+  const isAIPage = pathname.startsWith("/aeris");
 
   if (!isMobile) return null;
 

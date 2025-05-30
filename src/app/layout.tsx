@@ -21,7 +21,7 @@ import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import { getUserTasks } from "@/db/querys/task-querys";
 import { getUserSubscriptionInfo } from "@/db/querys/user-querys";
 import { cn } from "@/lib/utils";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import { auth } from "./(auth)/auth";
 
@@ -51,7 +51,7 @@ export default async function RootLayout({
   const [payment] = session ? await getPaymentDetails(userId) : [];
 
   const initialTasks = session ? await getUserTasks(userId) : [];
-  const userData = userId ? await getUserProfileData({ userId }) : null;
+  const userData = userId ? await getUserData({ userId }) : null;
   const initialUserSubscription = userId
     ? await getUserSubscriptionInfo(userId)
     : {
