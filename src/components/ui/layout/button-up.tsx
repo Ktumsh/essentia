@@ -16,7 +16,7 @@ const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
 
   const { isVisible, scrollToTop } = useScrollToUp(scrollRef);
 
-  const essentiaAI = pathname === "/essentia-ai";
+  const isAeris = pathname === "/aeris";
 
   return (
     <div
@@ -24,7 +24,7 @@ const ButtonUp = ({ scrollRef }: ButtonUpProps) => {
       className={cn(
         "fixed right-4 bottom-2 z-50 transition-opacity",
         isVisible ? "opacity-100" : "opacity-0",
-        essentiaAI && "hidden",
+        isAeris && "hidden",
       )}
     >
       <Button

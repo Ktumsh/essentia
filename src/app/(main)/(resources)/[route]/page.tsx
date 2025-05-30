@@ -9,7 +9,7 @@ import {
   getStageProgress,
 } from "@/db/querys/progress-querys";
 import { getStages, getRouteBySlug } from "@/db/querys/resource-querys";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import RouteWrapper from "../_components/route-wrapper";
 
@@ -60,7 +60,7 @@ const RoutePage = async (props: Props) => {
 
   const [profileData, completedLessons, stageProgress, routeProgressData] =
     await Promise.all([
-      userId ? getUserProfileData({ userId }) : Promise.resolve(null),
+      userId ? getUserData({ userId }) : Promise.resolve(null),
       userId ? getCompletedLessons(userId, lessonIds) : Promise.resolve([]),
       userId
         ? Promise.all(stages.map((m) => getStageProgress(userId, m.stage.id)))

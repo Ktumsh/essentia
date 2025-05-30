@@ -23,7 +23,7 @@ import { AppSidebar } from "../sidebar/app-sidebar";
 
 import type { UserProfileData } from "@/lib/types";
 
-const HIDDEN_BUTTON_UP_PATHS = ["/essentia-ai"];
+const HIDDEN_BUTTON_UP_PATHS = ["/aeris"];
 
 interface LayoutWrapperProps {
   session: Session | null;
@@ -49,10 +49,9 @@ const LayoutWrapper = ({
 
   const hideButtonUp =
     HIDDEN_BUTTON_UP_PATHS.some((path) => pathname === path) ||
-    pathname.startsWith("/essentia-ai/chat/");
+    pathname.startsWith("/aeris/chat/");
 
-  const isEssentiaAI =
-    pathname === "/essentia-ai" || pathname.startsWith("/essentia-ai/chat/");
+  const isAeris = pathname === "/aeris" || pathname.startsWith("/aeris/chat/");
 
   return (
     <div
@@ -71,7 +70,7 @@ const LayoutWrapper = ({
         <AppSidebar session={session} user={user} isPremium={isPremium} />
         {isMobile ? (
           <SidebarInset>
-            {isEssentiaAI ? (
+            {isAeris ? (
               <div
                 className={cn("flex h-[calc(100dvh-56px)] min-w-0 flex-col", {
                   "relative h-[calc(100dvh-154px)]": !isDismissed,
@@ -99,7 +98,7 @@ const LayoutWrapper = ({
           </SidebarInset>
         ) : (
           <SidebarInset>
-            {isEssentiaAI ? (
+            {isAeris ? (
               <>
                 <DesktopHeader
                   user={user}

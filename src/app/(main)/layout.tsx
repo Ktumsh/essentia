@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { auth } from "@/app/(auth)/auth";
 import LayoutWrapper from "@/components/ui/layout/layout-wrapper";
 import { getSubscription } from "@/db/querys/payment-querys";
-import { getUserProfileData } from "@/utils/profile";
+import { getCurrentUser } from "@/lib/current-user";
 
 import { DEFAULT_CHAT_MODEL } from "./(chat)/_lib/models";
 
@@ -13,17 +13,16 @@ export default async function MainLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await auth();
+  const [session, cookiesStore] = await Promise.all([auth(), cookies()]);
 
   const userId = session?.user?.id as string;
 
-  const userData = userId ? await getUserProfileData({ userId }) : null;
+  const userData = await getCurrentUser();
 
   const [subscription] = userData ? await getSubscription(userId) : [];
   const isPremium = subscription ? subscription?.isPremium : false;
 
-  const cookieStore = await cookies();
-  const modelIdFromCookie = cookieStore.get("chat-model");
+  const modelIdFromCookie = cookiesStore.get("chat-model");
 
   if (!modelIdFromCookie) {
     return (

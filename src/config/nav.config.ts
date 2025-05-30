@@ -58,8 +58,8 @@ export const navConfig = {
       activeIcon: HomeFillIcon,
     },
     {
-      name: "Essentia AI",
-      path: "/essentia-ai",
+      name: "Chat con Aeris",
+      path: "/aeris",
       icon: AIIcon,
       activeIcon: AIFillIcon,
     },
@@ -252,7 +252,7 @@ export const navConfig = {
         "Gestiona y consulta tu información médica de forma segura y centralizada.",
     },
     {
-      title: "Essentia AI",
+      title: "Chat con Aeris",
       href: "/essentia#ai",
       description:
         "Aprovecha la inteligencia artificial para recomendaciones y seguimiento personalizado.",

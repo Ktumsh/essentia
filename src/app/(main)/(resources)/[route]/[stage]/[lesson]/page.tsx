@@ -14,7 +14,7 @@ import {
   getStages,
   getRouteBySlug,
 } from "@/db/querys/resource-querys";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import Lesson from "../../../_components/lesson";
 
@@ -109,7 +109,7 @@ const LessonPage = async (props: LessonPageProps) => {
     redirect(`/${routeSlug}`);
   }
 
-  const userData = userId ? await getUserProfileData({ userId }) : null;
+  const userData = userId ? await getUserData({ userId }) : null;
 
   const { isPremium } = userData || {};
 

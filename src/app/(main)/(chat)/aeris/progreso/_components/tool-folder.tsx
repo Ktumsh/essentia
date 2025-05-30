@@ -30,7 +30,7 @@ const ToolFolder = ({ group }: ToolFolderProps) => {
   const slug = TOOL_SLUGS[toolName];
 
   return (
-    <Link href={`/essentia-ai/progreso/${slug}`}>
+    <Link href={`/aeris/progreso/${slug}`}>
       <Card
         key={toolName}
         className={cn(

@@ -30,7 +30,7 @@ Essentia es una plataforma web diseñada para ofrecer información y recursos co
    - 👫 Salud y Educación Sexual
    - 👨‍👩‍👧‍👦 Salud en Todas las Edades
 
-2. **🤖 Essentia AI**: Inteligencia artificial especializada en salud.
+2. **🤖 Chat con Aeris**: Inteligencia artificial especializada en salud.
 
 3. **🌐 Centros de Salud**: Apartado de búsqueda de centros de salud y farmacias cercanas.
 

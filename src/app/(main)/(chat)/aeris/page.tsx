@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import { Chat } from "../_components/chat";
 import { generateUUID } from "../_lib/utils";
 
 export const metadata: Metadata = {
-  title: "Essentia AI ⭐",
+  title: "Chat con Aeris ⭐",
   alternates: {
-    canonical: "/essentia-ai",
+    canonical: "/aeris",
   },
 };
 
@@ -18,7 +18,7 @@ const AIPage = async () => {
 
   const session = await auth();
   const userId = session?.user?.id as string;
-  const userData = userId ? await getUserProfileData({ userId }) : null;
+  const userData = userId ? await getUserData({ userId }) : null;
 
   return (
     <Chat

@@ -55,8 +55,8 @@ export const PLAN_FEATURE_DATA = [
     },
   },
   {
-    key: "essentiaAI",
-    name: "Essentia AI",
+    key: "aerisChat",
+    name: "Chat con Aeris",
     description:
       "Asistente de salud con IA que responde consultas y entrega recomendaciones basadas en tu actividad.",
     plans: {
@@ -67,9 +67,9 @@ export const PLAN_FEATURE_DATA = [
   },
   {
     key: "chatLimit",
-    name: "Mensajes en el chat Essentia AI",
+    name: "Mensajes en el chat Chat con Aeris",
     description:
-      "Número de mensajes diarios permitidos en el chat con el asistente Essentia AI.",
+      "Número de mensajes diarios permitidos en el chat con el asistente Chat con Aeris.",
     plans: {
       basico: false,
       premium: "Hasta 15 mensajes diarios",

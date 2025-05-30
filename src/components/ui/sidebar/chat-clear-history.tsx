@@ -58,7 +58,7 @@ const ChatClearHistory: FC<ChatClearHistoryProps> = ({
 
     setIsOpen(false);
     router.refresh();
-    router.replace("/essentia-ai");
+    router.replace("/aeris");
   };
 
   if (isMobile) {

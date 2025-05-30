@@ -10,12 +10,12 @@ export const usePaymentStatusPolling = () => {
   const [isPolling, setIsPolling] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const startPollingOnChat = pathname.startsWith("/essentia-ai");
+  const startPollingOnChat = pathname.startsWith("/aeris");
 
   const startPolling = async (
     onSuccess?: (isOpen: boolean) => void,
     maxAttempts = 10,
-    interval = 1000
+    interval = 1000,
   ) => {
     setIsPolling(true);
     let attempts = 0;
@@ -28,7 +28,7 @@ export const usePaymentStatusPolling = () => {
           toast.success("¡Tu suscripción Premium ha comenzado!");
           router.refresh();
           if (startPollingOnChat) {
-            router.push("/essentia-ai");
+            router.push("/aeris");
           }
           setIsPolling(false);
           if (onSuccess) {

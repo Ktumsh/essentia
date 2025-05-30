@@ -13,7 +13,7 @@ const BottomNav = () => {
   const pathname = usePathname();
 
   const normalizedPath = formatPathName(pathname);
-  const isEssentiaAi = pathname.startsWith("/essentia-ai");
+  const isAeris = pathname.startsWith("/aeris");
   const isAdditionals = pathname.startsWith("/herramientas");
   const { user } = useUserProfile();
   const isPremium = user?.isPremium || false;
@@ -23,12 +23,12 @@ const BottomNav = () => {
     active:
       normalizedPath === page.path ||
       (page.path === "/herramientas" && isAdditionals) ||
-      (page.path === "/essentia-ai" && isEssentiaAi),
+      (page.path === "/aeris" && isAeris),
   }));
 
   const navItems = useMemo(() => [...pages], [pages]);
 
-  if (isEssentiaAi && isPremium) return null;
+  if (isAeris && isPremium) return null;
 
   return (
     <nav className="bg-background fixed inset-x-0 bottom-0 z-50 flex h-16 justify-center gap-0 overflow-hidden rounded-t-3xl px-0 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.2),_0px_1px_6px_0px_rgba(0,_0,_0,_0.05)] md:hidden dark:shadow-[0px_2px_6px_0px_var(--color-alternative),_0px_1px_8px_0px_rgba(255,_255,_255,_0.02)]">

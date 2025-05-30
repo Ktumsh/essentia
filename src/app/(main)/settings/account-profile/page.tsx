@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 import AccountStgWrp from "../_components/account-stg-wrp";
 
@@ -19,7 +19,7 @@ const AccountStgPage = async () => {
 
   const userId = session.user.id as string;
 
-  const userData = userId ? await getUserProfileData({ userId }) : null;
+  const userData = userId ? await getUserData({ userId }) : null;
 
   return <AccountStgWrp user={userData} />;
 };

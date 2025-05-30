@@ -70,7 +70,7 @@ const PurePromptForm = ({
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
-  const isChatPage = pathname.startsWith("/essentia-ai/chat/");
+  const isChatPage = pathname.startsWith("/aeris/chat/");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -125,7 +125,7 @@ const PurePromptForm = ({
         });
         return;
       }
-      window.history.replaceState({}, "", `/essentia-ai/chat/${chatId}`);
+      window.history.replaceState({}, "", `/aeris/chat/${chatId}`);
       setActiveChatId(chatId);
 
       handleSubmit(undefined, {

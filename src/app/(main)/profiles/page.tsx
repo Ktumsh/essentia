@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { getUserProfileData } from "@/utils/profile";
+import { getUserData } from "@/utils/profile";
 
 const ProfilesPage = async () => {
   const session = await auth();
@@ -12,7 +12,7 @@ const ProfilesPage = async () => {
 
   const userId = session?.user?.id as string;
 
-  const profileData = userId ? await getUserProfileData({ userId }) : null;
+  const profileData = userId ? await getUserData({ userId }) : null;
 
   redirect("/profiles/" + profileData?.username);
 };

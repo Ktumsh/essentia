@@ -149,8 +149,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                     className="h-auto shrink py-2 text-start leading-normal text-wrap whitespace-normal"
                     onClick={() =>
                       router.push(
-                        "/essentia-ai?search=" +
-                          encodeURIComponent(suggestion.text),
+                        "/aeris?search=" + encodeURIComponent(suggestion.text),
                       )
                     }
                   >
@@ -174,7 +173,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                     className="hover:bg-accent border-border inline-flex h-12 cursor-pointer items-center justify-between border-b px-4 text-sm font-medium last:border-none"
                   >
                     <Link
-                      href={`/essentia-ai/chat/${task.chatId}`}
+                      href={`/aeris/chat/${task.chatId}`}
                       className="inline-flex size-full items-center gap-4"
                     >
                       <Clock4 className="size-4" />
@@ -238,7 +237,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                     className="border-border hover:bg-accent inline-flex h-12 cursor-pointer items-center justify-between border-b px-4 text-sm font-medium last:border-none"
                   >
                     <Link
-                      href={`/essentia-ai/chat/${task.chatId}`}
+                      href={`/aeris/chat/${task.chatId}`}
                       className="inline-flex size-full items-center gap-4"
                     >
                       <Clock4 className="size-4" />

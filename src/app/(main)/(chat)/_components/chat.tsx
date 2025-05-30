@@ -12,7 +12,6 @@ import { useChatModel } from "@/hooks/use-chat-model";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { fetcher } from "@/lib/utils";
 
-
 import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
 import { useAutoResume } from "../_hooks/use-auto-resume";

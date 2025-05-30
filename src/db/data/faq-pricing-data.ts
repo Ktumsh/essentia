@@ -9,7 +9,7 @@ export const FAQ_PRICING_DATA = [
     id: 2,
     question: "¿Qué ventajas tiene el plan Premium?",
     answer:
-      "Incluye todo lo del plan gratuito, más acceso a Essentia AI con hasta 15 mensajes diarios, recomendaciones con IA basadas en tus documentos (hasta 15 activas), planes personalizados, evaluación de riesgo de salud y actividades de bienestar.",
+      "Incluye todo lo del plan gratuito, más acceso a Chat con Aeris con hasta 15 mensajes diarios, recomendaciones con IA basadas en tus documentos (hasta 15 activas), planes personalizados, evaluación de riesgo de salud y actividades de bienestar.",
   },
   {
     id: 3,
@@ -61,9 +61,9 @@ export const FAQ_PRICING_DATA = [
   },
   {
     id: 11,
-    question: "¿Essentia AI está disponible en todos los planes?",
+    question: "¿Chat con Aeris está disponible en todos los planes?",
     answer:
-      "No. Essentia AI solo está disponible en los planes Premium y Premium Plus.",
+      "No. Chat con Aeris solo está disponible en los planes Premium y Premium Plus.",
   },
   {
     id: 12,
@@ -86,7 +86,7 @@ export const FAQ_PRICING_DATA = [
     id: 15,
     question: "¿Puedo probar el plan Premium antes de comprarlo?",
     answer:
-      "Sí, puedes acceder a una prueba gratuita de 7 días del plan Premium. Durante ese periodo podrás explorar funcionalidades como Essentia AI, recomendaciones personalizadas y planes adaptados a tu perfil.",
+      "Sí, puedes acceder a una prueba gratuita de 7 días del plan Premium. Durante ese periodo podrás explorar funcionalidades como Chat con Aeris, recomendaciones personalizadas y planes adaptados a tu perfil.",
   },
   {
     id: 16,
@@ -96,9 +96,9 @@ export const FAQ_PRICING_DATA = [
   },
   {
     id: 17,
-    question: "¿Qué herramientas ofrece Essentia AI?",
+    question: "¿Qué herramientas ofrece Chat con Aeris?",
     answer:
-      "Essentia AI es un asistente conversacional que responde tus dudas sobre salud, bienestar, nutrición y ejercicio. A través del chat puedes generar rutinas personalizadas, planes nutricionales, actividades para mejorar el ánimo, recibir una evaluación de riesgo de salud, obtener recomendaciones según el clima de tu zona y recibir recordatorios relacionados con tu bienestar.",
+      "Chat con Aeris es un asistente conversacional que responde tus dudas sobre salud, bienestar, nutrición y ejercicio. A través del chat puedes generar rutinas personalizadas, planes nutricionales, actividades para mejorar el ánimo, recibir una evaluación de riesgo de salud, obtener recomendaciones según el clima de tu zona y recibir recordatorios relacionados con tu bienestar.",
   },
 ];
 

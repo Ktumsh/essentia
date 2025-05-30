@@ -107,7 +107,7 @@ const ChatActions = ({
     setShowDeleteDialog(false);
 
     if (deleteId === id || deleteId === activeChatId) {
-      router.push("/essentia-ai");
+      router.push("/aeris");
     }
   };
 

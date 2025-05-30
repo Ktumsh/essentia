@@ -202,7 +202,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
                   onSelect={(date: Date) => {
                     field.onChange(date);
                   }}
-                  className="dark:md:bg-accent/50 bg-background md:bg-accent border-border dark:border-alternative/50 border"
+                  className="dark:md:bg-accent/50 bg-background md:bg-accent dark:border-alternative/50 border"
                 />
               </FormControl>
               {!hasMissingFields &&

@@ -38,19 +38,19 @@ export default async function ToolPage(props: ToolPageProps) {
   const userId = session?.user?.id as string;
 
   if (!userId) {
-    redirect("/essentia-ai");
+    redirect("/aeris");
   }
 
   const subscriptionType = session ? await getSubscriptionType(userId) : null;
 
   if (subscriptionType?.type !== "premium-plus") {
-    redirect("/essentia-ai");
+    redirect("/aeris");
   }
 
   const toolName = SLUG_TO_TOOL[decodeURIComponent(tool)];
 
   if (!toolName) {
-    redirect("/essentia-ai");
+    redirect("/aeris");
   }
 
   const invocations = await getToolsByUserAndToolName({

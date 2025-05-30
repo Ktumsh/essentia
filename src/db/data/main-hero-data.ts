@@ -22,7 +22,7 @@ export const MAIN_HERO_DATA = [
     title: "Explora nuestras herramientas inteligentes",
     description:
       "Crea planes nutricionales personalizados, diseña rutinas diarias, recibe recomendaciones de actividades de bienestar y utiliza nuestro seguidor de ánimo. ¡Descubre lo que podemos hacer por ti!",
-    link: "/essentia-ai",
+    link: "/aeris",
     image: `${BASE_URL}/m-01`,
     icon: AIFillIcon,
     requiresPremium: false,
@@ -32,7 +32,7 @@ export const MAIN_HERO_DATA = [
     title: "Diseña tu plan nutricional personalizado",
     description:
       "Genera un plan adaptado a tus necesidades y objetivos gracias a nuestra tecnología avanzada. ¡Empieza hoy mismo!",
-    link: `/essentia-ai?search=${encodeURIComponent(nutritionalPlan)}`,
+    link: `/aeris?search=${encodeURIComponent(nutritionalPlan)}`,
     image: `${BASE_URL}/m-02`,
     icon: FruitIcon,
     requiresPremium: true,
@@ -42,7 +42,7 @@ export const MAIN_HERO_DATA = [
     title: "Identifica posibles riesgos para tu salud",
     description:
       "Obtén un análisis detallado de tus riesgos de salud con recomendaciones específicas para mejorar tu bienestar.",
-    link: `/essentia-ai?search=${encodeURIComponent(healthRisk)}`,
+    link: `/aeris?search=${encodeURIComponent(healthRisk)}`,
     image: `${BASE_URL}/m-03`,
     icon: HeartbeatIcon,
     requiresPremium: true,
@@ -82,7 +82,7 @@ export const MAIN_HERO_DATA = [
     title: "Crea una rutina diaria a tu medida",
     description:
       "Organiza tu día con una rutina personalizada que combine hábitos saludables, ejercicios y momentos de descanso.",
-    link: `/essentia-ai?search=${encodeURIComponent("Crear rutina diaria personalizada")}`,
+    link: `/aeris?search=${encodeURIComponent("Crear rutina diaria personalizada")}`,
     image: `${BASE_URL}/m-07`,
     icon: DumbbellFillIcon,
     requiresPremium: true,
@@ -92,7 +92,7 @@ export const MAIN_HERO_DATA = [
     title: "Mejora tu estado de ánimo con IA",
     description:
       "Recibe sugerencias personalizadas según tu historial emocional para sentirte mejor día a día.",
-    link: `/essentia-ai?search=${encodeURIComponent("Actividades para mejorar mi ánimo")}`,
+    link: `/aeris?search=${encodeURIComponent("Actividades para mejorar mi ánimo")}`,
     image: `${BASE_URL}/m-08`,
     icon: HandHeartFillIcon,
     requiresPremium: true,

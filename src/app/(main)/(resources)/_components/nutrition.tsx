@@ -35,7 +35,7 @@ const Nutrition = () => {
 
   const onCreatePlan = () => {
     if (isPremium) {
-      router.push(`/essentia-ai?search=${encodeURIComponent(searchTerm)}`);
+      router.push(`/aeris?search=${encodeURIComponent(searchTerm)}`);
     } else {
       setIsOpen(true);
     }

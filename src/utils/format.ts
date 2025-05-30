@@ -121,7 +121,7 @@ export const formatPathName = (pathname: string): string => {
 };
 
 const CUSTOM_SEGMENTS: { [key: string]: string } = {
-  "essentia-ai": "Essentia AI",
+  aeris: "Chat con Aeris",
   "centros-de-salud": "Buscador centros de salud",
   "historial-medico": "Historial médico",
   herramientas: "Herramientas de apoyo",

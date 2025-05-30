@@ -31,7 +31,7 @@ const ToolList = ({ toolsGroup }: ToolListProps) => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => router.push("/essentia-ai")}
+              onClick={() => router.push("/aeris")}
             >
               Comenzar un chat
             </Button>
