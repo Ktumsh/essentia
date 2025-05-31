@@ -23,7 +23,7 @@ const footerSections = [
         name: "Historial médico",
         href: "/essentia#historial-medico",
       },
-      { name: "Chat con Aeris", href: "/essentia#ai" },
+      { name: "Habla con Aeris", href: "/essentia#ai" },
       { name: "Progreso", href: "/essentia#progreso" },
       {
         name: "Visión y propósito",

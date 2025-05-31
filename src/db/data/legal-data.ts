@@ -30,8 +30,8 @@ Para acceder a funcionalidades clave, como historial médico o recomendaciones d
 Essentia ofrece:
 
 - Un **Plan Gratuito**, con acceso limitado a funciones básicas (hasta 12 documentos médicos, sin IA).
-- Un **Plan Premium** (mensual), con funcionalidades ampliadas (hasta 50 documentos y acceso a Chat con Aeris).
-- Un **Plan Premium Plus** (anual), con almacenamiento **ilimitado de documentos médicos**, acceso completo a Chat con Aeris y otras funciones avanzadas. Este plan está sujeto a una política de uso razonable.
+- Un **Plan Premium** (mensual), con funcionalidades ampliadas (hasta 50 documentos y acceso a Aeris).
+- Un **Plan Premium Plus** (anual), con almacenamiento **ilimitado de documentos médicos**, acceso completo a Aeris y otras funciones avanzadas. Este plan está sujeto a una política de uso razonable.
 
 Algunos usuarios pueden acceder a una **prueba gratuita de 7 días del Plan Premium**, sujeta a verificación de cuenta y a no haber sido utilizada previamente.
 

@@ -112,7 +112,7 @@ export async function POST(request: Request) {
     const canSend = await canSendMessage(userId);
     if (!canSend) {
       return new Response(
-        "Has alcanzado el límite diario de mensajes con Chat con Aeris.",
+        "Has alcanzado el límite diario de mensajes con Aeris.",
         { status: 429 },
       );
     }

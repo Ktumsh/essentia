@@ -56,7 +56,7 @@ const RecomCard = ({ profileData }: RecomCardProps) => {
             <div className="inline-flex h-16 items-center justify-center gap-2">
               <AIFillIcon className="size-7" />
               <h2 className="text-2xl leading-none font-semibold">
-                Chat con Aeris
+                Habla con Aeris
               </h2>
             </div>
             <div className="bg-premium absolute inset-0 -z-1 scale-95 rounded-2xl blur-md"></div>

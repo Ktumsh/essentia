@@ -12,7 +12,7 @@ import ToolList from "./_components/tool-list";
 export const metadata: Metadata = {
   title: "Hábitos y progreso",
   description:
-    "Consulta tu progreso y hábitos por uso de herramientas de Chat con Aeris.",
+    "Consulta tu progreso y hábitos por uso de herramientas con Aeris.",
 };
 
 export default async function ProgressPage() {

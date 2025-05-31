@@ -7,7 +7,7 @@ import { Chat } from "../_components/chat";
 import { generateUUID } from "../_lib/utils";
 
 export const metadata: Metadata = {
-  title: "Chat con Aeris ⭐",
+  title: "Aeris ⭐",
   alternates: {
     canonical: "/aeris",
   },

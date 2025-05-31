@@ -58,7 +58,7 @@ export const navConfig = {
       activeIcon: HomeFillIcon,
     },
     {
-      name: "Chat con Aeris",
+      name: "Habla con Aeris",
       path: "/aeris",
       icon: AIIcon,
       activeIcon: AIFillIcon,
@@ -252,7 +252,7 @@ export const navConfig = {
         "Gestiona y consulta tu información médica de forma segura y centralizada.",
     },
     {
-      title: "Chat con Aeris",
+      title: "Habla con Aeris",
       href: "/essentia#ai",
       description:
         "Aprovecha la inteligencia artificial para recomendaciones y seguimiento personalizado.",
