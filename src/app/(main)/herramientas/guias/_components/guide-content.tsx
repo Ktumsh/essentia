@@ -57,7 +57,7 @@ const GuideContent = ({ guide, theme }: GuideContentProps) => {
               alt={`Imagen de la ${guide.title.toLowerCase()}`}
               width={1536}
               height={1024}
-              className="animate-fade-in w-full object-cover object-center brightness-[0.85]"
+              className="animate-fade-in size-full object-cover object-center brightness-[0.85]"
             />
           </div>
         </section>

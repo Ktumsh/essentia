@@ -39,9 +39,7 @@ const AiSection = () => {
                     <div className="mb-6 flex items-center gap-2">
                       <Logo className="h-6" height={24} width={24} />
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">
-                          Habla con Aeris
-                        </span>
+                        <span className="truncate font-semibold">Aeris</span>
                       </div>
                     </div>
                     <div className="mb-4 rounded-lg bg-linear-to-r/shorter from-indigo-500 to-indigo-600 p-3">
@@ -52,9 +50,7 @@ const AiSection = () => {
                     </div>
                     <div className="bg-primary/10 mb-4 rounded-lg p-3">
                       <p className="text-sm">
-                        <span className="text-primary font-medium">
-                          Habla con Aeris:
-                        </span>{" "}
+                        <span className="text-primary font-medium">Aeris:</span>{" "}
                         Por supuesto, puedo ayudarte a crear un plan
                         personalizado...
                       </p>
@@ -82,17 +78,16 @@ const AiSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <Badge className="mb-4 bg-rose-100 px-3 py-1 text-sm text-rose-600 dark:bg-rose-900/50 dark:text-rose-400">
-              ESSENTIA AI
+              AERIS
             </Badge>
             <h2 className="mb-6 text-3xl font-bold md:text-4xl lg:text-5xl">
               Una guía inteligente para tu bienestar
             </h2>
             <p className="text-foreground/80 mb-8 text-base leading-relaxed md:text-lg">
               Accede a orientación inteligente basada en IA para cuidar tu
-              salud. Con Habla con Aeris puedes explorar hábitos saludables,
-              resolver dudas y tomar decisiones informadas en segundos.
-              Disponible en planes{" "}
-              <span className="text-primary font-medium">Premium</span>.
+              salud. Con Aeris puedes explorar hábitos saludables, resolver
+              dudas y tomar decisiones informadas en segundos. Disponible en
+              planes <span className="text-primary font-medium">Premium</span>.
             </p>
             <div className="space-y-4">
               <div className="flex items-start gap-4">

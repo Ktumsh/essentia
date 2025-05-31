@@ -145,11 +145,7 @@ export default function Guide({ guide }: GuideProps) {
       </Tabs>
 
       <div className="mt-8 flex items-center justify-between gap-4 border-t pt-4 md:justify-end">
-        <ShareButton
-          variant="secondary"
-          onClick={handleShare}
-          className="rounded-full md:rounded-md"
-        >
+        <ShareButton size="sm" variant="accent" onClick={handleShare}>
           Compartir
         </ShareButton>
         <DownloadGuideButton guide={guide} full isHeader={isMobile} />
