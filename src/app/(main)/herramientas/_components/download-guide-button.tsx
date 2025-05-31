@@ -56,6 +56,7 @@ export default function DownloadGuideButton({
   if (full) {
     return (
       <DownloadButton
+        size="sm"
         variant={isEmergencies ? "outline" : "default"}
         onClick={handleDownload}
         className={cn({ "rounded-full": isHeader }, className)}

@@ -33,7 +33,7 @@ const Guides = () => {
               onDoubleClick={() =>
                 route.push(`/herramientas/guias/${guide.id}`)
               }
-              className="group/item text-foreground bg-muted hover:bg-accent flex flex-col rounded-none border-0 transition-colors duration-300 select-none md:rounded-xl md:p-4"
+              className="group/item text-foreground bg-muted hover:bg-accent flex flex-col border-0 p-2 transition-colors duration-300 select-none md:p-4"
             >
               <Badge
                 className={cn(
@@ -75,7 +75,7 @@ const Guides = () => {
                 <ArrowLeftButton
                   variant="link"
                   onClick={() => route.push(`/herramientas/guias/${guide.id}`)}
-                  className="text-foreground after:bg-primary hover:text-primary relative ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] md:text-xs [&_svg]:rotate-180 md:[&_svg]:size-3.5!"
+                  className="text-foreground after:bg-primary hover:text-primary relative order-1 me-4 ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] md:order-none md:me-0 md:text-xs [&_svg]:rotate-180 md:[&_svg]:size-3.5!"
                 >
                   Ver detalles
                 </ArrowLeftButton>
