@@ -121,7 +121,7 @@ export const formatPathName = (pathname: string): string => {
 };
 
 const CUSTOM_SEGMENTS: { [key: string]: string } = {
-  aeris: "Chat con Aeris",
+  aeris: "Aeris",
   "centros-de-salud": "Buscador centros de salud",
   "historial-medico": "Historial médico",
   herramientas: "Herramientas de apoyo",

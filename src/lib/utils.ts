@@ -529,7 +529,7 @@ export const getReadableContext = (path: string): string => {
     "/account": "Cuenta",
     "/account/profile": "Perfil",
     "/account/subscription": "Suscripción",
-    "/aeris": "Chat con Aeris",
+    "/aeris": "Aeris",
     "/salud-y-bienestar": "Recurso Salud y Bienestar",
     "/ejercicios-y-fitness": "Recurso Ejercicios y Fitness",
     "/nutricion-y-alimentacion": "Recurso Nutrición y Alimentación",

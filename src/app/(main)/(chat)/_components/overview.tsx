@@ -34,7 +34,7 @@ const Overview = () => {
                   exit={{ opacity: 0, y: 10 }}
                   className="bg-premium w-fit bg-clip-text text-3xl font-semibold text-transparent md:text-4xl"
                 >
-                  Chat con Aeris
+                  Habla con Aeris
                 </motion.h1>
               </div>
             </div>

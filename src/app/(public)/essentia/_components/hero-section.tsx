@@ -226,7 +226,7 @@ const HeroSection = () => {
                     </div>
                   </div>
 
-                  {/* Chat con Aeris */}
+                  {/* Habla con Aeris */}
                   <div className="bg-premium rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <h3 className="text-base font-semibold">
@@ -235,13 +235,13 @@ const HeroSection = () => {
                       <Sparkles className="h-5 w-5" />
                     </div>
                     <p className="mt-2 text-sm text-white/80">
-                      Chat con Aeris está lista para ayudarte con tu bienestar
+                      Aeris está lista para ayudarte con tu bienestar
                     </p>
                     <Button
                       onClick={() => scrollToSection("#ai")}
                       className="group bg-background text-primary hover:bg-background/90 mt-3 w-full hover:gap-4!"
                     >
-                      Descubre Chat con Aeris
+                      Habla con Aeris
                       <ArrowRight />
                     </Button>
                   </div>

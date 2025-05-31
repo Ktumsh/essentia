@@ -37,7 +37,7 @@ export const SUBSCRIPTION_PLAN_DATA = [
     features: [
       "Todo lo del plan Básico +",
       "Hasta 50 documentos médicos activos",
-      "Chat con Aeris: Asistente 24/7 con IA personalizada",
+      "Habla con Aeris: Asistente 24/7 con IA personalizada",
       "Hasta 15 mensajes diarios en el chat",
       "Recomendaciones con IA basadas en tus documentos médicos",
       "Hasta 15 recomendaciones activas con IA",
@@ -60,7 +60,7 @@ export const SUBSCRIPTION_PLAN_DATA = [
       "Todo lo del plan Premium +",
       "Documentos médicos ilimitados",
       "Recomendaciones con IA ilimitadas",
-      "Mensajes ilimitados en el chat Chat con Aeris",
+      "Mensajes ilimitados en el chat con Aeris",
       "Seguimiento de hábitos y progreso agrupado por herramienta de IA",
     ],
   },

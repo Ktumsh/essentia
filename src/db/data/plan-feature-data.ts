@@ -56,7 +56,7 @@ export const PLAN_FEATURE_DATA = [
   },
   {
     key: "aerisChat",
-    name: "Chat con Aeris",
+    name: "Habla con Aeris",
     description:
       "Asistente de salud con IA que responde consultas y entrega recomendaciones basadas en tu actividad.",
     plans: {
@@ -67,9 +67,9 @@ export const PLAN_FEATURE_DATA = [
   },
   {
     key: "chatLimit",
-    name: "Mensajes en el chat Chat con Aeris",
+    name: "Mensajes en el chat con Aeris",
     description:
-      "Número de mensajes diarios permitidos en el chat con el asistente Chat con Aeris.",
+      "Número de mensajes diarios permitidos en el chat con la asistente Aeris.",
     plans: {
       basico: false,
       premium: "Hasta 15 mensajes diarios",

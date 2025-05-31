@@ -11,7 +11,7 @@ const FooterText = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      Chat con Aeris impulsado por{" "}
+      Aeris impulsada por{" "}
       <Link
         href="https://openai.com/"
         target="_blank"
