@@ -9,13 +9,13 @@ import {
   markNotificationAsRead,
 } from "@/db/querys/notification-querys";
 import { UserNotification } from "@/db/schema";
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 export const useActionNotifications = (userId: string) => {
   const { data: notifications = [], mutate } = useSWR<UserNotification[]>(
     `/api/notifications?userId=${userId}`,
     fetcher,
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: false },
   );
 
   const handleMarkAsRead = useCallback(
@@ -28,7 +28,7 @@ export const useActionNotifications = (userId: string) => {
         throw error;
       }
     },
-    [mutate]
+    [mutate],
   );
 
   const handleDeleteAll = useCallback(async () => {
@@ -53,17 +53,17 @@ export const useActionNotifications = (userId: string) => {
 
   const hasUnreadNotifications = useMemo(
     () => notifications.some((n) => !n.isRead),
-    [notifications]
+    [notifications],
   );
 
   const unreadNotifications = useMemo(
     () => notifications.filter((n) => !n.isRead),
-    [notifications]
+    [notifications],
   );
 
   const readNotifications = useMemo(
     () => notifications.filter((n) => n.isRead),
-    [notifications]
+    [notifications],
   );
 
   return {

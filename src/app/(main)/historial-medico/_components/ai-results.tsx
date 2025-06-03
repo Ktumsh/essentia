@@ -13,7 +13,7 @@ import { ShareButton } from "@/components/button-kit/share-button";
 import { LoaderAIIcon } from "@/components/icons/status";
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { AIRecommendationDetail } from "./ai-recommendation-detail";
 import AIRecommendationsCard from "./ai-recommendations-card";

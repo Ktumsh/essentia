@@ -28,8 +28,7 @@ import {
 } from "@/components/kit/dropdown-menu";
 import { useNotification } from "@/hooks/use-notification";
 import { useTasks } from "@/hooks/use-task";
-import { convertTo12HourFormat } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { convertTo12HourFormat, formatDate } from "@/utils";
 
 import TaskList from "./task-list";
 import TaskModal from "./task-modal";

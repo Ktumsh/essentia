@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/kit/card";
 import { Progress } from "@/components/kit/progress";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { getPlanLimitMessage } from "../_lib/utils";
 

@@ -49,7 +49,7 @@ import { getUserByUsername } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { ProfileFormData, profileSchema } from "@/lib/form-schemas";
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { resultMessages } from "@/utils/errors";
 
 import {
   PopoverBioFormat,
@@ -129,7 +129,7 @@ const EditProfileForm = ({
           if (user.length > 0 && user[0].id !== id) {
             setError("username", {
               type: "manual",
-              message: getMessageFromCode(ResultCode.USERNAME_EXISTS),
+              message: resultMessages["USERNAME_EXISTS"],
             });
             toast.error("Por favor corrige los errores en el formulario.");
             return;

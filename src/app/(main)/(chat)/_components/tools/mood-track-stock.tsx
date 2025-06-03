@@ -21,7 +21,7 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import { CLOUDINARY_BASE_URL } from "@/lib/consts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import StockFooter from "./stock-footer";
 import StockHeader from "./stock-header";

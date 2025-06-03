@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { Button } from "@/components/kit/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface InfoFieldProps {
   title: string;

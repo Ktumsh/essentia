@@ -1,6 +1,6 @@
-import { Metadata } from "next";
-
 import { siteConfig } from "./site.config";
+
+import type { Metadata } from "next";
 
 const { name, url, description, keywords, appId } = siteConfig;
 

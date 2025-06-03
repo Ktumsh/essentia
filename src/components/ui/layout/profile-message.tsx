@@ -19,7 +19,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { useTrial } from "@/hooks/use-trial";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import PaymentModal from "../payment/payment-modal";
 

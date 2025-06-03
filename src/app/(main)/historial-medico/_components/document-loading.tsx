@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from "@/components/kit/card";
 import { Skeleton } from "@/components/kit/skeleton";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface DocumentLoadingProps {
   viewMode?: "grid" | "list";

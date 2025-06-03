@@ -37,7 +37,7 @@ import {
 import { navConfig } from "@/config/nav.config";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import ThemeToggle from "../layout/theme-toggle";
 import PaymentModal from "../payment/payment-modal";

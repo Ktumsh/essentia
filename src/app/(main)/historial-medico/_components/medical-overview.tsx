@@ -4,7 +4,7 @@ import { UpgradeButton } from "@/components/button-kit/upgrade-button";
 import { Card, CardContent } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import ActivityPreview from "./activity-preview";
 import ActivityPreviewLoading from "./activity-preview-loading";

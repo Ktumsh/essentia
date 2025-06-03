@@ -14,7 +14,7 @@ import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { Button } from "@/components/kit/button";
 import { Input } from "@/components/kit/input";
 import { Markdown } from "@/components/markdown";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface LegalPageProps {
   title: string;

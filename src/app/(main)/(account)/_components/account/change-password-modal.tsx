@@ -40,7 +40,7 @@ import {
   ChangePasswordFormData,
   changePasswordSchema,
 } from "@/lib/form-schemas";
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { type ResultCode, resultMessages } from "@/utils/errors";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -87,19 +87,20 @@ const ChangePasswordModal = ({
       startTransition(() => {
         toast.promise(changePassword(values), {
           loading: "Cambiando contraseña...",
-          success: async (response) => {
-            if (response.success) {
+          success: (response) => {
+            if (response.type === "success") {
               handleOpenChange(false);
-              return getMessageFromCode(response.message);
-            } else {
-              throw new Error(response.message);
+              return (
+                resultMessages[response.resultCode] ||
+                "Contraseña cambiada exitosamente."
+              );
             }
+            throw new Error(response.resultCode);
           },
           error: (error) => {
-            if (error instanceof Error && error.message) {
-              return getMessageFromCode(error.message as ResultCode);
-            }
-            return "Error inesperado al cambiar la contraseña.";
+            const code =
+              error instanceof Error ? error.message : "UNKNOWN_ERROR";
+            return resultMessages[code as ResultCode];
           },
         });
       });
@@ -107,93 +108,91 @@ const ChangePasswordModal = ({
     [handleOpenChange, startTransition],
   );
 
-  const Content = useCallback(() => {
-    return (
-      <Form {...form}>
-        <form className="w-full md:space-y-4">
-          <div className="w-full space-y-6 px-4 py-6 md:p-6">
-            <input type="text" hidden name="username" autoComplete="username" />
-            <FormField
-              control={control}
-              name="currentPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="currentPassword">
-                    Contraseña actual
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="currentPassword"
-                        type={isVisibleCurrent ? "text" : "password"}
-                        autoComplete="current-password"
-                        {...field}
-                      />
-                      <ButtonPassword
-                        isVisible={isVisibleCurrent}
-                        setIsVisible={setIsVisibleCurrent}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="newPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="newPassword">Nueva contraseña</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="newPassword"
-                        type={isVisibleNew ? "text" : "password"}
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                      <ButtonPassword
-                        isVisible={isVisibleNew}
-                        setIsVisible={setIsVisibleNew}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="confirmPassword">
-                    Confirmar nueva contraseña
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="confirmPassword"
-                        type={isVisibleConfirm ? "text" : "password"}
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                      <ButtonPassword
-                        isVisible={isVisibleConfirm}
-                        setIsVisible={setIsVisibleConfirm}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </form>
-      </Form>
-    );
-  }, [form, isVisibleCurrent, isVisibleNew, isVisibleConfirm, control]);
+  const content = (
+    <Form {...form}>
+      <form className="w-full md:space-y-4">
+        <div className="w-full space-y-6 px-4 py-6 md:p-6">
+          <input type="text" hidden name="username" autoComplete="username" />
+          <FormField
+            control={control}
+            name="currentPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="currentPassword">
+                  Contraseña actual
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      id="currentPassword"
+                      type={isVisibleCurrent ? "text" : "password"}
+                      autoComplete="current-password"
+                      {...field}
+                    />
+                    <ButtonPassword
+                      isVisible={isVisibleCurrent}
+                      setIsVisible={setIsVisibleCurrent}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="newPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="newPassword">Nueva contraseña</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      id="newPassword"
+                      type={isVisibleNew ? "text" : "password"}
+                      autoComplete="new-password"
+                      {...field}
+                    />
+                    <ButtonPassword
+                      isVisible={isVisibleNew}
+                      setIsVisible={setIsVisibleNew}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="confirmPassword">
+                  Confirmar nueva contraseña
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      type={isVisibleConfirm ? "text" : "password"}
+                      autoComplete="new-password"
+                      {...field}
+                    />
+                    <ButtonPassword
+                      isVisible={isVisibleConfirm}
+                      setIsVisible={setIsVisibleConfirm}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+      </form>
+    </Form>
+  );
 
   if (isMobile) {
     return (
@@ -211,7 +210,7 @@ const ChangePasswordModal = ({
               <p>Asegúrate de usar una contraseña segura.</p>
             </div>
           </DrawerDescription>
-          <Content />
+          {content}
           <DrawerFooter>
             <Button
               type="button"
@@ -246,7 +245,7 @@ const ChangePasswordModal = ({
               </div>
             </DialogDescription>
           </DialogHeader>
-          <Content />
+          {content}
           <DialogFooter isSecondary>
             <DialogClose asChild>
               <Button

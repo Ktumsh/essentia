@@ -15,7 +15,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import useSubscription from "@/hooks/use-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import AccesibilityStg from "./accesibility-stg";
 import AccountStg from "./account-stg";

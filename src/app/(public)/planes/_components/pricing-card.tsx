@@ -15,7 +15,8 @@ import { setUserPlan } from "@/components/ui/payment/actions";
 import { siteConfig } from "@/config/site.config";
 import { SubscriptionPlanType } from "@/db/data/subscription-plan-data";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn, getPlanPrice } from "@/lib/utils";
+import { getPlanPrice } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import CancelPlanModal from "./cancel-plan-modal";
 import ConfirmPlanModal from "./confirm-plan-modal";

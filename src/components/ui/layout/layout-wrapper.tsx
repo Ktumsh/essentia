@@ -13,7 +13,7 @@ import { SidebarInset } from "@/components/kit/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import { ScrollContext } from "@/hooks/use-scroll-ref";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import BottomNav from "./bottom-navbar";
 import ButtonUp from "./button-up";

@@ -21,7 +21,6 @@ import {
   userFeedback,
 } from "@/db/schema";
 import { generateVerificationCode } from "@/lib/utils";
-import { ResultCode } from "@/utils/errors";
 
 import { insertEmailSendsCode } from "./email-querys";
 import { createNotification } from "./notification-querys";
@@ -95,16 +94,10 @@ export async function createUser(
       url: "/",
     });
 
-    return {
-      type: "success",
-      resultCode: ResultCode.USER_CREATED,
-    };
+    return;
   } catch (error) {
     console.error("Error al crear el usuario:", error);
-    return {
-      type: "error",
-      resultCode: ResultCode.UNKNOWN_ERROR,
-    };
+    throw error;
   }
 }
 
@@ -177,34 +170,24 @@ export async function updateUserPassword(id: string, password: string) {
   }
 }
 
-export async function deleteUser(
-  id: string,
-): Promise<{ success: boolean; error?: string }> {
+export async function deleteUser(id: string): Promise<void> {
   try {
     const [userToDelete] = await getUserById(id);
     if (!userToDelete) {
-      return {
-        success: false,
-        error: "Usuario no encontrado.",
-      };
+      throw new Error("USER_NOT_FOUND");
     }
 
     if (userToDelete.role === "admin") {
       const adminCount = await getAdminCount();
       if (adminCount <= 1) {
-        return {
-          success: false,
-          error: "No se puede eliminar el único administrador.",
-        };
+        throw new Error("CANNOT_DELETE_LAST_ADMIN");
       }
     }
 
     await db.update(user).set({ status: "disabled" }).where(eq(user.id, id));
-
-    return { success: true };
   } catch (error) {
     console.error("Error al eliminar el usuario:", error);
-    return { success: false, error: "Error al eliminar el usuario." };
+    throw new Error("DELETE_USER_ERROR");
   }
 }
 

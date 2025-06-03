@@ -20,7 +20,7 @@ import {
 } from "@/components/kit/popover";
 import { Progress } from "@/components/kit/progress";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { CHAT_MODELS } from "../_lib/models";
 import { getEmojiForRemaining } from "../_lib/utils";

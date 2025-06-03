@@ -11,7 +11,8 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/kit/card";
-import { cn, getRouteColor, getRouteDetails } from "@/lib/utils";
+import { getRouteColor, getRouteDetails } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { Route, Stage } from "@/db/schema";
 

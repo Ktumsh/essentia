@@ -3,7 +3,7 @@
 import useSWR from "swr";
 
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 export default function useAIUsage() {
   const { user } = useUserProfile();

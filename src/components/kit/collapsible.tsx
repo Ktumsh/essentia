@@ -2,7 +2,7 @@
 
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 function Collapsible({
   ...props
@@ -18,8 +18,8 @@ function CollapsibleTrigger({
     <CollapsiblePrimitive.CollapsibleTrigger
       data-slot="collapsible-trigger"
       className={cn(
-        "group-data-[state=open]/menu-item:bg-background group-data-[state=open]/menu-item:border group-data-[state=open]/menu-item:border-border group-data-[state=open]/menu-item:shadow-xs",
-        className
+        "group-data-[state=open]/menu-item:bg-background group-data-[state=open]/menu-item:border-border group-data-[state=open]/menu-item:border group-data-[state=open]/menu-item:shadow-xs",
+        className,
       )}
       {...props}
     />
@@ -34,8 +34,8 @@ function CollapsibleContent({
     <CollapsiblePrimitive.CollapsibleContent
       data-slot="collapsible-content"
       className={cn(
-        "data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden ",
-        className
+        "data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden",
+        className,
       )}
       {...props}
     />

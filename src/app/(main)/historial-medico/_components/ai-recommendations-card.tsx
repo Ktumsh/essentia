@@ -17,7 +17,7 @@ import {
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { AIRecommendationType } from "./ai-recommendation";
 import { getPriorityBadge, getTagColor } from "../_lib/utils";

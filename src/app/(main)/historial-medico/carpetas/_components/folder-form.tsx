@@ -33,7 +33,7 @@ import { Input } from "@/components/kit/input";
 import { Textarea } from "@/components/kit/textarea";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { folderFormSchema } from "@/lib/form-schemas";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import {
   folderIconMap,

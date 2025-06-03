@@ -27,7 +27,7 @@ import {
 } from "@/components/kit/drawer";
 import { Input } from "@/components/kit/input";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 import type { Chat } from "@/db/schema";
 

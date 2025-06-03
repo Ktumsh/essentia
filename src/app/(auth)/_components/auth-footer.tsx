@@ -32,6 +32,7 @@ const AuthFooter = () => {
                 className="hover:text-primary transition-all hover:scale-110"
                 href={links.instagram}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <InstagramIcon className="size-5" />
               </Link>
@@ -39,6 +40,7 @@ const AuthFooter = () => {
                 className="hover:text-primary transition-all hover:scale-110"
                 href={links.facebook}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <FacebookIcon className="size-5" />
               </Link>
@@ -46,6 +48,7 @@ const AuthFooter = () => {
                 className="hover:text-primary transition-all hover:scale-110"
                 href={links.twitter}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <TwitterIcon className="size-[17px]" />
               </Link>
@@ -56,7 +59,7 @@ const AuthFooter = () => {
                   <Link
                     href={link.path}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                     className="inline-block border-b border-transparent hover:border-current"
                   >
                     {link.text}

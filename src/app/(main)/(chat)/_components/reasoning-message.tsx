@@ -1,21 +1,12 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
-
-import { Markdown } from "@/components/markdown";
-import { cn } from "@/lib/utils";
-
 interface ReasoningMessageProps {
   isLoading: boolean;
   reasoning: string;
 }
 
-const ReasoningMessage = ({ isLoading, reasoning }: ReasoningMessageProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const variants = {
+const ReasoningMessage = ({ isLoading }: ReasoningMessageProps) => {
+  /* const variants = {
     collapsed: {
       height: 0,
       opacity: 0,
@@ -28,11 +19,11 @@ const ReasoningMessage = ({ isLoading, reasoning }: ReasoningMessageProps) => {
       marginTop: "1rem",
       marginBottom: "0.5rem",
     },
-  };
+  }; */
 
   return (
     <div className="flex flex-col">
-      {isLoading ? (
+      {/* {isLoading ? (
         <button
           className="text-muted-foreground flex flex-row items-center gap-2"
           onClick={() => setIsExpanded(!isExpanded)}
@@ -62,9 +53,18 @@ const ReasoningMessage = ({ isLoading, reasoning }: ReasoningMessageProps) => {
             />
           </div>
         </button>
+      )} */}
+      {isLoading ? (
+        <p className="loading-shimmer text-muted-foreground text-sm md:text-base">
+          Razonando
+        </p>
+      ) : (
+        <p className="text-muted-foreground text-sm md:text-base">
+          Razonado por unos segundos
+        </p>
       )}
 
-      <AnimatePresence initial={false}>
+      {/* <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
             key="content"
@@ -81,7 +81,7 @@ const ReasoningMessage = ({ isLoading, reasoning }: ReasoningMessageProps) => {
             </Markdown>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 };

@@ -11,7 +11,8 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { Markdown } from "@/components/markdown";
-import { cn, getRouteColor } from "@/lib/utils";
+import { getRouteColor } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface RouteInfoPanelProps {
   index: number;

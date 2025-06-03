@@ -1,8 +1,6 @@
-import { clsx, type ClassValue } from "clsx";
 import {
   addDays,
   Day,
-  format,
   isPast,
   nextDay,
   setDate,
@@ -13,16 +11,11 @@ import {
 } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { customAlphabet } from "nanoid";
-import { twMerge } from "tailwind-merge";
 
 import { navConfig } from "@/config/nav.config";
 import { siteConfig } from "@/config/site.config";
 import { FUN_FACT_DATA, type FunFactType } from "@/db/data/fun-fact-data";
-import { capitalize } from "@/utils/format";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { capitalize } from "@/utils";
 
 export function calculatePremiumExpiresAt(currentPeriodEnd: number): Date {
   return new Date(currentPeriodEnd * 1000);
@@ -33,28 +26,6 @@ export const nanoid = customAlphabet(
   7,
 );
 
-interface ApplicationError extends Error {
-  info: string;
-  status: number;
-}
-
-export const fetcher = async (url: string) => {
-  const res = await fetch(url);
-
-  if (!res.ok) {
-    const error = new Error(
-      "An error occurred while fetching the data.",
-    ) as ApplicationError;
-
-    error.info = await res.json();
-    error.status = res.status;
-
-    throw error;
-  }
-
-  return res.json();
-};
-
 export const runAsyncFnWithoutBlocking = (
   fn: (...args: any) => Promise<any>,
 ) => {
@@ -63,11 +34,6 @@ export const runAsyncFnWithoutBlocking = (
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
-
-export const getStringFromBuffer = (buffer: ArrayBuffer) =>
-  Array.from(new Uint8Array(buffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
 
 export const getFirstNameAndLastName = (
   fullName: string | undefined | null,
@@ -86,24 +52,6 @@ export const usernameOrEmail = (session: any) => {
     : session?.user?.email;
 
   return username;
-};
-
-export const containsAllLetters = (str: string, query: string) => {
-  let strIndex = 0;
-  for (const char of query) {
-    strIndex = str.indexOf(char, strIndex);
-    if (strIndex === -1) return false;
-    strIndex++;
-  }
-  return true;
-};
-
-export const shuffleArray = <T>(array: T[]): T[] => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
 };
 
 export const getRandomFacts = (
@@ -316,16 +264,6 @@ export const getWelcomeLabel = (genre?: string | null) => {
   }
   return "Bienvenid@";
 };
-
-export function convertTo12HourFormat(time: string): string {
-  if (!time) {
-    return "Hora no especificada";
-  }
-  const [hours, minutes] = time.split(":").map(Number);
-  const date = new Date();
-  date.setHours(hours, minutes, 0);
-  return format(date, "h:mm a").toLocaleLowerCase();
-}
 
 export function calculateExactDate(
   time: string,

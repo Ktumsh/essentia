@@ -28,7 +28,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 import type { AIRecommendationType } from "../_components/ai-recommendation";
 import type { MedicalFileType } from "@/db/querys/medical-history-querys";

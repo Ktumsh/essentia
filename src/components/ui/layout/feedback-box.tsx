@@ -27,12 +27,8 @@ import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { saveUserFeedback } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  cn,
-  getClientIp,
-  getDeviceInfo,
-  getReadableContext,
-} from "@/lib/utils";
+import { getClientIp, getDeviceInfo, getReadableContext } from "@/lib/utils";
+import { cn } from "@/utils";
 
 type ReactionsType = {
   id: "love" | "happy" | "neutral" | "frustrated" | "angry";

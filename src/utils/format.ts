@@ -10,6 +10,7 @@ import { es } from "date-fns/locale";
 import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 
 import { GUIDE_DATA } from "@/db/data/guide-data";
+import { SEGMENTS_DATA } from "@/db/data/segments-data";
 
 export function formatDate(
   input: Date | string,
@@ -95,12 +96,6 @@ export function getTimeOnPlatform(createdAt: Date): string {
     : parts[0] || "Hoy";
 }
 
-export const formatNumber = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(value);
-
 export const formatTitle = (title: string) =>
   title
     .toLowerCase()
@@ -108,7 +103,7 @@ export const formatTitle = (title: string) =>
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/ /g, "-");
 
-export const formatText = (text: string) =>
+export const normalizeQuery = (text: string) =>
   text
     .toLowerCase()
     .normalize("NFD")
@@ -120,30 +115,8 @@ export const formatPathName = (pathname: string): string => {
     : pathname;
 };
 
-const CUSTOM_SEGMENTS: { [key: string]: string } = {
-  aeris: "Aeris",
-  "centros-de-salud": "Buscador centros de salud",
-  "historial-medico": "Historial médico",
-  herramientas: "Herramientas de apoyo",
-  guias: "Guías",
-  botiquin: "Botiquín",
-  account: "Cuenta",
-  profile: "Perfil",
-  subscription: "Suscripción",
-  settings: "Configuración",
-  "account-profile": "Cuenta y perfil",
-  subscriptions: "Suscripciones",
-  accesibility: "Accesibilidad y pantalla",
-  notifications: "Notificaciones y recordatorios",
-  support: "Soporte",
-  pricing: "Planes y precios",
-  review: "Revisión práctica",
-  progreso: "Hábitos y progreso",
-  "seguimientos-del-animo": "Seguimientos del ánimo",
-};
-
 export const formatSegment = (segment: string) => {
-  if (CUSTOM_SEGMENTS[segment]) return CUSTOM_SEGMENTS[segment];
+  if (SEGMENTS_DATA[segment]) return SEGMENTS_DATA[segment];
 
   const guide = GUIDE_DATA.find((guide) => String(guide.id) === segment);
 
@@ -158,4 +131,12 @@ export const formatSegment = (segment: string) => {
 
 export const capitalize = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+};
+
+export const convertTo12HourFormat = (time: string): string => {
+  if (!time) return "Hora no especificada";
+  const [hours, minutes] = time.split(":").map(Number);
+  const date = new Date();
+  date.setHours(hours, minutes, 0);
+  return format(date, "h:mm a").toLocaleLowerCase();
 };

@@ -37,7 +37,7 @@ export const Greeting = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.5 }}
-        className="w-fit bg-linear-to-r/shorter from-indigo-500 to-pink-500 bg-clip-text text-3xl font-semibold text-transparent md:text-4xl"
+        className="bg-premium w-fit bg-clip-text text-3xl font-semibold text-transparent md:text-4xl"
       >
         Hola, {user?.firstName}
       </motion.h1>

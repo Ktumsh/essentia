@@ -26,12 +26,8 @@ import {
 import { Progress } from "@/components/kit/progress";
 import PaymentModal from "@/components/ui/payment/payment-modal";
 import { startReview } from "@/db/querys/progress-querys";
-import {
-  cn,
-  getProgressColor,
-  getRouteColor,
-  getRouteIndex,
-} from "@/lib/utils";
+import { getProgressColor, getRouteColor, getRouteIndex } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import InitializeRouteAlert from "./initialize-route-alert";
 import RouteInfoPanel from "./route-info-panel";

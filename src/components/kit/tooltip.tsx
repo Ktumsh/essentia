@@ -4,7 +4,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 function TooltipProvider({
   delayDuration,

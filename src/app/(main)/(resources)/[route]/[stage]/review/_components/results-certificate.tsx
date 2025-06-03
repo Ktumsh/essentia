@@ -28,7 +28,7 @@ import {
 import { Separator } from "@/components/kit/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 interface ResultCertificateProps {
   reviewTitle: string;

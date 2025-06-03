@@ -9,7 +9,7 @@ import {
 } from "@/db/querys/medical-history-querys";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 import { useCanUploadFile } from "./use-can-upload-files";
 import { useMedicalDialogs } from "./use-medical-dialogs";

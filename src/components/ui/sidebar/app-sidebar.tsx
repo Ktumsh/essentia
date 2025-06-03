@@ -19,7 +19,7 @@ import { ScrollArea } from "@/components/kit/scroll-area";
 import { Sidebar, SidebarContent, useSidebar } from "@/components/kit/sidebar";
 import { useChatScrollEnd } from "@/hooks/use-chat-scroll-end";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn, fetcher } from "@/lib/utils";
+import { cn, fetcher } from "@/utils";
 
 import AppFooter from "./app-footer";
 import AppHeader from "./app-header";
@@ -43,9 +43,9 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
 
   const { openMobile, setOpenMobile } = useSidebar();
 
-  const isAIPage = pathname.startsWith("/aeris");
+  const isAerisPage = pathname.startsWith("/aeris");
 
-  const isCollapsed = isAIPage && session?.user;
+  const isCollapsed = isAerisPage && session?.user;
 
   const {
     data: paginatedChatHistories,
@@ -112,7 +112,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
         isCollapsed && "overflow-hidden *:data-[sidebar=sidebar]:flex-row",
       )}
     >
-      {isAIPage && session ? (
+      {isAerisPage && session ? (
         <>
           <Sidebar
             collapsible="none"

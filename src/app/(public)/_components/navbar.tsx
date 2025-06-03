@@ -20,7 +20,7 @@ import FullLogo from "@/components/ui/layout/full-logo";
 import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import ListItem from "./list-item";
 import MobileNavbar from "./mobile-navbar";

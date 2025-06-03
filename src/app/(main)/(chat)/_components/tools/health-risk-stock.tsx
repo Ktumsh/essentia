@@ -31,8 +31,8 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import { CLOUDINARY_BASE_URL } from "@/lib/consts";
-import { cn } from "@/lib/utils";
-import { capitalize, formatDate } from "@/utils/format";
+import { cn , capitalize, formatDate } from "@/utils";
+
 
 import StockFooter from "./stock-footer";
 import StockHeader from "./stock-header";

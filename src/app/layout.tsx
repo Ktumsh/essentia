@@ -1,8 +1,7 @@
-import "@/styles/globals.css";
+import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { Session } from "next-auth";
 
@@ -20,12 +19,14 @@ import { metadataConfig } from "@/config/metadata.config";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 import { getUserTasks } from "@/db/querys/task-querys";
 import { getUserSubscriptionInfo } from "@/db/querys/user-querys";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import { getUserData } from "@/utils/profile";
 
 import { auth } from "./(auth)/auth";
 
-export const metadata: Metadata = metadataConfig;
+import type { Viewport } from "next";
+
+export const metadata = metadataConfig;
 
 export const viewport: Viewport = {
   themeColor: [

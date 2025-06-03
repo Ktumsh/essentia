@@ -13,7 +13,7 @@ import {
   FIRST_AID_DATA,
   FIRST_AID_DATA_COLORS,
 } from "@/db/data/firts-aid-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
 

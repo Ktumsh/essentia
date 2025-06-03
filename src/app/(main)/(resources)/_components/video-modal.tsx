@@ -1,4 +1,3 @@
-import "@/styles/lite-youtube.css";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
@@ -10,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/kit/dialog";
-import { formatTitle } from "@/utils/format";
+import { formatTitle } from "@/utils";
 
 import { useModalHash } from "../_hooks/use-modal-hash";
 

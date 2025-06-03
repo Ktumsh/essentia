@@ -1,26 +1,15 @@
 import { z } from "zod";
 
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { resultMessages } from "@/utils/errors";
 
-export const validateEmail = (value: string): boolean =>
-  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
-
-export const validatePassword = (value: string): boolean => {
-  return (
-    value.length >= 8 &&
-    /[A-Z]/.test(value) &&
-    /[a-z]/.test(value) &&
-    /[0-9]/.test(value) &&
-    /[^A-Za-z0-9]/.test(value)
-  );
-};
+import { ACCEPTED_FILE_TYPES } from "./consts";
 
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .email({ message: getMessageFromCode(ResultCode.REQUIRED_EMAIL) }),
+  email: z.string().email({
+    message: resultMessages["REQUIRED_EMAIL"],
+  }),
   password: z.string().min(6, {
-    message: getMessageFromCode(ResultCode.REQUIRED_FIELD),
+    message: resultMessages["REQUIRED_FIELD"],
   }),
   remember: z.boolean().optional(),
 });
@@ -28,38 +17,40 @@ export const loginSchema = z.object({
 export type LoginFormData = z.infer<typeof loginSchema>;
 
 export const emailSchema = z.object({
-  email: z
-    .string()
-    .email({ message: getMessageFromCode(ResultCode.REQUIRED_EMAIL) }),
+  email: z.string().email({
+    message: resultMessages["REQUIRED_EMAIL"],
+  }),
 });
 
 export type EmailFormData = z.infer<typeof emailSchema>;
 
 export const infoSchema = z.object({
-  email: z
-    .string()
-    .email({ message: getMessageFromCode(ResultCode.REQUIRED_EMAIL) }),
+  email: z.string().email({
+    message: resultMessages["REQUIRED_EMAIL"],
+  }),
   username: z
     .string()
-    .min(3, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME) })
+    .min(3, {
+      message: resultMessages["INVALID_LENGTH_USERNAME"],
+    })
     .max(20, {
-      message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME),
+      message: resultMessages["INVALID_LENGTH_USERNAME"],
     })
     .regex(/^[a-zA-Z0-9_]+$/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_USERNAME),
+      message: resultMessages["INVALID_STRING_USERNAME"],
     })
     .regex(/^[a-zA-Z0-9]/, {
-      message: getMessageFromCode(ResultCode.INVALID_START_USERNAME),
+      message: resultMessages["INVALID_START_USERNAME"],
     })
     .regex(/[a-zA-Z0-9]$/, {
-      message: getMessageFromCode(ResultCode.INVALID_END_USERNAME),
+      message: resultMessages["INVALID_END_USERNAME"],
     }),
-  firstName: z
-    .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
-  lastName: z
-    .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
+  firstName: z.string().min(1, {
+    message: resultMessages["REQUIRED_NAME"],
+  }),
+  lastName: z.string().min(1, {
+    message: resultMessages["REQUIRED_LASTNAME"],
+  }),
   birthdate: z.coerce.date().refine(
     (date) => {
       const today = new Date();
@@ -76,10 +67,11 @@ export const infoSchema = z.object({
       if (age === 13 && monthDifference === 0 && dayDifference >= 0) {
         return true;
       }
+
       return false;
     },
     {
-      message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
+      message: resultMessages["INVALID_BIRTHDATE"],
     },
   ),
 });
@@ -89,24 +81,24 @@ export const passwordSchema = z
     password: z
       .string()
       .min(8, {
-        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+        message: resultMessages["INVALID_LENGTH_PASSWORD"],
       })
       .regex(/[A-Z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[a-z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[0-9]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[^A-Za-z0-9]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
+    message: resultMessages["PASSWORDS_DO_NOT_MATCH"],
     path: ["confirmPassword"],
   });
 
@@ -115,44 +107,40 @@ export type PasswordFormData = z.infer<typeof passwordSchema>;
 
 export const registerSchema = z.object({
   email: z.string().email({
-    message: getMessageFromCode(ResultCode.REQUIRED_EMAIL),
+    message: resultMessages["REQUIRED_EMAIL"],
   }),
   password: z
     .string()
-    .min(8, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD) })
+    .min(8, { message: resultMessages["INVALID_LENGTH_PASSWORD"] })
     .regex(/[A-Z]/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      message: resultMessages["INVALID_STRING_PASSWORD"],
     })
     .regex(/[a-z]/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      message: resultMessages["INVALID_STRING_PASSWORD"],
     })
     .regex(/[0-9]/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      message: resultMessages["INVALID_STRING_PASSWORD"],
     })
     .regex(/[^A-Za-z0-9]/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+      message: resultMessages["INVALID_STRING_PASSWORD"],
     }),
   username: z
     .string()
-    .min(3, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME) })
+    .min(3, { message: resultMessages["INVALID_LENGTH_USERNAME"] })
     .max(20, {
-      message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME),
+      message: resultMessages["INVALID_LENGTH_USERNAME"],
     })
     .regex(/^[a-zA-Z0-9_]+$/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_USERNAME),
+      message: resultMessages["INVALID_STRING_USERNAME"],
     })
     .regex(/^[a-zA-Z0-9]/, {
-      message: getMessageFromCode(ResultCode.INVALID_START_USERNAME),
+      message: resultMessages["INVALID_START_USERNAME"],
     })
     .regex(/[a-zA-Z0-9]$/, {
-      message: getMessageFromCode(ResultCode.INVALID_END_USERNAME),
+      message: resultMessages["INVALID_END_USERNAME"],
     }),
-  firstName: z
-    .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
-  lastName: z
-    .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
+  firstName: z.string().min(1, { message: resultMessages["REQUIRED_NAME"] }),
+  lastName: z.string().min(1, { message: resultMessages["REQUIRED_LASTNAME"] }),
   birthdate: z.coerce.date().refine(
     (date) => {
       const today = new Date();
@@ -160,19 +148,15 @@ export const registerSchema = z.object({
       const monthDifference = today.getMonth() - date.getMonth();
       const dayDifference = today.getDate() - date.getDate();
 
-      if (date.getFullYear() < 1900 || date > today) {
-        return false;
-      }
-
+      if (date.getFullYear() < 1900 || date > today) return false;
       if (age > 13) return true;
       if (age === 13 && monthDifference > 0) return true;
-      if (age === 13 && monthDifference === 0 && dayDifference >= 0) {
+      if (age === 13 && monthDifference === 0 && dayDifference >= 0)
         return true;
-      }
       return false;
     },
     {
-      message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
+      message: resultMessages["INVALID_BIRTHDATE"],
     },
   ),
 });
@@ -184,24 +168,24 @@ export const newPasswordSchema = z
     newPassword: z
       .string()
       .min(8, {
-        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+        message: resultMessages["INVALID_LENGTH_PASSWORD"],
       })
       .regex(/[A-Z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[a-z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[0-9]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[^A-Za-z0-9]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
+    message: resultMessages["PASSWORDS_DO_NOT_MATCH"],
     path: ["confirmPassword"],
   });
 
@@ -209,35 +193,35 @@ export type NewPasswordFormData = z.infer<typeof newPasswordSchema>;
 
 export const changePasswordSchema = z
   .object({
-    currentPassword: z
-      .string()
-      .min(8, { message: getMessageFromCode(ResultCode.REQUIRED_FIELD) }),
+    currentPassword: z.string().min(8, {
+      message: resultMessages["REQUIRED_FIELD"],
+    }),
     newPassword: z
       .string()
       .min(8, {
-        message: getMessageFromCode(ResultCode.INVALID_LENGTH_PASSWORD),
+        message: resultMessages["INVALID_LENGTH_PASSWORD"],
       })
       .regex(/[a-z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[A-Z]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/\d/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       })
       .regex(/[\W_]/, {
-        message: getMessageFromCode(ResultCode.INVALID_STRING_PASSWORD),
+        message: resultMessages["INVALID_STRING_PASSWORD"],
       }),
-    confirmPassword: z
-      .string()
-      .min(8, { message: getMessageFromCode(ResultCode.REQUIRED_FIELD) }),
+    confirmPassword: z.string().min(8, {
+      message: resultMessages["REQUIRED_FIELD"],
+    }),
   })
   .superRefine(({ confirmPassword, newPassword }, ctx) => {
     if (confirmPassword !== newPassword) {
       ctx.addIssue({
         code: "custom",
-        message: getMessageFromCode(ResultCode.PASSWORDS_DO_NOT_MATCH),
+        message: resultMessages["PASSWORDS_DO_NOT_MATCH"],
         path: ["confirmPassword"],
       });
     }
@@ -246,40 +230,52 @@ export const changePasswordSchema = z
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 
 export const profileSchema = z.object({
-  firstName: z
-    .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_NAME) }),
-  lastName: z
-    .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_LASTNAME) }),
+  firstName: z.string().min(1, {
+    message: resultMessages["REQUIRED_NAME"],
+  }),
+  lastName: z.string().min(1, {
+    message: resultMessages["REQUIRED_LASTNAME"],
+  }),
   username: z
     .string()
-    .min(3, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME) })
+    .min(3, {
+      message: resultMessages["INVALID_LENGTH_USERNAME"],
+    })
     .max(20, {
-      message: getMessageFromCode(ResultCode.INVALID_LENGTH_USERNAME),
+      message: resultMessages["INVALID_LENGTH_USERNAME"],
     })
     .regex(/^[a-zA-Z0-9_]+$/, {
-      message: getMessageFromCode(ResultCode.INVALID_STRING_USERNAME),
+      message: resultMessages["INVALID_STRING_USERNAME"],
     }),
   bio: z
     .string()
-    .max(2000, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_BIO) })
+    .max(2000, {
+      message: resultMessages["INVALID_LENGTH_BIO"],
+    })
     .optional(),
   genre: z.string().optional(),
   weight: z
     .number()
-    .min(1, { message: getMessageFromCode(ResultCode.INVALID_WEIGHT) })
-    .max(300, { message: getMessageFromCode(ResultCode.INVALID_WEIGHT) })
+    .min(1, {
+      message: resultMessages["INVALID_WEIGHT"],
+    })
+    .max(300, {
+      message: resultMessages["INVALID_WEIGHT"],
+    })
     .nullable(),
   height: z
     .number()
-    .min(40, { message: getMessageFromCode(ResultCode.INVALID_HEIGHT) })
-    .max(250, { message: getMessageFromCode(ResultCode.INVALID_HEIGHT) })
+    .min(40, {
+      message: resultMessages["INVALID_HEIGHT"],
+    })
+    .max(250, {
+      message: resultMessages["INVALID_HEIGHT"],
+    })
     .nullable(),
   location: z
     .string()
     .max(50, {
-      message: getMessageFromCode(ResultCode.INVALID_LENGTH_LOCATION),
+      message: resultMessages["INVALID_LENGTH_LOCATION"],
     })
     .optional(),
   birthdate: z.coerce.date().refine(
@@ -289,19 +285,15 @@ export const profileSchema = z.object({
       const monthDifference = today.getMonth() - date.getMonth();
       const dayDifference = today.getDate() - date.getDate();
 
-      if (date.getFullYear() < 1900 || date > today) {
-        return false;
-      }
-
+      if (date.getFullYear() < 1900 || date > today) return false;
       if (age > 13) return true;
       if (age === 13 && monthDifference > 0) return true;
-      if (age === 13 && monthDifference === 0 && dayDifference >= 0) {
+      if (age === 13 && monthDifference === 0 && dayDifference >= 0)
         return true;
-      }
       return false;
     },
     {
-      message: getMessageFromCode(ResultCode.INVALID_BIRTHDATE),
+      message: resultMessages["INVALID_BIRTHDATE"],
     },
   ),
 });
@@ -387,8 +379,8 @@ export const AIRecommendationSchema = z.object({
 export const chatTitleSchema = z.object({
   chatTitle: z
     .string()
-    .min(1, { message: getMessageFromCode(ResultCode.REQUIRED_FIELD) })
-    .max(100, { message: getMessageFromCode(ResultCode.INVALID_LENGTH_TITLE) }),
+    .min(1, { message: resultMessages["REQUIRED_FIELD"] })
+    .max(100, { message: resultMessages["INVALID_LENGTH_TITLE"] }),
 });
 
 export type ChatTitleFormData = z.infer<typeof chatTitleSchema>;
@@ -397,14 +389,14 @@ export const folderFormSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(3, "El nombre debe tener al menos 3 caracteres")
-    .max(50, "El nombre no puede tener más de 50 caracteres")
+    .min(3, { message: resultMessages["FOLDER_NAME_MIN"] })
+    .max(50, { message: resultMessages["FOLDER_NAME_MAX"] })
     .refine((val) => val.replace(/\s/g, "").length > 0, {
-      message: "El nombre no puede estar vacío o tener solo espacios",
+      message: resultMessages["FOLDER_NAME_INVALID"],
     }),
   description: z
     .string()
-    .max(200, "La descripción no puede exceder los 200 caracteres")
+    .max(200, { message: resultMessages["FOLDER_DESCRIPTION_MAX"] })
     .optional()
     .or(z.literal("")),
   color: z.enum(["gray", "blue", "green", "pink", "red", "orange", "purple"]),
@@ -432,27 +424,20 @@ export const renameFolderSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(3, "Debe tener al menos 3 caracteres")
-    .max(50, "No puede tener más de 50 caracteres")
+    .min(3, { message: resultMessages["RENAME_FOLDER_MIN"] })
+    .max(50, { message: resultMessages["RENAME_FOLDER_MAX"] })
     .refine((val) => val.replace(/\s/g, "").length > 0, {
-      message: "No puede estar vacío o tener solo espacios",
+      message: resultMessages["RENAME_FOLDER_INVALID"],
     }),
 });
 
 export type RenameFolderFormData = z.infer<typeof renameFolderSchema>;
 
-const ACCEPTED_TYPES = [
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-];
-
 export const medicalHistoryAddSchema = z.object({
   condition: z
     .string()
-    .min(3, "Debe tener al menos 3 caracteres")
-    .max(100, "Máximo 100 caracteres"),
+    .min(3, { message: resultMessages["MEDICAL_CONDITION_MIN"] })
+    .max(100, { message: resultMessages["MEDICAL_CONDITION_MAX"] }),
   type: z.enum([
     "Examen",
     "Receta",
@@ -464,24 +449,33 @@ export const medicalHistoryAddSchema = z.object({
     "Consentimiento",
     "Otro",
   ]),
-  description: z.string().max(500, "Máximo 500 caracteres").optional(),
-  issuer: z.string().max(100, "Máximo 100 caracteres").optional(),
+  description: z
+    .string()
+    .max(500, { message: resultMessages["MEDICAL_DESCRIPTION_MAX"] })
+    .optional(),
+  issuer: z
+    .string()
+    .max(100, { message: resultMessages["MEDICAL_ISSUER_MAX"] })
+    .optional(),
   documentDate: z
-    .date({ required_error: "Debes seleccionar una fecha válida" })
+    .date({ required_error: resultMessages["MEDICAL_DATE_REQUIRED"] })
     .refine((date) => date <= new Date(), {
-      message: "La fecha no puede ser futura",
+      message: resultMessages["MEDICAL_DATE_INVALID"],
     }),
-  notes: z.string().max(500, "Máximo 500 caracteres").optional(),
+  notes: z
+    .string()
+    .max(500, { message: resultMessages["MEDICAL_NOTES_MAX"] })
+    .optional(),
   visibility: z.enum(["private", "shared"]),
   tags: z.array(z.string()).optional(),
   folderId: z.string().nullable().optional(),
   file: z
     .instanceof(File)
-    .refine((file) => ACCEPTED_TYPES.includes(file.type), {
-      message: "Formato no permitido. Usa PDF, JPEG, PNG o WEBP",
+    .refine((file) => ACCEPTED_FILE_TYPES.includes(file.type), {
+      message: resultMessages["MEDICAL_FILE_INVALID_TYPE"],
     })
     .refine((file) => file.size <= 10 * 1024 * 1024, {
-      message: "El archivo supera los 10MB permitidos",
+      message: resultMessages["MEDICAL_FILE_TOO_LARGE"],
     }),
 });
 
@@ -490,11 +484,11 @@ export type MedicalHistoryAddSchema = z.infer<typeof medicalHistoryAddSchema>;
 export const medicalHistoryEditSchema = medicalHistoryAddSchema.extend({
   file: z
     .instanceof(File)
-    .refine((file) => ACCEPTED_TYPES.includes(file.type), {
-      message: "Formato no permitido. Usa PDF, JPEG, PNG o WEBP",
+    .refine((file) => ACCEPTED_FILE_TYPES.includes(file.type), {
+      message: resultMessages["MEDICAL_FILE_INVALID_TYPE"],
     })
     .refine((file) => file.size <= 10 * 1024 * 1024, {
-      message: "El archivo supera los 10MB permitidos",
+      message: resultMessages["MEDICAL_FILE_TOO_LARGE"],
     })
     .optional(),
 });

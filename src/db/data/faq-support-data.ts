@@ -312,3 +312,5 @@ export const FAQ_SUPPORT_DATA = [
     tags: ["aeris", "essentia ai", "asistente", "ia", "bienestar"],
   },
 ];
+
+export type FaqSupport = (typeof FAQ_SUPPORT_DATA)[number];

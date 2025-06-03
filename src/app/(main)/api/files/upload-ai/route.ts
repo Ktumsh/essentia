@@ -1,4 +1,5 @@
 import { put } from "@vercel/blob";
+import { nanoid } from "nanoid";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -57,7 +58,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 
-    const filename = file.name;
+    const originalName = file.name.replace(/\.[^/.]+$/, "");
+
+    const extension = file.name.split(".").pop();
+    const filename = `${originalName}-${nanoid()}.${extension}`;
     const filePath = `ai/${filename}`;
 
     const fileBuffer = Buffer.from(await file.arrayBuffer());

@@ -16,7 +16,8 @@ import {
 import { Badge } from "@/components/kit/badge";
 import { CircularProgress } from "@/components/kit/circular-progress";
 import { StageProgressType } from "@/db/querys/progress-querys";
-import { cn, getRouteColor } from "@/lib/utils";
+import { getRouteColor } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { Stages } from "@/lib/types";
 

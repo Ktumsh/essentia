@@ -6,8 +6,8 @@ import { Fragment, useMemo } from "react";
 
 import { navConfig } from "@/config/nav.config";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
-import { formatPathName } from "@/utils/format";
+import { cn , formatPathName } from "@/utils";
+
 
 const BottomNav = () => {
   const pathname = usePathname();

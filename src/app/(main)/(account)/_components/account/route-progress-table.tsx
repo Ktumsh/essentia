@@ -23,7 +23,7 @@ import {
 } from "@/components/kit/table";
 import { getLastCompletedLesson } from "@/db/querys/progress-querys";
 import { getProgressColor } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 import type { LearningRoutes } from "@/lib/types";
 

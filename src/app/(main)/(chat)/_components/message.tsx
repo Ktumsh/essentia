@@ -11,7 +11,7 @@ import { Markdown } from "@/components/markdown";
 import { decrementUserChatUsage } from "@/db/querys/chat-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";

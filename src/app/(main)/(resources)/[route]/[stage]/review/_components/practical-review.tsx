@@ -54,7 +54,8 @@ import {
 } from "@/db/querys/progress-querys";
 import { ParsedReviewQuestion } from "@/db/querys/resource-querys";
 import { Route, Stage } from "@/db/schema";
-import { cn, getRouteColor } from "@/lib/utils";
+import { getRouteColor } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import Countdown from "./countdown";
 

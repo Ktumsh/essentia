@@ -20,7 +20,7 @@ import {
 } from "@/components/kit/drawer";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import {
   getPriorityBgColor,

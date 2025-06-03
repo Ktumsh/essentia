@@ -15,7 +15,7 @@ import {
   HoverCardTrigger,
 } from "@/components/kit/hover-card";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import {
   formatFileSize,
@@ -175,7 +175,7 @@ export const PreviewAttachment = ({
                 e.stopPropagation();
                 onRemove();
               }}
-              className="dark:border-alternative bg-background absolute -top-1 -right-1 flex size-4 items-center justify-center overflow-visible rounded-full border border-slate-300"
+              className="dark:border-alternative bg-background absolute -top-1 -right-1 flex size-4 items-center justify-center overflow-visible rounded-full border border-slate-300 opacity-0 transition-opacity group-hover/preview:opacity-100"
             >
               <X className="text-foreground size-2.5" />
             </button>

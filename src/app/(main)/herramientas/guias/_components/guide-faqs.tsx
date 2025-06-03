@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/kit/accordion";
 import { Card } from "@/components/kit/card";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { Guide, GuideThemeColors } from "@/db/data/guide-data";
 

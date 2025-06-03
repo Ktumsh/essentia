@@ -14,3 +14,10 @@ export const MATCH_KEYS = [
 export const RECENT_SEARCHES_KEY = "recent-searches";
 export const MAX_RECENT_SEARCHES = 10;
 export const MAX_RESULTS = 20;
+
+export const ACCEPTED_FILE_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];

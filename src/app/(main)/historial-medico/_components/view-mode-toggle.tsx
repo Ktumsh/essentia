@@ -2,7 +2,7 @@ import { LayoutGrid, List } from "lucide-react";
 
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { ViewMode } from "../_hooks/use-view-mode";
 

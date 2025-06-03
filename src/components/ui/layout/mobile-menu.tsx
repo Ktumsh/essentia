@@ -33,7 +33,7 @@ import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import FeedbackBox from "./feedback-box";
 import FullLogo from "./full-logo";

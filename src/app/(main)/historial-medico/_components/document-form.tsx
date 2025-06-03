@@ -65,7 +65,7 @@ import {
   type MedicalHistoryEditSchema,
 } from "@/lib/form-schemas";
 import { Folder } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import FileSlot from "./file-slot";
 import { getTagColor } from "../_lib/utils";

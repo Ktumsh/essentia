@@ -21,8 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
 import { useChatVisibility } from "@/hooks/use-chat-visibility";
-import { cn } from "@/lib/utils";
-
+import { cn } from "@/utils";
 
 export type VisibilityType = "private" | "public";
 

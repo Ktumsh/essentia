@@ -6,7 +6,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/kit/sidebar";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import FullLogo from "../layout/full-logo";
 import Greeting from "../layout/greeting";

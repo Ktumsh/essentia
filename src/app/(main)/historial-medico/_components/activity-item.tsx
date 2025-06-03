@@ -7,8 +7,8 @@ import { Badge } from "@/components/kit/badge";
 import { Button } from "@/components/kit/button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import {
   getActionColor,

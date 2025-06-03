@@ -28,7 +28,7 @@ import {
   DrawerTitle,
 } from "@/components/kit/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { folderColorClassMap, folderIconMap } from "../_lib/utils";
 

@@ -6,14 +6,29 @@ import {
   ChangePasswordFormData,
   changePasswordSchema,
 } from "@/lib/form-schemas";
-import { ResultCode } from "@/utils/errors";
 
-export async function changePassword(input: ChangePasswordFormData) {
+import type { ResultCode } from "@/utils/errors";
+import type { ZodIssue } from "zod";
+
+type ChangePasswordResult =
+  | {
+      type: "success";
+      resultCode: "PASSWORD_CHANGED";
+    }
+  | {
+      type: "error";
+      resultCode: ResultCode;
+      errors?: ZodIssue[];
+    };
+
+export async function changePassword(
+  input: ChangePasswordFormData,
+): Promise<ChangePasswordResult> {
   const parseResult = changePasswordSchema.safeParse(input);
   if (!parseResult.success) {
     return {
-      success: false,
-      message: ResultCode.VALIDATION_ERROR,
+      type: "error",
+      resultCode: "VALIDATION_ERROR",
       errors: parseResult.error.errors,
     };
   }
@@ -24,33 +39,32 @@ export async function changePassword(input: ChangePasswordFormData) {
     const session = await auth();
 
     if (!session || !session.user?.id) {
-      return { success: false, message: ResultCode.UNAUTHORIZED };
+      return { type: "error", resultCode: "UNAUTHORIZED" };
     }
 
     const userId = session.user.id;
-
     const [user] = await getUserById(userId);
 
     if (!user || !user.password) {
-      return { success: false, message: ResultCode.USER_NOT_FOUND };
+      return { type: "error", resultCode: "USER_NOT_FOUND" };
     }
 
     if (currentPassword === newPassword) {
       return {
-        success: false,
-        message: ResultCode.PASSWORD_CHANGE_FAILED,
+        type: "error",
+        resultCode: "PASSWORD_CHANGE_FAILED",
       };
     }
 
     const updateResult = await updateUserPassword(userId, newPassword);
 
     if (updateResult.count === 0) {
-      return { success: false, message: ResultCode.USER_NOT_FOUND };
+      return { type: "error", resultCode: "USER_NOT_FOUND" };
     }
 
-    return { success: true, message: ResultCode.PASSWORD_CHANGED };
+    return { type: "success", resultCode: "PASSWORD_CHANGED" };
   } catch (error) {
     console.error("Error al cambiar la contraseña:", error);
-    return { success: false, message: ResultCode.UNKNOWN_ERROR };
+    return { type: "error", resultCode: "UNKNOWN_ERROR" };
   }
 }

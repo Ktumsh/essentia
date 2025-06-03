@@ -4,7 +4,7 @@ import { Check, X } from "lucide-react";
 
 import { PLAN_FEATURE_DATA } from "@/db/data/plan-feature-data";
 import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 type PlanKey = "basico" | "premium" | "premiumPlus";
 

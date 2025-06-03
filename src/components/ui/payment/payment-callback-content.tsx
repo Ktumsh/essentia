@@ -17,8 +17,8 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { Separator } from "@/components/kit/separator";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import type { Payment } from "@/db/schema";
 

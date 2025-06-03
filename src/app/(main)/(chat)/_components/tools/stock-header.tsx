@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ReactNode } from "react";
 
 import { Badge } from "@/components/kit/badge";
-import { capitalize } from "@/utils/format";
+import { capitalize } from "@/utils";
 
 interface InfoItem {
   icon: ReactNode;

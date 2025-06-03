@@ -1,6 +1,6 @@
 import { Calendar } from "lucide-react";
 
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 interface ActivityDateProps {
   date: string | Date;

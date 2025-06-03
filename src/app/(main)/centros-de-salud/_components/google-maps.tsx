@@ -1,14 +1,12 @@
 "use client";
 
-import "@/styles/map.css";
-
 import { motion } from "motion/react";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
 
 import { LocationSelfIcon } from "@/components/icons/status";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import HelpButton from "./help-button";
 import MapActions from "./map-actions";
@@ -40,9 +38,7 @@ const GoogleMaps = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [travelMode, setTravelMode] = useState<string>(
-    TRAVEL_MODE[window.__selectedTravelMode || "DRIVING"],
-  );
+  const [travelMode, setTravelMode] = useState<string>("En auto");
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,6 +53,13 @@ const GoogleMaps = () => {
     isMobile,
     setIsOpen,
   );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mode = window.__selectedTravelMode || "DRIVING";
+      setTravelMode(TRAVEL_MODE[mode] || "En auto");
+    }
+  }, []);
 
   useEffect(() => {
     if (mapInstance) {

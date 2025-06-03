@@ -1,0 +1,23 @@
+export const SEGMENTS_DATA: { [key: string]: string } = {
+  aeris: "Aeris",
+  "centros-de-salud": "Buscador centros de salud",
+  "historial-medico": "Historial médico",
+  herramientas: "Herramientas de apoyo",
+  guias: "Guías",
+  botiquin: "Botiquín",
+  account: "Cuenta",
+  profile: "Perfil",
+  subscription: "Suscripción",
+  settings: "Configuración",
+  "account-profile": "Cuenta y perfil",
+  subscriptions: "Suscripciones",
+  accesibility: "Accesibilidad y pantalla",
+  notifications: "Notificaciones y recordatorios",
+  support: "Soporte",
+  pricing: "Planes y precios",
+  review: "Revisión práctica",
+  progreso: "Hábitos y progreso",
+  "seguimientos-del-animo": "Seguimientos del ánimo",
+};
+
+export type Segment = (typeof SEGMENTS_DATA)[number];

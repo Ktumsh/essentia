@@ -10,7 +10,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/kit/select";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface DatePickerProps {
   startYear: number;

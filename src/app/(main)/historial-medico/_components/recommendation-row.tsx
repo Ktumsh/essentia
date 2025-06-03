@@ -16,8 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import { getPriorityBadge, getPriorityText, getTagColor } from "../_lib/utils";
 

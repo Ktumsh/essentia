@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface PageTitleProps {
   children: React.ReactNode;

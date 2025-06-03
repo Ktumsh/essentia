@@ -17,7 +17,7 @@ import { useChatContext } from "@/hooks/use-chat-context";
 import useChatName from "@/hooks/use-chat-name";
 import useFolderName from "@/hooks/use-folder-name";
 import useLessonName from "@/hooks/use-lesson-name";
-import { formatDate, formatSegment } from "@/utils/format";
+import { formatDate, formatSegment } from "@/utils";
 
 import type { UserProfileData } from "@/lib/types";
 

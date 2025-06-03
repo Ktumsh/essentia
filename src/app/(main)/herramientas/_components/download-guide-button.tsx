@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { EmergencySteps } from "@/db/data/emergency-steps-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import GuidePdfDocument from "./guide-document";
 

@@ -1,4 +1,4 @@
-import { openai } from "@ai-sdk/openai";
+import { openai, type OpenAIResponsesProviderOptions } from "@ai-sdk/openai";
 import { geolocation } from "@vercel/functions";
 import {
   appendClientMessage,
@@ -32,7 +32,7 @@ import { getSubscription } from "@/db/querys/payment-querys";
 import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { isProductionEnvironment } from "@/lib/consts";
 import { calculateAge } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 import { getUserData } from "@/utils/profile";
 
 import { postRequestBodySchema, type PostRequestBody } from "./schema";
@@ -185,6 +185,11 @@ export async function POST(request: Request) {
       execute: async (dataStream) => {
         const result = streamText({
           model: modelProvider.languageModel(selectedChatModel),
+          providerOptions: {
+            openai: {
+              reasoningSummary: "auto",
+            } satisfies OpenAIResponsesProviderOptions,
+          },
           system: systemPrompt({
             firstName,
             lastName,

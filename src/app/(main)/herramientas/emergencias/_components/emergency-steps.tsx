@@ -16,7 +16,7 @@ import {
   EMERGENCY_STEPS_DATA,
   EMERGENCY_STEPS_DATA_COLORS,
 } from "@/db/data/emergency-steps-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import DownloadGuideButton from "../../_components/download-guide-button";
 

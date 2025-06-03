@@ -22,7 +22,7 @@ import {
 
 import { MoonLoopIcon, SunLoopIcon } from "@/components/icons/interface";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { JSX } from "react";
 

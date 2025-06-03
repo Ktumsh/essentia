@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/kit/input";
 import { getUserByEmail } from "@/db/querys/user-querys";
 import { emailSchema } from "@/lib/form-schemas";
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { resultMessages } from "@/utils/errors";
 
 import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
 import { SubmitButton } from "../../_components/submit-button";
@@ -40,17 +40,17 @@ const SignupEmailStep = ({ onSuccess }: SignupEmailStepProps) => {
     startTransition(async () => {
       try {
         const existingUser = await getUserByEmail(data.email);
+
         if (existingUser.length > 0) {
-          toast.error(getMessageFromCode(ResultCode.EMAIL_EXISTS));
+          toast.error(resultMessages["EMAIL_EXISTS"]);
         } else {
           onSuccess(data.email);
         }
       } catch {
-        toast.error(getMessageFromCode(ResultCode.EMAIL_VERIFICATION_ERROR));
+        toast.error(resultMessages["EMAIL_VERIFICATION_ERROR"]);
       }
     });
   };
-
   return (
     <Form {...form}>
       <div className="text-foreground/80 mb-5 w-full text-sm">

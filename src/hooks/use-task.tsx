@@ -5,7 +5,7 @@ import { createContext, ReactNode, useCallback, useContext } from "react";
 import useSWR from "swr";
 
 import { deleteUserTask, updateUserTaskStatus } from "@/db/querys/task-querys";
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 import type { UserTask } from "@/db/schema";
 

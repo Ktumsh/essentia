@@ -18,7 +18,7 @@ import { Skeleton } from "@/components/kit/skeleton";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn, fetcher } from "@/lib/utils";
+import { cn, fetcher } from "@/utils";
 
 import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 

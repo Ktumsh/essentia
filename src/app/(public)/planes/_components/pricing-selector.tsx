@@ -15,7 +15,7 @@ import {
   SubscriptionPlanType,
 } from "@/db/data/subscription-plan-data";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import PricingCard from "./pricing-card";
 

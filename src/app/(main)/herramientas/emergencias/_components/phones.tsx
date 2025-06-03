@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { PHONE_COLORS, PHONE_DATA } from "@/db/data/phone-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
 

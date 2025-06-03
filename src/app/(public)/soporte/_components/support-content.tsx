@@ -43,9 +43,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { FAQ_SUPPORT_DATA } from "@/db/data/faq-support-data";
+import { FAQ_SUPPORT_DATA, type FaqSupport } from "@/db/data/faq-support-data";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn, normalizeQuery } from "@/utils";
 
 const knowledgeBase = {
   faqs: FAQ_SUPPORT_DATA,
@@ -83,15 +83,17 @@ const knowledgeBase = {
   ],
 };
 
+type SearchResult = FaqSupport & { type: "faq" };
+
+type activeTabType = "general" | "planes" | "tecnico";
+
 const SupportContent = () => {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [activeFaqId, setActiveFaqId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"general" | "planes" | "tecnico">(
-    "general",
-  );
+  const [activeTab, setActiveTab] = useState<activeTabType>("general");
   const [searchFocusFaqId, setSearchFocusFaqId] = useState<string | null>(null);
   const contentRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
@@ -112,16 +114,20 @@ const SupportContent = () => {
     }
 
     setIsSearching(true);
-    const query = searchQuery.toLowerCase();
+
+    const query = normalizeQuery(searchQuery);
 
     const matchingFaqs = knowledgeBase.faqs.filter(
       (faq) =>
-        faq.question.toLowerCase().includes(query) ||
-        faq.answer.toLowerCase().includes(query) ||
-        faq.tags.some((tag) => tag.toLowerCase().includes(query)),
+        normalizeQuery(faq.question).includes(query) ||
+        normalizeQuery(faq.answer).includes(query) ||
+        faq.tags.some((tag) => normalizeQuery(tag).includes(query)),
     );
 
-    const results = [...matchingFaqs.map((item) => ({ ...item, type: "faq" }))];
+    const results = matchingFaqs.map((item) => ({
+      ...item,
+      type: "faq" as const,
+    }));
 
     setSearchResults(results);
   }, [searchQuery]);
@@ -203,7 +209,7 @@ const SupportContent = () => {
                 aria-label="Cerrar resultados de búsqueda"
                 className="group/close h-7 gap-1 rounded-full text-xs"
               >
-                Cerrar
+                Limpiar búsqueda
                 <X
                   className="size-3 opacity-0 transition-opacity group-hover/close:opacity-100"
                   aria-hidden="true"
@@ -235,11 +241,11 @@ const SupportContent = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-primary hover:text-primary mt-1"
+                          className="text-primary hover:bg-background hover:text-primary mt-1"
                           onClick={() => {
                             setSearchQuery("");
                             setIsSearching(false);
-                            setActiveTab(result.category);
+                            setActiveTab(result.category as activeTabType);
                             setActiveFaqId(result.id);
                             setSearchFocusFaqId(result.id);
                           }}
@@ -487,7 +493,7 @@ const SupportContent = () => {
                         <Link
                           href={option.link}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          rel="noopener"
                           aria-label={`${option.action} a ${option.title}`}
                         >
                           <Button

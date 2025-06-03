@@ -30,7 +30,7 @@ import { Input } from "@/components/kit/input";
 import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { LoginFormData, loginSchema } from "@/lib/form-schemas";
 import { getWelcomeLabel } from "@/lib/utils";
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { resultMessages } from "@/utils/errors";
 
 import { AuthRedirectMessage } from "../_components/auth-redirect-message";
 import { SubmitButton } from "../_components/submit-button";
@@ -98,23 +98,17 @@ const LoginForm = () => {
         if (result?.type === "success") {
           handleSuccess(data);
         } else if (result?.type === "error") {
-          switch (result.resultCode) {
-            case ResultCode.EMAIL_NOT_VERIFIED:
-              toast.error(getMessageFromCode(result.resultCode));
-              if (result.redirectUrl) {
-                router.push(result.redirectUrl);
-              }
-              break;
-            case ResultCode.INVALID_CREDENTIALS:
-              toast.error(getMessageFromCode(result.resultCode));
-              break;
-            default:
-              toast.error(getMessageFromCode(result.resultCode));
-              break;
+          const code = result.resultCode;
+          const message = resultMessages[code];
+
+          toast.error(message);
+
+          if (code === "EMAIL_NOT_VERIFIED" && result.redirectUrl) {
+            router.push(result.redirectUrl);
           }
         }
       } catch {
-        toast.error(getMessageFromCode(ResultCode.VALIDATION_ERROR));
+        toast.error(resultMessages["VALIDATION_ERROR"]);
       }
     });
   };

@@ -2,7 +2,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { Button } from "./button";
 
