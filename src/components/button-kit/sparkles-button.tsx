@@ -5,7 +5,7 @@ import { useCallback } from "react";
 
 import { Button, ButtonVariant } from "@/components/kit/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { Variants } from "motion/react";
 import type { HTMLAttributes } from "react";

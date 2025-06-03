@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/kit/button";
 import useScrollToUp from "@/hooks/use-scroll-to-up";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface ButtonUpProps {
   scrollRef?: React.RefObject<HTMLElement | null>;

@@ -24,7 +24,7 @@ import {
   formatDateWithAutoTimezone,
   getPreciseAge,
   getTimeOnPlatform,
-} from "@/utils/format";
+} from "@/utils";
 
 import InfoField from "./info-field";
 import SettingsOptsHeader from "./settings-opts-header";
@@ -133,7 +133,7 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
         {section === "accountInfo" && (
           <>
             <div className="flex flex-col">
-              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80 mb-2 pl-6 text-xs font-medium md:pl-4">
                 Información de tu cuenta
               </h4>
               <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
@@ -194,7 +194,7 @@ const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
         {section === "personalInfo" && (
           <>
             <div className="relative flex flex-col">
-              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80 mb-2 pl-6 text-xs font-medium md:pl-4">
                 Información personal
               </h4>
               <div className="static -top-7 right-0 m-4 mt-2 flex justify-start md:absolute md:mx-0 md:justify-end">

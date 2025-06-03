@@ -23,8 +23,8 @@ import PaymentModal from "@/components/ui/payment/payment-modal";
 import useSubscription from "@/hooks/use-subscription";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import InfoFieldItem from "../info-field-item";
 import CancelSubscriptionModal from "./cancel-subscription-modal";

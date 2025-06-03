@@ -22,8 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
-import { cn } from "@/lib/utils";
-
+import { cn } from "@/utils";
 
 export function ModelSelector({
   selectedModelId,

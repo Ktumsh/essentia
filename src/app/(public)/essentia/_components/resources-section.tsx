@@ -12,7 +12,7 @@ import {
   WellbeingFillIcon,
 } from "@/components/icons/interface";
 import { Badge } from "@/components/kit/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 const resources = [
   {

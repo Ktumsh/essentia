@@ -14,7 +14,7 @@ import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { type ChatVote } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface PureMessageActionsProps {
   chatId: string;

@@ -32,7 +32,7 @@ import { setUserPlan } from "@/components/ui/payment/actions";
 import { siteConfig } from "@/config/site.config";
 import { Payment, Subscription } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 import { getPlanType } from "../../_lib/utils";
 

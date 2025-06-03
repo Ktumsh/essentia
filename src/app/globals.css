@@ -515,7 +515,7 @@
   inset: -1px;
   background: -webkit-linear-gradient(
     135deg,
-    var(--color-pink-500) 0%,
+    var(--color-fuchsia-500) 0%,
     var(--color-fuchsia-600) 8%,
     var(--color-purple-500) 17%,
     var(--color-violet-500) 25%,
@@ -527,7 +527,7 @@
   );
   background: linear-gradient(
     -45deg,
-    var(--color-pink-500) 0%,
+    var(--color-fuchsia-500) 0%,
     var(--color-fuchsia-600) 8%,
     var(--color-purple-500) 17%,
     var(--color-violet-500) 25%,
@@ -676,4 +676,424 @@
 .timeline :where(hr) {
   background-color: var(--color-border);
   height: 0.25rem;
+}
+
+/*
+==========================
+MAP CSS
+==========================
+*/
+
+:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+:-webkit-full-screen button {
+  position: fixed;
+  z-index: 1000;
+}
+
+:-moz-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+:-moz-full-screen button {
+  position: fixed;
+  z-index: 1000;
+}
+
+.pac-container {
+  * {
+    @apply font-poppins!;
+  }
+
+  @apply bg-background mt-2 rounded-xl border-t-0 p-1.5 shadow-md;
+
+  & .pac-item {
+    @apply text-muted-foreground rounded-lg border-t-0;
+  }
+
+  & .pac-item:hover {
+    @apply bg-accent cursor-pointer;
+  }
+
+  & .pac-item-query {
+    @apply text-muted-foreground;
+  }
+}
+
+.pac-logo:after {
+  @apply hidden!;
+}
+
+.poi-info-window .address {
+  @apply mt-2!;
+}
+
+.gm-style .transit-container .gm-title {
+  @apply font-semibold;
+}
+
+.transit-line-group {
+  @apply flex;
+}
+
+.transit-line-group-content {
+  @apply grid! grid-cols-4 gap-2;
+}
+
+.gm-style .transit-container .transit-div-line-name {
+  @apply p-0;
+
+  .gm-transit-short {
+    @apply inline-flex w-full;
+  }
+
+  .gm-transit-medium {
+    @apply inline-flex gap-1;
+  }
+
+  span {
+    @apply inline-flex;
+  }
+
+  .gm-transit-medium {
+    @apply w-auto;
+  }
+}
+
+.transit-line-group .transit-line-group-vehicle-icons {
+  @apply pr-2!;
+}
+
+.gm-style .transit-div-line-name .renderable-component-text-box {
+  @apply flex shrink-0;
+}
+
+.gm-style .gm-style-iw-c {
+  @apply text-muted-foreground border-border bg-background! max-w-xs! overflow-visible! rounded-xl! border p-4! shadow-lg md:max-w-sm!;
+
+  * {
+    @apply font-poppins!;
+  }
+
+  & .gm-style-iw-chr {
+    .gm-style-iw-ch {
+      @apply pt-0;
+    }
+  }
+
+  & .gm-ui-hover-effect {
+    @apply bg-accent! dark:border-alternative/50! absolute! -top-3 -right-3 z-10 flex! size-7! items-center justify-center rounded-full border-2! border-white! opacity-100 transition;
+
+    &:hover {
+      @apply scale-110;
+    }
+    & span {
+      @apply m-0! size-4! text-clip drop-shadow;
+    }
+  }
+
+  & .gm-style-iw-d {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+
+  & *:not(.gm-ui-hover-effect > *):not(button) {
+    @apply bg-transparent;
+  }
+
+  .transit-title {
+    @apply pb-4;
+  }
+
+  & .transit-title > span {
+    @apply text-[13px];
+  }
+
+  & .view-link {
+    @apply hidden!;
+  }
+}
+
+.gmnoprint {
+  @apply hidden!;
+
+  * {
+    @apply font-poppins!;
+  }
+}
+
+.gm-style-cc {
+  @apply hidden!;
+
+  * {
+    @apply font-poppins!;
+  }
+}
+
+.gm-style a > div > img {
+  @apply hidden!;
+
+  * {
+    @apply font-poppins!;
+  }
+}
+
+.gm-style-iw-d {
+  @apply font-normal;
+
+  * {
+    @apply font-poppins!;
+  }
+
+  & .address {
+    @apply flex! flex-col gap-1;
+
+    & * {
+      @apply text-muted-foreground;
+    }
+  }
+}
+
+.gm-title.gm-full-width {
+  @apply text-foreground! m-0 capitalize;
+
+  * {
+    @apply font-poppins!;
+  }
+}
+
+.gm-style .gm-iw {
+  @apply text-foreground;
+}
+
+.adp {
+  * {
+    @apply font-poppins!;
+  }
+
+  .adp-summary {
+    @apply text-primary mt-2.5 text-sm font-semibold;
+  }
+
+  .adp-legal {
+    @apply hidden;
+  }
+
+  .adp-placemark {
+    @apply bg-accent;
+
+    tbody {
+      @apply border-0;
+    }
+  }
+
+  .warnbox-c1,
+  .warnbox-c2 {
+    @apply hidden;
+  }
+
+  .warnbox-content {
+    @apply text-foreground rounded-lg bg-amber-100 p-2 text-xs font-normal dark:bg-yellow-900;
+  }
+
+  .adp-agencies {
+    @apply text-muted-foreground my-2 text-xs font-normal;
+
+    div {
+      @apply space-y-0.5;
+
+      b {
+        @apply text-muted-foreground;
+      }
+
+      div:last-child {
+        @apply mt-2!;
+      }
+    }
+
+    a {
+      @apply pt-4 font-medium text-blue-500;
+    }
+
+    a:hover {
+      @apply underline;
+    }
+  }
+
+  table {
+    @apply text-foreground! mb-0! w-full overflow-hidden rounded-lg border-0;
+
+    tbody {
+      @apply border-border flex flex-col rounded-lg! border;
+    }
+
+    tr {
+      @apply border-border flex! max-w-[414px] items-center gap-1 border-b p-2 transition-colors duration-100 last:border-0;
+
+      b {
+        @apply text-foreground font-medium;
+      }
+
+      .adp-text {
+        @apply font-normal;
+      }
+    }
+
+    tr:hover {
+      @apply bg-accent;
+    }
+
+    td {
+      @apply border-t-0! text-sm text-wrap;
+
+      .adp-stepicon {
+        @apply block! min-w-4;
+      }
+
+      img {
+        @apply size-6!;
+      }
+    }
+
+    .adp-listsel {
+      @apply bg-accent;
+    }
+
+    .adp-substep {
+      @apply font-normal last:ml-auto;
+
+      div {
+        @apply text-muted-foreground flex items-center gap-2;
+
+        span {
+          @apply ml-0!;
+        }
+      }
+
+      .adp-details {
+        @apply text-muted-foreground mt-1 ml-10 pl-0.5 text-xs;
+      }
+    }
+  }
+}
+
+#travel-mode-select {
+  @apply border-border border!;
+}
+
+/*
+==========================
+YOUTUBE CSS
+==========================
+*/
+
+.yt-wrap {
+  @apply relative block aspect-video h-auto w-full rounded-xl bg-cover bg-center transition-all duration-300 contain-content;
+}
+
+/* gradient */
+.yt-wrap::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  background-image: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 20%) 0%,
+    rgb(0 0 0 / 0%) 100%
+  );
+  height: 99px;
+  width: 100%;
+  font-family: "YouTube Noto", Roboto, Arial, Helvetica, sans-serif;
+  color: hsl(0deg 0% 93.33%);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  font-size: 18px;
+  padding: 25px 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+.yt-wrap:hover::before {
+  color: white;
+}
+
+.yt-wrap::after {
+  content: "";
+  display: block;
+  padding-bottom: calc(100% / (16 / 9));
+}
+.yt-wrap > iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+}
+
+.yt-wrap > .yt-player {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: no-repeat center/70px 70px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 60 61" aria-hidden="true"><g><circle cx="30" cy="30.4219" fill="black" opacity="0.4" r="30"></circle><path d="M22.2275 17.1971V43.6465L43.0304 30.4218L22.2275 17.1971Z" fill="white"></path></g></svg>');
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+  filter: grayscale(100%);
+  transition:
+    all 0.1s ease,
+    filter 0.1s cubic-bezier(0, 0, 0.2, 1),
+    transform 0.3s ease;
+  border: 0;
+}
+
+.yt-wrap.small-video > .yt-player {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: no-repeat center/40% 40%;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 60 61" aria-hidden="true"><g><circle cx="30" cy="30.4219" fill="black" opacity="0.4" r="30"></circle><path d="M22.2275 17.1971V43.6465L43.0304 30.4218L22.2275 17.1971Z" fill="white"></path></g></svg>');
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+  border: 0;
+}
+
+.yt-wrap:hover > .yt-player,
+.yt-wrap .yt-player:focus {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 60 61" aria-hidden="true"><g><circle cx="30" cy="30.4219" fill="black" opacity="0.6" r="30"></circle><path d="M22.2275 17.1971V43.6465L43.0304 30.4218L22.2275 17.1971Z" fill="white"></path></g></svg>');
+}
+
+@media (prefers-reduced-motion) {
+  .yt-wrap > .yt-player:hover,
+  .yt-wrap .yt-player:focus {
+    transition: 0s;
+    transform: scale(1);
+  }
+}
+
+.yt-wrap.yt-activated {
+  cursor: unset;
+}
+.yt-wrap.yt-activated::before,
+.yt-wrap.yt-activated > .yt-player {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lyt-visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

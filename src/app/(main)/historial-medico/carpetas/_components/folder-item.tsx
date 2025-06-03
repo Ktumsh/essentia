@@ -19,8 +19,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/kit/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { capitalize } from "@/utils/format";
+import { cn , capitalize } from "@/utils";
+
 
 import { folderColorClassMap, folderIconMap } from "../../_lib/utils";
 

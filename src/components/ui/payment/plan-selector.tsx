@@ -11,7 +11,7 @@ import {
   TabsTrigger,
 } from "@/components/kit/tabs";
 import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface PlanSelectorProps {
   selectedPlanId: string;
@@ -106,9 +106,9 @@ export const PlanSelector = ({
       <p className="text-foreground/80 mt-3 text-center text-sm md:text-start">
         Mira más detalles sobre los beneficios en nuestra{" "}
         <Link
-          target="_blank"
-          rel="noopener noreferrer"
           href="/planes"
+          target="_blank"
+          rel="noopener"
           className="inline-flex items-center gap-x-1 font-semibold text-green-500"
         >
           página de precios <LinkIcon />

@@ -29,7 +29,7 @@ export const HEALTH_MODAL_DATA = [
           Este enfoque multidimensional permite identificar áreas específicas donde se pueden hacer intervenciones para mejorar el bienestar general. Las relaciones positivas y la resiliencia se destacan como factores cruciales.
         </p>
         <p class="text-sm">
-          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://hqlo.biomedcentral.com/articles/10.1186/s12955-020-01423-y">BMC</a>
+          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" rel="noopener noreferrer" href="https://hqlo.biomedcentral.com/articles/10.1186/s12955-020-01423-y">BMC</a>
         </p>
       </section>
     `,
@@ -71,7 +71,7 @@ export const HEALTH_MODAL_DATA = [
           Implementar estas prácticas puede ayudarte a alcanzar un bienestar integral. Para más detalles, visita el artículo completo.
         </p>
         <p class="text-sm">
-          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://learningforward.org/journal/looking-ahead/8-dimensions-of-wellness-for-educators/">Learning Forward</a>
+          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" rel="noopener noreferrer" href="https://learningforward.org/journal/looking-ahead/8-dimensions-of-wellness-for-educators/">Learning Forward</a>
         </p>
       </section>
     `,
@@ -106,7 +106,7 @@ export const HEALTH_MODAL_DATA = [
           Busca programas y aplicaciones de mindfulness en universidades y escuelas de medicina para asegurarte de que sean confiables y basados en evidencia.
         </p>
         <p class="text-sm">
-          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://newsinhealth.nih.gov/2021/06/mindfulness-your-health">NIH News in Health</a>
+          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" rel="noopener noreferrer" href="https://newsinhealth.nih.gov/2021/06/mindfulness-your-health">NIH News in Health</a>
         </p>
       </section>
     `,
@@ -156,7 +156,7 @@ export const HEALTH_MODAL_DATA = [
           </li>
         </ul>
         <p class="text-sm">
-          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://www.olivetto.com.co/bienestar/estilo-de-vida-adecuado-asi-se-logra/">Olivetto</a>.
+          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" rel="noopener noreferrer" href="https://www.olivetto.com.co/bienestar/estilo-de-vida-adecuado-asi-se-logra/">Olivetto</a>.
         </p>
       </section>
     `,
@@ -216,7 +216,7 @@ export const HEALTH_MODAL_DATA = [
           </li>
         </ul>
         <p class="text-sm">
-          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://www.naturelorganic.cl/consejos-para-mejorar-bienestar-fisico-emocional">Naturel Organic</a>.
+          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" rel="noopener noreferrer" href="https://www.naturelorganic.cl/consejos-para-mejorar-bienestar-fisico-emocional">Naturel Organic</a>.
         </p>
       </section>
     `,
@@ -270,7 +270,7 @@ export const HEALTH_MODAL_DATA = [
           </li>
         </ul>
         <p class="text-sm">
-          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" href="https://www.saludsiemprevc.org/consejos-de-bienestar">Salud Siempre</a>.
+          Fuente del artículo: <a class="text-bittersweet-400 dark:text-cerise-red-600 font-medium" target="_blank" rel="noopener noreferrer" href="https://www.saludsiemprevc.org/consejos-de-bienestar">Salud Siempre</a>.
         </p>
       </section>
     `,

@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import { useSession } from "next-auth/react";
 
 import {
   SidebarGroup,
@@ -19,6 +21,11 @@ interface MainNavResourcesProps {
 
 const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
   const pathname = usePathname();
+  const isAerisPage = pathname.startsWith("/aeris");
+
+  const { data: session } = useSession();
+  const forceState = session?.user?.id && isAerisPage ? true : false;
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel className={isCollapsed ? "hidden" : ""}>
@@ -32,6 +39,7 @@ const MainNavResources = ({ items, isCollapsed }: MainNavResourcesProps) => {
               <SidebarMenuButton
                 asChild
                 isActive={isActive}
+                forceState={forceState}
                 tooltip={item.name}
                 className="transition-all hover:gap-3 hover:duration-300"
               >

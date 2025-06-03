@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { GUIDE_THEME_COLORS, GUIDE_DATA } from "@/db/data/guide-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import DownloadGuideButton from "../../_components/download-guide-button";
 

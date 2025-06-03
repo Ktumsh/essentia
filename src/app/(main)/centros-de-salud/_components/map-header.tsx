@@ -2,7 +2,7 @@
 
 import { memo, useState } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import CenterSwitch from "./center-switch";
 

@@ -7,7 +7,7 @@ import { Session } from "next-auth";
 import { Button } from "@/components/kit/button";
 import useIsScrolled from "@/hooks/use-is-scrolled";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import FullLogo from "./full-logo";
 import MainSearch from "./main-search";

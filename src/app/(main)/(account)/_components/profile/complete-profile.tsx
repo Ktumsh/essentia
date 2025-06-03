@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { Progress } from "@/components/kit/progress";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface CompleteProfileProps {
   completeProfileData: {

@@ -13,7 +13,7 @@ import {
   SEXUALITY_EMERGENCY_DATA,
   SEXUALITY_EMERGENCY_DATA_COLORS,
 } from "@/db/data/sexuality-emergency-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
 

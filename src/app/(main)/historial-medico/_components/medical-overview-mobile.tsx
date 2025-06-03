@@ -13,7 +13,7 @@ import {
   DrawerTrigger,
 } from "@/components/kit/drawer";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import ActivityPreview from "./activity-preview";
 import ActivityPreviewLoading from "./activity-preview-loading";

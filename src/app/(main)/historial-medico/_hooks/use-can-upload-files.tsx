@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 import type { CanUploadMedicalFile } from "@/db/querys/medical-history-querys";
 

@@ -4,7 +4,7 @@ import path from "path";
 import * as brevo from "@getbrevo/brevo";
 import { NextRequest, NextResponse } from "next/server";
 
-import { formatDateInTimezone } from "@/utils/format";
+import { formatDateInTimezone } from "@/utils";
 
 const apiInstance = new brevo.TransactionalEmailsApi();
 

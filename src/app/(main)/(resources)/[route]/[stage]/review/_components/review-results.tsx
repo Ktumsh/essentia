@@ -16,8 +16,9 @@ import { BetterTooltip } from "@/components/kit/tooltip";
 import PageWrapper from "@/components/ui/layout/page-wrapper";
 import { resetReviewProgress } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn, getRouteColor } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { getRouteColor } from "@/lib/utils";
+import { cn , formatDate } from "@/utils";
+
 
 import { InitialLoadingState } from "./loading";
 import ResultCertificate from "./results-certificate";

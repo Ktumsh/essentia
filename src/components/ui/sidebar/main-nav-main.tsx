@@ -3,6 +3,7 @@
 import { Command } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 import { SearchIcon } from "@/components/icons/action";
@@ -14,7 +15,7 @@ import {
   SidebarMenuItem,
 } from "@/components/kit/sidebar";
 import { useIsMac } from "@/hooks/use-is-mac";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import MainSearch from "../layout/main-search";
 
@@ -28,6 +29,10 @@ interface MainNavMainProps {
 
 const MainNavMain = ({ items, isPremium, isCollapsed }: MainNavMainProps) => {
   const pathname = usePathname();
+  const isAerisPage = pathname.startsWith("/aeris");
+
+  const { data: session } = useSession();
+  const forceState = session?.user?.id && isAerisPage ? true : false;
 
   const isMac = useIsMac();
 
@@ -38,6 +43,7 @@ const MainNavMain = ({ items, isPremium, isCollapsed }: MainNavMainProps) => {
           <SidebarMenuItem>
             <MainSearch isPremium={isPremium}>
               <SidebarMenuButton
+                forceState={forceState}
                 tooltip="Busca rapida"
                 className={cn(
                   "bg-accent dark:border-alternative/50 hover:bg-accent active:bg-accent border-2 transition-all duration-300",
@@ -89,6 +95,7 @@ const MainNavMain = ({ items, isPremium, isCollapsed }: MainNavMainProps) => {
                 <SidebarMenuButton
                   asChild
                   isActive={isActive}
+                  forceState={forceState}
                   tooltip={item.name}
                   className="transition-all hover:gap-3 hover:duration-300"
                 >

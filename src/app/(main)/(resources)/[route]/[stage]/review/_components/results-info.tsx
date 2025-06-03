@@ -21,8 +21,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import type { ParsedReviewQuestion } from "@/db/querys/resource-querys";
 import type { UserReviewProgress } from "@/db/schema";

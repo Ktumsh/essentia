@@ -22,8 +22,7 @@ import {
 } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn, formatDate } from "@/utils";
 
 import CompleteProfile from "./complete-profile";
 import EditProfileForm from "./edit-profile-form";

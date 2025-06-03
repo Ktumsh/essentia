@@ -8,7 +8,7 @@ import { LoginButton } from "@/components/button-kit/login-button";
 import { Separator } from "@/components/kit/separator";
 import { useChatContext } from "@/hooks/use-chat-context";
 import useIsScrolled from "@/hooks/use-is-scrolled";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import FeedbackBox from "./feedback-box";
 import NavbarLinks from "./navbar-links";

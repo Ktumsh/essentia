@@ -38,8 +38,8 @@ import { usePlan } from "@/hooks/use-current-plan";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { cn, getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { getClientIp, getPlanName, getPlanPrice } from "@/lib/utils";
+import { cn, formatDate } from "@/utils";
 
 import { createSubscription } from "./actions";
 import { PlanSelector } from "./plan-selector";
@@ -298,7 +298,7 @@ const PaymentModal = ({
                   Mira más detalles sobre los beneficios en nuestra{" "}
                   <Link
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                     href="/planes"
                     className="inline-flex items-center gap-x-1 font-semibold text-green-500"
                   >

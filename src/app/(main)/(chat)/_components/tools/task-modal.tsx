@@ -52,7 +52,7 @@ import { updateUserTask } from "@/db/querys/task-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";
 import { TaskFormData, taskSchema } from "@/lib/form-schemas";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 const TIMES = [
   "00:00",

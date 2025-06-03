@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Card, CardHeader } from "@/components/kit/card";
-import { cn, getItemBackgroundColor } from "@/lib/utils";
+import { getItemBackgroundColor } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { MainHeroType } from "@/db/data/main-hero-data";
 

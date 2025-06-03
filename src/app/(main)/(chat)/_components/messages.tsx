@@ -5,8 +5,7 @@ import equal from "fast-deep-equal";
 import { motion } from "motion/react";
 import { memo } from "react";
 
-import { cn } from "@/lib/utils";
-
+import { cn } from "@/utils";
 
 import { Greeting } from "./greeting";
 import { PreviewMessage } from "./message";
@@ -61,7 +60,7 @@ function PureMessages({
         (user && user.isPremium ? <Greeting /> : <Overview />)}
       {messages.map((message, index) => (
         <PreviewMessage
-          key={message.id}
+          key={message.id ?? `${message.role}-${index}`}
           chatId={chatId}
           message={message}
           setMessages={setMessages}

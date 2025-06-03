@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 import ChangeEmailModal from "./change-email-modal";
 import ChangePasswordModal from "./change-password-modal";

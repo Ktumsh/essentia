@@ -41,8 +41,8 @@ import { Separator } from "@/components/kit/separator";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import { getPriorityBadge, getPriorityText, getTagColor } from "../_lib/utils";
 

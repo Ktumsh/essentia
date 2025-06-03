@@ -26,8 +26,8 @@ import { Textarea } from "@/components/kit/textarea";
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import { AIRecommendationType } from "./ai-recommendation";
 import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";

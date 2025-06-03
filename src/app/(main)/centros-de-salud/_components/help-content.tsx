@@ -24,7 +24,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/kit/tabs";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 const HelpContent = () => {
   const [activeTab, setActiveTab] = useState("buscar");

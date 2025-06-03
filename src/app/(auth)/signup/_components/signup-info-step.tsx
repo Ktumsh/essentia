@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/kit/input";
 import { getUserByUsername } from "@/db/querys/user-querys";
 import { InfoFormData, infoSchema } from "@/lib/form-schemas";
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { resultMessages } from "@/utils/errors";
 
 import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
 import { SubmitButton } from "../../_components/submit-button";
@@ -70,7 +70,7 @@ const SignupInfoStep = ({ email, onBack, onSuccess }: SignupInfoStepProps) => {
         if (user.length > 0) {
           setError("username", {
             type: "manual",
-            message: getMessageFromCode(ResultCode.USERNAME_EXISTS),
+            message: resultMessages["USERNAME_EXISTS"],
           });
           return;
         }

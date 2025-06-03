@@ -14,7 +14,7 @@ import {
 } from "@/components/kit/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import DocumentEmptyState from "./document-empty-state";
 import DocumentFilters from "./document-filters";

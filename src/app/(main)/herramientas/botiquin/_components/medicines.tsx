@@ -20,7 +20,7 @@ import {
   CardTitle,
 } from "@/components/kit/card";
 import { MEDICINE_COLOR, MEDICINE_DATA } from "@/db/data/medicine-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import SectionTitleWarning from "../../_components/section-title-warning";
 

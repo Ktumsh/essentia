@@ -24,7 +24,8 @@ import {
   updateLessonProgress,
 } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn, getRouteColor, getRouteDetails, getRouteIndex } from "@/lib/utils";
+import { getRouteColor, getRouteDetails, getRouteIndex } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import RouteBadge from "./route-badge";
 import ChapterList from "./stage-list";

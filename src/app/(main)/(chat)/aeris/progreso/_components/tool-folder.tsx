@@ -5,8 +5,8 @@ import Link from "next/link";
 
 import { Card, CardFooter } from "@/components/kit/card";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import ToolFolderHeader from "./tool-folder-header";
 import { TOOL_SLUGS } from "../../../_lib/tool-helper";

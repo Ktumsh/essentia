@@ -14,9 +14,7 @@ interface Result {
   redirectUrl?: string;
 }
 
-export async function signup(
-  data: RegisterFormData,
-): Promise<Result | undefined> {
+export async function signup(data: RegisterFormData): Promise<Result> {
   const { email, password, username, firstName, lastName, birthdate } = data;
 
   const normalizedBirthdate = set(birthdate, {
@@ -26,56 +24,40 @@ export async function signup(
     milliseconds: 0,
   });
 
-  const registerData: RegisterFormData = {
-    email,
-    password,
-    username,
-    firstName,
-    lastName,
-    birthdate: normalizedBirthdate,
-  };
-
   try {
-    const { email, password, username, firstName, lastName, birthdate } =
-      registerData;
-
-    const result = await createUser(
+    await createUser(
       email,
       password,
       username,
       firstName,
       lastName,
-      birthdate,
+      normalizedBirthdate,
     );
 
-    if (result.resultCode === ResultCode.USER_CREATED) {
-      return {
-        type: "success",
-        resultCode: ResultCode.USER_CREATED,
-        redirectUrl: `/verify-email?email=${email}`,
-      };
-    }
-
-    return result;
+    return {
+      type: "success",
+      resultCode: "USER_CREATED",
+      redirectUrl: `/verify-email?email=${email}`,
+    };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
           return {
             type: "error",
-            resultCode: ResultCode.INVALID_CREDENTIALS,
+            resultCode: "INVALID_CREDENTIALS",
           };
         default:
           return {
             type: "error",
-            resultCode: ResultCode.UNKNOWN_ERROR,
+            resultCode: "UNKNOWN_ERROR",
           };
       }
-    } else {
-      return {
-        type: "error",
-        resultCode: ResultCode.UNKNOWN_ERROR,
-      };
     }
+
+    return {
+      type: "error",
+      resultCode: "UNKNOWN_ERROR",
+    };
   }
 }

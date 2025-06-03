@@ -28,6 +28,7 @@ import {
 import { deleteUser } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getSureLabel } from "@/lib/utils";
+import { type ResultCode, resultMessages } from "@/utils/errors";
 
 interface DeleteAccountModalProps {
   userId: string;
@@ -49,20 +50,15 @@ const DeleteAccountModal = ({
   const handleDeleteUser = async () => {
     try {
       startTransition(async () => {
-        const res = await deleteUser(userId);
-
-        if (!res.success) {
-          toast.error(res.error);
-          return;
-        }
+        await deleteUser(userId);
 
         const token = nanoid();
         await sendEmailAction("account_deleted", { email, token });
         await signOut({ callbackUrl: "/account-deleted" });
       });
     } catch (error) {
-      console.error("Error eliminando el usuario:", error);
-      toast.error("No se pudo eliminar la cuenta.");
+      const key = (error as Error).message;
+      toast.error(resultMessages[key as ResultCode]);
     }
   };
 

@@ -19,7 +19,7 @@ import { Textarea } from "@/components/kit/textarea";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import {
   AttachmentsButton,
@@ -227,7 +227,7 @@ const PurePromptForm = ({
     remainingMessages === null ? true : remainingMessages > 0;
 
   return (
-    <form ref={formRef} onSubmit={submitForm} className="relative z-1">
+    <form ref={formRef} onSubmit={submitForm} className="relative z-1 mb-2">
       <div className="bg-accent ai-prompt relative flex max-h-60 w-full grow flex-col rounded-xl after:rounded-[21px]">
         <Textarea
           ref={textareaRef}

@@ -15,8 +15,9 @@ import PageWrapper from "@/components/ui/layout/page-wrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useParallax } from "@/hooks/use-parallax";
 import { useScrollRef } from "@/hooks/use-scroll-ref";
-import { cn, getRouteColor, getRouteIndex } from "@/lib/utils";
-import { formatTitle } from "@/utils/format";
+import { getRouteColor, getRouteIndex } from "@/lib/utils";
+import { cn , formatTitle } from "@/utils";
+
 
 import RouteList from "./route-list";
 import { useRouteProgress } from "../_hooks/use-route-progress";

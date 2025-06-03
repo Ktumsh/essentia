@@ -5,7 +5,8 @@ import Link from "next/link";
 
 import { Card, CardHeader } from "@/components/kit/card";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn, getRouteColor, getRouteDetails } from "@/lib/utils";
+import { getRouteColor, getRouteDetails } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { ResourceDataType } from "@/db/data/resources-data";
 

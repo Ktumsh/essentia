@@ -5,8 +5,9 @@ import { motion } from "motion/react";
 import { useMemo } from "react";
 
 import { Badge } from "@/components/kit/badge";
-import { cn, getRouteColor } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { getRouteColor } from "@/lib/utils";
+import { cn , formatDate } from "@/utils";
+
 
 import type { Route, Stage, UserReviewProgress } from "@/db/schema";
 

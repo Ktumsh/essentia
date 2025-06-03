@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/kit/select";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { MedicalFileType } from "@/db/querys/medical-history-querys";
 

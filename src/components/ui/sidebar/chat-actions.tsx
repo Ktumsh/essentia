@@ -42,7 +42,7 @@ import { SidebarMenuAction } from "@/components/kit/sidebar";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatVisibility } from "@/hooks/use-chat-visibility";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import ChatShareModal from "./chat-share-action";
 

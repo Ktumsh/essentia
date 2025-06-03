@@ -1,8 +1,11 @@
 import { motion } from "motion/react";
+import Link from "next/link";
 
+import { LinkIcon } from "@/components/icons/action";
 import { Card, CardHeader } from "@/components/kit/card";
 import Logo from "@/components/ui/layout/logo";
-import { cn, getRouteColor, getRouteDarkColor } from "@/lib/utils";
+import { getRouteColor, getRouteDarkColor } from "@/lib/utils";
+import { cn } from "@/utils";
 
 const resources = [
   { title: "salud y bienestar" },
@@ -79,7 +82,17 @@ const Overview = () => {
               transition={{ delay: 0.7 }}
               className="text-sm md:text-base"
             >
-              Obtén respuestas precisas y cuida tu bienestar con confianza.
+              Recibe orientación confiable y cercana con la ayuda de{" "}
+              <Link
+                href="/soporte?q=quien%20es%20aeris"
+                target="_blank"
+                rel="noopener"
+                className="text-secondary hover:underline"
+              >
+                Aeris
+                <LinkIcon className="mb-1 ml-0.5 inline size-2" />
+              </Link>
+              .
             </motion.p>
           </CardHeader>
         </Card>

@@ -3,7 +3,7 @@
 import { CheckCircle, Clock, XCircle } from "lucide-react";
 
 import { Card, CardContent } from "@/components/kit/card";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface StatCardProps {
   icon: React.ReactNode;

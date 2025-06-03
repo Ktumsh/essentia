@@ -24,7 +24,7 @@ import { startUserTrial } from "@/db/querys/user-querys";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { getClientIp, getPlanPrice } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { formatDate } from "@/utils";
 
 interface ConfirmPlanModalProps {
   plan: SubscriptionPlanType;

@@ -20,7 +20,7 @@ import {
 } from "@/components/kit/form";
 import { Input } from "@/components/kit/input";
 import { PasswordFormData, passwordSchema } from "@/lib/form-schemas";
-import { getMessageFromCode, ResultCode } from "@/utils/errors";
+import { resultMessages } from "@/utils/errors";
 
 import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
 import { SubmitButton } from "../../_components/submit-button";
@@ -64,28 +64,31 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
         };
 
         const result = await signup(dataToSend);
-        if (result) {
-          if (result.type === "error" && result.errors) {
-            const serverErrors = result.errors as
-              | Record<string, string>
-              | undefined;
-            if (serverErrors) {
-              Object.entries(serverErrors).forEach(([field, message]) => {
-                setError(field as keyof PasswordFormData, {
-                  type: "manual",
-                  message,
-                });
+
+        if (!result) return;
+
+        if (result.type === "error" && result.errors) {
+          const serverErrors = result.errors as
+            | Record<string, string>
+            | undefined;
+          if (serverErrors) {
+            Object.entries(serverErrors).forEach(([field, message]) => {
+              setError(field as keyof PasswordFormData, {
+                type: "manual",
+                message,
               });
-            }
-          } else if (result.type === "error") {
-            toast.error(getMessageFromCode(result.resultCode));
-          } else if (result.type === "success" && result.redirectUrl) {
-            toast.success(getMessageFromCode(result.resultCode));
-            router.push(result.redirectUrl);
+            });
           }
+        } else if (result.type === "error") {
+          const message = resultMessages[result.resultCode];
+          toast.error(message);
+        } else if (result.type === "success" && result.redirectUrl) {
+          const message = resultMessages[result.resultCode];
+          toast.success(message);
+          router.push(result.redirectUrl);
         }
       } catch {
-        toast.error(getMessageFromCode(ResultCode.ACCOUNT_CREATED_ERROR));
+        toast.error(resultMessages["ACCOUNT_CREATED_ERROR"]);
       }
     });
   };
@@ -179,13 +182,13 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
             </FormItem>
           )}
         />
-        <div className="text-foreground/80-h relative mb-6 flex w-full text-[13px] leading-snug select-text">
+        <div className="text-foreground/80 relative mb-6 flex w-full text-[13px] leading-snug select-text">
           <p className="text-center md:text-start">
             Al continuar, estás aceptando los{" "}
             <Link
               href="/terminos"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="text-secondary font-medium underline-offset-2 hover:underline"
             >
               Términos de servicio{" "}
@@ -194,7 +197,7 @@ const SignupPassStep = ({ email, userInfo, onBack }: SignupPassStepProps) => {
             <Link
               href="/privacidad"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="text-secondary font-medium underline-offset-2 hover:underline"
             >
               Política de privacidad

@@ -30,7 +30,7 @@ import {
   DrawerTitle,
 } from "@/components/kit/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import {
   getPriorityBadge,
@@ -119,7 +119,11 @@ export default function ShareDialog({
 
         case "whatsapp":
           const encodedText = encodeURIComponent(text);
-          window.open(`https://wa.me/?text=${encodedText}`, "_blank");
+          window.open(
+            `https://wa.me/?text=${encodedText}`,
+            "_blank",
+            "noopener,noreferrer",
+          );
           toast.success("Compartiendo por WhatsApp... 😊");
           break;
       }

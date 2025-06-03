@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 
 import { useProfileMessage } from "@/hooks/use-profile-message";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface PageWrapperProps {
   children: ReactNode;

@@ -23,9 +23,8 @@ import {
   TooltipTrigger,
 } from "@/components/kit/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import { useProfileMessage } from "@/hooks/use-profile-message";
-import { usePathname } from "next/navigation";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -513,6 +512,7 @@ const sidebarMenuButtonVariants = cva(
 function SidebarMenuButton({
   asChild = false,
   isActive = false,
+  forceState = false,
   variant = "default",
   size = "default",
   tooltip,
@@ -521,13 +521,11 @@ function SidebarMenuButton({
 }: React.ComponentProps<"button"> & {
   asChild?: boolean;
   isActive?: boolean;
+  forceState?: boolean;
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : "button";
   const { isMobile, state } = useSidebar();
-
-  const pathname = usePathname();
-  const isAiPage = pathname.startsWith("/aeris");
 
   const button = (
     <Comp
@@ -556,7 +554,7 @@ function SidebarMenuButton({
       <TooltipContent
         side="right"
         align="center"
-        hidden={(state !== "collapsed" && !isAiPage) || isMobile}
+        hidden={(state !== "collapsed" && !forceState) || isMobile}
         {...tooltip}
       />
     </Tooltip>

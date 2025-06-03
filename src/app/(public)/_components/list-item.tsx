@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { NavigationMenuLink } from "@/components/kit/navigation-menu";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 const ListItem = ({
   className,

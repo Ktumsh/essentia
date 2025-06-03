@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/kit/button";
 import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
-import { cn, shuffleArray } from "@/lib/utils";
+import { cn, shuffleArray } from "@/utils";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
 
@@ -28,7 +28,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
   if (!isPremium) return null;
 
   return (
-    <div className="no-scrollbar flex max-w-full flex-wrap justify-center gap-2 px-4 pb-4 md:flex-nowrap md:overflow-visible md:px-0 md:pb-0">
+    <div className="no-scrollbar flex max-w-full flex-wrap justify-center gap-2 px-4 pb-4 md:mt-6 md:flex-nowrap md:overflow-visible md:px-0 md:pb-0">
       {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
         <motion.div
           initial={{ opacity: 0, y: 20 }}

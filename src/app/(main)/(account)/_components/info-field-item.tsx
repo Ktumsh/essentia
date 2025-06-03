@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface InfoFieldItemProps {
   field: string;

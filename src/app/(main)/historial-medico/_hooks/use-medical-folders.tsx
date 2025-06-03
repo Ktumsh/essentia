@@ -19,7 +19,7 @@ import {
   moveManyDocumentsToFolder,
   updateMedicalFolder,
 } from "@/db/querys/medical-folder-querys";
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 import { useMedicalDialogs } from "./use-medical-dialogs";
 import { useMedicalFoldersDialog } from "./use-medical-folder-dialogs";

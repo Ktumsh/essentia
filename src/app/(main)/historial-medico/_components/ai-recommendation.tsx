@@ -39,7 +39,7 @@ import { Textarea } from "@/components/kit/textarea";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { getTagColor } from "../_lib/utils";
 import { generateAiMedicalRecommendations } from "../actions";

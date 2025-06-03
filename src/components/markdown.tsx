@@ -3,7 +3,7 @@ import { memo } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 const components: Partial<Components> = {
   pre: ({ children }) => <>{children}</>,
@@ -15,7 +15,7 @@ const components: Partial<Components> = {
       <Link
         className="text-blue-500! no-underline hover:underline"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         {...props}
       >
         {children}

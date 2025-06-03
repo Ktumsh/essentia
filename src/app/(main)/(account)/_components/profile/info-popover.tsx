@@ -45,8 +45,9 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
       <>
         ¿Qué debería saber{" "}
         <Link
-          href="/soporte?q=Aeris"
+          href="/soporte?q=quien%20es%20aeris"
           target="_blank"
+          rel="noopener"
           className="text-blue-500 underline hover:text-blue-600"
         >
           Aeris
@@ -63,8 +64,9 @@ const popoverContentMap: Record<PopoverContentType, PopoverContent> = {
     content: [
       <>
         <Link
-          href="/soporte?q=Aeris"
+          href="/soporte?q=quien%20es%20aeris"
           target="_blank"
+          rel="noopener"
           className="text-blue-500 underline hover:text-blue-600"
         >
           Aeris

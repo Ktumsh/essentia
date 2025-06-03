@@ -10,33 +10,17 @@ import { unstable_serialize } from "swr/infinite";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
 import { useAutoResume } from "../_hooks/use-auto-resume";
-import { useUserMessageId } from "../_hooks/use-user-message-id";
 import { generateUUID, getChatHistoryPaginationKey } from "../_lib/utils";
 
 import type { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import type { ChatVote } from "@/db/schema";
 import type { UserProfileData } from "@/lib/types";
 import type { Attachment, UIMessage } from "ai";
-
-type StreamingDelta = {
-  type:
-    | "text-delta"
-    | "code-delta"
-    | "title"
-    | "id"
-    | "suggestion"
-    | "clear"
-    | "finish"
-    | "user-message-id"
-    | "kind";
-
-  content: string;
-};
 
 export interface ChatProps {
   id: string;
@@ -63,8 +47,6 @@ export function Chat({
 
   const { setChatData } = useChatContext();
 
-  const { setUserMessageIdFromServer } = useUserMessageId();
-
   const { model } = useChatModel();
 
   const {
@@ -82,7 +64,6 @@ export function Chat({
   } = useChat({
     id,
     initialMessages,
-    experimental_throttle: 100,
     sendExtraMessageFields: true,
     generateId: generateUUID,
     experimental_prepareRequestBody: (body) => ({
@@ -117,18 +98,6 @@ export function Chat({
       selectedVisibilityType: initialVisibilityType,
     });
   });
-
-  useEffect(() => {
-    const mostRecentDelta = data?.at(-1);
-    if (!mostRecentDelta) return;
-
-    const delta = mostRecentDelta as StreamingDelta;
-
-    if (delta.type === "user-message-id") {
-      setUserMessageIdFromServer(delta.content as string);
-      return;
-    }
-  }, [data, setUserMessageIdFromServer]);
 
   const { data: votes } = useSWR<Array<ChatVote>>(
     messages.length >= 2 ? `/api/vote?chatId=${id}` : null,

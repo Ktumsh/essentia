@@ -8,7 +8,7 @@ import {
 } from "date-fns";
 import { es } from "date-fns/locale";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type {
   HealthRisk,

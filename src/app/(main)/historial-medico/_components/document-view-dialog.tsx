@@ -37,8 +37,8 @@ import { Separator } from "@/components/kit/separator";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 import FileSlot from "./file-slot";
 import { getFileTypeColor, getTagColor } from "../_lib/utils";

@@ -35,7 +35,7 @@ import {
   MAX_RESULTS,
   RECENT_SEARCHES_KEY,
 } from "@/lib/consts";
-import { formatText } from "@/utils/format";
+import { normalizeQuery } from "@/utils";
 
 interface MainSearchProps {
   isPremium: boolean;
@@ -81,7 +81,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
       setResults([]);
       return;
     }
-    const norm = formatText(debouncedTerm);
+    const norm = normalizeQuery(debouncedTerm);
     const found = matchSorter(SEARCH_DATA, norm, {
       keys: MATCH_KEYS,
       sorter: (m) =>

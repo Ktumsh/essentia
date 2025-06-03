@@ -22,6 +22,7 @@ import { getUserByEmail, updateUserEmail } from "@/db/querys/user-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import useSubscription from "@/hooks/use-subscription";
 import { EmailFormData, emailSchema } from "@/lib/form-schemas";
+import { resultMessages } from "@/utils/errors";
 
 import StepEmail from "./step-email";
 import StepVerifyCode from "./step-verify-code";
@@ -65,19 +66,19 @@ const ChangeEmailModal = ({
           const [user] = await getUserByEmail(currentEmail);
 
           if (!user) {
-            toast.error("El correo actual no existe.");
+            toast.error(resultMessages["CURRENT_EMAIL_NOT_FOUND"]);
             return;
           }
 
           if (user.email === data.email) {
-            toast.error("El correo nuevo no puede ser igual al actual.");
+            toast.error(resultMessages["EMAIL_CANNOT_BE_SAME"]);
             return;
           }
 
           const [existingUser] = await getUserByEmail(data.email);
 
           if (existingUser) {
-            toast.error("Este correo ya está en uso. Inténtalo con otro");
+            toast.error(resultMessages["EMAIL_ALREADY_IN_USE"]);
             return;
           }
 
@@ -89,7 +90,7 @@ const ChangeEmailModal = ({
           });
 
           if (!res.status) {
-            toast.error(res.message);
+            toast.error(res.message || resultMessages["EMAIL_CHANGE_FAILED"]);
             return;
           }
 
@@ -98,7 +99,7 @@ const ChangeEmailModal = ({
         });
       } catch (error) {
         console.error("Error al enviar el correo:", error);
-        toast.error("Ocurrió un error. Inténtalo nuevamente.");
+        toast.error(resultMessages["EMAIL_CHANGE_FAILED"]);
       }
     },
     [currentEmail],

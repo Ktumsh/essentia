@@ -8,7 +8,7 @@ import { MonitorButton } from "@/components/button-kit/monitor-button";
 import { MoonButton } from "@/components/button-kit/moon-button";
 import { SunButton } from "@/components/button-kit/sun-button";
 import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 type Theme = "light" | "dark" | "system";
 

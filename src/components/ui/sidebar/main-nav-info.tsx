@@ -3,6 +3,7 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { InfoCircledIcon, LegalIcon } from "@/components/icons/common";
 import {
@@ -39,7 +40,7 @@ interface MainNavInfoProps {
 const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
   const pathname = usePathname();
 
-  const isAIPage = pathname.startsWith("/aeris");
+  const isAerisPage = pathname.startsWith("/aeris");
 
   const { state } = useSidebar();
   return (
@@ -52,7 +53,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
         icon={InfoCircledIcon}
         items={items.extras}
         tooltip="Sobre Essentia"
-        isAIPage={isAIPage}
+        isAerisPage={isAerisPage}
         state={state}
       />
       <SidebarDropdown
@@ -60,7 +61,7 @@ const MainNavInfo = ({ items, isCollapsed }: MainNavInfoProps) => {
         icon={LegalIcon}
         items={items.legal}
         tooltip="Legal"
-        isAIPage={isAIPage}
+        isAerisPage={isAerisPage}
         state={state}
       />
     </SidebarGroup>
@@ -74,67 +75,72 @@ const SidebarDropdown = ({
   icon: Icon,
   items,
   tooltip,
-  isAIPage,
+  isAerisPage,
   state,
 }: {
   label: string;
   icon: React.ElementType;
   items: NavConfig["menuFooterLinks"]["extras" | "legal"];
   tooltip: string;
-  isAIPage: boolean;
+  isAerisPage: boolean;
   state: "expanded" | "collapsed";
-}) => (
-  <SidebarMenu>
-    <Collapsible asChild className="group/collapsible">
-      <SidebarMenuItem>
-        {state === "expanded" && !isAIPage ? (
-          <>
-            <CollapsibleTrigger asChild>
-              <SidebarMenuButton tooltip={tooltip}>
-                <Icon />
-                <span>{label}</span>
-                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-              </SidebarMenuButton>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="transition-height">
-              <SidebarMenuSub>
-                {items.map((item) => (
-                  <SidebarMenuSubItem key={item.name}>
-                    <SidebarMenuSubButton
-                      asChild
-                      className="shrink-0 text-nowrap"
-                    >
-                      <Link href={item.path}>{item.name}</Link>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
-                ))}
-              </SidebarMenuSub>
-            </CollapsibleContent>
-          </>
-        ) : (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton tooltip={tooltip}>
-                <Icon />
-                <span>{label}</span>
-                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" align="start" sideOffset={4}>
-              <DropdownMenuGroup>
-                {items.map((item) => (
-                  <DropdownMenuItem key={item.name}>
-                    <item.icon />
-                    <Link href={item.path}>
-                      <span>{item.name}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
-      </SidebarMenuItem>
-    </Collapsible>
-  </SidebarMenu>
-);
+}) => {
+  const { data: session } = useSession();
+  const forceState = session?.user?.id && isAerisPage ? true : false;
+
+  return (
+    <SidebarMenu>
+      <Collapsible asChild className="group/collapsible">
+        <SidebarMenuItem>
+          {state === "expanded" && !isAerisPage ? (
+            <>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={tooltip} forceState={forceState}>
+                  <Icon />
+                  <span>{label}</span>
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="transition-height">
+                <SidebarMenuSub>
+                  {items.map((item) => (
+                    <SidebarMenuSubItem key={item.name}>
+                      <SidebarMenuSubButton
+                        asChild
+                        className="shrink-0 text-nowrap"
+                      >
+                        <Link href={item.path}>{item.name}</Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton tooltip={tooltip} forceState={forceState}>
+                  <Icon />
+                  <span>{label}</span>
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="right" align="start" sideOffset={4}>
+                <DropdownMenuGroup>
+                  {items.map((item) => (
+                    <DropdownMenuItem key={item.name}>
+                      <item.icon />
+                      <Link href={item.path}>
+                        <span>{item.name}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </SidebarMenuItem>
+      </Collapsible>
+    </SidebarMenu>
+  );
+};

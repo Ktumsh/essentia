@@ -22,7 +22,7 @@ import FullLogo from "@/components/ui/layout/full-logo";
 import ThemeToggle from "@/components/ui/layout/theme-toggle";
 import { navConfig } from "@/config/nav.config";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import type { Session } from "next-auth";
 

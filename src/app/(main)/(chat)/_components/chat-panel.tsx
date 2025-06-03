@@ -11,10 +11,11 @@ import useSWR from "swr";
 
 import { LinkIcon } from "@/components/icons/action";
 import { useChatContext } from "@/hooks/use-chat-context";
-import { cn, fetcher } from "@/lib/utils";
+import { cn, fetcher } from "@/utils";
 
 import AlertPanel from "./alert-panel";
 import ButtonToBottom from "./button-to-bottom";
+import ChatDisclaimer from "./chat-disclaimer";
 import MessagesUsageBanner from "./messages-usage-banner";
 import { PreviewAttachment } from "./preview-attachment";
 import { PromptForm } from "./prompt-form";
@@ -130,7 +131,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                     : { opacity: 1, y: 0, scale: 1 }
                 }
                 transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
-                className={cn("space-y-4 md:mb-6", { hidden: !isPremium })}
+                className={cn("space-y-4", { hidden: !isPremium })}
               >
                 {(attachments.length > 0 || uploadQueue.length > 0) && (
                   <div className="flex items-end gap-2 overflow-x-auto pt-3">
@@ -218,6 +219,7 @@ const ChatPanel = (props: ChatPanelProps) => {
                   hasMessages={messages.length > 0}
                   remainingMessages={remainingMessages}
                 />
+                <ChatDisclaimer />
               </motion.div>
               <AlertPanel
                 session={session}

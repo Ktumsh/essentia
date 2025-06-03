@@ -17,7 +17,7 @@ import {
 import { BetterTooltip } from "@/components/kit/tooltip";
 import { GUIDE_THEME_COLORS, Guide as GuideType } from "@/db/data/guide-data";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import GuideContent from "./guide-content";
 import GuideFaqs from "./guide-faqs";

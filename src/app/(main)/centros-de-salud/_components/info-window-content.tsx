@@ -37,7 +37,7 @@ const InfoWindowContent = (props: InfoWindowContentProps) => {
   const { weekday_text } = opening_hours || {};
 
   return (
-    <div className="text-foreground/80-h flex flex-col gap-2 text-xs font-normal md:text-sm">
+    <div className="text-foreground/80 flex flex-col gap-2 text-xs font-normal md:text-sm">
       <h2 className="text-foreground font-merriweather! text-base font-semibold md:text-lg">
         {name}
       </h2>

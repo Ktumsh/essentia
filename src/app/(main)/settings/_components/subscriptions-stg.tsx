@@ -33,8 +33,7 @@ import PaymentModal from "@/components/ui/payment/payment-modal";
 import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
 import { Payment, Subscription } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn, formatDate } from "@/utils";
 
 import InfoField from "./info-field";
 import SettingsOptsHeader from "./settings-opts-header";
@@ -188,7 +187,7 @@ const SubscriptionsStg = ({
         {section === "planState" && (
           <>
             <div className="flex flex-col">
-              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80 mb-2 pl-6 text-xs font-medium md:pl-4">
                 Estado de suscripción
               </h4>
               <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
@@ -252,7 +251,7 @@ const SubscriptionsStg = ({
         {section === "planUpdate" && (
           <>
             <div className="flex flex-col">
-              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80 mb-2 pl-6 text-xs font-medium md:pl-4">
                 Actualización de plan
               </h4>
               <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
@@ -289,7 +288,7 @@ const SubscriptionsStg = ({
         {section === "payHistory" && (
           <>
             <div className="flex flex-col">
-              <h4 className="text-foreground/80-h mb-2 pl-6 text-xs font-medium md:pl-4">
+              <h4 className="text-foreground/80 mb-2 pl-6 text-xs font-medium md:pl-4">
                 Historial de pagos
               </h4>
               <div className="border-border flex flex-col overflow-hidden border-y px-6 md:rounded-lg md:border md:px-0">
@@ -297,33 +296,33 @@ const SubscriptionsStg = ({
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-foreground/80-h pl-2 md:pl-3">
+                        <TableHead className="text-foreground/80 pl-2 md:pl-3">
                           <div className="flex items-center gap-1.5">
                             <CalendarClock className="size-3" />
 
                             <span className="text-nowrap">Fecha del pago</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-foreground/80-h">
+                        <TableHead className="text-foreground/80">
                           <div className="flex items-center gap-1.5">
                             <HandCoins className="size-3" />
                             <span className="text-nowrap">Monto</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-foreground/80-h">
+                        <TableHead className="text-foreground/80">
                           <div className="flex items-center gap-1.5">
                             <Banknote className="size-3" />
                             <span className="text-nowrap">Divisa</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-foreground/80-h">
+                        <TableHead className="text-foreground/80">
                           <div className="flex items-center gap-1.5">
                             <Stars className="size-3" />
 
                             <span className="text-nowrap">Plan</span>
                           </div>
                         </TableHead>
-                        <TableHead className="text-foreground/80-h pr-2 md:pl-3">
+                        <TableHead className="text-foreground/80 pr-2 md:pl-3">
                           <div className="flex items-center gap-1.5">
                             <Loader className="size-3" />
                             <span className="text-nowrap">Estado</span>
@@ -380,7 +379,7 @@ const SubscriptionsStg = ({
         {section === "benefits" && isPremium && (
           <div className="relative flex flex-col">
             <div className="mb-2 flex items-end justify-between gap-2 px-6 md:px-4">
-              <h4 className="text-foreground/80-h text-xs font-medium">
+              <h4 className="text-foreground/80 text-xs font-medium">
                 Beneficios premium
               </h4>
               <BetterTooltip content={basicLabel}>

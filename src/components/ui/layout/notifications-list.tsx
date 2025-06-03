@@ -48,8 +48,8 @@ import { BetterTooltip } from "@/components/kit/tooltip";
 import { UserNotification } from "@/db/schema";
 import { useActionNotifications } from "@/hooks/use-action-notifications";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { formatDate } from "@/utils/format";
+import { cn , formatDate } from "@/utils";
+
 
 interface NotificationListProps {
   userId: string;

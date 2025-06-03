@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 
-import { fetcher } from "@/lib/utils";
+import { fetcher } from "@/utils";
 
 const useChatName = (chatId: string | null) => {
   const { data, error, isLoading } = useSWR(
