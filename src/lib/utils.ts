@@ -1,15 +1,3 @@
-import {
-  addDays,
-  Day,
-  isPast,
-  nextDay,
-  setDate,
-  setHours,
-  setMinutes,
-  setMonth,
-  setSeconds,
-} from "date-fns";
-import { toZonedTime } from "date-fns-tz";
 import { customAlphabet } from "nanoid";
 
 import { navConfig } from "@/config/nav.config";
@@ -35,25 +23,6 @@ export const runAsyncFnWithoutBlocking = (
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-export const getFirstNameAndLastName = (
-  fullName: string | undefined | null,
-) => {
-  if (!fullName) return "Usuario";
-  const nameParts = fullName.toLowerCase().split(" ");
-  if (nameParts.length < 3) return capitalize(fullName);
-  return `${capitalize(nameParts[0])} ${capitalize(
-    nameParts[nameParts.length - 2],
-  )}`;
-};
-
-export const usernameOrEmail = (session: any) => {
-  const username = session?.user?.username
-    ? `@${session.user.username}`
-    : session?.user?.email;
-
-  return username;
-};
-
 export const getRandomFacts = (
   num: number,
   pool: FunFactType[] = FUN_FACT_DATA,
@@ -61,22 +30,6 @@ export const getRandomFacts = (
   const shuffled = pool.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, num);
 };
-
-export function calculateAge(birthDate: Date): number {
-  const today = new Date();
-
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-
-  if (
-    monthDifference < 0 ||
-    (monthDifference === 0 && today.getDate() < birthDate.getDate())
-  ) {
-    age--;
-  }
-
-  return age;
-}
 
 export function startsWithAny(pathname: string, prefixes: string[]): boolean {
   return prefixes.some((prefix) => pathname.startsWith(prefix));
@@ -245,106 +198,6 @@ export function urlBase64ToUint8Array(base64String: string) {
     outputArray[i] = rawData.charCodeAt(i);
   }
   return outputArray;
-}
-
-export const getSureLabel = (genre?: string | null) => {
-  if (genre === "Femenino") {
-    return "segura";
-  } else if (genre === "Masculino") {
-    return "seguro";
-  }
-  return "segur@";
-};
-
-export const getWelcomeLabel = (genre?: string | null) => {
-  if (genre === "Femenino") {
-    return "Bienvenida";
-  } else if (genre === "Masculino") {
-    return "Bienvenido";
-  }
-  return "Bienvenid@";
-};
-
-export function calculateExactDate(
-  time: string,
-  options?: {
-    weekDay?: string | null;
-    monthDay?: number | null;
-    month?: string | null;
-  },
-): Date | null {
-  const [hours, minutes] = time.split(":").map(Number);
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const now = toZonedTime(new Date(), timeZone);
-  let targetDate = setHours(
-    setMinutes(setSeconds(new Date(now), 0), minutes),
-    hours,
-  );
-
-  if (options?.weekDay) {
-    const daysOfWeek: { [key: string]: number } = {
-      domingo: 0,
-      lunes: 1,
-      martes: 2,
-      miércoles: 3,
-      jueves: 4,
-      viernes: 5,
-      sábado: 6,
-    };
-
-    const targetDayIndex = daysOfWeek[options.weekDay.toLowerCase()];
-    if (targetDayIndex === undefined) {
-      throw new Error(`El día especificado (${options.weekDay}) no es válido.`);
-    }
-
-    targetDate = nextDay(targetDate, targetDayIndex as Day);
-  }
-
-  if (options?.monthDay && options?.month) {
-    const monthsOfYear: { [key: string]: number } = {
-      enero: 0,
-      febrero: 1,
-      marzo: 2,
-      abril: 3,
-      mayo: 4,
-      junio: 5,
-      julio: 6,
-      agosto: 7,
-      septiembre: 8,
-      octubre: 9,
-      noviembre: 10,
-      diciembre: 11,
-    };
-
-    const targetMonthIndex = monthsOfYear[options.month.toLowerCase()];
-    if (targetMonthIndex === undefined) {
-      throw new Error(`El mes especificado (${options.month}) no es válido.`);
-    }
-
-    targetDate = setMonth(
-      setDate(targetDate, options.monthDay),
-      targetMonthIndex,
-    );
-
-    if (isPast(targetDate)) {
-      targetDate.setFullYear(targetDate.getFullYear() + 1);
-    }
-  }
-
-  if (targetDate.getTime() <= now.getTime()) {
-    targetDate = addDays(targetDate, 1);
-  }
-
-  return targetDate;
-}
-
-export function isSameDate(date1: Date, date2: Date): boolean {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
 }
 
 export interface ServerPushSubscription {
