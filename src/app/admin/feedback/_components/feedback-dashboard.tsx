@@ -18,12 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UserFeedback } from "@/db/schema";
 
 import { exportToCSV, getEmoji } from "../_lib/utils";
 
+import type { UserFeedback } from "@/db/schema";
+
 type Props = {
-  feedback: UserFeedback[];
+  feedback: Array<UserFeedback>;
   totalCount: number;
 };
 

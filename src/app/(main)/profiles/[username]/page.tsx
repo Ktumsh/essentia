@@ -4,7 +4,7 @@ import PageWrapper from "@/components/layout/page-wrapper";
 import { Separator } from "@/components/ui/separator";
 
 import AccountHeader from "../../(account)/_components/account-header";
-import ProfileInfo from "../../(account)/_components/profile/profile-info";
+import ProfileInfo from "../../(account)/profile/_components/profile-info";
 
 type Props = {
   params: Promise<{ username: string }>;

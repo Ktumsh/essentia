@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { auth } from "@/app/(auth)/auth";
 import { getPaymentHistory } from "@/db/querys/payment-querys";
 
-import SubscriptionsStgWrp from "../_components/subscriptions-stg-wrp";
+import SubscriptionsStgWrp from "./_components/subscriptions-stg-wrp";
 
 export const metadata: Metadata = {
   title: "Configuración / Suscripciones",

@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import type { MedicalFileType } from "@/db/querys/medical-history-querys";
+import type { MedicalFileType } from "@/lib/types";
 
 interface FolderDocumentFiltersProps {
   searchTerm: string;

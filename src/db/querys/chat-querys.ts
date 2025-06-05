@@ -14,26 +14,22 @@ import {
   lt,
   not,
 } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
-import { VisibilityType } from "@/components/layout/visibility-selector";
 import {
   chat,
   chatVote,
   chatMessage,
   chatStream,
-  type Chat,
-  type ChatMessage,
   subscription,
   plan,
   userChatUsage,
   chatTool,
-  ChatTool,
 } from "@/db/schema";
 
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
+import { db } from "../db";
+
+import type { Chat, ChatMessage, ChatTool } from "@/db/schema";
+import type { VisibilityType } from "@/lib/types";
 
 export async function saveChat({
   id,

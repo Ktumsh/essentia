@@ -27,6 +27,8 @@ import { cn, formatDate } from "@/utils";
 import BioModal from "./bio-modal";
 import CompleteProfile from "./complete-profile";
 import EditProfileForm from "./edit-profile-form";
+import ProfileAvatar from "./profile-avatar";
+import InfoFieldItem from "../../_components/info-field-item";
 import {
   PopoverBioReason,
   PopoverBirthdate,
@@ -36,8 +38,6 @@ import {
   PopoverWeightReason,
   PublicInfoPopover,
 } from "../../_components/info-popover";
-import ProfileAvatar from "./profile-avatar";
-import InfoFieldItem from "../../_components/info-field-item";
 
 import type { UserProfileData } from "@/lib/types";
 

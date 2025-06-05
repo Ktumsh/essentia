@@ -17,9 +17,8 @@ import { Messages } from "./messages";
 import { useAutoResume } from "../_hooks/use-auto-resume";
 import { generateUUID, getChatHistoryPaginationKey } from "../_lib/utils";
 
-import type { VisibilityType } from "@/components/layout/visibility-selector";
 import type { ChatVote } from "@/db/schema";
-import type { UserProfileData } from "@/lib/types";
+import type { UserProfileData, VisibilityType } from "@/lib/types";
 import type { Attachment, UIMessage } from "ai";
 
 export interface ChatProps {

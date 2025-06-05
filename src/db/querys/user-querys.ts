@@ -17,6 +17,7 @@ import {
   Subscription,
   Plan,
   userFeedback,
+  UserFeedback,
 } from "@/db/schema";
 import { generateVerificationCode } from "@/utils";
 
@@ -234,33 +235,38 @@ export async function startUserTrial(
   success: boolean;
   message: string;
 }> {
-  const [existing] = await db
-    .select()
-    .from(userTrial)
-    .where(eq(userTrial.userId, userId));
+  try {
+    const [existing] = await db
+      .select()
+      .from(userTrial)
+      .where(eq(userTrial.userId, userId));
 
-  if (existing?.hasUsed) {
+    if (existing?.hasUsed) {
+      return {
+        success: false,
+        message: "Ya has utilizado tu prueba gratuita.",
+      };
+    }
+    const now = new Date();
+    const expiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    await db.insert(userTrial).values({
+      userId,
+      startedAt: now,
+      expiresAt,
+      isActive: true,
+      hasUsed: true,
+      ip,
+    });
+
     return {
-      success: false,
-      message: "Ya has utilizado tu prueba gratuita.",
+      success: true,
+      message: "Prueba gratuita activada por 7 días.",
     };
+  } catch (error) {
+    console.error("Error al iniciar la prueba gratuita del usuario:", error);
+    throw error;
   }
-  const now = new Date();
-  const expiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-
-  await db.insert(userTrial).values({
-    userId,
-    startedAt: now,
-    expiresAt,
-    isActive: true,
-    hasUsed: true,
-    ip,
-  });
-
-  return {
-    success: true,
-    message: "Prueba gratuita activada por 7 días.",
-  };
 }
 
 export async function cancelUserTrial(userId: string): Promise<void> {
@@ -283,16 +289,24 @@ export async function getUserTrialStatus(userId: string): Promise<{
   isActive: boolean;
   expiresAt: Date | null;
 }> {
-  const [trial] = await db
-    .select()
-    .from(userTrial)
-    .where(eq(userTrial.userId, userId));
+  try {
+    const [trial] = await db
+      .select()
+      .from(userTrial)
+      .where(eq(userTrial.userId, userId));
 
-  return {
-    hasUsed: trial?.hasUsed ?? false,
-    isActive: trial?.isActive ?? false,
-    expiresAt: trial?.expiresAt ?? null,
-  };
+    return {
+      hasUsed: trial?.hasUsed ?? false,
+      isActive: trial?.isActive ?? false,
+      expiresAt: trial?.expiresAt ?? null,
+    };
+  } catch (error) {
+    console.error(
+      "Error al obtener el estado de la prueba gratuita del usuario:",
+      error,
+    );
+    throw error;
+  }
 }
 
 export type UserTrialStatusType = Awaited<
@@ -300,11 +314,16 @@ export type UserTrialStatusType = Awaited<
 >;
 
 export async function deactivateExpiredTrials() {
-  const now = new Date();
-  await db
-    .update(userTrial)
-    .set({ isActive: false })
-    .where(and(lt(userTrial.expiresAt, now), eq(userTrial.isActive, true)));
+  try {
+    const now = new Date();
+    await db
+      .update(userTrial)
+      .set({ isActive: false })
+      .where(and(lt(userTrial.expiresAt, now), eq(userTrial.isActive, true)));
+  } catch (error) {
+    console.error("Error al desactivar pruebas gratuitas expiradas:", error);
+    throw error;
+  }
 }
 
 export async function getUserSubscriptionInfo(userId: string): Promise<{
@@ -314,26 +333,38 @@ export async function getUserSubscriptionInfo(userId: string): Promise<{
     plan: Plan | null;
   } | null;
 }> {
-  const [trialStatus, [subscriptionData]] = await Promise.all([
-    getUserTrialStatus(userId),
-    db
-      .select()
-      .from(subscription)
-      .leftJoin(plan, eq(subscription.type, plan.id))
-      .where(eq(subscription.userId, userId)),
-  ]);
+  try {
+    const [trialStatus, [subscriptionData]] = await Promise.all([
+      getUserTrialStatus(userId),
+      db
+        .select()
+        .from(subscription)
+        .leftJoin(plan, eq(subscription.type, plan.id))
+        .where(eq(subscription.userId, userId)),
+    ]);
 
-  return {
-    trial: trialStatus ?? { hasUsed: false, isActive: false, expiresAt: null },
-    subscription: subscriptionData ?? null,
-  };
+    return {
+      trial: trialStatus ?? {
+        hasUsed: false,
+        isActive: false,
+        expiresAt: null,
+      },
+      subscription: subscriptionData ?? null,
+    };
+  } catch (error) {
+    console.error(
+      "Error al obtener la información de suscripción del usuario:",
+      error,
+    );
+    throw error;
+  }
 }
 
 export type UserSubscriptionInfo = Awaited<
   ReturnType<typeof getUserSubscriptionInfo>
 >;
 
-type SaveFeedbackParams = {
+type SaveFeedback = {
   comment: string;
   reaction: "love" | "happy" | "neutral" | "frustrated" | "angry";
   context?: string;
@@ -349,7 +380,7 @@ export async function saveUserFeedback({
   device,
   ip,
   userId,
-}: SaveFeedbackParams): Promise<{
+}: SaveFeedback): Promise<{
   success: boolean;
   message: string;
 }> {
@@ -369,10 +400,7 @@ export async function saveUserFeedback({
     };
   } catch (error) {
     console.error("Error al guardar el feedback:", error);
-    return {
-      success: false,
-      message: "Ocurrió un error al guardar el feedback.",
-    };
+    throw error;
   }
 }
 
@@ -382,7 +410,7 @@ export async function getFeedbackPaginated({
 }: {
   limit?: number;
   offset?: number;
-}) {
+}): Promise<Array<UserFeedback>> {
   try {
     return await db
       .select()
@@ -392,15 +420,18 @@ export async function getFeedbackPaginated({
       .offset(offset);
   } catch (error) {
     console.error("Error al obtener feedback paginado:", error);
-    return [];
+    throw error;
   }
 }
 
-export type UserFeedback = Awaited<ReturnType<typeof getFeedbackPaginated>>;
-
 export async function getFeedbackCount(): Promise<number> {
-  const result = await db
-    .select({ count: sql<number>`count(*)` })
-    .from(userFeedback);
-  return result?.[0]?.count ?? 0;
+  try {
+    const result = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(userFeedback);
+    return result?.[0]?.count ?? 0;
+  } catch (error) {
+    console.error("Error al obtener el conteo de feedback:", error);
+    throw error;
+  }
 }

@@ -23,7 +23,7 @@ import {
 import { useChatVisibility } from "@/hooks/use-chat-visibility";
 import { cn } from "@/utils";
 
-export type VisibilityType = "private" | "public";
+import type { VisibilityType } from "@/lib/types";
 
 const visibilities: Array<{
   id: VisibilityType;

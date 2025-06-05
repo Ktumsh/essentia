@@ -1,12 +1,14 @@
 import { validMedicalTagNames } from "@/lib/form-schemas";
 
+import type { MedicalFileType } from "@/lib/types";
+
 export type GeneratePayload = {
   documents: {
     id: string;
     condition: string;
     description: string;
     tags: string[];
-    type: string;
+    type: MedicalFileType;
     issuer?: string | null;
     documentDate?: string | null;
     file?: {

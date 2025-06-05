@@ -1,18 +1,14 @@
 "use server";
 
 import { and, eq, gte, lte } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
-import postgres from "postgres";
 
 import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
 import { generateVerificationCode } from "@/utils";
 
 import { getUserByEmail } from "./user-querys";
+import { db } from "../db";
 import { type EmailSends, emailSends, user } from "../schema";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
 
 export async function insertEmailSendsCode(
   userId: string,

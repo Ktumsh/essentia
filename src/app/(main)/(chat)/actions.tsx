@@ -3,7 +3,6 @@
 import { generateText, Message } from "ai";
 import { cookies } from "next/headers";
 
-import { VisibilityType } from "@/components/layout/visibility-selector";
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
@@ -12,6 +11,8 @@ import {
 import { deleteTasksByChatIdAfterTimestamp } from "@/db/querys/task-querys";
 
 import { modelProvider } from "./_lib/models";
+
+import type { VisibilityType } from "@/lib/types";
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();

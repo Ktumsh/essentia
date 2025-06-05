@@ -1,8 +1,6 @@
 "use server";
 
 import { and, desc, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
 import { user, subscription, payment } from "@/db/schema";
 import { calculatePremiumExpiresAt } from "@/utils";

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/utils";
 
-import type { MedicalFileType } from "@/db/querys/medical-history-querys";
+import type { MedicalFileType } from "@/lib/types";
 
 interface DocumentFiltersProps {
   inputValue: string;
