@@ -8,8 +8,8 @@ import { useRef } from "react";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { LoginButton } from "@/components/button-kit/login-button";
-import { Button } from "@/components/kit/button";
-import Logo from "@/components/ui/layout/logo";
+import Logo from "@/components/layout/logo";
+import { Button } from "@/components/ui/button";
 
 const CtaSection = () => {
   const router = useRouter();

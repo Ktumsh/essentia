@@ -5,13 +5,8 @@ import { useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
 import { LockButton } from "@/components/button-kit/lock-button";
-import { Card, CardContent } from "@/components/kit/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/utils";

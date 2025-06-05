@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { ButtonPassword } from "@/components/kit/button";
-import { CardTitle } from "@/components/kit/card";
+import { ButtonPassword } from "@/components/ui/button";
+import { CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { NewPasswordFormData, newPasswordSchema } from "@/lib/form-schemas";
 
 import { SubmitButton } from "../../_components/submit-button";

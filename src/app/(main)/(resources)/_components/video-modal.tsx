@@ -8,7 +8,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import { formatTitle } from "@/utils";
 
 import { useModalHash } from "../_hooks/use-modal-hash";

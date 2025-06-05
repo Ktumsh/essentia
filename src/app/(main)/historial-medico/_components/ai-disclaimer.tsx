@@ -9,11 +9,11 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
   AlertDialogDescription,
-} from "@/components/kit/alert-dialog";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
-import { Checkbox } from "@/components/kit/checkbox";
-import { Label } from "@/components/kit/label";
+} from "@/components/ui/alert-dialog";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const LOCAL_STORAGE_KEY = "hide_ai_recommendation_disclaimer";
 const OPEN_DELAY_MS = 500;

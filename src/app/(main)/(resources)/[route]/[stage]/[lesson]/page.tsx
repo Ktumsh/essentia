@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
 import {
   getCompletedLessons,
   getRouteProgress,

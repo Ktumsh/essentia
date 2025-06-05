@@ -1,6 +1,6 @@
 "use client";
 
-import PaymentModal from "@/components/ui/payment/payment-modal";
+import PaymentModal from "@/app/payment/_components/payment-modal";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 
 import ActivityFullView from "./activity-full-view";

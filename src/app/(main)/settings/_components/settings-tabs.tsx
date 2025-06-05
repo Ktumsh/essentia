@@ -3,31 +3,26 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useProfileMessage } from "@/hooks/use-profile-message";
 import useSubscription from "@/hooks/use-subscription";
 import { cn } from "@/utils";
 
-import AccesibilityStg from "./accesibility-stg";
-import AccountStg from "./account-stg";
-import NotificationsStg from "./notifications-stg";
-import SubscriptionsStg from "./subscriptions-stg";
+import AccesibilityStg from "../accesibility/_components/accesibility-stg";
+import AccountStg from "../account-profile/_components/account-stg";
+import NotificationsStg from "../notifications/_components/notifications-stg";
+import SubscriptionsStg from "../subscriptions/_components/subscriptions-stg";
 
 import type { PaymentHistory, UserProfileData } from "@/lib/types";
+import type { Session } from "next-auth";
 
 interface SettingsTabsProps {
   user: UserProfileData | null;
   session: Session | null;
-  paymentHistory: PaymentHistory[];
+  paymentHistory: Array<PaymentHistory>;
 }
 
 const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {

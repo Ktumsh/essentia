@@ -1,22 +1,14 @@
 "use server";
 
 import { and, desc, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
-import {
-  user,
-  subscription,
-  type Subscription,
-  payment,
-  type Payment,
-} from "@/db/schema";
-import { calculatePremiumExpiresAt } from "@/lib/utils";
+import { user, subscription, payment } from "@/db/schema";
+import { calculatePremiumExpiresAt } from "@/utils";
 
+import { db } from "../db";
+
+import type { Subscription, Payment } from "@/db/schema";
 import type { PaymentHistory } from "@/lib/types";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
 
 export async function updateSubscription(
   userId: string,

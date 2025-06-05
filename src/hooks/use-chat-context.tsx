@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-import { VisibilityType } from "@/components/ui/layout/visibility-selector";
+import type { VisibilityType } from "@/lib/types";
 
 interface ChatContextProps {
   isReadonly: boolean;

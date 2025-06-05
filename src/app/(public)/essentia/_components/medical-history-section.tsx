@@ -17,7 +17,7 @@ import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
 import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
-import { Badge } from "@/components/kit/badge";
+import { Badge } from "@/components/ui/badge";
 
 const MedicalHistorySection = () => {
   const ref = useRef(null);

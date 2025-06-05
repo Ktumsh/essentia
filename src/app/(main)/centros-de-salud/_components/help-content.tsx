@@ -17,13 +17,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState, useRef } from "react";
 
 import { HospitalIcon, PharmacyIcon } from "@/components/icons/miscellaneus";
-import { Button } from "@/components/kit/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/utils";
 
 const HelpContent = () => {

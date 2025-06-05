@@ -1,9 +1,8 @@
 "use server";
 
 import { and, desc, eq, inArray } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
+import { db } from "../db";
 import {
   aiMedicalRecommendation,
   aiRecommendationDocument,
@@ -15,10 +14,6 @@ import {
   userTrial,
 } from "../schema";
 
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
-
-// UTILITY
 export async function getUserRecommendationLimit(
   userId: string,
 ): Promise<number> {

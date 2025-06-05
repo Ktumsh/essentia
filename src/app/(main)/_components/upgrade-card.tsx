@@ -4,8 +4,8 @@ import { Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
+import PaymentModal from "@/app/payment/_components/payment-modal";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import PaymentModal from "@/components/ui/payment/payment-modal";
 
 const UpgradeCard = () => {
   const [open, setOpen] = useState(false);

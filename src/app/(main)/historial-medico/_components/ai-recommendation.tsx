@@ -7,10 +7,10 @@ import { toast } from "sonner";
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { SaveButton } from "@/components/button-kit/save-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Badge } from "@/components/kit/badge";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
-import { Checkbox } from "@/components/kit/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -26,16 +26,11 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { Label } from "@/components/kit/label";
-import { ScrollArea } from "@/components/kit/scroll-area";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
-import { Textarea } from "@/components/kit/textarea";
+} from "@/components/ui/drawer";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";

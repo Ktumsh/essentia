@@ -1,7 +1,7 @@
 "use client";
 
-import { getRouteColor } from "@/lib/utils";
-import { cn } from "@/utils";
+import { getRouteColor , cn } from "@/utils";
+
 
 import type { NavConfig } from "@/config/nav.config";
 

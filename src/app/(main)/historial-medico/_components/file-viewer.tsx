@@ -15,7 +15,7 @@ import {
 import { useState, useEffect, useMemo } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,7 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -31,9 +31,9 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { Separator } from "@/components/kit/separator";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/drawer";
+import { Separator } from "@/components/ui/separator";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";
 

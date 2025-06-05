@@ -3,7 +3,7 @@
 import { FolderKanban } from "lucide-react";
 
 import { UpgradeButton } from "@/components/button-kit/upgrade-button";
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
@@ -11,7 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/utils";
 

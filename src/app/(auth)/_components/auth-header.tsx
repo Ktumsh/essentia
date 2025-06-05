@@ -2,8 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
-import { Button } from "@/components/kit/button";
-import FullLogo from "@/components/ui/layout/full-logo";
+import FullLogo from "@/components/layout/full-logo";
+import { Button } from "@/components/ui/button";
 
 const AuthHeader = () => {
   const router = useRouter();

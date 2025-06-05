@@ -3,10 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import {
-  type MedicalFileType,
-  type MedicalHistoryWithTags,
-} from "@/db/querys/medical-history-querys";
+import { type MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { fetcher } from "@/utils";
@@ -19,7 +16,7 @@ import { useRecommendationsActions } from "./use-recommendations-actions";
 import type { DocumentFormSchema } from "../_components/document-form";
 import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import type { MedicalTag } from "@/db/schema";
-import type { MedicalHistoryActivity } from "@/lib/types";
+import type { MedicalFileType, MedicalHistoryActivity } from "@/lib/types";
 
 export function useMedicalHistoryLogic() {
   const { user } = useUserProfile();

@@ -4,12 +4,12 @@ import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 
-import { CardTitle } from "@/components/kit/card";
+import { CardTitle } from "@/components/ui/card";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/kit/input-otp";
+} from "@/components/ui/input-otp";
 
 interface StepVerifyCodeProps {
   email: string;

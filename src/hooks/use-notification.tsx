@@ -15,12 +15,12 @@ import {
   sendAndSaveNotification,
   getUserSubscriptions,
 } from "@/app/(main)/settings/actions";
-
 import {
   convertSubscriptionToServerFormat,
-  ServerPushSubscription,
   urlBase64ToUint8Array,
-} from "../lib/utils";
+} from "@/utils";
+
+import type { ServerPushSubscription } from "@/lib/types";
 
 interface NotificationContextProps {
   isSupported: boolean;

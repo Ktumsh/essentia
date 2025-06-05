@@ -4,16 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import AccountDetails from "./account/account-details";
-import ProfileInfo from "./profile/profile-info";
-import SubscriptionDetails from "./subscription/subscription-details";
+import AccountDetails from "../account/_components/account-details";
+import ProfileInfo from "../profile/_components/profile-info";
+import SubscriptionDetails from "../subscription/_components/subscription-details";
 
 import type { LearningRoutes } from "@/lib/types";
 

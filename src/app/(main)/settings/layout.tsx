@@ -1,5 +1,5 @@
 import { auth } from "@/app/(auth)/auth";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
 import { getPaymentHistory } from "@/db/querys/payment-querys";
 import { getUserData } from "@/utils/profile";
 

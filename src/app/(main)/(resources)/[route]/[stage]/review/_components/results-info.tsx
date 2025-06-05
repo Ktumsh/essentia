@@ -13,16 +13,10 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Card, CardContent } from "@/components/kit/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
-import { cn , formatDate } from "@/utils";
-
+} from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn, formatDate } from "@/utils";
 
 import type { ParsedReviewQuestion } from "@/db/querys/resource-querys";
 import type { UserReviewProgress } from "@/db/schema";

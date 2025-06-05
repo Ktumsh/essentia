@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/kit/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DailyTipLoading = () => {
   return (

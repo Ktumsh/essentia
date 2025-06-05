@@ -1,12 +1,7 @@
 import { CheckCircle2 } from "lucide-react";
 
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/kit/card";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import Medicines from "./medicines";
 

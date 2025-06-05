@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { cn } from "@/utils";
 
-import { Button, ButtonSize, ButtonVariant } from "../kit/button";
+import { Button, ButtonSize, ButtonVariant } from "../ui/button";
 
 import type { HTMLAttributes } from "react";
 

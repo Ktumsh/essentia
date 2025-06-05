@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
 import { getAllRoutesProgress } from "@/db/querys/progress-querys";
 
 import AccountHeader from "./_components/account-header";

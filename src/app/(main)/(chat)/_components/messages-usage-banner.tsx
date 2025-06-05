@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 
 interface MessagesUsageBannerProps {
   remainingMessages?: number | null;

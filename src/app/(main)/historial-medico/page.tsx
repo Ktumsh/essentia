@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
 
 import MedicalHistoryTabs from "./_components/medical-history-tabs";
 import UnauthenticatedState from "./_components/unauthenticated-state";

@@ -10,9 +10,8 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from "@/components/kit/card";
-import { getRouteColor, getRouteDetails } from "@/lib/utils";
-import { cn } from "@/utils";
+} from "@/components/ui/card";
+import { getRouteColor, getRouteDetails, cn } from "@/utils";
 
 import type { Route, Stage } from "@/db/schema";
 

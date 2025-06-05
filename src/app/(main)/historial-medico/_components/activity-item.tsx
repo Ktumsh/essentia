@@ -3,12 +3,11 @@
 import { ChevronRight, RefreshCw } from "lucide-react";
 import React from "react";
 
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import {
   getActionColor,

@@ -2,8 +2,8 @@
 
 import { Loader } from "lucide-react";
 
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -21,7 +21,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface InitializeRouteAlertProps {

@@ -9,15 +9,15 @@ import { toast } from "sonner";
 
 import { authenticate } from "@/app/(auth)/login/actions";
 import { MailIcon } from "@/components/icons/miscellaneus";
-import { ButtonPassword } from "@/components/kit/button";
+import { ButtonPassword } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
-import { Checkbox } from "@/components/kit/checkbox";
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormField,
@@ -25,11 +25,11 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { LoginFormData, loginSchema } from "@/lib/form-schemas";
-import { getWelcomeLabel } from "@/lib/utils";
+import { getWelcomeLabel } from "@/utils";
 import { resultMessages } from "@/utils/errors";
 
 import { AuthRedirectMessage } from "../_components/auth-redirect-message";

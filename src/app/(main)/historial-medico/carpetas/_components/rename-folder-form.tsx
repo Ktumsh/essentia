@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -20,7 +20,7 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerFooter,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import {
   Form,
   FormField,
@@ -28,8 +28,8 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   type RenameFolderFormData,

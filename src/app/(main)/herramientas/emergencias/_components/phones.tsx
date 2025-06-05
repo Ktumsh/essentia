@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 import { PHONE_COLORS, PHONE_DATA } from "@/db/data/phone-data";
 import { cn } from "@/utils";
 

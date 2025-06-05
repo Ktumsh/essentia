@@ -3,7 +3,7 @@
 import { ArrowDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 
 interface ButtonToBottomProps {
   isAtBottom: boolean;

@@ -7,8 +7,8 @@ import { SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { onSendEmail, verifyCode } from "@/app/(auth)/actions";
-import { Button } from "@/components/kit/button";
-import { Card, CardContent } from "@/components/kit/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
 import {
   getUserByEmail,

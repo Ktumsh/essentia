@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
+import { useLocalStorage } from "usehooks-ts";
 
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
-import { useLocalStorage } from "@/hooks/use-local-storage";
 import { fetcher } from "@/utils";
 
 import ChatPanel from "./chat-panel";
@@ -17,9 +17,8 @@ import { Messages } from "./messages";
 import { useAutoResume } from "../_hooks/use-auto-resume";
 import { generateUUID, getChatHistoryPaginationKey } from "../_lib/utils";
 
-import type { VisibilityType } from "@/components/ui/layout/visibility-selector";
 import type { ChatVote } from "@/db/schema";
-import type { UserProfileData } from "@/lib/types";
+import type { UserProfileData, VisibilityType } from "@/lib/types";
 import type { Attachment, UIMessage } from "ai";
 
 export interface ChatProps {
@@ -42,8 +41,7 @@ export function Chat({
   autoResume,
 }: ChatProps) {
   const { mutate } = useSWRConfig();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setNewChatId] = useLocalStorage("new-chat-id", id);
+  const [, setNewChatId] = useLocalStorage<string>("new-chat-id", id);
 
   const { setChatData } = useChatContext();
 

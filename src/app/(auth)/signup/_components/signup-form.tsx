@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Card, CardContent } from "@/components/kit/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 import SignupEmailStep from "./signup-email-step";
 import SignupInfoStep from "./signup-info-step";

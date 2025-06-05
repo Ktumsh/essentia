@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { getPlanType } from "@/app/(main)/(account)/_lib/utils";
-import PaymentCallbackContent from "@/components/ui/payment/payment-callback-content";
+import PaymentCallbackContent from "@/app/payment/_components/payment-callback-content";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 
 export const metadata: Metadata = {

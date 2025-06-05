@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { DeleteButton } from "@/components/button-kit/delete-button";
 import { FolderInputButton } from "@/components/button-kit/folder-input-button";
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
 interface SelectionHeaderProps {

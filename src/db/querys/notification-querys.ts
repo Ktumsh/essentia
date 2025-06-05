@@ -1,19 +1,15 @@
 "use server";
 
 import { and, desc, eq, isNull } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import webpush from "web-push";
 
+import { db } from "../db";
 import {
   notificationSubscription,
   user,
   userRouteProgress,
   userNotification,
 } from "../schema";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
 
 export async function subscribeNotifications(
   userId: string,

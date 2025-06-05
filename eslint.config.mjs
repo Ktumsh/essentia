@@ -13,7 +13,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ["node_modules", ".next", "out", "**/kit/*", "public"],
+    ignores: ["node_modules", ".next", "out", "**/ui/*", "public"],
   },
   ...fixupConfigRules(
     compat.extends(

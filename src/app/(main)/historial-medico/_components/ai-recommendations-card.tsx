@@ -4,8 +4,8 @@ import { Tag, FileText } from "lucide-react";
 
 import { BookmarkButton } from "@/components/button-kit/bookmark-button";
 import { ShareButton } from "@/components/button-kit/share-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -13,8 +13,8 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/kit/card";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/card";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";

@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SettingsWrapperProps {

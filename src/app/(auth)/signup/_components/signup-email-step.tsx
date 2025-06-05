@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { getUserByEmail } from "@/db/querys/user-querys";
 import { emailSchema } from "@/lib/form-schemas";
 import { resultMessages } from "@/utils/errors";

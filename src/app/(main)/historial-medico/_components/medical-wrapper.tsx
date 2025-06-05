@@ -1,6 +1,6 @@
 "use client";
 
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
 
 import MedicalDialogsContainer from "./medical-dialogs-container";
 import MedicalHistoryHeader from "./medical-history-header";

@@ -10,7 +10,7 @@ import {
 } from "@/app/(main)/(chat)/_lib/utils";
 import { updateChatVisibility } from "@/app/(main)/(chat)/actions";
 
-import type { VisibilityType } from "@/components/ui/layout/visibility-selector";
+import type { VisibilityType } from "@/lib/types";
 
 export function useChatVisibility({
   chatId,

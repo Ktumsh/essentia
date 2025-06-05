@@ -5,19 +5,18 @@ import { MoreVerticalIcon, SparklesIcon, Tag } from "lucide-react";
 import { ChevronButton } from "@/components/button-kit/chevron-button";
 import { DeleteButton } from "@/components/button-kit/delete-button";
 import { ShareButton } from "@/components/button-kit/share-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
-import { Checkbox } from "@/components/kit/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
-import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn , formatDate } from "@/utils";
-
+} from "@/components/ui/dropdown-menu";
+import { BetterTooltip } from "@/components/ui/tooltip";
+import { cn, formatDate } from "@/utils";
 
 import { getPriorityBadge, getPriorityText, getTagColor } from "../_lib/utils";
 

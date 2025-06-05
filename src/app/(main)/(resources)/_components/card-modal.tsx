@@ -3,8 +3,9 @@
 import Image from "next/image";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Markdown } from "@/components/markdown";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,16 +14,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { ScrollArea } from "@/components/kit/scroll-area";
-import { Markdown } from "@/components/markdown";
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useModalHash } from "../_hooks/use-modal-hash";

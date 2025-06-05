@@ -15,11 +15,11 @@ import { UserProfileProvider } from "@/hooks/use-user-profile";
 import { UserSubscriptionProvider } from "@/hooks/use-user-subscription";
 
 import { ChatProvider } from "../hooks/use-chat-context";
-import { PlanProvider } from "../hooks/use-current-plan";
+import { CurrentPlanProvider } from "../hooks/use-current-plan";
 import { NotificationProvider } from "../hooks/use-notification";
 import { TasksProvider } from "../hooks/use-task";
 import { ThemeProvider } from "../hooks/use-theme";
-import { SidebarProvider } from "./kit/sidebar";
+import { SidebarProvider } from "./ui/sidebar";
 
 import type { Payment, Subscription, UserTask } from "@/db/schema";
 import type { UserProfileData } from "@/lib/types";
@@ -59,7 +59,7 @@ export function Providers({
             >
               <NotificationProvider userId={userId}>
                 <MobileProvider initialMobileState={initialMobileState}>
-                  <PlanProvider currentPlan={currentPlan}>
+                  <CurrentPlanProvider currentPlan={currentPlan}>
                     <SidebarProvider defaultOpen={defaultOpen}>
                       <ChatProvider>
                         <ChatModelProvider>
@@ -75,7 +75,7 @@ export function Providers({
                         </ChatModelProvider>
                       </ChatProvider>
                     </SidebarProvider>
-                  </PlanProvider>
+                  </CurrentPlanProvider>
                 </MobileProvider>
               </NotificationProvider>
             </SubscriptionProvider>

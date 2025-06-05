@@ -9,7 +9,7 @@ import { useReactToPrint } from "react-to-print";
 
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { PrinterButton } from "@/components/button-kit/print-button";
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -17,15 +17,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { Separator } from "@/components/kit/separator";
+} from "@/components/ui/drawer";
+import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { formatDate } from "@/utils";

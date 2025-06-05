@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 
-import { Badge } from "@/components/kit/badge";
+import { Badge } from "@/components/ui/badge";
 import { capitalize } from "@/utils";
 
 interface InfoItem {

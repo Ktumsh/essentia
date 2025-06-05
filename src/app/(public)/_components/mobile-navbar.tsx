@@ -7,7 +7,9 @@ import { useState } from "react";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { LoginButton } from "@/components/button-kit/login-button";
-import { Button } from "@/components/kit/button";
+import FullLogo from "@/components/layout/full-logo";
+import ThemeToggle from "@/components/layout/theme-toggle";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
@@ -16,10 +18,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/kit/drawer";
-import { Separator } from "@/components/kit/separator";
-import FullLogo from "@/components/ui/layout/full-logo";
-import ThemeToggle from "@/components/ui/layout/theme-toggle";
+} from "@/components/ui/drawer";
+import { Separator } from "@/components/ui/separator";
 import { navConfig } from "@/config/nav.config";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/utils";

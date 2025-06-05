@@ -12,8 +12,8 @@ import {
   Star,
 } from "lucide-react";
 
-import { Button } from "@/components/kit/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/kit/toggle-group";
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export interface InfoWindowContentProps {
   name?: string;

@@ -123,8 +123,44 @@ export type FolderIconType =
   | "dentist"
   | "file";
 
+export type MedicalFileType =
+  | "Examen"
+  | "Receta"
+  | "Informe"
+  | "Diagnóstico"
+  | "Imagenología"
+  | "Certificado"
+  | "Epicrisis"
+  | "Consentimiento"
+  | "Otro";
+
+export type MedicalFile = {
+  url: string;
+  name: string;
+  size: number;
+  contentType: string;
+  uploadedAt: Date;
+};
+
+export type MedicalRecommendationType =
+  | "general"
+  | "preventive"
+  | "lifestyle"
+  | "followUp"
+  | "medication";
+
 export type DeleteManyResult = {
   success: boolean;
   deleted: string[];
   failed: { id: string; error: string }[];
 };
+
+export type ServerPushSubscription = {
+  endpoint: string;
+  keys: {
+    p256dh: string;
+    auth: string;
+  };
+};
+
+export type VisibilityType = "private" | "public";

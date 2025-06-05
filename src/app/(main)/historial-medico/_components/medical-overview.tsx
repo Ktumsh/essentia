@@ -1,7 +1,7 @@
 "use client";
 
 import { UpgradeButton } from "@/components/button-kit/upgrade-button";
-import { Card, CardContent } from "@/components/kit/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/utils";

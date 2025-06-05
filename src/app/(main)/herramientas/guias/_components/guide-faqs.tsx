@@ -3,8 +3,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Card } from "@/components/kit/card";
+} from "@/components/ui/accordion";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/utils";
 
 import type { Guide, GuideThemeColors } from "@/db/data/guide-data";

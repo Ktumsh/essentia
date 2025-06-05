@@ -8,7 +8,7 @@ import {
   updateEmailSends,
 } from "@/db/querys/email-querys";
 import { getUserByEmail } from "@/db/querys/user-querys";
-import { generateVerificationCode } from "@/lib/utils";
+import { generateVerificationCode } from "@/utils";
 
 import { sendEmailAction } from "./_lib/email-action";
 

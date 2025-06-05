@@ -12,14 +12,14 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/kit/hover-card";
+} from "@/components/ui/hover-card";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/kit/popover";
-import { Progress } from "@/components/kit/progress";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/popover";
+import { Progress } from "@/components/ui/progress";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
 import { CHAT_MODELS } from "../_lib/models";

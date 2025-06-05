@@ -6,9 +6,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Badge } from "@/components/kit/badge";
-import { Card } from "@/components/kit/card";
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import {
   FIRST_AID_DATA,
   FIRST_AID_DATA_COLORS,

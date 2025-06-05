@@ -7,7 +7,7 @@ import { FieldErrors, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import DatePicker from "@/components/kit/date-picker";
+import DatePicker from "@/components/ui/date-picker";
 import {
   Form,
   FormControl,
@@ -15,8 +15,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { getUserByUsername } from "@/db/querys/user-querys";
 import { InfoFormData, infoSchema } from "@/lib/form-schemas";
 import { resultMessages } from "@/utils/errors";

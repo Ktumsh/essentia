@@ -5,7 +5,7 @@ import { motion, useInView } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-import { Badge } from "@/components/kit/badge";
+import { Badge } from "@/components/ui/badge";
 
 const VisionSection = () => {
   const sectionRef = useRef(null);

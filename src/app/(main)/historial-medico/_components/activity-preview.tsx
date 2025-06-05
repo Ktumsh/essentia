@@ -3,12 +3,11 @@
 import { Circle, EllipsisIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/kit/button";
-import { DrawerClose } from "@/components/kit/drawer";
+import { Button } from "@/components/ui/button";
+import { DrawerClose } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn , capitalize } from "@/utils";
-
+import { cn, capitalize } from "@/utils";
 
 import { useActivityFilter } from "../_hooks/use-activity-filter-options";
 import {

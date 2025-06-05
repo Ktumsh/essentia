@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { NavigationMenuLink } from "@/components/kit/navigation-menu";
+import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/utils";
 
 const ListItem = ({

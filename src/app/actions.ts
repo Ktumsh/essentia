@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 import { FUN_FACT_DATA, type FunFactType } from "@/db/data/fun-fact-data";
-import { getRandomFacts } from "@/lib/utils";
+import { getRandomFacts } from "@/utils";
 
 export const getReusableCookie = async (cookieName: string) => {
   const cookieStore = await cookies();

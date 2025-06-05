@@ -1,7 +1,7 @@
 import { Lightbulb } from "lucide-react";
 
-import { Button } from "@/components/kit/button";
-import { Card, CardContent } from "@/components/kit/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface RecommendationEmptyStateProps {
   searchTerm: string;

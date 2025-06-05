@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { MailIcon } from "@/components/icons/miscellaneus";
-import { CardTitle } from "@/components/kit/card";
+import { CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,8 +12,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { EmailFormData, emailSchema } from "@/lib/form-schemas";
 
 import { SubmitButton } from "../../_components/submit-button";

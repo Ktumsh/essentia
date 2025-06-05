@@ -3,27 +3,28 @@
 import * as React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/kit/chart";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/chart";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
-import { UserFeedback } from "@/db/schema";
+} from "@/components/ui/select";
 
 import { exportToCSV, getEmoji } from "../_lib/utils";
 
+import type { UserFeedback } from "@/db/schema";
+
 type Props = {
-  feedback: UserFeedback[];
+  feedback: Array<UserFeedback>;
   totalCount: number;
 };
 

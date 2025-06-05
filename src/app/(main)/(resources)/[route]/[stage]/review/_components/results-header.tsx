@@ -4,10 +4,8 @@ import { Trophy, Star, CheckCircle, Clock, Calendar } from "lucide-react";
 import { motion } from "motion/react";
 import { useMemo } from "react";
 
-import { Badge } from "@/components/kit/badge";
-import { getRouteColor } from "@/lib/utils";
-import { cn , formatDate } from "@/utils";
-
+import { Badge } from "@/components/ui/badge";
+import { getRouteColor, cn, formatDate } from "@/utils";
 
 import type { Route, Stage, UserReviewProgress } from "@/db/schema";
 

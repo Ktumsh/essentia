@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { auth } from "@/app/(auth)/auth";
 import { getUserData } from "@/utils/profile";
 
-import AccountStgWrp from "../_components/account-stg-wrp";
+import AccountStgWrp from "./_components/account-stg-wrp";
 
 export const metadata: Metadata = {
   title: "Configuración / Cuenta y perfil",

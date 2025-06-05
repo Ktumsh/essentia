@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import PageTitle from "@/components/ui/layout/page-title";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageTitle from "@/components/layout/page-title";
+import PageWrapper from "@/components/layout/page-wrapper";
 import { getGroupedChatToolsByUser } from "@/db/querys/chat-querys";
 import { getSubscriptionType } from "@/db/querys/payment-querys";
 

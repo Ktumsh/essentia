@@ -31,8 +31,11 @@ import {
 import { formatDate } from "@/utils";
 
 import type { AIRecommendationType } from "../_components/ai-recommendation";
-import type { MedicalFileType } from "@/db/querys/medical-history-querys";
-import type { FolderIconType, MedicalHistoryActivity } from "@/lib/types";
+import type {
+  FolderIconType,
+  MedicalFileType,
+  MedicalHistoryActivity,
+} from "@/lib/types";
 
 export const getTagColor = (tag: string): string => {
   const medicalCategories: Record<string, string> = {

@@ -6,7 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import { LoginButton } from "@/components/button-kit/login-button";
-import { Button } from "@/components/kit/button";
+import FullLogo from "@/components/layout/full-logo";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,8 +16,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/kit/navigation-menu";
-import FullLogo from "@/components/ui/layout/full-logo";
+} from "@/components/ui/navigation-menu";
 import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";

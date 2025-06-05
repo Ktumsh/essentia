@@ -3,7 +3,7 @@
 import { FileText } from "lucide-react";
 import { useState } from "react";
 
-import { Card, CardContent } from "@/components/kit/card";
+import { Card, CardContent } from "@/components/ui/card";
 import useFolderName from "@/hooks/use-folder-name";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -20,10 +20,8 @@ import { useMedicalHistoryLogic } from "../../_hooks/use-medical-history-logic";
 import { useMultiSelect } from "../../_hooks/use-multi-select";
 import { useViewMode } from "../../_hooks/use-view-mode";
 
-import type {
-  MedicalFileType,
-  MedicalHistoryWithTags,
-} from "@/db/querys/medical-history-querys";
+import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalFileType } from "@/lib/types";
 
 interface DocumentsViewProps {
   docs: MedicalHistoryWithTags[];

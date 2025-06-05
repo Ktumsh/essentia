@@ -25,28 +25,28 @@ import { EyeButton } from "@/components/button-kit/eye-button";
 import { EyeOffButton } from "@/components/button-kit/eye-off-button";
 import { HandHeartButton } from "@/components/button-kit/hand-heart-button";
 import { RepeatButton } from "@/components/button-kit/repeat-button";
+import PageWrapper from "@/components/layout/page-wrapper";
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/kit/alert-dialog";
-import { Badge } from "@/components/kit/badge";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
-import { Confetti } from "@/components/kit/confeti";
-import { Progress } from "@/components/kit/progress";
-import { RadioGroup, RadioGroupItem } from "@/components/kit/radio-group";
-import { BetterTooltip } from "@/components/kit/tooltip";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+} from "@/components/ui/card";
+import { Confetti } from "@/components/ui/confeti";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import {
   resetReviewProgress,
   saveReviewProgress,
@@ -54,8 +54,7 @@ import {
 } from "@/db/querys/progress-querys";
 import { ParsedReviewQuestion } from "@/db/querys/resource-querys";
 import { Route, Stage } from "@/db/schema";
-import { getRouteColor } from "@/lib/utils";
-import { cn } from "@/utils";
+import { getRouteColor, cn } from "@/utils";
 
 import Countdown from "./countdown";
 

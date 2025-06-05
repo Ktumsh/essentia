@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/kit/button";
+import { createSubscription } from "@/app/payment/actions";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,8 +15,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
-import { createSubscription } from "@/components/ui/payment/actions";
+} from "@/components/ui/dialog";
 import {
   SubscriptionPlanType,
   SUBSCRIPTION_PLAN_DATA,
@@ -23,8 +23,7 @@ import {
 import { startUserTrial } from "@/db/querys/user-querys";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
-import { getClientIp, getPlanPrice } from "@/lib/utils";
-import { formatDate } from "@/utils";
+import { getClientIp, getPlanPrice, formatDate } from "@/utils";
 
 interface ConfirmPlanModalProps {
   plan: SubscriptionPlanType;

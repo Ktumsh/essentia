@@ -5,9 +5,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
-import { ScrollArea } from "@/components/kit/scroll-area";
-import { Skeleton } from "@/components/kit/skeleton";
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const HeaderStockLoading = () => {
   return (

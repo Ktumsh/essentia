@@ -6,16 +6,11 @@ import { useMemo } from "react";
 import useSWR from "swr";
 
 import { FileStackButton } from "@/components/button-kit/file-stack-button";
-import { Badge } from "@/components/kit/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/kit/card";
-import { Progress } from "@/components/kit/progress";
-import { Skeleton } from "@/components/kit/skeleton";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn, fetcher } from "@/utils";

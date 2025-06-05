@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useState } from "react";
 
+import PaymentModal from "@/app/payment/_components/payment-modal";
 import { LoginButton } from "@/components/button-kit/login-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
-import PaymentModal from "@/components/ui/payment/payment-modal";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
 
 interface AlertPanelProps {
   session: Session | null;

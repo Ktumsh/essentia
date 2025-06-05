@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/kit/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const reasons = [
   "Solo quería 1 mes",

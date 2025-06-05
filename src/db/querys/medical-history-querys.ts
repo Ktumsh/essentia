@@ -2,8 +2,6 @@
 
 import { del } from "@vercel/blob";
 import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
 import {
   medicalTag,
@@ -13,28 +11,9 @@ import {
   userMedicalHistoryTag,
 } from "../schema";
 import { getUserSubscriptionInfo } from "./user-querys";
+import { db } from "../db";
 
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
-
-export type MedicalFileType =
-  | "Examen"
-  | "Receta"
-  | "Informe"
-  | "Diagnóstico"
-  | "Imagenología"
-  | "Certificado"
-  | "Epicrisis"
-  | "Consentimiento"
-  | "Otro";
-
-export type MedicalFile = {
-  url: string;
-  name: string;
-  size: number;
-  contentType: string;
-  uploadedAt: Date;
-};
+import type { MedicalFile, MedicalFileType } from "@/lib/types";
 
 //////////////////////////////
 // Helpers

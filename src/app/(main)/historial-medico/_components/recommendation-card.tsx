@@ -12,15 +12,15 @@ import {
 import { ChevronButton } from "@/components/button-kit/chevron-button";
 import { DeleteButton } from "@/components/button-kit/delete-button";
 import { ShareButton } from "@/components/button-kit/share-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
@@ -29,20 +29,19 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
-import { Separator } from "@/components/kit/separator";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import { getPriorityBadge, getPriorityText, getTagColor } from "../_lib/utils";
 

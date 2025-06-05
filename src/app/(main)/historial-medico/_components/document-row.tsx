@@ -8,8 +8,8 @@ import { DownloadButton } from "@/components/button-kit/download-button";
 import { EditButton } from "@/components/button-kit/edit-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Button } from "@/components/kit/button";
-import { Checkbox } from "@/components/kit/checkbox";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,10 +17,9 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
-import { BetterTooltip } from "@/components/kit/tooltip";
-import { cn , formatDate } from "@/utils";
-
+} from "@/components/ui/dropdown-menu";
+import { BetterTooltip } from "@/components/ui/tooltip";
+import { cn, formatDate } from "@/utils";
 
 import { getFileTypeColor } from "../_lib/utils";
 

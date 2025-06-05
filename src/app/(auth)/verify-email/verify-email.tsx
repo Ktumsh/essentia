@@ -8,13 +8,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { verifyCode } from "@/app/(auth)/actions";
-import { Button } from "@/components/kit/button";
-import { Card, CardContent, CardTitle } from "@/components/kit/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/kit/input-otp";
+} from "@/components/ui/input-otp";
 import { resendEmailSendsCode } from "@/db/querys/email-querys";
 
 interface VerifyEmailProps {

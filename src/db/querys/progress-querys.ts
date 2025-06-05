@@ -1,25 +1,21 @@
 "use server";
 
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { revalidatePath } from "next/cache";
-import postgres from "postgres";
 
+import { db } from "../db";
 import {
   review,
   lesson,
   route,
   stage,
-  UserRouteProgress,
   userRouteProgress,
+  type UserRouteProgress,
   userReviewProgress,
   userLessonProgress,
   userStageProgress,
   userReviewAnswer,
 } from "../schema";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
 
 export async function initializeRouteProgress(userId: string, routeId: string) {
   try {

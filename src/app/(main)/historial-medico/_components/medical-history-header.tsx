@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 import { AvatarIcon } from "@/components/icons/miscellaneus";
-import { Avatar, AvatarFallback } from "@/components/kit/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 

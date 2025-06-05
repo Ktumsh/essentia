@@ -6,9 +6,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Badge } from "@/components/kit/badge";
-import { Card } from "@/components/kit/card";
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import {
   SEXUALITY_EMERGENCY_DATA,
   SEXUALITY_EMERGENCY_DATA_COLORS,

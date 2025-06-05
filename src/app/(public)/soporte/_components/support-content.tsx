@@ -20,29 +20,24 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Button } from "@/components/kit/button";
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FAQ_SUPPORT_DATA, type FaqSupport } from "@/db/data/faq-support-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, normalizeQuery } from "@/utils";

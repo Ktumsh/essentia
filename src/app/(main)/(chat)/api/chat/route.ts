@@ -31,8 +31,7 @@ import {
 import { getSubscription } from "@/db/querys/payment-querys";
 import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { isProductionEnvironment } from "@/lib/consts";
-import { calculateAge } from "@/lib/utils";
-import { formatDate } from "@/utils";
+import { calculateAge , formatDate } from "@/utils";
 import { getUserData } from "@/utils/profile";
 
 import { postRequestBodySchema, type PostRequestBody } from "./schema";

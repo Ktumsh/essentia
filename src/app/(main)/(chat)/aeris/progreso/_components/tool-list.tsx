@@ -3,7 +3,7 @@
 import { ClipboardList } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 
 import ToolEmptyState from "./tool-empty-state";
 import ToolFolder from "./tool-folder";

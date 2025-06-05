@@ -5,7 +5,7 @@ import { useCallback } from "react";
 
 import { cn } from "@/utils";
 
-import { Button, ButtonSize, ButtonVariant } from "../kit/button";
+import { Button, ButtonSize, ButtonVariant } from "../ui/button";
 
 import type { Transition } from "motion/react";
 import type { HTMLAttributes } from "react";

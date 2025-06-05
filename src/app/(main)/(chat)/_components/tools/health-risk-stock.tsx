@@ -20,19 +20,13 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Card } from "@/components/kit/card";
-import { Progress } from "@/components/kit/progress";
-import { ScrollArea } from "@/components/kit/scroll-area";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+} from "@/components/ui/accordion";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CLOUDINARY_BASE_URL } from "@/lib/consts";
-import { cn , capitalize, formatDate } from "@/utils";
-
+import { cn, capitalize, formatDate } from "@/utils";
 
 import StockFooter from "./stock-footer";
 import StockHeader from "./stock-header";

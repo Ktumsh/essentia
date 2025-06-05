@@ -12,13 +12,11 @@ import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { HandHeartButton } from "@/components/button-kit/hand-heart-button";
 import { RepeatButton } from "@/components/button-kit/repeat-button";
 import { ScrollButton } from "@/components/button-kit/scroll-button";
-import { BetterTooltip } from "@/components/kit/tooltip";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { resetReviewProgress } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getRouteColor } from "@/lib/utils";
-import { cn , formatDate } from "@/utils";
-
+import { getRouteColor, cn, formatDate } from "@/utils";
 
 import { InitialLoadingState } from "./loading";
 import ResultCertificate from "./results-certificate";

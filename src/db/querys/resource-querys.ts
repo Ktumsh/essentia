@@ -1,22 +1,18 @@
 "use server";
 
 import { and, asc, eq, sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
+import { db } from "../db";
 import {
   review,
   reviewQuestion,
+  type ReviewQuestion,
   lesson,
   stage,
   route,
-  ReviewQuestion,
 } from "../schema";
 
 import type { Stages } from "@/lib/types";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
 
 export async function getRouteBySlug(slug: string) {
   try {

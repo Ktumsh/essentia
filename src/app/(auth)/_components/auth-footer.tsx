@@ -5,8 +5,8 @@ import {
   InstagramIcon,
   TwitterIcon,
 } from "@/components/icons/media";
-import FullLogo from "@/components/ui/layout/full-logo";
-import ThemeToggle from "@/components/ui/layout/theme-toggle";
+import FullLogo from "@/components/layout/full-logo";
+import ThemeToggle from "@/components/layout/theme-toggle";
 import { navConfig } from "@/config/nav.config";
 import { siteConfig } from "@/config/site.config";
 

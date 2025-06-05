@@ -12,12 +12,11 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Badge } from "@/components/kit/badge";
-import { CircularProgress } from "@/components/kit/circular-progress";
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { StageProgressType } from "@/db/querys/progress-querys";
-import { getRouteColor } from "@/lib/utils";
-import { cn } from "@/utils";
+import { getRouteColor, cn } from "@/utils";
 
 import type { Stages } from "@/lib/types";
 

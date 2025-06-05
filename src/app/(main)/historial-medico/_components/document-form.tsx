@@ -6,8 +6,8 @@ import { Tag, X, Check, Save, Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandInput,
@@ -15,8 +15,8 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from "@/components/kit/command";
-import DatePicker from "@/components/kit/date-picker";
+} from "@/components/ui/command";
+import DatePicker from "@/components/ui/date-picker";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -32,29 +32,29 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerFooter,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/kit/popover";
-import { ScrollArea } from "@/components/kit/scroll-area";
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/kit/select";
-import { Textarea } from "@/components/kit/textarea";
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { MedicalTag } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";

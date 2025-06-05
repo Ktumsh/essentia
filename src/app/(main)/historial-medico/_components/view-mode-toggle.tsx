@@ -1,7 +1,7 @@
 import { LayoutGrid, List } from "lucide-react";
 
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
 import type { ViewMode } from "../_hooks/use-view-mode";

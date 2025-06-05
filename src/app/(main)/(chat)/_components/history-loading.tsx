@@ -5,7 +5,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuSkeleton,
-} from "@/components/kit/sidebar";
+} from "@/components/ui/sidebar";
 
 const HistoryLoading = () => {
   return (

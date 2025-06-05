@@ -13,19 +13,18 @@ import { useSession } from "next-auth/react";
 import { memo, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
-import { Card, CardContent, CardFooter } from "@/components/kit/card";
-import { BetterTooltip } from "@/components/kit/tooltip";
 import { Markdown } from "@/components/markdown";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import {
   completeRoute,
   StageProgressType,
   updateLessonProgress,
 } from "@/db/querys/progress-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getRouteColor, getRouteDetails, getRouteIndex } from "@/lib/utils";
-import { cn } from "@/utils";
+import { getRouteColor, getRouteDetails, getRouteIndex, cn } from "@/utils";
 
 import RouteBadge from "./route-badge";
 import ChapterList from "./stage-list";
