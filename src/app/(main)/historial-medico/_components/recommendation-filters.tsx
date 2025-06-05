@@ -1,14 +1,14 @@
 import { Search } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
-import { Input } from "@/components/kit/input";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
+} from "@/components/ui/select";
 
 interface RecommendationFiltersProps {
   inputValue: string;

@@ -3,7 +3,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 
 const TaskLoading = () => {
   return (

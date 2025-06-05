@@ -11,8 +11,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
-import { Skeleton } from "@/components/kit/skeleton";
+} from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Theme = "light" | "dark" | "system";
 

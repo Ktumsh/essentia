@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent } from "@/components/kit/card";
-import { Skeleton } from "@/components/kit/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const StorageLimitLoading = () => {
   return (

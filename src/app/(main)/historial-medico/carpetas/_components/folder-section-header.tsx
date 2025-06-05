@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 
 import { DeleteButton } from "@/components/button-kit/delete-button";
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
 type HeaderVariant = "folders" | "documents";

@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
+} from "@/components/ui/accordion";
 
 import type { FAQPricingType } from "@/db/data/faq-pricing-data";
 

@@ -1,6 +1,6 @@
 import { Geo } from "@vercel/functions";
 
-import { calculateExactDate } from "@/lib/utils";
+import { calculateExactDate } from "@/utils";
 
 import type {
   HealthRisk,

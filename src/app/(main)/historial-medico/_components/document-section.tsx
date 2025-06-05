@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox } from "@/components/kit/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import DocumentCard from "./document-card";
 import DocumentRow from "./document-row";

@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { signup } from "@/app/(auth)/signup/actions";
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import { ButtonPassword } from "@/components/kit/button";
+import { ButtonPassword } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,8 +17,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { PasswordFormData, passwordSchema } from "@/lib/form-schemas";
 import { resultMessages } from "@/utils/errors";
 

@@ -1,13 +1,9 @@
 "use server";
 
 import { eq, and, gte, isNull } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
+import { db } from "../db";
 import { userTask } from "../schema";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
 
 export async function createUserTask(args: {
   userId: string;

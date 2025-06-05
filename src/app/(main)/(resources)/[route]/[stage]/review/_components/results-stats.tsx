@@ -2,7 +2,7 @@
 
 import { CheckCircle, Clock, XCircle } from "lucide-react";
 
-import { Card, CardContent } from "@/components/kit/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/utils";
 
 interface StatCardProps {

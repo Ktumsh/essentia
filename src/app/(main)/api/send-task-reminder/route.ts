@@ -10,7 +10,7 @@ import {
   userNotification,
   userTask,
 } from "@/db/schema";
-import { isSameDate } from "@/lib/utils";
+import { isSameDate } from "@/utils";
 
 webpush.setVapidDetails(
   "mailto:essentia.app.cl@gmail.com",

@@ -15,8 +15,8 @@ import {
 import { DeleteButton } from "@/components/button-kit/delete-button";
 import { EditButton } from "@/components/button-kit/edit-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -32,13 +32,12 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerFooter,
-} from "@/components/kit/drawer";
-import { Separator } from "@/components/kit/separator";
+} from "@/components/ui/drawer";
+import { Separator } from "@/components/ui/separator";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import FileSlot from "./file-slot";
 import { getFileTypeColor, getTagColor } from "../_lib/utils";

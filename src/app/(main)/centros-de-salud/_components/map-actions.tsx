@@ -1,7 +1,7 @@
 import { ZoomInIcon, ZoomOutIcon } from "@/components/icons/action";
 import { CenterLocationIcon } from "@/components/icons/status";
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 
 interface MapActionsProps {
   centerLocation: () => void;

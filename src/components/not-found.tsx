@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { cn } from "@/utils";
 
-import { Button } from "./kit/button";
+import { Button } from "./ui/button";
 
 const NotFoundWrapper = () => {
   const router = useRouter();

@@ -11,8 +11,8 @@ import { CopyButton } from "@/components/button-kit/copy-button";
 import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { ShareButton } from "@/components/button-kit/share-button";
 import { LoaderAIIcon } from "@/components/icons/status";
-import { Button } from "@/components/kit/button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Button } from "@/components/ui/button";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
 import { AIRecommendationDetail } from "./ai-recommendation-detail";

@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
 import { auth } from "@/app/(auth)/auth";
-import LayoutWrapper from "@/components/ui/layout/layout-wrapper";
+import LayoutWrapper from "@/components/layout/layout-wrapper";
 import { getSubscription } from "@/db/querys/payment-querys";
 import { getCurrentUser } from "@/lib/current-user";
 

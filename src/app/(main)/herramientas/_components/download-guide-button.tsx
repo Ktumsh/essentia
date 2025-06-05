@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 
 import { DownloadButton } from "@/components/button-kit/download-button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { EmergencySteps } from "@/db/data/emergency-steps-data";
 import { cn } from "@/utils";
 

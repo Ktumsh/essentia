@@ -15,7 +15,7 @@ import {
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
-import { Textarea } from "@/components/kit/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { useChatContext } from "@/hooks/use-chat-context";
 import { useChatModel } from "@/hooks/use-chat-model";
 import { useIsMobile } from "@/hooks/use-mobile";

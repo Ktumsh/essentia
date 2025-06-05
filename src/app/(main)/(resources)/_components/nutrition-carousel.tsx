@@ -8,7 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/kit/carousel";
+} from "@/components/ui/carousel";
 
 import NutritionCarouselItem from "./nutrition-carousel-item";
 

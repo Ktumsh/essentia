@@ -1,9 +1,8 @@
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 
-import { CardHeader } from "@/components/kit/card";
-import { cn , formatDate } from "@/utils";
-
+import { CardHeader } from "@/components/ui/card";
+import { cn, formatDate } from "@/utils";
 
 import {
   TOOL_IMAGE,

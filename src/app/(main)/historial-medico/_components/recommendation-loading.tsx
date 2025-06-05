@@ -5,8 +5,8 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/kit/card";
-import { Skeleton } from "@/components/kit/skeleton";
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/utils";
 
 interface RecommendationLoadingProps {

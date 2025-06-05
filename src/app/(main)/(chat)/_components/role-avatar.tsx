@@ -1,6 +1,6 @@
 import { AvatarIcon } from "@/components/icons/miscellaneus";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/kit/avatar";
-import FullLogo from "@/components/ui/layout/full-logo";
+import FullLogo from "@/components/layout/full-logo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const BotAvatar = () => {
   return <FullLogo className="size-6" />;

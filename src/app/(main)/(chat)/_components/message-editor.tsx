@@ -6,8 +6,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { mutate } from "swr";
 
 import { deleteTrailingMessages } from "@/app/(main)/(chat)/actions";
-import { Button } from "@/components/kit/button";
-import { Textarea } from "@/components/kit/textarea";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { decrementUserChatUsage } from "@/db/querys/chat-querys";
 import { useUserProfile } from "@/hooks/use-user-profile";
 

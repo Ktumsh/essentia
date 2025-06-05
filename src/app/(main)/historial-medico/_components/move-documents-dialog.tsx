@@ -3,14 +3,14 @@
 import { Check, Loader } from "lucide-react";
 import { useState } from "react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandInput,
   CommandItem,
   CommandList,
   CommandEmpty,
-} from "@/components/kit/command";
+} from "@/components/ui/command";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -26,7 +26,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";
 

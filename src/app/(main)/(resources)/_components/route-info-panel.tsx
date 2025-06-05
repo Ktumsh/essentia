@@ -3,16 +3,10 @@
 import { ChevronRight, X } from "lucide-react";
 import { memo, useCallback, useMemo, useState } from "react";
 
-import { Button } from "@/components/kit/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/kit/card";
 import { Markdown } from "@/components/markdown";
-import { getRouteColor } from "@/lib/utils";
-import { cn } from "@/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getRouteColor, cn } from "@/utils";
 
 interface RouteInfoPanelProps {
   index: number;

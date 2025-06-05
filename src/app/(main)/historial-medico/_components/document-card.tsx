@@ -21,15 +21,15 @@ import { DownloadButton } from "@/components/button-kit/download-button";
 import { EditButton } from "@/components/button-kit/edit-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
@@ -38,7 +38,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,13 +46,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
-import { Separator } from "@/components/kit/separator";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import { getFileTypeColor, getTagColor } from "../_lib/utils";
 

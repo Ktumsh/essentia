@@ -5,10 +5,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cookies } from "next/headers";
 import { Session } from "next-auth";
 
-import { Toaster } from "@/components/kit/sonner";
+import ProfileMessage from "@/components/layout/profile-message";
+import TailwindIndicator from "@/components/layout/tailwind-indicator";
 import { Providers } from "@/components/providers";
-import ProfileMessage from "@/components/ui/layout/profile-message";
-import TailwindIndicator from "@/components/ui/layout/tailwind-indicator";
+import { Toaster } from "@/components/ui/sonner";
 import {
   grotesk,
   merriweather,

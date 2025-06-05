@@ -1,4 +1,4 @@
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
 
 import AdditionalsHeader from "./_components/additionals-header";
 import AdditionalsTabs from "./_components/additionals-tabs";

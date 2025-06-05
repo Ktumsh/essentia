@@ -2,9 +2,9 @@
 
 import { HardDriveIcon, BrainCircuit } from "lucide-react";
 
-import { Card, CardContent } from "@/components/kit/card";
-import { Progress } from "@/components/kit/progress";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/utils";
 

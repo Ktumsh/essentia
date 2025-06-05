@@ -11,7 +11,7 @@ import {
   SexualityFillIcon,
   WellbeingFillIcon,
 } from "@/components/icons/interface";
-import { Badge } from "@/components/kit/badge";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/utils";
 
 const resources = [

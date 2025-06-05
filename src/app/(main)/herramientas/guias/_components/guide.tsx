@@ -7,14 +7,9 @@ import { toast } from "sonner";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { ShareButton } from "@/components/button-kit/share-button";
-import { Badge } from "@/components/kit/badge";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { GUIDE_THEME_COLORS, Guide as GuideType } from "@/db/data/guide-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";

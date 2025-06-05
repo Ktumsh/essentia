@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Cuenta eliminada",

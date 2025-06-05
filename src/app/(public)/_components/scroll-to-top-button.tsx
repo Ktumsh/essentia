@@ -3,7 +3,7 @@
 import { ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import useScrollToUp from "@/hooks/use-scroll-to-up";
 
 const ScrollToTopButton = ({

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import PageTitle from "@/components/ui/layout/page-title";
+import PageTitle from "@/components/layout/page-title";
 
 const AdditionalsHeader = () => {
   const pathname = usePathname();

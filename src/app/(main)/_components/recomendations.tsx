@@ -5,7 +5,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/kit/carousel";
+} from "@/components/ui/carousel";
 import { MAIN_HERO_DATA } from "@/db/data/main-hero-data";
 
 import RecomendationsItem from "./recomendations-item";

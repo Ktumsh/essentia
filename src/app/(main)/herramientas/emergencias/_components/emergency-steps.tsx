@@ -3,7 +3,7 @@
 import { ChevronRight } from "lucide-react";
 import { Fragment, useRef } from "react";
 
-import { Badge } from "@/components/kit/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 import {
   EMERGENCY_STEPS_DATA,
   EMERGENCY_STEPS_DATA_COLORS,

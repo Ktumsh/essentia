@@ -3,10 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Card, CardFooter } from "@/components/kit/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import ToolFolderHeader from "./tool-folder-header";
 import { TOOL_SLUGS } from "../../../_lib/tool-helper";

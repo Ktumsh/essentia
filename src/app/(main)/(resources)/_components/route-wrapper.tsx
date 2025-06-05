@@ -9,15 +9,13 @@ import { toast } from "sonner";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { PlayButton } from "@/components/button-kit/play-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
-import PageWrapper from "@/components/ui/layout/page-wrapper";
+import PageWrapper from "@/components/layout/page-wrapper";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useParallax } from "@/hooks/use-parallax";
 import { useScrollRef } from "@/hooks/use-scroll-ref";
-import { getRouteColor, getRouteIndex } from "@/lib/utils";
-import { cn , formatTitle } from "@/utils";
-
+import { getRouteColor, getRouteIndex, cn, formatTitle } from "@/utils";
 
 import RouteList from "./route-list";
 import { useRouteProgress } from "../_hooks/use-route-progress";

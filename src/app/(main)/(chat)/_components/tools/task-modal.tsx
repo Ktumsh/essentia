@@ -6,8 +6,8 @@ import { useCallback, useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/components/kit/button";
-import { Calendar } from "@/components/kit/calendar";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogClose,
@@ -16,7 +16,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -25,29 +25,29 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/kit/form";
-import { Input } from "@/components/kit/input";
-import { Label } from "@/components/kit/label";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/kit/popover";
-import { ScrollArea } from "@/components/kit/scroll-area";
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
+} from "@/components/ui/select";
 import { updateUserTask } from "@/db/querys/task-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasks } from "@/hooks/use-task";

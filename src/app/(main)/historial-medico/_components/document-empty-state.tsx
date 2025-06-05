@@ -1,8 +1,8 @@
 import { FileText } from "lucide-react";
 
 import { SmilePlusButton } from "@/components/button-kit/smile-plus-button";
-import { Button } from "@/components/kit/button";
-import { Card, CardContent } from "@/components/kit/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 type DocumentEmptyStateProps = {
   hasFilters: boolean;

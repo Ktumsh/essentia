@@ -2,10 +2,9 @@ import { FileText } from "lucide-react";
 
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import { getFileTypeColor } from "../_lib/utils";
 

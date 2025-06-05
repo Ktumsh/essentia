@@ -3,13 +3,8 @@
 import { X } from "lucide-react";
 import { useState } from "react";
 
-import { Button } from "@/components/kit/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/kit/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
@@ -17,8 +12,8 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { ScrollArea } from "@/components/kit/scroll-area";
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MapIndicatorProps {

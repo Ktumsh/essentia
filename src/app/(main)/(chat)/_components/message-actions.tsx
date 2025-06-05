@@ -11,7 +11,7 @@ import { DislikeButton } from "@/components/button-kit/dislike-button";
 import { LikeButton } from "@/components/button-kit/like-button";
 import { PencilButton } from "@/components/button-kit/pencil-button";
 import { RefreshButton } from "@/components/button-kit/refresh-button";
-import { BetterTooltip } from "@/components/kit/tooltip";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { type ChatVote } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";

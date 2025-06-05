@@ -16,8 +16,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef, useCallback } from "react";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import { Button } from "@/components/kit/button";
-import FullLogo from "@/components/ui/layout/full-logo";
+import FullLogo from "@/components/layout/full-logo";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   const router = useRouter();

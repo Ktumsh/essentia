@@ -5,29 +5,28 @@ import { FileText, FileX, Lightbulb, Tag } from "lucide-react";
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
-import { Badge } from "@/components/kit/badge";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
 import {
   DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   DrawerClose,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { Textarea } from "@/components/kit/textarea";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/drawer";
+import { Textarea } from "@/components/ui/textarea";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn , formatDate } from "@/utils";
-
+import { cn, formatDate } from "@/utils";
 
 import { AIRecommendationType } from "./ai-recommendation";
 import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";

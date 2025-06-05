@@ -2,10 +2,9 @@ import { motion } from "motion/react";
 import Link from "next/link";
 
 import { LinkIcon } from "@/components/icons/action";
-import { Card, CardHeader } from "@/components/kit/card";
-import Logo from "@/components/ui/layout/logo";
-import { getRouteColor, getRouteDarkColor } from "@/lib/utils";
-import { cn } from "@/utils";
+import Logo from "@/components/layout/logo";
+import { Card, CardHeader } from "@/components/ui/card";
+import { getRouteColor, getRouteDarkColor, cn } from "@/utils";
 
 const resources = [
   { title: "salud y bienestar" },

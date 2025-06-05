@@ -1,7 +1,7 @@
 import { Check, ChevronDown, Search, TagIcon } from "lucide-react";
 
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -9,21 +9,21 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/kit/command";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/kit/popover";
-import { ScrollArea } from "@/components/kit/scroll-area";
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
+} from "@/components/ui/select";
 import { cn } from "@/utils";
 
 import type { MedicalFileType } from "@/db/querys/medical-history-querys";

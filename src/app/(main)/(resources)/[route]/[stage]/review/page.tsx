@@ -13,7 +13,7 @@ import {
   getQuestionsByReview,
   ParsedReviewQuestion,
 } from "@/db/querys/resource-querys";
-import { getRouteIndex } from "@/lib/utils";
+import { getRouteIndex } from "@/utils";
 
 import { PracticalReview } from "./_components/practical-review";
 import ReviewResults from "./_components/review-results";

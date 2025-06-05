@@ -17,7 +17,7 @@ import {
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { VisibilityType } from "@/components/ui/layout/visibility-selector";
+import { VisibilityType } from "@/components/layout/visibility-selector";
 import {
   chat,
   chatVote,

@@ -11,10 +11,11 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import PaymentModal from "@/app/payment/_components/payment-modal";
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { PlayButton } from "@/components/button-kit/play-button";
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -22,12 +23,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
-import { Progress } from "@/components/kit/progress";
-import PaymentModal from "@/components/ui/payment/payment-modal";
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { startReview } from "@/db/querys/progress-querys";
-import { getProgressColor, getRouteColor, getRouteIndex } from "@/lib/utils";
-import { cn } from "@/utils";
+import { getProgressColor, getRouteColor, getRouteIndex, cn } from "@/utils";
 
 import InitializeRouteAlert from "./initialize-route-alert";
 import RouteInfoPanel from "./route-info-panel";

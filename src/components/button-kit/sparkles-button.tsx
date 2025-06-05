@@ -3,7 +3,7 @@
 import { motion, useAnimation } from "motion/react";
 import { useCallback } from "react";
 
-import { Button, ButtonVariant } from "@/components/kit/button";
+import { Button, ButtonVariant } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";
 

@@ -7,7 +7,7 @@ import {
   handleSubscriptionCreated,
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
-} from "@/components/ui/payment/actions";
+} from "@/app/payment/actions";
 import stripe from "@/utils/stripe";
 
 export const runtime = "nodejs";

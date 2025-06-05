@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,15 +11,15 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { ScrollArea } from "@/components/kit/scroll-area";
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useModalHash } from "../_hooks/use-modal-hash";

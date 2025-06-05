@@ -1,20 +1,12 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 
-import {
-  user,
-  type User,
-  userProfile,
-  type UserProfile,
-  subscription,
-  type Subscription,
-} from "@/db/schema";
+import { user, userProfile, subscription } from "@/db/schema";
 
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
+import { db } from "../db";
+
+import type { User, UserProfile, Subscription } from "@/db/schema";
 
 export async function getProfile(userId: string): Promise<Array<UserProfile>> {
   try {

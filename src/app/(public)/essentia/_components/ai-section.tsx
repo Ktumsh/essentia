@@ -4,8 +4,8 @@ import { AlarmClock, BadgeCheck, Sparkles } from "lucide-react";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
-import { Badge } from "@/components/kit/badge";
-import Logo from "@/components/ui/layout/logo";
+import Logo from "@/components/layout/logo";
+import { Badge } from "@/components/ui/badge";
 
 const AiSection = () => {
   const ref = useRef(null);

@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/kit/button";
-import { Card, CardContent } from "@/components/kit/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,10 +17,9 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn , capitalize } from "@/utils";
-
+import { cn, capitalize } from "@/utils";
 
 import { folderColorClassMap, folderIconMap } from "../../_lib/utils";
 

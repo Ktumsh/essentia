@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
+import PaymentModal from "@/app/payment/_components/payment-modal";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Button } from "@/components/kit/button";
-import PaymentModal from "@/components/ui/payment/payment-modal";
+import { Button } from "@/components/ui/button";
 import { RECIPE_DATA } from "@/db/data/recipe-data";
 import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
 import { useIsMobile } from "@/hooks/use-mobile";

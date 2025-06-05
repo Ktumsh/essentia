@@ -3,7 +3,7 @@
 import { FileText } from "lucide-react";
 import { useState } from "react";
 
-import { Card, CardContent } from "@/components/kit/card";
+import { Card, CardContent } from "@/components/ui/card";
 import useFolderName from "@/hooks/use-folder-name";
 import { useIsMobile } from "@/hooks/use-mobile";
 

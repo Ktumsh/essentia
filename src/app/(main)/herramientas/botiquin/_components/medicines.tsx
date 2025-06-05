@@ -11,14 +11,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/kit/accordion";
-import { Badge } from "@/components/kit/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MEDICINE_COLOR, MEDICINE_DATA } from "@/db/data/medicine-data";
 import { cn } from "@/utils";
 

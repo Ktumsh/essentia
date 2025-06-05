@@ -4,8 +4,8 @@ import { Brain, FileText, MapPin, Shield, Sparkles } from "lucide-react";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
-import { Badge } from "@/components/kit/badge";
-import FullLogo from "@/components/ui/layout/full-logo";
+import FullLogo from "@/components/layout/full-logo";
+import { Badge } from "@/components/ui/badge";
 
 const FeatureSection = () => {
   const ref = useRef(null);

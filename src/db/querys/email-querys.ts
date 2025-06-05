@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import postgres from "postgres";
 
 import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
-import { generateVerificationCode } from "@/lib/utils";
+import { generateVerificationCode } from "@/utils";
 
 import { getUserByEmail } from "./user-querys";
 import { type EmailSends, emailSends, user } from "../schema";

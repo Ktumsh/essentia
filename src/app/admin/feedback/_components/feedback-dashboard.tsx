@@ -3,21 +3,21 @@
 import * as React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/kit/chart";
-import { Input } from "@/components/kit/input";
+} from "@/components/ui/chart";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/kit/select";
+} from "@/components/ui/select";
 import { UserFeedback } from "@/db/schema";
 
 import { exportToCSV, getEmoji } from "../_lib/utils";

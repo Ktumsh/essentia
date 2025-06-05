@@ -4,9 +4,7 @@ import { createAvatar } from "@dicebear/core";
 import * as icons from "@dicebear/icons";
 import { compare, genSaltSync, hashSync } from "bcrypt-ts";
 import { and, desc, eq, lt, sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { nanoid } from "nanoid";
-import postgres from "postgres";
 
 import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
 import {
@@ -20,13 +18,11 @@ import {
   Plan,
   userFeedback,
 } from "@/db/schema";
-import { generateVerificationCode } from "@/lib/utils";
+import { generateVerificationCode } from "@/utils";
 
 import { insertEmailSendsCode } from "./email-querys";
 import { createNotification } from "./notification-querys";
-
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
+import { db } from "../db";
 
 export async function createUser(
   email: string,

@@ -8,13 +8,13 @@ import {
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/kit/hover-card";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/hover-card";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
 import {

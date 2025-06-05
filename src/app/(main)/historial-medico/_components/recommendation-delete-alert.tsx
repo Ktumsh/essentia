@@ -1,6 +1,6 @@
 import { DeleteButton } from "@/components/button-kit/delete-button";
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -17,7 +17,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";

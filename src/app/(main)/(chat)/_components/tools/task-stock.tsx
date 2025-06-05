@@ -10,14 +10,14 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/kit/badge";
-import { Button } from "@/components/kit/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { useNotification } from "@/hooks/use-notification";
 import { useTasks } from "@/hooks/use-task";
 import { convertTo12HourFormat, formatDate } from "@/utils";

@@ -11,9 +11,9 @@ import {
 import Link from "next/link";
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
 
-import { Button } from "@/components/kit/button";
-import { Input } from "@/components/kit/input";
 import { Markdown } from "@/components/markdown";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/utils";
 
 interface LegalPageProps {

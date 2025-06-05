@@ -3,7 +3,7 @@
 import { generateText, Message } from "ai";
 import { cookies } from "next/headers";
 
-import { VisibilityType } from "@/components/ui/layout/visibility-selector";
+import { VisibilityType } from "@/components/layout/visibility-selector";
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,

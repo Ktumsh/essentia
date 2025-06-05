@@ -3,10 +3,9 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import { Card, CardHeader } from "@/components/kit/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getRouteColor, getRouteDetails } from "@/lib/utils";
-import { cn } from "@/utils";
+import { getRouteColor, getRouteDetails, cn } from "@/utils";
 
 import type { ResourceDataType } from "@/db/data/resources-data";
 

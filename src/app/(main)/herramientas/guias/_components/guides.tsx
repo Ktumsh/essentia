@@ -4,14 +4,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import { Badge } from "@/components/kit/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/kit/card";
+} from "@/components/ui/card";
 import { GUIDE_THEME_COLORS, GUIDE_DATA } from "@/db/data/guide-data";
 import { cn } from "@/utils";
 

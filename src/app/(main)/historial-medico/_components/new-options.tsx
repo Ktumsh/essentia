@@ -6,7 +6,7 @@ import { FileTextButton } from "@/components/button-kit/file-button";
 import { FolderButton } from "@/components/button-kit/folder-button";
 import { PlusButton } from "@/components/button-kit/plus-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -16,16 +16,16 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/kit/dropdown-menu";
-import { Separator } from "@/components/kit/separator";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { BetterTooltip } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";

@@ -2,8 +2,8 @@
 
 import { Loader } from "lucide-react";
 
-import { BadgeAlert } from "@/components/kit/badge-alert";
-import { Button } from "@/components/kit/button";
+import { BadgeAlert } from "@/components/ui/badge-alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogClose,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -20,7 +20,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
-} from "@/components/kit/drawer";
+} from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MultiDeleteAlertProps {

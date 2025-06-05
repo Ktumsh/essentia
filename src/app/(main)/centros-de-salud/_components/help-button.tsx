@@ -4,14 +4,14 @@ import { HelpCircle, Info } from "lucide-react";
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/kit/dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -19,8 +19,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/kit/drawer";
-import { BetterTooltip } from "@/components/kit/tooltip";
+} from "@/components/ui/drawer";
+import { BetterTooltip } from "@/components/ui/tooltip";
 
 import HelpContent from "./help-content";
 

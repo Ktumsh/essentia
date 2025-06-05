@@ -3,12 +3,7 @@
 import { Session } from "next-auth";
 import { useState } from "react";
 
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/kit/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { siteConfig } from "@/config/site.config";
 import {
   SUBSCRIPTION_PLAN_DATA,

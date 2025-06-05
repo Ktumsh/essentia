@@ -2,7 +2,7 @@
 
 import { Copy, PencilLine } from "lucide-react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -11,8 +11,8 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/kit/drawer";
-import { Separator } from "@/components/kit/separator";
+} from "@/components/ui/drawer";
+import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface EditModalProps {

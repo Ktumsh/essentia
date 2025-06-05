@@ -12,14 +12,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
-import { Card } from "@/components/kit/card";
-import { ScrollArea } from "@/components/kit/scroll-area";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/kit/tabs";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CLOUDINARY_BASE_URL } from "@/lib/consts";
 import { cn } from "@/utils";
 

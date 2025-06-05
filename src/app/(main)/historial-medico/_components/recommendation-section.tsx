@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import { Checkbox } from "@/components/kit/checkbox";
-import { Dialog, DialogContent } from "@/components/kit/dialog";
-import { Drawer, DrawerContent } from "@/components/kit/drawer";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 

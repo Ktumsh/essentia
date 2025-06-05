@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/kit/button";
+import { Button } from "@/components/ui/button";
 import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
 import { cn, shuffleArray } from "@/utils";
 
