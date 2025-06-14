@@ -31,7 +31,7 @@ import {
 import { getSubscription } from "@/db/querys/payment-querys";
 import { getUserTrialStatus } from "@/db/querys/user-querys";
 import { isProductionEnvironment } from "@/lib/consts";
-import { calculateAge , formatDate } from "@/utils";
+import { calculateAge, formatDate } from "@/utils";
 import { getUserData } from "@/utils/profile";
 
 import { postRequestBodySchema, type PostRequestBody } from "./schema";
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     const json = await request.json();
     requestBody = postRequestBodySchema.parse(json);
   } catch {
-    return new Response("Invalid request body", { status: 400 });
+    return new Response("Cuerpo de la solicitud no válido", { status: 400 });
   }
 
   try {
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
 
     const session = await auth();
 
-    if (!session || !session.user || !session.user.id) {
+    if (!session?.user?.id) {
       return new Response("No autorizado", { status: 401 });
     }
 
@@ -409,30 +409,32 @@ export async function DELETE(request: Request) {
   const id = searchParams.get("id");
 
   if (!id) {
-    return new Response("Not Found", { status: 404 });
+    return Response.json({ error: "ID no encontrado" }, { status: 404 });
   }
 
   const session = await auth();
 
   if (!session || !session.user) {
-    return new Response("No autorizado. Por favor, inicia sesión", {
-      status: 401,
-    });
+    return Response.json(
+      { error: "No autorizado. Por favor, inicia sesión" },
+      { status: 401 },
+    );
   }
 
   try {
     const chat = await getChatById({ id });
 
     if (chat.userId !== session.user.id) {
-      return new Response("No autorizado", { status: 401 });
+      return Response.json({ error: "No autorizado" }, { status: 401 });
     }
 
     await deleteChatById({ id });
 
-    return new Response("Chat eliminado", { status: 200 });
+    return Response.json({ id, message: "Chat eliminado" }, { status: 200 });
   } catch {
-    return new Response("¡Se produjo un error al procesar tu solicitud!", {
-      status: 500,
-    });
+    return Response.json(
+      { error: "¡Se produjo un error al procesar tu solicitud!" },
+      { status: 500 },
+    );
   }
 }

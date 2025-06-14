@@ -25,7 +25,7 @@ interface ChatModel {
   description: string;
 }
 
-export const CHAT_MODELS: Array<ChatModel> = [
+export const chatModels: Array<ChatModel> = [
   {
     id: "chat-model",
     name: "Modelo avanzado",

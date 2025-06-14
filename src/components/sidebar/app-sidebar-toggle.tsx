@@ -54,6 +54,7 @@ const AppSidebarToggle = () => {
       align="start"
     >
       <Button
+        data-testid="sidebar-toggle-button"
         size="icon"
         variant="ghost"
         onClick={() => toggleSidebar()}

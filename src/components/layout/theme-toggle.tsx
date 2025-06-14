@@ -85,6 +85,7 @@ const ThemeToggle = ({ className = "size-6!" }: ThemeToggleProps) => {
 
       <BetterTooltip content="Oscuro">
         <MoonButton
+          data-testid="user-nav-item-theme"
           aria-label="Modo oscuro"
           size="icon"
           onClick={() => handleThemeChange("dark")}

@@ -28,7 +28,10 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
   if (!isPremium) return null;
 
   return (
-    <div className="no-scrollbar flex max-w-full flex-wrap justify-center gap-2 px-4 pb-4 md:mt-6 md:flex-nowrap md:overflow-visible md:px-0 md:pb-0">
+    <div
+      data-testid="suggested-actions"
+      className="no-scrollbar flex max-w-full flex-wrap justify-center gap-2 px-4 pb-4 md:mt-6 md:flex-nowrap md:overflow-visible md:px-0 md:pb-0"
+    >
       {suggestedActions.slice(0, 4).map((suggestedAction, index) => (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,6 +42,7 @@ const SuggestedActions = (props: SuggestedActionsProps) => {
           className="md:flex-auto"
         >
           <Button
+            type="button"
             disabled={!isPremium}
             radius="full"
             onClick={() => {

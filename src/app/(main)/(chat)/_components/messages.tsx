@@ -51,6 +51,7 @@ function PureMessages({
 
   return (
     <div
+      data-testid="chat-scroll-container"
       ref={messagesContainerRef}
       className={cn("mt-auto min-w-0 space-y-6 overflow-y-auto pt-4", {
         "h-full": messages.length > 0,

@@ -12,6 +12,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
   return (
     <Sonner
+      data-testid="toast"
       richColors
       theme={theme as ToasterProps["theme"]}
       position={isMobile ? "top-center" : "bottom-right"}

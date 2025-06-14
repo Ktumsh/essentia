@@ -22,7 +22,7 @@ import { Progress } from "@/components/ui/progress";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { cn } from "@/utils";
 
-import { CHAT_MODELS } from "../_lib/models";
+import { chatModels } from "../_lib/models";
 import { getEmojiForRemaining } from "../_lib/utils";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
@@ -43,6 +43,7 @@ function PureAttachmentsButton({
   return (
     <BetterTooltip content="Añadir archivo" hidden={status !== "ready"}>
       <AttachButton
+        data-testid="attachments-button"
         size="icon"
         variant="ghost"
         disabled={disabled}
@@ -76,8 +77,8 @@ function PureThinkingButton({
   hasRemainingMessages: boolean;
 }) {
   const disabled = !isPremium || status !== "ready" || !hasRemainingMessages;
-  const reasonerId = CHAT_MODELS[1].id;
-  const defaultId = CHAT_MODELS[0].id;
+  const reasonerId = chatModels[1].id;
+  const defaultId = chatModels[0].id;
   const isActive = isModelSet;
 
   const handleSetModel = () => {
@@ -92,6 +93,7 @@ function PureThinkingButton({
       hidden={status !== "ready"}
     >
       <LightbulbButton
+        data-testid="thinking-button"
         size="sm"
         variant="ghost"
         disabled={disabled}
@@ -127,6 +129,7 @@ function PureStopButton({
 }) {
   return (
     <StopButtonKit
+      data-testid="stop-button"
       variant="gradient"
       size="icon"
       onClick={(event) => {
@@ -169,6 +172,7 @@ function PureSendButton({
 
   return (
     <MotionArrowRightButton
+      data-testid="send-button"
       type="submit"
       layout
       variant="gradient"

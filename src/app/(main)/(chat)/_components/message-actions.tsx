@@ -140,6 +140,7 @@ const PureMessageActions = ({
       {userRole && !isReadonly && (
         <BetterTooltip content="Editar mensaje">
           <PencilButton
+            data-testid="message-edit-button"
             variant="ghost"
             size="icon"
             className="text-foreground/80 size-6 rounded-sm"
@@ -173,6 +174,7 @@ const PureMessageActions = ({
           </BetterTooltip>
           <BetterTooltip content="Buena respuesta" hidden={isUpvoted}>
             <LikeButton
+              data-testid="message-upvote"
               variant="ghost"
               size="icon"
               disabled={vote?.isUpvoted}
@@ -184,6 +186,7 @@ const PureMessageActions = ({
           </BetterTooltip>
           <BetterTooltip content="Mala respuesta" hidden={isDownvoted}>
             <DislikeButton
+              data-testid="message-downvote"
               variant="ghost"
               size="icon"
               disabled={vote && !vote.isUpvoted}

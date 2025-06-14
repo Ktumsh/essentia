@@ -22,7 +22,7 @@
       "@/*": ["./src/*"],
       "@@/*": ["./*"]
     },
-    "types": ["@serwist/next/typings"],
+    "types": ["@serwist/next/typings", "vitest/globals"],
     "baseUrl": "."
   },
   "include": [

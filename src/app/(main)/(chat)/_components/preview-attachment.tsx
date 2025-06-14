@@ -72,6 +72,7 @@ export const PreviewAttachment = ({
   return (
     <>
       <div
+        data-testid="attachment-preview"
         className={cn(containerClasses, {
           "size-14 min-w-14":
             (isInUpload && contentType?.startsWith("image")) || isUploading,
@@ -163,7 +164,10 @@ export const PreviewAttachment = ({
         )}
 
         {isUploading && (
-          <div className="text-muted-foreground absolute">
+          <div
+            data-testid="input-attachment-loader"
+            className="text-muted-foreground absolute"
+          >
             <Loader className="size-4 animate-spin" />
           </div>
         )}

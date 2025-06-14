@@ -1,6 +1,10 @@
 export function getDeviceInfo(): string {
   const ua = navigator.userAgent;
 
+  // iPod
+  const iPodMatch = ua.match(/iPod.*OS (\d+_\d+)/);
+  if (iPodMatch) return `iPod iOS ${iPodMatch[1].replace("_", ".")}`;
+
   // iPhone
   const iPhoneMatch = ua.match(/iPhone OS (\d+_\d+)/);
   if (iPhoneMatch) return `iPhone iOS ${iPhoneMatch[1].replace("_", ".")}`;
@@ -8,10 +12,6 @@ export function getDeviceInfo(): string {
   // iPad
   const iPadMatch = ua.match(/iPad; CPU OS (\d+_\d+)/);
   if (iPadMatch) return `iPad iOS ${iPadMatch[1].replace("_", ".")}`;
-
-  // iPod
-  const iPodMatch = ua.match(/iPod.*OS (\d+_\d+)/);
-  if (iPodMatch) return `iPod iOS ${iPodMatch[1].replace("_", ".")}`;
 
   // Android
   const androidMatch = ua.match(/Android (\d+(\.\d+)?)/);

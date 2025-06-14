@@ -120,7 +120,7 @@ const PurePromptForm = ({
       }
 
       if (remainingMessages !== null && remainingMessages === 0) {
-        toast.info("¡Ups! Ya usaste todos tus mensajes de hoy", {
+        toast.info("Ya usaste todos tus mensajes de hoy", {
           description: "Puedes actualizar tu plan para continuar chateando 😊",
         });
         return;
@@ -230,6 +230,7 @@ const PurePromptForm = ({
     <form ref={formRef} onSubmit={submitForm} className="relative z-1 mb-2">
       <div className="bg-accent ai-prompt relative flex max-h-60 w-full grow flex-col rounded-xl after:rounded-[21px]">
         <Textarea
+          data-testid="chat-input"
           ref={textareaRef}
           spellCheck={false}
           autoComplete="off"
