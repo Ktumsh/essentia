@@ -4,66 +4,73 @@
   <img src="./public/essentia-1200x630.png" alt="Logo" />
 </a>
 
-# 🌟 Desarrollo Oficial de Essentia Web
+# 🌟 Essentia Web
 
-Essentia es una plataforma web diseñada para ofrecer información y recursos completos sobre salud. Su principal objetivo es motivar a las personas a cuidar de su bienestar y aprender más sobre la salud de si mismas y de sus seres queridos. La plataforma busca centralizar el conocimiento sobre salud en un solo lugar, brindando a los usuarios acceso a una amplia gama de recursos que promuevan un estilo de vida saludable e informado.\
-[Reportar error](https://github.com/Ktumsh/essentia-web-oficial/issues) · [Sugerir algo](https://github.com/Ktumsh/essentia-web-oficial/issues)
+Essentia es una plataforma web centrada en el bienestar integral de las personas. Su propósito es motivar y empoderar a los usuarios para cuidar su salud física, mental y emocional mediante una experiencia personalizada, educativa y basada en inteligencia artificial.
+
+[Reportar error](https://github.com/Ktumsh/essentia-web-oficial/issues) · [Sugerir mejora](https://github.com/Ktumsh/essentia-web-oficial/issues)
 
 </div>
 
-## ✨ Características principales
+---
 
-- **Recursos esenciales**: Acceso a recursos esenciales sobre salud.
-- **Recursos Destacados**: Acceso a recursos destacados como guías y recomendaciones.
-- **Asistente de Salud**: Un asistente virtual para responder preguntas relacionadas con la salud.
-- **Buscador de Centros de Salud Cercanos**: Un buscador de estilo Google Maps pero para centros de salud.
-- **Panel de Control Personal**: Herramientas y recursos personalizados para cada usuario.
+## ✨ Características destacadas
 
-## 💡 Secciones Principales
-
-1. **Recursos**
-
-   - 🧘‍♀️ Salud y Bienestar
-   - 🏋️ Ejercicios y Fitness
-   - 🍎 Nutrición
-   - 🧠 Bienestar Emocional
-   - 👫 Salud y Educación Sexual
-   - 👨‍👩‍👧‍👦 Salud en Todas las Edades
-
-2. **🤖 Habla con Aeris**: Inteligencia artificial especializada en salud.
-
-3. **🌐 Centros de Salud**: Apartado de búsqueda de centros de salud y farmacias cercanas.
-
-4. **📚 Recursos Adicionales**: Sección para recursos adicionales sobre salud.
-
-## 🗂️ Estructura del Proyecto
-
-- Este proyecto sigue la filosofía de **Screaming Architecture**.
-- En lugar de indicar **qué usamos**, nuestras carpetas indican **qué hacemos**.
-- El dominio del negocio es el núcleo y está reflejado directamente en la estructura del proyecto.
-- Cada módulo representa una funcionalidad clave del sistema, facilitando el mantenimiento y la escalabilidad.
-
-## 🛠️ Tecnologías Utilizadas
-
-- [![Next.js][nextjs-badge]][nextjs-url] Framework de React para aplicaciones web con renderizado del lado del servidor y generación estática (versión 15).
-- [![Typescript][typescript-badge]][typescript-url] JavaScript con sintaxis para tipos.
-- [![Tailwind CSS][tailwind-badge]][tailwind-url] Un marco de utilidad CSS para crear rápidamente diseños personalizados.
-
-## 📄 Licencia
-
-Este proyecto está licenciado bajo la **[Licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/)**. Consulta el archivo [LICENSE](LICENSE.md) para más detalles.
-
-## 📧 Contacto
-
-Para más información o preguntas, puedes contactar al propietario en [jo.barrazav@gmail.com](mailto:jo.barrazav@gmail.com).
+- 📋 **Historial Médico Avanzado**: Carga, organización y categorización de documentos médicos con etiquetas, tipos y carpetas.
+- 🤖 **Recomendaciones Inteligentes**: Un sistema de IA que genera sugerencias personalizadas basadas en el historial médico del usuario.
+- 🧠 **Aeris — Asistente de Salud IA**: Asistente conversacional que responde dudas sobre bienestar, nutrición, salud sexual y emocional.
+- 📈 **Progreso Educativo**: Seguimiento de rutas de aprendizaje compuestas por etapas y lecciones interactivas.
+- 📚 **Contenidos Educativos**: Rutas de aprendizaje en salud y bienestar para todas las edades.
 
 ---
 
-¡Gracias por utilizar Essentia!
+## 🧭 Secciones Principales
+
+1. **🏥 Historial Médico**
+   - Subida de documentos
+   - Etiquetado y organización
+   - Recomendaciones por IA
+
+2. **🎓 Rutas de Aprendizaje**
+   - Salud y Bienestar
+   - Ejercicios y Fitness
+   - Nutrición
+   - Bienestar Emocional
+   - Salud y Educación Sexual
+   - Salud para Todas las Edades
+
+3. **🤖 Aeris Asistente**
+   - Chat con IA entrenada en temas de salud
+   - Contexto personalizado por perfil
+
+4. **📍 Centros de Salud Cercanos**
+   - Mapa interactivo con centros y farmacias
+
+5. **📊 Panel Personalizado**
+   - Acceso rápido a módulos clave
+   - Seguimiento de progreso y estado de salud
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- [![Next.js][nextjs-badge]][nextjs-url] — SSR y SSG con optimización automática.
+- [![Typescript][typescript-badge]][typescript-url] — Tipado estático robusto.
+- [![Tailwind CSS][tailwind-badge]][tailwind-url] — Estilos utilitarios para diseño rápido y adaptativo.
+- **Drizzle ORM** — Consultas SQL tipadas con PostgreSQL.
+- **Auth.js** — Autenticación segura.
+- **Zod** — Validación de esquemas y datos en tiempo real.
+- **Stripe** — Integración para suscripciones y pagos.
+
+---
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la **[Creative Commons BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/)**. Consulta el archivo [LICENSE](LICENSE.md) para más detalles.
 
 [nextjs-url]: https://nextjs.org/
 [typescript-url]: https://www.typescriptlang.org/
 [tailwind-url]: https://tailwindcss.com/
 [nextjs-badge]: https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[typescript-badge]: https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white&color=blue
+[typescript-badge]: https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
 [tailwind-badge]: https://img.shields.io/badge/Tailwind-ffffff?style=for-the-badge&logo=tailwindcss&logoColor=38bdf8
