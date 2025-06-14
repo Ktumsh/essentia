@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronsUpDown } from "lucide-react";
 import { startTransition, useMemo, useOptimistic, useState } from "react";
 
-import { CHAT_MODELS } from "@/app/(main)/(chat)/_lib/models";
+import { chatModels } from "@/app/(main)/(chat)/_lib/models";
 import { saveChatModelAsCookie } from "@/app/(main)/(chat)/actions";
 import { CheckCircledIcon } from "@/components/icons/common";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ export function ModelSelector({
     useOptimistic(selectedModelId);
 
   const selectedChatModel = useMemo(
-    () => CHAT_MODELS.find((chatModel) => chatModel.id === optimisticModelId),
+    () => chatModels.find((chatModel) => chatModel.id === optimisticModelId),
     [optimisticModelId],
   );
 
@@ -72,7 +72,7 @@ export function ModelSelector({
             </DrawerHeader>
             <DrawerFooter>
               <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
-                {CHAT_MODELS.map((chatModel) => {
+                {chatModels.map((chatModel) => {
                   const { id } = chatModel;
                   return (
                     <DrawerClose key={id} asChild>
@@ -110,7 +110,7 @@ export function ModelSelector({
           align={isMobile ? "start" : "end"}
           className="max-w-[300px]"
         >
-          {CHAT_MODELS.map((chatModel) => {
+          {chatModels.map((chatModel) => {
             const { id } = chatModel;
 
             return (

@@ -73,6 +73,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
+                  data-testid="user-nav-button"
                   size="lg"
                   tooltip="Perfil"
                   isActive
@@ -100,7 +101,10 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                       </Avatar>
                     )}
                     <div className="grow">
-                      <p className="truncate text-sm font-semibold">
+                      <p
+                        data-testid="user-name"
+                        className="truncate text-sm font-semibold"
+                      >
                         {fullName !== "undefined undefined"
                           ? fullName
                           : "Invitado"}
@@ -116,6 +120,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
+                data-testid="user-nav-menu"
                 className="w-64 min-w-56 rounded-lg"
                 side="right"
                 align="end"
@@ -260,6 +265,7 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
+                      data-testid="user-nav-item-auth"
                       onSelect={() => signOut({ redirectTo: "/login" })}
                     >
                       <LogOut />

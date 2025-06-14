@@ -70,6 +70,7 @@ export function VisibilitySelector({
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button
+          data-testid="visibility-selector"
           variant={isMobile ? "outline" : "ghost"}
           size="sm"
           className="h-12 w-full rounded-xl md:w-fit md:rounded-md @md/header:size-8 @md/header:rounded-full @md/header:px-0! @3xl/header:h-8 @3xl/header:w-fit @3xl/header:rounded-md @3xl/header:px-2.5!"
@@ -142,6 +143,7 @@ export function VisibilitySelector({
         <DropdownMenuContent align="end" className="max-w-[300px]">
           {visibilities.map((visibility) => (
             <DropdownMenuItem
+              data-testid={`visibility-selector-item-${visibility.id}`}
               key={visibility.id}
               onSelect={() => {
                 setVisibilityType(visibility.id);

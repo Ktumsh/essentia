@@ -79,6 +79,7 @@ export function MessageEditor({
   return (
     <div className="bg-background border-alternative flex w-full flex-col gap-2 rounded-xl border px-2.5 py-1.5 md:px-4 md:py-2.5">
       <Textarea
+        data-testid="message-editor"
         ref={textareaRef}
         className="text-foreground [field-sizing:content] h-auto! max-h-[20dvh] min-h-0 w-full resize-none overflow-hidden overflow-y-auto rounded-none border-none p-0 shadow-none focus-visible:ring-0"
         value={draftContent}
@@ -97,6 +98,7 @@ export function MessageEditor({
           Cancelar
         </Button>
         <Button
+          data-testid="message-editor-send-button"
           size="sm"
           radius="full"
           disabled={isSubmitting}

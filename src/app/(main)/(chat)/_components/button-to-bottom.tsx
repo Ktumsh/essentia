@@ -26,6 +26,7 @@ const ButtonToBottom = ({
           className="absolute -top-12 right-4 z-10 md:right-1/2 md:translate-x-1/2"
         >
           <Button
+            data-testid="scroll-to-bottom-button"
             aria-label="Ir al final del chat"
             size="icon"
             variant="outline"

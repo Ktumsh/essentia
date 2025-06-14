@@ -17,13 +17,12 @@ export function formatDate(
   formatStr: string = "dd/MM/yyyy",
 ): string {
   const date = new Date(input);
-
   if (isNaN(date.getTime())) {
     throw new Error("Fecha inválida proporcionada.");
   }
 
-  const formattedDate = format(date, formatStr, { locale: es });
-  return formattedDate;
+  const zoned = toZonedTime(date, "America/Santiago");
+  return formatInTimeZone(zoned, "America/Santiago", formatStr, { locale: es });
 }
 
 export function formatDateWithAutoTimezone(
