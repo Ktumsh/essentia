@@ -16,6 +16,7 @@ import {
   deleteDocumentsFromFolder,
   deleteManyMedicalFolders,
   deleteMedicalFolder,
+  getExistingFolderByName,
   moveManyDocumentsToFolder,
   updateMedicalFolder,
 } from "@/db/querys/medical-folder-querys";
@@ -35,10 +36,8 @@ export type FolderFormData = {
 
 interface MedicalFoldersContextType {
   folders: Folder[];
-  editingFolder: Folder | null;
-  renamingFolder: Folder | null;
-  setEditingFolder: (f: Folder | null) => void;
-  setRenamingFolder: (f: Folder | null) => void;
+  currentFolder: Folder | null;
+  setCurrentFolder: (f: Folder | null) => void;
   handleCreateFolder: (data: FolderFormData) => Promise<void>;
   handleRenameFolder: (newName: string) => Promise<void>;
   handleUpdateFolder: (data: FolderFormData) => Promise<void>;
@@ -88,11 +87,10 @@ export const MedicalFoldersProvider = ({
 
   const { mutate: mutateActivity } = useSWRConfig();
 
-  const [editingFolder, setEditingFolder] = useState<Folder | null>(null);
-  const [renamingFolder, setRenamingFolder] = useState<Folder | null>(null);
+  const [currentFolder, setCurrentFolder] = useState<Folder | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { closeFolderForm } = useMedicalFoldersDialog();
+  const { open, setOpen } = useMedicalFoldersDialog();
 
   const { closeDialog } = useMedicalDialogs();
 
@@ -101,32 +99,40 @@ export const MedicalFoldersProvider = ({
       if (isSubmitting) return;
       setIsSubmitting(true);
       try {
+        const existingFolder = await getExistingFolderByName({
+          userId,
+          folderName: data.name,
+        });
+        if (existingFolder) {
+          toast.error("¡Ya tienes una carpeta con ese nombre!");
+          return;
+        }
         await createMedicalFolder({ userId, ...data });
         mutate();
         mutateActivity("/api/medical-activity");
-        closeFolderForm();
+        setOpen({ ...open, isFolderFormOpen: false });
       } catch (error) {
         console.error("Error creating folder:", error);
       } finally {
         setIsSubmitting(false);
       }
     },
-    [userId, mutate, mutateActivity, closeFolderForm, isSubmitting],
+    [userId, mutate, mutateActivity, open, setOpen, isSubmitting],
   );
 
   const handleRenameFolder = useCallback(
     async (newName: string) => {
-      if (!renamingFolder) return;
+      if (!currentFolder) return;
       await updateMedicalFolder({
         userId,
-        folderId: renamingFolder.id,
+        folderId: currentFolder.id,
         name: newName,
       });
       mutate();
       mutateActivity("/api/medical-activity");
-      setRenamingFolder(null);
+      setCurrentFolder(null);
     },
-    [renamingFolder, userId, mutate, mutateActivity],
+    [currentFolder, userId, mutate, mutateActivity],
   );
 
   const handleUpdateFolder = useCallback(
@@ -134,16 +140,16 @@ export const MedicalFoldersProvider = ({
       if (isSubmitting) return;
       setIsSubmitting(true);
       try {
-        if (!editingFolder) return;
+        if (!currentFolder) return;
         await updateMedicalFolder({
           userId,
-          folderId: editingFolder.id,
+          folderId: currentFolder.id,
           ...data,
         });
         mutate();
         mutateActivity("/api/medical-activity");
-        setEditingFolder(null);
-        closeFolderForm();
+        setCurrentFolder(null);
+        setOpen({ ...open, isFolderFormOpen: false });
       } catch (error) {
         console.error("Error updating folder:", error);
       } finally {
@@ -151,22 +157,34 @@ export const MedicalFoldersProvider = ({
       }
     },
     [
-      editingFolder,
+      currentFolder,
       userId,
       mutate,
       mutateActivity,
-      closeFolderForm,
+      open,
+      setOpen,
       isSubmitting,
     ],
   );
 
   const handleDeleteFolder = useCallback(
     async (folderId: string) => {
-      await deleteMedicalFolder({ userId, folderId });
-      mutate();
-      mutateActivity("/api/medical-activity");
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+      try {
+        await deleteMedicalFolder({ userId, folderId });
+        mutate();
+        mutateActivity("/api/medical-activity");
+        setCurrentFolder(null);
+        setOpen({ ...open, isDeleteFolderOpen: false });
+      } catch (error) {
+        console.error("Error deleting folder:", error);
+        toast.error("Error al eliminar la carpeta.");
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [userId, mutate, mutateActivity],
+    [userId, mutate, mutateActivity, open, setOpen, isSubmitting],
   );
 
   const handleDeleteFolders = useCallback(
@@ -316,10 +334,8 @@ export const MedicalFoldersProvider = ({
   const value = useMemo(
     () => ({
       folders,
-      editingFolder,
-      renamingFolder,
-      setEditingFolder,
-      setRenamingFolder,
+      currentFolder,
+      setCurrentFolder,
       handleCreateFolder,
       handleRenameFolder,
       handleUpdateFolder,
@@ -332,10 +348,8 @@ export const MedicalFoldersProvider = ({
     }),
     [
       folders,
-      editingFolder,
-      renamingFolder,
-      setEditingFolder,
-      setRenamingFolder,
+      currentFolder,
+      setCurrentFolder,
       handleCreateFolder,
       handleRenameFolder,
       handleUpdateFolder,

@@ -2,6 +2,7 @@
 
 import { generateObject } from "ai";
 
+import { getCurrentUser } from "@/lib/current-user";
 import { AIRecommendationSchema } from "@/lib/form-schemas";
 
 import { AIRecommendationType } from "./_components/ai-recommendation";
@@ -14,6 +15,14 @@ const SUPPORTED_IMAGE_TYPES = ["image/png", "image/jpeg"];
 export async function generateAiMedicalRecommendations(
   payload: GeneratePayload,
 ): Promise<AIRecommendationType[] | { error: string }> {
+  const currentUser = await getCurrentUser();
+  const isPremium = currentUser?.isPremium || false;
+  if (!isPremium) {
+    return {
+      error:
+        "Debes ser usuario premium para generar recomendaciones médicas con IA.",
+    };
+  }
   const prompt = AI_RECOMMENDATION_PROMPT(payload);
   const model = modelProvider.languageModel("chat-model-reasoning");
 

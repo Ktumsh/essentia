@@ -35,6 +35,7 @@ export type User = InferSelectModel<typeof user>;
 
 export const userProfile = table("user_profile", {
   userId: uuid("user_id")
+    .primaryKey()
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   firstName: varchar("first_name", { length: 48 }).notNull(),

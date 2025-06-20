@@ -22,7 +22,6 @@ import { useProfileMessage } from "@/hooks/use-profile-message";
 import { useTrial } from "@/hooks/use-trial";
 import { cn } from "@/utils";
 
-
 import type { UserProfileData } from "@/lib/types";
 
 interface ProfileMessageProps {
@@ -138,7 +137,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
                     "relative pl-0 before:absolute before:right-0 before:-bottom-5 before:size-5 before:content-[''] after:absolute after:-bottom-5 after:left-0 after:size-5 after:content-['']",
                     isFirstProfileItem
                       ? "bg-emerald-600 text-white! before:bg-emerald-600 after:bg-emerald-600"
-                      : "bg-premium before:bg-pink-500 after:bg-indigo-500 md:h-9",
+                      : "bg-premium before:bg-fuchsia-500 after:bg-indigo-500 md:h-9",
                   )}
                 >
                   <div className="flex h-full flex-col justify-center gap-2 px-4 py-3 md:flex-row md:items-center md:py-2">
@@ -149,7 +148,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
                           "mb-0 size-6 [&>svg]:size-3.5",
                           isFirstProfileItem
                             ? "bg-green-200! text-green-800"
-                            : "bg-pink-200! text-pink-800",
+                            : "bg-fuchsia-200! text-fuchsia-800",
                         )}
                       />
                       <p

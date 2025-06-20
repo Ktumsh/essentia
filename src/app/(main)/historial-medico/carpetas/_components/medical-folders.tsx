@@ -2,6 +2,7 @@
 
 import { useUserProfile } from "@/hooks/use-user-profile";
 
+import DeleteFolderAlert from "./delete-folder-alert";
 import FolderItem from "./folder-item";
 import FolderLoading from "./folder-loading";
 import FolderSectionHeader from "./folder-section-header";
@@ -23,14 +24,13 @@ const MedicalFolders = () => {
     handleRenameFolder,
     handleDeleteFolder,
     handleDeleteFolders,
-    setEditingFolder,
-    renamingFolder,
-    setRenamingFolder,
+    currentFolder,
+    setCurrentFolder,
     isLoading,
     isSubmitting,
   } = useMedicalFolders();
 
-  const { openFolderForm } = useMedicalFoldersDialog();
+  const { open, setOpen } = useMedicalFoldersDialog();
 
   const { dialogs, openDialog, closeDialog } = useMedicalDialogs();
 
@@ -44,15 +44,17 @@ const MedicalFolders = () => {
     handlePointerUp,
   } = useMultiSelect<Folder>("folders", folders);
 
+  const selectedFolderCount = selectedFolders.length;
+
   return (
     <div ref={containerRef}>
       <FolderSectionHeader
-        count={selectedFolders.length}
+        count={selectedFolderCount}
         onClear={clearSelection}
         onDelete={() => openDialog("isMultiDeleteFoldersDialogOpen")}
         onNewFolder={() => {
-          setEditingFolder(null);
-          openFolderForm();
+          setCurrentFolder(null);
+          setOpen({ ...open, isFolderFormOpen: true });
         }}
         variant="folders"
       />
@@ -73,13 +75,17 @@ const MedicalFolders = () => {
                 key={folder.id}
                 folder={folder}
                 onRename={() => {
-                  setRenamingFolder(folder);
+                  setCurrentFolder(folder);
+                  setOpen({ ...open, isRenameFolderOpen: true });
                 }}
                 onEdit={() => {
-                  setEditingFolder(folder);
-                  openFolderForm();
+                  setCurrentFolder(folder);
+                  setOpen({ ...open, isFolderFormOpen: true });
                 }}
-                onDelete={() => handleDeleteFolder(folder.id)}
+                onDelete={() => {
+                  setCurrentFolder(folder);
+                  setOpen({ ...open, isDeleteFolderOpen: true });
+                }}
                 selected={selectedFolders.includes(folder.id)}
                 onSelect={(e) => handleSelect(e, folder.id, index)}
                 onDoubleClick={() => clearSelection()}
@@ -92,14 +98,23 @@ const MedicalFolders = () => {
       </div>
 
       <RenameFolderForm
-        isOpen={!!renamingFolder}
-        currentName={renamingFolder?.name || ""}
+        isOpen={open.isRenameFolderOpen}
+        currentName={currentFolder?.name || ""}
         onRename={handleRenameFolder}
-        onClose={() => setRenamingFolder(null)}
+        onClose={() => setOpen({ ...open, isRenameFolderOpen: false })}
+      />
+
+      <DeleteFolderAlert
+        isOpen={open.isDeleteFolderOpen}
+        folder={currentFolder}
+        setIsOpen={(isOpen) => setOpen({ ...open, isDeleteFolderOpen: isOpen })}
+        isSubmitting={isSubmitting}
+        onDelete={() => handleDeleteFolder(currentFolder!.id)}
       />
 
       <MultiDeleteAlert
         ref={modalRef}
+        selectedCount={selectedFolderCount}
         isOpen={dialogs.isMultiDeleteFoldersDialogOpen}
         setIsOpen={(open) =>
           open

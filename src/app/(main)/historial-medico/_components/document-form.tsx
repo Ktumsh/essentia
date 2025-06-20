@@ -68,6 +68,7 @@ import { Folder } from "@/lib/types";
 import { cn } from "@/utils";
 
 import FileSlot from "./file-slot";
+import FileUploader from "./file-uploader";
 import { getTagColor } from "../_lib/utils";
 
 export type DocumentFormSchema =
@@ -103,6 +104,18 @@ const DocumentForm = ({
     resolver: zodResolver(
       isEditMode ? medicalHistoryEditSchema : medicalHistoryAddSchema,
     ),
+    defaultValues: {
+      condition: "",
+      type: "Examen",
+      description: "",
+      issuer: "",
+      documentDate: new Date(),
+      notes: "",
+      visibility: "private",
+      tags: [],
+      folderId: null,
+      file: undefined,
+    },
   });
 
   const {
@@ -285,6 +298,7 @@ const DocumentForm = ({
               </FormItem>
             )}
           />
+
           <FormField
             control={control}
             name="file"
@@ -297,23 +311,18 @@ const DocumentForm = ({
                   <FileSlot
                     label="Archivo actual"
                     currentItem={initialValues}
+                    className="mb-6"
                   />
                 )}
-                <FormLabel htmlFor="file">
+                <FormLabel>
                   {isEditMode ? "Reemplazar archivo (opcional)" : "Archivo"}
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    id="file"
-                    type="file"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => {
-                      if (e.target.files?.[0]) {
-                        field.onChange(e.target.files[0]);
-                      }
-                    }}
-                    className="dark:border-alternative md:dark:border-border md:border-border"
-                  />
+                  <FormControl>
+                    <FileUploader
+                      onFileSelect={(file) => field.onChange(file)}
+                    />
+                  </FormControl>
                 </FormControl>
                 {errors.file && (
                   <span className="text-sm text-red-500">
@@ -322,7 +331,8 @@ const DocumentForm = ({
                 )}
                 {!isEditMode && (
                   <p className="text-muted-foreground text-xs">
-                    Formatos aceptados: PDF, JPG, PNG (máx. 10MB por archivo)
+                    Formatos aceptados: PDF, JPEG, JPG, PNG o WEBP (máx. 10 MB
+                    por archivo)
                   </p>
                 )}
               </FormItem>
@@ -333,7 +343,9 @@ const DocumentForm = ({
             name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="notes">Notas personales</FormLabel>
+                <FormLabel htmlFor="notes">
+                  Notas personales (opcional)
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
@@ -350,7 +362,7 @@ const DocumentForm = ({
             name="tags"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="tags">Etiquetas</FormLabel>
+                <FormLabel htmlFor="tags">Etiquetas (opcional)</FormLabel>
                 <FormControl>
                   <Popover>
                     <PopoverTrigger asChild>

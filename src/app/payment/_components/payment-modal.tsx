@@ -4,9 +4,12 @@ import {
   BookmarkCheck,
   Brain,
   Crown,
+  GraduationCapIcon,
   Loader,
   MessagesSquare,
+  SmileIcon,
   Sparkles,
+  UsersIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
@@ -49,15 +52,7 @@ import {
 import { PlanSelector } from "./plan-selector";
 import { createSubscription } from "../../../app/payment/actions";
 
-export type FeatureType =
-  | "ai-recommendations"
-  | "saved-recommendations"
-  | "chat"
-  | "upload-limit"
-  | "routine"
-  | "nutritional-plan"
-  | "upgrade-plan"
-  | "general";
+import type { FeatureType } from "@/lib/types";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -235,6 +230,42 @@ const PaymentModal = ({
           icon: <Crown className="size-5" />,
           color: "bg-yellow-500",
         };
+      case "wellbeing":
+        return {
+          title: "Recibe recomendaciones para tu bienestar emocional",
+          description:
+            "Obtén apoyo personalizado para mejorar tu salud mental, manejar el estrés y fomentar tu equilibrio emocional.",
+          icon: <Brain className="size-5" />,
+          color: "bg-fuchsia-500",
+        };
+
+      case "health":
+        return {
+          title: "Mejora tu salud física y emocional",
+          description:
+            "Recibe orientación integral para cuidar tu cuerpo y mente con recomendaciones personalizadas según tus objetivos.",
+          icon: <SmileIcon className="size-5" />,
+          color: "bg-teal-500",
+        };
+
+      case "sex-education":
+        return {
+          title: "Aprende sobre salud y educación sexual",
+          description:
+            "Accede a información confiable y orientación personalizada sobre autocuidado, sexualidad y relaciones saludables.",
+          icon: <GraduationCapIcon className="size-5" />,
+          color: "bg-sky-500",
+        };
+
+      case "health-all-ages":
+        return {
+          title: "Cuida tu salud según tu edad",
+          description:
+            "Recibe consejos específicos para tu etapa de vida y mantén tu bienestar en cada momento.",
+          icon: <UsersIcon className="size-5" />,
+          color: "bg-amber-500",
+        };
+
       default:
         return {
           title: "Mejora tu experiencia con Essentia Premium",
@@ -288,7 +319,7 @@ const PaymentModal = ({
                 <ul className="text-foreground space-y-3 text-sm">
                   <li className="inline-flex gap-2">
                     <Brain className="size-4 shrink-0 text-indigo-500" />
-                    Accede a Aeris con recomendaciones personalizadas
+                    Accede a recomendaciones personalizadas
                   </li>
                   <li className="flex items-center gap-2">
                     <BookmarkCheck className="size-4 shrink-0 text-indigo-500" />
@@ -296,7 +327,7 @@ const PaymentModal = ({
                   </li>
                   <li className="flex items-center gap-2">
                     <MessagesSquare className="size-4 shrink-0 text-indigo-500" />
-                    Interactúa con IA sin límites
+                    Interactúa con Aeris
                   </li>
                 </ul>
                 <p className="text-foreground/80 mt-3 text-center text-sm md:text-start">

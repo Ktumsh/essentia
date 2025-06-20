@@ -164,3 +164,17 @@ export type ServerPushSubscription = {
 };
 
 export type VisibilityType = "private" | "public";
+
+export type FeatureType =
+  | "ai-recommendations"
+  | "saved-recommendations"
+  | "chat"
+  | "upload-limit"
+  | "routine"
+  | "nutritional-plan"
+  | "upgrade-plan"
+  | "general"
+  | "wellbeing"
+  | "health"
+  | "sex-education"
+  | "health-all-ages";

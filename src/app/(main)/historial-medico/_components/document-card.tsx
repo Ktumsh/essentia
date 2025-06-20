@@ -31,6 +31,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import {
   Drawer,
   DrawerContent,
   DrawerDescription,
@@ -51,8 +59,10 @@ import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn, formatDate } from "@/utils";
 
+import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 import { getFileTypeColor, getTagColor } from "../_lib/utils";
 
 interface DocumentCardProps {
@@ -90,7 +100,10 @@ const DocumentCard = ({
   onPointerDown,
   onPointerUp,
 }: DocumentCardProps) => {
+  const { user } = useUserProfile();
+  const isPremium = user?.isPremium || false;
   const isMobile = useIsMobile();
+  const { openDialog } = useMedicalDialogs();
 
   const createdAtText = formatDate(new Date(doc.createdAt), "dd MMM yyyy");
 
@@ -111,7 +124,13 @@ const DocumentCard = ({
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <SparklesButton
-              onClick={() => onAIClick(doc)}
+              onClick={() => {
+                if (isPremium) {
+                  onAIClick(doc);
+                } else {
+                  openDialog("isPremiumModal");
+                }
+              }}
               className="h-auto w-full justify-start border-0 bg-transparent font-normal hover:bg-fuchsia-100! dark:bg-transparent dark:hover:bg-fuchsia-950!"
             >
               Analizar con IA
@@ -127,7 +146,7 @@ const DocumentCard = ({
                     name: doc.file?.name || "archivo",
                   })
                 }
-                className="h-auto w-full justify-start font-normal"
+                className="h-auto w-full justify-start px-2! font-normal"
               >
                 Ver documento
               </EyeButton>
@@ -142,7 +161,7 @@ const DocumentCard = ({
                   name: doc.file?.name || "archivo",
                 });
               }}
-              className="h-auto w-full justify-start font-normal"
+              className="h-auto w-full justify-start px-2! font-normal"
             >
               Descargar
             </DownloadButton>
@@ -151,7 +170,7 @@ const DocumentCard = ({
             <EditButton
               variant="ghost"
               onClick={() => onEdit(doc)}
-              className="h-auto w-full justify-start font-normal"
+              className="h-auto w-full justify-start px-2! font-normal"
             >
               Editar
             </EditButton>
@@ -162,7 +181,7 @@ const DocumentCard = ({
           <DeleteButton
             variant="ghost"
             onClick={() => onDelete(doc)}
-            className="h-auto w-full justify-start font-normal"
+            className="h-auto w-full justify-start px-2! font-normal"
           >
             Eliminar
           </DeleteButton>
@@ -221,7 +240,13 @@ const DocumentCard = ({
             <Separator className="dark:bg-alternative/50 z-10 ml-6" />
             <Button
               variant="mobile"
-              onClick={() => onAIClick(doc)}
+              onClick={() => {
+                if (isPremium) {
+                  onAIClick(doc);
+                } else {
+                  openDialog("isPremiumModal");
+                }
+              }}
               className="text-secondary"
             >
               <Stars />
@@ -271,99 +296,170 @@ const DocumentCard = ({
   );
 
   return (
-    <Card
-      onDoubleClick={() => onView(doc)}
-      onClick={(e) => {
-        if (onToggleSelect) {
-          onToggleSelect(e);
-        }
-      }}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-      className={cn(
-        "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
-        selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
-      )}
-    >
-      <CardHeader className="px-4 pt-4 pb-2">
-        <div className="mb-2 flex items-start justify-between">
-          <div className="bg-background flex items-center justify-center rounded-full p-1.5">
-            <FileText className={cn("size-5", fileTypeColor)} />
-          </div>
-          {isMobile ? mobileActions : desktopActions}
-        </div>
-        <CardTitle className="truncate leading-normal font-medium">
-          {doc.condition}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-1 flex-col px-4 pb-2">
-        <div className="@xxs:grid-cols-2 grid grid-cols-2 items-start gap-2 text-xs">
-          {doc.issuer && (
-            <div className="text-muted-foreground flex items-start gap-1">
-              <Building className="size-3.5 shrink-0" />
-              <span className="truncate">{doc.issuer}</span>
-            </div>
+    <ContextMenu modal={false}>
+      <ContextMenuTrigger asChild>
+        <Card
+          onDoubleClick={() => onView(doc)}
+          onClick={(e) => {
+            if (onToggleSelect) {
+              onToggleSelect(e);
+            }
+          }}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          className={cn(
+            "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
+            selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
           )}
-          {doc.documentDate && (
-            <div className="text-muted-foreground flex items-center gap-1">
-              <Calendar className="size-3.5 shrink-0" />
-              <span>
-                {formatDate(new Date(doc.documentDate), "dd MMM yyyy")}
-              </span>
+        >
+          <CardHeader className="px-4 pt-4 pb-2">
+            <div className="mb-2 flex items-start justify-between">
+              <div className="bg-background flex items-center justify-center rounded-full p-1.5">
+                <FileText className={cn("size-5", fileTypeColor)} />
+              </div>
+              {isMobile ? mobileActions : desktopActions}
             </div>
-          )}
-        </div>
-        {doc.tags && doc.tags.length > 0 ? (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {doc.tags.slice(0, 1).map((tag) => (
-              <Badge
-                key={tag}
-                className={cn("font-normal text-white", getTagColor(tag))}
-              >
-                <Tag className="size-2.5!" />
-                {tag}
-              </Badge>
-            ))}
-            {doc.tags.length > 1 && (
-              <Badge
-                variant="outline"
-                className="bg-background border-alternative text-foreground/80"
-              >
-                +{doc.tags.length - 1}
-              </Badge>
+            <CardTitle className="truncate leading-normal font-medium">
+              {doc.condition}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-1 flex-col px-4 pb-2">
+            <div className="@xxs:grid-cols-2 grid grid-cols-2 items-start gap-2 text-xs">
+              {doc.issuer && (
+                <div className="text-muted-foreground flex items-start gap-1">
+                  <Building className="size-3.5 shrink-0" />
+                  <span className="truncate">{doc.issuer}</span>
+                </div>
+              )}
+              {doc.documentDate && (
+                <div className="text-muted-foreground flex items-center gap-1">
+                  <Calendar className="size-3.5 shrink-0" />
+                  <span>
+                    {formatDate(new Date(doc.documentDate), "dd MMM yyyy")}
+                  </span>
+                </div>
+              )}
+            </div>
+            {doc.tags && doc.tags.length > 0 ? (
+              <div className="mt-2 flex flex-wrap gap-1">
+                {doc.tags.slice(0, 1).map((tag) => (
+                  <Badge
+                    key={tag}
+                    className={cn("font-normal text-white", getTagColor(tag))}
+                  >
+                    <Tag className="size-2.5!" />
+                    {tag}
+                  </Badge>
+                ))}
+                {doc.tags.length > 1 && (
+                  <Badge
+                    variant="outline"
+                    className="bg-background border-alternative text-foreground/80"
+                  >
+                    +{doc.tags.length - 1}
+                  </Badge>
+                )}
+              </div>
+            ) : (
+              <div className="mt-2 flex">
+                <Badge
+                  variant="outline"
+                  className="bg-background border-alternative font-normal"
+                >
+                  Sin etiquetas
+                </Badge>
+              </div>
             )}
-          </div>
-        ) : (
-          <div className="mt-2 flex">
-            <Badge
-              variant="outline"
-              className="bg-background border-alternative font-normal"
-            >
-              Sin etiquetas
-            </Badge>
-          </div>
-        )}
-      </CardContent>
+          </CardContent>
 
-      <CardFooter className="mt-auto flex justify-between px-4 py-2 md:pb-4">
-        <p className="text-muted-foreground text-xs">
-          Añadido el {createdAtText}
-        </p>
-        <BetterTooltip content="Ver detalles">
-          <ChevronButton
+          <CardFooter className="mt-auto flex justify-between px-4 py-2 md:pb-4">
+            <p className="text-muted-foreground text-xs">
+              Añadido el {createdAtText}
+            </p>
+            <BetterTooltip content="Ver detalles">
+              <ChevronButton
+                variant="ghost"
+                size="icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onView(doc);
+                }}
+                className="hover:bg-background size-8 group-hover/item:opacity-100 md:opacity-0"
+              >
+                <span className="sr-only">Ver detalles</span>
+              </ChevronButton>
+            </BetterTooltip>
+          </CardFooter>
+        </Card>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuItem asChild>
+            <SparklesButton
+              onClick={() => {
+                if (isPremium) {
+                  onAIClick(doc);
+                } else {
+                  openDialog("isPremiumModal");
+                }
+              }}
+              className="h-auto w-full justify-start border-0 bg-transparent px-2! font-normal hover:bg-fuchsia-100! dark:bg-transparent dark:hover:bg-fuchsia-950!"
+            >
+              Analizar con IA
+            </SparklesButton>
+          </ContextMenuItem>
+          {doc.file && (
+            <ContextMenuItem asChild>
+              <EyeButton
+                variant="ghost"
+                onClick={() =>
+                  onViewFile({
+                    url: doc.file?.url,
+                    name: doc.file?.name || "archivo",
+                  })
+                }
+                className="h-auto w-full justify-start px-2! font-normal"
+              >
+                Ver documento
+              </EyeButton>
+            </ContextMenuItem>
+          )}
+          <ContextMenuItem asChild>
+            <DownloadButton
+              variant="ghost"
+              onClick={() => {
+                onDownload({
+                  url: doc.file?.url,
+                  name: doc.file?.name || "archivo",
+                });
+              }}
+              className="h-auto w-full justify-start px-2! font-normal"
+            >
+              Descargar
+            </DownloadButton>
+          </ContextMenuItem>
+          <ContextMenuItem asChild>
+            <EditButton
+              variant="ghost"
+              onClick={() => onEdit(doc)}
+              className="h-auto w-full justify-start px-2! font-normal"
+            >
+              Editar
+            </EditButton>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuItem variant="destructive" asChild>
+          <DeleteButton
             variant="ghost"
-            size="icon"
-            onClick={(e) => {
-              e.stopPropagation();
-              onView(doc);
-            }}
-            className="hover:bg-background size-8 group-hover/item:opacity-100 md:opacity-0"
+            onClick={() => onDelete(doc)}
+            className="h-auto w-full justify-start px-2! font-normal"
           >
-            <span className="sr-only">Ver detalles</span>
-          </ChevronButton>
-        </BetterTooltip>
-      </CardFooter>
-    </Card>
+            Eliminar
+          </DeleteButton>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 };
 

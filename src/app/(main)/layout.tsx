@@ -13,12 +13,13 @@ export default async function MainLayout({
 }: {
   children: ReactNode;
 }) {
-  const [session, cookiesStore] = await Promise.all([auth(), cookies()]);
+  const [session, cookiesStore, userData] = await Promise.all([
+    auth(),
+    cookies(),
+    getCurrentUser(),
+  ]);
 
   const userId = session?.user?.id as string;
-
-  const userData = await getCurrentUser();
-
   const [subscription] = userData ? await getSubscription(userId) : [];
   const isPremium = subscription ? subscription?.isPremium : false;
 

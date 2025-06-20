@@ -56,7 +56,7 @@ const AIDisclaimer = ({ isOpen }: AIDisclaimerProps) => {
             Importante sobre las recomendaciones con IA
           </AlertDialogTitle>
           <AlertDialogDescription asChild>
-            <div className="prose">
+            <div className="prose dark:prose-invert">
               <p>
                 Las recomendaciones proporcionadas por <strong>IA</strong> se
                 generan a partir de tu historial médico y están diseñadas para{" "}
@@ -77,6 +77,7 @@ const AIDisclaimer = ({ isOpen }: AIDisclaimerProps) => {
             id="do-not-show"
             checked={doNotShowAgain}
             onCheckedChange={(checked) => setDoNotShowAgain(!!checked)}
+            className="border-alternative"
           />
           <Label htmlFor="do-not-show">No volver a mostrar este mensaje</Label>
         </div>

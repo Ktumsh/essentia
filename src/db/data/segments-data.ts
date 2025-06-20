@@ -18,6 +18,8 @@ export const SEGMENTS_DATA: { [key: string]: string } = {
   review: "Revisión práctica",
   progreso: "Hábitos y progreso",
   "seguimientos-del-animo": "Seguimientos del ánimo",
+  "salud-y-educacion-sexual": "Salud y educación sexual",
+  "nutricion-y-alimentacion": "Nutrición y alimentación",
 };
 
 export type Segment = (typeof SEGMENTS_DATA)[number];

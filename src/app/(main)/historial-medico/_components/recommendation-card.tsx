@@ -22,6 +22,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import {
   Drawer,
   DrawerContent,
   DrawerDescription,
@@ -93,7 +100,7 @@ const RecommendationCard = ({
           <ShareButton
             variant="ghost"
             onClick={() => onShareRecommendation(recommendation)}
-            className="h-auto w-full justify-start"
+            className="h-auto w-full justify-start px-2! font-normal"
           >
             Compartir
           </ShareButton>
@@ -103,7 +110,7 @@ const RecommendationCard = ({
           <DeleteButton
             variant="ghost"
             onClick={() => onDeleteRecommendation(recommendation)}
-            className="h-auto w-full justify-start"
+            className="h-auto w-full justify-start px-2! font-normal"
           >
             Eliminar
           </DeleteButton>
@@ -169,93 +176,120 @@ const RecommendationCard = ({
   const priorityBadge = getPriorityBadge(recommendation.priority);
 
   return (
-    <Card
-      onDoubleClick={() => openDetailDialog(recommendation)}
-      onClick={(e) => {
-        if (onToggleSelect) {
-          onToggleSelect(e);
-        }
-      }}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-      className={cn(
-        "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
-        selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
-      )}
-    >
-      <CardHeader className="px-4 pt-4 pb-2">
-        <div className="mb-2 flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            <div className="bg-background flex items-center justify-center rounded-full p-1.5">
-              <SparklesIcon className="text-primary size-5" />
+    <ContextMenu modal={false}>
+      <ContextMenuTrigger asChild>
+        <Card
+          onDoubleClick={() => openDetailDialog(recommendation)}
+          onClick={(e) => {
+            if (onToggleSelect) {
+              onToggleSelect(e);
+            }
+          }}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          className={cn(
+            "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
+            selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
+          )}
+        >
+          <CardHeader className="px-4 pt-4 pb-2">
+            <div className="mb-2 flex items-start justify-between">
+              <div className="flex items-center gap-2">
+                <div className="bg-background flex items-center justify-center rounded-full p-1.5">
+                  <SparklesIcon className="text-primary size-5" />
+                </div>
+                <BetterTooltip
+                  content={`Prioridad ${priorityText.toLowerCase()}`}
+                >
+                  <Badge variant="outline" className={priorityBadge.color}>
+                    {priorityBadge.icon}
+                    {priorityBadge.label}
+                  </Badge>
+                </BetterTooltip>
+              </div>
+              {isMobile ? mobileActions : desktopActions}
             </div>
-            <BetterTooltip content={`Prioridad ${priorityText.toLowerCase()}`}>
-              <Badge variant="outline" className={priorityBadge.color}>
-                {priorityBadge.icon}
-                {priorityBadge.label}
-              </Badge>
-            </BetterTooltip>
-          </div>
-          {isMobile ? mobileActions : desktopActions}
-        </div>
-        <CardTitle className="text-base font-medium">
-          {recommendation.title}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-1 flex-col px-4 pb-2">
-        <div className="text-muted-foreground flex items-start gap-1 text-xs">
-          <BookmarkCheck className="size-3.5 shrink-0" />
-          <span className="truncate">
-            Guardado el{" "}
-            {formatDate(new Date(recommendation.createdAt), "dd MMM yyyy")}
-          </span>
-        </div>
-        {recommendation.relatedTags.length > 0 ? (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {recommendation.relatedTags.slice(0, 1).map((tag) => (
-              <Badge
-                key={tag}
-                variant="outline"
-                className={cn("font-normal text-white", getTagColor(tag))}
-              >
-                <Tag className="size-2.5!" />
-                {tag}
-              </Badge>
-            ))}
-            {recommendation.relatedTags.length > 1 && (
-              <Badge
-                variant="outline"
-                className="bg-background text-foreground/80 border-alternative"
-              >
-                +{recommendation.relatedTags.length - 1}
-              </Badge>
+            <CardTitle className="text-base font-medium">
+              {recommendation.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-1 flex-col px-4 pb-2">
+            <div className="text-muted-foreground flex items-start gap-1 text-xs">
+              <BookmarkCheck className="size-3.5 shrink-0" />
+              <span className="truncate">
+                Guardado el{" "}
+                {formatDate(new Date(recommendation.createdAt), "dd MMM yyyy")}
+              </span>
+            </div>
+            {recommendation.relatedTags.length > 0 ? (
+              <div className="mt-2 flex flex-wrap gap-1">
+                {recommendation.relatedTags.slice(0, 1).map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className={cn("font-normal text-white", getTagColor(tag))}
+                  >
+                    <Tag className="size-2.5!" />
+                    {tag}
+                  </Badge>
+                ))}
+                {recommendation.relatedTags.length > 1 && (
+                  <Badge
+                    variant="outline"
+                    className="bg-background text-foreground/80 border-alternative"
+                  >
+                    +{recommendation.relatedTags.length - 1}
+                  </Badge>
+                )}
+              </div>
+            ) : (
+              <div className="mt-2 flex">
+                <Badge
+                  variant="outline"
+                  className="bg-background border-alternative font-normal"
+                >
+                  Sin etiquetas
+                </Badge>
+              </div>
             )}
-          </div>
-        ) : (
-          <div className="mt-2 flex">
-            <Badge
-              variant="outline"
-              className="bg-background border-alternative font-normal"
-            >
-              Sin etiquetas
-            </Badge>
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className="flex justify-between px-4 pt-2 pb-4">
-        <p className="bg-premium bg-clip-text text-xs font-medium text-transparent">
-          Generado por IA
-        </p>
-        <BetterTooltip content="Ver detalles">
-          <ChevronButton
+          </CardContent>
+          <CardFooter className="flex justify-between px-4 pt-2 pb-4">
+            <p className="bg-premium bg-clip-text text-xs font-medium text-transparent">
+              Generado por IA
+            </p>
+            <BetterTooltip content="Ver detalles">
+              <ChevronButton
+                variant="ghost"
+                size="icon"
+                onClick={() => openDetailDialog(recommendation)}
+                className="hover:bg-background group-hover/item:opacity-100 md:opacity-0"
+              />
+            </BetterTooltip>
+          </CardFooter>
+        </Card>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem asChild>
+          <ShareButton
             variant="ghost"
-            size="icon"
-            onClick={() => openDetailDialog(recommendation)}
-            className="hover:bg-background group-hover/item:opacity-100 md:opacity-0"
-          />
-        </BetterTooltip>
-      </CardFooter>
-    </Card>
+            onClick={() => onShareRecommendation(recommendation)}
+            className="h-auto w-full justify-start px-2! font-normal"
+          >
+            Compartir
+          </ShareButton>
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem variant="destructive" asChild>
+          <DeleteButton
+            variant="ghost"
+            onClick={() => onDeleteRecommendation(recommendation)}
+            className="h-auto w-full justify-start px-2! font-normal"
+          >
+            Eliminar
+          </DeleteButton>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 };
 

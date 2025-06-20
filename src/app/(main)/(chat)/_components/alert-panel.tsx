@@ -72,9 +72,10 @@ const AlertPanel = ({
           ) : (
             <LoginButton
               size="sm"
+              variant="secondary"
               onClick={() => router.push("/login?next=/aeris")}
             >
-              Inicia sesión
+              Iniciar sesión
             </LoginButton>
           )}
           <Button

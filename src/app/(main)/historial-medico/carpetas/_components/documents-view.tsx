@@ -50,7 +50,7 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
     setSelectedItemsForAI,
   } = useMedicalDialogs();
 
-  const { openFolderForm } = useMedicalFoldersDialog();
+  const { open, setOpen } = useMedicalFoldersDialog();
 
   const { viewMode, setViewMode } = useViewMode();
 
@@ -93,13 +93,15 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
     handleToggle(id, index);
   };
 
+  const selectedCount = selectedDocuments.length;
+
   return (
     <>
       <FolderSectionHeader
         count={selectedDocuments.length}
         onClear={clearSelection}
         onDelete={() => openDialog("isMultiDeleteDocsDialogOpen")}
-        onNewFolder={openFolderForm}
+        onNewFolder={() => setOpen({ ...open, isFolderFormOpen: true })}
         folderName={folderName}
         variant="documents"
       />
@@ -199,6 +201,7 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
       </div>
       <MultiDeleteAlert
         ref={modalRef}
+        selectedCount={selectedCount}
         isOpen={dialogs.isMultiDeleteDocsDialogOpen}
         setIsOpen={(open) =>
           open

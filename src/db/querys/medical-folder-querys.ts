@@ -15,6 +15,27 @@ import {
 import type { MedicalHistoryWithTags } from "./medical-history-querys";
 import type { FolderIconType } from "@/lib/types";
 
+export async function getExistingFolderByName({
+  userId,
+  folderName,
+}: {
+  userId: string;
+  folderName: string;
+}) {
+  const [folder] = await db
+    .select()
+    .from(userMedicalFolder)
+    .where(
+      and(
+        eq(userMedicalFolder.userId, userId),
+        eq(userMedicalFolder.name, folderName),
+        eq(userMedicalFolder.isDeleted, false),
+      ),
+    );
+
+  return folder;
+}
+
 export async function createMedicalFolder({
   userId,
   name,
@@ -29,16 +50,10 @@ export async function createMedicalFolder({
   icon?: FolderIconType;
 }) {
   try {
-    const [existing] = await db
-      .select()
-      .from(userMedicalFolder)
-      .where(
-        and(
-          eq(userMedicalFolder.userId, userId),
-          eq(userMedicalFolder.name, name),
-          eq(userMedicalFolder.isDeleted, false),
-        ),
-      );
+    const existing = await getExistingFolderByName({
+      userId,
+      folderName: name,
+    });
 
     if (existing) {
       throw new Error("Ya existe una carpeta con ese nombre.");

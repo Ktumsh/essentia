@@ -149,7 +149,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                     className="h-auto shrink py-2 text-start leading-normal text-wrap whitespace-normal"
                     onClick={() =>
                       router.push(
-                        "/aeris?search=" + encodeURIComponent(suggestion.text),
+                        "/aeris?q=" + encodeURIComponent(suggestion.text),
                       )
                     }
                   >

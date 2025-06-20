@@ -66,6 +66,7 @@ export const resultMessages = {
   RENAME_FOLDER_INVALID: "No puede estar vacío o tener solo espacios",
 
   // Historial médico
+  MEDICAL_FILE_REQUIRED: "Debes subir un archivo médico",
   MEDICAL_CONDITION_MIN: "Debe tener al menos 3 caracteres",
   MEDICAL_CONDITION_MAX: "Máximo 100 caracteres",
   MEDICAL_DESCRIPTION_MAX: "Máximo 500 caracteres",
@@ -73,8 +74,9 @@ export const resultMessages = {
   MEDICAL_NOTES_MAX: "Máximo 500 caracteres",
   MEDICAL_DATE_REQUIRED: "Debes seleccionar una fecha válida",
   MEDICAL_DATE_INVALID: "La fecha no puede ser futura",
-  MEDICAL_FILE_INVALID_TYPE: "Formato no permitido. Usa PDF, JPEG, PNG o WEBP",
-  MEDICAL_FILE_TOO_LARGE: "El archivo supera los 10MB permitidos",
+  MEDICAL_FILE_INVALID_TYPE:
+    "Formato no permitido. Usa PDF, JPEG, JPG, PNG o WEBP",
+  MEDICAL_FILE_TOO_LARGE: "El archivo supera los 10 MB permitidos",
 
   // General
   INVALID_LENGTH_TITLE: "El título debe tener menos de 100 caracteres",

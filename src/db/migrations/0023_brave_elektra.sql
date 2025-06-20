@@ -1,0 +1,1 @@
+ALTER TABLE "user_profile" ADD PRIMARY KEY ("user_id");

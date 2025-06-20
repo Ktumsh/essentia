@@ -3,9 +3,18 @@
 import { createContext, useContext, useState } from "react";
 
 const MedicalFolderDialogContext = createContext<{
-  isFolderFormOpen: boolean;
-  openFolderForm: () => void;
-  closeFolderForm: () => void;
+  open: {
+    isFolderFormOpen: boolean;
+    isRenameFolderOpen: boolean;
+    isDeleteFolderOpen: boolean;
+  };
+  setOpen: React.Dispatch<
+    React.SetStateAction<{
+      isFolderFormOpen: boolean;
+      isRenameFolderOpen: boolean;
+      isDeleteFolderOpen: boolean;
+    }>
+  >;
 } | null>(null);
 
 export const MedicalFolderDialogProvider = ({
@@ -13,14 +22,17 @@ export const MedicalFolderDialogProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isFolderFormOpen, setIsFolderFormOpen] = useState(false);
+  const [open, setOpen] = useState({
+    isFolderFormOpen: false,
+    isRenameFolderOpen: false,
+    isDeleteFolderOpen: false,
+  });
 
   return (
     <MedicalFolderDialogContext.Provider
       value={{
-        isFolderFormOpen,
-        openFolderForm: () => setIsFolderFormOpen(true),
-        closeFolderForm: () => setIsFolderFormOpen(false),
+        open,
+        setOpen,
       }}
     >
       {children}

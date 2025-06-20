@@ -12,11 +12,11 @@ import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
 import FolderForm from "../carpetas/_components/folder-form";
 
 const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { isFolderFormOpen, closeFolderForm, openFolderForm } =
+  const { open: openFolder, setOpen: setFolderOpen } =
     useMedicalFoldersDialog();
   const {
     folders,
-    editingFolder,
+    currentFolder,
     handleCreateFolder,
     handleUpdateFolder,
     isSubmitting: isFolderSubmitting,
@@ -67,7 +67,9 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
             loading={loading}
             uploadStatus={uploadStatus}
             onNewAIRecommendation={() => openDialog("isAIDialogOpen")}
-            onNewFolder={() => openFolderForm()}
+            onNewFolder={() =>
+              setFolderOpen({ ...openFolder, isFolderFormOpen: true })
+            }
             onNewDocument={() => openDialog("isAddDialogOpen")}
           />
           {children}
@@ -118,10 +120,12 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
       />
 
       <FolderForm
-        isOpen={isFolderFormOpen}
-        initial={editingFolder || undefined}
-        onClose={closeFolderForm}
-        onSubmit={editingFolder ? handleUpdateFolder : handleCreateFolder}
+        isOpen={openFolder.isFolderFormOpen}
+        initial={currentFolder || undefined}
+        onClose={() =>
+          setFolderOpen({ ...openFolder, isFolderFormOpen: false })
+        }
+        onSubmit={currentFolder ? handleUpdateFolder : handleCreateFolder}
         isSubmitting={isFolderSubmitting}
       />
     </PageWrapper>

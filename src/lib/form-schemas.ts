@@ -470,7 +470,9 @@ export const medicalHistoryAddSchema = z.object({
   tags: z.array(z.string()).optional(),
   folderId: z.string().nullable().optional(),
   file: z
-    .instanceof(File)
+    .instanceof(File, {
+      message: resultMessages["MEDICAL_FILE_REQUIRED"],
+    })
     .refine((file) => ACCEPTED_FILE_TYPES.includes(file.type), {
       message: resultMessages["MEDICAL_FILE_INVALID_TYPE"],
     })

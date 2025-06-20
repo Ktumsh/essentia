@@ -116,7 +116,7 @@ test.describe("Actividad en el chat de Essentia", () => {
   });
 
   test("Crea mensaje desde query en la URL", async ({ page }) => {
-    await page.goto("/aeris?search=¿Cómo puedo mejorar mi alimentación?");
+    await page.goto("/aeris?q=¿Cómo puedo mejorar mi alimentación?");
     await chatPage.isGenerationComplete();
 
     const userMessage = await chatPage.getRecentUserMessage();

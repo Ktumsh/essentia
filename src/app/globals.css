@@ -1097,3 +1097,56 @@ YOUTUBE CSS
   white-space: nowrap;
   width: 1px;
 }
+
+/*
+==========================
+File Upload CSS
+==========================
+*/
+.filepond--root {
+  @apply mb-0! rounded-xl border;
+}
+
+.filepond--panel-root {
+  @apply bg-background! overflow-hidden! rounded-xl!;
+}
+
+.filepond--drop-label {
+  @apply text-foreground!;
+}
+
+.filepond--root .filepond--credits {
+  @apply hidden;
+}
+
+.filepond--image-preview {
+  @apply bg-muted!;
+}
+
+.filepond--image-preview-overlay-idle {
+  @apply text-background!;
+}
+
+.filepond--image-preview-overlay-success {
+  @apply text-green-500!;
+}
+
+.filepond--image-preview-overlay-failure {
+  @apply text-red-500!;
+}
+
+.filepond--item {
+  @apply overflow-hidden! rounded-lg!;
+}
+
+.filepond--item-panel {
+  @apply bg-accent! rounded-lg!;
+}
+
+.filepond--panel[data-scalable="true"] {
+  @apply bg-accent!;
+}
+
+.filepond--drop-label label {
+  @apply text-muted-foreground! text-sm!;
+}

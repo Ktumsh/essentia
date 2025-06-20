@@ -1,10 +1,10 @@
 "use client";
 
-import { Shield, Lock, FileText, Brain } from "lucide-react";
+import { FileText, Brain } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { AddUserButton } from "@/components/button-kit/add-user-button";
 import { LoginButton } from "@/components/button-kit/login-button";
+import { MedicalHistoryFillIcon } from "@/components/icons/interface";
 import {
   Card,
   CardContent,
@@ -21,11 +21,11 @@ const UnauthenticatedState = () => {
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="flex justify-center">
           <div className="bg-primary/10 rounded-full p-3">
-            <Shield className="text-primary size-10" />
+            <MedicalHistoryFillIcon className="text-primary size-10" />
           </div>
         </div>
         <h2 className="font-merriweather mt-6 text-2xl font-semibold md:text-3xl">
-          Historial médico privado
+          Historial médico
         </h2>
         <p className="text-foreground/80 mt-2 text-sm md:text-base">
           Inicia sesión para acceder a tu historial médico personal y gestionar
@@ -33,12 +33,12 @@ const UnauthenticatedState = () => {
         </p>
       </div>
 
-      <div className="mt-10 w-full max-w-4xl">
-        <div className="grid gap-6 md:grid-cols-3">
+      <div className="mt-10 flex w-full max-w-3xl flex-col">
+        <div className="grid gap-4 md:grid-cols-2">
           <Card className="bg-muted">
             <CardHeader className="pb-2">
-              <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-950">
-                <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <div className="mask mask-squircle mb-2 grid aspect-square size-10 place-content-center bg-blue-100 dark:bg-blue-950">
+                <FileText className="size-5 text-blue-600 dark:text-blue-400" />
               </div>
               <CardTitle className="text-lg">Documentos seguros</CardTitle>
             </CardHeader>
@@ -52,8 +52,8 @@ const UnauthenticatedState = () => {
 
           <Card className="bg-muted">
             <CardHeader className="pb-2">
-              <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-950">
-                <Brain className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <div className="mask mask-squircle mb-2 grid aspect-square size-10 place-content-center bg-purple-100 dark:bg-purple-950">
+                <Brain className="size-5 text-purple-600 dark:text-purple-400" />
               </div>
               <CardTitle className="text-lg">Análisis con IA</CardTitle>
             </CardHeader>
@@ -64,27 +64,8 @@ const UnauthenticatedState = () => {
               </CardDescription>
             </CardContent>
           </Card>
-
-          <Card className="bg-muted">
-            <CardHeader className="pb-2">
-              <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-950">
-                <Lock className="h-5 w-5 text-green-600 dark:text-green-400" />
-              </div>
-              <CardTitle className="text-lg">Privacidad total</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Tu información está protegida con los más altos estándares de
-                seguridad y cifrado.
-              </CardDescription>
-            </CardContent>
-          </Card>
         </div>
-
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 md:flex-row">
-          <AddUserButton size="lg" onClick={() => router.push("/signup")}>
-            Crear cuenta
-          </AddUserButton>
+        <div className="mx-auto mt-10">
           <LoginButton
             variant="secondary"
             size="lg"

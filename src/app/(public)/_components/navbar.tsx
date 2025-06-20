@@ -106,7 +106,7 @@ const Navbar = ({
         variant="outline"
         size="sm"
         onClick={() => router.push("/login")}
-        className="bg-background"
+        className="bg-background border-0"
       >
         Iniciar sesión
       </LoginButton>

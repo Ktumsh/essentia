@@ -1,10 +1,10 @@
-// app/(main)/historial-medico/_hooks/medical-dialogs-context.tsx
 "use client";
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 
+import { FeatureType } from "@/lib/types";
+
 import type { AIRecommendationType } from "../_components/ai-recommendation";
-import type { FeatureType } from "@/app/payment/_components/payment-modal";
 import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
 
 type FileData = { url?: string | null; name: string };

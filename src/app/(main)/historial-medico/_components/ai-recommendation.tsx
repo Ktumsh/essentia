@@ -728,7 +728,7 @@ const AIRecommendation = ({
       <DialogContent
         isBlurred
         isSecondary
-        className="border-secondary/50 h-full border-dashed bg-linear-to-br/shorter from-indigo-100 to-fuchsia-100 sm:max-w-2xl dark:from-indigo-950/50 dark:to-fuchsia-950/50"
+        className="border-secondary/50 h-full border-2 border-dashed bg-linear-to-br/shorter from-indigo-100 to-fuchsia-100 sm:max-w-2xl dark:from-indigo-950/50 dark:to-fuchsia-950/50"
       >
         <DialogHeader isSecondary>
           <DialogTitle className="flex items-center gap-2">

@@ -1,68 +1,66 @@
 "use client";
 
-import { Stars } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 import PaymentModal from "@/app/payment/_components/payment-modal";
-import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { Button } from "@/components/ui/button";
+import { LinkIcon } from "@/components/icons/action";
 import { RECIPE_DATA } from "@/db/data/recipe-data";
 import { SUGGESTED_ACTION_DATA } from "@/db/data/suggested-action-data";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTrial } from "@/hooks/use-trial";
-import { useUserProfile } from "@/hooks/use-user-profile";
 
+import AerisSection from "./aeris-section";
 import NutritionCarousel from "./nutrition-carousel";
 import SectionTitle from "./section-title";
 
 const Nutrition = () => {
-  const router = useRouter();
-
   const { data: session } = useSession();
-  const { user } = useUserProfile();
-
-  const { isPremium } = user ?? {};
-
   const [isOpen, setIsOpen] = useState(false);
-
-  const isMobile = useIsMobile();
-
   const { isTrialUsed } = useTrial();
 
-  const searchTerm = SUGGESTED_ACTION_DATA[4].action;
-
-  const onCreatePlan = () => {
-    if (isPremium) {
-      router.push(`/aeris?search=${encodeURIComponent(searchTerm)}`);
-    } else {
-      setIsOpen(true);
-    }
-  };
+  const defaultPrompt = SUGGESTED_ACTION_DATA[4].action;
 
   return (
     <>
       <section className="col-[1/2] lg:col-[1/3]">
-        <SectionTitle title="Recetas" hash="recetas">
-          {!isMobile && session?.user && (
-            <SparklesButton onClick={onCreatePlan}>
-              Crea tu plan nutricional
-            </SparklesButton>
-          )}
-        </SectionTitle>
+        {/* SECCIÓN DE PLAN NUTRICIONAL */}
+        <AerisSection
+          route="Nutrición y alimentación"
+          title="Crea tu plan nutricional"
+          hash="plan-nutricional"
+          description={
+            <>
+              ¿Quieres una alimentación más saludable?{" "}
+              <Link
+                href="/soporte?q=quien%20es%20aeris"
+                target="_blank"
+                rel="noopener"
+                className="text-secondary hover:underline"
+              >
+                Aeris
+                <LinkIcon className="mb-1 ml-0.5 inline size-2" />
+              </Link>{" "}
+              puede ayudarte a crear un plan nutricional adaptado a tus
+              objetivos, estilo de vida y preferencias alimentarias.
+            </>
+          }
+          suggestions={[
+            "Qué objetivo tienes (subir/bajar de peso, mantenerte)",
+            "Si tienes alguna alergia o restricción alimentaria",
+            "Cuántas comidas al día prefieres",
+            "Si buscas algo vegano, bajo en carbohidratos, etc.",
+          ]}
+          placeholder="Ej: Quiero un plan para bajar de peso, con 3 comidas al día, sin gluten ni lácteos."
+          defaultPrompt={defaultPrompt}
+          featureType="nutritional-plan"
+          ctaLabel="Crear plan nutricional"
+        />
+
+        {/* SECCIÓN DE RECETAS */}
+        <SectionTitle title="Recetas" hash="recetas" />
+
         <section className="mb-16">
-          {session?.user && (
-            <Button
-              fullWidth
-              variant="premium"
-              onClick={onCreatePlan}
-              className="mb-4 h-14 rounded-xl text-lg md:hidden"
-            >
-              <Stars className="size-5! **:fill-white md:size-4!" />
-              <span>Crea tu plan nutricional</span>
-            </Button>
-          )}
           <SectionTitle
             title="Desayunos Saludables"
             hash="desayunos-saludables"
@@ -80,6 +78,7 @@ const Nutrition = () => {
             totalItems={15}
           />
         </section>
+
         <section className="mb-16">
           <SectionTitle
             title="Almuerzos y Cenas Saludables"
@@ -98,6 +97,7 @@ const Nutrition = () => {
             totalItems={18}
           />
         </section>
+
         <section className="mb-16">
           <SectionTitle
             title="Onces Saludables"
@@ -117,6 +117,7 @@ const Nutrition = () => {
           />
         </section>
       </section>
+
       {session?.user && (
         <PaymentModal
           isOpen={isOpen}

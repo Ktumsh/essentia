@@ -183,7 +183,7 @@ const MainSearch = ({ isPremium, children }: MainSearchProps) => {
           <Button
             variant="gradient"
             onClick={() => {
-              router.push(`/aeris?search=${encodeURIComponent(searchTerm)}`);
+              router.push(`/aeris?q=${encodeURIComponent(searchTerm)}`);
               setOpen(false);
             }}
             className="rounded-full"

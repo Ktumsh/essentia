@@ -89,7 +89,8 @@ const MedicalHistoryTabs = () => {
   const { user } = useUserProfile();
   const isPremium = user?.isPremium;
 
-  const { openFolderForm } = useMedicalFoldersDialog();
+  const { open: openFolder, setOpen: setOpenFolder } =
+    useMedicalFoldersDialog();
 
   const debouncedSetSearchTerm = useDebounceCallback(setSearchTerm, 150);
   const debouncedSetRecomSearchTerm = useDebounceCallback(
@@ -273,7 +274,9 @@ const MedicalHistoryTabs = () => {
                 disabled={loading}
                 onNewAIRecommendation={() => openDialog("isAIDialogOpen")}
                 onNewDocument={() => openDialog("isAddDialogOpen")}
-                onNewFolder={() => openFolderForm()}
+                onNewFolder={() =>
+                  setOpenFolder({ ...openFolder, isFolderFormOpen: true })
+                }
               />
               <div
                 className={cn(
@@ -447,6 +450,7 @@ const MedicalHistoryTabs = () => {
 
       <MultiDeleteAlert
         ref={documentModalRef}
+        selectedCount={selectedDocCount}
         isOpen={dialogs.isMultiDeleteDocsDialogOpen}
         setIsOpen={(open) =>
           open
@@ -463,6 +467,7 @@ const MedicalHistoryTabs = () => {
 
       <MultiDeleteAlert
         ref={recommendationModalRef}
+        selectedCount={selectedRecomCount}
         isOpen={dialogs.isMultiDeleteRecomsDialogOpen}
         setIsOpen={(open) =>
           open

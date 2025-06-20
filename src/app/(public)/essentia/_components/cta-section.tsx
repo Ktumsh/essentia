@@ -137,10 +137,7 @@ const CtaSection = () => {
                     Inicia sesión para continuar tu viaje hacia una vida más
                     saludable y acceder a todas tus herramientas personalizadas.
                   </p>
-                  <LoginButton
-                    variant="outline"
-                    className="border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
-                  >
+                  <LoginButton variant="secondary" size="sm">
                     Iniciar sesión
                   </LoginButton>
                 </div>

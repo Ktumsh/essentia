@@ -6,6 +6,8 @@ import {
   HeartPulseIcon,
   LightbulbIcon,
   SaladIcon,
+  SmileIcon,
+  UsersIcon,
 } from "lucide-react";
 
 export const SUGGESTED_ACTION_DATA = [
@@ -50,5 +52,17 @@ export const SUGGESTED_ACTION_DATA = [
     action: `Ayúdame a configurar recordatorios periódicos para tareas importantes o hábitos diarios`,
     icon: AlarmClockCheck,
     iconColor: "text-purple-500",
+  },
+  {
+    heading: "Mejorar mi salud y bienestar general",
+    action: `Recomiéndame acciones para mejorar mi salud física y emocional de forma integral`,
+    icon: SmileIcon,
+    iconColor: "text-teal-500",
+  },
+  {
+    heading: "Salud según mi edad",
+    action: `Dame recomendaciones de salud apropiadas para mi edad y etapa de vida`,
+    icon: UsersIcon,
+    iconColor: "text-amber-600",
   },
 ];
