@@ -1150,3 +1150,23 @@ File Upload CSS
 .filepond--drop-label label {
   @apply text-muted-foreground! text-sm!;
 }
+
+.filepond--file-info-main {
+  @apply text-foreground!;
+}
+
+.filepond--file-info .filepond--file-info-sub {
+  @apply text-muted-foreground! opacity-100!;
+}
+
+.filepond--file-action-button {
+  @apply bg-alternative!;
+}
+
+.filepond--file-status-main {
+  @apply text-foreground!;
+}
+
+.filepond--file-status-sub {
+  @apply text-muted-foreground! opacity-100!;
+}

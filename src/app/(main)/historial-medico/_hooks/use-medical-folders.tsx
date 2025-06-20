@@ -111,8 +111,10 @@ export const MedicalFoldersProvider = ({
         mutate();
         mutateActivity("/api/medical-activity");
         setOpen({ ...open, isFolderFormOpen: false });
+        toast.success("Carpeta creada correctamente");
       } catch (error) {
         console.error("Error creating folder:", error);
+        toast.error("No se pudo crear la carpeta");
       } finally {
         setIsSubmitting(false);
       }
@@ -122,17 +124,45 @@ export const MedicalFoldersProvider = ({
 
   const handleRenameFolder = useCallback(
     async (newName: string) => {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
       if (!currentFolder) return;
-      await updateMedicalFolder({
-        userId,
-        folderId: currentFolder.id,
-        name: newName,
-      });
-      mutate();
-      mutateActivity("/api/medical-activity");
-      setCurrentFolder(null);
+      try {
+        const existingFolder = await getExistingFolderByName({
+          userId,
+          folderName: newName,
+        });
+        if (existingFolder && existingFolder.id !== currentFolder.id) {
+          toast.error("¡Ya tienes una carpeta con ese nombre!");
+          return;
+        }
+
+        await updateMedicalFolder({
+          userId,
+          folderId: currentFolder.id,
+          name: newName,
+        });
+        mutate();
+        mutateActivity("/api/medical-activity");
+        setCurrentFolder(null);
+        setOpen({ ...open, isRenameFolderOpen: false });
+        toast.success("Carpeta renombrada correctamente");
+      } catch (error) {
+        console.error("Error renaming folder:", error);
+        toast.error("No se pudo renombrar la carpeta");
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [currentFolder, userId, mutate, mutateActivity],
+    [
+      isSubmitting,
+      currentFolder,
+      userId,
+      mutate,
+      mutateActivity,
+      open,
+      setOpen,
+    ],
   );
 
   const handleUpdateFolder = useCallback(
@@ -140,6 +170,15 @@ export const MedicalFoldersProvider = ({
       if (isSubmitting) return;
       setIsSubmitting(true);
       try {
+        const existingFolder = await getExistingFolderByName({
+          userId,
+          folderName: data.name,
+        });
+        if (existingFolder && existingFolder.id !== currentFolder?.id) {
+          toast.error("¡Ya tienes una carpeta con ese nombre!");
+          return;
+        }
+
         if (!currentFolder) return;
         await updateMedicalFolder({
           userId,
@@ -150,8 +189,10 @@ export const MedicalFoldersProvider = ({
         mutateActivity("/api/medical-activity");
         setCurrentFolder(null);
         setOpen({ ...open, isFolderFormOpen: false });
+        toast.success("Carpeta actualizada correctamente");
       } catch (error) {
         console.error("Error updating folder:", error);
+        toast.error("No se pudo actualizar la carpeta");
       } finally {
         setIsSubmitting(false);
       }
@@ -177,9 +218,10 @@ export const MedicalFoldersProvider = ({
         mutateActivity("/api/medical-activity");
         setCurrentFolder(null);
         setOpen({ ...open, isDeleteFolderOpen: false });
+        toast.success("Carpeta eliminada correctamente");
       } catch (error) {
         console.error("Error deleting folder:", error);
-        toast.error("Error al eliminar la carpeta.");
+        toast.error("No se pudo eliminar la carpeta");
       } finally {
         setIsSubmitting(false);
       }

@@ -99,6 +99,17 @@ export async function updateMedicalFolder({
   icon?: FolderIconType;
 }) {
   try {
+    const existing = name
+      ? await getExistingFolderByName({
+          userId,
+          folderName: name,
+        })
+      : null;
+
+    if (existing && existing.id !== folderId) {
+      throw new Error("Ya existe una carpeta con ese nombre.");
+    }
+
     const [folder] = await db
       .select()
       .from(userMedicalFolder)

@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -38,16 +39,18 @@ import {
 
 interface RenameFolderFormProps {
   isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  isSubmitting: boolean;
   currentName: string;
   onRename: (name: string) => Promise<void>;
-  onClose: () => void;
 }
 
 const RenameFolderForm = ({
   isOpen,
+  onOpenChange,
+  isSubmitting,
   currentName,
   onRename,
-  onClose,
 }: RenameFolderFormProps) => {
   const isMobile = useIsMobile();
 
@@ -56,7 +59,9 @@ const RenameFolderForm = ({
     defaultValues: { name: currentName },
   });
 
-  const { handleSubmit, reset, control } = form;
+  const { handleSubmit, reset, control, watch } = form;
+
+  const { name } = watch();
 
   useEffect(() => {
     reset({ name: currentName });
@@ -64,7 +69,6 @@ const RenameFolderForm = ({
 
   const onSubmit = async (data: RenameFolderFormData) => {
     await onRename(data.name);
-    onClose();
   };
 
   const formFields = (
@@ -89,7 +93,7 @@ const RenameFolderForm = ({
 
   if (isMobile) {
     return (
-      <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <Drawer open={isOpen} onOpenChange={onOpenChange}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Renombrar carpeta</DrawerTitle>
@@ -101,14 +105,28 @@ const RenameFolderForm = ({
           <DrawerFooter>
             <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
               <Button
+                disabled={isSubmitting}
                 variant="mobile"
                 className="justify-center"
-                onClick={onClose}
+                onClick={() => onOpenChange(false)}
               >
                 Cancelar
               </Button>
             </div>
-            <Button onClick={handleSubmit(onSubmit)}>Renombrar</Button>
+            <Button
+              disabled={currentName === name || isSubmitting}
+              variant="mobile-primary"
+              onClick={handleSubmit(onSubmit)}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader className="animate-spin" />
+                  Renombrando...
+                </>
+              ) : (
+                "Renombrar"
+              )}
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -116,7 +134,7 @@ const RenameFolderForm = ({
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent isSecondary>
         <DialogHeader isSecondary>
           <DialogTitle>Renombrar carpeta</DialogTitle>
@@ -126,11 +144,27 @@ const RenameFolderForm = ({
         </DialogHeader>
         {formFields}
         <DialogFooter isSecondary>
-          <Button variant="outline" className="rounded-full" onClick={onClose}>
+          <Button
+            disabled={isSubmitting}
+            variant="outline"
+            className="rounded-full"
+            onClick={() => onOpenChange(false)}
+          >
             Cancelar
           </Button>
-          <Button className="rounded-full" onClick={handleSubmit(onSubmit)}>
-            Renombrar
+          <Button
+            disabled={currentName === name || isSubmitting}
+            className="rounded-full"
+            onClick={handleSubmit(onSubmit)}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader className="animate-spin" />
+                Renombrando...
+              </>
+            ) : (
+              "Renombrar"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -99,9 +99,12 @@ const MedicalFolders = () => {
 
       <RenameFolderForm
         isOpen={open.isRenameFolderOpen}
+        onOpenChange={(isOpen) =>
+          setOpen({ ...open, isRenameFolderOpen: isOpen })
+        }
+        isSubmitting={isSubmitting}
         currentName={currentFolder?.name || ""}
         onRename={handleRenameFolder}
-        onClose={() => setOpen({ ...open, isRenameFolderOpen: false })}
       />
 
       <DeleteFolderAlert
