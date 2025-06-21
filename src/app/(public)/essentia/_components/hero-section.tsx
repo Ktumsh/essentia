@@ -115,7 +115,7 @@ const HeroSection = () => {
             <div className="mx-auto mt-6 grid max-w-xl grid-cols-2 gap-4 sm:grid-cols-4 md:mt-12 lg:mx-0">
               <div className="flex flex-col items-center lg:items-start">
                 <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-200 dark:bg-indigo-800">
-                  <Shield className="text-primary h-5 w-5" />
+                  <Shield className="text-primary size-5" />
                 </div>
                 <span className="text-foreground/80 text-sm">
                   Seguridad médica
@@ -123,7 +123,7 @@ const HeroSection = () => {
               </div>
               <div className="flex flex-col items-center lg:items-start">
                 <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-fuchsia-200 dark:bg-fuchsia-800">
-                  <Heart className="h-5 w-5 text-fuchsia-600 dark:text-fuchsia-400" />
+                  <Heart className="size-5 text-fuchsia-600 dark:text-fuchsia-400" />
                 </div>
                 <span className="text-foreground/80 text-sm">
                   Bienestar integral
@@ -131,7 +131,7 @@ const HeroSection = () => {
               </div>
               <div className="flex flex-col items-center lg:items-start">
                 <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-200 dark:bg-yellow-800">
-                  <Brain className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                  <Brain className="size-5 text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <span className="text-foreground/80 text-sm">
                   IA personalizada
@@ -139,7 +139,7 @@ const HeroSection = () => {
               </div>
               <div className="flex flex-col items-center lg:items-start">
                 <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-green-200 dark:bg-green-800">
-                  <Activity className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  <Activity className="size-5 text-green-600 dark:text-green-400" />
                 </div>
                 <span className="text-foreground/80 text-sm">
                   Análisis continuo
@@ -178,7 +178,7 @@ const HeroSection = () => {
                 <div className="space-y-6">
                   <div className="rounded-xl bg-indigo-50 p-4 dark:bg-indigo-950">
                     <h3 className="mb-2 flex items-center gap-2 text-base font-semibold">
-                      <Heart className="text-primary h-5 w-5" />
+                      <Heart className="text-primary size-5" />
                       Recomendaciones
                     </h3>
                     <div className="space-y-3">
@@ -206,7 +206,7 @@ const HeroSection = () => {
                   {/* Almacenamiento médico */}
                   <div className="rounded-xl bg-fuchsia-50 p-4 dark:bg-fuchsia-950">
                     <h3 className="mb-2 flex items-center gap-2 text-base font-semibold">
-                      <FileHeart className="text-secondary h-5 w-5" />
+                      <FileHeart className="text-secondary size-5" />
                       Almacenamiento médico
                     </h3>
                     <div className="space-y-3">
@@ -228,11 +228,11 @@ const HeroSection = () => {
 
                   {/* Habla con Aeris */}
                   <div className="bg-premium rounded-xl p-4">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between text-white">
                       <h3 className="text-base font-semibold">
                         Orientación personalizada
                       </h3>
-                      <Sparkles className="h-5 w-5" />
+                      <Sparkles className="size-5" />
                     </div>
                     <p className="mt-2 text-sm text-white/80">
                       Aeris está lista para ayudarte con tu bienestar
@@ -249,8 +249,8 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="absolute -right-6 -bottom-6 h-24 w-24 rounded-full bg-fuchsia-300 opacity-70 mix-blend-multiply blur-xl filter dark:bg-fuchsia-700"></div>
-            <div className="animation-delay-2000 absolute -top-6 -left-6 h-24 w-24 rounded-full bg-indigo-300 opacity-70 mix-blend-multiply blur-xl filter dark:bg-indigo-700"></div>
+            <div className="absolute -right-6 -bottom-6 size-24 rounded-full bg-fuchsia-300 opacity-70 mix-blend-multiply blur-xl filter dark:bg-fuchsia-700"></div>
+            <div className="animation-delay-2000 absolute -top-6 -left-6 size-24 rounded-full bg-indigo-300 opacity-70 mix-blend-multiply blur-xl filter dark:bg-indigo-700"></div>
           </motion.div>
         </div>
 

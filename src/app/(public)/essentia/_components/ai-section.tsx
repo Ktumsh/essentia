@@ -1,10 +1,10 @@
 "use client";
 
-import { AlarmClock, BadgeCheck, Sparkles } from "lucide-react";
+import { AlarmClock, ArrowRight, BadgeCheck, Sparkles } from "lucide-react";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
-import Logo from "@/components/layout/logo";
+import AerisLogo from "@/components/layout/aeris-logo";
 import { Badge } from "@/components/ui/badge";
 
 const AiSection = () => {
@@ -36,9 +36,13 @@ const AiSection = () => {
                 <div className="absolute inset-0 bg-linear-to-br/shorter from-rose-50 to-indigo-50 dark:from-rose-950 dark:to-indigo-950" />
                 <div className="relative flex h-full items-center justify-center p-6">
                   <div className="bg-background mx-auto w-full max-w-xs rounded-2xl p-4 shadow-lg">
-                    <div className="mb-6 flex items-center gap-2">
-                      <Logo className="h-6" height={24} width={24} />
-                      <div className="grid flex-1 text-left text-sm leading-tight">
+                    <div className="mb-6 flex items-end gap-1.5">
+                      <AerisLogo
+                        height={24}
+                        width={24}
+                        className="h-6 translate-y-[-3px]"
+                      />
+                      <div className="grid flex-1 text-left text-sm">
                         <span className="truncate font-semibold">Aeris</span>
                       </div>
                     </div>
@@ -50,7 +54,9 @@ const AiSection = () => {
                     </div>
                     <div className="bg-primary/10 mb-4 rounded-lg p-3">
                       <p className="text-sm">
-                        <span className="text-primary font-medium">Aeris:</span>{" "}
+                        <span className="bg-premium bg-clip-text font-semibold text-transparent">
+                          Aeris:
+                        </span>{" "}
                         Por supuesto, puedo ayudarte a crear un plan
                         personalizado...
                       </p>
@@ -62,7 +68,7 @@ const AiSection = () => {
                         className="border-alternative placeholder:text-muted-foreground pointer-events-none w-full rounded-full border p-3 pr-10 text-sm"
                       />
                       <button className="bg-premium pointer-events-none absolute top-1/2 right-3 flex h-6 w-6 -translate-y-1/2 transform items-center justify-center rounded-full">
-                        <Sparkles className="text-white" size={12} />
+                        <ArrowRight className="size-3 text-white" />
                       </button>
                     </div>
                   </div>

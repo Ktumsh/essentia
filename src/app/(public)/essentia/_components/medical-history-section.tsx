@@ -29,12 +29,12 @@ const MedicalHistorySection = () => {
       ref={ref}
       className="relative bg-linear-to-tr/shorter from-indigo-50 to-fuchsia-50 py-20 dark:from-indigo-950 dark:to-fuchsia-950"
     >
-      <div className="absolute inset-0 z-1">
+      <div className="absolute inset-0">
         <div className="absolute top-0 left-0 h-1/3 w-1/3 rounded-full bg-indigo-100 opacity-30 mix-blend-multiply blur-3xl filter dark:bg-indigo-900" />
         <div className="absolute right-0 bottom-0 h-1/3 w-1/3 rounded-full bg-fuchsia-100 opacity-30 mix-blend-multiply blur-3xl filter dark:bg-fuchsia-900" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="relative z-1 mx-auto max-w-7xl px-6">
         <div className="mx-auto mb-10 max-w-3xl text-center md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -64,7 +64,7 @@ const MedicalHistorySection = () => {
             className="order-2 lg:order-1"
           >
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="shadow-little-pretty hover:shadow-pretty bg-background transform rounded-xl p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
+              <div className="shadow-little-pretty bg-background hover:shadow-pretty rounded-xl p-6 transition duration-300 hover:-translate-y-1">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-900">
                   <FileText className="text-primary" />
                 </div>
@@ -75,7 +75,7 @@ const MedicalHistorySection = () => {
                 </p>
               </div>
 
-              <div className="shadow-little-pretty hover:shadow-pretty bg-background transform rounded-xl p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
+              <div className="shadow-little-pretty bg-background hover:shadow-pretty rounded-xl p-6 transition duration-300 hover:-translate-y-1">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900">
                   <Brain className="text-fuchsia-600 dark:text-fuchsia-400" />
                 </div>
@@ -86,7 +86,7 @@ const MedicalHistorySection = () => {
                 </p>
               </div>
 
-              <div className="shadow-little-pretty hover:shadow-pretty bg-background transform rounded-xl p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
+              <div className="shadow-little-pretty bg-background hover:shadow-pretty rounded-xl p-6 transition duration-300 hover:-translate-y-1">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 dark:bg-green-900">
                   <Shield className="text-green-600 dark:text-green-400" />
                 </div>
@@ -99,7 +99,7 @@ const MedicalHistorySection = () => {
                 </p>
               </div>
 
-              <div className="shadow-little-pretty hover:shadow-pretty bg-background transform rounded-xl p-6 transition duration-300 will-change-transform hover:-translate-y-1 hover:scale-105">
+              <div className="shadow-little-pretty bg-background hover:shadow-pretty rounded-xl p-6 transition duration-300 hover:-translate-y-1">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-rose-100 dark:bg-rose-900">
                   <Share2 className="text-rose-600 dark:text-rose-400" />
                 </div>
@@ -118,7 +118,7 @@ const MedicalHistorySection = () => {
             className="order-1 lg:order-2"
           >
             <div className="relative">
-              <div className="absolute -inset-4 -rotate-2 transform rounded-3xl bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 blur-lg" />
+              <div className="absolut:t-4 -rotate-2 rounded-3xl bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 blur-lg" />
               <div className="bg-background relative z-1 overflow-hidden rounded-3xl border border-indigo-100 shadow-xl dark:border-indigo-900">
                 <div className="p-6">
                   {/* Encabezado simplificado */}

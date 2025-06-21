@@ -11,7 +11,7 @@ import {
 import { getStages, getRouteBySlug } from "@/db/querys/resource-querys";
 import { getUserData } from "@/utils/profile";
 
-import RouteWrapper from "../_components/route-wrapper";
+import RouteWrapper from "./_components/route-wrapper";
 
 import type { RouteResource } from "@/lib/types";
 
@@ -41,14 +41,14 @@ const RoutePage = async (props: Props) => {
   const slug = params.route;
   const staticRes = RESOURCE_DATA.find((r) => r.slug === slug);
 
-  if (!staticRes) redirect("/");
+  if (!staticRes || !slug) redirect("/not-found");
 
   const [session, dynamicResource] = await Promise.all([
     auth(),
     getRouteBySlug(slug),
   ]);
 
-  if (!dynamicResource) redirect("/");
+  if (!dynamicResource) redirect("/not-found");
 
   const resource = { ...staticRes, ...dynamicResource } as RouteResource;
 

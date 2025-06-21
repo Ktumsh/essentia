@@ -13,9 +13,7 @@ const StagePage = async (props: StagePageProps) => {
 
   const stageData = await getStageBySlug(stageSlug);
 
-  if (!stageData) {
-    return redirect("/");
-  }
+  if (!stageData) redirect("/not-found");
 
   return redirect(
     `/${routeSlug}/${stageData.stage.slug}/${stageData.lesson?.slug}`,

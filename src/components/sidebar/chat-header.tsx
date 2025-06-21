@@ -18,7 +18,6 @@ import {
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 
-
 const ChatHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -103,7 +102,7 @@ const ChatHeader = () => {
         <PaymentModal
           isOpen={open}
           setIsOpen={setOpen}
-          featureType="upgrade-plan"
+          featureType="habits-and-progress"
         />
       )}
     </>

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 import AccountDetails from "../account/_components/account-details";
 import ProfileInfo from "../profile/_components/profile-info";
@@ -18,6 +19,7 @@ interface AccountTabsProps {
 
 const AccountTabs = ({ routes }: AccountTabsProps) => {
   const pathname = usePathname();
+  const { user } = useUserProfile();
 
   const tabs = useMemo(() => {
     return [
@@ -29,7 +31,7 @@ const AccountTabs = ({ routes }: AccountTabsProps) => {
       {
         value: "/profile",
         label: "Mi perfil",
-        component: <ProfileInfo isOwnProfile={true} />,
+        component: <ProfileInfo user={user} isOwnProfile={true} />,
       },
       {
         value: "/subscription",
@@ -37,7 +39,7 @@ const AccountTabs = ({ routes }: AccountTabsProps) => {
         component: <SubscriptionDetails />,
       },
     ];
-  }, [routes]);
+  }, [routes, user]);
 
   return (
     <div className="flex flex-col">

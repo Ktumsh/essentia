@@ -21,7 +21,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn, formatDate } from "@/utils";
 
 import BioModal from "./bio-modal";
@@ -42,14 +41,13 @@ import {
 import type { UserProfileData } from "@/lib/types";
 
 interface ProfileInfoProps {
+  user: UserProfileData | null;
   isOwnProfile: boolean;
 }
 
-const ProfileInfo = ({ isOwnProfile }: ProfileInfoProps) => {
+const ProfileInfo = ({ user, isOwnProfile }: ProfileInfoProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenBio, setIsOpenBio] = useState(false);
-
-  const { user } = useUserProfile();
 
   const [displayData, setDisplayData] = useState<UserProfileData | null>(user);
 

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import PageWrapper from "@/components/layout/page-wrapper";
@@ -16,7 +16,7 @@ import {
 } from "@/db/querys/resource-querys";
 import { getUserData } from "@/utils/profile";
 
-import Lesson from "../../../_components/lesson";
+import Lesson from "../../_components/lesson";
 
 type LessonPageProps = {
   params: Promise<{ route: string; stage: string; lesson: string }>;
@@ -62,15 +62,15 @@ const LessonPage = async (props: LessonPageProps) => {
 
   const route = await getRouteBySlug(routeSlug);
 
-  if (!route) {
-    notFound();
-  }
+  if (!route) redirect("/not-found");
 
   const stages = route.id ? await getStages(route.id) : [];
 
   const currentModule = stages.find((mod) =>
     mod.lessons.some((l) => l.slug === lessonSlug),
   );
+
+  if (!currentModule) redirect("/not-found");
 
   const lesson = await getLessonBySlug(
     currentModule?.stage.id || "",

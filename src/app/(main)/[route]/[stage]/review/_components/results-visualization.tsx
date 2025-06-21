@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useMemo } from "react";
 
-import RouteBadge from "@/app/(main)/(resources)/_components/route-badge";
+import RouteBadge from "@/app/(main)/[route]/_components/route-badge";
 import {
   Card,
   CardContent,

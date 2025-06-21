@@ -173,6 +173,7 @@ export type FeatureType =
   | "routine"
   | "nutritional-plan"
   | "upgrade-plan"
+  | "habits-and-progress"
   | "general"
   | "wellbeing"
   | "health"

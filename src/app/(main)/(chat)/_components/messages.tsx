@@ -7,7 +7,7 @@ import { memo } from "react";
 
 import { cn } from "@/utils";
 
-import { Greeting } from "./greeting";
+import Greeting from "./greeting";
 import { PreviewMessage } from "./message";
 import Overview from "./overview";
 import ThinkingMessage from "./thinking-message";

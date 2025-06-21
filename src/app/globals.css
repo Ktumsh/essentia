@@ -339,11 +339,11 @@
 }
 
 @utility bg-premium {
-  @apply bg-gradient-to-r from-indigo-500 to-fuchsia-500;
+  @apply bg-linear-to-r/shorter from-indigo-500 to-fuchsia-500;
 }
 
 @utility bg-premium-plus {
-  @apply bg-gradient-to-r from-blue-500 to-emerald-500;
+  @apply bg-linear-to-r/shorter from-blue-500 to-emerald-500;
 }
 
 @utility shadow-stock {

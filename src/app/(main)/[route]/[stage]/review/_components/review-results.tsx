@@ -7,7 +7,7 @@ import { useState, useEffect, useMemo } from "react";
 import {
   formatTime,
   getFeedbackDescription,
-} from "@/app/(main)/(resources)/_lib/utils";
+} from "@/app/(main)/[route]/_lib/utils";
 import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { HandHeartButton } from "@/components/button-kit/hand-heart-button";
 import { RepeatButton } from "@/components/button-kit/repeat-button";

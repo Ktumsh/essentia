@@ -1,9 +1,9 @@
-import ExcerciseFitness from "@/app/(main)/(resources)/_components/excercise-fitness";
-import ForAllAges from "@/app/(main)/(resources)/_components/for-all-ages";
-import HealthWellness from "@/app/(main)/(resources)/_components/health-wellness";
-import Nutrition from "@/app/(main)/(resources)/_components/nutrition";
-import SexEducation from "@/app/(main)/(resources)/_components/sex-education";
-import Wellbeing from "@/app/(main)/(resources)/_components/wellbeing";
+import ExcerciseFitness from "@/app/(main)/[route]/_components/excercise-fitness";
+import ForAllAges from "@/app/(main)/[route]/_components/for-all-ages";
+import HealthWellness from "@/app/(main)/[route]/_components/health-wellness";
+import Nutrition from "@/app/(main)/[route]/_components/nutrition";
+import SexEducation from "@/app/(main)/[route]/_components/sex-education";
+import Wellbeing from "@/app/(main)/[route]/_components/wellbeing";
 
 export const RESOURCE_DATA = [
   {

@@ -239,12 +239,14 @@ const ChatPanel = (props: ChatPanelProps) => {
               )}
           </div>
         ) : (
-          <div className="border-border bg-background relative w-full border-t px-4 py-0 pb-16 sm:rounded-xl sm:border sm:py-4">
+          <div className="border-border bg-background relative mb-4 w-full border-t px-4 py-0 pb-16 sm:rounded-xl sm:border sm:py-4">
             <div className="inline-flex w-full items-center justify-center px-2 py-3">
               <p className="text-center text-sm text-balance md:text-base">
                 Este chat está en modo lectura, le pertenece al usuario{" "}
                 <Link
                   href={`/profiles/${username}`}
+                  target="_blank"
+                  rel="noopener"
                   className="text-primary inline-flex flex-1 justify-center gap-1 leading-4 font-semibold hover:underline"
                 >
                   @{username}

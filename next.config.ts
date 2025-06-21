@@ -4,6 +4,9 @@ import { NextConfig } from "next";
 import { isProductionEnvironment } from "@/lib/consts";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    viewTransition: true,
+  },
   turbopack: {
     resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
     resolveAlias: {

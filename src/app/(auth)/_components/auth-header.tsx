@@ -15,7 +15,10 @@ const AuthHeader = () => {
   if (isVerifyEmail) return null;
 
   return (
-    <div role="banner" className="fixed top-0 z-50 w-full backdrop-blur-md">
+    <div
+      role="banner"
+      className="fixed top-0 z-50 w-full backdrop-blur-md md:backdrop-blur-none"
+    >
       <div className="flex h-14 w-full items-center justify-between gap-5 px-6">
         <FullLogo withLabel />
         <Button

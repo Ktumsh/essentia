@@ -14,7 +14,7 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { UpgradeButton } from "@/components/button-kit/upgrade-button";
@@ -69,6 +69,7 @@ const PaymentModal = ({
 }: PaymentModalProps) => {
   const router = useRouter();
   const { currentPlan } = useCurrentPlan();
+
   const [step, setStep] = useState<"main" | "trial">(
     mode === "trial" ? "trial" : "main",
   );
@@ -77,17 +78,45 @@ const PaymentModal = ({
 
   const { subscription } = useUserSubscription();
 
-  const [selectedPlan, setSelectedPlan] = useState<string>(
-    featureType === "upgrade-plan"
-      ? siteConfig.plan.premiumPlus
-      : currentPlan === siteConfig.plan.free
-        ? siteConfig.plan.premium
-        : currentPlan || siteConfig.plan.free,
-  );
+  const currentPlanId = subscription?.plan?.id;
 
-  const isPremium = subscription?.subscription.isPremium;
-  const isChangingPlan =
-    isPremium && selectedPlan && subscription?.plan?.id !== selectedPlan;
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
+
+  useEffect(() => {
+    if (
+      featureType === "upgrade-plan" ||
+      featureType === "habits-and-progress"
+    ) {
+      setSelectedPlan(siteConfig.plan.premiumPlus);
+    } else if (
+      featureType === "upload-limit" &&
+      currentPlan === siteConfig.plan.premium
+    ) {
+      setSelectedPlan(siteConfig.plan.premiumPlus);
+    } else if (currentPlan === siteConfig.plan.free) {
+      setSelectedPlan(siteConfig.plan.premium);
+    } else {
+      setSelectedPlan(currentPlan || siteConfig.plan.free);
+    }
+  }, [currentPlan, featureType]);
+
+  const isUpgrade =
+    currentPlanId &&
+    selectedPlan &&
+    selectedPlan !== currentPlanId &&
+    getPlanPrice(selectedPlan) > getPlanPrice(currentPlanId);
+
+  const isDowngrade =
+    currentPlanId &&
+    selectedPlan &&
+    selectedPlan !== currentPlanId &&
+    getPlanPrice(selectedPlan) < getPlanPrice(currentPlanId);
+
+  const isOnFreePlan = currentPlan === siteConfig.plan.free;
+
+  const actionLabel = isUpgrade || isOnFreePlan ? "Mejorar a" : "Cambiar a";
+
+  const shouldRotateIcon = isDowngrade && !isOnFreePlan;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFree = selectedPlan === siteConfig.plan.free;
@@ -193,15 +222,15 @@ const PaymentModal = ({
           return {
             title: "Límite alcanzado en tu prueba gratuita",
             description:
-              "Tu prueba gratuita te da acceso a funciones Premium, pero permite subir hasta 6 archivos médicos. Mejora tu plan para ampliar este límite.",
+              "Tu prueba gratuita te da acceso a funciones Premium, pero permite subir hasta 12 documentos médicos. Mejora tu plan para ampliar este límite.",
             icon: <UploadFillIcon className="size-5" />,
             color: "bg-teal-500",
           };
         } else {
           return {
-            title: "Aumenta tu límite de archivos",
+            title: "Aumenta tu límite de documentos",
             description:
-              "Has alcanzado el máximo de documentos médicos permitidos por tu plan. Mejora para subir más archivos y disfrutar de todos los beneficios.",
+              "Mejora tu plan para subir más documentos médicos y mantener toda tu información de salud organizada en un solo lugar.",
             icon: <UploadFillIcon className="size-5" />,
             color: "bg-teal-500",
           };
@@ -226,9 +255,17 @@ const PaymentModal = ({
         return {
           title: "Desbloquea el máximo acceso a Essentia",
           description:
-            "Accede a Aeris sin límites, documentos médicos ilimitados, sugerencias automáticas, organización inteligente y seguimiento completo de tu bienestar.",
+            "Accede a Aeris sin límites, documentos médicos ilimitados y seguimiento de hábitos con IA para cuidar tu salud de forma integral.",
           icon: <Crown className="size-5" />,
           color: "bg-yellow-500",
+        };
+      case "habits-and-progress":
+        return {
+          title: "Monitorea tus hábitos y progreso",
+          description:
+            "Lleva un seguimiento de tus hábitos saludables, establece metas diarias y observa tu evolución a lo largo del tiempo.",
+          icon: <BookmarkCheck className="size-5" />,
+          color: "bg-orange-500",
         };
       case "wellbeing":
         return {
@@ -412,7 +449,7 @@ const PaymentModal = ({
               </div>
               <DialogFooter isSecondary>
                 <div className="w-full space-y-3">
-                  {isChangingPlan && step === "main" && (
+                  {isDowngrade && step === "main" && (
                     <p className="text-muted-foreground text-xs">
                       <strong className="text-secondary font-medium">
                         Importante:
@@ -442,7 +479,8 @@ const PaymentModal = ({
                           featureType === "upgrade-plan" ||
                           selectedPlan === siteConfig.plan.premiumPlus,
                       },
-                      isChangingPlan && "[&>svg]:rotate-180",
+                      shouldRotateIcon && "[&>svg]:rotate-180",
+                      selectedPlan === currentPlan && "[&>svg]:hidden",
                     )}
                   >
                     {isLoading ? (
@@ -451,8 +489,7 @@ const PaymentModal = ({
                       "Plan Actual"
                     ) : (
                       <>
-                        {isChangingPlan ? "Cambiar a" : "Mejorar a"}{" "}
-                        {getPlanName(selectedPlan)}
+                        {actionLabel} {getPlanName(selectedPlan)}
                       </>
                     )}
                   </UpgradeButton>

@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 
 import { LinkIcon } from "@/components/icons/action";
-import Logo from "@/components/layout/logo";
+import AerisLogo from "@/components/layout/aeris-logo";
 import { Card, CardHeader } from "@/components/ui/card";
 import { getRouteColor, getRouteDarkColor, cn } from "@/utils";
 
@@ -21,14 +21,6 @@ const Overview = () => {
         <Card className="border-0 bg-transparent text-center leading-relaxed">
           <CardHeader className="items-center gap-4 md:gap-8 md:p-8">
             <div className="flex flex-col items-center gap-2">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <Logo className="h-8 w-fit" width={32} height={32} />
-              </motion.div>
               <div className="bg-background flex items-center gap-2 rounded-md px-3 py-1">
                 <motion.h1
                   initial={{ opacity: 0, y: 10 }}
@@ -36,7 +28,16 @@ const Overview = () => {
                   exit={{ opacity: 0, y: 10 }}
                   className="bg-premium w-fit bg-clip-text text-3xl font-semibold text-transparent md:text-4xl"
                 >
-                  Habla con Aeris
+                  Habla con{" "}
+                  <span className="-ml-1">
+                    <AerisLogo
+                      src="/aeris-logo-fuchsia.svg"
+                      width={40}
+                      height={40}
+                      className="-mr-1.5 inline-block h-10 -translate-y-[5px] align-top"
+                    />
+                    eris
+                  </span>
                 </motion.h1>
               </div>
             </div>

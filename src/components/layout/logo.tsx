@@ -12,7 +12,7 @@ const Logo = ({ width, height, className }: LogoProps) => {
   return (
     <Image
       aria-label="Logo Essentia"
-      src="/logo-essentia.webp"
+      src="/essentia-logo.webp"
       alt="Logo Essentia"
       width={width || 16}
       height={height || 16}

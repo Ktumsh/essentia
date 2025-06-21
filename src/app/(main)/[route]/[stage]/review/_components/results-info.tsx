@@ -7,7 +7,7 @@ import {
   XCircle,
 } from "lucide-react";
 
-import { formatTime } from "@/app/(main)/(resources)/_lib/utils";
+import { formatTime } from "@/app/(main)/[route]/_lib/utils";
 import {
   Accordion,
   AccordionContent,

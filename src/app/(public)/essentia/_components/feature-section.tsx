@@ -39,7 +39,7 @@ const FeatureSection = () => {
               herramientas que fortalecen tu bienestar día a día.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="hover:shadow-pretty bg-muted rounded-xl p-4 transition-shadow">
+              <div className="shadow-little-pretty hover:shadow-pretty bg-background rounded-xl p-6 transition duration-300 hover:-translate-y-1">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900">
                   <Shield className="text-primary" />
                 </div>
@@ -49,7 +49,7 @@ const FeatureSection = () => {
                   segura y confiable
                 </p>
               </div>
-              <div className="hover:shadow-pretty bg-muted rounded-xl p-4 transition-shadow">
+              <div className="shadow-little-pretty hover:shadow-pretty bg-background rounded-xl p-6 transition duration-300 hover:-translate-y-1">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 dark:bg-rose-900">
                   <Brain className="text-rose-600 dark:text-rose-400" />
                 </div>

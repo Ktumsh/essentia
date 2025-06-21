@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import {
@@ -30,10 +30,10 @@ export default async function ReviewPage(props: ReviewPageProps) {
   const session = await auth();
   const userId = session?.user?.id as string;
 
-  if (!userId) return notFound();
+  if (!userId) return redirect("/not-found");
 
   const route = await getRouteBySlug(params.route);
-  if (!route) return notFound();
+  if (!route) return redirect("/not-found");
 
   const stageData = await getStageBySlug(params.stage);
   const stage = stageData?.stage;

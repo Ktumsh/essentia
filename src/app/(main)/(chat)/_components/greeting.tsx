@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
+import AerisLogo from "@/components/layout/aeris-logo";
 import { useUserProfile } from "@/hooks/use-user-profile";
 
 const GREETINGS = [
@@ -18,7 +19,7 @@ const GREETINGS = [
   "Haz tu consulta y abramos posibilidades",
 ];
 
-export const Greeting = () => {
+const Greeting = () => {
   const { user } = useUserProfile();
   const [greeting, setGreeting] = useState("");
 
@@ -37,9 +38,15 @@ export const Greeting = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.5 }}
-        className="bg-premium w-fit bg-clip-text text-3xl font-semibold text-transparent md:text-4xl"
+        className="bg-premium flex w-fit max-w-xs bg-clip-text text-3xl font-semibold whitespace-nowrap text-transparent md:text-4xl"
       >
-        Hola, {user?.firstName}
+        <AerisLogo
+          src="/aeris-logo-indigo.svg"
+          width={48}
+          height={48}
+          className="mt-[-13px] -ml-1 inline-block h-11 align-top md:mt-[-13px] md:h-12"
+        />{" "}
+        <span className="ml-2 max-w-xs truncate">Hola, {user?.firstName}</span>
       </motion.h1>
 
       {greeting && (
@@ -57,3 +64,5 @@ export const Greeting = () => {
     </div>
   );
 };
+
+export default Greeting;

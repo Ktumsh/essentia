@@ -154,7 +154,7 @@ function ResourceCard({
   color: string;
 }) {
   return (
-    <div className="shadow-pretty bg-background h-full transform rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
+    <div className="shadow-little-pretty hover:shadow-pretty bg-background h-full rounded-2xl p-6 transition duration-300 hover:-translate-y-1">
       <div className="relative inline-flex align-middle">
         <div
           className={cn(

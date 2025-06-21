@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cookies } from "next/headers";
 import { Session } from "next-auth";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 import ProfileMessage from "@/components/layout/profile-message";
 import TailwindIndicator from "@/components/layout/tailwind-indicator";
@@ -93,7 +94,7 @@ export default async function RootLayout({
         >
           <Toaster />
           <ProfileMessage user={userData} session={session} />
-          {children}
+          <ViewTransition name="page">{children}</ViewTransition>
           <TailwindIndicator />
         </Providers>
         <SpeedInsights />
