@@ -173,17 +173,13 @@ const PricingCard = ({
             {features.map((feature, index) => (
               <li key={index} className="text-sm">
                 <div className="flex flex-1 items-start justify-start gap-3 tabular-nums">
-                  <div
-                    className={cn(
-                      "relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']",
-                      { "after:bg-indigo-950": isPremiumStyle },
-                    )}
-                  >
+                  <div className="relative flex items-center justify-center rounded-full after:absolute after:inset-1 after:-z-10 after:rounded-full after:content-['']">
                     <CheckCircledIcon className="inline-flex size-5 shrink-0 text-emerald-400" />
                   </div>
                   <span
                     className={cn("text-foreground mt-0.5 text-left", {
                       "text-white": isPremiumStyle,
+                      "font-bold": index === 0 && isPremiumStyle,
                     })}
                   >
                     {feature}
