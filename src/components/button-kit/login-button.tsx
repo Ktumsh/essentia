@@ -31,11 +31,11 @@ const LoginButton = ({
 
   const handleMouseEnter = useCallback(() => {
     arrowControls.start({
-      translateX: [0, -3, 0],
+      x: [0, -3, 0],
       transition: { duration: 0.4 },
     });
     lineControls.start({
-      translateX: [0, -3, 0],
+      x: [0, -3, 0],
       transition: { duration: 0.4 },
     });
   }, [arrowControls, lineControls]);
@@ -43,8 +43,8 @@ const LoginButton = ({
   const handleMouseLeave = useCallback(() => {
     arrowControls.stop();
     lineControls.stop();
-    arrowControls.set({ translateX: 0 });
-    lineControls.set({ translateX: 0 });
+    arrowControls.set({ x: 0 });
+    lineControls.set({ x: 0 });
   }, [arrowControls, lineControls]);
 
   return (

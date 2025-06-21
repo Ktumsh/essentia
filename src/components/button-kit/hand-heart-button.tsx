@@ -67,7 +67,7 @@ const HandHeartButton = ({
           animate={heartControls}
           variants={{
             normal: {
-              translateY: 0,
+              y: 0,
               scale: 1,
               transition: {
                 delay: 0.1,
@@ -78,7 +78,7 @@ const HandHeartButton = ({
               },
             },
             animate: {
-              translateY: [0, -2],
+              y: [0, -2],
               scale: [1, 1.1],
               transition: {
                 delay: 0.1,

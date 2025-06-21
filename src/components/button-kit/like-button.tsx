@@ -68,13 +68,13 @@ const LikeButton = ({
         strokeLinejoin="round"
         variants={{
           normal: {
-            translateX: "0px",
-            translateY: "0px",
+            x: "0px",
+            y: "0px",
             rotate: "0deg",
           },
           animate: {
-            translateX: "-1px",
-            translateY: "-2px",
+            x: "-1px",
+            y: "-2px",
             rotate: "-12deg",
           },
         }}

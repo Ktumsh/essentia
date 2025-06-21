@@ -7,7 +7,7 @@ import { cn } from "@/utils";
 
 import { Button, ButtonSize, ButtonVariant } from "../ui/button";
 
-import type { Variants } from "motion/react";
+import type { Transition, Variants } from "motion/react";
 import type { HTMLAttributes } from "react";
 
 interface DeleteButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -22,7 +22,7 @@ const lidVariants: Variants = {
   animate: { y: -1.1 },
 };
 
-const springTransition = {
+const springTransition: Transition = {
   type: "spring",
   stiffness: 500,
   damping: 30,

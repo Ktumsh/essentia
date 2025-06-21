@@ -80,8 +80,8 @@ const CopyButton = ({
           rx="2"
           ry="2"
           variants={{
-            normal: { translateY: 0, translateX: 0 },
-            animate: { translateY: -1, translateX: -1 },
+            normal: { y: 0, x: 0 },
+            animate: { y: -1, x: -1 },
           }}
           animate={controls}
           transition={defaultTransition}

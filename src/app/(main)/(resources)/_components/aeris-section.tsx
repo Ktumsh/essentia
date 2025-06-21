@@ -1,7 +1,7 @@
 "use client";
 
 import { Stars, CheckCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useMemo, useState } from "react";
 
@@ -42,6 +42,7 @@ const AerisSection = ({
   ctaLabel,
 }: AerisSectionProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession();
   const { user } = useUserProfile();
   const { isPremium } = user ?? {};
@@ -129,7 +130,7 @@ const AerisSection = ({
         ) : (
           <Button
             variant="default"
-            onClick={() => router.push(`/login?next=#${hash}`)}
+            onClick={() => router.push(`/login?next=${pathname}`)}
           >
             Inicia sesión para continuar
           </Button>
