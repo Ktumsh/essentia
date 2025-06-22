@@ -7,8 +7,6 @@ import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 
 import type { Metadata } from "next";
 
-export const experimental_ppr = true;
-
 export const metadata: Metadata = {
   title: "Compra exitosa",
   alternates: {

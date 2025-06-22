@@ -11,8 +11,6 @@ import { getCurrentUser } from "@/lib/current-user";
 import { DEFAULT_CHAT_MODEL } from "./(chat)/_lib/models";
 import MainProviders from "./_components/main-providers";
 
-export const experimental_ppr = true;
-
 export default async function MainLayout({
   children,
 }: {

@@ -6,7 +6,6 @@ import { isProductionEnvironment } from "@/lib/consts";
 const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
-    ppr: "incremental",
   },
   turbopack: {
     resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],

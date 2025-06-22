@@ -15,8 +15,6 @@ import RouteWrapper from "./_components/route-wrapper";
 import type { RouteResource } from "@/lib/types";
 import type { Metadata } from "next";
 
-export const experimental_ppr = false;
-
 type RoutePageProps = {
   params: Promise<{ route: string }>;
 };

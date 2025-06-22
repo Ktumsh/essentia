@@ -7,8 +7,6 @@ import {
 
 import FeedbackDashboard from "./_components/feedback-dashboard";
 
-export const experimental_ppr = true;
-
 export default async function AdminFeedbackPage() {
   const session = await auth();
 

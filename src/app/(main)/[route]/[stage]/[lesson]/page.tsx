@@ -20,8 +20,6 @@ import Lesson from "../../_components/lesson";
 
 import type { Metadata } from "next";
 
-export const experimental_ppr = false;
-
 type LessonPageProps = {
   params: Promise<{ route: string; stage: string; lesson: string }>;
 };

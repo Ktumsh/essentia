@@ -4,8 +4,6 @@ import LegalWrapper from "../_components/legal-wrapper";
 
 import type { Metadata } from "next";
 
-export const dynamic = "force-static";
-
 export const metadata: Metadata = {
   title: "Política de Privacidad",
   alternates: {
