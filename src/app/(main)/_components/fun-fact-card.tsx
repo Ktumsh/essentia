@@ -1,13 +1,23 @@
+"use client";
+
 import Image from "next/image";
-import { memo } from "react";
+import useSWR from "swr";
 
-import type { FunFactType } from "@/db/data/fun-fact-data";
+import { FunFactType } from "@/db/data/fun-fact-data";
+import { fetcher } from "@/utils";
 
-interface FunFactCardProps {
-  facts: FunFactType[] | null;
-}
+import DailyTipLoading from "./daily-tip-loading";
 
-const FunFactCard = ({ facts }: FunFactCardProps) => {
+const FunFactCard = () => {
+  const { data: facts, isLoading } = useSWR<Array<FunFactType>>(
+    "/api/facts",
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  if (isLoading) return <DailyTipLoading />;
   return (
     <>
       {facts?.map((fact, index) => (
@@ -36,4 +46,4 @@ const FunFactCard = ({ facts }: FunFactCardProps) => {
   );
 };
 
-export default memo(FunFactCard);
+export default FunFactCard;

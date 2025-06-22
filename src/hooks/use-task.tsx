@@ -8,10 +8,11 @@ import { deleteUserTask, updateUserTaskStatus } from "@/db/querys/task-querys";
 import { fetcher } from "@/utils";
 
 import type { UserTask } from "@/db/schema";
+import type { KeyedMutator } from "swr";
 
 interface TasksContextType {
   tasks: UserTask[];
-  setTasks: (tasks: UserTask[] | ((tasks: UserTask[]) => UserTask[])) => void;
+  setTasks: KeyedMutator<Array<UserTask>>;
   updateTask: (taskId: string, updatedData: Partial<UserTask>) => void;
   addTask: (newTask: UserTask) => void;
   deleteTask: (taskId: string) => Promise<void>;
@@ -31,7 +32,7 @@ export const useTasks = (): TasksContextType => {
 };
 
 interface TasksProviderProps {
-  initialTasks: UserTask[];
+  initialTasks: Array<UserTask>;
   children: ReactNode;
 }
 
@@ -45,14 +46,14 @@ export const TasksProvider = ({
     data: tasks = initialTasks,
     mutate: setTasks,
     isLoading,
-  } = useSWR(session ? "/api/tasks" : null, fetcher, {
+  } = useSWR<Array<UserTask>>(session ? "/api/tasks" : null, fetcher, {
     fallbackData: initialTasks,
   });
 
   const updateTask = useCallback(
     (taskId: string, updatedData: Partial<UserTask>) => {
-      setTasks((prevTasks: UserTask[]) =>
-        prevTasks.map((task: UserTask) =>
+      setTasks((prevTasks) =>
+        (prevTasks ?? []).map((task: UserTask) =>
           task.id === taskId ? { ...task, ...updatedData } : task,
         ),
       );
@@ -62,10 +63,10 @@ export const TasksProvider = ({
 
   const addTask = useCallback(
     (newTask: UserTask) => {
-      setTasks((prevTasks: UserTask[]) => {
-        const exists = prevTasks.some((task) => task.id === newTask.id);
-        if (exists) return prevTasks;
-        return [...prevTasks, newTask];
+      setTasks((prevTasks) => {
+        const exists = (prevTasks ?? []).some((task) => task.id === newTask.id);
+        if (exists) return prevTasks ?? [];
+        return [...(prevTasks ?? []), newTask];
       });
     },
     [setTasks],
@@ -74,8 +75,8 @@ export const TasksProvider = ({
   const deleteTask = useCallback(
     async (taskId: string): Promise<void> => {
       await deleteUserTask(taskId);
-      setTasks((prevTasks: UserTask[]) =>
-        prevTasks.filter((task: UserTask) => task.id !== taskId),
+      setTasks((prevTasks) =>
+        (prevTasks ?? []).filter((task: UserTask) => task.id !== taskId),
       );
     },
     [setTasks],

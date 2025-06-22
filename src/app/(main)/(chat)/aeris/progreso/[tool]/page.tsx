@@ -1,12 +1,17 @@
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
 import { getToolsByUserAndToolName } from "@/db/querys/chat-querys";
 import { getSubscriptionType } from "@/db/querys/payment-querys";
 
-import { SLUG_TO_TOOL, TOOL_NAME_LABELS } from "../../../_lib/tool-helper";
+import {
+  SLUG_TO_TOOL,
+  TOOL_NAME_LABELS,
+  TOOL_SLUGS,
+} from "../../../_lib/tool-helper";
 import GroupedTool from "../_components/gruped-tool";
+
+import type { Metadata } from "next";
 
 interface ToolPageProps {
   params: Promise<{
@@ -14,11 +19,10 @@ interface ToolPageProps {
   }>;
 }
 
-export async function generateMetadata(
-  props: ToolPageProps,
-): Promise<Metadata> {
-  const params = await props.params;
-  const { tool } = params;
+export async function generateMetadata({
+  params,
+}: ToolPageProps): Promise<Metadata> {
+  const { tool } = await params;
 
   const decodedTool = SLUG_TO_TOOL[decodeURIComponent(tool)];
 
@@ -29,9 +33,14 @@ export async function generateMetadata(
   };
 }
 
-export default async function ToolPage(props: ToolPageProps) {
-  const params = await props.params;
-  const { tool } = params;
+export async function generateStaticParams() {
+  return Object.values(TOOL_SLUGS).map((tool) => ({
+    tool,
+  }));
+}
+
+export default async function ToolPage({ params }: ToolPageProps) {
+  const { tool } = await params;
 
   const session = await auth();
 

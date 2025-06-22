@@ -1,21 +1,13 @@
-import DailyTipLoading from "./daily-tip-loading";
 import FunFactCard from "./fun-fact-card";
 
-import type { FunFactType } from "@/db/data/fun-fact-data";
-
-interface DesktopDailyTipProps {
-  facts: FunFactType[] | null;
-  loading: boolean;
-}
-
-const DesktopDailyTip = ({ facts, loading }: DesktopDailyTipProps) => {
+const DesktopDailyTip = () => {
   return (
     <div className="flex w-full flex-col">
       <h3 className="text-foreground mb-2 ml-3 px-5 text-base font-semibold lg:px-0 @7xl:pt-3">
         Dato curioso del día
       </h3>
       <article className="flex h-full flex-col">
-        {loading ? <DailyTipLoading /> : <FunFactCard facts={facts} />}
+        <FunFactCard />
       </article>
     </div>
   );

@@ -6,9 +6,13 @@ import { useState } from "react";
 
 import PaymentModal from "@/app/payment/_components/payment-modal";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 const UpgradeCard = () => {
+  const { user } = useUserProfile();
   const [open, setOpen] = useState(false);
+
+  if (!user || user.isPremium) return null;
 
   return (
     <>

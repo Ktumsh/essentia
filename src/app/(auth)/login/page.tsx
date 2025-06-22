@@ -1,6 +1,7 @@
-import { Metadata } from "next";
-
 import LoginForm from "./login-form";
+
+import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "Iniciar sesión",
@@ -9,6 +10,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function LoginPage() {
+export default function LoginPage() {
   return <LoginForm />;
 }

@@ -5,6 +5,8 @@ export const isProductionEnvironment = process.env.NODE_ENV === "production";
 export const isDevelopmentEnvironment = process.env.NODE_ENV === "development";
 export const isTestEnvironment = process.env.NODE_ENV === "test";
 
+export const BASE_PUBLIC_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const MATCH_KEYS = [
   "hierarchy.lvl1",
   "hierarchy.lvl2",

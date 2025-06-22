@@ -23,6 +23,7 @@ import DeleteAccountModal from "@/app/(main)/(account)/account/_components/delet
 import EditProfileForm from "@/app/(main)/(account)/profile/_components/edit-profile-form";
 import { PencilButton } from "@/components/button-kit/pencil-button";
 import { Button } from "@/components/ui/button";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import {
   formatDate,
   formatDateWithAutoTimezone,
@@ -36,13 +37,14 @@ import SettingsOptsHeader from "../../_components/settings-opts-header";
 import type { UserProfileData } from "@/lib/types";
 
 interface AccountStgProps {
-  user: UserProfileData | null;
   isMobile?: boolean;
 }
 
 type Section = "accountInfo" | "personalInfo" | "options";
 
-const AccountStg = ({ user, isMobile = false }: AccountStgProps) => {
+const AccountStg = ({ isMobile = false }: AccountStgProps) => {
+  const { user } = useUserProfile();
+
   const [isOpenChangeEmail, setIsOpenChangeEmail] = useState(false);
   const [isOpenChangePass, setIsOpenChangePass] = useState(false);
   const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);

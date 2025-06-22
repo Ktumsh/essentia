@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { NewPasswordFormData, newPasswordSchema } from "@/lib/form-schemas";
 
-import { SubmitButton } from "../../_components/submit-button";
+import SubmitButton from "../../_components/submit-button";
 
 interface StepResetPasswordProps {
   onSubmit: (data: NewPasswordFormData) => void;

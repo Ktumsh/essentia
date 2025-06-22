@@ -1,5 +1,8 @@
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+import type { Metadata } from "next";
+
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Recursos Adicionales",
@@ -8,8 +11,6 @@ export const metadata: Metadata = {
   },
 };
 
-const AdditionalsPage = () => {
-  return redirect("/herramientas/guias");
-};
-
-export default AdditionalsPage;
+export default function AdditionalsPage() {
+  redirect("/herramientas/guias");
+}

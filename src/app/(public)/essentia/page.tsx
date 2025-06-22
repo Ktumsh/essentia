@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 import AiSection from "./_components/ai-section";
 import CtaSection from "./_components/cta-section";
 import FeatureSection from "./_components/feature-section";
@@ -8,6 +6,8 @@ import MedicalHistorySection from "./_components/medical-history-section";
 import ProgressSection from "./_components/progress-section";
 import ResourcesSection from "./_components/resources-section";
 import VisionSection from "./_components/vision-section";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Descubre",

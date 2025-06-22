@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 import {
   Card,
   CardContent,
@@ -7,11 +5,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import type { Metadata } from "next";
+
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Cuenta eliminada",
 };
 
-const AccountDeletedPage = () => {
+export default function AccountDeletedPage() {
   return (
     <div className="px-4">
       <Card className="w-full bg-transparent text-center">
@@ -29,6 +31,4 @@ const AccountDeletedPage = () => {
       </Card>
     </div>
   );
-};
-
-export default AccountDeletedPage;
+}

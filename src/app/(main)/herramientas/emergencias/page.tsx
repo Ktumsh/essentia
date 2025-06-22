@@ -1,4 +1,6 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
+
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Emergencias",
@@ -7,8 +9,6 @@ export const metadata: Metadata = {
   },
 };
 
-const EmergenciasPage = () => {
+export default function EmergenciesPage() {
   return null;
-};
-
-export default EmergenciasPage;
+}

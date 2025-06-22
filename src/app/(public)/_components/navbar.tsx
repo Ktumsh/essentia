@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { navConfig } from "@/config/nav.config";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/utils";
 
 import ListItem from "./list-item";
@@ -38,8 +37,6 @@ const Navbar = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isMobile = useIsMobile();
-  const { user } = useUserProfile();
-  const isPremium = user?.isPremium || false;
 
   const mainNavItems = navConfig.publicLinks;
   const discoverItems = navConfig.publicListLinks;
@@ -90,15 +87,13 @@ const Navbar = ({
       >
         Panel Essentia
       </Button>
-      {!isPremium && (
-        <Button
-          size="sm"
-          variant="gradient"
-          onClick={() => router.push("/planes")}
-        >
-          Hazte premium
-        </Button>
-      )}
+      <Button
+        size="sm"
+        variant="gradient"
+        onClick={() => router.push("/planes")}
+      >
+        Hazte premium
+      </Button>
     </>
   ) : (
     <>
@@ -110,11 +105,13 @@ const Navbar = ({
       >
         Iniciar sesión
       </LoginButton>
-      <Link href="/planes">
-        <Button size="sm" variant="gradient">
-          Hazte premium
-        </Button>
-      </Link>
+      <Button
+        size="sm"
+        variant="gradient"
+        onClick={() => router.push("/planes")}
+      >
+        Hazte premium
+      </Button>
     </>
   );
 

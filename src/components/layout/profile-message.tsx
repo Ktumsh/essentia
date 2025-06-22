@@ -4,7 +4,7 @@ import { isAfter } from "date-fns";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import { X } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { useState } from "react";
 
@@ -31,7 +31,6 @@ interface ProfileMessageProps {
 
 const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
   const router = useRouter();
-  const pathname = usePathname();
   const { isDismissed, dismiss } = useProfileMessage();
 
   const { isTrialActive, isTrialUsed } = useTrial();
@@ -42,19 +41,7 @@ const ProfileMessage = ({ user, session }: ProfileMessageProps) => {
 
   const items = [];
 
-  const routesToIgnore = [
-    "/essentia",
-    "/soporte",
-    "/blog",
-    "/planes",
-    "/terminos",
-    "/privacidad",
-    "/cookies",
-    "/payment/success",
-    "/payment/cancel",
-  ];
-
-  if (routesToIgnore.includes(pathname) || !session?.user?.id) return null;
+  if (!session?.user?.id) return null;
 
   const isProfileIncomplete =
     !user?.bio ||

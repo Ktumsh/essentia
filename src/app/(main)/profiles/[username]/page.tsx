@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 import PageWrapper from "@/components/layout/page-wrapper";
 import { Separator } from "@/components/ui/separator";
 import { getUserData } from "@/utils";
@@ -7,13 +5,16 @@ import { getUserData } from "@/utils";
 import AccountHeader from "../../(account)/_components/account-header";
 import ProfileInfo from "../../(account)/profile/_components/profile-info";
 
-type Props = {
+import type { Metadata } from "next";
+
+type ProfilePageProps = {
   params: Promise<{ username: string }>;
 };
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params;
-  const username = params.username;
+export async function generateMetadata({
+  params,
+}: ProfilePageProps): Promise<Metadata> {
+  const { username } = await params;
   return {
     title: `Perfil de ${username}`,
     alternates: {
@@ -22,9 +23,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-const ProfilePage = async (props: Props) => {
-  const params = await props.params;
-  const { username } = params;
+export default async function ProfilePage({ params }: ProfilePageProps) {
+  const { username } = await params;
 
   const user = await getUserData({ username });
 
@@ -37,6 +37,4 @@ const ProfilePage = async (props: Props) => {
       <ProfileInfo user={user} isOwnProfile={false} />
     </PageWrapper>
   );
-};
-
-export default ProfilePage;
+}

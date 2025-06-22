@@ -1,6 +1,6 @@
 export const resultMessages = {
   // Autenticación y cuenta
-  USER_CREATED: "¡Usuario creado! Verifica tu correo para activar tu cuenta",
+  USER_CREATED: "¡Cuenta creada! Verifica tu correo para activar tu cuenta",
   USER_LOGGED_IN: "¡Bienvenido de nuevo!",
   USER_DISABLED: "¡Usuario deshabilitado!",
   INVALID_CREDENTIALS: "¡Credenciales inválidas!",

@@ -1,16 +1,19 @@
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { GUIDE_DATA } from "@/db/data/guide-data";
 
 import Guide from "../_components/guide";
 
-type Props = {
+import type { Metadata } from "next";
+
+type GuidePageProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const id = (await params).id;
+export async function generateMetadata({
+  params,
+}: GuidePageProps): Promise<Metadata> {
+  const { id } = await params;
   const guide = GUIDE_DATA.find((guide) => String(guide.id) === id);
 
   if (!guide) {
@@ -25,8 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function GuidePage({ params }: Props) {
-  const id = (await params).id;
+export async function generateStaticParams() {
+  return GUIDE_DATA.map((guide) => ({
+    id: String(guide.id),
+  }));
+}
+
+export default async function GuidePage({ params }: GuidePageProps) {
+  const { id } = await params;
 
   const guide = GUIDE_DATA.find((guide) => String(guide.id) === id);
 

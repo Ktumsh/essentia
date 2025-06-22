@@ -129,7 +129,7 @@ const DocumentRow = ({
                 <span className="sr-only">Ver detalles</span>
               </ChevronButton>
             </BetterTooltip>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"

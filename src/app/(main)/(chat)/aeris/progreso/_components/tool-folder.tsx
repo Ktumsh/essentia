@@ -33,7 +33,7 @@ const ToolFolder = ({ group }: ToolFolderProps) => {
       <Card
         key={toolName}
         className={cn(
-          "hover:shadow-stock rounded-3xl transition hover:-translate-y-2",
+          "hover:shadow-stock rounded-3xl border transition hover:-translate-y-2",
         )}
       >
         <ToolFolderHeader

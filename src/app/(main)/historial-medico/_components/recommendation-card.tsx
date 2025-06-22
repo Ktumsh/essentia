@@ -82,7 +82,7 @@ const RecommendationCard = ({
   const isMobile = useIsMobile();
 
   const desktopActions = (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <BetterTooltip content="Acciones">
         <DropdownMenuTrigger asChild>
           <Button

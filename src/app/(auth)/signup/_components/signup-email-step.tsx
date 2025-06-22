@@ -19,8 +19,8 @@ import { getUserByEmail } from "@/db/querys/user-querys";
 import { emailSchema } from "@/lib/form-schemas";
 import { resultMessages } from "@/utils/errors";
 
-import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
-import { SubmitButton } from "../../_components/submit-button";
+import AuthRedirectMessage from "../../_components/auth-redirect-message";
+import SubmitButton from "../../_components/submit-button";
 
 interface SignupEmailStepProps {
   onSuccess: (email: string) => void;

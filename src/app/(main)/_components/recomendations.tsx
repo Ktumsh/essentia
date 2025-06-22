@@ -1,3 +1,5 @@
+"use client";
+
 import { EmblaOptionsType } from "embla-carousel";
 import AutoPlay from "embla-carousel-autoplay";
 
@@ -7,16 +9,17 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { MAIN_HERO_DATA } from "@/db/data/main-hero-data";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 import RecomendationsItem from "./recomendations-item";
 
 const OPTIONS: EmblaOptionsType = { loop: true, align: "start" };
 
-interface RecomendationsProps {
-  isPremium?: boolean;
-}
+const Recomendations = () => {
+  const { user } = useUserProfile();
 
-const Recomendations = ({ isPremium }: RecomendationsProps) => {
+  const isPremium = user?.isPremium;
+
   return (
     <Carousel
       className="w-full"

@@ -1,10 +1,11 @@
-import { Metadata } from "next";
 
 import { auth } from "@/app/(auth)/auth";
 import { getUserData } from "@/utils/profile";
 
 import { Chat } from "../_components/chat";
 import { generateUUID } from "../_lib/utils";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Aeris ⭐",

@@ -1,13 +1,12 @@
-import { Metadata } from "next";
-
 import RecoverPass from "./_components/recover-pass";
+
+import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "Recuperar contraseña",
 };
 
-const RecoverPasswordPage = async () => {
+export default function RecoverPasswordPage() {
   return <RecoverPass />;
-};
-
-export default RecoverPasswordPage;
+}

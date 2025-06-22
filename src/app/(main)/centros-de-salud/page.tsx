@@ -1,6 +1,6 @@
-import { Metadata } from "next";
-
 import Centers from "./_components/centers";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Centros de salud",
@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   },
 };
 
-const HealthCentersPage = () => {
+export default function HealthCentersPage() {
   return <Centers />;
-};
-
-export default HealthCentersPage;
+}

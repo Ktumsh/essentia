@@ -1,8 +1,8 @@
-import { Metadata } from "next";
-
 import { auth } from "@/app/(auth)/auth";
 
 import SettingsWrapper from "./_components/settings-wrapper";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Configuración",
@@ -11,9 +11,8 @@ export const metadata: Metadata = {
   },
 };
 
-const SettingsPage = async () => {
+export default async function SettingsPage() {
   const session = await auth();
-  return <SettingsWrapper session={session} />;
-};
 
-export default SettingsPage;
+  return <SettingsWrapper session={session} />;
+}

@@ -1,7 +1,8 @@
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import VerifyEmail from "./verify-email";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Verificar correo electrónico",
@@ -10,19 +11,18 @@ export const metadata: Metadata = {
   },
 };
 
-type Props = {
+type VerifyEmailProps = {
   searchParams: Promise<{ email?: string }>;
 };
 
-const VerifyEmailPage = async (props: Props) => {
-  const searchParams = await props.searchParams;
-  const { email } = searchParams;
+export default async function VerifyEmailPage({
+  searchParams,
+}: VerifyEmailProps) {
+  const { email } = await searchParams;
 
   if (!email) {
     return redirect("/login");
   }
 
   return <VerifyEmail email={email} />;
-};
-
-export default VerifyEmailPage;
+}

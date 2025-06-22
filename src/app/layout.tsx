@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 import { Session } from "next-auth";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
-import ProfileMessage from "@/components/layout/profile-message";
 import TailwindIndicator from "@/components/layout/tailwind-indicator";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -17,11 +16,8 @@ import {
   spaceMono,
 } from "@/config/fonts.config";
 import { metadataConfig } from "@/config/metadata.config";
-import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
-import { getUserTasks } from "@/db/querys/task-querys";
 import { getUserSubscriptionInfo } from "@/db/querys/user-querys";
 import { cn } from "@/utils";
-import { getUserData } from "@/utils/profile";
 
 import { auth } from "./(auth)/auth";
 
@@ -35,6 +31,7 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#030e1e" },
   ],
   colorScheme: "light dark",
+  maximumScale: 1,
 };
 
 export default async function RootLayout({
@@ -49,24 +46,14 @@ export default async function RootLayout({
 
   const userId = session?.user?.id as string;
 
-  const [subscription] = session ? await getSubscription(userId) : [];
-  const [payment] = session ? await getPaymentDetails(userId) : [];
-
-  const initialTasks = session ? await getUserTasks(userId) : [];
-  const userData = userId ? await getUserData({ userId }) : null;
-  const initialUserSubscription = userId
+  const userSubscription = userId
     ? await getUserSubscriptionInfo(userId)
     : {
         trial: { hasUsed: false, isActive: false, expiresAt: null },
         subscription: null,
       };
 
-  const isCollapsed = cookieStore.get("sidebar_state")?.value !== "true";
   const isMobile = cookieStore.get("isMobile")?.value === "true";
-  const medicalMode =
-    (cookieStore.get("view_mode")?.value as "grid" | "list") || "grid";
-
-  const currentPlan = subscription?.type || "free";
 
   return (
     <html lang="es" suppressHydrationWarning className="md:overflow-hidden">
@@ -81,19 +68,10 @@ export default async function RootLayout({
       >
         <Providers
           key={userId}
-          currentPlan={currentPlan}
-          defaultOpen={!isCollapsed}
-          userId={userId}
-          initialUserData={userData}
-          initialSubscription={subscription}
-          initialPayment={payment}
-          initialTasks={initialTasks}
           initialMobileState={isMobile}
-          initialUserSubscription={initialUserSubscription}
-          initialMode={medicalMode}
+          initialUserSubscription={userSubscription}
         >
           <Toaster />
-          <ProfileMessage user={userData} session={session} />
           <ViewTransition name="page">{children}</ViewTransition>
           <TailwindIndicator />
         </Providers>

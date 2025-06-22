@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
@@ -14,14 +13,18 @@ import { getUserData } from "@/utils/profile";
 import RouteWrapper from "./_components/route-wrapper";
 
 import type { RouteResource } from "@/lib/types";
+import type { Metadata } from "next";
 
-type Props = {
+export const experimental_ppr = false;
+
+type RoutePageProps = {
   params: Promise<{ route: string }>;
 };
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params;
-  const routeSlug = params.route;
+export async function generateMetadata({
+  params,
+}: RoutePageProps): Promise<Metadata> {
+  const routeSlug = (await params).route;
   const routeData = RESOURCE_DATA.find((item) => item.slug === routeSlug);
 
   if (!routeData) {
@@ -36,9 +39,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-const RoutePage = async (props: Props) => {
-  const params = await props.params;
-  const slug = params.route;
+export async function generateStaticParams() {
+  return RESOURCE_DATA.map((resource) => ({
+    route: resource.slug,
+  }));
+}
+
+const RoutePage = async ({ params }: RoutePageProps) => {
+  const slug = (await params).route;
   const staticRes = RESOURCE_DATA.find((r) => r.slug === slug);
 
   if (!staticRes || !slug) redirect("/not-found");

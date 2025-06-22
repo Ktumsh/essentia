@@ -1,16 +1,14 @@
-import { Metadata } from "next";
-
 import AccesibilityStgWrp from "./_components/accesiblity-stg-wrp";
 
+import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Configuración / Accesibilidad y pantalla",
+  title: "Configuración / Preferencias y accesibilidad",
   alternates: {
     canonical: "/settings/accesibility",
   },
 };
 
-const AccesibilityStgPage = () => {
+export default function AccesibilityStgPage() {
   return <AccesibilityStgWrp />;
-};
-
-export default AccesibilityStgPage;
+}

@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
 import { navConfig } from "@/config/nav.config";
-import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/utils";
 
 import type { Session } from "next-auth";
@@ -38,23 +37,18 @@ const MobileNavbar = ({ session }: MobileNavbarProps) => {
   const mainNavItems = navConfig.publicLinks;
   const discoverItems = navConfig.publicListLinks;
 
-  const { user } = useUserProfile();
-  const isPremium = user?.isPremium || false;
-
   const actions = session?.user ? (
     <>
       <Button variant="accent" onClick={() => router.push("/")}>
         Panel Essentia
       </Button>
-      {!isPremium && (
-        <Button
-          variant="gradient"
-          onClick={() => router.push("/planes")}
-          className="w-full"
-        >
-          Hazte premium
-        </Button>
-      )}
+      <Button
+        variant="gradient"
+        onClick={() => router.push("/planes")}
+        className="w-full"
+      >
+        Hazte premium
+      </Button>
     </>
   ) : (
     <>

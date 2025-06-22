@@ -20,7 +20,7 @@ import { EmailFormData, NewPasswordFormData } from "@/lib/form-schemas";
 import StepEmail from "./step-email";
 import StepResetPassword from "./step-reset-password";
 import StepVerifyCode from "./step-verify-code";
-import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
+import AuthRedirectMessage from "../../_components/auth-redirect-message";
 import StepContainer from "../../signup/_components/step-container";
 
 const RecoverPass = () => {

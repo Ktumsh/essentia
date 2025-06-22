@@ -25,17 +25,18 @@ type ReviewPageProps = {
   }>;
 };
 
-export default async function ReviewPage(props: ReviewPageProps) {
-  const params = await props.params;
+export default async function ReviewPage({ params }: ReviewPageProps) {
+  const { route: routeSlug, stage: stageSlug } = await params;
+
   const session = await auth();
   const userId = session?.user?.id as string;
 
   if (!userId) return redirect("/not-found");
 
-  const route = await getRouteBySlug(params.route);
+  const route = await getRouteBySlug(routeSlug);
   if (!route) return redirect("/not-found");
 
-  const stageData = await getStageBySlug(params.stage);
+  const stageData = await getStageBySlug(stageSlug);
   const stage = stageData?.stage;
   if (!stage) return redirect(`/${route.slug}`);
 

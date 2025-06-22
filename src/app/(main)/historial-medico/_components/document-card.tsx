@@ -108,7 +108,7 @@ const DocumentCard = ({
   const createdAtText = formatDate(new Date(doc.createdAt), "dd MMM yyyy");
 
   const desktopActions = (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <BetterTooltip content="Acciones">
         <DropdownMenuTrigger asChild>
           <Button

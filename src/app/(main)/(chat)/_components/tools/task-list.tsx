@@ -127,7 +127,11 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lista de tareas</DialogTitle>
-            <DialogDescription></DialogDescription>
+            <DialogDescription className="sr-only">
+              Aquí puedes ver y gestionar todas tus tareas programadas. Puedes
+              crear nuevas tareas, editarlas, pausarlas o eliminarlas según sea
+              necesario.
+            </DialogDescription>
           </DialogHeader>
 
           {tasks.length === 0 && (
@@ -183,7 +187,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                       <Button
                         size="icon"
                         variant="ghost"
-                        className="hover:bg-background size-7 rounded-sm"
+                        className="hover:bg-background"
                         onClick={() => handleEditTask(task.id)}
                       >
                         <PencilLine />
@@ -194,7 +198,7 @@ const TaskList = ({ isOpen, setIsOpen }: TaskListProps) => {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="hover:bg-background size-7 rounded-sm"
+                            className="hover:bg-background"
                           >
                             <MoreVertical />
                           </Button>

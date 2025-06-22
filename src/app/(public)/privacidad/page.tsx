@@ -2,6 +2,17 @@ import { LEGAL_DATA } from "@/db/data/legal-data";
 
 import LegalWrapper from "../_components/legal-wrapper";
 
+import type { Metadata } from "next";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Política de Privacidad",
+  alternates: {
+    canonical: "/privacidad",
+  },
+};
+
 export default function PrivacityPage() {
   const privacy = LEGAL_DATA.privacyPolicy;
   return (

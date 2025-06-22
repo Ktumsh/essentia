@@ -3,15 +3,15 @@
 import {
   Accessibility,
   Bell,
-  ChevronRight,
   CreditCard,
   UserRoundPenIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
-import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+import InfoField from "./info-field";
 
 interface SettingsWrapperProps {
   session: Session | null;
@@ -33,71 +33,39 @@ const SettingsWrapper = ({ session }: SettingsWrapperProps) => {
       </div>
       <div className="mt-1 flex flex-col gap-1">
         <ul className="border-border flex flex-col overflow-hidden border-y md:rounded-lg md:border">
-          {session?.user && (
+          {session?.user?.id && (
             <>
-              <li>
-                <Button
-                  variant="ghost"
-                  fullWidth
-                  radius="none"
-                  className="h-12 justify-between px-6 py-3 md:h-11 md:px-4 md:py-2"
-                  onClick={() => router.push("/settings/account-profile")}
-                >
-                  <div className="flex items-center gap-4">
-                    <UserRoundPenIcon className="size-4 shrink-0" />
-                    <span>Cuenta y perfil</span>
-                  </div>
-                  <ChevronRight className="size-4 shrink-0" />
-                </Button>
-              </li>
-              <li>
-                <Button
-                  variant="ghost"
-                  fullWidth
-                  radius="none"
-                  className="h-12 justify-between px-6 py-3 md:h-11 md:px-4 md:py-2"
-                  onClick={() => router.push("/settings/subscriptions")}
-                >
-                  <div className="flex items-center gap-4">
-                    <CreditCard className="size-4 shrink-0" />
-                    <span>Suscripciones</span>
-                  </div>
-                  <ChevronRight className="size-4 shrink-0" />
-                </Button>
-              </li>
+              <InfoField
+                title="Cuenta y perfil"
+                hasValue={false}
+                icon={UserRoundPenIcon}
+                isButton
+                buttonAction={() => router.push("/settings/account-profile")}
+              />
+              <InfoField
+                title="Suscripciones"
+                hasValue={false}
+                icon={CreditCard}
+                isButton
+                buttonAction={() => router.push("/settings/subscriptions")}
+              />
             </>
           )}
-          <li>
-            <Button
-              variant="ghost"
-              fullWidth
-              radius="none"
-              className="h-12 justify-between px-6 py-3 md:h-11 md:px-4 md:py-2"
-              onClick={() => router.push("/settings/accesibility")}
-            >
-              <div className="flex items-center gap-4">
-                <Accessibility className="size-4 shrink-0" />
-                <span>Preferencias y accesibilidad</span>
-              </div>
-              <ChevronRight className="size-4 shrink-0" />
-            </Button>
-          </li>
-          {session?.user && (
-            <li>
-              <Button
-                variant="ghost"
-                fullWidth
-                radius="none"
-                className="h-12 justify-between px-6 py-3 md:h-11 md:px-4 md:py-2"
-                onClick={() => router.push("/settings/notifications")}
-              >
-                <div className="flex items-center gap-4">
-                  <Bell className="size-4 shrink-0" />
-                  <span>Notificaciones y recordatorios</span>
-                </div>
-                <ChevronRight className="size-4 shrink-0" />
-              </Button>
-            </li>
+          <InfoField
+            title="Preferencias y accesibilidad"
+            hasValue={false}
+            icon={Accessibility}
+            isButton
+            buttonAction={() => router.push("/settings/accesibility")}
+          />
+          {session?.user?.id && (
+            <InfoField
+              title="Notificaciones y recordatorios"
+              hasValue={false}
+              icon={Bell}
+              isButton
+              buttonAction={() => router.push("/settings/notifications")}
+            />
           )}
         </ul>
       </div>

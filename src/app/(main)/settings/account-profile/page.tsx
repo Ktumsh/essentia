@@ -1,9 +1,6 @@
-import { Metadata } from "next";
-
-import { auth } from "@/app/(auth)/auth";
-import { getUserData } from "@/utils/profile";
-
 import AccountStgWrp from "./_components/account-stg-wrp";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Configuración / Cuenta y perfil",
@@ -12,16 +9,6 @@ export const metadata: Metadata = {
   },
 };
 
-const AccountStgPage = async () => {
-  const session = await auth();
-
-  if (!session?.user) return null;
-
-  const userId = session.user.id as string;
-
-  const userData = userId ? await getUserData({ userId }) : null;
-
-  return <AccountStgWrp user={userData} />;
-};
-
-export default AccountStgPage;
+export default function AccountStgPage() {
+  return <AccountStgWrp />;
+}

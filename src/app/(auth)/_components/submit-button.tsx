@@ -4,13 +4,13 @@ import { Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-export function SubmitButton({
+const SubmitButton = ({
   children,
   isPending,
 }: {
   children: React.ReactNode;
   isPending?: boolean;
-}) {
+}) => {
   return (
     <Button
       type={isPending ? "button" : "submit"}
@@ -25,4 +25,6 @@ export function SubmitButton({
       </output>
     </Button>
   );
-}
+};
+
+export default SubmitButton;

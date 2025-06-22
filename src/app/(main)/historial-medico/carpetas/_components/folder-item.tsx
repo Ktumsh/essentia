@@ -110,7 +110,7 @@ const FolderItem = ({
                 {capitalize(folder.name)}
               </span>
               <div className="ms-auto">
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <Button
                       size="icon"

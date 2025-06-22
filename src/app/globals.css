@@ -197,6 +197,18 @@
   --scrollbar: hsl(214, 32%, 91%);
 }
 
+[data-font-size="small"] {
+  --text-sm: 11px;
+  --text-base: 13px;
+  --text-lg: 15px;
+}
+
+[data-font-size="large"] {
+  --text-sm: 15px;
+  --text-base: 17px;
+  --text-lg: 20px;
+}
+
 .dark {
   --background: hsl(216, 82%, 6%);
   --foreground: hsl(210, 40%, 98%);

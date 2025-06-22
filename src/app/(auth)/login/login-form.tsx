@@ -27,13 +27,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getUserProfileByEmail } from "@/db/querys/profile-querys";
 import { LoginFormData, loginSchema } from "@/lib/form-schemas";
-import { getWelcomeLabel } from "@/utils";
 import { resultMessages } from "@/utils/errors";
 
-import { AuthRedirectMessage } from "../_components/auth-redirect-message";
-import { SubmitButton } from "../_components/submit-button";
+import AuthRedirectMessage from "../_components/auth-redirect-message";
+import SubmitButton from "../_components/submit-button";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -72,17 +70,6 @@ const LoginForm = () => {
         localStorage.removeItem(STORAGE_KEY);
       }
 
-      const [user] = await getUserProfileByEmail(data.email);
-
-      const welcome = getWelcomeLabel(user.profile.genre);
-
-      const firstName = user.profile.firstName;
-
-      if (user) {
-        toast.success(`${welcome}, ${firstName}!`);
-      } else {
-        toast.success("¡Bienvenid@!");
-      }
       setTimeout(() => {
         window.location.href = redirectUrl;
       }, 500);

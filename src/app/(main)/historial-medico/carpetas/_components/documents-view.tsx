@@ -57,12 +57,12 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
   const { folderName } = useFolderName(folderId);
 
   const {
+    containerRef: documentContainerRef,
+    modalRef: documentModalRef,
     selectedIds: selectedDocuments,
     handleSelect,
     handleToggle,
     clearSelection,
-    containerRef,
-    modalRef,
     setSelectedIds,
     handlePointerDown,
     handlePointerUp,
@@ -97,110 +97,112 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
 
   return (
     <>
-      <FolderSectionHeader
-        count={selectedDocuments.length}
-        onClear={clearSelection}
-        onDelete={() => openDialog("isMultiDeleteDocsDialogOpen")}
-        onNewFolder={() => setOpen({ ...open, isFolderFormOpen: true })}
-        folderName={folderName}
-        variant="documents"
-      />
-      {docs.length > 0 && (
-        <div className="mt relative mt-3 flex w-full overflow-x-auto rounded-xl">
-          <div className="bg-muted flex flex-1 items-center justify-between gap-2 p-3">
-            {isMobile && (
-              <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
-            )}
-            <FolderDocumentFilters
-              searchTerm={folderSearchTerm}
-              setSearchTerm={setFolderSearchTerm}
-              category={folderCategory}
-              setCategory={setFolderCategory}
-            />
-            {!isMobile && (
-              <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
-            )}
+      <div ref={documentContainerRef} className="touch-pan-y">
+        <FolderSectionHeader
+          count={selectedDocuments.length}
+          onClear={clearSelection}
+          onDelete={() => openDialog("isMultiDeleteDocsDialogOpen")}
+          onNewFolder={() => setOpen({ ...open, isFolderFormOpen: true })}
+          folderName={folderName}
+          variant="documents"
+        />
+        {docs.length > 0 && (
+          <div className="mt relative mt-3 flex w-full overflow-x-auto rounded-xl">
+            <div className="bg-muted flex flex-1 items-center justify-between gap-2 p-3">
+              {isMobile && (
+                <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
+              )}
+              <FolderDocumentFilters
+                searchTerm={folderSearchTerm}
+                setSearchTerm={setFolderSearchTerm}
+                category={folderCategory}
+                setCategory={setFolderCategory}
+              />
+              {!isMobile && (
+                <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
+              )}
+            </div>
           </div>
-        </div>
-      )}
-      <div ref={containerRef} className="@container/list mt-3">
-        {docs.length === 0 ? (
-          <Card className="border border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-10">
-              <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
-                <FileText className="text-muted-foreground size-12 opacity-50" />
-                <div className="space-y-1.5 text-center">
-                  <p className="text-foreground text-sm font-medium">
-                    No hay documentos médicos en esta carpeta
-                  </p>
-                  <p className="text-xs md:text-sm">
-                    Agrega documentos médicos a esta carpeta para mantener un
-                    mejor control de tu historial médico.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ) : filteredFolderDocs.length === 0 ? (
-          <DocumentEmptyState
-            hasFilters={
-              folderSearchTerm.trim() !== "" || folderCategory !== "all"
-            }
-            onClearFilters={() => {
-              setFolderSearchTerm("");
-              setFolderCategory("all");
-            }}
-            onAddDocument={() => openDialog("isAddDialogOpen")}
-          />
-        ) : (
-          <DocumentSection
-            docs={filteredFolderDocs}
-            viewMode={viewMode}
-            onView={(item) => {
-              setCurrentItem(item);
-              openDialog("isViewDialogOpen");
-            }}
-            onAIClick={(item) => {
-              setSelectedItemsForAI([item.id]);
-              openDialog("isAIDialogOpen");
-            }}
-            onViewFile={(file) => {
-              setFileToView(file);
-              openDialog("isFileViewerOpen");
-            }}
-            onDownload={handleDownload}
-            onEdit={(item) => {
-              setEditingItem(item);
-              openDialog("isEditDialogOpen");
-            }}
-            onDelete={(item) => {
-              setItemToDelete(item);
-              openDialog("isDeleteDialogOpen");
-            }}
-            currentDoc={editingItem}
-            open={isOpenOptions}
-            setOpen={setIsOpenOptions}
-            onOpenOptions={(item) => {
-              setCurrentItem(item);
-              setIsOpenOptions(true);
-            }}
-            selectedDocs={selectedDocuments}
-            onClickSelect={handleClickSelect}
-            onCheckboxToggle={handleCheckboxToggle}
-            onToggleSelectAll={() => {
-              if (selectedDocuments.length === docs.length) {
-                clearSelection();
-              } else {
-                setSelectedIds(docs.map((doc) => doc.id));
-              }
-            }}
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
-          />
         )}
+        <div className="@container/list mt-3">
+          {docs.length === 0 ? (
+            <Card className="border border-dashed">
+              <CardContent className="flex flex-col items-center justify-center py-10">
+                <div className="text-muted-foreground flex flex-col items-center justify-center gap-4">
+                  <FileText className="text-muted-foreground size-12 opacity-50" />
+                  <div className="space-y-1.5 text-center">
+                    <p className="text-foreground text-sm font-medium">
+                      No hay documentos médicos en esta carpeta
+                    </p>
+                    <p className="text-xs md:text-sm">
+                      Agrega documentos médicos a esta carpeta para mantener un
+                      mejor control de tu historial médico.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ) : filteredFolderDocs.length === 0 ? (
+            <DocumentEmptyState
+              hasFilters={
+                folderSearchTerm.trim() !== "" || folderCategory !== "all"
+              }
+              onClearFilters={() => {
+                setFolderSearchTerm("");
+                setFolderCategory("all");
+              }}
+              onAddDocument={() => openDialog("isAddDialogOpen")}
+            />
+          ) : (
+            <DocumentSection
+              docs={filteredFolderDocs}
+              viewMode={viewMode}
+              onView={(item) => {
+                setCurrentItem(item);
+                openDialog("isViewDialogOpen");
+              }}
+              onAIClick={(item) => {
+                setSelectedItemsForAI([item.id]);
+                openDialog("isAIDialogOpen");
+              }}
+              onViewFile={(file) => {
+                setFileToView(file);
+                openDialog("isFileViewerOpen");
+              }}
+              onDownload={handleDownload}
+              onEdit={(item) => {
+                setEditingItem(item);
+                openDialog("isEditDialogOpen");
+              }}
+              onDelete={(item) => {
+                setItemToDelete(item);
+                openDialog("isDeleteDialogOpen");
+              }}
+              currentDoc={editingItem}
+              open={isOpenOptions}
+              setOpen={setIsOpenOptions}
+              onOpenOptions={(item) => {
+                setCurrentItem(item);
+                setIsOpenOptions(true);
+              }}
+              selectedDocs={selectedDocuments}
+              onClickSelect={handleClickSelect}
+              onCheckboxToggle={handleCheckboxToggle}
+              onToggleSelectAll={() => {
+                if (selectedDocuments.length === docs.length) {
+                  clearSelection();
+                } else {
+                  setSelectedIds(docs.map((doc) => doc.id));
+                }
+              }}
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
+            />
+          )}
+        </div>
       </div>
       <MultiDeleteAlert
-        ref={modalRef}
+        ref={documentModalRef}
         selectedCount={selectedCount}
         isOpen={dialogs.isMultiDeleteDocsDialogOpen}
         setIsOpen={(open) =>

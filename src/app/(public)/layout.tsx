@@ -1,6 +1,8 @@
 import { auth } from "../(auth)/auth";
 import PublicWrapper from "./_components/public-wrapper";
 
+export const experimental_ppr = true;
+
 export default async function PublicLayout({
   children,
 }: {

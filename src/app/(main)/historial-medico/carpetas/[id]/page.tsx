@@ -11,13 +11,10 @@ interface FolderPageProps {
   }>;
 }
 
-export default async function FolderPage(props: FolderPageProps) {
-  const params = await props.params;
-  const { id } = params;
+export default async function FolderPage({ params }: FolderPageProps) {
+  const { id } = await params;
 
-  if (!id) {
-    redirect("/historial-medico");
-  }
+  if (!id) redirect("/historial-medico");
 
   const session = await auth();
 
@@ -29,9 +26,7 @@ export default async function FolderPage(props: FolderPageProps) {
 
   const documents = await getDocumentsByFolderId({ userId, folderId: id });
 
-  if (!documents) {
-    redirect("/historial-medico");
-  }
+  if (!documents) redirect("/historial-medico");
 
   return <DocumentsView docs={documents} folderId={id} />;
 }

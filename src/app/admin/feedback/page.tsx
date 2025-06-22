@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
 import { auth } from "@/app/(auth)/auth";
 import {
   getFeedbackPaginated,
@@ -9,13 +7,17 @@ import {
 
 import FeedbackDashboard from "./_components/feedback-dashboard";
 
+export const experimental_ppr = true;
+
 export default async function AdminFeedbackPage() {
   const session = await auth();
 
-  const [user] = await getUserById(session?.user?.id as string);
+  const userId = session?.user?.id as string;
 
-  if (!session || user.role !== "admin") {
-    redirect("/");
+  const [user] = userId ? await getUserById(userId) : [];
+
+  if (!user || user.role !== "admin") {
+    throw new Error("No autorizado");
   }
 
   const [feedback, totalCount] = await Promise.all([

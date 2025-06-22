@@ -45,7 +45,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
 
   const isAerisPage = pathname.startsWith("/aeris");
 
-  const isCollapsed = isAerisPage && session?.user;
+  const isCollapsed = isAerisPage && session?.user?.id;
 
   const {
     data: paginatedChatHistories,
@@ -55,7 +55,7 @@ export function AppSidebar({ session, user, isPremium }: AppSidebarProps) {
     mutate,
   } = useSWRInfinite<ChatHistory>(
     (pageIndex, previousPageData) =>
-      session?.user
+      session?.user?.id && isAerisPage
         ? getChatHistoryPaginationKey(pageIndex, previousPageData)
         : null,
     fetcher,

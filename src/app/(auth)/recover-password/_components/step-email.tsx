@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { EmailFormData, emailSchema } from "@/lib/form-schemas";
 
-import { SubmitButton } from "../../_components/submit-button";
+import SubmitButton from "../../_components/submit-button";
 
 interface StepEmailProps {
   onSubmit: (data: EmailFormData) => void;

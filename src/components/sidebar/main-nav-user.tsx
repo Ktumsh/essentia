@@ -121,13 +121,13 @@ const MainNavUser = ({ session, user, isCollapsed }: MainNavUserProps) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 data-testid="user-nav-menu"
-                className="w-64 min-w-56 rounded-lg"
+                className="w-64 min-w-56"
                 side="right"
                 align="end"
                 sideOffset={4}
               >
                 <DropdownMenuLabel className="p-0 font-normal">
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem asChild className="rounded-lg!">
                     <Link href={user ? "/profile" : "/login"}>
                       {profileImage ? (
                         <Avatar>

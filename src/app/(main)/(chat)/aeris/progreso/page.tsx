@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
@@ -8,6 +7,8 @@ import { getGroupedChatToolsByUser } from "@/db/querys/chat-querys";
 import { getSubscriptionType } from "@/db/querys/payment-querys";
 
 import ToolList from "./_components/tool-list";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Hábitos y progreso",

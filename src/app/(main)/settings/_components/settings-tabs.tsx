@@ -16,16 +16,15 @@ import AccountStg from "../account-profile/_components/account-stg";
 import NotificationsStg from "../notifications/_components/notifications-stg";
 import SubscriptionsStg from "../subscriptions/_components/subscriptions-stg";
 
-import type { PaymentHistory, UserProfileData } from "@/lib/types";
+import type { PaymentHistory } from "@/lib/types";
 import type { Session } from "next-auth";
 
 interface SettingsTabsProps {
-  user: UserProfileData | null;
   session: Session | null;
   paymentHistory: Array<PaymentHistory>;
 }
 
-const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
+const SettingsTabs = ({ session, paymentHistory }: SettingsTabsProps) => {
   const pathname = usePathname();
 
   const [tabValue, setTabValue] = useState<string>(pathname);
@@ -118,7 +117,7 @@ const SettingsTabs = ({ user, session, paymentHistory }: SettingsTabsProps) => {
         value="/settings/account-profile"
         className="bg-background flex-1 px-6 pb-16 md:pb-6"
       >
-        <AccountStg user={user} />
+        <AccountStg />
       </TabsContent>
       <TabsContent
         value="/settings/subscriptions"

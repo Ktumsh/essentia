@@ -156,3 +156,22 @@ export async function getQuestionsByReview(
     throw error;
   }
 }
+
+export async function getAllSlugs() {
+  try {
+    const slugs = await db
+      .select({
+        route: route.slug,
+        stage: stage.slug,
+        lesson: lesson.slug,
+      })
+      .from(route)
+      .leftJoin(stage, eq(route.id, stage.routeId))
+      .leftJoin(lesson, eq(stage.id, lesson.stageId));
+
+    return slugs;
+  } catch (error) {
+    console.error("Error al obtener todos los slugs:", error);
+    throw error;
+  }
+}

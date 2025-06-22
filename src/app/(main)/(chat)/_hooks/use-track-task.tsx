@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 
+import { useTasks } from "@/hooks/use-task";
+
 import type { UIMessage } from "ai";
 
-export function useTrackTasks(
-  parts: UIMessage["parts"],
-  addTask: (t: any) => void,
-) {
+export function useTrackTasks({ parts }: { parts: UIMessage["parts"] }) {
+  const { addTask } = useTasks();
+
   useEffect(() => {
     parts.forEach((p) => {
       if (

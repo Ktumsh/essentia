@@ -6,17 +6,15 @@ type StagePageProps = {
   params: Promise<{ route: string; stage: string }>;
 };
 
-const StagePage = async (props: StagePageProps) => {
-  const params = await props.params;
-  const routeSlug = params.route;
-  const stageSlug = params.stage;
+const StagePage = async ({ params }: StagePageProps) => {
+  const { route, stage } = await params;
 
-  const stageData = await getStageBySlug(stageSlug);
+  const stageData = await getStageBySlug(stage);
 
   if (!stageData) redirect("/not-found");
 
   return redirect(
-    `/${routeSlug}/${stageData.stage.slug}/${stageData.lesson?.slug}`,
+    `/${route}/${stageData.stage.slug}/${stageData.lesson?.slug}`,
   );
 };
 

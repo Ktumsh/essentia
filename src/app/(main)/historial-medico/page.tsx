@@ -1,11 +1,11 @@
-import { Metadata } from "next";
-
 import { auth } from "@/app/(auth)/auth";
 import PageWrapper from "@/components/layout/page-wrapper";
 
 import MedicalHistoryTabs from "./_components/medical-history-tabs";
 import UnauthenticatedState from "./_components/unauthenticated-state";
 import MedicalFoldersPanel from "./carpetas/_components/medical-folders";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Historial médico",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default async function MedicalHistoryPage() {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user?.id) {
     return (
       <PageWrapper>
         <UnauthenticatedState />

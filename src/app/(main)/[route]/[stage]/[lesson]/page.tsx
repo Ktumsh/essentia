@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
@@ -13,10 +12,15 @@ import {
   getLessonBySlug,
   getStages,
   getRouteBySlug,
+  getAllSlugs,
 } from "@/db/querys/resource-querys";
 import { getUserData } from "@/utils/profile";
 
 import Lesson from "../../_components/lesson";
+
+import type { Metadata } from "next";
+
+export const experimental_ppr = false;
 
 type LessonPageProps = {
   params: Promise<{ route: string; stage: string; lesson: string }>;
@@ -25,9 +29,11 @@ type LessonPageProps = {
 export async function generateMetadata({
   params,
 }: LessonPageProps): Promise<Metadata> {
-  const routeSlug = (await params).route;
-  const stageSlug = (await params).stage;
-  const lessonSlug = (await params).lesson;
+  const {
+    route: routeSlug,
+    stage: stageSlug,
+    lesson: lessonSlug,
+  } = await params;
 
   const route = await getRouteBySlug(routeSlug);
 
@@ -51,10 +57,17 @@ export async function generateMetadata({
   };
 }
 
-const LessonPage = async (props: LessonPageProps) => {
-  const params = await props.params;
-  const routeSlug = params.route;
-  const lessonSlug = params.lesson;
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return slugs.map(({ route, stage, lesson }) => ({
+    route,
+    stage,
+    lesson,
+  }));
+}
+
+export default async function LessonPage({ params }: LessonPageProps) {
+  const { route: routeSlug, lesson: lessonSlug } = await params;
 
   const session = await auth();
 
@@ -129,6 +142,4 @@ const LessonPage = async (props: LessonPageProps) => {
       </div>
     </PageWrapper>
   );
-};
-
-export default LessonPage;
+}

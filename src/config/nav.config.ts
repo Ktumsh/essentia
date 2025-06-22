@@ -1,6 +1,5 @@
 import {
   BadgeCheck,
-  Bug,
   Cookie,
   CreditCard,
   FileText,
@@ -167,11 +166,6 @@ export const navConfig = {
         icon: Settings,
       },
       { name: "Soporte", path: "/soporte", icon: HelpCircle },
-      {
-        name: "Reportar un error",
-        path: "https://github.com/Ktumsh/essentia/issues/new",
-        icon: Bug,
-      },
     ],
     account: [
       { name: "Cuenta", path: "/account", icon: BadgeCheck },

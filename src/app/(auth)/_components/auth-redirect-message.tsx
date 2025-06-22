@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const AuthRedirectMessage = () => {
+const AuthRedirectMessage = () => {
   const pathname = usePathname();
 
   const isLogin = pathname.startsWith("/login");
@@ -28,3 +28,5 @@ export const AuthRedirectMessage = () => {
     </div>
   );
 };
+
+export default AuthRedirectMessage;

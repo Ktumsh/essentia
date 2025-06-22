@@ -5,6 +5,7 @@ import * as icons from "@dicebear/icons";
 import { compare, genSaltSync, hashSync } from "bcrypt-ts";
 import { and, desc, eq, lt, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
+import { revalidatePath } from "next/cache";
 
 import { sendEmailAction } from "@/app/(auth)/_lib/email-action";
 import {
@@ -393,6 +394,7 @@ export async function saveUserFeedback({
       ip,
       userId: userId ?? sql`NULL`,
     });
+    revalidatePath("/admin/feedback");
 
     return {
       success: true,

@@ -3,6 +3,7 @@
 import { Loader, Sparkles, BadgeCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -21,7 +22,6 @@ import {
   SUBSCRIPTION_PLAN_DATA,
 } from "@/db/data/subscription-plan-data";
 import { startUserTrial } from "@/db/querys/user-querys";
-import { useUserProfile } from "@/hooks/use-user-profile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { getClientIp, getPlanPrice, formatDate } from "@/utils";
 
@@ -43,9 +43,10 @@ const ConfirmPlanModal = ({
   const router = useRouter();
   const [step, setStep] = useState<"trial" | "main">("main");
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useUserProfile();
+  const { data: session } = useSession();
   const { subscription, trial } = useUserSubscription();
 
+  const userId = session?.user?.id;
   const isTrialUsed = trial?.hasUsed;
   const isPremium = subscription?.subscription.isPremium;
   const isCurrentPremiumPlus = subscription?.plan?.id === "premium-plus";
@@ -69,13 +70,13 @@ const ConfirmPlanModal = ({
       setIsLoading(true);
       const ip = await getClientIp();
 
-      if (!user?.id) {
+      if (!userId) {
         return toast.error("¡Ups 😔", {
           description: "No se pudo activar la prueba gratuita.",
         });
       }
 
-      await startUserTrial(user.id, ip);
+      await startUserTrial(userId, ip);
       toast.success("Prueba gratuita activada");
       setIsOpen(false);
       setTimeout(() => {
@@ -86,7 +87,7 @@ const ConfirmPlanModal = ({
     } finally {
       setIsLoading(false);
     }
-  }, [user?.id, setIsOpen]);
+  }, [userId, setIsOpen]);
 
   const handleProceedToPayment = useCallback(async () => {
     if (!selectedPlan) {

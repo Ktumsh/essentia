@@ -1,3 +1,5 @@
+import type { UserFeedback } from "@/db/schema";
+
 export function getEmoji(reaction: string) {
   return (
     {
@@ -10,8 +12,8 @@ export function getEmoji(reaction: string) {
   );
 }
 
-export function exportToCSV(data: any[], filename: string) {
-  const header = Object.keys(data[0] ?? {});
+export function exportToCSV(data: UserFeedback[], filename: string) {
+  const header = Object.keys(data[0] ?? {}) as (keyof UserFeedback)[];
   const csv = [
     header.join(","),
     ...data.map((row) => header.map((key) => `"${row[key] ?? ""}"`).join(",")),

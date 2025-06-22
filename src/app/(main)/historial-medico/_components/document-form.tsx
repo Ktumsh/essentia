@@ -364,7 +364,7 @@ const DocumentForm = ({
               <FormItem>
                 <FormLabel htmlFor="tags">Etiquetas (opcional)</FormLabel>
                 <FormControl>
-                  <Popover>
+                  <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -404,7 +404,7 @@ const DocumentForm = ({
                                 >
                                   <div
                                     className={cn(
-                                      "mr-2 flex size-4 items-center justify-center rounded-[6px] border",
+                                      "border-alternative mr-2 flex size-4 items-center justify-center rounded-[6px] border",
                                       field.value?.includes(tag.id)
                                         ? "bg-primary border-primary"
                                         : "opacity-50",

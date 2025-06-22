@@ -1,3 +1,5 @@
+"use client";
+
 import { Stars } from "lucide-react";
 import Link from "next/link";
 
@@ -7,15 +9,11 @@ import {
   HealthCentersFillIcon,
   MedicalHistoryFillIcon,
 } from "@/components/icons/interface";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
-import type { UserProfileData } from "@/lib/types";
-
-interface RecomCardProps {
-  profileData: UserProfileData | null;
-}
-
-const RecomCard = ({ profileData }: RecomCardProps) => {
-  const { isPremium } = profileData || {};
+const RecomCard = () => {
+  const { user } = useUserProfile();
+  const isPremium = user?.isPremium;
 
   return (
     <div className="flex size-full">

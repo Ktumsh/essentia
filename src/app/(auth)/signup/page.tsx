@@ -1,6 +1,7 @@
-import { Metadata } from "next";
-
 import SignupForm from "./_components/signup-form";
+
+import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "Registrarse",
@@ -9,6 +10,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function SignupPage() {
+export default function SignupPage() {
   return <SignupForm />;
 }

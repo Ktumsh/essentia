@@ -7,7 +7,6 @@ import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site.config";
 import { SUBSCRIPTION_PLAN_DATA } from "@/db/data/subscription-plan-data";
-import { useCurrentPlan } from "@/hooks/use-current-plan";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 
@@ -17,18 +16,18 @@ import useScrollCheck from "../_hooks/use-scroll-check";
 
 interface PricingCardsProps {
   session: Session | null;
-  isPremium: boolean | null;
+  currentPlan: string;
 }
 
-const PricingCards = ({ session, isPremium }: PricingCardsProps) => {
+const PricingCards = ({ session, currentPlan }: PricingCardsProps) => {
   const { premium } = siteConfig.plan;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hasScroll, setHasScroll] = useState(false);
 
-  const { currentPlan } = useCurrentPlan();
-  const { trial } = useUserSubscription();
+  const { trial, subscription } = useUserSubscription();
 
+  const isPremium = subscription?.subscription.isPremium || false;
   const isMobile = useIsMobile();
 
   useScrollCheck(containerRef, setHasScroll);

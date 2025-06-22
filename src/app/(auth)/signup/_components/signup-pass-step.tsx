@@ -22,8 +22,8 @@ import { Input } from "@/components/ui/input";
 import { PasswordFormData, passwordSchema } from "@/lib/form-schemas";
 import { resultMessages } from "@/utils/errors";
 
-import { AuthRedirectMessage } from "../../_components/auth-redirect-message";
-import { SubmitButton } from "../../_components/submit-button";
+import AuthRedirectMessage from "../../_components/auth-redirect-message";
+import SubmitButton from "../../_components/submit-button";
 
 interface SignupPassStepProps {
   email: string;

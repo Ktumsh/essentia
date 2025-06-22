@@ -1,6 +1,9 @@
-import { Metadata } from "next";
-
 import PaymentCallbackContent from "@/app/payment/_components/payment-callback-content";
+
+import type { Metadata } from "next";
+
+
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Compra cancelada",
