@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/app/(auth)/auth";
-import { getPlanType } from "@/app/(main)/(account)/_lib/utils";
-import PaymentCallbackContent from "@/app/payment/_components/payment-callback-content";
+import PaymentContent from "@/app/payment/_components/payment-content";
 import { getPaymentDetails, getSubscription } from "@/db/querys/payment-querys";
 
 import type { Metadata } from "next";
@@ -16,18 +15,18 @@ export const metadata: Metadata = {
 
 const SuccessPage = async () => {
   const session = await auth();
-  if (!session) return redirect("/");
 
-  const userId = session?.user?.id as string;
+  const userId = session?.user?.id;
 
-  const [paymentDetail] = await getPaymentDetails(userId);
-  const [subscription] = await getSubscription(userId);
+  if (!userId) return redirect("/");
+
+  const [paymentDetail] = userId ? await getPaymentDetails(userId) : [];
+  const [subscription] = userId ? await getSubscription(userId) : [];
   return (
-    <PaymentCallbackContent
+    <PaymentContent
       title="¡Gracias por tu compra!"
       message="Ahora puedes comenzar a disfrutar de las funcionalidades premium."
       paymentDetails={paymentDetail}
-      planType={getPlanType(paymentDetail.plan!)}
       renewalDate={subscription.expiresAt}
     />
   );

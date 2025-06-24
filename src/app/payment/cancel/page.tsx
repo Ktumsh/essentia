@@ -1,4 +1,4 @@
-import PaymentCallbackContent from "@/app/payment/_components/payment-callback-content";
+import PaymentContent from "@/app/payment/_components/payment-content";
 
 import type { Metadata } from "next";
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const CancelPage = async () => {
-  return <PaymentCallbackContent title="Compra cancelada" />;
+  return <PaymentContent title="Compra cancelada" />;
 };
 
 export default CancelPage;

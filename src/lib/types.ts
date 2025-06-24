@@ -47,10 +47,27 @@ export type UserProfileData = {
   trial: UserTrialStatusType;
 };
 
+export type PlanType = "free" | "premium" | "premium-plus";
+
 export type PaymentHistory = {
   payment: Payment;
   type: "free" | "premium" | "premium-plus" | null;
 };
+
+export type CallbackStatus = "success" | "canceled" | "failure" | "loading";
+
+export interface PaymentCallbackContentProps {
+  title: string;
+  message?: string;
+  paymentDetails?: Payment;
+  planType?: string;
+  renewalDate?: Date | null;
+}
+
+export interface PaymentVerificationResult {
+  success: boolean;
+  error?: string;
+}
 
 interface ReviewWithCount extends Review {
   questionCount?: number;

@@ -16,6 +16,8 @@ const PROTECTED_ROUTES = [
   "/settings/notifications",
   "/settings/account-profile",
   "/profiles",
+  "/payment/success",
+  "/payment/canceled",
 ];
 
 export async function middleware(request: NextRequest) {
@@ -52,5 +54,7 @@ export const config = {
     "/account/:path*",
     "/settings/(subscriptions|notifications|account-profile)",
     "/profiles/:path*",
+    "/payment/success",
+    "/payment/canceled",
   ],
 };
