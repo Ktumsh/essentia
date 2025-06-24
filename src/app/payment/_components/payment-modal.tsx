@@ -47,6 +47,7 @@ import {
   getPlanPrice,
   cn,
   formatDate,
+  getPlanNumericValue,
 } from "@/utils";
 
 import { PlanSelector } from "./plan-selector";
@@ -74,13 +75,13 @@ const PaymentModal = ({
     mode === "trial" ? "trial" : "main",
   );
 
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
+
   const { user } = useUserProfile();
 
   const { subscription } = useUserSubscription();
 
   const currentPlanId = subscription?.plan?.id;
-
-  const [selectedPlan, setSelectedPlan] = useState<string>("");
 
   useEffect(() => {
     if (
@@ -104,13 +105,13 @@ const PaymentModal = ({
     currentPlanId &&
     selectedPlan &&
     selectedPlan !== currentPlanId &&
-    getPlanPrice(selectedPlan) > getPlanPrice(currentPlanId);
+    getPlanNumericValue(selectedPlan) > getPlanNumericValue(currentPlanId);
 
   const isDowngrade =
     currentPlanId &&
     selectedPlan &&
     selectedPlan !== currentPlanId &&
-    getPlanPrice(selectedPlan) < getPlanPrice(currentPlanId);
+    getPlanNumericValue(selectedPlan) < getPlanNumericValue(currentPlanId);
 
   const isOnFreePlan = currentPlan === siteConfig.plan.free;
 
@@ -143,6 +144,8 @@ const PaymentModal = ({
 
     setIsLoading(true);
     try {
+      document.cookie = `stripe_cancel_url=${window.location.href}; path=/`;
+
       const { checkoutUrl, downgraded } = await createSubscription({
         priceId: getPlanPrice(selectedPlan),
       });

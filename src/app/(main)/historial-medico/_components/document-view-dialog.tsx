@@ -34,7 +34,7 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn, formatDate } from "@/utils";
@@ -45,10 +45,10 @@ import { getFileTypeColor, getTagColor } from "../_lib/utils";
 interface DocumentViewDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  currentItem: MedicalHistoryWithTags | null;
-  onEdit: (item: MedicalHistoryWithTags) => void;
-  onDelete: (item: MedicalHistoryWithTags) => void;
-  onAIClick: (item: MedicalHistoryWithTags) => void;
+  currentItem: MedicalHistory | null;
+  onEdit: (item: MedicalHistory) => void;
+  onDelete: (item: MedicalHistory) => void;
+  onAIClick: (item: MedicalHistory) => void;
   onViewFile: (fileData: { url?: string | null; name: string }) => void;
   onDownload: (fileData: { url?: string | null; name: string }) => void;
   onOpenPremiumModal: () => void;

@@ -19,7 +19,7 @@ import { AIRecommendationDetail } from "./ai-recommendation-detail";
 import AIRecommendationsCard from "./ai-recommendations-card";
 
 import type { AIRecommendationType } from "./ai-recommendation";
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 const secondaryMessages = [
   "El cerebro digital está en acción...",
@@ -44,7 +44,7 @@ const secondaryMessages = [
 interface AIResultsProps {
   isLoading: boolean;
   recommendations: Array<AIRecommendationType>;
-  medicalHistory: Array<MedicalHistoryWithTags>;
+  medicalHistory: Array<MedicalHistory>;
   savedRecommendations: Array<AIRecommendationType>;
   selectedRecommendation: AIRecommendationType | null;
   onBack: () => void;

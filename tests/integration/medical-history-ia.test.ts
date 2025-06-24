@@ -24,7 +24,7 @@ vi.mock("@/db/querys/ai-recommendations-querys", () => ({
 }));
 
 vi.mock("@/db/querys/medical-history-querys", () => ({
-  addMedicalHistoryWithTags: vi.fn(() => ({
+  addMedicalHistory: vi.fn(() => ({
     id: "mock-history-id",
     userId: "test-user-id",
     condition: "Hipertensión",
@@ -35,13 +35,13 @@ import {
   saveAiMedicalRecommendation,
   getSavedAiRecommendations,
 } from "@/db/querys/ai-recommendations-querys";
-import { addMedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { addMedicalHistory } from "@/db/querys/medical-history-querys";
 
 describe("Integración: Historial Médico + Recomendaciones con IA (mockeado)", () => {
   const userId = "test-user-id";
 
   it("debería crear historial y generar recomendación IA asociada", async () => {
-    const history = await addMedicalHistoryWithTags({
+    const history = await addMedicalHistory({
       userId,
       data: {
         condition: "Hipertensión",

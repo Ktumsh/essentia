@@ -76,20 +76,16 @@ const LayoutWrapper = ({
                   "relative h-[calc(100dvh-154px)]": !isDismissed,
                 })}
               >
-                {isPremium && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => router.push("/")}
-                    className="bg-background/80 shadow-little-pretty absolute top-2 left-0 z-10 h-9 w-14 justify-end gap-0.5 rounded-l-none border px-2 backdrop-blur-sm backdrop-saturate-150"
-                  >
-                    <HomeFillIcon className="text-primary size-5!" />
-                    <ArrowLeft className="size-3!" />
-                    <span className="sr-only">
-                      Volver a la página principal
-                    </span>
-                  </Button>
-                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => router.push("/")}
+                  className="bg-background/80 shadow-little-pretty text-primary dark:bg-muted absolute top-2 left-0 z-10 h-9 w-14 justify-end gap-0.5 rounded-l-none border px-2 backdrop-blur-sm backdrop-saturate-150"
+                >
+                  <HomeFillIcon className="size-5!" />
+                  <ArrowLeft className="size-3!" />
+                  <span className="sr-only">Volver a la página principal</span>
+                </Button>
                 {children}
               </div>
             ) : (

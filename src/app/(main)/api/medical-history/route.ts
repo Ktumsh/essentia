@@ -1,5 +1,5 @@
 import { auth } from "@/app/(auth)/auth";
-import { getMedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { getMedicalHistory } from "@/db/querys/medical-history-querys";
 
 export async function GET() {
   try {
@@ -9,7 +9,7 @@ export async function GET() {
       return Response.json("No autorizado", { status: 401 });
     }
 
-    const medicalHistory = await getMedicalHistoryWithTags({
+    const medicalHistory = await getMedicalHistory({
       userId: session.user.id!,
     });
     return Response.json(medicalHistory);

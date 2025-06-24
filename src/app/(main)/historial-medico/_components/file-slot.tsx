@@ -3,7 +3,7 @@ import { FileText } from "lucide-react";
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { cn, formatDate } from "@/utils";
 
 import { getFileTypeColor } from "../_lib/utils";
@@ -11,7 +11,7 @@ import { getFileTypeColor } from "../_lib/utils";
 interface FileSlotProps {
   label?: string;
   className?: string;
-  currentItem: MedicalHistoryWithTags | null;
+  currentItem: MedicalHistory | null;
   onViewFile?: (fileData: { url?: string | null; name: string }) => void;
   onDownload?: (fileData: { url?: string | null; name: string }) => void;
 }

@@ -2,6 +2,7 @@
 
 import { UpgradeButton } from "@/components/button-kit/upgrade-button";
 import { Card, CardContent } from "@/components/ui/card";
+import { siteConfig } from "@/config/site.config";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/utils";
@@ -16,8 +17,8 @@ import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
 
 const MedicalOverview = () => {
   const { subscription } = useUserSubscription();
-  const isPremium = subscription?.plan?.id === "premium";
-  const isPremiumPlus = subscription?.plan?.id === "premium-plus";
+  const isPremium = subscription?.plan?.id === siteConfig.plan.premium;
+  const isPremiumPlus = subscription?.plan?.id === siteConfig.plan.premiumPlus;
 
   const {
     medicalHistory,

@@ -55,7 +55,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { MedicalTag } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -78,7 +78,7 @@ export type DocumentFormSchema =
 type DocumentFormProps = {
   tags: MedicalTag[];
   folders: Folder[];
-  initialValues?: MedicalHistoryWithTags | null;
+  initialValues?: MedicalHistory | null;
   onSubmit: SubmitHandler<DocumentFormSchema>;
   onCancel: () => void;
   isOpen: boolean;

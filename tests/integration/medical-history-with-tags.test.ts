@@ -1,16 +1,16 @@
 import { describe, it, expect, vi } from "vitest";
 
 vi.mock("@/db/querys/medical-history-querys", () => ({
-  getMedicalHistoryWithTags: vi.fn(),
+  getMedicalHistory: vi.fn(),
 }));
 
-import { getMedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { getMedicalHistory } from "@/db/querys/medical-history-querys";
 
-describe("Integración: getMedicalHistoryWithTags (mockeado)", () => {
+describe("Integración: getMedicalHistory (mockeado)", () => {
   const userId = "test-user-id";
 
   it("retorna historial médico completo con tags y archivo asociado", async () => {
-    vi.mocked(getMedicalHistoryWithTags).mockResolvedValueOnce([
+    vi.mocked(getMedicalHistory).mockResolvedValueOnce([
       {
         id: "hist-001",
         userId,
@@ -27,6 +27,7 @@ describe("Integración: getMedicalHistoryWithTags (mockeado)", () => {
         createdAt: new Date("2024-12-01"),
         updatedAt: new Date("2024-12-01"),
         isDeleted: false,
+        isArchived: false,
         file: {
           id: "file-001",
           userId,
@@ -54,11 +55,12 @@ describe("Integración: getMedicalHistoryWithTags (mockeado)", () => {
         createdAt: new Date("2024-11-01"),
         updatedAt: null,
         isDeleted: false,
+        isArchived: false,
         file: null,
       },
     ]);
 
-    const result = await getMedicalHistoryWithTags({ userId });
+    const result = await getMedicalHistory({ userId });
 
     expect(result).toHaveLength(2);
     expect(result[0].tags).toContain("control");

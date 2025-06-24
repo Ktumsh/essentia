@@ -1,0 +1,1 @@
+ALTER TABLE "user_medical_history" ADD COLUMN "is_archived" boolean DEFAULT false;

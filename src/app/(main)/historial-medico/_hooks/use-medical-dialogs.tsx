@@ -5,7 +5,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { FeatureType } from "@/lib/types";
 
 import type { AIRecommendationType } from "../_components/ai-recommendation";
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 type FileData = { url?: string | null; name: string };
 
@@ -31,14 +31,14 @@ interface MedicalDialogsContextValue {
   openDialog: (key: DialogKeys) => void;
   closeDialog: (key: DialogKeys) => void;
 
-  currentItem: MedicalHistoryWithTags | null;
-  setCurrentItem: (item: MedicalHistoryWithTags | null) => void;
+  currentItem: MedicalHistory | null;
+  setCurrentItem: (item: MedicalHistory | null) => void;
 
-  editingItem: MedicalHistoryWithTags | null;
-  setEditingItem: (item: MedicalHistoryWithTags | null) => void;
+  editingItem: MedicalHistory | null;
+  setEditingItem: (item: MedicalHistory | null) => void;
 
-  itemToDelete: MedicalHistoryWithTags | null;
-  setItemToDelete: (item: MedicalHistoryWithTags | null) => void;
+  itemToDelete: MedicalHistory | null;
+  setItemToDelete: (item: MedicalHistory | null) => void;
 
   fileToView: FileData | null;
   setFileToView: (file: FileData | null) => void;
@@ -73,14 +73,9 @@ export function MedicalDialogsProvider({ children }: { children: ReactNode }) {
     isMultiDeleteFoldersDialogOpen: false,
     isMoveDocumentsDialogOpen: false,
   });
-  const [currentItem, setCurrentItem] = useState<MedicalHistoryWithTags | null>(
-    null,
-  );
-  const [editingItem, setEditingItem] = useState<MedicalHistoryWithTags | null>(
-    null,
-  );
-  const [itemToDelete, setItemToDelete] =
-    useState<MedicalHistoryWithTags | null>(null);
+  const [currentItem, setCurrentItem] = useState<MedicalHistory | null>(null);
+  const [editingItem, setEditingItem] = useState<MedicalHistory | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<MedicalHistory | null>(null);
   const [fileToView, setFileToView] = useState<FileData | null>(null);
   const [recommendationsToShare, setRecommendationsToShare] = useState<
     AIRecommendationType[]

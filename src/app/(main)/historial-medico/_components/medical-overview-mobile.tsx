@@ -12,6 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { siteConfig } from "@/config/site.config";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn } from "@/utils";
 
@@ -25,8 +26,8 @@ import { useMedicalHistoryLogic } from "../_hooks/use-medical-history-logic";
 
 const MedicalOverviewMobile = () => {
   const { subscription } = useUserSubscription();
-  const isPremium = subscription?.plan?.id === "premium";
-  const isPremiumPlus = subscription?.plan?.id === "premium-plus";
+  const isPremium = subscription?.plan?.id === siteConfig.plan.premium;
+  const isPremiumPlus = subscription?.plan?.id === siteConfig.plan.premiumPlus;
 
   const {
     medicalHistory,

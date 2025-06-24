@@ -20,11 +20,11 @@ import { useMedicalHistoryLogic } from "../../_hooks/use-medical-history-logic";
 import { useMultiSelect } from "../../_hooks/use-multi-select";
 import { useViewMode } from "../../_hooks/use-view-mode";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 import type { MedicalFileType } from "@/lib/types";
 
 interface DocumentsViewProps {
-  docs: MedicalHistoryWithTags[];
+  docs: MedicalHistory[];
   folderId: string;
 }
 const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
@@ -66,7 +66,7 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
     setSelectedIds,
     handlePointerDown,
     handlePointerUp,
-  } = useMultiSelect<MedicalHistoryWithTags>("folderDocs", docs);
+  } = useMultiSelect<MedicalHistory>("folderDocs", docs);
 
   const { handleDeleteDocumentsFromFolder, isSubmitting } = useMedicalFolders();
 

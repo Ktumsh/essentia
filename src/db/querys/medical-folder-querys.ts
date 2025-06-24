@@ -12,7 +12,7 @@ import {
   userMedicalHistoryTag,
 } from "../schema";
 
-import type { MedicalHistoryWithTags } from "./medical-history-querys";
+import type { MedicalHistory } from "./medical-history-querys";
 import type { FolderIconType } from "@/lib/types";
 
 export async function getExistingFolderByName({
@@ -421,7 +421,7 @@ export async function getDocumentsByFolderId({
 }: {
   userId: string;
   folderId: string;
-}): Promise<MedicalHistoryWithTags[]> {
+}): Promise<MedicalHistory[]> {
   try {
     const rawDocs = await db
       .select()

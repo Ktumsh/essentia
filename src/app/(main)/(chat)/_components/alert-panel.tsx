@@ -9,8 +9,9 @@ import { useState } from "react";
 import PaymentModal from "@/app/payment/_components/payment-modal";
 import { LoginButton } from "@/components/button-kit/login-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
-import { BadgeAlert } from "@/components/ui/badge-alert";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTrial } from "@/hooks/use-trial";
 
 interface AlertPanelProps {
   session: Session | null;
@@ -31,6 +32,10 @@ const AlertPanel = ({
 
   const [close, setClose] = useState(false);
 
+  const { isTrialUsed } = useTrial();
+
+  const isMobile = useIsMobile();
+
   const handleClose = () => {
     setClose(true);
   };
@@ -43,29 +48,22 @@ const AlertPanel = ({
           animate={
             close
               ? { opacity: 0, y: 0, scale: 0.9 }
-              : { opacity: 1, y: -100, scale: 1 }
+              : { opacity: 1, y: isMobile ? -10 : -20, scale: 1 }
           }
           transition={{ ease: "easeInOut", duration: 0.4 }}
-          className="group text-foreground shadow-pretty bg-background/80 mx-auto flex h-20 max-w-lg items-center justify-center gap-4 rounded-xl border px-3 py-2 text-xs backdrop-blur-md md:p-4 md:text-base"
+          className="group text-foreground shadow-pretty bg-background/80 dark:bg-muted mx-auto flex h-20 max-w-lg flex-col items-center justify-center gap-2 rounded-xl border px-3 py-2 text-xs backdrop-blur-md md:flex-row md:gap-4 md:p-4 md:text-sm"
         >
-          <div className="inline-flex items-center gap-2">
-            <BadgeAlert
-              size="sm"
-              variant="info"
-              className="mb-0 hidden md:inline-flex"
-            />
-            {session?.user ? (
-              <p>Actualiza tu plan para acceder al chat con Aeris</p>
-            ) : (
-              <p>Inicia sesión para hablar con Aeris</p>
-            )}
-          </div>
+          {session?.user ? (
+            <p>Actualiza tu plan para acceder al chat con Aeris</p>
+          ) : (
+            <p>Inicia sesión para hablar con Aeris</p>
+          )}
           {session?.user ? (
             <SparklesButton
               variant="gradient"
               size="sm"
               onClick={() => setOpenPayment(true)}
-              className="rounded-md"
+              className="w-full md:w-auto"
             >
               Hazte premium
             </SparklesButton>
@@ -74,6 +72,7 @@ const AlertPanel = ({
               size="sm"
               variant="secondary"
               onClick={() => router.push("/login?next=/aeris")}
+              className="w-full md:w-auto"
             >
               Iniciar sesión
             </LoginButton>
@@ -81,7 +80,7 @@ const AlertPanel = ({
           <Button
             size="icon"
             variant="ghost"
-            className="absolute top-2 right-2 size-6 rounded-sm opacity-0 transition-opacity group-hover:opacity-100"
+            className="absolute top-1 right-1 size-6 rounded-sm opacity-0 transition-opacity group-hover:opacity-100"
             onClick={handleClose}
           >
             <X className="size-3!" />
@@ -95,6 +94,7 @@ const AlertPanel = ({
           featureType={isUpgradeToMoreMessages ? "upgrade-plan" : "chat"}
           isOpen={openPayment}
           setIsOpen={setOpenPayment}
+          mode={!isTrialUsed && !isPremium ? "trial" : "upgrade"}
         />
       )}
     </>

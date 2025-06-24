@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 import { auth } from "@/app/(auth)/auth";
 import PageTitle from "@/components/layout/page-title";
@@ -7,6 +8,7 @@ import { getGroupedChatToolsByUser } from "@/db/querys/chat-querys";
 import { getSubscriptionType } from "@/db/querys/payment-querys";
 
 import ToolList from "./_components/tool-list";
+import ToolListLoading from "./_components/tool-list-loading";
 
 import type { Metadata } from "next";
 
@@ -21,20 +23,20 @@ export default async function ProgressPage() {
 
   const userId = session?.user?.id as string;
 
-  if (!userId) return null;
+  if (!userId) redirect("/aeris");
 
-  const subscriptionType = session ? await getSubscriptionType(userId) : null;
+  const subscriptionType = userId ? await getSubscriptionType(userId) : null;
 
-  if (subscriptionType?.type !== "premium-plus") {
-    redirect("/aeris");
-  }
+  if (subscriptionType?.type !== "premium-plus") redirect("/aeris");
 
-  const toolsGroup = await getGroupedChatToolsByUser(userId);
+  const toolsGroup = getGroupedChatToolsByUser(userId);
 
   return (
     <PageWrapper classNameContainer="w-full">
       <PageTitle className="mb-6">Hábitos y progreso</PageTitle>
-      <ToolList toolsGroup={toolsGroup} />
+      <Suspense fallback={<ToolListLoading />}>
+        <ToolList toolsGroup={toolsGroup} />
+      </Suspense>
     </PageWrapper>
   );
 }

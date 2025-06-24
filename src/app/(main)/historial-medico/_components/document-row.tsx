@@ -33,16 +33,16 @@ import { cn, formatDate } from "@/utils";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 import { getFileTypeColor } from "../_lib/utils";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 interface DocumentRowProps {
-  doc: MedicalHistoryWithTags;
-  onView: (item: MedicalHistoryWithTags) => void;
-  onAIClick: (item: MedicalHistoryWithTags) => void;
+  doc: MedicalHistory;
+  onView: (item: MedicalHistory) => void;
+  onAIClick: (item: MedicalHistory) => void;
   onViewFile: (fileData: { url?: string | null; name: string }) => void;
   onDownload: (fileData: { url?: string | null; name: string }) => void;
-  onEdit: (item: MedicalHistoryWithTags) => void;
-  onDelete: (item: MedicalHistoryWithTags) => void;
+  onEdit: (item: MedicalHistory) => void;
+  onDelete: (item: MedicalHistory) => void;
   selected: boolean;
   onToggleSelect: () => void;
 }

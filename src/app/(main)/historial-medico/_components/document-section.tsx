@@ -5,19 +5,19 @@ import { Checkbox } from "@/components/ui/checkbox";
 import DocumentCard from "./document-card";
 import DocumentRow from "./document-row";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 interface DocumentSectionProps {
   viewMode: "grid" | "list";
-  docs: MedicalHistoryWithTags[];
-  onView: (doc: MedicalHistoryWithTags) => void;
-  onAIClick: (doc: MedicalHistoryWithTags) => void;
+  docs: MedicalHistory[];
+  onView: (doc: MedicalHistory) => void;
+  onAIClick: (doc: MedicalHistory) => void;
   onViewFile: (fileData: { url?: string | null; name: string }) => void;
   onDownload: (fileData: { url?: string | null; name: string }) => void;
-  onEdit: (doc: MedicalHistoryWithTags) => void;
-  onDelete: (doc: MedicalHistoryWithTags) => void;
-  onOpenOptions: (doc: MedicalHistoryWithTags | null) => void;
-  currentDoc: MedicalHistoryWithTags | null;
+  onEdit: (doc: MedicalHistory) => void;
+  onDelete: (doc: MedicalHistory) => void;
+  onOpenOptions: (doc: MedicalHistory | null) => void;
+  currentDoc: MedicalHistory | null;
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedDocs: string[];

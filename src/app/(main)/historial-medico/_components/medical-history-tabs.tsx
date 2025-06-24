@@ -11,6 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/utils";
 
+import ArchivedInfoMessage from "./archived-info-message";
 import DocumentEmptyState from "./document-empty-state";
 import DocumentFilters from "./document-filters";
 import DocumentLoading from "./document-loading";
@@ -32,7 +33,7 @@ import { useMultiSelect } from "../_hooks/use-multi-select";
 import { useViewMode } from "../_hooks/use-view-mode";
 
 import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 const MedicalHistoryTabs = () => {
   const {
@@ -148,7 +149,7 @@ const MedicalHistoryTabs = () => {
     setSelectedIds,
     handlePointerDown,
     handlePointerUp,
-  } = useMultiSelect<MedicalHistoryWithTags>("documents", docs);
+  } = useMultiSelect<MedicalHistory>("documents", docs);
 
   const [priorityFilter, setPriorityFilter] = useState<
     "all" | "high" | "medium" | "low"
@@ -245,27 +246,30 @@ const MedicalHistoryTabs = () => {
         className="mt-3 w-full"
       >
         <div className="mb-3 flex flex-col">
-          <TabsList className="bg-background mb-2 rounded-xl border">
-            <TabsTrigger
-              value="documents"
-              className={cn("data-[state=active]:bg-accent")}
-            >
-              Documentos
-            </TabsTrigger>
-            <TabsTrigger
-              value="recommendations"
-              className={cn(
-                "group/tab data-[state=active]:bg-secondary/10 text-secondary/70 data-[state=active]:text-secondary",
-              )}
-            >
-              Recomendaciones
-              {isPremium ? (
-                <SparklesIcon className="group-data-[state=active]/tab:fill-secondary size-3.5" />
-              ) : (
-                <LockKeyhole className="text-secondary size-3.5" />
-              )}
-            </TabsTrigger>
-          </TabsList>
+          <div className="flex items-center justify-between">
+            <TabsList className="bg-background mb-2 rounded-xl border">
+              <TabsTrigger
+                value="documents"
+                className={cn("data-[state=active]:bg-accent")}
+              >
+                Documentos
+              </TabsTrigger>
+              <TabsTrigger
+                value="recommendations"
+                className={cn(
+                  "group/tab data-[state=active]:bg-secondary/10 text-secondary/70 data-[state=active]:text-secondary",
+                )}
+              >
+                Recomendaciones
+                {isPremium ? (
+                  <SparklesIcon className="group-data-[state=active]/tab:fill-secondary size-3.5" />
+                ) : (
+                  <LockKeyhole className="text-secondary size-3.5" />
+                )}
+              </TabsTrigger>
+            </TabsList>
+            <ArchivedInfoMessage />
+          </div>
 
           <div className="relative mb-3 flex w-full overflow-x-auto rounded-xl">
             <div className="bg-muted flex flex-1 items-center justify-between gap-2 p-3">

@@ -16,7 +16,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { BetterTooltip } from "@/components/ui/tooltip";
+import { siteConfig } from "@/config/site.config";
+import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
+import { cn } from "@/utils";
 
 const ChatHeader = () => {
   const router = useRouter();
@@ -24,10 +27,11 @@ const ChatHeader = () => {
   const [open, setOpen] = useState(false);
   const { isMobile, setOpenMobile } = useSidebar();
 
+  const { isTrialUsed } = useTrial();
   const { subscription } = useUserSubscription();
 
-  const isPremium = subscription?.plan?.id === "premium";
-  const isPremiumPlus = subscription?.plan?.id === "premium-plus";
+  const isPremium = subscription?.plan?.id === siteConfig.plan.premium;
+  const isPremiumPlus = subscription?.plan?.id === siteConfig.plan.premiumPlus;
 
   return (
     <>
@@ -41,8 +45,8 @@ const ChatHeader = () => {
             </div>
           </SidebarHeader>
         )}
-        <SidebarMenu>
-          {isPremium && !isPremiumPlus && (
+        <SidebarMenu className="mb-2 gap-2">
+          {!isPremiumPlus && (
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <UpgradeButton
@@ -50,7 +54,9 @@ const ChatHeader = () => {
                   onClick={() => {
                     setOpen(true);
                   }}
-                  className="bg-premium-plus! hover:text-white active:text-white"
+                  className={cn(
+                    isPremium && !isPremiumPlus && "bg-premium-plus!",
+                  )}
                 >
                   Mejorar plan
                 </UpgradeButton>
@@ -66,7 +72,7 @@ const ChatHeader = () => {
                 router.refresh();
                 setOpenMobile(false);
               }}
-              className="dark:data-[active=true]:bg-accent/50 dark:border-alternative/50 dark:hover:data-[active=true]:bg-accent/50 mb-2 justify-center rounded-md border text-sm focus-visible:outline-hidden data-[active=true]:bg-slate-50 data-[active=true]:hover:bg-slate-50"
+              className="dark:data-[active=true]:bg-accent/50 dark:border-alternative/50 dark:hover:data-[active=true]:bg-accent/50 justify-center border text-sm focus-visible:outline-hidden data-[active=true]:bg-slate-50 data-[active=true]:hover:bg-slate-50"
             >
               <span>Nuevo chat</span>
             </SidebarMenuButton>
@@ -98,11 +104,14 @@ const ChatHeader = () => {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroup>
-      {isPremium && !isPremiumPlus && (
+      {!isPremiumPlus && (
         <PaymentModal
           isOpen={open}
           setIsOpen={setOpen}
-          featureType="habits-and-progress"
+          featureType={
+            isPremium && !isPremiumPlus ? "habits-and-progress" : "chat"
+          }
+          mode={!isTrialUsed && !isPremium ? "trial" : "upgrade"}
         />
       )}
     </>

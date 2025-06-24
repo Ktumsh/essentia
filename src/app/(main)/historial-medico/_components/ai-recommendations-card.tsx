@@ -15,7 +15,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";
 
@@ -24,7 +24,7 @@ import { getPriorityBadge, getTagColor } from "../_lib/utils";
 
 interface AIRecommendationsCardProps {
   recommendation: AIRecommendationType;
-  medicalHistory: MedicalHistoryWithTags[];
+  medicalHistory: MedicalHistory[];
   currentItem: AIRecommendationType | null;
   savedRecommendations: AIRecommendationType[];
   onViewDetails: (rec: AIRecommendationType) => void;

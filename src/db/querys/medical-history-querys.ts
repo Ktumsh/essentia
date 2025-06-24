@@ -1,7 +1,7 @@
 "use server";
 
 import { del } from "@vercel/blob";
-import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, sql } from "drizzle-orm";
 
 import {
   medicalTag,
@@ -93,6 +93,140 @@ export type CanUploadMedicalFile = Awaited<
   ReturnType<typeof canUploadMedicalFile>
 >;
 
+export async function archiveExceedingDocuments(userId: string) {
+  try {
+    const { subscription, trial } = await getUserSubscriptionInfo(userId);
+
+    let maxDocuments = 12;
+    if (subscription?.plan) {
+      maxDocuments = subscription.plan.maxDocuments ?? Infinity;
+    } else if (trial?.isActive) {
+      maxDocuments = 12;
+    }
+
+    if (maxDocuments === Infinity) {
+      await db
+        .update(userMedicalHistory)
+        .set({ isArchived: false })
+        .where(
+          and(
+            eq(userMedicalHistory.userId, userId),
+            eq(userMedicalHistory.isDeleted, false),
+          ),
+        );
+      return;
+    }
+
+    const docs = await db
+      .select({ id: userMedicalHistory.id })
+      .from(userMedicalHistory)
+      .where(
+        and(
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.isDeleted, false),
+        ),
+      )
+      .orderBy(desc(userMedicalHistory.createdAt));
+
+    const toUnarchive = docs.slice(0, maxDocuments).map((d) => d.id);
+    const toArchive = docs.slice(maxDocuments).map((d) => d.id);
+
+    if (toUnarchive.length > 0) {
+      await db
+        .update(userMedicalHistory)
+        .set({ isArchived: false })
+        .where(inArray(userMedicalHistory.id, toUnarchive));
+    }
+
+    if (toArchive.length > 0) {
+      await db
+        .update(userMedicalHistory)
+        .set({ isArchived: true })
+        .where(inArray(userMedicalHistory.id, toArchive));
+    }
+  } catch (error) {
+    console.error("Error al archivar documentos excedentes:", error);
+    throw error;
+  }
+}
+
+export async function unarchiveDocuments(userId: string) {
+  try {
+    const { subscription, trial } = await getUserSubscriptionInfo(userId);
+
+    let maxDocuments = 12;
+    if (subscription?.plan) {
+      maxDocuments = subscription.plan.maxDocuments ?? Infinity;
+    } else if (trial?.isActive) {
+      maxDocuments = 12;
+    }
+
+    if (maxDocuments === Infinity) {
+      await db
+        .update(userMedicalHistory)
+        .set({ isArchived: false })
+        .where(
+          and(
+            eq(userMedicalHistory.userId, userId),
+            eq(userMedicalHistory.isArchived, true),
+          ),
+        );
+      return;
+    }
+
+    const archivedDocs = await db
+      .select({ id: userMedicalHistory.id })
+      .from(userMedicalHistory)
+      .where(
+        and(
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.isDeleted, false),
+          eq(userMedicalHistory.isArchived, true),
+        ),
+      )
+      .orderBy(desc(userMedicalHistory.createdAt))
+      .limit(maxDocuments);
+
+    if (archivedDocs.length) {
+      await db
+        .update(userMedicalHistory)
+        .set({ isArchived: false })
+        .where(
+          inArray(
+            userMedicalHistory.id,
+            archivedDocs.map((d) => d.id),
+          ),
+        );
+    }
+  } catch (error) {
+    console.error(
+      "Error al desarchivar documentos según el nuevo plan:",
+      error,
+    );
+    throw new Error("No se pudieron desarchivar los documentos.");
+  }
+}
+
+export async function getArchivedDocuments(userId: string) {
+  try {
+    const result = await db
+      .select({ count: count() })
+      .from(userMedicalHistory)
+      .where(
+        and(
+          eq(userMedicalHistory.userId, userId),
+          eq(userMedicalHistory.isDeleted, false),
+          eq(userMedicalHistory.isArchived, true),
+        ),
+      );
+
+    return result[0].count;
+  } catch (error) {
+    console.error("Error al contar documentos archivados:", error);
+    throw error;
+  }
+}
+
 //////////////////////////////
 // CRUD Historial Médico
 //////////////////////////////
@@ -110,7 +244,7 @@ type MedicalHistoryData = Partial<{
   orderIndex?: number;
 }>;
 
-export async function addMedicalHistoryWithTags({
+export async function addMedicalHistory({
   userId,
   data,
   file,
@@ -313,11 +447,7 @@ export async function restoreMedicalHistory({
 //////////////////////////////
 // Consultas
 //////////////////////////////
-export async function getMedicalHistoryWithTags({
-  userId,
-}: {
-  userId: string;
-}) {
+export async function getMedicalHistory({ userId }: { userId: string }) {
   try {
     const records = await db
       .select()
@@ -326,6 +456,7 @@ export async function getMedicalHistoryWithTags({
         and(
           eq(userMedicalHistory.userId, userId),
           eq(userMedicalHistory.isDeleted, false),
+          eq(userMedicalHistory.isArchived, false),
         ),
       )
       .orderBy(desc(userMedicalHistory.updatedAt));
@@ -361,8 +492,8 @@ export async function getMedicalHistoryWithTags({
   }
 }
 
-export type MedicalHistoryWithTags = Awaited<
-  ReturnType<typeof getMedicalHistoryWithTags>
+export type MedicalHistory = Awaited<
+  ReturnType<typeof getMedicalHistory>
 >[number];
 
 export async function getMedicalHistoryActivityWithDetails({

@@ -1,10 +1,15 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { Session } from "next-auth";
 import Stripe from "stripe";
 
 import { auth } from "@/app/(auth)/auth";
 import { siteConfig } from "@/config/site.config";
+import {
+  archiveExceedingDocuments,
+  unarchiveDocuments,
+} from "@/db/querys/medical-history-querys";
 import {
   deletePendingPayment,
   deleteSubscription,
@@ -22,6 +27,7 @@ import {
   getUserById,
   getUserTrialStatus,
 } from "@/db/querys/user-querys";
+import { BASE_PUBLIC_URL } from "@/lib/consts";
 import stripe from "@/utils/stripe";
 
 type PlanType = "free" | "premium" | "premium-plus";
@@ -38,6 +44,8 @@ export async function createSubscription({
   priceId: string;
 }): Promise<{ checkoutUrl: string | null; downgraded?: boolean }> {
   const session = await auth();
+  const cookieStore = await cookies();
+
   const [user] = await getUserById(session?.user?.id as string);
   if (!user) throw new Error("Usuario no encontrado.");
 
@@ -85,14 +93,18 @@ export async function createSubscription({
       await stripe.subscriptions.cancel(existingSubscription.subscriptionId);
     }
 
+    const cancelUrl = cookieStore.get("stripe_cancel_url")?.value;
+
     const sessionCheckout = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       customer: customerId,
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
+      success_url: `${BASE_PUBLIC_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl || `${BASE_PUBLIC_URL}/payment/cancel`,
     });
+
+    cookieStore.delete("stripe_cancel_url");
 
     const price = await stripe.prices.retrieve(priceId);
 
@@ -114,16 +126,6 @@ export async function createSubscription({
     console.error("Error creando suscripción:", error);
     throw error;
   }
-}
-
-export async function checkPaymentStatus() {
-  const session = await auth();
-  if (!session?.user) {
-    return { isPremium: false };
-  }
-
-  const [user] = await getSubscription(session?.user?.id as string);
-  return { isPremium: user.isPremium || false };
 }
 
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
@@ -254,6 +256,8 @@ export async function handleSubscriptionDeleted(
     );
 
     await updateSubscriptionFutureType(dbSub.userId, null);
+
+    await archiveExceedingDocuments(dbSub.userId);
   } catch (error) {
     console.error(
       `Error al manejar eliminación de subscripción ${subscriptionId}`,
@@ -359,6 +363,10 @@ export async function handleSubscriptionUpdated(
       status,
       newPlan,
     );
+
+    if (newPlanRank > currentPlanRank) {
+      await unarchiveDocuments(dbSub.userId);
+    }
   } catch (error) {
     console.error(
       `Error al actualizar la suscripción ${subscriptionId}`,

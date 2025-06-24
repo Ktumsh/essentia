@@ -14,6 +14,7 @@ import { RefreshButton } from "@/components/button-kit/refresh-button";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { type ChatVote } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn } from "@/utils";
 
 interface PureMessageActionsProps {
@@ -40,6 +41,8 @@ const PureMessageActions = ({
   onRetry,
 }: PureMessageActionsProps) => {
   const { mutate } = useSWRConfig();
+  const { user } = useUserProfile();
+  const { isPremium } = user || {};
   const userRole = message.role === "user";
   const isMobile = useIsMobile();
 
@@ -137,7 +140,7 @@ const PureMessageActions = ({
         { "justify-end": userRole },
       )}
     >
-      {userRole && !isReadonly && (
+      {userRole && !isReadonly && isPremium && (
         <BetterTooltip content="Editar mensaje">
           <PencilButton
             data-testid="message-edit-button"
@@ -162,16 +165,18 @@ const PureMessageActions = ({
       </BetterTooltip>
       {!userRole && !isReadonly && (
         <>
-          <BetterTooltip content="Reintentarlo">
-            <RefreshButton
-              variant="ghost"
-              size="icon"
-              onClick={onRetry}
-              className="text-foreground/80 size-6 rounded-sm"
-            >
-              <span className="sr-only">Reintentarlo</span>
-            </RefreshButton>
-          </BetterTooltip>
+          {isPremium && (
+            <BetterTooltip content="Reintentarlo">
+              <RefreshButton
+                variant="ghost"
+                size="icon"
+                onClick={onRetry}
+                className="text-foreground/80 size-6 rounded-sm"
+              >
+                <span className="sr-only">Reintentarlo</span>
+              </RefreshButton>
+            </BetterTooltip>
+          )}
           <BetterTooltip content="Buena respuesta" hidden={isUpvoted}>
             <LikeButton
               data-testid="message-upvote"

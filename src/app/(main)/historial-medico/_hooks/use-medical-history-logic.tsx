@@ -1,58 +1,35 @@
-import { useSession } from "next-auth/react";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
-import useSWR from "swr";
 
-import { type MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
-import { useTrial } from "@/hooks/use-trial";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { fetcher } from "@/utils";
 
 import { useCanUploadFile } from "./use-can-upload-files";
 import { useMedicalDialogs } from "./use-medical-dialogs";
 import { useMedicalHistoryActions } from "./use-medical-history-actions";
+import { useMedicalHistoryFetch } from "./use-medical-history-fetch";
 import { useRecommendationsActions } from "./use-recommendations-actions";
 
 import type { DocumentFormSchema } from "../_components/document-form";
-import type { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
-import type { MedicalTag } from "@/db/schema";
-import type { MedicalFileType, MedicalHistoryActivity } from "@/lib/types";
+import type { MedicalFileType } from "@/lib/types";
 
 export function useMedicalHistoryLogic() {
   const { user } = useUserProfile();
-  const { data: session } = useSession();
-  const userId = user?.id || (session?.user?.id as string);
-  const isPremium = user?.isPremium;
-  const { isTrialUsed } = useTrial();
+  const { id: userId } = user || { id: "" };
 
   const { uploadStatus, refreshUploadStatus } = useCanUploadFile(userId);
 
-  const { data: medicalTags = [] } = useSWR<MedicalTag[]>(
-    "/api/medical-tags",
-    fetcher,
-    { fallbackData: [] },
-  );
   const {
-    data: medicalHistory = [],
-    isLoading: isHistoryLoading,
-    mutate: mutateHistory,
-  } = useSWR<MedicalHistoryWithTags[]>("/api/medical-history", fetcher);
-  const {
-    data: activities = [],
-    mutate: mutateActivities,
-    isLoading: activitiesLoading,
-  } = useSWR<MedicalHistoryActivity[]>("/api/medical-activity", fetcher);
-  const {
-    data: savedRecommendations = [],
-    isLoading: isRecommendationsLoading,
-    mutate: mutateSavedRecommendations,
-  } = useSWR<SavedAIRecommendation[]>(
-    isPremium ? "/api/ai-recommendations" : null,
-    fetcher,
-    {
-      fallbackData: [],
-    },
-  );
+    medicalTags,
+    medicalHistory,
+    isHistoryLoading,
+    mutateHistory,
+    activities,
+    mutateActivities,
+    activitiesLoading,
+    savedRecommendations,
+    isRecommendationsLoading,
+    mutateSavedRecommendations,
+  } = useMedicalHistoryFetch();
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -264,8 +241,6 @@ export function useMedicalHistoryLogic() {
 
   return {
     userId,
-    isTrialUsed,
-
     uploadStatus,
     medicalTags,
     medicalHistory,

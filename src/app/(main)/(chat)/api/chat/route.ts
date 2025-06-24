@@ -35,6 +35,7 @@ import { calculateAge, formatDate } from "@/utils";
 import { getUserData } from "@/utils/profile";
 
 import { postRequestBodySchema, type PostRequestBody } from "./schema";
+import { ChatSDKError } from "../../_lib/errors";
 import { modelProvider } from "../../_lib/models";
 import { systemPrompt, type RequestHints } from "../../_lib/prompts";
 import { createHealthRisk } from "../../_lib/tools/create-health-risk";
@@ -78,7 +79,7 @@ export async function POST(request: Request) {
     const json = await request.json();
     requestBody = postRequestBodySchema.parse(json);
   } catch {
-    return new Response("Cuerpo de la solicitud no válido", { status: 400 });
+    return new ChatSDKError("bad_request:api").toResponse();
   }
 
   try {
@@ -88,7 +89,7 @@ export async function POST(request: Request) {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return new Response("No autorizado", { status: 401 });
+      return new ChatSDKError("unauthorized:session").toResponse();
     }
 
     const userId = session?.user?.id as string;
@@ -96,24 +97,21 @@ export async function POST(request: Request) {
     const trial = await getUserTrialStatus(userId);
 
     if (!subscription && !trial.isActive) {
-      return new Response("No autorizado", { status: 401 });
+      return new ChatSDKError("unauthorized:chat").toResponse();
     }
 
     const isPremium = subscription.isPremium;
     const premiumExpiresAt = formatDate(subscription.expiresAt!);
 
     if (!isPremium && !trial.isActive) {
-      return new Response("No autorizado", { status: 401 });
+      return new ChatSDKError("unauthorized:chat").toResponse();
     }
 
     const user = userId ? await getUserData({ userId }) : null;
 
     const canSend = await canSendMessage(userId);
     if (!canSend) {
-      return new Response(
-        "Has alcanzado el límite diario de mensajes con Aeris.",
-        { status: 429 },
-      );
+      return new ChatSDKError("rate_limit:chat").toResponse();
     }
 
     const {
@@ -143,7 +141,7 @@ export async function POST(request: Request) {
       });
     } else {
       if (chat.userId !== session.user.id) {
-        return new Response("No autorizado", { status: 403 });
+        return new ChatSDKError("forbidden:chat").toResponse();
       }
     }
 
@@ -236,7 +234,7 @@ export async function POST(request: Request) {
                 });
 
                 if (!assistantId) {
-                  throw new Error("No se encontró un mensaje de asistente");
+                  throw new Error("No se encontró un mensaje del asistente");
                 }
 
                 const [, assistantMessage] = appendResponseMessages({
@@ -304,10 +302,10 @@ export async function POST(request: Request) {
     } else {
       return new Response(stream);
     }
-  } catch {
-    return new Response("¡Se produjo un error al procesar tu solicitud!", {
-      status: 404,
-    });
+  } catch (error) {
+    if (error instanceof ChatSDKError) {
+      return error.toResponse();
+    }
   }
 }
 
@@ -323,13 +321,13 @@ export async function GET(request: Request) {
   const chatId = searchParams.get("chatId");
 
   if (!chatId) {
-    return new Response("id es requerida", { status: 400 });
+    return new ChatSDKError("bad_request:api").toResponse();
   }
 
   const session = await auth();
 
   if (!session?.user) {
-    return new Response("No autorizado", { status: 401 });
+    return new ChatSDKError("unauthorized:session").toResponse();
   }
 
   let chat: Chat;
@@ -337,21 +335,21 @@ export async function GET(request: Request) {
   try {
     chat = await getChatById({ id: chatId });
   } catch {
-    return new Response("Not found", { status: 404 });
+    return new ChatSDKError("not_found:chat").toResponse();
   }
 
   if (!chat) {
-    return new Response("Not found", { status: 404 });
+    return new ChatSDKError("not_found:chat").toResponse();
   }
 
   if (chat.visibility === "private" && chat.userId !== session.user.id) {
-    return new Response("No autorizado", { status: 403 });
+    return new ChatSDKError("forbidden:chat").toResponse();
   }
 
   const streamIds = await getStreamIdsByChatId({ chatId });
 
   if (!streamIds.length) {
-    return new Response("No se encontraron streams", { status: 404 });
+    return new ChatSDKError("not_found:stream").toResponse();
   }
 
   const recentStreamId = streamIds.at(-1);
@@ -409,32 +407,27 @@ export async function DELETE(request: Request) {
   const id = searchParams.get("id");
 
   if (!id) {
-    return Response.json({ error: "ID no encontrado" }, { status: 404 });
+    return new ChatSDKError("not_found:chat").toResponse();
   }
 
   const session = await auth();
 
   if (!session || !session.user) {
-    return Response.json(
-      { error: "No autorizado. Por favor, inicia sesión" },
-      { status: 401 },
-    );
+    return new ChatSDKError("unauthorized:session").toResponse();
   }
 
   try {
     const chat = await getChatById({ id });
 
     if (chat.userId !== session.user.id) {
-      return Response.json({ error: "No autorizado" }, { status: 401 });
+      return new ChatSDKError("forbidden:chat").toResponse();
     }
 
     await deleteChatById({ id });
 
     return Response.json({ id, message: "Chat eliminado" }, { status: 200 });
-  } catch {
-    return Response.json(
-      { error: "¡Se produjo un error al procesar tu solicitud!" },
-      { status: 500 },
-    );
+  } catch (error) {
+    console.error("Error al procesar la solicitud:", error);
+    return new ChatSDKError("bad_request:api").toResponse();
   }
 }

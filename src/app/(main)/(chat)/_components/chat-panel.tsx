@@ -133,93 +133,104 @@ const ChatPanel = (props: ChatPanelProps) => {
                 transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
                 className={cn("space-y-4", { hidden: !isPremium })}
               >
-                {(attachments.length > 0 || uploadQueue.length > 0) && (
-                  <div className="flex items-end gap-2 overflow-x-auto pt-3">
-                    {attachments.map((attachment, index) => (
-                      <PreviewAttachment
-                        key={attachment.url}
-                        attachment={attachment}
-                        isInUpload
-                        onRemove={async () => {
-                          setAttachments((prevAttachments) =>
-                            prevAttachments.filter((_, i) => i !== index),
-                          );
-
-                          if (attachment.url) {
-                            const filePath = extractFilePath(attachment.url);
-                            try {
-                              const res = await fetch("/api/files/delete-ai", {
-                                method: "DELETE",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ filePath }),
-                              });
-                              if (!res.ok) {
-                                console.error(
-                                  "Error al eliminar el blob",
-                                  await res.json(),
-                                );
-                              }
-                            } catch (error) {
-                              console.error(
-                                "Error al llamar al endpoint de eliminación",
-                                error,
+                {isPremium && (
+                  <>
+                    {(attachments.length > 0 || uploadQueue.length > 0) && (
+                      <div className="flex items-end gap-2 overflow-x-auto pt-3">
+                        {attachments.map((attachment, index) => (
+                          <PreviewAttachment
+                            key={attachment.url}
+                            attachment={attachment}
+                            isInUpload
+                            onRemove={async () => {
+                              setAttachments((prevAttachments) =>
+                                prevAttachments.filter((_, i) => i !== index),
                               );
-                            }
-                          }
-                        }}
-                      />
-                    ))}
 
-                    {uploadQueue.map((filename) => (
-                      <PreviewAttachment
-                        key={filename}
-                        attachment={{
-                          url: "",
-                          name: filename,
-                          contentType: "",
+                              if (attachment.url) {
+                                const filePath = extractFilePath(
+                                  attachment.url,
+                                );
+                                try {
+                                  const res = await fetch(
+                                    "/api/files/delete-ai",
+                                    {
+                                      method: "DELETE",
+                                      headers: {
+                                        "Content-Type": "application/json",
+                                      },
+                                      body: JSON.stringify({ filePath }),
+                                    },
+                                  );
+                                  if (!res.ok) {
+                                    console.error(
+                                      "Error al eliminar el blob",
+                                      await res.json(),
+                                    );
+                                  }
+                                } catch (error) {
+                                  console.error(
+                                    "Error al llamar al endpoint de eliminación",
+                                    error,
+                                  );
+                                }
+                              }
+                            }}
+                          />
+                        ))}
+
+                        {uploadQueue.map((filename) => (
+                          <PreviewAttachment
+                            key={filename}
+                            attachment={{
+                              url: "",
+                              name: filename,
+                              contentType: "",
+                            }}
+                            isInUpload
+                            isUploading={true}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    {isChat ? (
+                      <MessagesUsageBanner
+                        remainingMessages={remainingMessages}
+                        onOpenPayment={() => {
+                          setOpenPayment(true);
+                          setUpgradeToMoreMessages(true);
                         }}
-                        isInUpload
-                        isUploading={true}
                       />
-                    ))}
-                  </div>
-                )}
-                {isChat ? (
-                  <MessagesUsageBanner
-                    remainingMessages={remainingMessages}
-                    onOpenPayment={() => {
-                      setOpenPayment(true);
-                      setUpgradeToMoreMessages(true);
-                    }}
-                  />
-                ) : (
-                  remainingMessages === 0 && (
-                    <MessagesUsageBanner
+                    ) : (
+                      remainingMessages === 0 && (
+                        <MessagesUsageBanner
+                          remainingMessages={remainingMessages}
+                          onOpenPayment={() => {
+                            setOpenPayment(true);
+                            setUpgradeToMoreMessages(true);
+                          }}
+                        />
+                      )
+                    )}
+                    <PromptForm
+                      chatId={chatId}
+                      status={status}
+                      handleSubmit={handleSubmit}
+                      stop={stop}
+                      input={input}
+                      setInput={setInput}
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      setMessages={setMessages}
+                      uploadQueue={uploadQueue}
+                      setUploadQueue={setUploadQueue}
+                      isPremium={isPremium || false}
+                      hasMessages={messages.length > 0}
                       remainingMessages={remainingMessages}
-                      onOpenPayment={() => {
-                        setOpenPayment(true);
-                        setUpgradeToMoreMessages(true);
-                      }}
                     />
-                  )
+                    <ChatDisclaimer />
+                  </>
                 )}
-                <PromptForm
-                  chatId={chatId}
-                  status={status}
-                  handleSubmit={handleSubmit}
-                  stop={stop}
-                  input={input}
-                  setInput={setInput}
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                  setMessages={setMessages}
-                  uploadQueue={uploadQueue}
-                  setUploadQueue={setUploadQueue}
-                  isPremium={isPremium || false}
-                  hasMessages={messages.length > 0}
-                  remainingMessages={remainingMessages}
-                />
-                <ChatDisclaimer />
               </motion.div>
               <AlertPanel
                 session={session}

@@ -10,6 +10,8 @@ import { es } from "date-fns/locale";
 
 import { cn } from "@/utils";
 
+import { ChatSDKError, type ErrorCode } from "./errors";
+
 import type {
   HealthRisk,
   MoodTrack,
@@ -39,6 +41,28 @@ export function getFormattedDate(date: string | null): string {
     return format(new Date(), "d 'de' MMM',' yyyy", { locale: es });
   } else {
     return format(aiDate, "d 'de' MMMM 'de' yyyy", { locale: es });
+  }
+}
+
+export async function fetchWithErrorHandlers(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+) {
+  try {
+    const response = await fetch(input, init);
+
+    if (!response.ok) {
+      const { code, cause } = await response.json();
+      throw new ChatSDKError(code as ErrorCode, cause);
+    }
+
+    return response;
+  } catch (error: unknown) {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      throw new ChatSDKError("offline:chat");
+    }
+
+    throw error;
   }
 }
 

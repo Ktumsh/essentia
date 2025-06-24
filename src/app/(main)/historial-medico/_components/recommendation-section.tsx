@@ -13,11 +13,11 @@ import RecommendationCard from "./recommendation-card";
 import RecommendationDeleteAlert from "./recommendation-delete-alert";
 import RecommendationRow from "./recommendation-row";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 interface RecommendationSectionProps {
   viewMode: "grid" | "list";
-  medicalHistory: MedicalHistoryWithTags[];
+  medicalHistory: MedicalHistory[];
   recommendations: SavedAIRecommendation[];
   onDeleteRecommendation: (id: string) => void;
   onUpdateRecommendation: (recommendation: SavedAIRecommendation) => void;

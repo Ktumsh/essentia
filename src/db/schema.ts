@@ -517,6 +517,7 @@ export const userMedicalHistory = table("user_medical_history", {
   isDeleted: boolean("is_deleted").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  isArchived: boolean("is_archived").default(false),
 });
 
 export type UserMedicalHistory = InferSelectModel<typeof userMedicalHistory>;

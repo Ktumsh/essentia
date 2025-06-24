@@ -1,6 +1,7 @@
 "use client";
 
 import PaymentModal from "@/app/payment/_components/payment-modal";
+import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 
 import ActivityFullView from "./activity-full-view";
@@ -14,7 +15,7 @@ import FileViewer from "./file-viewer";
 import ShareDialog from "./share-dialog";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 import type { MedicalTag } from "@/db/schema";
 import type { Folder, MedicalHistoryActivity } from "@/lib/types";
 
@@ -22,9 +23,8 @@ interface MedicalDialogsContainerProps {
   tags: MedicalTag[];
   folders: Folder[];
   activities: MedicalHistoryActivity[];
-  isTrialUsed: boolean;
   isSubmitting: boolean;
-  medicalHistory: MedicalHistoryWithTags[];
+  medicalHistory: MedicalHistory[];
   savedRecommendations: AIRecommendationType[];
   selectedTags: string[];
   handleCreate: (d: DocumentFormSchema) => Promise<void>;
@@ -43,9 +43,9 @@ interface MedicalDialogsContainerProps {
   ) => Promise<void>;
   onDownload: (file: { url?: string | null; name: string }) => void;
   documentViewHandlers: {
-    onEdit: (item: MedicalHistoryWithTags) => void;
-    onDelete: (item: MedicalHistoryWithTags) => void;
-    onAIClick: (item: MedicalHistoryWithTags) => void;
+    onEdit: (item: MedicalHistory) => void;
+    onDelete: (item: MedicalHistory) => void;
+    onAIClick: (item: MedicalHistory) => void;
     onViewFile: (f: { url?: string | null; name: string }) => void;
     onOpenPremiumModal: () => void;
   };
@@ -55,7 +55,6 @@ const MedicalDialogsContainer = ({
   tags,
   folders,
   activities,
-  isTrialUsed,
   isSubmitting,
   medicalHistory,
   savedRecommendations,
@@ -71,6 +70,7 @@ const MedicalDialogsContainer = ({
   onDownload,
   documentViewHandlers,
 }: MedicalDialogsContainerProps) => {
+  const { isTrialUsed } = useTrial();
   const { subscription } = useUserSubscription();
 
   const isPremium = subscription?.plan?.id === "premium";

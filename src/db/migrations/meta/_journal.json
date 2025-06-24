@@ -162,6 +162,13 @@
       "when": 1750308468757,
       "tag": "0023_brave_elektra",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1750723602428,
+      "tag": "0024_sticky_shadow_king",
+      "breakpoints": true
     }
   ]
 }

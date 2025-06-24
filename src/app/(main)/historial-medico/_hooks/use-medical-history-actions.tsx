@@ -4,11 +4,11 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 
 import {
-  addMedicalHistoryWithTags,
+  addMedicalHistory,
   updateMedicalHistory,
   deleteMedicalHistory,
   restoreMedicalHistory,
-  type MedicalHistoryWithTags,
+  type MedicalHistory,
   deleteManyMedicalHistory,
 } from "@/db/querys/medical-history-querys";
 
@@ -43,7 +43,7 @@ export function useMedicalHistoryActions({
         throw new Error("No se pudo subir el archivo");
       }
 
-      await addMedicalHistoryWithTags({
+      await addMedicalHistory({
         userId,
         data: {
           condition: data.condition,
@@ -77,7 +77,7 @@ export function useMedicalHistoryActions({
   }
 
   async function updateRecord(
-    editingItem: MedicalHistoryWithTags,
+    editingItem: MedicalHistory,
     data: DocumentFormSchema,
   ): Promise<void> {
     let updatedFile = null;
@@ -124,7 +124,7 @@ export function useMedicalHistoryActions({
     }
   }
 
-  async function deleteRecord(itemToDelete: MedicalHistoryWithTags) {
+  async function deleteRecord(itemToDelete: MedicalHistory) {
     try {
       await deleteMedicalHistory({
         userId,
@@ -142,7 +142,7 @@ export function useMedicalHistoryActions({
 
   async function restoreDocument(
     documentId: string,
-    medicalHistory?: MedicalHistoryWithTags[],
+    medicalHistory?: MedicalHistory[],
   ) {
     const exists = medicalHistory?.some((item) => item.id === documentId);
     if (exists) {

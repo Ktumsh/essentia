@@ -2,6 +2,7 @@
 
 import { ClipboardList } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { use } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -9,18 +10,21 @@ import ToolEmptyState from "./tool-empty-state";
 import ToolFolder from "./tool-folder";
 
 interface ToolListProps {
-  toolsGroup: {
-    toolName: string;
-    count: number;
-    latest: Date | null;
-    recentDates: Date[];
-  }[];
+  toolsGroup: Promise<
+    {
+      toolName: string;
+      count: number;
+      latest: Date | null;
+      recentDates: Date[];
+    }[]
+  >;
 }
 
 const ToolList = ({ toolsGroup }: ToolListProps) => {
+  const tools = use(toolsGroup);
   const router = useRouter();
 
-  if (toolsGroup.length === 0) {
+  if (tools.length === 0) {
     return (
       <section className="w-full">
         <ToolEmptyState
@@ -44,7 +48,7 @@ const ToolList = ({ toolsGroup }: ToolListProps) => {
   return (
     <section className="@container/list w-full">
       <div className="grid grid-cols-1 justify-center gap-6 @3xl/list:grid-cols-2">
-        {toolsGroup.map((group) => (
+        {tools.map((group) => (
           <ToolFolder key={group.toolName} group={group} />
         ))}
       </div>

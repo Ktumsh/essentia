@@ -43,7 +43,9 @@ next-env.d.ts
 /public/workbox-*.js.map
 /public/worker-*.js.map
 
+# UnLighthouse
 .unlighthouse
+unlighthouse.config.ts
 
 /scripts
 certificates

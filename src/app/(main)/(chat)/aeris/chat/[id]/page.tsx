@@ -38,9 +38,7 @@ export default async function ChatPage(props: ChatPageProps) {
 
   const chat = await getChatById({ id });
 
-  if (!chat) {
-    redirect("/aeris");
-  }
+  if (!chat) redirect("/aeris");
 
   const session = await auth();
 

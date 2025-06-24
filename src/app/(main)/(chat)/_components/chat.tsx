@@ -15,7 +15,12 @@ import { fetcher } from "@/utils";
 import ChatPanel from "./chat-panel";
 import { Messages } from "./messages";
 import { useAutoResume } from "../_hooks/use-auto-resume";
-import { generateUUID, getChatHistoryPaginationKey } from "../_lib/utils";
+import { ChatSDKError } from "../_lib/errors";
+import {
+  fetchWithErrorHandlers,
+  generateUUID,
+  getChatHistoryPaginationKey,
+} from "../_lib/utils";
 
 import type { ChatVote } from "@/db/schema";
 import type { UserProfileData, VisibilityType } from "@/lib/types";
@@ -64,6 +69,7 @@ export function Chat({
     initialMessages,
     sendExtraMessageFields: true,
     generateId: generateUUID,
+    fetch: fetchWithErrorHandlers,
     experimental_prepareRequestBody: (body) => ({
       id,
       message: body.messages.at(-1),
@@ -75,8 +81,9 @@ export function Chat({
       mutate("/api/remaining-messages");
     },
     onError: (error) => {
-      console.log(error);
-      toast.error("Ha ocurrido un error. ¡Por favor intenta de nuevo!");
+      if (error instanceof ChatSDKError) {
+        toast.error(error.message);
+      }
     },
   });
 

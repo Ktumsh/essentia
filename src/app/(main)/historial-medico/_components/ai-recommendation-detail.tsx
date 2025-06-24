@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, formatDate } from "@/utils";
 
@@ -34,7 +34,7 @@ import { getFileTypeColor, getPriorityBadge, getTagColor } from "../_lib/utils";
 
 interface AIRecommendationDetailProps {
   recommendation: AIRecommendationType;
-  medicalHistory: MedicalHistoryWithTags[];
+  medicalHistory: MedicalHistory[];
   onBack?: () => void;
   onSaveNotes?: () => void;
   onViewFile?: (fileData: { url?: string | null; name: string }) => void;

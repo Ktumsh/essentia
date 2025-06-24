@@ -57,7 +57,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn, formatDate } from "@/utils";
@@ -66,15 +66,15 @@ import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 import { getFileTypeColor, getTagColor } from "../_lib/utils";
 
 interface DocumentCardProps {
-  doc: MedicalHistoryWithTags;
-  onView: (doc: MedicalHistoryWithTags) => void;
-  onEdit: (doc: MedicalHistoryWithTags) => void;
-  onDelete: (doc: MedicalHistoryWithTags) => void;
-  onAIClick: (doc: MedicalHistoryWithTags) => void;
+  doc: MedicalHistory;
+  onView: (doc: MedicalHistory) => void;
+  onEdit: (doc: MedicalHistory) => void;
+  onDelete: (doc: MedicalHistory) => void;
+  onAIClick: (doc: MedicalHistory) => void;
   onViewFile: (fileData: { url?: string | null; name: string }) => void;
   onDownload: (fileData: { url?: string | null; name: string }) => void;
-  onOpenOptions: (doc: MedicalHistoryWithTags | null) => void;
-  currentDoc: MedicalHistoryWithTags | null;
+  onOpenOptions: (doc: MedicalHistory | null) => void;
+  currentDoc: MedicalHistory | null;
   open: boolean;
   setOpen: (open: boolean) => void;
   selected: boolean;

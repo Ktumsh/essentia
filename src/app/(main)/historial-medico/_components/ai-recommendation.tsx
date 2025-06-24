@@ -31,7 +31,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { AiMedicalRecommendation } from "@/db/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";
@@ -53,7 +53,7 @@ export type AIRecommendationType = Omit<
 interface AIRecommendationProps {
   isOpen: boolean;
   onClose: () => void;
-  medicalHistory: MedicalHistoryWithTags[];
+  medicalHistory: MedicalHistory[];
   selectedItems?: string[];
   selectedTags?: string[];
   savedRecommendations: AIRecommendationType[];
@@ -155,7 +155,7 @@ const AIRecommendation = ({
           });
           return acc;
         },
-        {} as Record<string, MedicalHistoryWithTags[]>,
+        {} as Record<string, MedicalHistory[]>,
       ),
     [medicalHistory],
   );
@@ -167,7 +167,7 @@ const AIRecommendation = ({
   );
 
   // Función helper para obtener documentos a analizar según el tipo
-  const getDocsToAnalyze = useCallback((): MedicalHistoryWithTags[] => {
+  const getDocsToAnalyze = useCallback((): MedicalHistory[] => {
     if (analysisType === "all") return medicalHistory;
     if (analysisType === "selected")
       return medicalHistory.filter((doc) => selectedDocuments.includes(doc.id));

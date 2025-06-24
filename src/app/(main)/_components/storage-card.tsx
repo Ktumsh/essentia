@@ -15,12 +15,12 @@ import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 import { cn, fetcher } from "@/utils";
 
-import type { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 const StorageCard = () => {
   const router = useRouter();
 
-  const { data: medicalHistory, isLoading } = useSWR<MedicalHistoryWithTags[]>(
+  const { data: medicalHistory, isLoading } = useSWR<MedicalHistory[]>(
     "/api/medical-history",
     fetcher,
     {

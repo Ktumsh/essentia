@@ -23,7 +23,6 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
   } = useMedicalFolders();
 
   const {
-    isTrialUsed,
     isSubmitting,
     uploadStatus,
     loading,
@@ -81,7 +80,6 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
         tags={medicalTags}
         folders={folders}
         activities={activities}
-        isTrialUsed={isTrialUsed}
         isSubmitting={isSubmitting}
         medicalHistory={medicalHistory}
         savedRecommendations={savedRecommendations}

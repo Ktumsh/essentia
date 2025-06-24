@@ -22,13 +22,13 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { MedicalHistoryWithTags } from "@/db/querys/medical-history-querys";
+import { MedicalHistory } from "@/db/querys/medical-history-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DeleteAlertProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  item: MedicalHistoryWithTags | null;
+  item: MedicalHistory | null;
   onDelete: () => void;
   isSubmitting: boolean;
 }
