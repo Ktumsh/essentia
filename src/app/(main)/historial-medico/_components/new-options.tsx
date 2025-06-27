@@ -105,7 +105,7 @@ const NewOptions = ({
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       {expanded ? (
         <DropdownMenuTrigger asChild>
           <PlusButton size="sm" disabled={disabled}>

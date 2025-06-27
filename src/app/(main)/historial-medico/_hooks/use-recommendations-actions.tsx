@@ -7,14 +7,14 @@ import {
   saveAiMedicalRecommendation,
   deleteAiRecommendation,
   updateAiRecommendationNotes,
-  SavedAIRecommendation,
   deleteManyAiRecommendations,
+  type SavedAIRecommendation,
 } from "@/db/querys/ai-recommendations-querys";
 
 import useAIUsage from "./use-ai-usage";
 import { isRecommendationSaved } from "../_lib/utils";
 
-import type { AIRecommendationType } from "../_components/ai-recommendation";
+import type { SavedRecommendation } from "@/lib/types";
 
 interface RecommendationOpsOptions {
   userId: string;
@@ -51,7 +51,7 @@ export function useRecommendationsActions({
     });
 
   const saveRecommendation = useCallback(
-    async (recOrList: AIRecommendationType | AIRecommendationType[]) => {
+    async (recOrList: SavedRecommendation | SavedRecommendation[]) => {
       const list = Array.isArray(recOrList) ? recOrList : [recOrList];
       list.forEach((rec) => setOverride(rec.id, true));
 
@@ -187,7 +187,7 @@ export function useRecommendationsActions({
   );
 
   const toggleRecommendation = useCallback(
-    async (rec: AIRecommendationType, savedList: AIRecommendationType[]) => {
+    async (rec: SavedRecommendation, savedList: SavedRecommendation[]) => {
       const id = rec.id;
       const reallySaved = isRecommendationSaved(rec, savedList);
       const optim = getOptimistic(id);
@@ -230,7 +230,7 @@ export function useRecommendationsActions({
   );
 
   const isSaved = useCallback(
-    (rec: AIRecommendationType, savedList: AIRecommendationType[]): boolean => {
+    (rec: SavedRecommendation, savedList: SavedRecommendation[]): boolean => {
       const optim = getOptimistic(rec.id);
       return optim !== undefined
         ? optim

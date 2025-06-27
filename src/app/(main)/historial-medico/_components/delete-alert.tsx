@@ -61,7 +61,7 @@ const DeleteAlert = ({
                 </div>
               )}
               <p className="mt-2 text-sm text-amber-500">
-                Esta acción no se puede deshacer.
+                Se enviará a la papelera y podrás restaurarlo.
               </p>
             </div>
           </DrawerDescription>
@@ -72,7 +72,7 @@ const DeleteAlert = ({
                 onClick={() => setIsOpen(false)}
                 className="justify-center"
               >
-                Cancelar
+                No, cancelar
               </Button>
             </div>
             <Button
@@ -86,7 +86,7 @@ const DeleteAlert = ({
                   Eliminando...
                 </>
               ) : (
-                "Eliminar"
+                "Sí, eliminar"
               )}
             </Button>
           </DrawerFooter>
@@ -113,7 +113,7 @@ const DeleteAlert = ({
                 </div>
               )}
               <p className="mt-2 text-sm text-amber-500">
-                Esta acción no se puede deshacer.
+                Se enviará a la papelera y podrás restaurarlo.
               </p>
             </div>
           </DialogDescription>
@@ -121,7 +121,7 @@ const DeleteAlert = ({
         <DialogFooter isSecondary>
           <DialogClose asChild>
             <Button variant="outline" radius="full">
-              Cancelar
+              No, cancelar
             </Button>
           </DialogClose>
           <DeleteButton
@@ -130,7 +130,7 @@ const DeleteAlert = ({
             onClick={onDelete}
             className="rounded-full"
           >
-            {isSubmitting ? "Eliminando..." : "Eliminar"}
+            {isSubmitting ? "Eliminando..." : "Sí, eliminar"}
           </DeleteButton>
         </DialogFooter>
       </DialogContent>

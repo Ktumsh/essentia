@@ -5,19 +5,21 @@ import { useTrial } from "@/hooks/use-trial";
 import { useUserSubscription } from "@/hooks/use-user-subscription";
 
 import ActivityFullView from "./activity-full-view";
-import AIRecommendation, {
-  type AIRecommendationType,
-} from "./ai-recommendation";
 import DeleteAlert from "./delete-alert";
 import DocumentForm, { type DocumentFormSchema } from "./document-form";
-import DocumentViewDialog from "./document-view-dialog";
+import DocumentView from "./document-view";
 import FileViewer from "./file-viewer";
 import ShareDialog from "./share-dialog";
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
+import AIAnalysis from "./ai-recommendations/ai-analysis";
 
 import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 import type { MedicalTag } from "@/db/schema";
-import type { Folder, MedicalHistoryActivity } from "@/lib/types";
+import type {
+  Folder,
+  MedicalHistoryActivity,
+  SavedRecommendation,
+} from "@/lib/types";
 
 interface MedicalDialogsContainerProps {
   tags: MedicalTag[];
@@ -25,21 +27,23 @@ interface MedicalDialogsContainerProps {
   activities: MedicalHistoryActivity[];
   isSubmitting: boolean;
   medicalHistory: MedicalHistory[];
-  savedRecommendations: AIRecommendationType[];
+  savedRecommendations: SavedRecommendation[];
   selectedTags: string[];
   handleCreate: (d: DocumentFormSchema) => Promise<void>;
   handleUpdate: (d: DocumentFormSchema) => Promise<void>;
   handleDelete: () => Promise<void>;
   handleRestore: (id: string) => Promise<void>;
   handleViewDocumentFromActivity: (id: string) => void;
-  saveRecommendation: (r: AIRecommendationType) => void;
+  saveRecommendation: (
+    rec: SavedRecommendation | SavedRecommendation[],
+  ) => void;
   isRecommendationSaved: (
-    rec: AIRecommendationType,
-    savedList: AIRecommendationType[],
+    rec: SavedRecommendation,
+    savedList: SavedRecommendation[],
   ) => boolean;
   toggleRecommendation: (
-    recommendation: AIRecommendationType,
-    savedList: AIRecommendationType[],
+    recommendation: SavedRecommendation,
+    savedList: SavedRecommendation[],
   ) => Promise<void>;
   onDownload: (file: { url?: string | null; name: string }) => void;
   documentViewHandlers: {
@@ -106,7 +110,7 @@ const MedicalDialogsContainer = ({
 
       <DocumentForm
         isOpen={dialogs.isAddDialogOpen}
-        setIsOpen={(open) =>
+        onOpenChange={(open) =>
           open ? openDialog("isAddDialogOpen") : closeDialog("isAddDialogOpen")
         }
         tags={tags}
@@ -120,23 +124,23 @@ const MedicalDialogsContainer = ({
         key={editingItem?.id}
         isEditMode
         isOpen={dialogs.isEditDialogOpen}
-        setIsOpen={(open) =>
+        onOpenChange={(open) =>
           open
             ? openDialog("isEditDialogOpen")
             : closeDialog("isEditDialogOpen")
         }
         tags={tags}
         folders={folders}
-        initialValues={editingItem || undefined}
+        initialValues={editingItem}
         onSubmit={handleUpdate}
         onCancel={() => closeDialog("isEditDialogOpen")}
         isSubmitting={isSubmitting}
       />
 
-      <AIRecommendation
+      <AIAnalysis
         isOpen={dialogs.isAIDialogOpen}
         onClose={() => closeDialog("isAIDialogOpen")}
-        medicalHistory={medicalHistory}
+        documents={medicalHistory}
         selectedItems={selectedItemsForAI}
         selectedTags={selectedTags}
         savedRecommendations={savedRecommendations}
@@ -176,7 +180,7 @@ const MedicalDialogsContainer = ({
         />
       )}
 
-      <DocumentViewDialog
+      <DocumentView
         isOpen={dialogs.isViewDialogOpen}
         onClose={() => closeDialog("isViewDialogOpen")}
         currentItem={currentItem}

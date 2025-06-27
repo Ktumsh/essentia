@@ -317,14 +317,6 @@ export const getImageAttachmentClasses = (
   return cn(...classes);
 };
 
-export const formatFileSize = (size: number) => {
-  if (size < 1024 * 1024) {
-    return `${(size / 1024).toFixed(2)} kB`;
-  } else {
-    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
-  }
-};
-
 export const getRiskColorByPercentage = (percentage: number) => {
   if (percentage < 18.5) return "text-blue-500";
   if (percentage < 24.9) return "text-green-500";

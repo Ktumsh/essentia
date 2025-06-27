@@ -1,10 +1,11 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { ArrowLeftButton } from "@/components/button-kit/arrow-left-button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -13,12 +14,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { GUIDE_THEME_COLORS, GUIDE_DATA } from "@/db/data/guide-data";
-import { cn } from "@/utils";
+import { capitalize, cn } from "@/utils";
 
 import DownloadGuideButton from "../../_components/download-guide-button";
 
 const Guides = () => {
-  const route = useRouter();
+  const router = useRouter();
 
   return (
     <section className="@container/guides flex flex-col items-center">
@@ -31,56 +32,86 @@ const Guides = () => {
             <Card
               key={guide.id}
               onDoubleClick={() =>
-                route.push(`/herramientas/guias/${guide.id}`)
+                router.push(`/herramientas/guias/${guide.id}`)
               }
-              className="group/item text-foreground bg-muted hover:bg-accent flex flex-col border-0 p-2 transition-colors duration-300 select-none md:p-4"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  router.push(`/herramientas/guias/${guide.id}`);
+                }
+              }}
+              aria-label={`Abrir guía: ${guide.title}`}
+              className="group/card text-foreground ring-border hover:shadow-little-pretty relative flex flex-col border-0 ring-1 transition duration-300 select-none hover:-translate-y-1"
             >
-              <Badge
+              <div
                 className={cn(
-                  "mb-4 h-6 px-2 py-0 font-normal",
-                  theme.bg,
-                  theme.text,
+                  "absolute inset-x-0 top-0 z-1 h-1 opacity-0 transition-all duration-300 group-hover/card:opacity-100",
+                  theme.accent,
                 )}
-              >
-                {guide.type}
-              </Badge>
-              <div className="h-96 overflow-hidden rounded-sm md:h-48">
+              />
+              <div className="absolute top-4 left-4 z-10">
+                <Badge
+                  className={cn(
+                    "mb-4 h-6 px-2 py-0 font-normal backdrop-blur-md transition-shadow group-hover/card:shadow-sm",
+                    theme.bg,
+                    theme.text,
+                  )}
+                >
+                  {guide.type}
+                </Badge>
+              </div>
+              <div className="relative h-96 overflow-hidden md:h-48">
                 <Image
                   src={guide.thumbnail}
                   alt={`Imagen de la ${guide.title.toLowerCase()}`}
                   quality={100}
                   width={384}
                   height={192}
-                  className="animate-fade-in h-96 w-full object-cover transition-transform duration-500 group-hover/item:scale-105 md:h-48"
+                  className="animate-fade-in h-96 w-full object-cover transition-transform duration-500 group-hover/card:scale-110 md:h-48"
                 />
+                <div className="absolute inset-0 z-1 bg-gradient-to-t from-black/50 via-transparent to-transparent transition-opacity duration-300 group-hover/card:opacity-100 md:opacity-0" />
               </div>
-              <CardHeader className="gap-2 p-0 pt-4">
-                <CardTitle className="mt-1">{guide.title}</CardTitle>
-                <CardDescription className="text-muted-foreground text-xs">
-                  {guide.description}
-                </CardDescription>
-                <div className="flex flex-wrap items-center gap-2">
-                  {guide.tags.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="text-xxs! bg-background text-muted-foreground rounded-full font-normal"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </CardHeader>
-              <CardFooter className="mt-auto justify-between p-0 pt-2">
-                <ArrowLeftButton
-                  variant="link"
-                  onClick={() => route.push(`/herramientas/guias/${guide.id}`)}
-                  className="text-foreground after:bg-primary hover:text-primary relative order-1 me-4 ml-0.5 flex-row-reverse p-0! after:absolute after:bottom-1.5 after:left-0 after:h-px after:w-0 after:transition-all after:content-[''] hover:no-underline hover:after:w-[calc(100%-24px)] md:order-none md:me-0 md:text-xs [&_svg]:rotate-180 md:[&_svg]:size-3.5!"
-                >
-                  Ver detalles
-                </ArrowLeftButton>
-                <DownloadGuideButton guide={guide} />
-              </CardFooter>
+              <div className="flex flex-1 flex-col p-6">
+                <CardHeader className="gap-0 space-y-3 p-0">
+                  <CardTitle className="text-base">{guide.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground line-clamp-2 text-sm">
+                    {guide.description}
+                  </CardDescription>
+                  <div className="mt-1 mb-6 flex flex-wrap gap-2">
+                    {guide.tags.slice(0, 3).map((tag, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="text-foreground/80 px-2 py-1 text-xs! font-normal"
+                      >
+                        {capitalize(tag)}
+                      </Badge>
+                    ))}
+                    {guide.tags.length > 3 && (
+                      <Badge
+                        variant="secondary"
+                        className="text-foreground/80 px-2 py-1 text-xs! font-normal"
+                      >
+                        +{guide.tags.length - 3}
+                      </Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardFooter className="mt-auto justify-between p-0">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() =>
+                      router.push(`/herramientas/guias/${guide.id}`)
+                    }
+                    className="group/btn bg-accent duration-300 group-hover/card:opacity-100 md:bg-transparent md:opacity-0"
+                  >
+                    Leer guía
+                    <ArrowRight className="transition-transform group-hover/btn:translate-x-1" />
+                  </Button>
+                  <DownloadGuideButton guide={guide} />
+                </CardFooter>
+              </div>
             </Card>
           );
         })}

@@ -1,21 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckIcon, Loader } from "lucide-react";
+import { CheckIcon, Loader, Save } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -32,16 +25,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { folderFormSchema } from "@/lib/form-schemas";
+import { type FolderFormData, folderFormSchema } from "@/lib/form-schemas";
 import { cn } from "@/utils";
 
 import {
   folderIconMap,
   folderIconLabelMap,
   folderColorLabelMap,
+  getColorClass,
 } from "../../_lib/utils";
 
-import type { Folder, FolderIconType } from "@/lib/types";
+import type { Folder } from "@/lib/types";
 
 const iconOptions = [
   "folder",
@@ -70,74 +64,54 @@ const colors = [
   "purple",
 ] as const;
 
-type FolderFormData = {
-  name: string;
-  description?: string;
-  color: "gray" | "blue" | "green" | "pink" | "red" | "orange" | "purple";
-  icon: FolderIconType;
-};
-
 interface FolderFormProps {
   isOpen: boolean;
-  initial?: Partial<Folder>;
-  onClose: () => void;
+  initialValues: Partial<Folder> | null;
+  onOpenChange: (open: boolean) => void;
   onSubmit: (data: FolderFormData) => Promise<void>;
+  isEditMode?: boolean;
   isSubmitting: boolean;
 }
 
 const FolderForm = ({
   isOpen,
-  initial,
-  onClose,
+  initialValues,
+  onOpenChange,
   onSubmit,
+  isEditMode = false,
   isSubmitting,
 }: FolderFormProps) => {
   const isMobile = useIsMobile();
   const form = useForm<FolderFormData>({
     resolver: zodResolver(folderFormSchema),
     defaultValues: {
-      name: initial?.name || "",
-      description: initial?.description || "",
-      color: initial?.color || "gray",
-      icon: initial?.icon || "folder",
+      name: initialValues?.name || "",
+      description: initialValues?.description || "",
+      color: initialValues?.color || "gray",
+      icon: initialValues?.icon || "folder",
     },
   });
 
   const { control, handleSubmit, reset } = form;
 
   useEffect(() => {
-    reset({
-      name: initial?.name || "",
-      description: initial?.description || "",
-      color: initial?.color || "gray",
-      icon: initial?.icon || "folder",
-    });
-  }, [initial, form, reset]);
+    if (!isOpen) return;
 
-  const getColorClass = (color: FolderFormData["color"]) => {
-    switch (color) {
-      case "gray":
-        return "bg-gray-500";
-      case "blue":
-        return "bg-blue-500";
-      case "green":
-        return "bg-green-500";
-      case "pink":
-        return "bg-pink-400";
-      case "red":
-        return "bg-red-500";
-      case "orange":
-        return "bg-orange-400";
-      case "purple":
-        return "bg-purple-500";
-      default:
-        return "bg-muted";
+    if (!initialValues) {
+      reset();
+      return;
     }
-  };
+    reset({
+      name: initialValues?.name || "",
+      description: initialValues?.description || "",
+      color: initialValues?.color || "gray",
+      icon: initialValues?.icon || "folder",
+    });
+  }, [isOpen, initialValues, form, reset]);
 
   const FormContent = (
     <Form {...form}>
-      <form className="space-y-4 p-4 md:p-6">
+      <form className="space-y-6 p-4">
         <FormField
           control={control}
           name="name"
@@ -240,93 +214,98 @@ const FolderForm = ({
     </Form>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>
-              {initial ? "Editar Carpeta" : "Nueva Carpeta"}
-            </DrawerTitle>
-            <DrawerDescription>
-              {initial
-                ? "Modifica los datos de tu carpeta"
-                : "Crea una nueva carpeta médica"}
-            </DrawerDescription>
-          </DrawerHeader>
+  return (
+    <Drawer
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      direction={isMobile ? "bottom" : "right"}
+      handleOnly={!isMobile}
+    >
+      <DrawerContent className="md:bg-background data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-screen data-[vaul-drawer-direction=right]:max-w-md data-[vaul-drawer-direction=right]:rounded-none data-[vaul-drawer-direction=right]:p-0 md:border-l">
+        <DrawerHeader className="items-center md:items-start md:p-4">
+          <DrawerTitle className="flex items-center gap-2 truncate md:max-w-full md:p-0 md:text-base md:leading-normal">
+            {isEditMode ? "Editar Carpeta" : "Nueva Carpeta"}
+          </DrawerTitle>
+          <DrawerDescription className="text-muted-foreground sr-only md:not-sr-only">
+            {isEditMode
+              ? "Modifica los datos de tu carpeta"
+              : "Crea una nueva carpeta médica"}
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerDescription className="p-4 md:sr-only">
+          {isEditMode
+            ? "Modifica los datos de tu carpeta"
+            : "Crea una nueva carpeta médica"}
+        </DrawerDescription>
+        {FormContent}
 
-          {FormContent}
-
-          <DrawerFooter>
-            <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+        <DrawerFooter>
+          {isMobile ? (
+            <>
+              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+                <DrawerClose asChild>
+                  <Button
+                    disabled={isSubmitting}
+                    type="button"
+                    variant="mobile"
+                    className="justify-center"
+                  >
+                    Cancelar
+                  </Button>
+                </DrawerClose>
+              </div>
               <Button
                 disabled={isSubmitting}
                 type="button"
-                variant="mobile"
-                onClick={onClose}
-                className="justify-center"
+                variant="mobile-primary"
+                onClick={handleSubmit(onSubmit)}
               >
-                Cancelar
+                {isSubmitting ? (
+                  <>
+                    <Loader className="animate-spin" />
+                    {isEditMode ? "Guardando..." : "Creando..."}
+                  </>
+                ) : (
+                  <>
+                    <Save />
+                    {isEditMode ? "Guardar" : "Crear"} carpeta
+                  </>
+                )}
               </Button>
-            </div>
-            <Button
-              disabled={isSubmitting}
-              type="button"
-              variant="mobile-primary"
-              onClick={handleSubmit(onSubmit)}
-            >
-              {initial ? "Guardar" : "Crear"}
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent isSecondary>
-        <DialogHeader isSecondary>
-          <DialogTitle>
-            {initial ? "Editar Carpeta" : "Nueva Carpeta"}
-          </DialogTitle>
-          <DialogDescription>
-            {initial
-              ? "Modifica los datos de tu carpeta"
-              : "Crea una nueva carpeta médica"}
-          </DialogDescription>
-        </DialogHeader>
-
-        {FormContent}
-
-        <DialogFooter isSecondary>
-          <Button
-            disabled={isSubmitting}
-            variant="outline"
-            onClick={onClose}
-            className="rounded-full"
-          >
-            Cancelar
-          </Button>
-          <Button
-            disabled={isSubmitting}
-            onClick={handleSubmit(onSubmit)}
-            className="rounded-full"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader className="animate-spin" />
-                {initial ? "Guardando..." : "Creando..."}
-              </>
-            ) : initial ? (
-              "Guardar"
-            ) : (
-              "Crear"
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            </>
+          ) : (
+            <>
+              <Button
+                disabled={isSubmitting}
+                onClick={handleSubmit(onSubmit)}
+                className="rounded-full"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader className="animate-spin" />
+                    {isEditMode ? "Guardando..." : "Creando..."}
+                  </>
+                ) : (
+                  <>
+                    <Save />
+                    {isEditMode ? "Guardar" : "Crear"} carpeta
+                  </>
+                )}
+              </Button>
+              <DrawerClose asChild>
+                <Button
+                  disabled={isSubmitting}
+                  variant="outline"
+                  className="rounded-full"
+                >
+                  Cancelar
+                </Button>
+              </DrawerClose>
+            </>
+          )}
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
 

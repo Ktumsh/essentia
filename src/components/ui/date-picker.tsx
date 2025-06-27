@@ -18,6 +18,7 @@ interface DatePickerProps {
   selected: Date;
   onSelect: (date: Date) => void;
   className?: string;
+  disablePortal?: boolean;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -26,6 +27,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   selected,
   onSelect,
   className,
+  disablePortal = false,
 }) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -84,7 +86,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleDayChange}>
           <SelectTrigger
             className={cn(
-              "h-auto shadow-xs focus:ring-0 focus:ring-offset-0 focus:outline-0",
+              "h-auto focus:ring-0 focus:ring-offset-0 focus:outline-0",
               className,
             )}
           >
@@ -101,7 +103,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               }
             />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent disablePortal={disablePortal}>
             <ScrollArea className="h-48">
               {Array.from({ length: 31 }, (_, i) => (
                 <SelectItem key={i + 1} value={(i + 1).toString()}>
@@ -115,7 +117,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleMonthChange}>
           <SelectTrigger
             className={cn(
-              "h-auto shadow-xs focus:ring-0 focus:ring-offset-0 focus:outline-0",
+              "h-auto focus:ring-0 focus:ring-offset-0 focus:outline-0",
               className,
             )}
           >
@@ -132,7 +134,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               }
             />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent disablePortal={disablePortal}>
             <ScrollArea className="h-48">
               {meses.map((mes, index) => (
                 <SelectItem key={index} value={mes}>
@@ -146,7 +148,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <Select onValueChange={handleYearChange}>
           <SelectTrigger
             className={cn(
-              "h-auto shadow-xs focus:ring-0 focus:ring-offset-0 focus:outline-0",
+              "h-auto focus:ring-0 focus:ring-offset-0 focus:outline-0",
               className,
             )}
           >
@@ -163,7 +165,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               }
             />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent disablePortal={disablePortal}>
             <ScrollArea className="h-48">
               {Array.from({ length: endYear - startYear + 1 }, (_, i) => (
                 <SelectItem

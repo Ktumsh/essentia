@@ -279,7 +279,7 @@ const MedicalHistoryTabs = () => {
                 onNewAIRecommendation={() => openDialog("isAIDialogOpen")}
                 onNewDocument={() => openDialog("isAddDialogOpen")}
                 onNewFolder={() =>
-                  setOpenFolder({ ...openFolder, isFolderFormOpen: true })
+                  setOpenFolder({ ...openFolder, isAddFolderOpen: true })
                 }
               />
               <div
@@ -446,6 +446,7 @@ const MedicalHistoryTabs = () => {
                 }}
                 onPointerDown={handleRecommendationPointerDown}
                 onPointerUp={handleRecommendationPointerUp}
+                isSubmitting={isSubmitting}
               />
             )}
           </TabsContent>

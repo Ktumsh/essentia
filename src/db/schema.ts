@@ -676,13 +676,20 @@ export const aiMedicalRecommendation = table("ai_medical_recommendation", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   type: varchar("type", {
-    enum: ["general", "preventive", "lifestyle", "followUp", "medication"],
+    enum: [
+      "general",
+      "preventive",
+      "lifestyle",
+      "followUp",
+      "medication",
+      "emergency",
+    ],
   }).notNull(),
   title: varchar("title", { length: 150 }).notNull(),
   description: text("description").notNull(),
   notes: text("notes"),
   priority: varchar("priority", {
-    enum: ["high", "medium", "low"],
+    enum: ["critical", "high", "medium", "low"],
   }).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   isDeleted: boolean("is_deleted").notNull().default(false),

@@ -5,6 +5,7 @@ import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
 
 import { cn } from "@/utils/index";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 function ContextMenu({
   ...props
@@ -234,6 +235,24 @@ function ContextMenuShortcut({
   );
 }
 
+function MaybeContextMenu({
+  children,
+  content,
+}: {
+  children: React.ReactNode;
+  content: React.ReactNode;
+}) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) return <>{children}</>;
+  return (
+    <ContextMenu modal={false}>
+      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+      <ContextMenuContent>{content}</ContextMenuContent>
+    </ContextMenu>
+  );
+}
+
 export {
   ContextMenu,
   ContextMenuTrigger,
@@ -250,4 +269,5 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuRadioGroup,
+  MaybeContextMenu,
 };

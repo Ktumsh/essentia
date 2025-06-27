@@ -84,6 +84,7 @@ export async function POST(request: Request) {
       uploadedAt: metadata.uploadedAt,
       size: metadata.size,
       contentType: metadata.contentType,
+      originalName: file.name,
     });
   } catch (error) {
     console.error(error);

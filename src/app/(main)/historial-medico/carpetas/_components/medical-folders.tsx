@@ -6,6 +6,7 @@ import DeleteFolderAlert from "./delete-folder-alert";
 import FolderItem from "./folder-item";
 import FolderLoading from "./folder-loading";
 import FolderSectionHeader from "./folder-section-header";
+import FolderViewDialog from "./folder-view-dialog";
 import RenameFolderForm from "./rename-folder-form";
 import MultiDeleteAlert from "../../_components/multi-delete-alert";
 import { useMedicalDialogs } from "../../_hooks/use-medical-dialogs";
@@ -42,6 +43,7 @@ const MedicalFolders = () => {
     modalRef,
     handlePointerDown,
     handlePointerUp,
+    isMultiMode,
   } = useMultiSelect<Folder>("folders", folders);
 
   const selectedFolderCount = selectedFolders.length;
@@ -54,7 +56,7 @@ const MedicalFolders = () => {
         onDelete={() => openDialog("isMultiDeleteFoldersDialogOpen")}
         onNewFolder={() => {
           setCurrentFolder(null);
-          setOpen({ ...open, isFolderFormOpen: true });
+          setOpen({ ...open, isAddFolderOpen: true });
         }}
         variant="folders"
       />
@@ -70,7 +72,7 @@ const MedicalFolders = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3 2xl:grid-cols-5">
-            {folders?.slice(0, 10).map((folder, index) => (
+            {folders?.map((folder, index) => (
               <FolderItem
                 key={folder.id}
                 folder={folder}
@@ -80,17 +82,22 @@ const MedicalFolders = () => {
                 }}
                 onEdit={() => {
                   setCurrentFolder(folder);
-                  setOpen({ ...open, isFolderFormOpen: true });
+                  setOpen({ ...open, isEditFolderOpen: true });
                 }}
                 onDelete={() => {
                   setCurrentFolder(folder);
                   setOpen({ ...open, isDeleteFolderOpen: true });
+                }}
+                onView={() => {
+                  setCurrentFolder(folder);
+                  setOpen({ ...open, isViewFolderOpen: true });
                 }}
                 selected={selectedFolders.includes(folder.id)}
                 onSelect={(e) => handleSelect(e, folder.id, index)}
                 onDoubleClick={() => clearSelection()}
                 onPointerDown={(e) => handlePointerDown(folder.id, index, e)}
                 onPointerUp={() => handlePointerUp(folder.id, index)}
+                isMultiMode={isMultiMode}
               />
             ))}
           </div>
@@ -105,6 +112,14 @@ const MedicalFolders = () => {
         isSubmitting={isSubmitting}
         currentName={currentFolder?.name || ""}
         onRename={handleRenameFolder}
+      />
+
+      <FolderViewDialog
+        isOpen={open.isViewFolderOpen}
+        onOpenChange={(isOpen) =>
+          setOpen({ ...open, isViewFolderOpen: isOpen })
+        }
+        currentItem={currentFolder}
       />
 
       <DeleteFolderAlert

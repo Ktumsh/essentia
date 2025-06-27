@@ -15,10 +15,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { BetterTooltip } from "@/components/ui/tooltip";
-import { cn } from "@/utils";
+import { cn, formatFileSize } from "@/utils";
 
 import {
-  formatFileSize,
   getContainerAttachmentClasses,
   getImageAttachmentClasses,
 } from "../_lib/utils";

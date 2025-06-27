@@ -9,6 +9,7 @@ import type {
   Route,
   Stage,
   UserMedicalFolder,
+  AiMedicalRecommendation,
 } from "@/db/schema";
 import type { FC, SVGProps } from "react";
 
@@ -165,6 +166,40 @@ export type MedicalRecommendationType =
   | "lifestyle"
   | "followUp"
   | "medication";
+
+export type AnalysisMethod = "all" | "specific" | "categories";
+export type AnalysisStep =
+  | "method"
+  | "selection"
+  | "processing"
+  | "recommendations"
+  | "details";
+export type Priority = "critical" | "high" | "medium" | "low";
+export type RecommendationType =
+  | "general"
+  | "lifestyle"
+  | "medication"
+  | "followUp"
+  | "preventive"
+  | "emergency";
+
+export type AIRecommendation = Omit<
+  AiMedicalRecommendation,
+  "createdAt" | "isDeleted" | "userId" | "notes"
+> & {
+  confidence: number;
+  actionItems: string[];
+  relatedDocuments?: string[];
+  relatedTags: string[];
+};
+
+export type SavedRecommendation = Omit<
+  AiMedicalRecommendation,
+  "createdAt" | "isDeleted" | "userId" | "notes"
+> & {
+  relatedTags: string[];
+  relatedDocuments?: string[];
+};
 
 export type DeleteManyResult = {
   success: boolean;

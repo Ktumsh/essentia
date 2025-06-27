@@ -18,14 +18,6 @@ import {
 } from "@/components/ui/command";
 import DatePicker from "@/components/ui/date-picker";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   Drawer,
   DrawerContent,
   DrawerHeader,
@@ -82,7 +74,7 @@ type DocumentFormProps = {
   onSubmit: SubmitHandler<DocumentFormSchema>;
   onCancel: () => void;
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  onOpenChange: (isOpen: boolean) => void;
   isEditMode?: boolean;
   isSubmitting?: boolean;
 };
@@ -94,7 +86,7 @@ const DocumentForm = ({
   onSubmit,
   onCancel,
   isOpen,
-  setIsOpen,
+  onOpenChange,
   isEditMode = false,
   isSubmitting = false,
 }: DocumentFormProps) => {
@@ -155,63 +147,100 @@ const DocumentForm = ({
   }, [isOpen, isEditMode, initialValues, reset, tags]);
 
   const formContent = (
-    <div className="overflow-y-auto p-4 md:p-6">
+    <div className="overflow-y-auto p-4">
       <Form {...form}>
         <form className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={control}
-              name="condition"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="condition">Condición o título</FormLabel>
+          <FormField
+            control={control}
+            name="file"
+            rules={
+              !isEditMode ? { required: "Debes seleccionar un archivo" } : {}
+            }
+            render={({ field }) => (
+              <FormItem>
+                {isEditMode && initialValues?.file && (
+                  <FileSlot
+                    label="Archivo actual"
+                    currentItem={initialValues}
+                    className="mb-6"
+                  />
+                )}
+                <FormLabel>
+                  {isEditMode
+                    ? "Reemplazar archivo actual (opcional)"
+                    : "Archivo"}
+                </FormLabel>
+                <FormControl>
                   <FormControl>
-                    <Input
-                      {...field}
-                      id="condition"
-                      placeholder="Ej: Examen de sangre"
-                      className="dark:border-alternative md:dark:border-border md:border-border"
+                    <FileUploader
+                      onFileSelect={(file) => field.onChange(file)}
                     />
                   </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tipo de documento</FormLabel>
-                  <FormControl>
-                    <Select
-                      {...field}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
-                      <SelectTrigger className="dark:border-alternative md:dark:border-border md:border-border">
-                        <SelectValue placeholder="Selecciona un tipo" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Examen">Examen</SelectItem>
-                        <SelectItem value="Receta">Receta</SelectItem>
-                        <SelectItem value="Informe">Informe</SelectItem>
-                        <SelectItem value="Diagnóstico">Diagnóstico</SelectItem>
-                        <SelectItem value="Imagenología">
-                          Imagenología
-                        </SelectItem>
-                        <SelectItem value="Certificado">Certificado</SelectItem>
-                        <SelectItem value="Epicrisis">Epicrisis</SelectItem>
-                        <SelectItem value="Consentimiento">
-                          Consentimiento
-                        </SelectItem>
-                        <SelectItem value="Otro">Otro</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
+                </FormControl>
+                {errors.file && (
+                  <span className="text-sm text-red-500">
+                    {errors.file.message}
+                  </span>
+                )}
+                {!isEditMode && (
+                  <p className="text-muted-foreground text-xs">
+                    Formatos aceptados: PDF, JPEG, JPG, PNG o WEBP (máx. 10 MB
+                    por archivo)
+                  </p>
+                )}
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="condition"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="condition">Condición o título</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="condition"
+                    placeholder="Ej: Examen de sangre"
+                    className="dark:border-alternative md:dark:border-border md:border-border"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tipo de documento</FormLabel>
+                <FormControl>
+                  <Select
+                    {...field}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger className="dark:border-alternative md:dark:border-border md:border-border">
+                      <SelectValue placeholder="Selecciona un tipo" />
+                    </SelectTrigger>
+                    <SelectContent disablePortal>
+                      <SelectItem value="Examen">Examen</SelectItem>
+                      <SelectItem value="Receta">Receta</SelectItem>
+                      <SelectItem value="Informe">Informe</SelectItem>
+                      <SelectItem value="Diagnóstico">Diagnóstico</SelectItem>
+                      <SelectItem value="Imagenología">Imagenología</SelectItem>
+                      <SelectItem value="Certificado">Certificado</SelectItem>
+                      <SelectItem value="Epicrisis">Epicrisis</SelectItem>
+                      <SelectItem value="Consentimiento">
+                        Consentimiento
+                      </SelectItem>
+                      <SelectItem value="Otro">Otro</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <FormField
             control={control}
             name="description"
@@ -262,7 +291,7 @@ const DocumentForm = ({
                     <SelectTrigger className="dark:border-alternative md:dark:border-border md:border-border">
                       <SelectValue placeholder="Sin carpeta asignada" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent disablePortal>
                       <SelectItem value="none">Sin carpeta</SelectItem>
                       {folders.map((f) => (
                         <SelectItem key={f.id} value={f.id}>
@@ -292,66 +321,8 @@ const DocumentForm = ({
                     onSelect={(date) => {
                       field.onChange(date);
                     }}
+                    disablePortal
                     className="dark:border-alternative md:dark:border-border md:border-border"
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="file"
-            rules={
-              !isEditMode ? { required: "Debes seleccionar un archivo" } : {}
-            }
-            render={({ field }) => (
-              <FormItem>
-                {isEditMode && initialValues?.file && (
-                  <FileSlot
-                    label="Archivo actual"
-                    currentItem={initialValues}
-                    className="mb-6"
-                  />
-                )}
-                <FormLabel>
-                  {isEditMode ? "Reemplazar archivo (opcional)" : "Archivo"}
-                </FormLabel>
-                <FormControl>
-                  <FormControl>
-                    <FileUploader
-                      onFileSelect={(file) => field.onChange(file)}
-                    />
-                  </FormControl>
-                </FormControl>
-                {errors.file && (
-                  <span className="text-sm text-red-500">
-                    {errors.file.message}
-                  </span>
-                )}
-                {!isEditMode && (
-                  <p className="text-muted-foreground text-xs">
-                    Formatos aceptados: PDF, JPEG, JPG, PNG o WEBP (máx. 10 MB
-                    por archivo)
-                  </p>
-                )}
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="notes">
-                  Notas personales (opcional)
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    id="notes"
-                    placeholder="Notas adicionales para tu referencia"
-                    className="dark:border-alternative md:dark:border-border md:border-border resize-none"
                   />
                 </FormControl>
               </FormItem>
@@ -364,7 +335,7 @@ const DocumentForm = ({
               <FormItem>
                 <FormLabel htmlFor="tags">Etiquetas (opcional)</FormLabel>
                 <FormControl>
-                  <Popover modal={true}>
+                  <Popover modal={false}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -373,10 +344,14 @@ const DocumentForm = ({
                         {field.value && field.value.length > 0
                           ? `${field.value.length} etiquetas seleccionadas`
                           : "Seleccionar etiquetas"}
-                        <Tag className="ml-2 size-4 shrink-0 opacity-50" />
+                        <Tag className="size-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[300px] p-0" align="start">
+                    <PopoverContent
+                      className="w-[300px] p-0"
+                      align="start"
+                      disablePortal
+                    >
                       <Command className="bg-transparent">
                         <CommandInput placeholder="Buscar etiqueta..." />
                         <CommandList>
@@ -443,7 +418,7 @@ const DocumentForm = ({
                         <Badge
                           key={tagId}
                           className={cn(
-                            "font-normal text-white",
+                            "pr-1 font-normal text-white",
                             getTagColor(tag!.name),
                           )}
                         >
@@ -466,94 +441,117 @@ const DocumentForm = ({
               </FormItem>
             )}
           />
+          <FormField
+            control={control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="notes">
+                  Notas personales (opcional)
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    id="notes"
+                    placeholder="Notas adicionales para tu referencia"
+                    className="dark:border-alternative md:dark:border-border md:border-border resize-none"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </form>
       </Form>
     </div>
   );
 
-  // Renderizamos condicionalmente según el dispositivo
-  return isMobile ? (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>
-            {isEditMode ? "Editar" : "Añadir"} documento médico
+  return (
+    <Drawer
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      direction={isMobile ? "bottom" : "right"}
+      handleOnly={!isMobile}
+    >
+      <DrawerContent className="md:bg-background data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-screen data-[vaul-drawer-direction=right]:max-w-md data-[vaul-drawer-direction=right]:rounded-none data-[vaul-drawer-direction=right]:p-0 md:border-l">
+        <DrawerHeader className="items-center md:items-start md:p-4">
+          <DrawerTitle className="flex items-center gap-2 truncate md:max-w-full md:p-0 md:text-base md:leading-normal">
+            {isEditMode ? "Editar" : "Crear"} Documento
           </DrawerTitle>
+          <DrawerDescription className="text-muted-foreground sr-only md:not-sr-only">
+            {isEditMode
+              ? "Modifica la información del documento."
+              : "Completa la información del documento que deseas crear."}
+          </DrawerDescription>
         </DrawerHeader>
-        <DrawerDescription className="p-4">
+        <DrawerDescription className="p-4 md:sr-only">
           {isEditMode
-            ? "Modifica la información del documento médico."
-            : "Completa la información del documento médico que deseas añadir."}
+            ? "Modifica la información del documento."
+            : "Completa la información del documento que deseas crear."}
         </DrawerDescription>
         {formContent}
-        <DrawerFooter>
-          <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
-            <Button
-              disabled={isSubmitting}
-              variant="mobile"
-              onClick={onCancel}
-              className="justify-center"
-            >
-              Cancelar
-            </Button>
-          </div>
-          <Button
-            disabled={isSubmitting}
-            variant="mobile-primary"
-            onClick={handleSubmit(onSubmit)}
-          >
-            {isSubmitting ? (
-              <Loader className="animate-spin" />
-            ) : (
-              <>
-                <Save />
-                Guardar documento
-              </>
-            )}
-          </Button>
+        <DrawerFooter className="md:gap-2">
+          {isMobile ? (
+            <>
+              <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
+                <Button
+                  disabled={isSubmitting}
+                  variant="mobile"
+                  onClick={onCancel}
+                  className="justify-center"
+                >
+                  Cancelar
+                </Button>
+              </div>
+              <Button
+                disabled={isSubmitting}
+                variant="mobile-primary"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader className="animate-spin" />
+                    {isEditMode ? "Guardando..." : "Creando..."}
+                  </>
+                ) : (
+                  <>
+                    <Save />
+                    {isEditMode ? "Guardar" : "Crear"} documento
+                  </>
+                )}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                disabled={isSubmitting}
+                radius="full"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader className="animate-spin" />
+                    {isEditMode ? "Guardando..." : "Creando..."}
+                  </>
+                ) : (
+                  <>
+                    <Save />
+                    {isEditMode ? "Guardar" : "Crear"} documento
+                  </>
+                )}
+              </Button>
+              <Button
+                disabled={isSubmitting}
+                variant="outline"
+                radius="full"
+                onClick={onCancel}
+              >
+                Cancelar
+              </Button>
+            </>
+          )}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  ) : (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent isSecondary className="sm:max-w-xl">
-        <DialogHeader isSecondary className="p-6!">
-          <DialogTitle>
-            {isEditMode ? "Editar" : "Añadir"} documento médico
-          </DialogTitle>
-          <DialogDescription>
-            {isEditMode
-              ? "Modifica la información del documento médico."
-              : "Completa la información del documento médico que deseas añadir."}
-          </DialogDescription>
-        </DialogHeader>
-        {formContent}
-        <DialogFooter isSecondary>
-          <Button
-            disabled={isSubmitting}
-            variant="outline"
-            radius="full"
-            onClick={onCancel}
-          >
-            Cancelar
-          </Button>
-          <Button
-            disabled={isSubmitting}
-            radius="full"
-            onClick={handleSubmit(onSubmit)}
-          >
-            {isSubmitting ? (
-              <Loader className="animate-spin" />
-            ) : (
-              <>
-                <Save />
-                Guardar documento
-              </>
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 };
 

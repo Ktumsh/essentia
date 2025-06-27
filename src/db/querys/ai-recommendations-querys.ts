@@ -14,6 +14,8 @@ import {
   userTrial,
 } from "../schema";
 
+import type { Priority, RecommendationType } from "@/lib/types";
+
 export async function getUserRecommendationLimit(
   userId: string,
 ): Promise<number> {
@@ -84,10 +86,10 @@ export async function saveAiMedicalRecommendation({
 }: {
   userId: string;
   id: string;
-  type: "general" | "preventive" | "lifestyle" | "followUp" | "medication";
+  type: RecommendationType;
   title: string;
   description: string;
-  priority: "high" | "medium" | "low";
+  priority: Priority;
   relatedDocuments: string[];
   relatedTags: string[];
 }): Promise<SaveAiMedicalRecommendationResult> {

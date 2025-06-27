@@ -3,15 +3,12 @@
 import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
-import { useIsMobile } from "@/hooks/use-mobile";
 
-import { AIRecommendationDetail } from "./ai-recommendation-detail";
 import RecommendationCard from "./recommendation-card";
 import RecommendationDeleteAlert from "./recommendation-delete-alert";
 import RecommendationRow from "./recommendation-row";
+import RecommendationView from "./recommendation-view";
 
 import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
@@ -31,6 +28,7 @@ interface RecommendationSectionProps {
   onToggleSelectAll: () => void;
   onPointerDown: (id: string, index: number, e: React.PointerEvent) => void;
   onPointerUp: (id: string, index: number) => void;
+  isSubmitting: boolean;
 }
 
 const RecommendationSection = ({
@@ -49,8 +47,8 @@ const RecommendationSection = ({
   onToggleSelectAll,
   onPointerDown,
   onPointerUp,
+  isSubmitting,
 }: RecommendationSectionProps) => {
-  const isMobile = useIsMobile();
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<SavedAIRecommendation | null>(null);
@@ -99,46 +97,26 @@ const RecommendationSection = ({
 
   const dialogs = (
     <>
-      {isMobile ? (
-        <Drawer open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-          <DrawerContent>
-            {selectedRecommendation && (
-              <AIRecommendationDetail
-                recommendation={selectedRecommendation}
-                medicalHistory={medicalHistory}
-                onSaveNotes={saveNotes}
-                isFromSavedRecommendations
-                onViewFile={onViewFile}
-                editNotes={editNotes}
-                setEditNotes={setEditNotes}
-              />
-            )}
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-          <DialogContent isSecondary className="sm:max-w-xl">
-            <button className="sr-only" />
-            {selectedRecommendation && (
-              <AIRecommendationDetail
-                recommendation={selectedRecommendation}
-                medicalHistory={medicalHistory}
-                onSaveNotes={saveNotes}
-                isFromSavedRecommendations
-                onViewFile={onViewFile}
-                editNotes={editNotes}
-                setEditNotes={setEditNotes}
-              />
-            )}
-          </DialogContent>
-        </Dialog>
+      {selectedRecommendation && (
+        <RecommendationView
+          isOpen={isDetailDialogOpen}
+          onClose={() => {
+            setIsDetailDialogOpen(false);
+          }}
+          recommendation={selectedRecommendation}
+          medicalHistory={medicalHistory}
+          onSaveNotes={saveNotes}
+          onViewFile={onViewFile}
+          editNotes={editNotes}
+          setEditNotes={setEditNotes}
+        />
       )}
-
       <RecommendationDeleteAlert
         isDeleteDialogOpen={isDeleteDialogOpen}
         setIsDeleteDialogOpen={setIsDeleteDialogOpen}
         recommendationToDelete={recommendationToDelete}
         onDelete={handleDelete}
+        isSubmitting={isSubmitting}
       />
     </>
   );

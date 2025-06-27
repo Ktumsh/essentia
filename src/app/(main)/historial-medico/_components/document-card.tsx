@@ -20,6 +20,7 @@ import { DeleteButton } from "@/components/button-kit/delete-button";
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { EditButton } from "@/components/button-kit/edit-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
+import { InfoButton } from "@/components/button-kit/info-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -63,6 +64,11 @@ import { useUserProfile } from "@/hooks/use-user-profile";
 import { cn, formatDate } from "@/utils";
 
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
+import {
+  docActiveClass,
+  docHoverClass,
+  docSelectedClass,
+} from "../_lib/consts";
 import { getFileTypeColor, getTagColor } from "../_lib/utils";
 
 interface DocumentCardProps {
@@ -136,6 +142,7 @@ const DocumentCard = ({
               Analizar con IA
             </SparklesButton>
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
           {doc.file && (
             <DropdownMenuItem asChild>
               <EyeButton
@@ -148,10 +155,21 @@ const DocumentCard = ({
                 }
                 className="h-auto w-full justify-start px-2! font-normal"
               >
-                Ver documento
+                Vista previa
               </EyeButton>
             </DropdownMenuItem>
           )}
+
+          <DropdownMenuItem asChild>
+            <InfoButton
+              variant="ghost"
+              onClick={() => onView(doc)}
+              className="h-auto w-full justify-start px-2! font-normal"
+            >
+              Ver información
+            </InfoButton>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <DownloadButton
               variant="ghost"
@@ -222,22 +240,6 @@ const DocumentCard = ({
         </DrawerDescription>
         <DrawerFooter>
           <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
-            {doc.file && (
-              <Button
-                variant="mobile"
-                onClick={() =>
-                  onViewFile({
-                    url: doc.file?.url,
-                    name: doc.file?.name || "archivo",
-                  })
-                }
-                className="text-emerald-500 dark:text-emerald-300"
-              >
-                <Eye />
-                Ver documento
-              </Button>
-            )}
-            <Separator className="dark:bg-alternative/50 z-10 ml-6" />
             <Button
               variant="mobile"
               onClick={() => {
@@ -253,9 +255,25 @@ const DocumentCard = ({
               Analizar con IA
             </Button>
             <Separator className="dark:bg-alternative/50 z-10 ml-6" />
+            {doc.file && (
+              <Button
+                variant="mobile"
+                onClick={() =>
+                  onViewFile({
+                    url: doc.file?.url,
+                    name: doc.file?.name || "archivo",
+                  })
+                }
+                className="text-emerald-500 dark:text-emerald-300"
+              >
+                <Eye />
+                Vista previa
+              </Button>
+            )}
+            <Separator className="dark:bg-alternative/50 z-10 ml-6" />
             <Button variant="mobile" onClick={() => onView(doc)}>
               <ChevronRight />
-              Ver detalles
+              Ver información
             </Button>
             <Separator className="dark:bg-alternative/50 z-10 ml-6" />
             <Button variant="mobile" onClick={() => onEdit(doc)}>
@@ -299,17 +317,20 @@ const DocumentCard = ({
     <ContextMenu modal={false}>
       <ContextMenuTrigger asChild>
         <Card
-          onDoubleClick={() => onView(doc)}
-          onClick={(e) => {
-            if (onToggleSelect) {
-              onToggleSelect(e);
-            }
-          }}
+          onDoubleClick={() =>
+            onViewFile({
+              url: doc.file?.url,
+              name: doc.file?.name || "archivo",
+            })
+          }
+          onClick={(e) => onToggleSelect(e)}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           className={cn(
-            "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
-            selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
+            "group/item bg-muted flex flex-col overflow-hidden select-none",
+            docHoverClass,
+            docActiveClass,
+            selected && docSelectedClass,
           )}
         >
           <CardHeader className="px-4 pt-4 pb-2">
@@ -376,7 +397,7 @@ const DocumentCard = ({
             <p className="text-muted-foreground text-xs">
               Añadido el {createdAtText}
             </p>
-            <BetterTooltip content="Ver detalles">
+            <BetterTooltip content="Ver información">
               <ChevronButton
                 variant="ghost"
                 size="icon"
@@ -386,7 +407,7 @@ const DocumentCard = ({
                 }}
                 className="hover:bg-background size-8 group-hover/item:opacity-100 md:opacity-0"
               >
-                <span className="sr-only">Ver detalles</span>
+                <span className="sr-only">Ver información</span>
               </ChevronButton>
             </BetterTooltip>
           </CardFooter>
@@ -408,6 +429,7 @@ const DocumentCard = ({
               Analizar con IA
             </SparklesButton>
           </ContextMenuItem>
+          <ContextMenuSeparator />
           {doc.file && (
             <ContextMenuItem asChild>
               <EyeButton
@@ -420,10 +442,20 @@ const DocumentCard = ({
                 }
                 className="h-auto w-full justify-start px-2! font-normal"
               >
-                Ver documento
+                Vista previa
               </EyeButton>
             </ContextMenuItem>
           )}
+          <ContextMenuItem asChild>
+            <InfoButton
+              variant="ghost"
+              onClick={() => onView(doc)}
+              className="h-auto w-full justify-start px-2! font-normal"
+            >
+              Ver información
+            </InfoButton>
+          </ContextMenuItem>
+          <ContextMenuSeparator />
           <ContextMenuItem asChild>
             <DownloadButton
               variant="ghost"

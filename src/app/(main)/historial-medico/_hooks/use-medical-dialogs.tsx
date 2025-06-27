@@ -2,9 +2,8 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-import { FeatureType } from "@/lib/types";
+import { FeatureType, SavedRecommendation } from "@/lib/types";
 
-import type { AIRecommendationType } from "../_components/ai-recommendation";
 import type { MedicalHistory } from "@/db/querys/medical-history-querys";
 
 type FileData = { url?: string | null; name: string };
@@ -43,8 +42,8 @@ interface MedicalDialogsContextValue {
   fileToView: FileData | null;
   setFileToView: (file: FileData | null) => void;
 
-  recommendationsToShare: AIRecommendationType[];
-  setRecommendationsToShare: (recs: AIRecommendationType[]) => void;
+  recommendationsToShare: SavedRecommendation[];
+  setRecommendationsToShare: (recs: SavedRecommendation[]) => void;
 
   selectedItemsForAI: string[];
   setSelectedItemsForAI: (ids: string[]) => void;
@@ -78,7 +77,7 @@ export function MedicalDialogsProvider({ children }: { children: ReactNode }) {
   const [itemToDelete, setItemToDelete] = useState<MedicalHistory | null>(null);
   const [fileToView, setFileToView] = useState<FileData | null>(null);
   const [recommendationsToShare, setRecommendationsToShare] = useState<
-    AIRecommendationType[]
+    SavedRecommendation[]
   >([]);
   const [selectedItemsForAI, setSelectedItemsForAI] = useState<string[]>([]);
   const [premiumFeatureType, setPremiumFeatureType] =

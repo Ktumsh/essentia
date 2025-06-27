@@ -102,7 +102,7 @@ const DocumentsView = ({ docs, folderId }: DocumentsViewProps) => {
           count={selectedDocuments.length}
           onClear={clearSelection}
           onDelete={() => openDialog("isMultiDeleteDocsDialogOpen")}
-          onNewFolder={() => setOpen({ ...open, isFolderFormOpen: true })}
+          onNewFolder={() => setOpen({ ...open, isAddFolderOpen: true })}
           folderName={folderName}
           variant="documents"
         />

@@ -111,7 +111,7 @@ const FolderSectionHeader = ({
               </h3>
             </Link>
             <ChevronRight className="text-muted-foreground size-3.5" />
-            <span className="text-base font-medium">{folderName}</span>
+            <span className="truncate text-base font-medium">{folderName}</span>
           </>
         ) : null}
       </motion.div>

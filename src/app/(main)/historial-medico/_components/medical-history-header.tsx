@@ -39,17 +39,18 @@ const MedicalHistoryHeader = ({
           Historial Médico
         </h1>
         <ChevronRight className="text-muted-foreground size-3.5" />
-        <div className="flex min-w-0 items-center gap-1 text-sm">
+        <div className="flex min-w-0 items-center gap-1.5 text-sm">
           {profileImage ? (
-            <Avatar className="size-4">
+            <div className="outline-alternative rounded-full outline outline-offset-1 transition-transform hover:-translate-y-0.5">
               <Image
                 priority
                 src={profileImage}
                 width={16}
                 height={16}
                 alt={username!}
+                className="rounded-full object-cover"
               />
-            </Avatar>
+            </div>
           ) : (
             <Avatar className="size-4">
               <AvatarFallback>

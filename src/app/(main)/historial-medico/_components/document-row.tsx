@@ -7,6 +7,7 @@ import { DeleteButton } from "@/components/button-kit/delete-button";
 import { DownloadButton } from "@/components/button-kit/download-button";
 import { EditButton } from "@/components/button-kit/edit-button";
 import { EyeButton } from "@/components/button-kit/eye-button";
+import { InfoButton } from "@/components/button-kit/info-button";
 import { SparklesButton } from "@/components/button-kit/sparkles-button";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -28,7 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { useUserProfile } from "@/hooks/use-user-profile";
-import { cn, formatDate } from "@/utils";
+import { cn, formatDate, formatFileSize } from "@/utils";
 
 import { useMedicalDialogs } from "../_hooks/use-medical-dialogs";
 import { getFileTypeColor } from "../_lib/utils";
@@ -62,21 +63,16 @@ const DocumentRow = ({
   const isPremium = user?.isPremium || false;
   const { openDialog } = useMedicalDialogs();
 
-  const formatFileSize = (size: number) => {
-    if (size < 1024) return `${size} B`;
-    if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} KB`;
-    if (size < 1024 * 1024 * 1024)
-      return `${(size / (1024 * 1024)).toFixed(2)} MB`;
-    return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-  };
-
   return (
     <ContextMenu modal={false}>
       <ContextMenuTrigger asChild>
         <tr
           onDoubleClick={(e) => {
             e.stopPropagation();
-            onView(doc);
+            onViewFile({
+              url: doc.file?.url,
+              name: doc.file?.name || "archivo",
+            });
           }}
           className="group/row hover:bg-accent border-t text-sm"
         >
@@ -116,7 +112,7 @@ const DocumentRow = ({
             {doc.issuer}
           </td>
           <td className="flex justify-end gap-2 px-4 py-3 text-right">
-            <BetterTooltip content="Ver detalles">
+            <BetterTooltip content="Ver información">
               <ChevronButton
                 variant="ghost"
                 size="icon"
@@ -126,7 +122,7 @@ const DocumentRow = ({
                 }}
                 className="hover:bg-background size-8 group-hover/row:opacity-100 md:opacity-0"
               >
-                <span className="sr-only">Ver detalles</span>
+                <span className="sr-only">Ver información</span>
               </ChevronButton>
             </BetterTooltip>
             <DropdownMenu modal={false}>
@@ -156,6 +152,7 @@ const DocumentRow = ({
                       Analizar con IA
                     </SparklesButton>
                   </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   {doc.file && (
                     <DropdownMenuItem asChild>
                       <EyeButton
@@ -168,10 +165,20 @@ const DocumentRow = ({
                         }
                         className="h-auto w-full justify-start px-2! font-normal"
                       >
-                        Ver documento
+                        Vista previa
                       </EyeButton>
                     </DropdownMenuItem>
                   )}
+                  <DropdownMenuItem asChild>
+                    <InfoButton
+                      variant="ghost"
+                      onClick={() => onView(doc)}
+                      className="h-auto w-full justify-start px-2! font-normal"
+                    >
+                      Ver información
+                    </InfoButton>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <DownloadButton
                       variant="ghost"
@@ -227,6 +234,7 @@ const DocumentRow = ({
               Analizar con IA
             </SparklesButton>
           </ContextMenuItem>
+          <ContextMenuSeparator />
           <ContextMenuItem asChild>
             <EyeButton
               variant="ghost"
@@ -238,9 +246,19 @@ const DocumentRow = ({
               }
               className="h-auto w-full justify-start px-2! font-normal"
             >
-              Ver documento
+              Vista previa
             </EyeButton>
           </ContextMenuItem>
+          <ContextMenuItem asChild>
+            <InfoButton
+              variant="ghost"
+              onClick={() => onView(doc)}
+              className="h-auto w-full justify-start px-2! font-normal"
+            >
+              Ver información
+            </InfoButton>
+          </ContextMenuItem>
+          <ContextMenuSeparator />
           <ContextMenuItem asChild>
             <DownloadButton
               variant="ghost"

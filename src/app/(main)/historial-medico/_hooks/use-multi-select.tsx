@@ -161,7 +161,11 @@ export function useMultiSelect<T extends { id: string }>(
       ? selectedIds.filter((i) => i !== id)
       : [...selectedIds, id];
     setSelection(newIds, index);
-    if (newIds.length === 0 && multiMode) setMultiMode(false);
+    if (newIds.length === 0 && multiMode) {
+      setTimeout(() => {
+        setMultiMode(false);
+      }, 500);
+    }
   };
 
   // ─── Mobile long-press to toggle multiMode ─────────────────────
@@ -186,7 +190,7 @@ export function useMultiSelect<T extends { id: string }>(
         clearSelection();
       }
       longPressTimer.current = null;
-    }, 700);
+    }, 500);
   };
 
   const handlePointerUp = (
@@ -207,19 +211,21 @@ export function useMultiSelect<T extends { id: string }>(
     setIsDragging(false);
   };
 
+  const isMultiMode = multiMode || selectedIds.length > 0;
+
   // ─── Click outside ─────────────────────────────────────────────
   useEffect(() => {
-    function onClickOutside(e: MouseEvent) {
+    function onClickOutside(e: MouseEvent | PointerEvent) {
       if (
-        !multiMode &&
         !containerRef.current?.contains(e.target as Node) &&
         !modalRef.current?.contains(e.target as Node)
       ) {
         clearSelection();
       }
     }
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
+
+    document.addEventListener("pointerdown", onClickOutside);
+    return () => document.removeEventListener("pointerdown", onClickOutside);
   }, [clearSelection, multiMode]);
 
   return {
@@ -232,5 +238,6 @@ export function useMultiSelect<T extends { id: string }>(
     setSelectedIds: (ids: string[]) => setSelection(ids, null),
     handlePointerDown,
     handlePointerUp,
+    isMultiMode,
   };
 }

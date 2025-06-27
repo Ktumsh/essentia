@@ -73,7 +73,7 @@ export default function DownloadGuideButton({
         variant="ghost"
         onClick={handleDownload}
         className={cn("relative", {
-          "hover:bg-background group-hover/item:opacity-100 after:absolute after:-inset-2 after:block md:opacity-0 md:after:content-none":
+          "text-muted-foreground hover:text-foreground duration-300 group-hover/card:opacity-100 after:absolute after:-inset-2 after:block md:opacity-0 md:after:content-none":
             !isHeader,
         })}
       >

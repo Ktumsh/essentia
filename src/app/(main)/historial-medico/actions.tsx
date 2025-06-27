@@ -3,18 +3,19 @@
 import { generateObject } from "ai";
 
 import { getCurrentUser } from "@/lib/current-user";
-import { AIRecommendationSchema } from "@/lib/form-schemas";
 
-import { AIRecommendationType } from "./_components/ai-recommendation";
 import { AI_RECOMMENDATION_PROMPT, GeneratePayload } from "./_lib/prompt";
+import { AIRecommendationSchema } from "./schema";
 import { modelProvider } from "../(chat)/_lib/models";
+
+import type { AIRecommendation } from "@/lib/types";
 
 const SUPPORTED_FILE_TYPES = ["application/pdf"];
 const SUPPORTED_IMAGE_TYPES = ["image/png", "image/jpeg"];
 
 export async function generateAiMedicalRecommendations(
   payload: GeneratePayload,
-): Promise<AIRecommendationType[] | { error: string }> {
+): Promise<AIRecommendation[] | { error: string }> {
   const currentUser = await getCurrentUser();
   const isPremium = currentUser?.isPremium || false;
   if (!isPremium) {
@@ -91,8 +92,8 @@ export async function generateAiMedicalRecommendations(
       messages: [{ role: "user", content }],
     });
 
-    const recommendations: AIRecommendationType[] = result.recommendations.map(
-      (rec: Omit<AIRecommendationType, "id">) => ({
+    const recommendations: AIRecommendation[] = result.recommendations.map(
+      (rec: Omit<AIRecommendation, "id">) => ({
         ...rec,
         id: crypto.randomUUID(),
         relatedDocuments: rec.relatedDocuments || [],

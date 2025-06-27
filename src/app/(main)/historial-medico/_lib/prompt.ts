@@ -1,4 +1,4 @@
-import { validMedicalTagNames } from "@/lib/form-schemas";
+import { validMedicalTagNames } from "../schema";
 
 import type { MedicalFileType } from "@/lib/types";
 
@@ -50,7 +50,9 @@ export function AI_RECOMMENDATION_PROMPT(payload: GeneratePayload) {
         "description": "...",
         "priority": "...",
         "relatedTags": [...],
-        "relatedDocuments": [...]
+        "relatedDocuments": [...],
+        "confidence": 0.85,
+        "actionItems": ["..."]
       }
     ]
   }

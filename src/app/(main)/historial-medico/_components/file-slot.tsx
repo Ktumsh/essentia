@@ -1,12 +1,13 @@
-import { FileText } from "lucide-react";
+"use client";
+
+import Image from "next/image";
+import { Document, Page } from "react-pdf";
 
 import { DownloadButton } from "@/components/button-kit/download-button";
-import { EyeButton } from "@/components/button-kit/eye-button";
+import { DrawerClose } from "@/components/ui/drawer";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { MedicalHistory } from "@/db/querys/medical-history-querys";
-import { cn, formatDate } from "@/utils";
-
-import { getFileTypeColor } from "../_lib/utils";
+import { cn, formatFileSize, getFileContentType } from "@/utils";
 
 interface FileSlotProps {
   label?: string;
@@ -25,54 +26,84 @@ const FileSlot = ({
 }: FileSlotProps) => {
   if (!currentItem || !currentItem.file) return null;
 
-  return (
-    <div className={cn("space-y-2", className)}>
-      {label && <h4 className="mb-1 text-sm font-medium">{label}</h4>}
-      <div className="bg-accent relative rounded-lg p-3">
-        <div className="grid grid-cols-[auto_1fr] gap-2 pr-24">
-          <FileText
-            className={cn("size-5", getFileTypeColor(currentItem.type))}
+  const fileUrl = currentItem.file.url;
+  const fileName = currentItem.file.name;
+  const fileType = currentItem.file.contentType;
+  const formattedFileType = getFileContentType(currentItem.file.contentType);
+
+  const fileSize = formatFileSize(currentItem.file.size);
+
+  const content = (
+    <div
+      aria-label="Ver vista previa del archivo"
+      onClick={() => {
+        onViewFile?.({
+          url: fileUrl,
+          name: fileName || "documento",
+        });
+      }}
+      className={cn(
+        "preview group/item bg-background md:bg-muted before:bg-popover md:before:bg-background relative flex h-48 w-full justify-center overflow-hidden rounded-md border contrast-110 transition before:absolute before:bottom-0 before:left-1/2 before:z-1 before:h-full before:w-full before:-translate-x-1/2 before:translate-y-1/2 before:mask-t-from-70% before:transition before:duration-200 hover:contrast-110 hover:before:translate-y-1/2 md:contrast-100 md:before:translate-y-full",
+        onViewFile && "cursor-pointer",
+      )}
+    >
+      {fileType?.includes("image") ? (
+        <Image
+          src={fileUrl}
+          alt={fileName}
+          width={300}
+          height={192}
+          className="h-full w-auto object-contain"
+        />
+      ) : fileType?.includes("pdf") ? (
+        <Document
+          file={fileUrl}
+          loading={
+            <div className="text-muted-foreground text-sm">
+              Cargando vista previa...
+            </div>
+          }
+          error={
+            <div className="text-muted-foreground text-sm">
+              No se pudo cargar vista previa
+            </div>
+          }
+        >
+          <Page
+            pageNumber={1}
+            width={300}
+            renderTextLayer={false}
+            renderAnnotationLayer={false}
           />
-          <div className="truncate">
-            <p className="truncate text-sm font-medium">
-              {currentItem.file.name}
+        </Document>
+      ) : (
+        <span className="text-muted-foreground text-sm">
+          No se puede previsualizar este tipo de archivo
+        </span>
+      )}
+      <div className="absolute inset-0 z-1 flex transition-opacity group-hover/item:opacity-100 md:opacity-0">
+        <div className="mt-auto flex w-full items-center justify-between gap-2 px-3 py-2 transition group-hover/item:translate-y-0 md:translate-y-1">
+          <div className="max-w-72 md:max-w-80">
+            <p className="truncate text-sm leading-snug font-medium text-balance">
+              {fileName}
             </p>
             <p className="text-muted-foreground text-xs">
-              Subido el{" "}
-              {formatDate(new Date(currentItem.createdAt), "dd MMM yyyy")}
+              {formattedFileType} • {fileSize}
             </p>
           </div>
-        </div>
-        <div className="absolute inset-y-0 right-0 m-4 flex items-center gap-2">
-          {onViewFile && (
-            <BetterTooltip content="Ver documento" side="top">
-              <EyeButton
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  onViewFile({
-                    url: currentItem.file?.url,
-                    name: currentItem.file?.name || "documento",
-                  });
-                }}
-                className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
-              >
-                <span className="sr-only">Ver</span>
-              </EyeButton>
-            </BetterTooltip>
-          )}
           {onDownload && (
-            <BetterTooltip content="Descargar documento" side="top">
+            <BetterTooltip content="Descargar">
               <DownloadButton
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   onDownload({
-                    url: currentItem.file?.url,
-                    name: currentItem.file?.name || "documento",
+                    url: fileUrl,
+                    name: fileName || "documento",
                   });
                 }}
-                className="bg-background size-8 hover:opacity-100 [&_svg]:size-3.5!"
+                className="border"
               >
                 <span className="sr-only">Descargar</span>
               </DownloadButton>
@@ -80,6 +111,13 @@ const FileSlot = ({
           )}
         </div>
       </div>
+    </div>
+  );
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <h4 className="mb-1 text-sm font-medium">{label}</h4>}
+      {onViewFile ? <DrawerClose asChild>{content}</DrawerClose> : content}
     </div>
   );
 };

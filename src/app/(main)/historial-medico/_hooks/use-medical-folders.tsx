@@ -25,14 +25,8 @@ import { fetcher } from "@/utils";
 import { useMedicalDialogs } from "./use-medical-dialogs";
 import { useMedicalFoldersDialog } from "./use-medical-folder-dialogs";
 
-import type { Folder, FolderIconType } from "@/lib/types";
-
-export type FolderFormData = {
-  name: string;
-  description?: string;
-  color: "gray" | "blue" | "green" | "pink" | "red" | "orange" | "purple";
-  icon: FolderIconType;
-};
+import type { FolderFormData } from "@/lib/form-schemas";
+import type { Folder } from "@/lib/types";
 
 interface MedicalFoldersContextType {
   folders: Folder[];
@@ -110,7 +104,7 @@ export const MedicalFoldersProvider = ({
         await createMedicalFolder({ userId, ...data });
         mutate();
         mutateActivity("/api/medical-activity");
-        setOpen({ ...open, isFolderFormOpen: false });
+        setOpen({ ...open, isAddFolderOpen: false });
         toast.success("Carpeta creada correctamente");
       } catch (error) {
         console.error("Error creating folder:", error);
@@ -188,7 +182,7 @@ export const MedicalFoldersProvider = ({
         mutate();
         mutateActivity("/api/medical-activity");
         setCurrentFolder(null);
-        setOpen({ ...open, isFolderFormOpen: false });
+        setOpen({ ...open, isAddFolderOpen: false });
         toast.success("Carpeta actualizada correctamente");
       } catch (error) {
         console.error("Error updating folder:", error);

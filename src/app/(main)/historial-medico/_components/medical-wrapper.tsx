@@ -67,7 +67,7 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
             uploadStatus={uploadStatus}
             onNewAIRecommendation={() => openDialog("isAIDialogOpen")}
             onNewFolder={() =>
-              setFolderOpen({ ...openFolder, isFolderFormOpen: true })
+              setFolderOpen({ ...openFolder, isAddFolderOpen: true })
             }
             onNewDocument={() => openDialog("isAddDialogOpen")}
           />
@@ -118,12 +118,22 @@ const MedicalWrapper = ({ children }: { children: React.ReactNode }) => {
       />
 
       <FolderForm
-        isOpen={openFolder.isFolderFormOpen}
-        initial={currentFolder || undefined}
-        onClose={() =>
-          setFolderOpen({ ...openFolder, isFolderFormOpen: false })
+        isOpen={openFolder.isAddFolderOpen}
+        initialValues={null}
+        onOpenChange={(open) =>
+          setFolderOpen({ ...openFolder, isAddFolderOpen: open })
         }
         onSubmit={currentFolder ? handleUpdateFolder : handleCreateFolder}
+        isSubmitting={isFolderSubmitting}
+      />
+      <FolderForm
+        isOpen={openFolder.isEditFolderOpen}
+        initialValues={currentFolder}
+        onOpenChange={(open) =>
+          setFolderOpen({ ...openFolder, isEditFolderOpen: open })
+        }
+        onSubmit={currentFolder ? handleUpdateFolder : handleCreateFolder}
+        isEditMode
         isSubmitting={isFolderSubmitting}
       />
     </PageWrapper>

@@ -26,47 +26,95 @@ import {
   AlertTriangle,
   Info,
   CheckCircle,
+  FileImage,
+  FileType,
+  ZoomIn,
+  ZoomOut,
+  type LucideIcon,
+  Siren,
+  Lightbulb,
+  ClipboardList,
 } from "lucide-react";
 
 import { formatDate } from "@/utils";
 
-import type { AIRecommendationType } from "../_components/ai-recommendation";
+import type { MedicalHistory } from "@/db/querys/medical-history-querys";
+import type { FolderFormData } from "@/lib/form-schemas";
 import type {
   FolderIconType,
   MedicalFileType,
   MedicalHistoryActivity,
+  Priority,
+  RecommendationType,
+  SavedRecommendation,
 } from "@/lib/types";
 
-export const getTagColor = (tag: string): string => {
-  const medicalCategories: Record<string, string> = {
-    Alergia: "bg-red-600",
-    Cirugía: "bg-purple-600",
-    "Consulta General": "bg-blue-600",
-    Diagnóstico: "bg-amber-600",
-    "Enfermedad Crónica": "bg-rose-600",
-    "Examen de Laboratorio": "bg-cyan-600",
-    "Examen de Imagenología": "bg-indigo-600",
-    Medicación: "bg-emerald-600",
-    Vacunación: "bg-green-600",
-    "Salud Mental": "bg-violet-600",
-    Nutrición: "bg-lime-600",
-    Odontología: "bg-sky-600",
-    Oftalmología: "bg-blue-600",
-    Pediatría: "bg-orange-600",
-    Cardiología: "bg-red-600",
-    Dermatología: "bg-pink-600",
-    Neurología: "bg-purple-600",
-    "Certificado Médico": "bg-lime-600",
-    "Informe Médico": "bg-fuchsia-600",
-    Epicrisis: "bg-amber-600",
-    "Consentimiento Informado": "bg-blue-600",
-    "Receta Médica": "bg-emerald-600",
-    Rehabilitación: "bg-teal-600",
-    Ginecología: "bg-pink-600",
-    Otro: "bg-stone-600",
-  };
+export const categoryColors: Record<string, string> = {
+  Alergia: "bg-red-600",
+  Cirugía: "bg-purple-600",
+  "Consulta General": "bg-blue-600",
+  Diagnóstico: "bg-amber-600",
+  "Enfermedad Crónica": "bg-rose-600",
+  "Examen de Laboratorio": "bg-cyan-600",
+  "Examen de Imagenología": "bg-indigo-600",
+  Medicación: "bg-emerald-600",
+  Vacunación: "bg-green-600",
+  "Salud Mental": "bg-violet-600",
+  Nutrición: "bg-lime-600",
+  Odontología: "bg-sky-600",
+  Oftalmología: "bg-blue-600",
+  Pediatría: "bg-orange-600",
+  Cardiología: "bg-red-600",
+  Dermatología: "bg-pink-600",
+  Neurología: "bg-purple-600",
+  "Certificado Médico": "bg-lime-600",
+  "Informe Médico": "bg-fuchsia-600",
+  Epicrisis: "bg-amber-600",
+  "Consentimiento Informado": "bg-blue-600",
+  "Receta Médica": "bg-emerald-600",
+  Rehabilitación: "bg-teal-600",
+  Ginecología: "bg-pink-600",
+  Otro: "bg-stone-600",
+};
 
-  return medicalCategories[tag] || "bg-zinc-500";
+export const getTagColor = (tag: string): string => {
+  return categoryColors[tag] || "bg-zinc-500";
+};
+
+export const recommendationTypeStyleConfig: Record<
+  RecommendationType,
+  { bg: string; gradient: string; label: string }
+> = {
+  general: {
+    bg: "bg-blue-50 dark:bg-blue-950",
+    gradient: "from-blue-500 via-blue-400 to-blue-300",
+    label: "General",
+  },
+  preventive: {
+    bg: "bg-emerald-50 dark:bg-emerald-950",
+    gradient: "from-emerald-500 via-emerald-400 to-emerald-300",
+    label: "Preventiva",
+  },
+  lifestyle: {
+    bg: "bg-orange-50 dark:bg-orange-950",
+    gradient: "from-orange-500 via-orange-400 to-orange-300",
+    label: "Estilo de Vida",
+  },
+  medication: {
+    bg: "bg-purple-50 dark:bg-purple-950",
+    gradient: "from-purple-500 via-purple-400 to-purple-300",
+    label: "Medicación",
+  },
+  followUp: {
+    bg: "bg-yellow-50 dark:bg-yellow-950",
+    gradient: "from-yellow-500 via-yellow-400 to-yellow-300",
+    label: "Seguimiento",
+  },
+  emergency: {
+    bg: "bg-red-50 dark:bg-red-950",
+    gradient: "from-red-500 via-red-400 to-red-300",
+    label: "Emergencia",
+  },
 };
 
 export function getFileTypeColor(type: MedicalFileType): string {
@@ -89,6 +137,29 @@ export function getFileTypeColor(type: MedicalFileType): string {
       return "text-indigo-500";
     default:
       return "text-cyan-500";
+  }
+}
+
+export function getFileTypeBgColor(type: MedicalFileType): string {
+  switch (type) {
+    case "Examen":
+      return "bg-blue-50 dark:bg-blue-950";
+    case "Receta":
+      return "bg-green-50 dark:bg-green-950";
+    case "Informe":
+      return "bg-amber-50 dark:bg-amber-950";
+    case "Diagnóstico":
+      return "bg-purple-50 dark:bg-purple-950";
+    case "Imagenología":
+      return "bg-rose-50 dark:bg-rose-950";
+    case "Certificado":
+      return "bg-teal-50 dark:bg-teal-950";
+    case "Epicrisis":
+      return "bg-red-50 dark:bg-red-950";
+    case "Consentimiento":
+      return "bg-indigo-50 dark:bg-indigo-950";
+    default:
+      return "bg-cyan-50 dark:bg-cyan-950";
   }
 }
 
@@ -240,36 +311,163 @@ export const getActionColor = (action: string) => {
   }
 };
 
+export function groupDocumentsCountByCategory(
+  documents: Array<MedicalHistory>,
+): Record<string, number> {
+  return documents.reduce(
+    (acc, doc) => {
+      doc.tags.forEach((tag) => {
+        if (!acc[tag]) acc[tag] = 0;
+        acc[tag]++;
+      });
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+}
+
+export function groupDocumentsByCategory(
+  documents: Array<MedicalHistory>,
+): Record<string, Array<MedicalHistory>> {
+  return documents.reduce(
+    (acc, doc) => {
+      doc.tags.forEach((tag) => {
+        if (!acc[tag]) acc[tag] = [];
+        acc[tag].push(doc);
+      });
+      return acc;
+    },
+    {} as Record<string, Array<MedicalHistory>>,
+  );
+}
+
+export const getDocsToAnalyze = ({
+  documents,
+  analysisMethod,
+  selectedDocuments,
+  selectedCategories,
+}: {
+  documents: Array<MedicalHistory>;
+  analysisMethod: "all" | "specific" | "categories";
+  selectedDocuments: Array<string>;
+  selectedCategories: Array<string>;
+}): Array<MedicalHistory> => {
+  if (analysisMethod === "all") return documents;
+  if (analysisMethod === "specific")
+    return documents.filter((doc) => selectedDocuments.includes(doc.id));
+  if (analysisMethod === "categories")
+    return documents.filter((doc) =>
+      doc.tags.some((tag) => selectedCategories.includes(tag)),
+    );
+  return [];
+};
+
+export const getAnalysisDescription = ({
+  analysisMethod,
+  docCount,
+  selectedDocuments,
+  selectedCategories,
+}: {
+  analysisMethod: "all" | "specific" | "categories";
+  docCount: number;
+  selectedDocuments: Array<string>;
+  selectedCategories: Array<string>;
+}) => {
+  switch (analysisMethod) {
+    case "all":
+      return `Todos los documentos han sido analizados(${docCount})`;
+    case "specific":
+      return `${selectedDocuments.length} documento${selectedDocuments.length !== 1 ? "s" : ""} seleccionado${selectedDocuments.length !== 1 ? "s" : ""} analizada`;
+    case "categories":
+      return `${selectedCategories.length} categoría${selectedCategories.length !== 1 ? "s" : ""} analizada`;
+    default:
+      return "Preparando análisis...";
+  }
+};
+
+export function getConfidenceColor(confidence: number): string {
+  if (confidence >= 90) return "text-green-500";
+  if (confidence >= 70) return "text-yellow-500";
+  return "text-red-500";
+}
+
+export const priorityConfig: Record<
+  string,
+  {
+    label: string;
+    color: string;
+    textColor: string;
+    bgColor: string;
+    borderColor: string;
+    icon: LucideIcon;
+  }
+> = {
+  critical: {
+    label: "Crítica",
+    color: "bg-red-500",
+    textColor: "text-red-700 dark:text-red-300",
+    bgColor: "bg-red-50 dark:bg-red-950/20",
+    borderColor: "border-red-200 dark:border-red-800",
+    icon: Siren,
+  },
+  high: {
+    label: "Alta",
+    color: "bg-orange-500",
+    textColor: "text-orange-700 dark:text-orange-300",
+    bgColor: "bg-orange-50 dark:bg-orange-950/20",
+    borderColor: "border-orange-200 dark:border-orange-800",
+    icon: AlertTriangle,
+  },
+  medium: {
+    label: "Media",
+    color: "bg-yellow-500",
+    textColor: "text-yellow-700 dark:text-yellow-300",
+    bgColor: "bg-yellow-50 dark:bg-yellow-950/20",
+    borderColor: "border-yellow-200 dark:border-yellow-800",
+    icon: ClipboardList,
+  },
+  low: {
+    label: "Baja",
+    color: "bg-green-500",
+    textColor: "text-green-700 dark:text-green-300",
+    bgColor: "bg-green-50 dark:bg-green-950/20",
+    borderColor: "border-green-200 dark:border-green-800",
+    icon: Lightbulb,
+  },
+};
+
 export const getPriorityBadge = (priority: string) => {
   switch (priority) {
     case "high":
       return {
         label: "Alta",
-        color: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+        color: "bg-rose-100 dark:bg-rose-950 text-rose-500 border-rose-500/20",
         icon: <AlertTriangle className="size-3 text-rose-500" />,
       };
     case "medium":
       return {
         label: "Media",
-        color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+        color:
+          "bg-yellow-100 dark:bg-yellow-950 text-yellow-500 border-yellow-500/20",
         icon: <Info className="size-3 text-yellow-500" />,
       };
     case "low":
       return {
         label: "Baja",
-        color: "bg-green-500/10 text-green-500 border-green-500/20",
+        color:
+          "bg-green-100 dark:bg-green-950 text-green-500 border-green-500/20",
         icon: <CheckCircle className="size-3 text-green-500" />,
       };
     default:
       return {
         label: "Normal",
-        color: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+        color: "bg-blue-100 dark:bg-blue-950 text-blue-500 border-blue-500/20",
         icon: <Info className="size-3 text-blue-500" />,
       };
   }
 };
 
-export const getPriorityColor = (priority: "high" | "medium" | "low") => {
+export const getPriorityColor = (priority: Priority) => {
   switch (priority) {
     case "high":
       return "text-red-500";
@@ -282,7 +480,7 @@ export const getPriorityColor = (priority: "high" | "medium" | "low") => {
   }
 };
 
-export const getPriorityBgColor = (priority: "high" | "medium" | "low") => {
+export const getPriorityBgColor = (priority: Priority) => {
   switch (priority) {
     case "high":
       return "bg-red-50 dark:bg-red-950";
@@ -295,7 +493,7 @@ export const getPriorityBgColor = (priority: "high" | "medium" | "low") => {
   }
 };
 
-export const getPriorityText = (priority: "high" | "medium" | "low") => {
+export const getPriorityText = (priority: Priority) => {
   switch (priority) {
     case "high":
       return "Alta";
@@ -308,9 +506,7 @@ export const getPriorityText = (priority: "high" | "medium" | "low") => {
   }
 };
 
-export function getPriorityBorderColor(
-  priority: "high" | "medium" | "low",
-): string {
+export function getPriorityBorderColor(priority: Priority): string {
   const mapping: Record<string, string> = {
     high: "border-red-500/20",
     medium: "border-amber-500/20",
@@ -319,6 +515,56 @@ export function getPriorityBorderColor(
   return mapping[priority] || "";
 }
 
+export function getFileType(name: string) {
+  const extension = name.split(".").pop()?.toLowerCase() || "";
+
+  if (extension === "pdf") return "pdf";
+  if (["jpg", "jpeg", "png", "gif", "webp", "svg", "bmp"].includes(extension))
+    return "image";
+  if (["txt", "md", "json", "xml", "csv", "log"].includes(extension))
+    return "text";
+
+  return "unknown";
+}
+
+export function getFileIcon(fileType: string) {
+  switch (fileType) {
+    case "pdf":
+      return <FileText className="size-4 text-blue-500" />;
+    case "image":
+      return <FileImage className="size-4 text-rose-500" />;
+    case "text":
+      return <FileType className="size-4 text-teal-500" />;
+    default:
+      return <File className="size-4 text-gray-500" />;
+  }
+}
+
+export function getFileBackgroundColor(fileType: string) {
+  switch (fileType) {
+    case "pdf":
+      return "bg-blue-50 dark:bg-blue-950";
+    case "image":
+      return "bg-rose-50 dark:bg-rose-950";
+    default:
+      return "bg-teal-50 dark:bg-teal-950";
+  }
+}
+
+export function getToggleZoomIcon(
+  zoom: number,
+  previousZoom: React.RefObject<number | null>,
+) {
+  if (zoom > 100) return <ZoomOut />;
+  if (zoom < 100) return <ZoomIn />;
+
+  if (zoom === 100 && previousZoom.current !== null) {
+    if (previousZoom.current > 100) return <ZoomIn />;
+    if (previousZoom.current < 100) return <ZoomOut />;
+  }
+
+  return <ZoomIn />;
+}
 export const getRelativeTime = (date: Date) => {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
@@ -339,20 +585,6 @@ export const getRelativeTime = (date: Date) => {
   }
 };
 
-export function extractCleanFileName(pathname: string): string {
-  if (!pathname) return "archivo";
-
-  const fileName = pathname.split("/").pop() || "archivo";
-
-  const decodedFile = decodeURIComponent(
-    fileName.replace(/-[a-zA-Z0-9]{20,}(?=\.)/, ""),
-  );
-
-  const formatedFileName = decodedFile.replace(/\s+/g, "-").toLowerCase();
-
-  return formatedFileName;
-}
-
 export async function uploadMedicalFile(file: File) {
   const formData = new FormData();
   formData.append("file", file);
@@ -372,7 +604,7 @@ export async function uploadMedicalFile(file: File) {
 
     return {
       url: data.url,
-      name: extractCleanFileName(data.pathname),
+      name: data.originalName,
       size: data.size,
       contentType: data.contentType,
       uploadedAt: new Date(data.uploadedAt),
@@ -529,10 +761,23 @@ export const exportActivityAsExcel = async (
 };
 
 export function isRecommendationSaved(
-  recommendation: AIRecommendationType,
-  savedRecommendations: AIRecommendationType[],
+  recommendation: SavedRecommendation,
+  savedRecommendations: SavedRecommendation[],
 ): boolean {
   return savedRecommendations.some((r) => r.id === recommendation.id);
+}
+
+export function getAllRecommendationSaved({
+  recommendations,
+  savedRecommendations,
+  isSaved,
+}: {
+  recommendations: SavedRecommendation[];
+  savedRecommendations: SavedRecommendation[];
+  isSaved: (rec: SavedRecommendation, saved: SavedRecommendation[]) => boolean;
+}) {
+  if (recommendations.length === 0) return false;
+  return recommendations.every((rec) => isSaved(rec, savedRecommendations));
 }
 
 export const iconOptions = [
@@ -552,10 +797,7 @@ export const iconOptions = [
   "file",
 ] as const;
 
-export const folderIconMap: Record<
-  FolderIconType,
-  React.FC<{ className?: string }>
-> = {
+export const folderIconMap: Record<FolderIconType, LucideIcon> = {
   folder: Folder,
   health: Stethoscope,
   document: FileText,
@@ -637,6 +879,27 @@ export const folderColorClassMap: Record<
     bg: "bg-purple-200/50 dark:bg-purple-900/50",
     text: "text-purple-500",
   },
+};
+
+export const getColorClass = (color: FolderFormData["color"]) => {
+  switch (color) {
+    case "gray":
+      return "bg-gray-500";
+    case "blue":
+      return "bg-blue-500";
+    case "green":
+      return "bg-green-500";
+    case "pink":
+      return "bg-pink-500";
+    case "red":
+      return "bg-red-500";
+    case "orange":
+      return "bg-orange-500";
+    case "purple":
+      return "bg-purple-500";
+    default:
+      return "bg-muted";
+  }
 };
 
 export function getPlanLimitMessage(

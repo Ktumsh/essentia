@@ -3,39 +3,47 @@
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import {
-  Download,
   ExternalLink,
-  Maximize,
-  Minimize,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  RotateCw,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  MoreHorizontal,
+  Minus,
+  Plus,
 } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { pdfjs } from "react-pdf";
 
+import { DownloadButton } from "@/components/button-kit/download-button";
+import { PrinterButton } from "@/components/button-kit/print-button";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { BetterTooltip } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/utils";
+
+import FileViewerContent from "./file-viewer-content";
+import {
+  getFileBackgroundColor,
+  getFileIcon,
+  getFileType,
+  getToggleZoomIcon,
+} from "../_lib/utils";
 
 interface FileViewerProps {
   isOpen: boolean;
@@ -44,7 +52,8 @@ interface FileViewerProps {
   fileName: string;
 }
 
-// Configuración del worker de PDF.js
+type FileType = "pdf" | "image" | "text" | "unknown";
+
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
@@ -58,72 +67,87 @@ export default function FileViewer({
 }: FileViewerProps) {
   const isMobile = useIsMobile();
 
-  const [fileType, setFileType] = useState<"pdf" | "image" | "unknown">(
-    "unknown",
-  );
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [zoom, setZoom] = useState(1);
-  const [rotation, setRotation] = useState(0);
+  const [fileType, setFileType] = useState<FileType>("unknown");
+  const [error, setError] = useState<string | null>(null);
 
-  // Para PDF
+  const [zoom, setZoom] = useState(100);
+  const previousZoom = useRef<number | null>(null);
+
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageInput, setPageInput] = useState("1");
+
+  const pageRefs = useRef<Record<number, HTMLDivElement | null>>({});
+
+  const scrollToPage = (page: number) => {
+    const pageElement = pageRefs.current[page];
+    if (pageElement) {
+      pageElement.scrollIntoView({ behavior: "instant", block: "start" });
+      setPageNumber(page);
+      setPageInput(page.toString());
+    }
+  };
 
   useEffect(() => {
-    if (fileUrl) {
-      const extension = fileUrl.split(".").pop()?.toLowerCase();
-      if (extension === "pdf") {
-        setFileType("pdf");
-      } else if (
-        ["jpg", "jpeg", "png", "gif", "webp"].includes(extension || "")
-      ) {
-        setFileType("image");
-      } else {
-        setFileType("unknown");
-      }
-    }
-  }, [fileUrl]);
+    if (!fileUrl || !isOpen) return;
+    setError(null);
+    const type = getFileType(fileName);
+    setFileType(type);
+  }, [fileUrl, fileName, isOpen]);
 
   const pdfOptions = useMemo(
     () => ({ cMapUrl: "cmaps/", cMapPacked: true }),
     [],
   );
 
-  // Fullscreen
-  const toggleFullscreen = () => {
-    const element = document.documentElement;
-    if (!isFullscreen) {
-      element.requestFullscreen?.();
-      setIsFullscreen(true);
+  const zoomIn = () => setZoom((prev) => Math.min(prev + 10, 170));
+  const zoomOut = () => setZoom((prev) => Math.max(prev - 10, 50));
+
+  const toggleZoom = () => {
+    if (zoom === 100 && previousZoom.current !== null) {
+      setZoom(previousZoom.current);
+      previousZoom.current = null;
     } else {
-      document.exitFullscreen?.();
-      setIsFullscreen(false);
+      previousZoom.current = zoom;
+      setZoom(100);
     }
   };
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        setIsFullscreen(false);
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+    setPageNumber(1);
+    setPageInput("1");
+  };
+
+  const goToPrevPage = () => {
+    if (pageNumber > 1) {
+      scrollToPage(pageNumber - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (numPages && pageNumber < numPages) {
+      scrollToPage(pageNumber + 1);
+    }
+  };
+
+  const handlePageInputKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      const pageNum = Number.parseInt(pageInput);
+      if (pageNum >= 1 && numPages && pageNum <= numPages) {
+        scrollToPage(pageNum);
+      } else {
+        setPageInput(pageNumber.toString());
       }
-    };
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
+    }
+  };
 
-  // Zoom
-  const zoomIn = () => setZoom((prev) => Math.min(prev + 0.25, 3));
-  const zoomOut = () => setZoom((prev) => Math.max(prev - 0.25, 0.5));
-
-  // Rotar
-  const rotate = () => setRotation((prev) => (prev - 90) % 360);
-
-  // Reset
-  const resetView = () => {
-    setZoom(1);
-    setRotation(0);
+  const handlePageInputChange = (value: string) => {
+    setPageInput(value);
+    const pageNum = Number.parseInt(value);
+    if (pageNum >= 1 && numPages && pageNum <= numPages) {
+      setPageNumber(pageNum);
+    }
   };
 
   const handleDownload = async () => {
@@ -145,204 +169,250 @@ export default function FileViewer({
   };
 
   const openInNewTab = () => {
-    window.open(fileUrl, "_blank");
+    if (fileUrl) window.open(fileUrl, "_blank");
   };
 
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setPageNumber(1);
+  const getDescription = () => {
+    switch (fileType) {
+      case "pdf":
+        return "de PDF";
+      case "image":
+        return "de imagen";
+      case "text":
+        return "de texto";
+      case "unknown":
+        return "no disponible";
+      default:
+        return "de archivo";
+    }
   };
 
-  const goToPrevPage = () =>
-    setPageNumber((prev) => (prev > 1 ? prev - 1 : prev));
-  const goToNextPage = () =>
-    setPageNumber((prev) => (numPages && prev < numPages ? prev + 1 : prev));
-
-  const viewerContent = (
-    <div
-      className="bg-accent flex-1 overflow-auto rounded-md p-6"
-      style={{ textAlign: "center" }}
-    >
-      {fileType === "pdf" && fileUrl && (
-        <div className="inline-block text-start">
-          <Document
-            file={fileUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            options={pdfOptions}
-            loading={<p>Cargando PDF...</p>}
-          >
-            <Page pageNumber={pageNumber} scale={zoom} rotate={rotation} />
-          </Document>
-
-          {numPages && numPages > 1 && (
-            <div className="flex justify-center gap-2 p-2">
-              <Button onClick={goToPrevPage}>Anterior</Button>
-              <span>
-                Página {pageNumber} de {numPages}
-              </span>
-              <Button onClick={goToNextPage}>Siguiente</Button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {fileType === "image" && fileUrl && (
-        <div style={{ display: "inline-block" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={fileUrl || "/placeholder.svg"}
-            alt={fileName}
-            style={{
-              transform: `rotate(${rotation}deg) scale(${zoom})`,
-              transition: "transform 0.2s ease",
-              maxWidth: "none",
-            }}
-          />
-        </div>
-      )}
-
-      {fileType === "unknown" && (
-        <div className="flex h-full flex-col items-center justify-center p-4">
-          <p className="mb-4 text-lg font-medium">
-            No se puede previsualizar este tipo de archivo
-          </p>
-          <p className="text-muted-foreground mb-6 text-sm">
-            Este tipo de archivo no se puede mostrar en el navegador. Puedes
-            descargarlo para verlo en tu dispositivo.
-          </p>
-          <Button onClick={handleDownload}>Descargar archivo</Button>
-        </div>
-      )}
-    </div>
-  );
-
-  return isMobile ? (
-    <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="flex h-[90dvh] flex-col">
-        <DrawerHeader className="relative">
-          <DrawerTitle>Vista de archivo</DrawerTitle>
-          <div className="absolute top-1/2 left-4 inline-flex -translate-y-1/2 items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={rotate}
-              className="size-7 [&_svg]:size-3.5!"
-            >
-              <RotateCcw />
-            </Button>
-          </div>
-          <div className="absolute top-1/2 right-4 inline-flex -translate-y-1/2 items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={zoomIn}
-              className="size-7 [&_svg]:size-3.5!"
-            >
-              <ZoomIn />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={zoomOut}
-              className="size-7 [&_svg]:size-3.5!"
-            >
-              <ZoomOut />
-            </Button>
-          </div>
-        </DrawerHeader>
-        <DrawerDescription className="sr-only" asChild>
-          <p>
-            {fileType === "pdf" && <>Vista previa de PDF</>}
-            {fileType === "image" && <>Vista previa de imagen</>}
-            {fileType === "unknown" && <>Vista previa no disponible</>}
-          </p>
-        </DrawerDescription>
-        <div className="h-full flex-1 overflow-y-auto p-4">{viewerContent}</div>
-        <DrawerFooter>
-          <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
-            <Button variant="mobile" onClick={resetView}>
-              <RotateCw />
-              Restablecer vista
-            </Button>
-            <Separator className="dark:bg-alternative/50 z-10 ml-6" />
-            <Button variant="mobile" onClick={openInNewTab}>
-              <ExternalLink />
-              Abrir en nueva pestaña
-            </Button>
-          </div>
-          <Button variant="mobile-primary" onClick={handleDownload}>
-            <Download />
-            Descargar
-          </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  ) : (
+  return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className={cn(
-          isFullscreen
-            ? "m-0 h-screen max-h-none! w-screen max-w-none! rounded-none"
-            : "h-full max-h-[80vh] sm:max-w-4xl",
-        )}
+        isBlurred
+        closeButton={false}
+        className="m-0 h-screen max-h-none! w-screen max-w-none! gap-0 overflow-y-auto rounded-none border-0 bg-transparent p-0"
       >
-        <button aria-hidden className="sr-only"></button>
-        <DialogHeader className="flex-row items-end justify-between gap-4">
-          <DialogTitle className="truncate leading-6">{fileName}</DialogTitle>
-          <DialogDescription className="sr-only" asChild>
-            <p>
-              {fileType === "pdf" && <>Vista previa de PDF</>}
-              {fileType === "image" && <>Vista previa de imagen</>}
-              {fileType === "unknown" && <>Vista previa no disponible</>}
-            </p>
-          </DialogDescription>
-          <div className="mr-6 flex items-center gap-2">
-            <BetterTooltip content="Acercar" side="bottom">
-              <Button variant="outline" size="icon" onClick={zoomIn}>
-                <ZoomIn />
-              </Button>
-            </BetterTooltip>
-            <BetterTooltip content="Alejar" side="bottom">
-              <Button variant="outline" size="icon" onClick={zoomOut}>
-                <ZoomOut />
-              </Button>
-            </BetterTooltip>
-            <BetterTooltip content="Rotar a la izquierda" side="bottom">
-              <Button variant="outline" size="icon" onClick={rotate}>
-                <RotateCcw />
-              </Button>
-            </BetterTooltip>
-            <BetterTooltip
-              content={
-                isFullscreen
-                  ? "Salir de pantalla completa"
-                  : "Pantalla completa"
-              }
-              side="bottom"
+        <DialogHeader isSecondary className="flex-row justify-between">
+          <div className="flex items-center gap-2">
+            <div
+              className={cn(
+                "flex size-8 items-center justify-center rounded-sm",
+                getFileBackgroundColor(fileType),
+              )}
             >
-              <Button variant="outline" size="icon" onClick={toggleFullscreen}>
-                {isFullscreen ? <Minimize /> : <Maximize />}
+              {getFileIcon(fileType)}
+            </div>
+            <DialogDescription className="sr-only">
+              Vista previa {getDescription()}
+            </DialogDescription>
+            <DialogTitle className="font-poppins truncate text-base font-medium text-white">
+              {fileName}
+            </DialogTitle>
+          </div>
+          <div className="flex items-center space-x-1">
+            <BetterTooltip content="Descargar">
+              <DownloadButton
+                variant="ghost"
+                size="icon"
+                onClick={handleDownload}
+                className="text-white"
+              >
+                <span className="sr-only">Descargar</span>
+              </DownloadButton>
+            </BetterTooltip>
+            <BetterTooltip content="Imprimir">
+              <PrinterButton
+                variant="ghost"
+                size="icon"
+                onClick={() => window.print()}
+                className="text-white"
+              >
+                <span className="sr-only">Imprimir</span>
+              </PrinterButton>
+            </BetterTooltip>
+            <DropdownMenu modal={false}>
+              <BetterTooltip content="Más acciones">
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-white">
+                    <MoreHorizontal />
+                  </Button>
+                </DropdownMenuTrigger>
+              </BetterTooltip>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={openInNewTab}>
+                  <ExternalLink className="size-4" />
+                  Abrir en nueva pestaña
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={toggleZoom}>
+                  {getToggleZoomIcon(zoom, previousZoom)}
+                  Alternar zoom
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <BetterTooltip content="Cerrar">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onClose}
+                className="text-white"
+              >
+                <X />
+                <span className="sr-only">Cerrar vista previa</span>
               </Button>
             </BetterTooltip>
           </div>
         </DialogHeader>
-        {viewerContent}
-        <DialogFooter className="mt-4 flex items-center justify-between">
-          <Button radius="full" variant="outline" onClick={resetView}>
-            Restablecer vista
-          </Button>
-          <div className="flex gap-2">
-            <Button radius="full" variant="outline" onClick={openInNewTab}>
-              <ExternalLink />
-              Abrir en nueva pestaña
-            </Button>
-            <Button radius="full" onClick={handleDownload}>
-              <Download />
-              Descargar
-            </Button>
-          </div>
-        </DialogFooter>
+        <Toolbar
+          fileType={fileType}
+          numPages={numPages || 0}
+          pageNumber={pageNumber}
+          pageInput={pageInput}
+          goToPrevPage={goToPrevPage}
+          goToNextPage={goToNextPage}
+          handlePageInputChange={handlePageInputChange}
+          handlePageInputKeyDown={handlePageInputKeyDown}
+          zoomIn={zoomIn}
+          zoomOut={zoomOut}
+          zoom={zoom}
+          toggleZoom={toggleZoom}
+          previousZoom={previousZoom}
+        />
+        <div className="flex-1 overflow-auto">
+          <FileViewerContent
+            error={error}
+            fileType={fileType}
+            fileUrl={fileUrl}
+            fileName={fileName}
+            onDocumentLoadSuccess={onDocumentLoadSuccess}
+            pdfOptions={pdfOptions}
+            pageNumber={pageNumber}
+            numPages={numPages}
+            zoom={zoom}
+            isMobile={isMobile}
+            handleDownload={handleDownload}
+            setPageNumber={setPageNumber}
+            setPageInput={setPageInput}
+            pageRefs={pageRefs}
+            onClose={onClose}
+          />
+        </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function Toolbar({
+  fileType,
+  numPages,
+  pageNumber,
+  pageInput,
+  goToPrevPage,
+  goToNextPage,
+  handlePageInputChange,
+  handlePageInputKeyDown,
+  zoomIn,
+  zoomOut,
+  zoom,
+  toggleZoom,
+  previousZoom,
+}: {
+  fileType: string;
+  numPages: number;
+  pageNumber: number;
+  pageInput: string;
+  goToPrevPage: () => void;
+  goToNextPage: () => void;
+  handlePageInputChange: (value: string) => void;
+  handlePageInputKeyDown: (e: React.KeyboardEvent) => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  zoom: number;
+  toggleZoom: () => void;
+  previousZoom: React.RefObject<number | null>;
+}) {
+  return (
+    <div className="fixed inset-x-0 bottom-4 z-10 flex justify-center">
+      <div className="flex items-center gap-1 rounded-full bg-black/60 p-1 shadow-sm backdrop-blur-md">
+        {fileType === "pdf" && numPages && (
+          <>
+            <BetterTooltip content="Página anterior">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={goToPrevPage}
+                disabled={pageNumber <= 1}
+                className="text-white"
+              >
+                <ChevronLeft />
+              </Button>
+            </BetterTooltip>
+            <div className="flex items-center gap-2 text-sm text-white">
+              <span>Página</span>
+              <Input
+                value={pageInput}
+                onChange={(e) => handlePageInputChange(e.target.value)}
+                onKeyDown={handlePageInputKeyDown}
+                className="h-5! w-9 rounded border-0 bg-black/60 px-1 py-0 text-center text-xs"
+              />
+              <span>/</span>
+              <span>{numPages}</span>
+            </div>
+            <BetterTooltip content="Página siguiente">
+              <Button
+                variant="ghost"
+                size="icon"
+                disabled={pageNumber >= numPages}
+                onClick={goToNextPage}
+                className="text-white"
+              >
+                <ChevronRight />
+              </Button>
+            </BetterTooltip>
+            <Separator orientation="vertical" className="h-6! opacity-30" />
+          </>
+        )}
+        <BetterTooltip content="Alejar">
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={zoom <= 50}
+            onClick={zoomOut}
+            className="text-white"
+          >
+            <Minus />
+          </Button>
+        </BetterTooltip>
+        <BetterTooltip
+          content={
+            previousZoom.current
+              ? "Ajustar al ancho anterior"
+              : "Reestablecer el zoom"
+          }
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleZoom}
+            className="text-white"
+          >
+            {getToggleZoomIcon(zoom, previousZoom)}
+          </Button>
+        </BetterTooltip>
+        <BetterTooltip content="Acercar">
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={zoom >= 170}
+            onClick={zoomIn}
+            className="text-white"
+          >
+            <Plus />
+          </Button>
+        </BetterTooltip>
+      </div>
+    </div>
   );
 }

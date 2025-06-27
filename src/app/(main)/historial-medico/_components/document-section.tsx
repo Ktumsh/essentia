@@ -94,7 +94,7 @@ const DocumentSection = ({
             <th className="px-4 py-3 text-left font-medium">Nombre</th>
             <th className="px-4 py-3 text-left font-medium">Tamaño</th>
             <th className="px-4 py-3 text-left font-medium">Añadido el</th>
-            <th className="px-4 py-3 text-left font-medium">Doctor</th>
+            <th className="px-4 py-3 text-left font-medium">Emisor</th>
             <th className="px-4 py-3 text-right font-medium">Acciones</th>
           </tr>
         </thead>

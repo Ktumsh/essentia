@@ -127,7 +127,7 @@ const SelectionHeader = ({
         >
           <h3 className="text-base font-medium">
             {activeTab === "documents"
-              ? "Mis documentos"
+              ? "Mis Documentos"
               : "Mis Recomendaciones"}
           </h3>
         </motion.div>

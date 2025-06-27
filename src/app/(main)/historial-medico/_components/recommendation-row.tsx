@@ -117,7 +117,7 @@ const RecommendationRow = ({
           </td>
           <td className="px-4 py-3 text-right">
             <div className="flex justify-end gap-2">
-              <BetterTooltip content="Ver detalles">
+              <BetterTooltip content="Ver información">
                 <ChevronButton
                   variant="ghost"
                   size="icon"
@@ -127,7 +127,7 @@ const RecommendationRow = ({
                   }}
                   className="hover:bg-background size-8 group-hover/row:opacity-100 md:opacity-0"
                 >
-                  <span className="sr-only">Ver detalles</span>
+                  <span className="sr-only">Ver información</span>
                 </ChevronButton>
               </BetterTooltip>
               <DropdownMenu modal={false}>

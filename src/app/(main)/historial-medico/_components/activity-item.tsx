@@ -125,7 +125,7 @@ const ActivityItem = ({
           </BetterTooltip>
         )}
         {onViewDocument && !medicalHistory.isDeleted && (
-          <BetterTooltip content="Ver detalles" side="top" align="end">
+          <BetterTooltip content="Ver información" side="top" align="end">
             <Button
               variant="ghost"
               size="icon"

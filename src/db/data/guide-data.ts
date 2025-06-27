@@ -1121,7 +1121,7 @@ export type Guide = (typeof GUIDE_DATA)[number];
 
 export const GUIDE_THEME_COLORS = {
   1: {
-    bg: "bg-red-50 dark:bg-red-950",
+    bg: "bg-red-50/85 dark:bg-red-950/80",
     border: "border-red-200 dark:border-red-900/50",
     text: "text-red-600 dark:text-red-400",
     dark: "bg-red-100",
@@ -1130,7 +1130,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-red-500",
   },
   2: {
-    bg: "bg-blue-50 dark:bg-blue-950",
+    bg: "bg-blue-50/85 dark:bg-blue-950/80",
     border: "border-blue-200 dark:border-blue-900/50",
     text: "text-blue-600 dark:text-blue-400",
     dark: "bg-blue-100",
@@ -1139,7 +1139,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-blue-500",
   },
   3: {
-    bg: "bg-green-50 dark:bg-green-950",
+    bg: "bg-green-50/85 dark:bg-green-950/80",
     border: "border-green-200 dark:border-green-900/50",
     text: "text-green-600 dark:text-green-400",
     dark: "bg-green-100",
@@ -1148,7 +1148,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-green-500",
   },
   4: {
-    bg: "bg-yellow-50 dark:bg-yellow-950",
+    bg: "bg-yellow-50/85 dark:bg-yellow-950/80",
     border: "border-yellow-200 dark:border-yellow-900/50",
     text: "text-yellow-600 dark:text-yellow-400",
     dark: "bg-yellow-100",
@@ -1157,7 +1157,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-yellow-500",
   },
   5: {
-    bg: "bg-teal-50 dark:bg-teal-950",
+    bg: "bg-teal-50/85 dark:bg-teal-950/80",
     border: "border-teal-200 dark:border-teal-900/50",
     text: "text-teal-600 dark:text-teal-400",
     dark: "bg-teal-100",
@@ -1166,7 +1166,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-teal-500",
   },
   6: {
-    bg: "bg-red-50 dark:bg-red-950",
+    bg: "bg-red-50/85 dark:bg-red-950/80",
     border: "border-red-200 dark:border-red-900/50",
     text: "text-red-600 dark:text-red-400",
     dark: "bg-red-100",
@@ -1175,7 +1175,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-red-500",
   },
   7: {
-    bg: "bg-sky-50 dark:bg-sky-950",
+    bg: "bg-sky-50/85 dark:bg-sky-950/80",
     border: "border-sky-200 dark:border-sky-900/50",
     text: "text-sky-600 dark:text-sky-400",
     dark: "bg-sky-100",
@@ -1184,7 +1184,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-sky-500",
   },
   8: {
-    bg: "bg-green-50 dark:bg-green-950",
+    bg: "bg-green-50/85 dark:bg-green-950/80",
     border: "border-green-200 dark:border-green-900/50",
     text: "text-green-600 dark:text-green-400",
     dark: "bg-green-100",
@@ -1193,7 +1193,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-green-500",
   },
   9: {
-    bg: "bg-pink-50 dark:bg-pink-950",
+    bg: "bg-pink-50/85 dark:bg-pink-950/80",
     border: "border-pink-200 dark:border-pink-900/50",
     text: "text-pink-600 dark:text-pink-400",
     dark: "bg-pink-100",
@@ -1202,7 +1202,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-pink-500",
   },
   10: {
-    bg: "bg-green-50 dark:bg-green-950",
+    bg: "bg-green-50/85 dark:bg-green-950/80",
     border: "border-green-200 dark:border-green-900/50",
     text: "text-green-600 dark:text-green-400",
     dark: "bg-green-100",
@@ -1211,7 +1211,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-green-500",
   },
   11: {
-    bg: "bg-sky-50 dark:bg-sky-950",
+    bg: "bg-sky-50/85 dark:bg-sky-950/80",
     border: "border-sky-200 dark:border-sky-900/50",
     text: "text-sky-600 dark:text-sky-400",
     dark: "bg-sky-100",
@@ -1220,7 +1220,7 @@ export const GUIDE_THEME_COLORS = {
     borderAccent: "border-l-sky-500",
   },
   12: {
-    bg: "bg-indigo-50 dark:bg-indigo-950",
+    bg: "bg-indigo-50/85 dark:bg-indigo-950/80",
     border: "border-indigo-200 dark:border-indigo-900/50",
     text: "text-indigo-600 dark:text-indigo-400",
     dark: "bg-indigo-100",

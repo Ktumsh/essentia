@@ -139,3 +139,30 @@ export const convertTo12HourFormat = (time: string): string => {
   date.setHours(hours, minutes, 0);
   return format(date, "h:mm a").toLocaleLowerCase();
 };
+
+export const formatFileSize = (size: number) => {
+  if (size < 1024) return `${size} B`;
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} kB`;
+  if (size < 1024 * 1024 * 1024)
+    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+  return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+};
+
+export const getFileContentType = (fileContentType: string): string => {
+  if (!fileContentType) return "Otro";
+
+  const mapping: Record<string, string> = {
+    "image/jpeg": "JPEG",
+    "image/jpg": "JPG",
+    "image/png": "PNG",
+    "image/gif": "GIF",
+    "application/pdf": "PDF",
+    "application/msword": "DOC",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      "DOCX",
+    "application/vnd.ms-excel": "XLS",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "XLSX",
+  };
+
+  return mapping[fileContentType] || "Otro";
+};

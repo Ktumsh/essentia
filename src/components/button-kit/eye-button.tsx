@@ -56,9 +56,10 @@ const EyeButton = ({
         variants={{
           initial: { scaleY: 1 },
           blink: {
-            scaleY: [1, 0.3, 1],
+            scaleY: [1, 0.2, 1, 0.2, 1],
             transition: {
-              duration: 0.5,
+              duration: 0.7,
+              times: [0, 0.15, 0.3, 0.45, 1],
               ease: "easeInOut",
             },
           },

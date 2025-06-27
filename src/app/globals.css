@@ -487,6 +487,10 @@
   @apply border border-gray-300;
 }
 
+.preview .react-pdf__message {
+  @apply flex h-48 items-center justify-center;
+}
+
 .dark .react-pdf__Page {
   @apply border-gray-300;
 }

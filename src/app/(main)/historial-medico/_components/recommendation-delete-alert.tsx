@@ -1,3 +1,5 @@
+import { Loader } from "lucide-react";
+
 import { DeleteButton } from "@/components/button-kit/delete-button";
 import { BadgeAlert } from "@/components/ui/badge-alert";
 import { Button } from "@/components/ui/button";
@@ -33,6 +35,7 @@ interface RecommendationDeleteAlertProps {
   setIsDeleteDialogOpen: (open: boolean) => void;
   recommendationToDelete: SavedAIRecommendation | null;
   onDelete: () => void;
+  isSubmitting: boolean;
 }
 
 const RecommendationDeleteAlert = ({
@@ -40,6 +43,7 @@ const RecommendationDeleteAlert = ({
   setIsDeleteDialogOpen,
   recommendationToDelete,
   onDelete,
+  isSubmitting,
 }: RecommendationDeleteAlertProps) => {
   const isMobile = useIsMobile();
 
@@ -83,15 +87,27 @@ const RecommendationDeleteAlert = ({
           <DrawerFooter>
             <div className="bg-accent flex flex-col overflow-hidden rounded-xl">
               <Button
+                disabled={isSubmitting}
                 variant="mobile"
                 onClick={() => setIsDeleteDialogOpen(false)}
                 className="justify-center"
               >
-                Cancelar
+                No, cancelar
               </Button>
             </div>
-            <Button variant="mobile-destructive" onClick={onDelete}>
-              Eliminar
+            <Button
+              disabled={isSubmitting}
+              variant="mobile-destructive"
+              onClick={onDelete}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader className="animate-spin" />
+                  Eliminando...
+                </>
+              ) : (
+                "Sí, eliminar"
+              )}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -128,16 +144,17 @@ const RecommendationDeleteAlert = ({
         </DialogHeader>
         <DialogFooter isSecondary>
           <DialogClose asChild>
-            <Button variant="outline" radius="full">
-              Cancelar
+            <Button disabled={isSubmitting} variant="outline" radius="full">
+              No, cancelar
             </Button>
           </DialogClose>
           <DeleteButton
+            disabled={isSubmitting}
             variant="destructive"
             onClick={onDelete}
             className="rounded-full"
           >
-            Eliminar
+            {isSubmitting ? "Eliminando..." : "Sí, eliminar"}
           </DeleteButton>
         </DialogFooter>
       </DialogContent>

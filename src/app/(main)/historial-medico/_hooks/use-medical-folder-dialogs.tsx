@@ -4,15 +4,19 @@ import { createContext, useContext, useState } from "react";
 
 const MedicalFolderDialogContext = createContext<{
   open: {
-    isFolderFormOpen: boolean;
+    isAddFolderOpen: boolean;
+    isEditFolderOpen: boolean;
     isRenameFolderOpen: boolean;
     isDeleteFolderOpen: boolean;
+    isViewFolderOpen: boolean;
   };
   setOpen: React.Dispatch<
     React.SetStateAction<{
-      isFolderFormOpen: boolean;
+      isAddFolderOpen: boolean;
+      isEditFolderOpen: boolean;
       isRenameFolderOpen: boolean;
       isDeleteFolderOpen: boolean;
+      isViewFolderOpen: boolean;
     }>
   >;
 } | null>(null);
@@ -23,9 +27,11 @@ export const MedicalFolderDialogProvider = ({
   children: React.ReactNode;
 }) => {
   const [open, setOpen] = useState({
-    isFolderFormOpen: false,
+    isAddFolderOpen: false,
+    isEditFolderOpen: false,
     isRenameFolderOpen: false,
     isDeleteFolderOpen: false,
+    isViewFolderOpen: false,
   });
 
   return (

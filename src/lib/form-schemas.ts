@@ -329,53 +329,6 @@ export type CancelSubscriptionFormData = z.infer<
   typeof cancelSubscriptionSchema
 >;
 
-export const validMedicalTagNames = [
-  "Alergia",
-  "Cirugía",
-  "Consulta General",
-  "Diagnóstico",
-  "Enfermedad Crónica",
-  "Examen de Laboratorio",
-  "Examen de Imagenología",
-  "Medicación",
-  "Vacunación",
-  "Salud Mental",
-  "Nutrición",
-  "Odontología",
-  "Oftalmología",
-  "Pediatría",
-  "Cardiología",
-  "Dermatología",
-  "Neurología",
-  "Certificado Médico",
-  "Informe Médico",
-  "Epicrisis",
-  "Consentimiento Informado",
-  "Receta Médica",
-  "Rehabilitación",
-  "Ginecología",
-  "Otro",
-] as const;
-
-export const AIRecommendationSchema = z.object({
-  recommendations: z.array(
-    z.object({
-      type: z.enum([
-        "general",
-        "preventive",
-        "lifestyle",
-        "followUp",
-        "medication",
-      ]),
-      title: z.string(),
-      description: z.string(),
-      priority: z.enum(["high", "medium", "low"]),
-      relatedTags: z.array(z.enum(validMedicalTagNames)),
-      relatedDocuments: z.array(z.string()),
-    }),
-  ),
-});
-
 export const chatTitleSchema = z.object({
   chatTitle: z
     .string()

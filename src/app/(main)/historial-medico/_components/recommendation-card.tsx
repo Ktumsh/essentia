@@ -50,6 +50,11 @@ import { SavedAIRecommendation } from "@/db/querys/ai-recommendations-querys";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn, formatDate } from "@/utils";
 
+import {
+  docActiveClass,
+  docHoverClass,
+  docSelectedClass,
+} from "../_lib/consts";
 import { getPriorityBadge, getPriorityText, getTagColor } from "../_lib/utils";
 
 interface RecommendationCardProps {
@@ -188,8 +193,10 @@ const RecommendationCard = ({
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           className={cn(
-            "group/item active:bg-accent bg-muted hover:bg-accent flex flex-col overflow-hidden select-none active:transition-colors",
-            selected && "bg-primary/20 hover:bg-primary/20 transition-colors",
+            "group/item bg-muted flex flex-col overflow-hidden select-none",
+            docHoverClass,
+            docActiveClass,
+            selected && docSelectedClass,
           )}
         >
           <CardHeader className="px-4 pt-4 pb-2">
@@ -226,7 +233,6 @@ const RecommendationCard = ({
                 {recommendation.relatedTags.slice(0, 1).map((tag) => (
                   <Badge
                     key={tag}
-                    variant="outline"
                     className={cn("font-normal text-white", getTagColor(tag))}
                   >
                     <Tag className="size-2.5!" />
@@ -257,7 +263,7 @@ const RecommendationCard = ({
             <p className="bg-premium bg-clip-text text-xs font-medium text-transparent">
               Generado por IA
             </p>
-            <BetterTooltip content="Ver detalles">
+            <BetterTooltip content="Ver información">
               <ChevronButton
                 variant="ghost"
                 size="icon"
