@@ -78,7 +78,10 @@ const PaymentCard = ({
           <PaymentDetail
             icon={Tag}
             label="Tipo de plan"
-            value={planType || paymentDetails.plan}
+            value={
+              (planType && getPlanDisplayName(planType)) ||
+              getPlanDisplayName(paymentDetails.plan)
+            }
             delay={ANIMATION_DELAYS.details[0]}
           />
 

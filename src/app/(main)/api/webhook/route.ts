@@ -38,18 +38,23 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case "customer.subscription.created":
       await handleSubscriptionCreated(subscription);
+      console.log("Subscription created:", subscription.id);
       break;
     case "customer.subscription.updated":
       await handleSubscriptionUpdated(subscription);
+      console.log("Subscription updated:", subscription.id);
       break;
     case "invoice.payment_succeeded":
       await handlePaymentSucceeded(invoice);
+      console.log("Payment succeeded:", invoice.id);
       break;
     case "customer.subscription.deleted":
       await handleSubscriptionDeleted(subscription);
+      console.log("Subscription deleted:", subscription.id);
       break;
     case "customer.deleted":
       await handleCustomerDeleted(customer);
+      console.log("Customer deleted:", customer.id);
       break;
     default:
       console.log(`Evento webhook no manejado ${event.type}`);

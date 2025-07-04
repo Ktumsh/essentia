@@ -55,6 +55,7 @@ const ChatHeader = () => {
                     setOpen(true);
                   }}
                   className={cn(
+                    "hover:text-white",
                     isPremium && !isPremiumPlus && "bg-premium-plus!",
                   )}
                 >
