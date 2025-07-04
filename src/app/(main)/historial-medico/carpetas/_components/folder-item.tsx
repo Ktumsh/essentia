@@ -1,6 +1,6 @@
 "use client";
 
-import { EllipsisVerticalIcon } from "lucide-react";
+import { EllipsisVerticalIcon, FolderOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { DeleteButton } from "@/components/button-kit/delete-button";
@@ -84,6 +84,21 @@ const FolderItem = ({
         <>
           <ContextMenuGroup>
             <ContextMenuItem asChild>
+              <Button
+                variant="ghost"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(
+                    `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
+                  );
+                }}
+                className="h-auto w-full justify-start px-2! font-normal"
+              >
+                <FolderOpen />
+                Abrir carpeta
+              </Button>
+            </ContextMenuItem>
+            <ContextMenuItem asChild>
               <InfoButton
                 variant="ghost"
                 onClick={(e) => {
@@ -139,7 +154,7 @@ const FolderItem = ({
       <Card
         key={folder.id}
         onDoubleClick={() => {
-          if (!isMultiMode && !isMobile) {
+          if (!isMobile) {
             router.push(
               `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
             );
@@ -225,6 +240,21 @@ const FolderItem = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant="ghost"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(
+                            `/historial-medico/carpetas/${folder.id}?${formattedFolderName}`,
+                          );
+                        }}
+                        className="h-auto w-full justify-start px-2! font-normal"
+                      >
+                        <FolderOpen />
+                        Abrir carpeta
+                      </Button>
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <InfoButton
                         variant="ghost"
