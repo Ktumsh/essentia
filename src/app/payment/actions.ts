@@ -89,10 +89,6 @@ export async function createSubscription({
       };
     }
 
-    if (existingSubscription?.subscriptionId) {
-      await stripe.subscriptions.cancel(existingSubscription.subscriptionId);
-    }
-
     const cancelUrl = cookieStore.get("stripe_cancel_url")?.value;
 
     const sessionCheckout = await stripe.checkout.sessions.create({
