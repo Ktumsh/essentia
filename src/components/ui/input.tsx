@@ -165,6 +165,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
 
         <div className="flex h-12 flex-col rounded-r-xl border border-l-0 md:h-9 md:rounded-r-md">
           <Button
+            type="button"
             variant="ghost"
             aria-label="Incrementar valor"
             className="h-auto! flex-1 rounded-l-none rounded-br-none border-b p-0 px-2 focus-visible:relative"
@@ -174,6 +175,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             <ChevronUp className="size-3.5!" />
           </Button>
           <Button
+            type="button"
             variant="ghost"
             aria-label="Disminuir valor"
             className="h-auto! flex-1 rounded-l-none rounded-tr-none p-0 px-2 focus-visible:relative"
