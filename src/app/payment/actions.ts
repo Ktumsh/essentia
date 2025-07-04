@@ -100,6 +100,7 @@ export async function createSubscription({
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       customer: customerId,
+      client_reference_id: user.id,
       success_url: `${BASE_PUBLIC_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl || `${BASE_PUBLIC_URL}/payment/cancel`,
     });
@@ -275,6 +276,10 @@ export async function handleSubscriptionCreated(
   const currentPeriodEnd = subscription.current_period_end;
   const clientId = subscription.customer as string;
 
+  console.log(
+    `Manejando creación de subscripción: ${subscriptionId}, cliente: ${clientId}, estado: ${status}`,
+  );
+
   const planType =
     priceId === siteConfig.priceId.premium
       ? siteConfig.plan.premium
@@ -388,6 +393,28 @@ export async function handleCustomerDeleted(customer: Stripe.Customer) {
     }
   } catch (error) {
     console.error("Error al eliminar el cliente y sus suscripciones:", error);
+  }
+}
+
+export async function handleCheckoutSessionCompleted(
+  session: Stripe.Checkout.Session,
+) {
+  const userId = session.client_reference_id;
+  const subscriptionId = session.subscription?.toString();
+
+  if (!userId || !subscriptionId) {
+    console.warn("Faltan datos para guardar la sesión de checkout");
+    return;
+  }
+
+  try {
+    await updateSubscription(userId, subscriptionId, null, "pending", null);
+
+    console.log(
+      `Suscripción provisional guardada en la BD desde checkout.session.completed: ${subscriptionId}`,
+    );
+  } catch (error) {
+    console.error("Error guardando suscripción desde checkout.session:", error);
   }
 }
 

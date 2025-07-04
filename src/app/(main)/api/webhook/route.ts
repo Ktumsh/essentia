@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import {
+  handleCheckoutSessionCompleted,
   handleCustomerDeleted,
   handlePaymentSucceeded,
   handleSubscriptionCreated,
@@ -44,6 +45,12 @@ export async function POST(request: NextRequest) {
       await handleSubscriptionUpdated(subscription);
       console.log("Subscription updated:", subscription.id);
       break;
+    case "checkout.session.completed":
+      const session = event.data.object as Stripe.Checkout.Session;
+      await handleCheckoutSessionCompleted(session);
+      console.log("Checkout session completed:", session.id);
+      break;
+
     case "invoice.payment_succeeded":
       await handlePaymentSucceeded(invoice);
       console.log("Payment succeeded:", invoice.id);
